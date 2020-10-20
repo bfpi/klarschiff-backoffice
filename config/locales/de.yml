@@ -1,0 +1,201 @@
+de:
+  false: Nein
+  true: Ja
+  action: Aktion
+  activerecord:
+    attributes:
+      abuse_report:
+        edited_at: Bearbeitungszeitpunkt
+        message: Nachricht
+      authority:
+        county:  Landkreis
+        regionail_key: Regionalschlüssel
+      category:
+        category: Oberkategorie
+        deleted: gelöscht
+        dms: DMS
+      community:
+        authority: Amt
+        regional_key: Regionalschlüssel
+      county:
+        instance: Instanz
+        regional_key: Regionalschlüssel
+      district:
+        community: Gemeinde
+      editorial_notification:
+        level: Stufe
+        notified_at: letzte Benachrichtigung
+        repetition: Wiederholung
+      feedback:
+        recipient: Empfänger
+      group:
+        email: E-Mail
+        instance: Instant
+        short_name: Kurzname
+      instance:
+        url: URL
+      issue:
+        address: Adresse
+        archived_at: Archivierungszeitpunkt
+        category: Kategorie
+        confirmation_hash: Bestätigungs-Hash
+        delegation: Delegation
+        description: Beschreibung
+        description_status: Beschreibungs-Status
+        group: Gruppe
+        photo_requested: Fotowunsch
+        position: Position
+        priority: Priorität
+        property_owner: Flurstückseigentum/-eigentümer
+        responsibility: Zuständigkeit
+        reviewed_at: Erstsichtungszeitpunkt
+        status_note: Statuskommentar
+        trust_level: Vertrauensstufe
+      job:
+        group: Außendienst-Team
+        order: Reihenfolge
+      log_entry:
+        action: Aktion
+        new_value: Wert Alt
+        old_value: Wert Neu
+        subject_id: Datensatz
+        subject_name: Datensatz Name
+        user: Benutzer
+      mail_blacklist:
+        pattern: Muster
+        reason: Begründung
+        source: Quelle
+      observation:
+        key: Schlüssel
+        categories: Kategorien
+      photo:
+        confirmation_hash: Bestätigungs-Hash
+        confirmed_at: Bestätigungszeitpunkt
+        image: Foto
+      property_owner:
+        owner: Eigentümer
+        parcel_key: Flurstückskennzeichen
+      user:
+        email: E-Mail
+        first_name: Vorname
+        group_feedback_recipient: Lob/Hinweis/Kritik empfänger
+        last_name: Nachname
+        ldap: LDAP-DN
+        login: Login
+        password_digest: Passwort
+        role: Rolle
+    models:
+      abuse_report:
+        one: Missbrauchsmeldung
+        other: Missbrauchsmeldungen
+      authority:
+        one: Amt
+        other: Ämter
+      category:
+        one: Kategorie
+        other: Kategorien
+      comment:
+        one: Kommentar
+        other: Kommentare
+      community:
+        one: Gemeinde
+        other: Gemeinden
+      county:
+        one: Landkreis
+        other: Landkreise
+      district:
+        one: Stadtteil
+        other: Stadtteile
+      editorial_notification:
+        one: redaktionelle Benachrichtigung
+        other: redaktionelle Benachrichtigungen
+      feedback:
+        one: Lob/Hinweis/Kritik
+        other: Lobe/Hinweise/Kritiken
+      group:
+        one: Gruppe
+        other: Gruppen
+      instance:
+        one: Instanz
+        other: Instanzen
+      issue:
+        one: Meldung
+        other: Meldungen
+      job:
+        one: Auftrag
+        other: Aufträge
+      log_entry: Verlauf
+      mail_blacklist: Blacklist
+      observation:
+        one: Beobachtungsfläche
+        other: Beobachtungsflächen
+      photo:
+        one: Foto
+        other: Fotos
+      property_owner:
+        one: Flurstückseigentum/-eigentümer
+        other: Flurstückseigentume/-eigentümer
+      supporter: Unterstützer
+      user: Benutzer
+  attributes:
+    area: Fläche
+    author: Autor
+    confirmation_hash: Bestätigungs-Hash
+    confirmed_at: Bestätigungszeitpunkt
+    deleted: gelöscht
+    issue: Meldung
+    kind: Typ
+    message: Nachricht
+    name: Name
+    status: Status
+  enums:
+    category:
+      kind:
+        idea: Idee
+        problem: Problem
+        hint: Tipp
+    group:
+      kind:
+        internal: Intern
+        external: Extern
+        field_service_team: Außendienst
+    issue:
+      description_status:
+        internal: Intern
+        external: Extern
+        deleted: Gelöscht
+      kind:
+        idea: Idee
+        problem: Problem
+        hint: Tipp
+      priority:
+        low: Niedrig
+        middle: Mittel
+        high: Hoch
+      status:
+        pending: gemeldet
+        open: offen
+        in_process: in Bearbeitung
+        duplicate: duplikat
+        deleted: gelöscht
+        not_solvable: nicht lösbar
+        closed: gelöst
+      trust_level:
+        internal: Intern
+        external: Extern
+        field_service_team: Außendienst
+    job:
+      status:
+        checked: abgehakt
+        unchecked: nicht abgehakt
+        not_checkable: nicht abarbeitbar
+    photo:
+      status:
+        internal: Intern
+        external: Extern
+        deleted: Gelöscht
+    user:
+      role:
+        admin: Administrator
+        editor: Bearbeiter
+        regional_admin: Regional-Administrator

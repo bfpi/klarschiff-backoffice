@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyText
+  last_name: MyText
+  email: MyText
+  login: MyText
+  password_digest: MyText
+  ldap: MyText
+  status: 1
+  group_feedback_recipient: false
+  role: 
+
+two:
+  first_name: MyText
+  last_name: MyText
+  email: MyText
+  login: MyText
+  password_digest: MyText
+  ldap: MyText
+  status: 1
+  group_feedback_recipient: false
+  role: 

@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  table: MyText
+  attr: MyText
+  subject_id: 
+  subject_name: MyText
+  action: MyText
+  user: MyText
+  old_value: MyText
+  new_value: MyText
+
+two:
+  table: MyText
+  attr: MyText
+  subject_id: 
+  subject_name: MyText
+  action: MyText
+  user: MyText
+  old_value: MyText
+  new_value: MyText
