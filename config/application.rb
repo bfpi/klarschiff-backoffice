@@ -28,5 +28,16 @@ module KlarschiffBackoffice
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.active_record.pluralize_table_names = false
+
+    config.generators do |g|
+      g.assets false
+      g.helper false
+    end
+
+    config.i18n.default_locale = :de
+    config.i18n.available_locales = %i[de en]
+
+    config.time_zone = 'Europe/Berlin'
   end
 end
