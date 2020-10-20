@@ -3,10 +3,10 @@
 class Photo < ApplicationRecord
   include Logging
 
+  enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
+
   belongs_to :issue
   as_one_attached :file
-
-  enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
 
   validates :confirmation_hash, presence: true, uniqueness: true
   validates :file, presence: true

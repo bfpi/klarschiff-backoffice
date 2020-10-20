@@ -3,10 +3,10 @@
 class Job < ApplicationRecord
   include Logging
 
+  enum status: { checked: 0, unchecked: 1, not_checkable: 2 }, _prefix: true
+
   belongs_to :issue
   belongs_to :group, -> { where(kind: Group.kinds[:field_service_team]) }, inverse_of: :jobs
-
-  enum status: { checked: 0, unchecked: 1, not_checkable: 2 }, _prefix: true
 
   validates :status, presence: true
 
