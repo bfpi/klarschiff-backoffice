@@ -13,3 +13,24 @@
  *= require_tree .
  *= require_self
  */
+
+$font-size-base: 0.9rem;
+$h1-font-size: $font-size-base * 1.6;
+$table-cell-padding: 0.5rem;
+
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'jquery-ui/theme';
+@import 'jquery-ui/menu';
+@import 'jquery-ui/autocomplete';
+
+nav.navbar {
+  margin-bottom: 1em
+}
+
+.footer {
+  @extend .fixed-bottom;
+  @extend .py-2;
+  background-color: $gray-200;
+  border-top: 1px solid $secondary;
+}

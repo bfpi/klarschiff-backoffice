@@ -36,6 +36,7 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
 
+  gem 'bullet'
   gem 'pronto-rubocop', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
@@ -50,4 +51,10 @@ group :test do
 end
 
 gem 'activerecord-postgis-adapter'
+gem 'bootstrap'
+gem 'font-awesome-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'kaminari'
+gem 'net-ldap'
 gem 'rails-i18n'

@@ -50,7 +50,7 @@ module Logging
   end
 
   def find_reflection_for_attr(attr)
-    self.class.reflections.find { |r| r.foreign_key == attr }
+    self.class.reflections.find { |r| r.last.foreign_key == attr }
   end
 
   def log_update_for_reflection(attr, reflection, old, new)

@@ -1,0 +1,60 @@
+<% if group.errors.any? %>
+  <div class="alert alert-danger">
+    <ul class="list-unstyled mb-0">
+      <% group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="form-group row">
+  <%= form.label(:active, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <div class="form-check form-check-inline">
+      <%= form.label(:active_true, '', class: 'form-check-label') do %>
+        <%= form.radio_button :active, true %>
+        <%= t(true) %>
+      <% end -%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.label(:active_false, '', class: 'form-check-label') do %>
+        <%= form.radio_button :active, false %>
+        <%= t(false) %>
+      <% end -%>
+    </div>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <% Group.kinds.each do |kind, ix| -%>
+      <div class="form-check form-check-inline">
+        <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do %>
+          <%= form.radio_button :kind, kind %>
+          <%= t(kind) %>
+        <% end -%>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:short_name, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:short_name, class: 'form-control') %>
+  </div>
+  <%= form.label(:name, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:name, class: 'form-control') %>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:user, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= select_tag('group[user_id]', options_from_collection_for_select(User.all, :id, :to_s, form.object.user_id), include_blank: true, class: 'form-control') %>
+  </div>
+  <%= form.label(:email, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4 ui-front">
+    <%= form.text_field(:email, class: 'form-control') %>
+  </div>
+</div>

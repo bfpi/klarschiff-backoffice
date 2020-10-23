@@ -1,0 +1,20 @@
+alpha:
+
+development:
+  ldap:
+    host: blackserver
+    port: 389
+    base: dc=bfpi,dc=local
+    identifier: uid
+    encryption:
+    username: cn=klarschiff_backoffice,dc=bfpi,dc=local
+    password: xaes9ahS
+    search_group: cn=public
+    search_group_members: memberuid
+    search_attributes: cn,uid
+
+test:
+
+consolidation:
+
+production:

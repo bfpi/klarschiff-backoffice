@@ -1,7 +1,11 @@
 de:
   false: Nein
   true: Ja
-  action: Aktion
+  actions: Aktion
+  action:
+    abort: Abbrechen
+    save: Speichern
+    save_and_close: Speichern & Schließen
   activerecord:
     attributes:
       abuse_report:
@@ -30,8 +34,9 @@ de:
         recipient: Empfänger
       group:
         email: E-Mail
-        instance: Instant
+        instance: Instanz
         short_name: Kurzname
+        user: Hauptnutzer
       instance:
         url: URL
       issue:
@@ -138,6 +143,7 @@ de:
       supporter: Unterstützer
       user: Benutzer
   attributes:
+    active: Aktiv
     area: Fläche
     author: Autor
     confirmation_hash: Bestätigungs-Hash
@@ -148,6 +154,11 @@ de:
     message: Nachricht
     name: Name
     status: Status
+  create: anlegen
+  groups:
+    index:
+      new_group: Neue Gruppe
+  edit: bearbeiten
   enums:
     category:
       kind:
@@ -199,3 +210,11 @@ de:
         admin: Administrator
         editor: Bearbeiter
         regional_admin: Regional-Administrator
+  nav:
+    dashboard: Startseite
+    logout: Logout
+    administration: Administration
+  pagetitle: Klarschiff-Backoffice
+  users:
+    index:
+      new_user: Neuer Benutzer

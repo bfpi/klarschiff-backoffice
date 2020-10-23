@@ -9,9 +9,9 @@ class CreateUser < ActiveRecord::Migration[6.0]
       t.text :login
       t.text :password_digest
       t.text :ldap
-      t.integer :status
       t.boolean :group_feedback_recipient, null: false, default: false
       t.integer :role
+      t.boolean :active, null: false, default: true
 
       t.timestamps
     end
