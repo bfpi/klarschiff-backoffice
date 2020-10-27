@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
+  include Filter
+
   def index
-    @groups = Group.active.order(:short_name).page(params[:page] || 1).per(params[:per_page] || 20)
+    groups = filter(Group.all).order(:short_name)
+
+    respond_to do |format|
+      format.html { @groups = groups.page(params[:page] || 1).per(params[:per_page] || 20) }
+      format.json { render json: groups }
+    end
   end
 
   def edit
@@ -38,6 +45,10 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:active, :name, :short_name, :kind, :email, :user_id, :instance)
+    params.require(:group).permit(:active, :name, :short_name, :kind, :email, :instance_id, :main_user_id, user_ids: [])
+  end
+
+  def filter_name_columns
+    %i[name short_name]
   end
 end

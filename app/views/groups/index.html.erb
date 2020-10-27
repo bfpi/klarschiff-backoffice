@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <% @groups.each do |group| %>
-      <tr>
+      <tr class="<%= 'text-muted' unless group.active? %>">
         <th scope="row"><%= group.id %></th>
         <td><%= group.short_name %></td>
         <td><%= group.name %></td>

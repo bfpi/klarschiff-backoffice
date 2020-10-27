@@ -8,20 +8,19 @@ class Ldap
 
     def login(username, password)
       ldap = conn
-      ldap.auth "#{config.identifier}=#{username},#{config.base}", password
-      if ldap.bind &&
-         ldap.search(base: config.base, filter: "#{config.identifier}=#{username}").try(:first)
-        return true
-      end
+      ldap.auth username, password
+      return true if ldap.bind
       false
     end
 
     def search(pattern)
       ldap = conn
-      ldap.auth config.username, config.password
-      raise 'Authentication Error!' unless ldap.bind
-      ldap.search(base: config.base, filter: ldap_filter(pattern)).as_json.select do |object|
-        object if search_group_members.include?(object['myhash'][config.identifier].first)
+      ldap.auth config.username, config.password if config.username.present? && config.password.present?
+      if ldap.bind &&
+         (result = ldap.search(base: config.search_user_base, filter: ldap_filter(pattern)))
+        result.as_json.select do |object|
+          object if search_group_members.include?(object['myhash'][config.user_identifier].first)
+        end
       end
     end
 
@@ -32,18 +31,18 @@ class Ldap
     end
 
     def search_group_members
-      return @group_members unless @group_members.blank?
+      return @group_members if @group_members.present?
       ldap = conn
-      ldap.auth config.username, config.password
-      if ldap.bind && (object = ldap.search(base: config.base, filter: config.search_group).first)
-        @group_members = object.as_json['myhash']['memberuid']
+      ldap.auth config.username, config.password if config.username.present? && config.password.present?
+      if ldap.bind && (object = ldap.search(base: config.search_group).first)
+        @group_members = object.as_json['myhash'][config.group_userlist]
       end
       @group_members
     end
 
     def ldap_filter(pattern)
       filter = nil
-      config.search_attributes.split(',').each do |attr|
+      config.search_user_attributes.split(',').each do |attr|
         filter = if filter.blank?
                    Net::LDAP::Filter.eq(attr, "*#{pattern}*")
                  else

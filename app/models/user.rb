@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :district
   has_and_belongs_to_many :field_service_team, class_name: 'Group', join_table: :field_service_team_operator
 
-  validates :email, :role, presence: true
+  validates :first_name, :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
 
@@ -22,5 +22,9 @@ class User < ApplicationRecord
 
   def to_s
     [first_name, last_name].join(' ')
+  end
+
+  def as_json(_options = {})
+    { value: id, label: to_s }
   end
 end

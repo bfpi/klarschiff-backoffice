@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  include Filter
+
   def index
-    @users = User.active.order(:login).page(params[:page] || 1).per(params[:per_page] || 20)
+    users = filter(User.all).order(:login)
+    respond_to do |format|
+      format.html { @users = users.page(params[:page] || 1).per(params[:per_page] || 20) }
+      format.json { render json: users }
+    end
   end
 
   def edit
@@ -38,6 +44,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email, :group_feedback_recipient)
+    params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email,
+      :group_feedback_recipient, group_ids: [])
+  end
+
+  def filter_name_columns
+    %i[first_name last_name login]
   end
 end

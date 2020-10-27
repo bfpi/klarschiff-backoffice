@@ -2,16 +2,33 @@ alpha:
 
 development:
   ldap:
+    encryption: :simple_tls
+    group_userlist: member
+    host: rz200.sv.rostock.de
+    password:
+    port: 10389
+    search_group: cn=Domain Users,cn=Users,o=ADMINHRO
+    search_group_members: member
+    search_user_attributes: SAMACCOUNTNAME,displayName
+    search_user_base: o=ADMINHRO
+    user_display_name: fullname
+    user_email: mail
+    user_first_name: givenname
+    user_identifier: dn
+    user_last_name: sn
+    username:
+  lldap:
     host: blackserver
     port: 389
     base: dc=bfpi,dc=local
-    identifier: uid
+    user_identifier: uid
+    group_userlist: memberuid
     encryption:
     username: cn=klarschiff_backoffice,dc=bfpi,dc=local
     password: xaes9ahS
     search_group: cn=public
     search_group_members: memberuid
-    search_attributes: cn,uid
+    search_user_attributes: cn,uid
 
 test:
 

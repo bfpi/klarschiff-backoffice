@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header">
+        Nutzerwechsel
+      </div>
+      <div class="card-body">
+        <%= form_for :login, url: logins_path, method: :put do |form| -%>
+          <div class="form-group row">
+            <%= form.label(:user, User.model_name.human(count: 2), class: 'col-md-2 col-form-label') %>
+            <div class="col-md-4">
+              <%= form.select :user_id, options_from_collection_for_select(User.all.order(:first_name, :last_name), :id, :to_s, Current.user.id), {}, {class: 'form-control' } %>
+            </div>
+          </div>
+          <div class="col-md-4 offset-md-2">
+            <%= form.submit 'Übernehmen', class: 'btn btn-primary' %>
+          </div>
+        <% end -%>
+      </div>
+    </div>
+  </div>
+</div>

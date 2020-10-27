@@ -6,6 +6,14 @@ de:
     abort: Abbrechen
     save: Speichern
     save_and_close: Speichern & Schließen
+  date:
+    formats:
+      short: "%d.%m.%y"
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M:%S"
+      shift: "%d.%m.%Y %H:%M"
+      short: "%H:%M"
   activerecord:
     attributes:
       abuse_report:
@@ -36,7 +44,8 @@ de:
         email: E-Mail
         instance: Instanz
         short_name: Kurzname
-        user: Hauptnutzer
+        user: Benutzer
+        main_user: Hauptnutzer
       instance:
         url: URL
       issue:
@@ -84,6 +93,7 @@ de:
         email: E-Mail
         first_name: Vorname
         group_feedback_recipient: Lob/Hinweis/Kritik empfänger
+        group: Gruppe
         last_name: Nachname
         ldap: LDAP-DN
         login: Login
@@ -148,6 +158,7 @@ de:
     author: Autor
     confirmation_hash: Bestätigungs-Hash
     confirmed_at: Bestätigungszeitpunkt
+    created_at: Zeitstempel
     deleted: gelöscht
     issue: Meldung
     kind: Typ
@@ -218,3 +229,13 @@ de:
   users:
     index:
       new_user: Neuer Benutzer
+  view:
+    info: 
+      built: Erstellt 
+      db_version: Datenbank-Version 
+      environment: Umgebung 
+      rendered_by_host: Ausgeliefert durch 
+      title: Info zu dieser Klarschiff Instanz 
+      version: Version 
+      ruby_version: Ruby-Version 
+      rails_version: Ruby on Rails-Version

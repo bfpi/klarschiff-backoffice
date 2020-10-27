@@ -10,7 +10,7 @@ class CreateUser < ActiveRecord::Migration[6.0]
       t.text :password_digest
       t.text :ldap
       t.boolean :group_feedback_recipient, null: false, default: false
-      t.integer :role
+      t.integer :role, null: false, default: User.roles[:editor]
       t.boolean :active, null: false, default: true
 
       t.timestamps

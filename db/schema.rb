@@ -123,15 +123,14 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   create_table "group", force: :cascade do |t|
     t.text "name"
     t.text "short_name"
-    t.integer "kind"
+    t.integer "kind", default: 0, null: false
     t.text "email"
-    t.bigint "user_id", null: false
+    t.integer "main_user_id", null: false
     t.bigint "instance_id", null: false
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["instance_id"], name: "index_group_on_instance_id"
-    t.index ["user_id"], name: "index_group_on_user_id"
   end
 
   create_table "group_user", id: false, force: :cascade do |t|
@@ -254,7 +253,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.text "password_digest"
     t.text "ldap"
     t.boolean "group_feedback_recipient", default: false, null: false
-    t.integer "role"
+    t.integer "role", default: 2, null: false
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -268,7 +267,6 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   add_foreign_key "district", "community"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
   add_foreign_key "feedback", "issue"
-  add_foreign_key "group", "\"user\"", column: "user_id"
   add_foreign_key "group", "instance"
   add_foreign_key "issue", "\"group\"", column: "delegation_id"
   add_foreign_key "issue", "\"group\"", column: "group_id"

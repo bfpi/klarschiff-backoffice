@@ -5,9 +5,9 @@ class CreateGroup < ActiveRecord::Migration[6.0]
     create_table :group do |t|
       t.text :name
       t.text :short_name
-      t.integer :kind
+      t.integer :kind, null: false, default: Group.kinds[:internal]
       t.text :email
-      t.references :user, null: false, foreign_key: true
+      t.integer :main_user_id, null: false, foreign_key: true
       t.references :instance, null: false, foreign_key: true
       t.boolean :active, null: false, default: true
 

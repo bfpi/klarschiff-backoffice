@@ -8,6 +8,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Instance.create(name: 'HRO', url: 'https://www.klarschiff-hro.de/', area: 'MULTIPOLYGON(((0 0,4 0,4 4,0 4,0 0),(1 1,2 1,2 2,1 2,1 1)), ((-1 -1,-1 -2,-2 -2,-2 -1,-1 -1)))')
+
 {
   'rvoss' => { first_name: 'Robert', last_name: 'Voß', email: 'voss@bfpi.de', password: nil,
                ldap: 'uid=rvoss,ou=users,dc=bfpi,dc=local' },

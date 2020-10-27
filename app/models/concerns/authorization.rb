@@ -8,7 +8,7 @@ module Authorization
   end
 
   def static_permissions
-    @static_permissions ||= STATIC_PERMISSIONS.select { |_, roles| roles.any? { |name| send :"#{name}?" } }.keys
+    @static_permissions ||= STATIC_PERMISSIONS.select { |_, roles| roles.any? { |name| send :"role_#{name}?" } }.keys
   end
 
   def authorized?(action)
@@ -16,6 +16,7 @@ module Authorization
   end
 
   STATIC_PERMISSIONS = {
+    change_user: %i[admin],
     groups: %i[admin regional_admin],
     users: %i[admin regional_admin]
   }.freeze

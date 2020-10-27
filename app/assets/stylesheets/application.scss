@@ -17,9 +17,11 @@
 $font-size-base: 0.9rem;
 $h1-font-size: $font-size-base * 1.6;
 $table-cell-padding: 0.5rem;
+$spinner-width: 1rem;
 
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'jquery-ui/core';
 @import 'jquery-ui/theme';
 @import 'jquery-ui/menu';
 @import 'jquery-ui/autocomplete';
@@ -33,4 +35,12 @@ nav.navbar {
   @extend .py-2;
   background-color: $gray-200;
   border-top: 1px solid $secondary;
+}
+
+.autocomplete .spinner-border {
+  display: none;
+  position: absolute;
+  right: 0.75em;
+  top: 0.75em;
+  z-index: 20;
 }
