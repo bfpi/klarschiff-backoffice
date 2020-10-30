@@ -32,6 +32,10 @@ class Issue < ApplicationRecord
   before_validation :set_responsibility, on: :create
   before_save :set_expected_closure, if: :status_changed?
 
+  def to_s
+    "#{ Issue.human_enum_name(:kind, kind)} ##{ id }"
+  end
+
   def icon
     "icons/map/active/png/#{category&.kind || 'blank'}-#{icon_color}.png"
   end
