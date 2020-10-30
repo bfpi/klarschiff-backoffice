@@ -6,7 +6,6 @@ class CreateCounty < ActiveRecord::Migration[6.0]
       t.text :regional_key
       t.text :name
       t.multi_polygon :area
-      t.references :instance, null: false, foreign_key: true
 
       t.timestamps
     end

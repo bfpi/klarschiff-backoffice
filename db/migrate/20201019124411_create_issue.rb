@@ -15,11 +15,11 @@ class CreateIssue < ActiveRecord::Migration[6.0]
       t.integer :status
       t.text :status_note
       t.integer :kind
-      t.references :group, null: false, foreign_key: true
       t.references :category, null: false, foreign_key: true
       t.text :property_owner
       t.boolean :photo_requested, null: false, default: false
       t.integer :trust_level
+      t.date :expected_closure
 
       t.timestamps
     end

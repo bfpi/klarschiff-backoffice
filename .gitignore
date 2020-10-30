@@ -28,6 +28,10 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# External libs loaded via rake assets:libs
+lib/assets/javascripts
+lib/assets/stylesheets
+
 /public/packs
 /public/packs-test
 /node_modules

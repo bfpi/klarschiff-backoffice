@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   include Filter
 
   def index
-    users = filter(User.all).order(:login)
+    users = filter(User.authorized).order(:login)
     respond_to do |format|
       format.html { @users = users.page(params[:page] || 1).per(params[:per_page] || 20) }
       format.json { render json: users }
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.authorized.find(params[:id])
   end
 
   def new
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.authorized.find(params[:id])
     if @user.update(user_params) && params[:save_and_close].present?
       redirect_to action: :index
     else

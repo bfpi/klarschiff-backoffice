@@ -20,7 +20,7 @@
         <td><%= user.login %></td>
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
-        <td><%= user.role %></td>
+        <td><%= User.human_enum_name(:role, user.role) %></td>
         <td>
           <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_user_path(user), remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>
@@ -30,7 +30,6 @@
 </table>
 
 <%= paginate @users %>
-<div id="user-modal" class="modal hide fade" role="dialog" aria-hidden="true"></div>
 
 <% content_for :footer do %>
   <div class="float-right">

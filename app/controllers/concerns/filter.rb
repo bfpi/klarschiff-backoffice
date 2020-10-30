@@ -20,7 +20,11 @@ module Filter
   def name_conditions(names)
     names.split(/\s/).select(&:presence).map do |name|
       term = "%#{name}%"
-      filter_name_columns.map { |c| User.arel_table[c].matches term }.inject(:or)
+      filter_name_columns.map { |c| arel_table[c].matches term }.inject(:or)
     end.inject(:and)
+  end
+
+  def arel_table
+    controller_name.classify.constantize.arel_table
   end
 end

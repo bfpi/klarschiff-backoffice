@@ -19,7 +19,7 @@
         <th scope="row"><%= group.id %></th>
         <td><%= group.short_name %></td>
         <td><%= group.name %></td>
-        <td><%= group.kind %></td>
+        <td><%= Group.human_enum_name(:kind, group.kind) %></td>
         <td><%= group.email %></td>
         <td>
           <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_group_path(group), remote: true, class: 'btn btn-sm btn-outline-primary' %>
@@ -30,7 +30,6 @@
 </table>
 
 <%= paginate @groups %>
-<div id="group-modal" class="modal hide fade" role="dialog" aria-hidden="true"></div>
 
 <% content_for :footer do %>
   <div class="float-right">

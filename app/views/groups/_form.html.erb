@@ -32,7 +32,7 @@
       <div class="form-check form-check-inline">
         <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do %>
           <%= form.radio_button :kind, kind %>
-          <%= t(kind) %>
+          <%= Group.human_enum_name(:kind, kind) %>
         <% end -%>
       </div>
     <% end -%>
@@ -49,19 +49,13 @@
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:instance, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-4">
-    <%= form.select :instance_id, options_from_collection_for_select(Instance.all, :id, :to_s, form.object.instance_id), { include_blank: true },  {class: 'form-control' } %>
-  </div>
-  <%= form.label(:main_user, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-4">
-    <%= form.select :main_user_id, options_from_collection_for_select(User.all, :id, :to_s, form.object.main_user_id), { include_blank: true },  {class: 'form-control' } %>
-  </div>
-</div>
-<div class="form-group row">
   <%= form.label(:email, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
     <%= form.text_field(:email, class: 'form-control') %>
+  </div>
+  <%= form.label(:main_user, for: :group_main_user_id, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.select :main_user_id, options_from_collection_for_select(User.all, :id, :to_s, form.object.main_user_id), { include_blank: true },  {class: 'form-control' } %>
   </div>
 </div>
 <div class="form-group row">

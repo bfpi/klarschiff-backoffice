@@ -52,6 +52,7 @@ end
 
 gem 'activerecord-postgis-adapter'
 gem 'bootstrap'
+gem 'coffee-rails'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'

@@ -5,6 +5,7 @@ class CreateLogEntry < ActiveRecord::Migration[6.0]
     create_table :log_entry do |t|
       t.text :table
       t.text :attr
+      t.bigint :issue_id
       t.bigint :subject_id
       t.text :subject_name
       t.text :action

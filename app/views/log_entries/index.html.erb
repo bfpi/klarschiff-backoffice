@@ -14,12 +14,10 @@
   <tbody>
     <% @log_entries.each do |log_entry| %>
       <tr>
-
         <td><%= l(log_entry.created_at) %></td>
         <td><%= log_entry.user %></td>
         <td><%= log_entry.subject_name %></td>
         <td><%= log_entry.action %></td>
-
       </tr>
     <% end -%>
   </tbody>

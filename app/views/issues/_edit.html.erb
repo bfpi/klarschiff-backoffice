@@ -1,0 +1,19 @@
+<div class="modal-dialog modal-xl">
+  <%= form_for(@issue, url: issue_path(@issue), remote: true, html: { 'data-dependencies': data_dependencies_path }) do |f| -%>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1><%= Issue.model_name.human %> <%= t('edit') %></h1>
+      </div>
+      <div class="modal-body">
+        <%= render(partial: 'form', locals: { form: f, issue: @issue }) %>
+      </div>
+      <div class="modal-footer">
+        <%= hidden_field_tag :tab, @tab %>
+        <%= f.submit t('action.save'), class: 'btn btn-primary offset-3 col-2' %>
+        <%= f.submit t('action.save_and_close'), name: :save_and_close, class: 'btn btn-primary offset-1 col-2' %>
+        <%= f.submit t('action.abort'), type: :reset, class: 'btn btn-secondary offset-1 col-2', 'data-dismiss': :modal %>
+      </div>
+    </div>
+  <% end %>
+</div>

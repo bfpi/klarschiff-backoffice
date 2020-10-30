@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  include Authorization
+  include UserAuthorization
   include Logging
 
   has_secure_password(validations: false)
@@ -17,8 +17,17 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
+  validate :role_permissions
 
   scope :active, -> { where(active: true) }
+
+  def self.authorized(user = Current.user)
+    if user&.role_admin?
+      all
+    else
+      where(User.arel_table[:role].in(User.roles.keys.to_a.map(&:to_sym) - [:admin]))
+    end
+  end
 
   def to_s
     [first_name, last_name].join(' ')
@@ -26,5 +35,16 @@ class User < ApplicationRecord
 
   def as_json(_options = {})
     { value: id, label: to_s }
+  end
+
+  private
+
+  def role_permissions
+    return true unless Current.user
+    if self.class.roles[role] < Current.user.read_attribute_before_type_cast(:role)
+      errors.add :role, :invalid_permissions
+      return false
+    end
+    true
   end
 end

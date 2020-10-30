@@ -23,7 +23,7 @@ module Logging
         old = Logging.convert_value(old_value, attr, subject)
         new = Logging.convert_value(new_value, attr, subject)
         create(
-          table: subject.model_name.element, attr: attr, subject_id: subject.id, subject_name: subject,
+          table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject), subject_id: subject.id, subject_name: subject,
           action: Logging.generate_action(subject.class, attr, :update, old, new), user: Current.user,
           old_value: old, new_value: new
         )
@@ -31,10 +31,14 @@ module Logging
     end
   end
 
+  def last_entry
+    LogEntry.where(table: model_name.element, subject_id: id).order(created_at: :desc).first
+  end
+
   def log_create
     log_entries.create(
       table: model_name.element, action: Logging.action_text(:create),
-      user: Current.user, subject_id: id, subject_name: to_s
+      user: Current.user, subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
     )
   end
 
@@ -66,7 +70,7 @@ module Logging
   def log_destroy
     LogEntry.create(
       table: model_name.element, action: Logging.action_text(:removed),
-      user: Current.user, subject_id: id, subject_name: to_s
+      user: Current.user, subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
     )
   end
 
@@ -82,8 +86,14 @@ module Logging
     return unless id
     log_entries.create(
       table: model_name.element, action: action, user: Current.user,
-      subject_id: id, subject_name: to_s
+      subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
     )
+  end
+
+  def self.issue_id(subject)
+    issue = subject.issue if subject.respond_to?(:issue)
+    issue = subject if subject.instance_of?(Issue)
+    issue&.id
   end
 
   def self.generate_action(subject_class, attr, action_key, old_value, new_value)

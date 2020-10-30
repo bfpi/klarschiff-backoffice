@@ -1,0 +1,73 @@
+<div class="form-group row">
+  <%= form.label(:status, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <% Issue.statuses.each do |status, ix| -%>
+      <div class="form-check form-check-inline">
+        <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
+          <%= form.radio_button :status, status %>
+          <%= Issue.human_enum_name(:status, status) %>
+        <% end -%>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <% Issue.kinds.each do |kind, ix| -%>
+      <div class="form-check form-check-inline">
+        <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do %>
+          <%= form.radio_button :kind, kind %>
+          <%= Issue.human_enum_name(:kind, kind) %>
+        <% end -%>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:category, for: :issue_main_user_id, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.select :category_id, options_from_collection_for_select(Category.where(kind: form.object.kind).map(&:children).flatten, :id, :to_s, form.object.category_id), { include_blank: true },  {class: 'form-control' } %>
+  </div>
+  <%= form.label(:author, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:author, class: 'form-control') %>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:description, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <%= form.text_area(:description, class: 'form-control', rows: 5) %>
+  </div>
+</div>
+<div class="form-group row" style="<%= 'display: none' unless form.object.status_in_process? %>">
+  <%= form.label(:expected_closure, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:expected_closure, class: 'form-control') %>
+  </div>
+</div>
+<% unless form.object.new_record? %>
+  <div class="form-group row">
+    <%= form.label(:responsibility, for: :issue_responsibility_id, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-4">
+      <%= form.select :responsibility_id, options_from_collection_for_select(Group.where(kind: Group.kinds[:internal]), :id, :to_s, form.object.responsibility_id), { include_blank: true },  {class: 'form-control' } %>
+    </div>
+    <%= form.label(:delegation, for: :issue_delegation_id, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-4">
+      <%= form.select :delegation_id, options_from_collection_for_select(Group.where(kind: Group.kinds[:external]), :id, :to_s, form.object.delegation_id), { include_blank: true },  {class: 'form-control' } %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= form.label(:priority, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-10">
+      <% Issue.priorities.each do |priority, ix| -%>
+        <div class="form-check form-check-inline">
+          <%= form.label("priority_#{ priority }", '', class: 'form-check-label') do %>
+            <%= form.radio_button :priority, priority %>
+            <%= Issue.human_enum_name(:priority, priority) %>
+          <% end -%>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+<% end %>

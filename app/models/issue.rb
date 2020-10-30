@@ -12,25 +12,54 @@ class Issue < ApplicationRecord
   end
 
   belongs_to :category
-  belongs_to :delegation
-  belongs_to :group
+  belongs_to :delegation, optional: true, class_name: 'Group'
   belongs_to :job, optional: true
-  belongs_to :responsibility
+  belongs_to :responsibility, class_name: 'Group'
 
   with_options dependent: :destroy do
     has_many :abuse_report
+    has_many :all_log_entries, class_name: 'LogEntry'
     has_many :comment
     has_many :feedback
-    has_many :log_entries
     has_many :photo
     has_many :supporter
   end
 
-  validates :confirmation_hash, presence: true, uniqueness: true
+  validates :kind, :position, :status, presence: true
+  validates :confirmation_hash, uniqueness: true
+
+  before_validation :set_confirmation_hash, on: :create
+  before_validation :set_responsibility, on: :create
+  before_save :set_expected_closure, if: :status_changed?
+
+  def icon
+    "icons/map/active/png/#{category&.kind || 'blank'}-#{icon_color}.png"
+  end
 
   private
 
+  def icon_color
+    case status
+    when :in_progress
+      'yellow'
+    when :pending
+      'gray'
+    else
+      'gray'
+    end
+  rescue StandardError
+    'gray'
+  end
+
   def set_confirmation_hash
     self.confirmation_hash = SecureRandom.uuid
+  end
+
+  def set_responsibility
+    self.responsibility = category&.group
+  end
+
+  def set_expected_closure
+    self.expected_closure = status_in_process? ? Time.zone.today + category.average_turnaround_time.days : nil
   end
 end

@@ -22,15 +22,16 @@
               <% if Current.user.present? -%>
                 <li class="nav-item"><%= link_to(t('nav.dashboard'), root_url, class: 'nav-link') %></li>
                 <li class="nav-item"><%= link_to(Issue.model_name.human(count: 2), issues_url, class: 'nav-link') %></li>
-                <% if Current.user.admin? %>
+                <li class="nav-item"><%= link_to(Job.model_name.human(count: 2), jobs_url, class: 'nav-link') if authorized?(:jobs) %></li>
+                <% if authorized?(:administration) %>
                   <li class="nav-item dropdown">
                     <%= link_to(t('nav.administration'), '#', class: 'nav-link dropdown-toggle', 'data-toggle': 'dropdown') %>
                     <div class="dropdown-menu">
-                      <%= link_to(User.model_name.human(count: 2), users_url, class: 'dropdown-item') %>
-                      <%= link_to(Group.model_name.human(count: 2), groups_url, class: 'dropdown-item') %>
-                      <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') %>
-                      <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') %>
-                      <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') %>
+                      <%= link_to(User.model_name.human(count: 2), users_url, class: 'dropdown-item') if authorized?(:manage_users) %>
+                      <%= link_to(Group.model_name.human(count: 2), groups_url, class: 'dropdown-item') if authorized?(:manage_groups) %>
+                      <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:all_log_entries) %>
+                      <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications)%>
+                      <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist)%>
                     </div>    
                   </li>
                 <% end -%>
@@ -62,6 +63,7 @@
       </nav>
       <div class="content container">
         <%= yield %>
+        <div id="modal" class="modal hide fade" role="dialog" aria-hidden="true"></div>
       </div>
       <nav class="footer">
         <div class="container">

@@ -1,24 +1,18 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  before_action :authenticate
+  #  rescue_from StandardError, with: :respond_with_error
+
+  include Authorization
 
   private
 
-  def authenticate
-    Current.login = session[:user_login]
-    return redirect_to(new_logins_path) unless Current.login
-    login = session[:login].presence || Current.login
-    if (Current.user = User.active.find_by(User.arel_table[:login].matches(login)))
-      logger_current_user login
-    else
-      redirect_to new_logins_path
-    end
-  end
+  def respond_with_error(error)
+    raise if Rails.env.test?
 
-  def logger_current_user(login)
-    msg = "Username: #{Current.login}"
-    msg += " as #{login}" unless login.casecmp(Current.login.downcase).zero?
-    logger.info msg
+    logger.error error.inspect + error.backtrace.join("\n ")
+
+    @error = error
+    render :exception
   end
 end

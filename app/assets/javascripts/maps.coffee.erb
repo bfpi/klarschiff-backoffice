@@ -1,0 +1,82 @@
+map = undefined;
+
+KS.initializeMaps = ->
+  if $('#map').size() == 0
+    return
+
+  proj4.defs 'EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs'
+  ol.proj.proj4.register proj4
+  projection = ol.proj.get('EPSG:25833')
+  projection.setExtent <%= Settings::Map.projection_25833.as_json %>
+  defaultPosition = ol.proj.transform(<%= Settings::Map.center.as_json %>, 'EPSG:4326', projection)
+  defaultZoom = <%= Settings::Map.zoom %>
+
+  $('#map').each (ix, m) ->
+    elem = $(m)
+    position = defaultPosition
+    zoom = defaultZoom
+    if elem.data('lon') > 0 && elem.data('lat') > 0
+      position = ol.proj.transform([
+        elem.data('lon')
+        elem.data('lat')
+      ], 'EPSG:4326', projection)
+      zoom = (defaultZoom + 4)
+    featureSource = new (ol.source.Vector)(features: [ new (ol.Feature)(new (ol.geom.Point)(position)) ])
+    featureVector = new (ol.layer.Vector)(
+      source: featureSource
+      style: new (ol.style.Style) (
+        image: new (ol.style.Icon) (
+          anchorXUnits: 'pixels'
+          anchorYUnits: 'pixels'
+          anchor: [
+            16
+            50
+          ]
+          src: elem.data('icon')
+          size: [
+            56
+            64
+          ]
+        )
+        stroke: new (ol.style.Stroke)(
+          color: '#c800ff'
+          width: 1)
+        fill: new (ol.style.Fill)(color: '#c800ff')
+      )
+    )
+    map = new (ol.Map)(
+      target: 'map'
+      layers: [
+        <% Settings::Map.layers.each do |layer| %>
+        new (ol.layer.Tile)(source: new (ol.source.WMTS)(
+          url: '<%= layer[:url] %>'
+          layer: '<%= layer[:layer] %>'
+          matrixSet: '<%= layer[:matrix_set] %>'
+          format: 'image/png'
+          requestEncoding: 'REST'
+          projection: projection
+          tileGrid: new (ol.tilegrid.WMTS)(
+            origin: ol.extent.getTopLeft(projection.getExtent())
+            resolutions: <%= layer[:resolutions] %>
+            matrixIds: <%= layer[:matrix_ids] %>)))
+        <% end %>
+        featureVector
+      ]
+      view: new (ol.View)(
+        projection: projection
+        center: position
+        zoom: zoom
+      )
+    )
+    modify = new (ol.interaction.Modify)(source: featureSource)
+    modify.on 'modifyend', (e) ->
+      coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
+      console.log coordinates
+      console.log ol.proj.transform(coordinates, projection, 'EPSG:4326')
+      $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
+    map.addInteraction modify
+
+    window.setTimeout (->
+      map.updateSize()
+    ), 500
+

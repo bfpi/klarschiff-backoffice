@@ -29,12 +29,14 @@
   <%= form.label(:role, class: 'col-md-2 col-form-label') %>
   <div class="col-md-10">
     <% User.roles.each do |role, ix| -%>
-      <div class="form-check form-check-inline">
-        <%= form.label("role_#{ role }", '', class: 'form-check-label') do %>
-          <%= form.radio_button :role, role %>
-          <%= t(role) %>
-        <% end -%>
-      </div>
+      <% if User.roles[role] >= Current.user.read_attribute_before_type_cast(:role) -%>
+        <div class="form-check form-check-inline">
+          <%= form.label("role_#{ role }", '', class: 'form-check-label') do %>
+            <%= form.radio_button :role, role %>
+            <%= User.human_enum_name(:role, role) %>
+          <% end -%>
+        </div>
+      <% end -%>
     <% end -%>
   </div>
 </div>

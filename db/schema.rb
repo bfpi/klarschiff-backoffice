@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_080700) do
+ActiveRecord::Schema.define(version: 202010191242104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,13 +40,23 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
 
   create_table "category", force: :cascade do |t|
     t.integer "kind"
-    t.bigint "category_id"
+    t.bigint "group_id"
     t.text "name"
     t.text "dms"
     t.boolean "deleted", default: false, null: false
+    t.integer "average_turnaround_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_category_on_category_id"
+    t.index ["group_id"], name: "index_category_on_group_id"
+  end
+
+  create_table "category_mapping", force: :cascade do |t|
+    t.bigint "parent_id"
+    t.bigint "child_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["child_id"], name: "index_category_mapping_on_child_id"
+    t.index ["parent_id"], name: "index_category_mapping_on_parent_id"
   end
 
   create_table "comment", force: :cascade do |t|
@@ -73,10 +83,8 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.text "regional_key"
     t.text "name"
     t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
-    t.bigint "instance_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["instance_id"], name: "index_county_on_instance_id"
   end
 
   create_table "district", force: :cascade do |t|
@@ -126,11 +134,9 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.integer "kind", default: 0, null: false
     t.text "email"
     t.integer "main_user_id", null: false
-    t.bigint "instance_id", null: false
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["instance_id"], name: "index_group_on_instance_id"
   end
 
   create_table "group_user", id: false, force: :cascade do |t|
@@ -141,7 +147,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
 
   create_table "instance", force: :cascade do |t|
     t.text "name"
-    t.text "url"
+    t.text "instance_url"
     t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -160,18 +166,17 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.integer "status"
     t.text "status_note"
     t.integer "kind"
-    t.bigint "group_id", null: false
     t.bigint "category_id", null: false
     t.text "property_owner"
     t.boolean "photo_requested", default: false, null: false
     t.integer "trust_level"
+    t.date "expected_closure"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "delegation_id"
     t.bigint "responsibility_id"
     t.index ["category_id"], name: "index_issue_on_category_id"
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
-    t.index ["group_id"], name: "index_issue_on_group_id"
     t.index ["responsibility_id"], name: "index_issue_on_responsibility_id"
   end
 
@@ -190,6 +195,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   create_table "log_entry", force: :cascade do |t|
     t.text "table"
     t.text "attr"
+    t.bigint "issue_id"
     t.bigint "subject_id"
     t.text "subject_name"
     t.text "action"
@@ -263,13 +269,10 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   add_foreign_key "authority", "county"
   add_foreign_key "comment", "issue"
   add_foreign_key "community", "authority"
-  add_foreign_key "county", "instance"
   add_foreign_key "district", "community"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
   add_foreign_key "feedback", "issue"
-  add_foreign_key "group", "instance"
   add_foreign_key "issue", "\"group\"", column: "delegation_id"
-  add_foreign_key "issue", "\"group\"", column: "group_id"
   add_foreign_key "issue", "\"group\"", column: "responsibility_id"
   add_foreign_key "issue", "category"
   add_foreign_key "job", "\"group\"", column: "group_id"

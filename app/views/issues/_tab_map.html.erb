@@ -1,0 +1,18 @@
+<div class="form-group row">
+  <%= form.label(:position, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <div id="map" class="map"
+      data-lat="<%= form.object&.position&.y %>"
+      data-lon="<%= form.object&.position&.x %>"
+      data-icon="<%= asset_path(form.object&.icon) %>"
+      data-position-input="#issue_position"
+    ></div>
+    <%= form.hidden_field(:position, class: 'form-control') %>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:address, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:address, class: 'form-control') %>
+  </div>
+</div>

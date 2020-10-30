@@ -1,0 +1,10 @@
+versions:
+  ol: 6.4.3
+  proj4: 2.6.2
+
+javascripts:
+  ol.js: https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v<%= versions[:ol] %>/build/ol.js
+  proj4js.js: https://cdnjs.cloudflare.com/ajax/libs/proj4js/<%= versions[:proj4] %>/proj4.js
+
+stylesheets:
+  ol.css: https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v<%= versions[:ol] %>/css/ol.css
