@@ -1,0 +1,30 @@
+<h1><%= Feedback.model_name.human(count: 2) %></h1>
+
+<%= paginate @feedbacks %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"><%= Feedback.human_attribute_name(:created_at) %></th>
+      <th scope="col"><%= Feedback.human_attribute_name(:issue) %></th>
+      <th scope="col"><%= Feedback.human_attribute_name(:author) %></th>
+      <th scope="col"><%= Feedback.human_attribute_name(:message) %></th>
+      <th scope="col"><%= t('actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <th scope="row"><%= feedback.id %></th>
+        <td><%= l(feedback.created_at) %></td>
+        <td><%= link_to feedback.issue, edit_issue_path(feedback.issue) %></td>
+        <td><%= feedback.author %></td>
+        <td><%= feedback.message %></td>
+        <td></td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<%= paginate @feedbacks %>

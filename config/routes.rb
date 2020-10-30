@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
 
     resources :editorial_notifications, only: %i[index]
+    resources :feedbacks, only: %i[index]
     resources :groups
     resources :issues
     resources :jobs, only: %i[index]
