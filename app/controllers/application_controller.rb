@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  #  rescue_from StandardError, with: :respond_with_error
+  rescue_from StandardError, with: :respond_with_error
 
   include Authorization
 

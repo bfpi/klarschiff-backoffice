@@ -31,4 +31,8 @@ module Authorization
     msg += " as #{login}" unless login.casecmp(Current.login.downcase).zero?
     logger.info msg
   end
+
+  def check_auth(action)
+    raise UserAuthorization::NotAuthorized, action unless authorized?(action)
+  end
 end

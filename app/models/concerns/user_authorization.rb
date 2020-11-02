@@ -16,7 +16,6 @@ module UserAuthorization
     when :jobs
       group.any?(&:kind_field_service_team?)
     else
-      raise "Unknown authorization requested (#{action})" if STATIC_PERMISSIONS[action].blank?
       static_permitted_to? action
     end
   end

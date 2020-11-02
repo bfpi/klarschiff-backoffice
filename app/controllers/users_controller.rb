@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   include Filter
+  before_action { check_auth :manage_users }
 
   def index
     users = filter(User.authorized).order(:login)

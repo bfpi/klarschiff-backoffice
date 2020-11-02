@@ -2,6 +2,7 @@
 
 class GroupsController < ApplicationController
   include Filter
+  before_action { check_auth :manage_groups }
 
   def index
     groups = filter(Group.all).order(:short_name)
