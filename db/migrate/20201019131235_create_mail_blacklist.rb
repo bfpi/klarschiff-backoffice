@@ -3,6 +3,7 @@
 class CreateMailBlacklist < ActiveRecord::Migration[6.0]
   def change
     create_table :mail_blacklist do |t|
+      t.boolean :active, null: false, default: true
       t.text :pattern
       t.text :source
       t.text :reason

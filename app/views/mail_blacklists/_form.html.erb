@@ -1,0 +1,43 @@
+<% if mail_blacklist.errors.any? %>
+  <div class="alert alert-danger">
+    <ul class="list-unstyled mb-0">
+      <% mail_blacklist.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="form-group row">
+  <%= form.label(:active, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <div class="form-check form-check-inline">
+      <%= form.label(:active_true, '', class: 'form-check-label') do %>
+        <%= form.radio_button :active, true %>
+        <%= t(true) %>
+      <% end -%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.label(:active_false, '', class: 'form-check-label') do %>
+        <%= form.radio_button :active, false %>
+        <%= t(false) %>
+      <% end -%>
+    </div>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:pattern, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-10">
+    <%= form.text_field(:pattern, class: 'form-control') %>
+  </div>
+</div>
+<div class="form-group row">
+  <%= form.label(:source, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:source, class: 'form-control') %>
+  </div>
+  <%= form.label(:reason, class: 'col-md-2 col-form-label') %>
+  <div class="col-md-4">
+    <%= form.text_field(:reason, class: 'form-control') %>
+  </div>
+</div>

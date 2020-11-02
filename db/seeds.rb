@@ -67,3 +67,8 @@ Category.all.each do |main_category|
     end
   end
 end
+
+50.times do |ix|
+  pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(0 - rand(3..5), '.')
+  MailBlacklist.create!(pattern: pattern, source: 'Initialisation')
+end if MailBlacklist.all.blank?

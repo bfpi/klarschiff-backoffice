@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   end
 
   create_table "mail_blacklist", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.text "pattern"
     t.text "source"
     t.text "reason"

@@ -151,7 +151,7 @@ de:
         one: Auftrag
         other: Aufträge
       log_entry: Verlauf
-      mail_blacklist: Blacklist
+      mail_blacklist: E-Mail-Blacklist
       observation:
         one: Beobachtungsfläche
         other: Beobachtungsflächen
