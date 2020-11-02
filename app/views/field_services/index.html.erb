@@ -1,0 +1,33 @@
+<h1><%= Group.human_enum_name(:kind, :field_service_team) %></h1>
+
+<%= paginate @field_services %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"><%= Group.human_attribute_name(:short_name) %></th>
+      <th scope="col"><%= Group.human_attribute_name(:name) %></th>
+      <th scope="col"><%= Group.human_attribute_name(:field_service_operator) %></th>
+      <th scope="col"><%= t('actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @field_services.each do |field_service| %>
+      <tr>
+        <th scope="row"><%= field_service.id %></th>
+        <td><%= field_service.short_name %></td>
+        <td><%= field_service.name %></td>
+        <td><%= field_service.field_service_operator.map(&:to_s).sort.join('<br>').html_safe %></td>
+        <td>
+          <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_field_service_path(field_service), remote: true, class: 'btn btn-sm btn-outline-primary' %>
+        </td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<%= paginate @field_services %>
+
+<% content_for :footer do %>
+<% end %>

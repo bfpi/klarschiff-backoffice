@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
     resources :editorial_notifications, only: %i[index]
     resources :feedbacks, only: %i[index]
+    resources :field_services
     resources :groups
     resources :issues
     resources :jobs, only: %i[index]

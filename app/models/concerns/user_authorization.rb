@@ -29,9 +29,10 @@ module UserAuthorization
     change_user: %i[admin],
     manage_editorial_notifications: %i[admin regional_admin],
     manage_feedbacks: %i[admin regional_admin],
+    manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
     manage_mail_blacklist: %i[admin regional_admin],
-    manage_users: %i[admin regional_admin],
+    manage_users: %i[admin regional_admin]
   }.freeze
 
   class NotAuthorized < StandardError

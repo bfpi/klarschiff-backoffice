@@ -11,6 +11,8 @@
 window.KS ||= {}
 
 KS.initializeModalFunctions = ->
+  KS.initializeSelectManyAutocomplete()
+  KS.initializeUserLdapAutocomplete()
   KS.initializeFormActions()
   KS.initializeMaps()
 

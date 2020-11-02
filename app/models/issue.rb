@@ -33,7 +33,7 @@ class Issue < ApplicationRecord
   before_save :set_expected_closure, if: :status_changed?
 
   def to_s
-    "#{ Issue.human_enum_name(:kind, kind)} ##{ id }"
+    "#{Issue.human_enum_name(:kind, kind)} ##{id}"
   end
 
   def icon
