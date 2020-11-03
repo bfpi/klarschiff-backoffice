@@ -1,0 +1,46 @@
+<div class="form-group row">
+
+</div>
+<% if @grouped_jobs.any? -%>
+  <div id="accordion">
+    <% @grouped_jobs.each do |group, jobs| -%>
+      <div class="card">
+        <div class="card-header" id="header-<%= group %>">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-<%= group %>" aria-controls="collapse-<%= group %>">
+            <%= group %>
+          </button>
+        </div>
+        <div id="collapse-<%= group %>" class="collapse" aria-labelledby="header-<%= group %>" data-parent="#accordion">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th></th>
+                <th><%= Issue.human_attribute_name(:kind) %></th>
+                <th><%= Issue.human_attribute_name(:created_at) %></th>
+                <th>Haupt- und Unterkategorie</th>
+                <th><%= Issue.human_attribute_name(:status) %></th>
+                <th><%= Job.human_attribute_name(:status) %></th>
+                <th>Aktionen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% jobs.each do |job| -%>
+                <tr>
+                  <td><%= job.id %></td>
+                  <td></td>
+                  <td><%= (issue = job.issue).kind %></td>
+                  <td><%= l(issue.created_at.to_date) %></td>
+                  <td><%= issue.category.name %></td>
+                  <td><%= issue.status %></td>
+                  <td><%= job.status %></td>
+                </tr>
+              <% end -%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end -%>
+  </div>
+<% else -%>
+<% end -%>
