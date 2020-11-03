@@ -1,6 +1,15 @@
 alpha:
 
 development:
+  geocodr:
+    url: https://geo.sv.rostock.de/geocodr/query?
+    api_key: <geocodr-api-key>
+    address_search_class: address_hro
+    address_object_group: Adresse HRO
+    parcel_search_class: parcel
+    parcel_object_group: Flurstück
+    property_owner_search_class: property_owner
+    property_owner_object_group: Flurstückseigentümer
   instance:
     parent_instance_url: https://www.klarschiff-mv.de/
   map:

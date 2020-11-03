@@ -15,6 +15,7 @@ one:
   kind: 1
   group: one
   category: one
+  parcel: MyText
   property_owner: MyText
   photo_requested: false
   trust_level: 1
@@ -34,6 +35,7 @@ two:
   kind: 1
   group: two
   category: two
+  parcel: MyText
   property_owner: MyText
   photo_requested: false
   trust_level: 1

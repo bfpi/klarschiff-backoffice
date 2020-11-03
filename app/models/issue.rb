@@ -38,6 +38,7 @@ class Issue < ApplicationRecord
 
   before_validation :add_photo, on: :update
   before_validation :set_confirmation_hash, on: :create
+  before_validation :update_address_parcel_property_owner, if: :position_changed?
   before_validation :set_responsibility
   before_validation :set_reviewed, on: :update
   before_save :set_expected_closure, if: :status_changed?
@@ -76,6 +77,12 @@ class Issue < ApplicationRecord
   def add_photo
     return if new_photo.blank?
     photos.new file: new_photo, author: Current.user.to_s, status: :internal
+  end
+
+  def update_address_parcel_property_owner
+    self.address = Geocodr.address(self)
+    self.parcel = Geocodr.parcel(self)
+    self.property_owner = Geocodr.property_owner(self)
   end
 
   def set_confirmation_hash
