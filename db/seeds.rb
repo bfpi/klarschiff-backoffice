@@ -60,7 +60,8 @@ end
 
 Category.all.each do |main_category|
   5.times do |ix|
-    Category.find_or_create_by!(name: "Unterkategorie #{main_category.id} - #{(ix + 1)}", average_turnaround_time: 7) do |category|
+    Category.find_or_create_by!(name: "Unterkategorie #{main_category.id} - #{(ix + 1)}",
+                                average_turnaround_time: 7) do |category|
       category.group = Group.find_by(short_name: "innen_#{(ix + 1)}")
       category.kind = main_category.kind
       main_category.children << category

@@ -20,6 +20,7 @@ class CreateIssue < ActiveRecord::Migration[6.0]
       t.boolean :photo_requested, null: false, default: false
       t.integer :trust_level
       t.date :expected_closure
+      t.boolean :responsibility_accepted, null: false, default: false
 
       t.timestamps
     end

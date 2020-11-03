@@ -23,9 +23,9 @@ module Logging
         old = Logging.convert_value(old_value, attr, subject)
         new = Logging.convert_value(new_value, attr, subject)
         create(
-          table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject), subject_id: subject.id, subject_name: subject,
-          action: Logging.generate_action(subject.class, attr, :update, old, new), user: Current.user,
-          old_value: old, new_value: new
+          table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject), subject_id: subject.id,
+          subject_name: subject, action: Logging.generate_action(subject.class, attr, :update, old, new),
+          user: Current.user, old_value: old, new_value: new
         )
       end
     end

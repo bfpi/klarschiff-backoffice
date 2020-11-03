@@ -25,11 +25,14 @@ class Issue < ApplicationRecord
     has_many :supporter
   end
 
+  attr_accessor :responsibility_action
+
   validates :kind, :position, :status, presence: true
   validates :confirmation_hash, uniqueness: true
 
   before_validation :set_confirmation_hash, on: :create
-  before_validation :set_responsibility, on: :create
+  before_validation :set_responsibility
+  before_validation :set_reviewed, on: :update
   before_save :set_expected_closure, if: :status_changed?
 
   def to_s
@@ -60,7 +63,21 @@ class Issue < ApplicationRecord
   end
 
   def set_responsibility
-    self.responsibility = category&.group
+    return if responsibility.present? && responsibility_action.blank?
+    case responsibility_action.to_sym
+    when :accept
+      self.responsibility_accepted = true
+    when :manual
+      self.responsibility_accepted = false
+    when :recalculation
+      self.responsibility = category&.group
+      self.responsibility_accepted = false
+    end
+  end
+
+  def set_reviewed
+    return if reviewed_at.present?
+    self.reviewed_at = Time.current
   end
 
   def set_expected_closure

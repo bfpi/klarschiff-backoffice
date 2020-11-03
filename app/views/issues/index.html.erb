@@ -26,7 +26,12 @@
         <td><%= Issue.human_enum_name(:status, issue.status) %></td>
         <td><%= issue.address %></td>
         <td><%= issue.supporter.count %></td>
-        <td><%= issue.responsibility %></td>
+        <td>
+          <%= issue.responsibility %>
+          <% if issue.responsibility_accepted -%>
+            <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+          <% end -%>
+        </td>
         <td><%= issue.last_entry&.user %></td>
         <td><%= issue.priority %></td>
         <td>

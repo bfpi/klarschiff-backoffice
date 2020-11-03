@@ -1,16 +1,18 @@
-<div class="form-group row">
-  <%= form.label(:status, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-10">
-    <% Issue.statuses.each do |status, ix| -%>
-      <div class="form-check form-check-inline">
-        <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
-          <%= form.radio_button :status, status %>
-          <%= Issue.human_enum_name(:status, status) %>
-        <% end -%>
-      </div>
-    <% end -%>
+<% unless form.object.new_record? %>
+  <div class="form-group row">
+    <%= form.label(:status, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-10">
+      <% Issue.statuses.each do |status, ix| -%>
+        <div class="form-check form-check-inline">
+          <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
+            <%= form.radio_button :status, status %>
+            <%= Issue.human_enum_name(:status, status) %>
+          <% end -%>
+        </div>
+      <% end -%>
+    </div>
   </div>
-</div>
+<% end %>
 <div class="form-group row">
   <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
   <div class="col-md-10">
@@ -47,16 +49,6 @@
   </div>
 </div>
 <% unless form.object.new_record? %>
-  <div class="form-group row">
-    <%= form.label(:responsibility, for: :issue_responsibility_id, class: 'col-md-2 col-form-label') %>
-    <div class="col-md-4">
-      <%= form.select :responsibility_id, options_from_collection_for_select(Group.where(kind: Group.kinds[:internal]), :id, :to_s, form.object.responsibility_id), { include_blank: true },  {class: 'form-control' } %>
-    </div>
-    <%= form.label(:delegation, for: :issue_delegation_id, class: 'col-md-2 col-form-label') %>
-    <div class="col-md-4">
-      <%= form.select :delegation_id, options_from_collection_for_select(Group.where(kind: Group.kinds[:external]), :id, :to_s, form.object.delegation_id), { include_blank: true },  {class: 'form-control' } %>
-    </div>
-  </div>
   <div class="form-group row">
     <%= form.label(:priority, class: 'col-md-2 col-form-label') %>
     <div class="col-md-10">

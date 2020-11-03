@@ -9,18 +9,22 @@
 <% end %>
 
 <% unless issue.new_record? %>
-  <div class="card-header">
-    <ul class="nav nav-tabs card-header-tabs mt-2">
-      <% %i[overview comment abuse_report map photo log_entry].each do |tab| %>
-        <%= content_tag(:li, 
-              link_to(t(".tab.#{ tab }"), edit_issue_path(issue, tab: tab), remote: true, class: "nav-link #{ 'active' if tab == @tab }"),
-            class: 'nav-item') %>
-      <% end -%>
-    </ul>
-  </div>
-  <div class="card-body">
-    <%= render partial: "tab_#{ @tab }", locals: { form: form } %>
-  </div>
+  <% if issue.reviewed_at.blank? %>
+    <%= render partial: 'review', locals: { form: form } %>
+  <% else %>
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs mt-2">
+        <% %i[overview responsibility comment abuse_report map photo log_entry].each do |tab| %>
+          <%= content_tag(:li, 
+                link_to(t(".tab.#{ tab }"), edit_issue_path(issue, tab: tab), remote: true, class: "nav-link #{ 'active' if tab == @tab }"),
+              class: 'nav-item') %>
+        <% end -%>
+      </ul>
+    </div>
+    <div class="card-body">
+      <%= render partial: "tab_#{ @tab }", locals: { form: form } %>
+    </div>
+  <% end %>
 <% else %>
   <%= render partial: "tab_overview", locals: { form: form } %>
   <%= render partial: "tab_map", locals: { form: form } %>

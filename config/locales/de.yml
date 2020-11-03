@@ -251,6 +251,7 @@ de:
         map: Karte
         overview: Stammdaten
         photo: Foto
+        responsibility: Zuständigkeit
   users:
     index:
       new_user: Neuer Benutzer

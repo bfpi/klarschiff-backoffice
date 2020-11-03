@@ -68,13 +68,12 @@ KS.initializeMaps = ->
         zoom: zoom
       )
     )
-    modify = new (ol.interaction.Modify)(source: featureSource)
-    modify.on 'modifyend', (e) ->
-      coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
-      console.log coordinates
-      console.log ol.proj.transform(coordinates, projection, 'EPSG:4326')
-      $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
-    map.addInteraction modify
+    if $(elem.data('position-input')).size() > 0
+      modify = new (ol.interaction.Modify)(source: featureSource)
+      modify.on 'modifyend', (e) ->
+        coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
+        $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
+      map.addInteraction modify
 
     window.setTimeout (->
       map.updateSize()

@@ -13,6 +13,7 @@ class IssuesController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
+    @issue.responsibility_action = :accept # if @issue.reviewed_at.blank?
     return if @tab != :log_entry
     log_entries = @issue.all_log_entries.order(created_at: :desc)
     @log_entries = log_entries.page(params[:page] || 1).per(params[:per_page] || 20)
@@ -32,7 +33,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    @issue = Issue.new issue_params
+    @issue = Issue.new issue_params.merge(status: Issue.statuses[:pending])
     if @issue.save
       if params[:save_and_close].present?
         redirect_to action: :index
@@ -48,7 +49,7 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:description, :category_id, :address, :responsibility_id, :delegation_id,
-      :author, :status, :kind, :expected_closure, :position)
+      :author, :status, :kind, :expected_closure, :position, :responsibility_action)
   end
 
   def set_tab
