@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
+  include Issue::Icons
+  include Issue::Validations
   include Logging
 
   attr_accessor :responsibility_action, :new_photo
@@ -13,6 +15,8 @@ class Issue < ApplicationRecord
     enum trust_level: { external: 0, internal: 1, field_service_team: 2 }
   end
 
+  CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
+
   belongs_to :category
   belongs_to :delegation, optional: true, class_name: 'Group'
   belongs_to :group
@@ -22,98 +26,41 @@ class Issue < ApplicationRecord
     has_many :abuse_reports
     has_many :all_log_entries, class_name: 'LogEntry'
     has_many :comments
-    has_many :feedback
+    has_many :feedbacks
     has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :supporters
   end
 
   accepts_nested_attributes_for :photos, allow_destroy: true
 
-  validates :author, presence: true, on: :create
-  validates :author, email: true, on: :create
-  validates :confirmation_hash, uniqueness: true
-  validates :description, :position, :status, presence: true
-  validates :status_note, presence: true, if: :expected_closure_changed?
-
-  validate :author_blacklist
-
-  before_validation :add_photo
-  before_validation :set_confirmation_hash, on: :create
-  before_validation :update_address_parcel_property_owner, if: :position_changed?
-  before_validation :set_responsibility
-  before_validation :set_reviewed, on: :update
-  before_save :set_expected_closure, if: :status_changed?
-
+  delegate :group_id, :date, to: :job, prefix: true, allow_nil: true
   delegate :kind, :kind_name, to: :category, allow_nil: true
+  delegate :main_category, :sub_category, to: :category
 
   def to_s
     "#{kind_name} ##{id}"
   end
-
   alias logging_subject_name to_s
 
-  def map_icon
-    "icons/map/active/png/#{kind || 'blank'}-#{icon_color}.png"
+  def archived
+    archived_at?
   end
 
-  def list_icon
-    "icons/list/png/#{kind || 'blank'}-#{icon_color}-22px.png"
+  def archived=(value)
+    self.archived_at = value.presence && Time.current
   end
 
-  private
-
-  def author_blacklist
-    return if errors[:author].present?
-    return unless MailBlacklist.where(pattern: [author, author[author.index('@') + 1..]]).any?
-    errors.add :author, :blacklist_pattern
+  def job_date=(value)
+    return if value.blank?
+    self.job = Job.new(status: :unchecked) if job.blank?
+    job.date = value
+    job.save
   end
 
-  def icon_color
-    case status
-    when 'received', 'reviewed'
-      'red'
-    when 'in_process'
-      'yellow'
-    else
-      'gray'
-    end
-  end
-
-  def add_photo
-    return if new_photo.blank?
-    photos.new file: new_photo, author: Current.user.to_s, status: :internal
-  end
-
-  def update_address_parcel_property_owner
-    self.address = Geocodr.address(self)
-    self.parcel = Geocodr.parcel(self)
-    self.property_owner = Geocodr.property_owner(self)
-  end
-
-  def set_confirmation_hash
-    self.confirmation_hash = SecureRandom.uuid
-  end
-
-  def set_responsibility
-    return if group.present? && responsibility_action.blank?
-    case responsibility_action&.to_sym
-    when :accept
-      self.responsibility_accepted = true
-    when :manual
-      self.responsibility_accepted = false
-    else
-      self.group = category.responsibilities.first.group
-      self.responsibility_accepted = false
-    end
-  end
-
-  def set_reviewed
-    return if reviewed_at.present?
-    self.reviewed_at = Time.current
-    status_reviewed!
-  end
-
-  def set_expected_closure
-    self.expected_closure = status_in_process? ? Time.zone.today + category.average_turnaround_time.days : nil
+  def job_group_id=(value)
+    return if value.blank?
+    self.job = Job.new(status: :unchecked) if job.blank?
+    job.group = Group.find(value)
+    job.save
   end
 end

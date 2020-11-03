@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     resources :feedbacks, only: %i[index]
     resources :field_services
     resources :groups
-    resources :issues
+    resources :issues do
+      resource :issue_email, only: %i[new create show]
+      resources :issue_exports, only: %i[create], defaults: { format: :pdf }
+    end
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
     resources :places, only: %i[index]
@@ -21,6 +24,8 @@ Rails.application.routes.draw do
     resources :users
     resources :tests, only: %i[index create]
   end
+  resources :abuse_reports, only: %i[create update]
+  resources :comments, only: %i[create edit update show destroy]
   resources :jobs, only: %i[index update destroy] do
     collection do
       put :update_multiple

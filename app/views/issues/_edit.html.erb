@@ -6,8 +6,8 @@
       <div class="modal-header">
         <h1><%= Issue.model_name.human %> <%= t 'edit' %></h1>
       </div>
-      <div class="modal-body">
-        <%= render partial: 'form', locals: { form: f, issue: @issue } %>
+      <div class="modal-body no-padding">
+        <%= render(partial: 'form', locals: { form: f, issue: @issue }) %>
       </div>
       <div class="modal-footer">
         <%= hidden_field_tag :tab, @tab %>

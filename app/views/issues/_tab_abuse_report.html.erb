@@ -1,0 +1,10 @@
+<div class="card mt-2 abuse-report" id="new_abuse_report">
+  <%= render partial: 'abuse_reports/new' %>
+</div>
+
+<% @issue.abuse_reports.each do |abuse_report| -%>
+  <div class="card mt-2 abuse-report <%= 'border-warning' unless abuse_report.resolved_at? %>"
+       id="<%= dom_id(abuse_report) %>">
+    <%= render partial: 'abuse_reports/show', locals: { abuse_report: abuse_report } %>
+  </div>
+<% end -%>

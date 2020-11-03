@@ -188,6 +188,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.0)
       ast (~> 2.4.1)
+    pdfkit (0.8.5)
     pg (1.2.3)
     popper_js (1.16.0)
     pronto (0.11.0)
@@ -296,8 +297,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    terminal-table (1.8.0)
-      unicode-display_width (~> 1.1, >= 1.1.1)
+    terminal-table (1.6.0)
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -306,7 +306,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
-    unicode-display_width (1.7.0)
+    unicode-display_width (2.0.0)
     uniform_notifier (1.14.2)
     web-console (4.1.0)
       actionview (>= 6.0.0)
@@ -346,6 +346,7 @@ DEPENDENCIES
   kaminari
   listen (~> 3.2)
   net-ldap
+  pdfkit
   pg (>= 0.18, < 2.0)
   pronto-rubocop
   puma (~> 4.1)

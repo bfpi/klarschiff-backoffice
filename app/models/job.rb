@@ -5,8 +5,8 @@ class Job < ApplicationRecord
 
   enum status: { unchecked: 0, checked: 1, not_checkable: 2 }, _prefix: true
 
-  belongs_to :issue
-  belongs_to :group, -> { where(kind: Group.kinds[:field_service_team]) }, inverse_of: :jobs
+  has_one :issue, dependent: :nullify
+  belongs_to :group, -> { where(kind: :field_service_team) }, inverse_of: :jobs
 
   validates :status, presence: true
 
@@ -19,6 +19,10 @@ class Job < ApplicationRecord
   def status_color
     return if status == 'not_checkable'
     " text-#{status == 'checked' ? 'success' : 'danger'}"
+  end
+
+  def to_s
+    model_name.human
   end
 
   private

@@ -1,0 +1,78 @@
+Sehr geehrte Damen und Herren,
+
+der folgende Vorgang wurde durch die/den <%= Settings::Instance.name %>-Nutzer/-in <%= Current.user %> an Sie weitergeleitet:
+
+Anmerkungen der/des Absenderin/Absenders
+****************************************
+<%= @issue_email.text %>
+
+Daten des weitergeleiteten Vorgangs
+***********************************
+<%= MainCategory.human_attribute_name(:kind) %>: <%= Issue.human_enum_name(:kind, @issue_email.issue.kind) %>
+<%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>
+<%= Category.human_attribute_name(:main_category) %>: <%= @issue_email.main_category %>
+<%= Category.human_attribute_name(:sub_category) %>: <%= @issue_email.sub_category %>
+<% if @issue_email.issue.description.present? -%>
+<%= Issue.human_attribute_name(:description) %>: <%= @issue_email.issue.description %>
+Beschreibung Freigabestatus: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
+<% end -%>
+<% if @issue_email.issue.address.present? -%>
+<%= Issue.human_attribute_name(:address) %>: <%= @issue_email.issue.address %>
+<% end -%>
+<% if @issue_email.issue.property_owner.present? -%>
+<%= Issue.human_attribute_name(:property_owner_short) %>: <%= @issue_email.issue.property_owner %>
+<% end -%>
+<%= Issue.human_attribute_name(:created_at) %>: <%= l(@issue_email.issue.created_at, format: :no_seconds) %>
+<% if @send_author && !@issue_email.issue.author.blank? -%>
+<%= Issue.human_attribute_name(:author) %>: <%= @issue_email.issue.author %>
+<% end -%>
+<%= Issue.human_attribute_name(:status) %>: <%= Issue.human_enum_name(:status, @issue_email.issue.status) %>
+<% if @issue_email.issue.status_note.present? -%>
+öffentliche Statusinformation: <%= @issue_email.issue.status_note %>
+<% end -%>
+<%= Issue.human_attribute_name(:group) %>: <%= "#{@issue_email.issue.group} (#{
+  @issue_email.issue.responsibility_accepted ? 'akzeptiert' : 'zugewiesen'})" %>
+<% if @issue_email.issue.delegation.present? -%>
+Delegiert an: <%= @issue_email.issue.delegation %>
+<% end -%>
+
+<% if @issue_email.send_map? -%>
+Karte
+*****
+Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url.gsub('{issue_id}',
+                                                @issue_email.issue.id.to_s) %>
+
+<% end -%>
+<% if @issue_email.send_comments? -%>
+interne Kommentare
+******************
+<% @issue_email.issue.comments.each do |comment| -%>
+- <%= comment.author %> <%= l(comment.created_at, format: :no_seconds) %> -
+<%= comment.message %>
+
+<% end -%>
+
+<% end -%>
+<% if @issue_email.send_feedbacks? -%>
+Lob, Hinweise oder Kritik von Bürger/-innen
+*******************************************
+<% @issue_email.issue.feedbacks.each do |feedback| -%>
+- <%= feedback.author %> <%= l(feedback.created_at, format: :no_seconds) %> -
+<%= feedback.message %>
+
+<% end -%>
+
+<% end -%>
+<% if @issue_email.send_abuse_reports? -%>
+Missbrauchsmeldungen
+********************
+<% @issue_email.issue.abuse_reports.each do |abuse_report| -%>
+- <%= abuse_report.to_s %> -
+<%= abuse_report.message %>
+
+<% end -%>
+
+<% end -%>
+Vielen Dank und mit freundlichen Grüßen
+
+Ihr <%= Settings::Instance.name %>-Team

@@ -55,6 +55,7 @@ KS.initDatepicker = ->
   $('.datepicker').datepicker(
     format: 'dd.mm.yyyy'
     language: 'de'
+    todayHighlight: true
     autoclose: true
   ).on 'hide', (e) ->
     # Workaround for: https://github.com/uxsolutions/bootstrap-datepicker/issues/50

@@ -1,0 +1,5 @@
+
+$('#new_comment').html('<%= j render partial: 'new' %>')
+
+$('#new_comment').after('<div class="card mt-2 comment" id="<%= dom_id(@comment) %>">')
+$('#<%= dom_id(@comment) %>').html('<%= j render partial: 'show', locals: { comment: @comment } %>')

@@ -12,18 +12,22 @@
   <%= render partial: 'tab_master_data', locals: { form: form } %>
   <%= render partial: 'tab_map', locals: { form: form } %>
   <%= render partial: 'tab_photo', locals: { form: form } %>
-<% elsif issue.reviewed_at.blank? -%>
-  <%= render partial: 'review', locals: { form: form } %>
 <% else -%>
   <div class="card-header">
+    <%= render partial: 'head', locals: { issue: issue } %>
     <ul class="nav nav-tabs card-header-tabs mt-2">
-      <% %i[master_data responsibility comment abuse_report map photo log_entry].each do |tab| -%>
-        <%= nav_item(tab, issue, @tab) %>
+      <% if issue.reviewed_at? -%>
+        <% %i[master_data responsibility job comment abuse_report map photo log_entry].each do |tab| -%>
+          <%= nav_item(tab, issue, @tab) %>
+        <% end -%>
       <% end -%>
     </ul>
   </div>
   <div class="card-body">
-    <%= render partial: "tab_#{@tab}", locals: { form: form } %>
+    <% unless issue.reviewed_at? -%>
+      <%= render partial: 'review', locals: { form: form } %>
+    <% else -%>
+      <%= render partial: "tab_#{@tab}", locals: { form: form } %>
+    <% end -%>
   </div>
 <% end -%>
-
