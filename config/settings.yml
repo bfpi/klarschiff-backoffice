@@ -31,18 +31,6 @@ development:
     user_identifier: dn
     user_last_name: sn
     username:
-  lldap:
-    host: blackserver
-    port: 389
-    base: dc=bfpi,dc=local
-    user_identifier: uid
-    group_userlist: memberuid
-    encryption:
-    username: cn=klarschiff_backoffice,dc=bfpi,dc=local
-    password: xaes9ahS
-    search_group: cn=public
-    search_group_members: memberuid
-    search_user_attributes: cn,uid
 
 test:
 

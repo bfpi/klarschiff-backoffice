@@ -104,6 +104,8 @@ de:
       models:
         issue:
           attributes:
+            author:
+              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
         user:

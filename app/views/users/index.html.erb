@@ -10,6 +10,7 @@
       <th scope="col"><%= User.human_attribute_name(:first_name) %></th>
       <th scope="col"><%= User.human_attribute_name(:last_name) %></th>
       <th scope="col"><%= User.human_attribute_name(:role) %></th>
+      <th scope="col"><%= User.human_attribute_name(:ldap) %></th>
       <th scope="col"><%= t('actions') %></th>
     </tr>
   </thead>
@@ -21,6 +22,11 @@
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
         <td><%= User.human_enum_name(:role, user.role) %></td>
+        <td>
+          <% if user.ldap.present? -%>
+            <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+          <% end -%>
+        </td>
         <td>
           <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_user_path(user), remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>
