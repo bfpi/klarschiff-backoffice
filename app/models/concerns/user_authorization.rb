@@ -25,7 +25,7 @@ module UserAuthorization
   end
 
   STATIC_PERMISSIONS = {
-    all_log_entries: %i[admin regional_admin],
+    list_log_entries: %i[admin regional_admin],
     change_user: %i[admin],
     manage_editorial_notifications: %i[admin regional_admin],
     manage_feedbacks: %i[admin regional_admin],

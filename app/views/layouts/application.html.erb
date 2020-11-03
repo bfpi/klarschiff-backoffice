@@ -31,7 +31,7 @@
                       <%= link_to(Group.model_name.human(count: 2), groups_url, class: 'dropdown-item') if authorized?(:manage_groups) %>
                       <%= link_to(Group.human_enum_name(:kind, :field_service_team), field_services_url, class: 'dropdown-item') if authorized?(:manage_field_service)%>
                       <%= link_to(Feedback.model_name.human(count: 2), feedbacks_url, class: 'dropdown-item') if authorized?(:manage_feedbacks) %>
-                      <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:all_log_entries) %>
+                      <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:list_log_entries) %>
                       <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications)%>
                       <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist)%>
                     </div>    
