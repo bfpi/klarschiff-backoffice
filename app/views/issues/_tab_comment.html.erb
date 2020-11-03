@@ -1,0 +1,9 @@
+<div class="card mt-2 comment" id="new_comment">
+  <%= render partial: 'comments/new' %>
+</div>
+
+<% @issue.comments.each do |comment| -%>
+  <div class="card mt-2 comment" id="<%= dom_id(comment) %>">
+    <%= render partial: 'comments/show', locals: { comment: comment } %>
+  </div>
+<% end -%>

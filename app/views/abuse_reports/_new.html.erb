@@ -1,0 +1,12 @@
+<div class="card-header">
+  <div class="pull-right">
+    <%= link_to tag.i('', class: 'fa fa-floppy-o'), abuse_reports_path,
+          class: 'btn btn-sm btn-outline-primary btn-create' %>
+  </div>
+</div>
+<div class="card-body">
+  <%= text_area_tag 'abuse_report[message]', '', rows: 3 %>
+  <%= hidden_field_tag 'abuse_report[issue_id]', @issue.id %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+</div>
+

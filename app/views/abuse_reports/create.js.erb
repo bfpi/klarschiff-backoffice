@@ -1,0 +1,5 @@
+
+$('#new_abuse_report').html('<%= j render partial: 'new' %>')
+
+$('#new_abuse_report').after('<div class="card mt-2 abuse_report border-warning" id="<%= dom_id(@abuse_report) %>">')
+$('#<%= dom_id(@abuse_report) %>').html('<%= j render partial: 'show', locals: { abuse_report: @abuse_report } %>')

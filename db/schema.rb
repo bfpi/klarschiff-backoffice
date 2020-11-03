@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_100921) do
+ActiveRecord::Schema.define(version: 2021_04_28_064605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_100921) do
     t.text "author"
     t.text "confirmation_hash"
     t.datetime "confirmed_at"
-    t.datetime "edited_at"
+    t.datetime "resolved_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["issue_id"], name: "index_abuse_report_on_issue_id"
@@ -192,13 +192,14 @@ ActiveRecord::Schema.define(version: 2021_04_23_100921) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "delegation_id"
     t.bigint "group_id"
+    t.bigint "job_id"
     t.index ["category_id"], name: "index_issue_on_category_id"
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
     t.index ["group_id"], name: "index_issue_on_group_id"
+    t.index ["job_id"], name: "index_issue_on_job_id"
   end
 
   create_table "job", force: :cascade do |t|
-    t.bigint "issue_id", null: false
     t.bigint "group_id", null: false
     t.integer "status"
     t.integer "order"
@@ -206,7 +207,6 @@ ActiveRecord::Schema.define(version: 2021_04_23_100921) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_job_on_group_id"
-    t.index ["issue_id"], name: "index_job_on_issue_id"
   end
 
   create_table "log_entry", force: :cascade do |t|
@@ -313,7 +313,6 @@ ActiveRecord::Schema.define(version: 2021_04_23_100921) do
   add_foreign_key "issue", "\"group\"", column: "group_id"
   add_foreign_key "issue", "category"
   add_foreign_key "job", "\"group\"", column: "group_id"
-  add_foreign_key "job", "issue"
   add_foreign_key "photo", "issue"
   add_foreign_key "responsibility", "\"group\"", column: "group_id"
   add_foreign_key "responsibility", "category"

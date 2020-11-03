@@ -1,0 +1,14 @@
+<div class="card-header">
+  <%= comment_headline(comment) unless comment.new_record? %>
+  <div class="pull-right">
+    <%= link_to tag.i('', class: 'fa fa-floppy-o'), comment_path(comment),
+          class: 'btn btn-sm btn-outline-primary btn-update' %>
+    <%= link_to tag.i('', class: 'fa fa-times'), comment_path(comment), remote: true,
+                                                                        class: 'btn btn-sm btn-outline-primary' %>
+  </div>
+</div>
+<div class="card-body">
+  <%= text_area_tag('comment[message]', comment.message, rows: 3) %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+</div>
+

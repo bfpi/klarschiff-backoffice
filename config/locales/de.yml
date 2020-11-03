@@ -4,8 +4,9 @@ de:
   actions: Aktion
   action:
     abort: Abbrechen
-    save: Speichern
     save_and_close: Speichern & Schließen
+    save: Speichern
+    send: Absenden
     upload: Hochladen
   date:
     formats:
@@ -13,21 +14,34 @@ de:
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"
-      shift: "%d.%m.%Y %H:%M"
+      no_seconds: "%d.%m.%Y %H:%M"
       short: "%H:%M"
+  activemodel:
+    attributes:
+      issue_email:
+        from: Absender
+        from_email: Absenderadresse
+        send_map: Karte
+        send_photos: Foto
+        send_comments: interne Kommentare
+        send_feedbacks: Lob, Hinweise oder Kritik von Bürger/-innen
+        send_abuse_reports: Missbrauchsmeldungen
+        to_email: Empfängeradresse
+        text: Text
   activerecord:
     attributes:
       abuse_report:
-        edited_at: Bearbeitungszeitpunkt
+        resolved_at: Bearbeitungszeitpunkt
         message: Nachricht
       authority:
         county:  Landkreis
         regionail_key: Regionalschlüssel
       category:
         average_turnaround_time: durchschnittliche Bearbeitungszeit
-        category: Oberkategorie
         deleted: gelöscht
         dms: DMS
+        main_category: Hauptkategorie
+        sub_category: Unterkategorie
       community:
         authority: Amt
         regional_key: Regionalschlüssel
@@ -52,7 +66,9 @@ de:
         url: URL
       issue:
         address: Adresse
+        archived: Archiviert
         archived_at: Archivierungszeitpunkt
+        main_category: Hauptkategorie
         category: Kategorie
         confirmation_hash: Bestätigungs-Hash
         created_at: Erstellung
@@ -60,13 +76,19 @@ de:
         description: Beschreibung
         description_status: Beschreibungs-Status
         expected_closure: voraussichtlichen Abschluss
+        field_service_date: Datum
+        field_service_team: Team
         group: Zuständigkeit
         id: Nummer
         new_photo: Foto hinzufügen
+        parcel: Flurstück
+        photo: Foto
         photo_requested: Fotowunsch
         position: Position
         priority: Priorität
         property_owner: Flurstückseigentum/-eigentümer
+        property_owner_short: Flurstückseigentum
+        responsibility: Zuständigkeit
         reviewed_at: Erstsichtungszeitpunkt
         status_note: Statuskommentar
         trust_level: Vertrauensstufe
@@ -193,6 +215,7 @@ de:
       new_group: Neue Gruppe
   edit: bearbeiten
   edit_issue: Meldung bearbeiten
+
   enums:
     group:
       kind:
@@ -242,6 +265,9 @@ de:
         editor: Bearbeiter
         regional_admin: Regional-Administrator
 
+  comments:
+    show:
+      confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   create: anlegen
   edit: bearbeiten
   geocodr:
@@ -254,6 +280,13 @@ de:
     logout: Logout
     administration: Administration
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
+  issue_emails:
+    create:
+      success: Eine E-Mail mit den Daten des aktuellen Vorgangs wurde erfolgreich versendet.
+    new:
+      headline: Sie können hier die Daten des aktuellen Vorgangs als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
+      send_data:
+        headline: Welche Daten sollen mitgesendet werden?
   issues:
     index:
       new_issue: Neue Meldung
@@ -261,6 +294,7 @@ de:
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: Kommentare
+        job: Außendienst-Auftrag
         log_entry: Verlauf
         map: Karte
         master_data: Stammdaten
@@ -281,6 +315,10 @@ de:
       undo: zurück
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
+  send_email: als E-Mail versenden
+  statuses:
+    abuse_report:
+      open: " (offen)"
   users:
     index:
       new_user: Neuer Benutzer

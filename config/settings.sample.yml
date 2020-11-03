@@ -14,6 +14,9 @@ development: &default
   group:
     main_user_optional: true
   instance:
+    name: Klarschiff.HRO
+    city_long: Hanse- und Universitätsstadt Rostock
+    city_short: Rostock
     parent_instance_url: https://www.klarschiff-mv.de/
   job:
     lead_time: 2

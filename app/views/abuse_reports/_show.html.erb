@@ -1,0 +1,14 @@
+<div class="card-header">
+  <%= abuse_report.to_s %>
+  <div class="pull-right">
+    <% unless abuse_report.resolved_at? -%>
+      <%= link_to tag.i('', class: 'fa fa-check'),
+            abuse_report_path(abuse_report), method: :patch,
+                                             remote: true, class: 'btn btn-sm btn-outline-primary' %>
+    <% end -%>
+  </div>
+</div>
+<div class="card-body">
+  <%= abuse_report.message %>
+</div>
+

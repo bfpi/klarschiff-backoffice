@@ -14,7 +14,9 @@
     </div>
     <%= form.label :status_note, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
-      <%= form.text_area :status_note, class: 'form-control', rows: 5 %>
+      <%= form.text_area(:status_note, class: 'form-control', rows: 3) %>
+      <%= select_tag(:status_note_template, options_for_select(status_note_templates),
+            class: 'form-control', prompt: 'Vorlage wählen') %>
     </div>
   </div>
 <% end -%>
@@ -38,7 +40,10 @@
   </div>
   <%= form.label :author, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.text_field :author, class: 'form-control' %>
+    <%= form.text_field(:author,
+          class: 'form-control',
+          value: form.object.new_record? ? Current.user.email : form.object.author,
+          readonly: !form.object.new_record?) %>
   </div>
 </div>
 <div class="form-group row">
@@ -79,6 +84,16 @@
           <% end %>
         </div>
       <% end -%>
+    </div>
+  </div>
+<% end -%>
+<% if Issue::CLOSED_STATUSES.include?(form.object.status&.to_sym) -%>
+  <div class="form-group row">
+    <div class="col-md-10 offset-md-2">
+      <%= form.label(:archived, '', class: 'form-check-label') do %>
+        <%= form.check_box(:archived, class: 'form-check form-check-inline') %>
+        <%= Issue.human_attribute_name(:archived) %>
+      <% end %>
     </div>
   </div>
 <% end -%>

@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <%= stylesheet_link_tag stylesheet_url('pdf_print'), media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class="print-pdf">
+
+<div class="container">
+  <h1>
+    <%= image_tag image_url('klarschiff.png') %>
+    <%= t(:pagetitle) %>
+  </h1>
+  <h2>
+    Vorgangsdaten
+  </h2>
+  <div class="row">
+    <div class="col-2 label">
+      <%= MainCategory.human_attribute_name(:kind) %>
+    </div>
+    <div class="col-4">
+      <%= MainCategory.human_enum_name :kind, @issue.kind %>
+    </div>
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:id) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.id %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Category.human_attribute_name(:main_category) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.main_category %>
+    </div>
+    <div class="col-2 label">
+      <%= Category.human_attribute_name(:sub_category) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.sub_category %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:description) %>
+    </div>
+    <div class="col-9">
+      <%= @issue.description %>
+    </div>
+    <div class="col-1">
+      <%= tag.span class: "fa fa-#{status_symbol(@issue.description_status)} fa-2x" %>
+      <%= t "enums.issue.description_status.#{@issue.description_status}" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:created_at) %>
+    </div>
+    <div class="col-4">
+      <%= l @issue.created_at %>
+    </div>
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:author) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.author %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:status) %>
+    </div>
+    <div class="col-4">
+      <%= image_tag image_url(@issue.list_icon), class: "status-icon #{@issue.status}" %>
+      <%= t "enums.issue.status.#{@issue.status}" %>
+    </div>
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:status_note) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.status_note %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:group) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.group %>
+      <% if @issue.responsibility_accepted -%>
+        <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+      <% end -%>
+    </div>
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:delegation) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.delegation %>
+    </div>
+  </div>
+
+  <% if @map_image.present? -%>
+    <div class="row">
+      <div class="col-2 label">
+        <%= Issue.human_attribute_name(:position) %>
+      </div>
+      <div class="col-10">
+        <%= image_tag @map_image %>
+      </div>
+    </div>
+  <% end -%>
+
+  <div class="row">
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:address) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.address %>
+    </div>
+    <div class="col-2 label">
+      <%= Issue.human_attribute_name(:property_owner_short) %>
+    </div>
+    <div class="col-4">
+      <%= @issue.property_owner %>
+    </div>
+  </div>
+
+  <% if @issue.photos.present? -%>
+    <div class="row">
+      <div class="col-2 label">
+        <%= Issue.human_attribute_name(:photo) %>
+      </div>
+      <div class="col-10">
+        <% @issue.photos.each do |photo| -%>
+          <div class="photo">
+            <%= image_tag photo.file.variant(resize_to_limit: [270, 270]) %>
+            <div>
+              <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
+              <%= t "enums.photo.status.#{photo.status}" %>
+            </div>
+          </div>
+        <% end -%>
+      </div>
+    </div>
+  <% end %>
+
+  <% iif @issue.comments.present? -%>
+    <br>
+    <h2>
+      interne Kommentare
+    </h2>
+    <% @issue.comments.each do |comment| -%>
+      <div class="row">
+        <div class="col-12">
+          <figure>
+            <figcaption class="blockquote-footer">
+              <%= comment.to_s %>
+            </figcaption>
+            <blockquote class="blockquote">
+              <p><%= comment.message %></p>
+            </blockquote>
+          </figure>
+        </div>
+      </div>
+    <% end -%>
+  <% end -%>
+
+  <% if @issue.abuse_reports.present? -%>
+    <br>
+    <h2>
+      Missbrauchsmeldungen
+    </h2>
+    <% @issue.abuse_reports.each do |abuse_report| -%>
+      <div class="row">
+        <div class="col-12">
+          <figure>
+            <figcaption class="blockquote-footer">
+              <%= abuse_report.to_s %>
+            </figcaption>
+            <blockquote class="blockquote">
+              <p><%= abuse_report.message %></p>
+            </blockquote>
+          </figure>
+        </div>
+      </div>
+    <% end -%>
+  <% end -%>
+</div>
+
+</body>
+</html>

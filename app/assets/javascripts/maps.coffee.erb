@@ -1,4 +1,4 @@
-KS.Map = undefined;
+KS.Map = undefined
 KS.projection = undefined
 
 KS.findLayerById = (id, map = KS.Map) ->
@@ -64,6 +64,7 @@ KS.initializeMaps = ->
           matrixSet: '<%= layer[:matrix_set] %>'
           format: 'image/png'
           requestEncoding: 'REST'
+          crossOrigin: 'anonymous' # crossOrigin-Key ist für die Karte beim  Druck von Meldungen relevant
           projection: KS.projection
           tileGrid: new (ol.tilegrid.WMTS)(
             origin: ol.extent.getTopLeft(KS.projection.getExtent())
@@ -78,6 +79,7 @@ KS.initializeMaps = ->
         zoom: zoom
       )
     )
+    KS.setFeatureCoordinatesToInput(feature)
 
     interaction = new ol.interaction.Translate(
       features: new ol.Collection([feature])

@@ -16,4 +16,8 @@ class Category < ApplicationRecord
   def to_s
     [main_category, sub_category].join(' - ')
   end
+
+  def group
+    responsibilities&.first&.group
+  end
 end

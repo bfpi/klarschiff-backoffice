@@ -51,10 +51,35 @@ nav.navbar {
   }
 }
 
+tr.highlight {
+  background-color: $warning;
+}
+
 tr.dragged-row td {
   background-color: #bbb;
 }
 
 #accordion .card {
   margin-bottom: 1em;
+}
+
+#map.print-map {
+  height: 400px;
+  left: -10000px;
+  position: absolute;
+  top: -10000px;
+  width: 900px;
+}
+
+.modal-body.no-padding {
+  padding: 0;
+}
+
+.modal-body .abuse-report textarea,
+.modal-body .comment textarea {
+  width: 100%;
+}
+
+.card.border-warning .card-header {
+  background-color: $warning;
 }

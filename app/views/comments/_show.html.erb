@@ -1,0 +1,16 @@
+<div class="card-header">
+  <%= comment_headline(comment) %>
+  <div class="pull-right">
+    <%= link_to tag.i('', class: 'fa fa-pencil'),
+          edit_comment_path(comment), remote: true,
+                                      class: 'btn btn-sm btn-outline-primary' %>
+    <%= link_to tag.i('', class: 'fa fa-trash'),
+          comment_path(comment), remote: true, method: :delete,
+                                 class: 'btn btn-sm btn-outline-primary',
+                                 'data-confirm': t('.confirm_delete') %>
+  </div>
+</div>
+<div class="card-body">
+  <%= comment.message %>
+</div>
+

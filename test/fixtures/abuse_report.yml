@@ -6,7 +6,7 @@ one:
   author: MyText
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:42:01
-  edited_at: 2020-10-19 14:42:01
+  resolved_at: 2020-10-19 14:42:01
 
 two:
   issue: two
@@ -14,4 +14,4 @@ two:
   author: MyText
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:42:01
-  edited_at: 2020-10-19 14:42:01
+  resolved_at: 2020-10-19 14:42:01

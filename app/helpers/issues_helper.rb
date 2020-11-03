@@ -1,12 +1,20 @@
 # frozen_string_literal: true
 
 module IssuesHelper
+  def comment_headline(comment)
+    "#{comment}#{"; bearbeitet #{I18n.l(comment.updated_at)}" if comment.created_at.to_i != comment.updated_at.to_i}"
+  end
+
   def description_status_external_title
     "#{Issue.human_attribute_name :description_status}: #{Issue.human_enum_name :description_status, :external}"
   end
 
   def description_status_internal_title
     "#{Issue.human_attribute_name :description_status}: #{Issue.human_enum_name :description_status, :internal}"
+  end
+
+  def status_symbol(status)
+    status.to_sym == :external ? 'globe' : 'home'
   end
 
   def grouped_categories(kind_or_isse)
@@ -28,5 +36,9 @@ module IssuesHelper
       .group_by(&:main_category_name).map do |mc, categories|
       [mc, categories.sort_by(&:sub_category_name).map { |c| [c.sub_category_name, c.id] }]
     end
+  end
+
+  def status_note_templates
+    YAML.safe_load(File.new('config/status_note_template.yml')).with_indifferent_access
   end
 end
