@@ -28,8 +28,9 @@ class Issue < ApplicationRecord
   attr_accessor :responsibility_action
 
   validates :author, presence: true, on: :create
-  validates :kind, :position, :status, presence: true
+  validates :description, :kind, :position, :status, presence: true
   validates :confirmation_hash, uniqueness: true
+  validates :author, email: true, on: :create
 
   validate :author_blacklist
 
@@ -49,7 +50,9 @@ class Issue < ApplicationRecord
   private
 
   def author_blacklist
-    errors.add :author, :blacklist_pattern if MailBlacklist.where(pattern: [author, author[author.index('@') + 1..]]).any?
+    return if errors[:author].present?
+    return unless MailBlacklist.where(pattern: [author, author[author.index('@') + 1..]]).any?
+    errors.add :author, :blacklist_pattern
   end
 
   def icon_color
@@ -85,7 +88,7 @@ class Issue < ApplicationRecord
   def set_reviewed
     return if reviewed_at.present?
     self.reviewed_at = Time.current
-    self.status_in_process!
+    status_in_process!
   end
 
   def set_expected_closure

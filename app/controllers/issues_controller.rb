@@ -5,8 +5,6 @@ class IssuesController < ApplicationController
 
   before_action :set_tab
 
-  def overview; end
-
   def index
     @issues = filter(Issue.all).order(created_at: :desc).page(params[:page] || 1).per(params[:per_page] || 20)
   end
@@ -48,11 +46,12 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:description, :category_id, :address, :responsibility_id, :delegation_id,
-      :author, :status, :kind, :expected_closure, :position, :responsibility_action)
+    return {} if params[:issue].blank?
+    params.require(:issue).permit(:address, :author, :category_id, :delegation_id, :description, :description_status,
+      :expected_closure, :kind, :position, :priority, :responsibility_action, :responsibility_id, :status)
   end
 
   def set_tab
-    @tab = params[:tab]&.to_sym || :overview
+    @tab = params[:tab]&.to_sym || :master_data
   end
 end

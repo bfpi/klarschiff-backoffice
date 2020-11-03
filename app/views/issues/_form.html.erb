@@ -14,7 +14,7 @@
   <% else %>
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs mt-2">
-        <% %i[overview responsibility comment abuse_report map photo log_entry].each do |tab| %>
+        <% %i[master_data responsibility comment abuse_report map photo log_entry].each do |tab| %>
           <%= content_tag(:li, 
                 link_to(t(".tab.#{ tab }"), edit_issue_path(issue, tab: tab), remote: true, class: "nav-link #{ 'active' if tab == @tab }"),
               class: 'nav-item') %>
@@ -26,7 +26,7 @@
     </div>
   <% end %>
 <% else %>
-  <%= render partial: "tab_overview", locals: { form: form } %>
+  <%= render partial: "tab_master_data", locals: { form: form } %>
   <%= render partial: "tab_map", locals: { form: form } %>
 <% end %>
 

@@ -159,10 +159,10 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.datetime "archived_at"
     t.text "author"
     t.text "description"
-    t.integer "description_status"
+    t.integer "description_status", default: 0, null: false
     t.datetime "reviewed_at"
     t.text "confirmation_hash"
-    t.integer "priority"
+    t.integer "priority", default: 1, null: false
     t.integer "status"
     t.text "status_note"
     t.integer "kind"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.boolean "photo_requested", default: false, null: false
     t.integer "trust_level"
     t.date "expected_closure"
+    t.boolean "responsibility_accepted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "delegation_id"

@@ -8,10 +8,10 @@ class CreateIssue < ActiveRecord::Migration[6.0]
       t.timestamp :archived_at
       t.text :author
       t.text :description
-      t.integer :description_status
+      t.integer :description_status, null: false, default: Issue.description_statuses[:internal]
       t.timestamp :reviewed_at
       t.text :confirmation_hash
-      t.integer :priority
+      t.integer :priority, null: false, default: Issue.priorities[:middle]
       t.integer :status
       t.text :status_note
       t.integer :kind

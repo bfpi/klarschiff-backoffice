@@ -38,9 +38,21 @@
 </div>
 <div class="form-group row">
   <%= form.label(:description, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-10">
+  <div class="col-md-9">
     <%= form.text_area(:description, class: 'form-control', rows: 5) %>
   </div>
+  <% unless form.object.new_record? %>
+    <div class="col-md-1">
+      <%= form.label("description_status_internal", '', class: 'form-check-label') do %>
+        <%= form.radio_button :description_status, :internal %>
+        <span class="fa fa-home fa-2x"></span>
+      <% end -%>
+      <%= form.label("description_status_external", '', class: 'form-check-label') do %>
+        <%= form.radio_button :description_status, :external %>
+        <span class="fa fa-globe fa-2x"></span>
+      <% end -%>
+    </div>
+  <% end -%>
 </div>
 <div class="form-group row" style="<%= 'display: none' unless form.object.status_in_process? %>">
   <%= form.label(:expected_closure, class: 'col-md-2 col-form-label') %>

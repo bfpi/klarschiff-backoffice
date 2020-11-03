@@ -33,7 +33,7 @@
           <% end -%>
         </td>
         <td><%= issue.last_entry&.user %></td>
-        <td><%= issue.priority %></td>
+        <td><%= Issue.human_enum_name(:priority, issue.priority) %></td>
         <td>
           <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_issue_path(issue), remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>

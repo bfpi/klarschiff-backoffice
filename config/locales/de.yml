@@ -106,6 +106,7 @@ de:
           attributes:
             author:
               blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
         user:
@@ -251,7 +252,7 @@ de:
         comment: Kommentare
         log_entry: Verlauf
         map: Karte
-        overview: Stammdaten
+        master_data: Stammdaten
         photo: Foto
         responsibility: Zuständigkeit
   users:
