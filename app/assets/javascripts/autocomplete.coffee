@@ -40,9 +40,9 @@ KS.initializeSelectManyAutocomplete = ->
     event.preventDefault()
 
 KS.initializeUserLdapAutocomplete = ->
-  if $('#user-modal #user_ldap').length == 0
+  if $('#modal #user_ldap').length == 0
     return
-  input = $('#user-modal #user_ldap')
+  input = $('#modal #user_ldap')
   input.autocomplete
     source: input.data('autocomplete-url')
     minLength: 3

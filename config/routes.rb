@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resource :logins, only: %i[new create update destroy] do
+    get :change_user
+  end
   with_options except: %i[destroy] do
     resource :dashboards, only: %i[show]
     resource :data_dependencies, only: %i[update]
     resource :infos, only: %i[show]
-    resource :logins, only: %i[new create update destroy] do
-      get :change_user
-    end
 
     resources :editorial_notifications, only: %i[index]
     resources :feedbacks, only: %i[index]
