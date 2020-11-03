@@ -3,7 +3,7 @@
   <%= form.label(:responsibility, for: :issue_responsibility_id, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
     <label class="col-form-label">
-      aktuelle Zuständigkeit: <%= form.object.responsibility %>
+      <%= t('.current_responsibility') %> <%= form.object.responsibility %>
     </label>
   </div>
 </div>
@@ -12,7 +12,7 @@
     <div class="form-check form-check-inline">
       <%= form.label(:responsibility_action_accept, '', class: 'form-check-label') do %>
         <%= form.radio_button :responsibility_action, :accept %>
-        Zuständigkeit für den Vorgang akzeptieren
+        <%= t('.responsibility_action_accept') %>
       <% end -%>
     </div>
   </div>
@@ -22,7 +22,7 @@
     <div class="form-check form-check-inline">
       <%= form.label(:responsibility_action_manual, '', class: 'form-check-label') do %>
         <%= form.radio_button :responsibility_action, :manual %>
-        Zuständigkeit manuell setzen
+        <%= t('.responsibility_action_manual') %>
       <% end -%>
     </div>
   </div>
@@ -35,7 +35,7 @@
     <div class="form-check form-check-inline">
       <%= form.label(:responsibility_action_recalculation, '', class: 'form-check-label') do %>
         <%= form.radio_button :responsibility_action, :recalculation %>
-        Zuständigkeit automatisch neu zuweisen
+        <%= t('.responsibility_action_recalculation') %>
       <% end -%>
     </div>
   </div>

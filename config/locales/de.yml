@@ -255,6 +255,11 @@ de:
         master_data: Stammdaten
         photo: Foto
         responsibility: Zuständigkeit
+    responsibility_actions:
+      current_responsibility: "aktuelle Zuständigkeit:"
+      responsibility_action_accept: Zuständigkeit für den Vorgang akzeptieren
+      responsibility_action_manual: Zuständigkeit manuell setzen
+      responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
   users:
     index:
       new_user: Neuer Benutzer

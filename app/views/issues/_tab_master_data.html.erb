@@ -3,6 +3,7 @@
     <%= form.label(:status, class: 'col-md-2 col-form-label') %>
     <div class="col-md-10">
       <% Issue.statuses.each do |status, ix| -%>
+        <% next if ix.zero? %>
         <div class="form-check form-check-inline">
           <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
             <%= form.radio_button :status, status %>
@@ -43,13 +44,15 @@
   </div>
   <% unless form.object.new_record? %>
     <div class="col-md-1">
-      <%= form.label("description_status_internal", '', class: 'form-check-label') do %>
+      <%= form.label("description_status_internal", '', class: 'form-check-label',
+                     title: Issue.human_attribute_name(:description_status) + ': ' + Issue.human_enum_name(:description_status, :internal)) do %>
         <%= form.radio_button :description_status, :internal %>
-        <span class="fa fa-home fa-2x"></span>
+        <%= tag.span class: 'fa fa-home fa-2x' %>
       <% end -%>
-      <%= form.label("description_status_external", '', class: 'form-check-label') do %>
+      <%= form.label("description_status_external", '', class: 'form-check-label',
+                     title: Issue.human_attribute_name(:description_status) + ': ' + Issue.human_enum_name(:description_status, :external)) do %>
         <%= form.radio_button :description_status, :external %>
-        <span class="fa fa-globe fa-2x"></span>
+        <%= tag.span class: 'fa fa-globe fa-2x' %>
       <% end -%>
     </div>
   <% end -%>
