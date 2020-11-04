@@ -12,7 +12,7 @@ class Job < ApplicationRecord
 
   before_validation :set_order, on: :create
 
-  def self.group_by_group(job_date)
+  def self.group_by_user_group(job_date)
     Job.where(group: Current.user&.group, date: job_date).group_by { |j| j.group.name }
   end
 

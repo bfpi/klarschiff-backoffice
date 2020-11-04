@@ -27,9 +27,4 @@ $ ->
     $('.datepicker').datepicker
       format: 'dd.mm.yyyy'
       language: 'de'
-
-  $('#job_date').on 'change', ->
-    $.ajax
-      url: '/jobs'
-      data: { date: $(@).val() }
-      dataType: 'script'
+      autoclose: true

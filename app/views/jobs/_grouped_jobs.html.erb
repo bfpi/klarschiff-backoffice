@@ -30,8 +30,9 @@
                   <td><%= l(issue.created_at.to_date) %></td>
                   <td><%= issue.category.parents?.first?.name %></td>
                   <td><%= issue.category.name %></td>
-                  <td><%= issue.status %></td>
+                  <td><%= image_tag issue.icon %></td>
                   <td><%= job.status %></td>
+                  <td></td>
                 </tr>
               <% end -%>
             </tbody>
@@ -41,4 +42,5 @@
     <% end -%>
   </div>
 <% else -%>
+  <div class="row"><div class="col-md-12">Keine Aufträge am ausgewählten Tag gefunden.</div></div>
 <% end -%>
