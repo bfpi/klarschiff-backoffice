@@ -2,6 +2,7 @@
 #= require jquery
 #= require jquery-ui
 #= require bootstrap
+#= require bootstrap-datepicker
 #= require turbolinks
 #= require proj4js
 #= require ol
@@ -21,3 +22,14 @@ KS.initializeModalFunctions = ->
 $ ->
   $('.modal').on 'hide.bs.modal', ->
     location.reload()
+
+  $(document).ready ->
+    $('.datepicker').datepicker
+      format: 'dd.mm.yyyy'
+      language: 'de'
+
+  $('#job_date').on 'change', ->
+    $.ajax
+      url: '/jobs'
+      data: { date: $(@).val() }
+      dataType: 'script'
