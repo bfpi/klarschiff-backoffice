@@ -44,8 +44,12 @@ class Issue < ApplicationRecord
     "#{Issue.human_enum_name(:kind, kind)} ##{id}"
   end
 
-  def icon
+  def map_icon
     "icons/map/active/png/#{category&.kind || 'blank'}-#{icon_color}.png"
+  end
+
+  def list_icon
+    "icons/list/png/#{category&.kind || 'blank'}-#{icon_color}-22px.png"
   end
 
   private
@@ -58,9 +62,11 @@ class Issue < ApplicationRecord
 
   def icon_color
     case status
-    when :in_progress
+    when 'received', 'reviewed'
+      'red'
+    when 'in_process'
       'yellow'
-    when :pending
+    when 'pending'
       'gray'
     else
       'gray'

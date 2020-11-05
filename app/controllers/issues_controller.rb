@@ -31,7 +31,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    @issue = Issue.new issue_params.merge(status: Issue.statuses[:pending])
+    @issue = Issue.new issue_params.merge(status: Issue.statuses[:received])
     if @issue.save
       if params[:save_and_close].present?
         redirect_to action: :index

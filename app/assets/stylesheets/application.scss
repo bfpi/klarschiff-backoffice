@@ -37,3 +37,7 @@ nav.navbar {
   background-color: $gray-200;
   border-top: 1px solid $secondary;
 }
+
+.status_icon.received {
+  opacity: 0.7;
+}
