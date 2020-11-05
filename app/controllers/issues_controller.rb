@@ -11,7 +11,7 @@ class IssuesController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
-    @issue.responsibility_action = :accept # if @issue.reviewed_at.blank?
+    @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     return if @tab != :log_entry
     log_entries = @issue.all_log_entries.order(created_at: :desc)
     @log_entries = log_entries.page(params[:page] || 1).per(params[:per_page] || 20)

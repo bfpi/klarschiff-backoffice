@@ -3,7 +3,7 @@
     <%= form.label(:status, class: 'col-md-2 col-form-label') %>
     <div class="col-md-10">
       <% Issue.statuses.each do |status, ix| -%>
-        <% next if ix.zero? %>
+        <% next if ix < Issue.statuses[:reviewed] %>
         <div class="form-check form-check-inline">
           <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
             <%= form.radio_button :status, status %>

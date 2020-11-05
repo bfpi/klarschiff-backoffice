@@ -7,7 +7,8 @@ class Issue < ApplicationRecord
     enum description_status: { internal: 0, external: 1, deleted: 2 }
     enum kind: { idea: 0, problem: 1, hint: 2 }
     enum priority: { low: 0, middle: 1, high: 2 }
-    enum status: { pending: 0, open: 1, in_process: 2, duplicate: 3, deleted: 4, not_solvable: 5, closed: 6 }
+    enum status: { pending: 0, received: 1, reviewed: 2, in_process: 3, duplicate: 4, deleted: 5, not_solvable: 6,
+                   closed: 7 }
     enum trust_level: { external: 0, internal: 1, field_service_team: 2 }
   end
 
@@ -88,7 +89,7 @@ class Issue < ApplicationRecord
   def set_reviewed
     return if reviewed_at.present?
     self.reviewed_at = Time.current
-    status_in_process!
+    status_reviewed!
   end
 
   def set_expected_closure

@@ -212,7 +212,8 @@ de:
         high: Hoch
       status:
         pending: gemeldet
-        open: offen
+        received: offen
+        reviewed: gesichtet
         in_process: in Bearbeitung
         duplicate: duplikat
         deleted: gelöscht
@@ -260,6 +261,7 @@ de:
       responsibility_action_accept: Zuständigkeit für den Vorgang akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
+      responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
   users:
     index:
       new_user: Neuer Benutzer
