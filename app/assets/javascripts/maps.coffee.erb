@@ -21,7 +21,9 @@ KS.initializeMaps = ->
         elem.data('lat')
       ], 'EPSG:4326', projection)
       zoom = (defaultZoom + 4)
-    featureSource = new (ol.source.Vector)(features: [ new (ol.Feature)(new (ol.geom.Point)(position)) ])
+
+    feature = new (ol.Feature)(new (ol.geom.Point)(position))
+    featureSource = new (ol.source.Vector)(features: [feature])
     featureVector = new (ol.layer.Vector)(
       source: featureSource
       style: new (ol.style.Style) (
@@ -38,10 +40,6 @@ KS.initializeMaps = ->
             64
           ]
         )
-        stroke: new (ol.style.Stroke)(
-          color: '#c800ff'
-          width: 1)
-        fill: new (ol.style.Fill)(color: '#c800ff')
       )
     )
     map = new (ol.Map)(
@@ -68,12 +66,15 @@ KS.initializeMaps = ->
         zoom: zoom
       )
     )
-    if $(elem.data('position-input')).size() > 0
-      modify = new (ol.interaction.Modify)(source: featureSource)
-      modify.on 'modifyend', (e) ->
-        coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
-        $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
-      map.addInteraction modify
+
+    interaction = new ol.interaction.Translate(
+      features: new ol.Collection([feature])
+      hitTolerance: 10
+    )
+    interaction.on 'translateend', (e) ->
+      coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
+      $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
+    map.addInteraction interaction
 
     window.setTimeout (->
       map.updateSize()
