@@ -13,6 +13,7 @@ AllCops:
     - 'bin/update'
     - 'config.ru'
     - 'db/schema.rb'
+    - 'vendor/**/**'
   NewCops: enable
 
 Layout/ArgumentAlignment:
@@ -65,6 +66,12 @@ Rails:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Rails/PluckId:
+  Enabled: true
+
+Rails/UniqBeforePluck:
+  EnforcedStyle: aggressive
 
 Style/Documentation:
   Enabled: false
