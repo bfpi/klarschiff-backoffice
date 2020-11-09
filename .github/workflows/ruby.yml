@@ -19,15 +19,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
-    - name: Install dependencies
-      run: bundle install
-    - name: Run RuboCop
-      continue-on-error: true
-      run: bundle exec rubocop
-    - name: Run tests
-      run: bundle exec rake
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install dependencies
+        run: bundle install
+      - name: Run RuboCop
+        continue-on-error: true
+        run: bundle exec rubocop
+      #- name: Run tests
+      #run: bundle exec rake
