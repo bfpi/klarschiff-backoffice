@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/bfpi/klarschiff-backoffice.svg?branch=master)](https://travis-ci.org/bfpi/klarschiff-backoffice)
+[![License](https://img.shields.io/github/license/bfpi/klarschiff-backoffice)](LICENSE)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
