@@ -1,0 +1,3 @@
+test:
+  adapter: postgis
+  database: travis_ci_test
