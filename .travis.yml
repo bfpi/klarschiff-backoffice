@@ -6,8 +6,10 @@ addons:
 
 before_install:
   - sudo cp /etc/postgresql/{9.6,12}/main/pg_hba.conf
-  - sudo service postgresql restart 12
   - cat /etc/postgresql/{9.6,12}/main/pg_hba.conf
+  - systemctl status postgresql.service
+  - journalctl -xe
+  - sudo service postgresql restart 12 main
 
 before_script:
   - psql -U postgres -c "create extension postgis"
