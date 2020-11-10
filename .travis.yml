@@ -7,9 +7,9 @@ addons:
 before_install:
   - sudo cp /etc/postgresql/{9.6,12}/main/pg_hba.conf
   - sudo cat /etc/postgresql/{9.6,12}/main/pg_hba.conf
-  - sudo systemctl status postgresql.service
-  - sudo journalctl -xe -l
   - sudo pg_lsclusters
+  #- sudo systemctl status postgresql.service
+  #- sudo journalctl -xe
   - sudo pg_ctlcluster 12 main restart
 
 before_script:
