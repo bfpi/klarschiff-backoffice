@@ -4,14 +4,6 @@ addons:
       - postgresql-12-postgis-3
   postgresql: 12
 
-#before_install:
- # - sudo cp /etc/postgresql/{9.6,12}/main/pg_hba.conf
-  #- sudo cat /etc/postgresql/{9.6,12}/main/pg_hba.conf
-  #- sudo pg_lsclusters
-  #- sudo systemctl status postgresql.service
-  #- sudo journalctl -xe
-  #- sudo pg_ctlcluster 12 main restart
-
 before_script:
   - sudo -u postgres psql -c 'create extension postgis'
   - sudo -u postgres psql -c 'create database travis_ci_test'
@@ -27,7 +19,4 @@ env:
 language: ruby
 
 script:
-  - bundle exec rubocop
-
-#services:
- # - postgresql
+  - bundle exec rake
