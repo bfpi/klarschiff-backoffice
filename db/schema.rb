@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_080700) do
+ActiveRecord::Schema.define(version: 2020_11_09_095908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,27 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["issue_id"], name: "index_abuse_report_on_issue_id"
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "authority", force: :cascade do |t|
@@ -226,7 +247,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   end
 
   create_table "photo", force: :cascade do |t|
-    t.text "autor"
+    t.text "author"
     t.bigint "issue_id", null: false
     t.integer "status"
     t.text "confirmation_hash"
@@ -268,6 +289,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_080700) do
   end
 
   add_foreign_key "abuse_report", "issue"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "authority", "county"
   add_foreign_key "comment", "issue"
   add_foreign_key "community", "authority"

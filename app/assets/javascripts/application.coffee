@@ -11,10 +11,11 @@
 window.KS ||= {}
 
 KS.initializeModalFunctions = ->
-  KS.initializeSelectManyAutocomplete()
-  KS.initializeUserLdapAutocomplete()
   KS.initializeFormActions()
   KS.initializeMaps()
+  KS.initializePhotoActions()
+  KS.initializeSelectManyAutocomplete()
+  KS.initializeUserLdapAutocomplete()
 
 $ ->
   $('.modal').on 'hide.bs.modal', ->

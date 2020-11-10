@@ -22,11 +22,12 @@ class Issue < ApplicationRecord
     has_many :all_log_entries, class_name: 'LogEntry'
     has_many :comment
     has_many :feedback
-    has_many :photo
+    has_many :photo, -> { order(:created_at) }
     has_many :supporter
   end
+  accepts_nested_attributes_for :photo, allow_destroy: true
 
-  attr_accessor :responsibility_action
+  attr_accessor :responsibility_action, :new_photo
 
   validates :author, presence: true, on: :create
   validates :description, :kind, :position, :status, presence: true
@@ -35,6 +36,7 @@ class Issue < ApplicationRecord
 
   validate :author_blacklist
 
+  before_validation :add_photo, on: :update
   before_validation :set_confirmation_hash, on: :create
   before_validation :set_responsibility
   before_validation :set_reviewed, on: :update
@@ -73,6 +75,11 @@ class Issue < ApplicationRecord
     end
   rescue StandardError
     'gray'
+  end
+
+  def add_photo
+    return if new_photo.blank?
+    photo << Photo.new(file: new_photo, author: Current.user.to_s, status: Photo.statuses[:internal])
   end
 
   def set_confirmation_hash

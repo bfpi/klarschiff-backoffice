@@ -6,6 +6,7 @@ de:
     abort: Abbrechen
     save: Speichern
     save_and_close: Speichern & Schließen
+    upload: Hochladen
   date:
     formats:
       short: "%d.%m.%y"
@@ -58,6 +59,7 @@ de:
         description_status: Beschreibungs-Status
         expected_closure: voraussichtlichen Abschluss
         group: Gruppe
+        new_photo: Foto hinzufügen
         photo_requested: Fotowunsch
         position: Position
         priority: Priorität
@@ -174,6 +176,7 @@ de:
     confirmed_at: Bestätigungszeitpunkt
     created_at: Zeitstempel
     deleted: gelöscht
+    file: Datei
     issue: Meldung
     kind: Typ
     message: Nachricht
@@ -262,6 +265,13 @@ de:
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
+    tab_photo:
+      edit: Foto bearbeiten
+      redo: vor
+      rotate: "Foto um 90° im Uhrzeigersinn rotieren"
+      save: Änderungen am Foto speichern
+      stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
+      undo: zurück
   users:
     index:
       new_user: Neuer Benutzer

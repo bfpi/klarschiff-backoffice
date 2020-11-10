@@ -1,14 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  autor: MyText
+  author: MyText
   issue: one
   status: 1
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:44:02
 
 two:
-  autor: MyText
+  author: MyText
   issue: two
   status: 1
   confirmation_hash: MyText
