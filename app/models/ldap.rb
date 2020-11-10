@@ -7,34 +7,28 @@ class Ldap
     end
 
     def login(username, password)
-      ldap = conn
-      ldap.auth username, password
-      return true if ldap.bind
-      false
+      conn(username, password).bind
     end
 
     def search(pattern)
-      ldap = conn
-      ldap.auth config.username, config.password if config.username.present? && config.password.present?
-      if ldap.bind &&
-         (result = ldap.search(base: config.search_user_base, filter: ldap_filter(pattern)))
-        result.as_json.select do |object|
-          object if search_group_members.include?(object['myhash'][config.user_identifier].first)
-        end
+      return unless conn.bind
+      return unless (result = conn.search(base: config.search_user_base, filter: ldap_filter(pattern)))
+      result.as_json.select do |object|
+        search_group_members.include?(object['myhash'][config.user_identifier].first)
       end
     end
 
     private
 
-    def conn
-      Net::LDAP.new host: config.host, port: config.port, encryption: config.encryption
+    def conn(username = config.username, password = config.password)
+      @conn ||= Net::LDAP.new(host: config.host, port: config.port, encryption: config.encryption)
+      @conn.auth username, password if username.present? && password.present?
+      @conn
     end
 
     def search_group_members
       return @group_members if @group_members.present?
-      ldap = conn
-      ldap.auth config.username, config.password if config.username.present? && config.password.present?
-      if ldap.bind && (object = ldap.search(base: config.search_group).first)
+      if conn.bind && (object = conn.search(base: config.search_group).first)
         @group_members = object.as_json['myhash'][config.group_userlist]
       end
       @group_members

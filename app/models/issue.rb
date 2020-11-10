@@ -18,14 +18,14 @@ class Issue < ApplicationRecord
   belongs_to :responsibility, class_name: 'Group'
 
   with_options dependent: :destroy do
-    has_many :abuse_report
+    has_many :abuse_reports
     has_many :all_log_entries, class_name: 'LogEntry'
-    has_many :comment
+    has_many :comments
     has_many :feedback
-    has_many :photo, -> { order(:created_at) }
-    has_many :supporter
+    has_many :photos, -> { order(:created_at) }, inverse_of: :issue
+    has_many :supporters
   end
-  accepts_nested_attributes_for :photo, allow_destroy: true
+  accepts_nested_attributes_for :photos, allow_destroy: true
 
   attr_accessor :responsibility_action, :new_photo
 
@@ -68,18 +68,14 @@ class Issue < ApplicationRecord
       'red'
     when 'in_process'
       'yellow'
-    when 'pending'
-      'gray'
     else
       'gray'
     end
-  rescue StandardError
-    'gray'
   end
 
   def add_photo
     return if new_photo.blank?
-    photo << Photo.new(file: new_photo, author: Current.user.to_s, status: Photo.statuses[:internal])
+    photos.new file: new_photo, author: Current.user.to_s, status: :internal
   end
 
   def set_confirmation_hash

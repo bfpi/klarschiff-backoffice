@@ -2,23 +2,21 @@
 
 class LoginsController < ApplicationController
   skip_before_action :authenticate, except: %w[change_user update]
+  before_action :check_credentials, only: :create
 
   def create
-    login_params = params.require(:login).permit(:login, :password)
-    return login_error('Login und Passwort müssen angegeben werden') if login_params.values.any?(&:blank?)
-    user = login_user(login_params)
-    if user&.ldap.present?
-      return login_error('Login oder Passwort sind nicht korrekt') unless Ldap.login(user.ldap, login_params[:password])
-    else
-      return login_error('Login oder Passwort sind nicht korrekt') unless user&.authenticate(login_params[:password])
+    user = login_user(@credentials[:login])
+    if user&.ldap.present? && Ldap.login(user.ldap, @credentials[:password]) ||
+       user&.authenticate(@credentials[:password])
+      return login_success(user)
     end
-    login_success user
+    login_error 'Login oder Passwort sind nicht korrekt'
   end
 
   def change_user; end
 
   def update
-    return respond_with_forbidden unless Current.user.authorized?(:change_user)
+    check_auth :change_user
     if params[:login] && params[:login][:user_id]
       session[:login] = User.find(params[:login][:user_id]).login
       return redirect_to root_path
@@ -49,9 +47,13 @@ class LoginsController < ApplicationController
     redirect_to root_url
   end
 
-  def login_user(login_params)
-    User.active.find_by(User.arel_table[:login].matches(login_params[:login]).or(
-                          User.arel_table[:email].matches(login_params[:login])
-                        ))
+  def login_user(login)
+    User.active.find_by(User.arel_table[:login].matches(login).or(User.arel_table[:email].matches(login)))
+  end
+
+  def check_credentials
+    @credentials = params.require(:login).permit(:login, :password)
+    return if @credentials.values.none?(&:blank?)
+    login_error 'Login und Passwort müssen angegeben werden'
   end
 end

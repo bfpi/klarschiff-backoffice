@@ -8,9 +8,11 @@ class Photo < ApplicationRecord
   enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
 
   belongs_to :issue
+
   has_one_attached :file
 
-  attr_accessor :censor_rectangles, :censor_width, :censor_height
+  attr_reader :censor_rectangles
+  attr_accessor :censor_width, :censor_height
 
   validates :confirmation_hash, presence: true, uniqueness: true
   validates :file, presence: true
@@ -31,11 +33,14 @@ class Photo < ApplicationRecord
     end
   end
 
+  def censor_rectangles=(string)
+    @censor_rectangles = string.split(';').map { |str| CensorRectangle.new str }
+  end
+
   private
 
   def current_image
-    new_image = MiniMagick::Image.read(file.download)
-    new_image.auto_orient
+    MiniMagick::Image.read(file.download).auto_orient
   end
 
   def save_modified_image(new_image)
@@ -43,36 +48,25 @@ class Photo < ApplicationRecord
     new_content_type = file.content_type
     file.purge
     file.attach(io: File.open(new_image.path), filename: new_filename, content_type: new_content_type)
+    reset_censor_settings
   end
 
   def censor_image
     new_image = current_image
 
-    width = new_image.data['geometry']['width']
-    height = new_image.data['geometry']['height']
-    censor_rectangles.split(';').each do |rectangle|
+    width, height = new_image.data['geometry'].fetch_values('width', 'height').map(&:to_f)
+    censor_rectangles.each do |censor_rectangle|
       new_image.mogrify do |m|
-        m << '-draw' << calculate_rectangle(rectangle, width, height)
+        m << '-draw' << censor_rectangle.calculate(width, height, censor_width, censor_height)
       end
     end
-
-    reset_censor_settings
-    save_modified_image(new_image)
-  end
-
-  def calculate_rectangle(rectangle, width, height)
-    x0, y0, x1, y1 = rectangle.split(',').map(&:to_f)
-    (x0 = (x0 * width) / censor_width.to_f)
-    (y0 = (y0 * height) / censor_height.to_f)
-    (x1 = x0 + (x1 * width) / censor_width.to_f)
-    (y1 = y0 + (y1 * height) / censor_height.to_f)
-    "rectangle #{x0},#{y0} #{x1},#{y1}"
+    save_modified_image new_image
   end
 
   def reset_censor_settings
-    self.censor_rectangles = nil
-    self.censor_width = nil
-    self.censor_height = nil
+    @censor_rectangles = nil
+    @censor_width = nil
+    @censor_height = nil
   end
 
   def rotate_image

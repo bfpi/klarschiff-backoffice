@@ -15,9 +15,14 @@ module Authorization
     user&.authorized?(action, object)
   end
 
-  def authenticate
+  def init_current_login
     Current.login = session[:user_login]
-    return redirect_to(new_logins_path) unless Current.login
+    redirect_to new_logins_path unless Current.login
+    Current.login
+  end
+
+  def authenticate
+    init_current_login or return
     login = session[:login].presence || Current.login
     if (Current.user = User.active.find_by(User.arel_table[:login].matches(login)))
       logger_current_user login

@@ -27,7 +27,7 @@
           <%= image_tag issue.list_icon, class: "status_icon #{ issue.status }" %> <%= Issue.human_enum_name(:status, issue.status) %>
         </td>
         <td><%= issue.address %></td>
-        <td><%= issue.supporter.count %></td>
+        <td><%= issue.supporters.count %></td>
         <td>
           <%= issue.responsibility %>
           <% if issue.responsibility_accepted -%>

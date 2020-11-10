@@ -2,6 +2,7 @@
 
 class Supporter < ApplicationRecord
   include Logging
+
   belongs_to :issue
 
   validates :confirmation_hash, presence: true, uniqueness: true
