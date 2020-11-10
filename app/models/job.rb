@@ -16,6 +16,11 @@ class Job < ApplicationRecord
     Job.where(group: Current.user&.group, date: job_date).group_by { |j| j.group.name }
   end
 
+  def status_color
+    return if status == 'not_checkable'
+    " text-#{ status == 'checked' ? 'success' : 'danger' }"
+  end
+
   private
 
   def set_order

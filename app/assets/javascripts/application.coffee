@@ -23,8 +23,14 @@ $ ->
   $('.modal').on 'hide.bs.modal', ->
     location.reload()
 
-  $(document).ready ->
+  initDatepicker = ->
     $('.datepicker').datepicker
       format: 'dd.mm.yyyy'
       language: 'de'
       autoclose: true
+
+  $(document).ready initDatepicker
+  $(document).on 'turbolinks:load', initDatepicker
+
+  $(document).on 'click', '.change-status', ->
+    console.log($(@))

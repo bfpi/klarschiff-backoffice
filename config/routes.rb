@@ -14,12 +14,16 @@ Rails.application.routes.draw do
     resources :field_services
     resources :groups
     resources :issues
-    resources :jobs, only: %i[index]
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
     resources :places, only: %i[index]
     resources :user_ldaps, only: %i[index]
     resources :users
+  end
+  resources :jobs, only: %i[index update] do
+    collection do
+      patch :update_statuses
+    end
   end
 
   root 'dashboards#show'
