@@ -38,3 +38,6 @@ lib/assets/stylesheets
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+config/database.yml
+config/settings.yml

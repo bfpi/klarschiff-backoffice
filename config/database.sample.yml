@@ -18,7 +18,7 @@ default: &default
   adapter: postgis
   encoding: unicode
   host: localhost
-  password: neon1Ua4
+  password: <password>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   port: 5432
   username: klarschiff_backoffice
