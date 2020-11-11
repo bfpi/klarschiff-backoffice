@@ -1,16 +1,20 @@
 <% unless form.object.new_record? %>
   <div class="form-group row">
     <%= form.label(:status, class: 'col-md-2 col-form-label') %>
-    <div class="col-md-10">
+    <div class="col-md-4">
       <% Issue.statuses.each do |status, ix| -%>
         <% next if ix < Issue.statuses[:reviewed] %>
-        <div class="form-check form-check-inline">
+        <div>
           <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
             <%= form.radio_button :status, status %>
             <%= Issue.human_enum_name(:status, status) %>
           <% end -%>
         </div>
       <% end -%>
+    </div>
+    <%= form.label(:status_note, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-4">
+      <%= form.text_area(:status_note, class: 'form-control', rows: 5) %>
     </div>
   </div>
 <% end %>
@@ -60,7 +64,8 @@
 <div class="form-group row" style="<%= 'display: none' unless form.object.status_in_process? %>">
   <%= form.label(:expected_closure, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
-    <%= form.text_field(:expected_closure, class: 'form-control') %>
+    <%= form.text_field(:expected_closure, class: 'form-control datepicker',
+        value: form.object.expected_closure ? l(form.object.expected_closure) : nil) %>
   </div>
 </div>
 <% unless form.object.new_record? %>

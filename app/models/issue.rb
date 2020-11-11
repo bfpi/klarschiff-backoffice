@@ -7,8 +7,8 @@ class Issue < ApplicationRecord
     enum description_status: { internal: 0, external: 1, deleted: 2 }
     enum kind: { idea: 0, problem: 1, hint: 2 }
     enum priority: { low: 0, middle: 1, high: 2 }
-    enum status: { pending: 0, received: 1, reviewed: 2, in_process: 3, duplicate: 4, deleted: 5, not_solvable: 6,
-                   closed: 7 }
+    enum status: { pending: 0, received: 1, reviewed: 2, in_process: 3, not_solvable: 4, duplicate: 5, closed: 6,
+                   deleted: 7 }
     enum trust_level: { external: 0, internal: 1, field_service_team: 2 }
   end
 
@@ -29,10 +29,11 @@ class Issue < ApplicationRecord
 
   attr_accessor :responsibility_action, :new_photo
 
-  validates :author, presence: true, on: :create
-  validates :description, :kind, :position, :status, presence: true
-  validates :confirmation_hash, uniqueness: true
   validates :author, email: true, on: :create
+  validates :author, presence: true, on: :create
+  validates :confirmation_hash, uniqueness: true
+  validates :description, :kind, :position, :status, presence: true
+  validates :status_note, presence: true, if: :expected_closure_changed?
 
   validate :author_blacklist
 

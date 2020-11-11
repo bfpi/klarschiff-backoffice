@@ -24,6 +24,7 @@ de:
         county:  Landkreis
         regionail_key: Regionalschlüssel
       category:
+        average_turnaround_time: durchschnittliche Bearbeitungszeit
         category: Oberkategorie
         deleted: gelöscht
         dms: DMS
