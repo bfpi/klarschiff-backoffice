@@ -32,5 +32,17 @@ $ ->
   $(document).ready initDatepicker
   $(document).on 'turbolinks:load', initDatepicker
 
+  $(document).on 'click', '.select-all', ->
+    $(@).parents('table').find('.selectable').prop('checked', @.checked)
+
   $(document).on 'click', '.change-status', ->
-    console.log($(@))
+    ids = $($(@).data('table')).find('.selectable').toArray().filter((e) -> e.checked).map((e) -> e.value)
+    console.log(ids)
+    return if ids.length == 0
+    params = $.param({ job_ids: ids, status: $(@).data('status') })
+    $.ajax
+      url: '/jobs/update_statuses'
+      data: params
+      dataType: 'script'
+      method: 'PUT'
+

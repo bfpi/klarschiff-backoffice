@@ -20,9 +20,9 @@ Rails.application.routes.draw do
     resources :user_ldaps, only: %i[index]
     resources :users
   end
-  resources :jobs, only: %i[index update] do
+  resources :jobs, only: %i[index update destroy] do
     collection do
-      patch :update_statuses
+      put :update_statuses
     end
   end
 

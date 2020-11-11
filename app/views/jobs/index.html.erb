@@ -1,4 +1,3 @@
-
 <%= form_tag '/jobs', method: :get do %>
   <div class="form-group row">
     <%= label_tag :job_date, 'Datum', class: 'label-control col-md-2' %>
@@ -10,6 +9,4 @@
     </div>
   </div>
 <% end -%>
-<div id="grouped-jobs">
-  <%= render partial: 'grouped_jobs' %>
-</div>
+<%= render partial: 'grouped_jobs' %>
