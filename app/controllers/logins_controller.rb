@@ -53,7 +53,7 @@ class LoginsController < ApplicationController
 
   def check_credentials
     @credentials = params.require(:login).permit(:login, :password)
-    return if @credentials.values.none?(&:blank?)
+    return if @credentials.values.all?(&:present?)
     login_error 'Login und Passwort müssen angegeben werden'
   end
 end
