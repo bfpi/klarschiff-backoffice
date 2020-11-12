@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+# vim: set ft=sh:
+yarn -s
+if [[ $# -gt 0 ]]; then
+  node_modules/.bin/eslint --ext .js $@
+else
+  node_modules/.bin/eslint --ext .js .
+fi

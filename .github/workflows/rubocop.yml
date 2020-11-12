@@ -1,17 +1,17 @@
 name: RuboCop
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
+    name: Run
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
       - name: Cache gems
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-rubocop-${{ hashFiles('**/Gemfile.lock') }}
@@ -23,4 +23,4 @@ jobs:
           bundle config set without 'default doc job cable storage ujs test db'
           bundle install --jobs 4 --retry 3
       - name: Run RuboCop
-        run: bundle exec rubocop --parallel
+        run: bin/rubocop

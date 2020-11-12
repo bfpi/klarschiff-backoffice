@@ -41,3 +41,5 @@ yarn-debug.log*
 
 config/database.yml
 config/settings.yml
+
+*.swp
