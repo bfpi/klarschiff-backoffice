@@ -11,6 +11,7 @@
 window.KS ||= {}
 
 KS.initializeModalFunctions = ->
+  KS.initializeIssueAddressAutocomplete()
   KS.initializeFormActions()
   KS.initializeMaps()
   KS.initializePhotoActions()

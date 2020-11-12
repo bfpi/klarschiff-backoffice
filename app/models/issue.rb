@@ -36,7 +36,7 @@ class Issue < ApplicationRecord
 
   validate :author_blacklist
 
-  before_validation :add_photo, on: :update
+  before_validation :add_photo
   before_validation :set_confirmation_hash, on: :create
   before_validation :update_address_parcel_property_owner, if: :position_changed?
   before_validation :set_responsibility

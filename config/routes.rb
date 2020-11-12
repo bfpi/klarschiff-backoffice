@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :jobs, only: %i[index]
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
+    resources :places, only: %i[index]
     resources :user_ldaps, only: %i[index]
     resources :users
   end
