@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
   resources :jobs, only: %i[index update destroy] do
     collection do
-      put :update_statuses
+      put :update_multiple
     end
   end
 

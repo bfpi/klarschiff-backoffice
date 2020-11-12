@@ -18,7 +18,7 @@ class Job < ApplicationRecord
 
   def status_color
     return if status == 'not_checkable'
-    " text-#{ status == 'checked' ? 'success' : 'danger' }"
+    " text-#{status == 'checked' ? 'success' : 'danger'}"
   end
 
   private

@@ -12,7 +12,7 @@ class Group < ApplicationRecord
                                                    association_foreign_key: :operator_id,
                                                    foreign_key: :field_service_team_id
   has_and_belongs_to_many :user
-  has_many :jobs
+  has_many :jobs, dependent: :destroy
 
   validates :name, :short_name, presence: true
 
