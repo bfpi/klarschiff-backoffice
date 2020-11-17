@@ -37,17 +37,17 @@ KS.initializePhotoActions = ->
     KS.resetPhotoVariables()
     return if (row = $(event.target).parents('tr')).length == 0
     row.addClass('active')
-    row.find('a.edit').hide();
-    row.find('a.stop-edit').show();
-    row.find('a.stop-edit ~ a').show(300);
+    row.find('a.edit').hide()
+    row.find('a.stop-edit').show()
+    row.find('a.stop-edit ~ a').show(300)
 
   $('table#photos tr a.stop-edit').click (event) ->
     event.preventDefault()
     return if (row = $(event.target).parents('tr')).length == 0
     row.removeClass('active')
-    row.find('a.edit').show();
-    row.find('a.stop-edit').hide();
-    row.find('a.stop-edit ~ a').hide(300);
+    row.find('a.edit').show()
+    row.find('a.stop-edit').hide()
+    row.find('a.stop-edit ~ a').hide(300)
 
     row.find('div.record').children().remove()
     KS.resetPhotoVariables()
