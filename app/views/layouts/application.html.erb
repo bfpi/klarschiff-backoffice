@@ -23,7 +23,6 @@
                 <li class="nav-item"><%= link_to(t('nav.dashboard'), root_url, class: 'nav-link') %></li>
                 <li class="nav-item"><%= link_to(Issue.model_name.human(count: 2), issues_url, class: 'nav-link') %></li>
                 <li class="nav-item"><%= link_to(Job.model_name.human(count: 2), jobs_url, class: 'nav-link') if authorized?(:jobs) %></li>
-                <li class="nav-item"><%= text_field_tag :search_issue, nil, class: 'form-control' %></li>
                 <% if authorized?(:administration) %>
                   <li class="nav-item dropdown">
                     <%= link_to(t('nav.administration'), '#', class: 'nav-link dropdown-toggle', 'data-toggle': 'dropdown') %>
@@ -70,6 +69,14 @@
       </div>
       <nav class="footer">
         <div class="container">
+          <div class="col-md-4">
+            <div class="row">
+              <%= label_tag :search_issue, t(:edit_issue), class: 'col-md-6 col-form-label' %>
+              <div class="col-md-6">
+                <%= text_field_tag :search_issue, nil, class: 'form-control', placeholder: 'Nummer', maxlength: 6 %>
+              </div>
+            </div>
+          </div>
           <%= yield :footer %>
         </div>
       </nav>

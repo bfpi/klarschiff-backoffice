@@ -59,9 +59,10 @@ $ ->
     return if ids.length == 0
     updateMultipleJobs $.param({ job_ids: ids, job: { date: $($(@).data('field')).val() } })
   
-  $(document).on 'keyup', '#search_issue', (e) ->
+  $(document).on 'keypress', '#search_issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)
       $.get
         url: "/issues/#{@.value}/edit"
         method: 'GET'
-        dataType: 'script'
+    else
+      e.preventDefault() unless e.key.match(/[0-9]/)

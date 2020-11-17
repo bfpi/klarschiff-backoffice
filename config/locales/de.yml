@@ -187,7 +187,12 @@ de:
     status: Status
     last_editor: letzter Bearbeiter
     supporter: Unterstützer
-
+  create: anlegen
+  groups:
+    index:
+      new_group: Neue Gruppe
+  edit: bearbeiten
+  edit_issue: Meldung bearbeiten
   enums:
     category:
       kind:
