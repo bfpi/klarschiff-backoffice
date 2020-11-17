@@ -64,5 +64,6 @@ $ ->
       $.get
         url: "/issues/#{@.value}/edit"
         method: 'GET'
+        dataType: 'script'
     else
       e.preventDefault() unless e.key.match(/[0-9]/)

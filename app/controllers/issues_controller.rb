@@ -15,9 +15,6 @@ class IssuesController < ApplicationController
     return if @tab != :log_entry
     log_entries = @issue.all_log_entries.order(created_at: :desc)
     @log_entries = log_entries.page(params[:page] || 1).per(params[:per_page] || 20)
-  rescue ActiveRecord::RecordNotFound => e
-    @error = e
-    render :exception
   end
 
   def new
