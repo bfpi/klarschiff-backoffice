@@ -37,6 +37,46 @@ module IssuesHelper
     tag.li link_to(t("issues.form.tab.#{tab}"), path, remote: true, class: css_class), class: 'nav-item'
   end
 
+  def responsibilities
+    [[t('issues.extended_filter.my_responsibility'), 0]] + Group.kind_internal.map { |gr| [gr.name, gr.id] }
+  end
+
+  def delegations
+    Group.kind_external.map { |gr| [gr.name, gr.id] }
+  end
+
+  def field_service_teams
+    Group.kind_field_service_team.map { |gr| [gr.name, gr.id] }
+  end
+
+  def kinds
+    [[t('issues.extended_filter.all_kinds'), nil]] + MainCategory.kinds.to_a
+      .map { |k| [t("enums.main_category.kind.#{k[0]}"), k[1]] }
+  end
+
+  def main_categories(kind = nil)
+    [[t('issues.extended_filter.all_main_categories'), nil]] +
+      MainCategory.where(kind: kind).map { |c| [c.name, c.id] }
+  end
+
+  def sub_categories(main_id = nil)
+    [[t('issues.extended_filter.all_sub_categories'), nil]] +
+      SubCategory.includes(categories: :main_category)
+        .where(main_category: { id: main_id }).map { |c| [c.name, c.id] }
+  end
+
+  def priorities
+    Issue.priorities.to_a.map { |k| [t("enums.issue.priority.#{k[0]}"), k[1]] }
+  end
+
+  def districts
+    [[t('issues.extended_filter.all_districts'), nil]] + District.all.map { |d| [d.name, d.id] }
+  end
+
+  def archived_options
+    [true, false].map { |val| [t(val), val] }
+  end
+
   private
 
   def grouped_categories_for_kind(kind)

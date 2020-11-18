@@ -16,10 +16,11 @@ class Issue
 
     def icon_color
       case status
-      when 'received', 'reviewed'
-        'red'
-      when 'in_process'
-        'yellow'
+      when 'received', 'reviewed' then 'red'
+      when 'in_process' then 'yellow'
+      when 'not_solvable', 'duplicate' then 'yellowgreen'
+      when 'closed' then 'green'
+      when 'deleted' then 'black'
       else
         'gray'
       end

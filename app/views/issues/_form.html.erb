@@ -1,12 +1,4 @@
-<% if issue.errors.any? -%>
-  <div class="alert alert-danger">
-    <ul class="list-unstyled mb-0">
-      <% issue.errors.full_messages.each do |msg| -%>
-        <li><%= msg %></li>
-      <% end -%>
-    </ul>
-  </div>
-<% end -%>
+<%= render partial: 'errors', locals: { object: issue } %>
 
 <% if issue.new_record? -%>
   <%= render partial: 'tab_master_data', locals: { form: form } %>
