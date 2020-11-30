@@ -24,7 +24,7 @@
         <td><%= l(issue.created_at) %></td>
         <td><%= issue.category %></td>
         <td>
-          <%= image_tag issue.list_icon, class: "status_icon #{ issue.status }" %> <%= Issue.human_enum_name(:status, issue.status) %>
+          <%= image_tag issue.list_icon, class: "status-icon #{ issue.status }" %> <%= Issue.human_enum_name(:status, issue.status) %>
         </td>
         <td><%= issue.address %></td>
         <td><%= issue.supporters.count %></td>
