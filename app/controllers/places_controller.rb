@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class PlacesController < ApplicationController
-  require 'open-uri'
+require 'open-uri'
 
+class PlacesController < ApplicationController
   def index
     return [] if (pattern = params[:pattern]).blank?
     uri = URI(Settings::Geocodr.url)
