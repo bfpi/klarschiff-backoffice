@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+require 'open-uri'
+
 class Geocodr
   class << self
-    require 'open-uri'
-
     def config
       @config ||= Settings::Geocodr
     end
@@ -13,7 +13,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.address_object_group
         return format_address(feature)
       end
-      'nicht zuordenbar'
+      I18n.t 'geocodr.no_match'
     end
 
     def parcel(issue)
@@ -21,7 +21,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.parcel_object_group
         return feature['flurstueckskennzeichen']
       end
-      'nicht zuordenbar'
+      I18n.t 'geocodr.no_match'
     end
 
     def property_owner(issue)
@@ -29,7 +29,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.property_owner_object_group
         return feature['eigentuemer']
       end
-      'nicht zuordenbar'
+      I18n.t 'geocodr.no_match'
     end
 
     private
