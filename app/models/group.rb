@@ -22,6 +22,10 @@ class Group < ApplicationRecord
     name
   end
 
+  def to_s_html
+    name.tr(' ', '_')
+  end
+
   def as_json(_options = {})
     { value: id, label: to_s }
   end
