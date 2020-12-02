@@ -3,11 +3,11 @@
 one:
   regional_key: MyText
   name: MyText
-  area: 
+  area:
   county: one
 
 two:
   regional_key: MyText
   name: MyText
-  area: 
+  area:
   county: two

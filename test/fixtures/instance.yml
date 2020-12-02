@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  parcel_key: MyText
-  owner: MyText
-  area: 
+  name: MyText
+  instance_url: MyText
+  area:
 
 two:
-  parcel_key: MyText
-  owner: MyText
-  area: 
+  name: MyText
+  instance_url: MyText
+  area:

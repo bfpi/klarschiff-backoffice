@@ -3,7 +3,7 @@
 one:
   table: MyText
   attr: MyText
-  subject_id: 
+  subject_id:
   subject_name: MyText
   action: MyText
   user: MyText
@@ -13,7 +13,7 @@ one:
 two:
   table: MyText
   attr: MyText
-  subject_id: 
+  subject_id:
   subject_name: MyText
   action: MyText
   user: MyText

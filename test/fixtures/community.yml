@@ -3,11 +3,11 @@
 one:
   regional_key: MyText
   name: MyText
-  area: 
-  instance: one
+  area:
+  authority: one
 
 two:
   regional_key: MyText
   name: MyText
-  area: 
-  instance: two
+  area:
+  authority: two

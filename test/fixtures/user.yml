@@ -3,21 +3,19 @@
 one:
   first_name: MyText
   last_name: MyText
-  email: MyText
+  email: one@example.com
   login: MyText
   password_digest: MyText
   ldap: MyText
-  status: 1
   group_feedback_recipient: false
-  role: 
+  role: 0
 
 two:
   first_name: MyText
   last_name: MyText
-  email: MyText
+  email: two@example.com
   login: MyText
   password_digest: MyText
   ldap: MyText
-  status: 1
   group_feedback_recipient: false
-  role: 
+  role: 1

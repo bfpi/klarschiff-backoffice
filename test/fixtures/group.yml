@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  email: test@example.com
+  kind: 1
+  main_user: one
   name: MyText
   short_name: MyText
-  kind: 1
-  email: MyText
-  instance: one
 
 two:
+  email: test@example.com
+  kind: 1
+  main_user: two
   name: MyText
   short_name: MyText
-  kind: 1
-  email: MyText
-  instance: two
