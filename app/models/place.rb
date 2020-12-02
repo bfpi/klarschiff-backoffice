@@ -17,7 +17,7 @@ class Place
   private
 
   def format_label(properties)
-    if properties['objektgruppe'] == 'Gemeindeteil' || properties['abkuerzung'].blank?
+    if properties['objektgruppe'] == Settings::Geocodr.places_object_group || properties['abkuerzung'].blank?
       properties['_title_'].split(', ')[-1]
     else
       "#{properties['_title_'].split(', ')[-1]} (#{properties['abkuerzung']})"
@@ -36,7 +36,7 @@ class Place
   def format_bbox_prectangl(geometry)
     [
       geometry['coordinates'][0][0][0], geometry['coordinates'][0][0][1],
-      geometry['coordinates'][0][2][0], geometry['coordinates'][0][2][1]
+      geometry['coordinates'][0][1][0], geometry['coordinates'][0][1][1]
     ]
   end
 end
