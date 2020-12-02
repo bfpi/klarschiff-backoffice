@@ -48,9 +48,9 @@ class IssuesController < ApplicationController
   def issue_params
     return {} if params[:issue].blank?
     params.require(:issue).permit(:address, :author, :category_id, :delegation_id, :description, :description_status,
-      :expected_closure, :kind, :new_photo, :photo_requested, :position, :priority, :responsibility_action,
-      :responsibility_id, :status, photos_attributes: %i[id status censor_rectangles censor_width censor_height
-                                                         _modification _destroy])
+      :expected_closure, :kind, :new_photo, :parcel, :photo_requested, :position, :priority, :property_owner,
+      :responsibility_action, :responsibility_id, :status,
+      photos_attributes: %i[id status censor_rectangles censor_width censor_height _modification _destroy])
   end
 
   def set_tab

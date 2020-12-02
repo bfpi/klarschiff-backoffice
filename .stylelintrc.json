@@ -7,12 +7,14 @@
     "stylelint-scss"
   ],
   "rules": {
-    "selector-no-qualifying-type": null,
     "at-rule-no-unknown": [
       true,
       {
         "ignoreAtRules": ["extend"]
       }
-    ]
+    ],
+    "scss/at-extend-no-missing-placeholder": null,
+    "selector-max-id": 1,
+    "selector-no-qualifying-type": null
   }
 }

@@ -13,6 +13,20 @@
 <div class="form-group row">
   <%= form.label(:address, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
-    <%= form.text_field(:address, class: 'form-control') %>
+    <%= form.autocomplete_field(:address, class: 'form-control', 'data-autocomplete-url': places_path) %>
   </div>
+  <% unless form.object.new_record? %>
+    <%= form.label(:parcel, class: 'col-md-2 col-form-label') %>
+    <div class="col-md-4">
+      <%= form.text_field(:parcel, class: 'form-control') %>
+    </div>
+  <% end -%>
 </div>
+<% unless form.object.new_record? %>
+  <div class="form-group row">
+    <%= form.label(:property_owner, class: 'col-md-3 col-form-label') %>
+    <div class="col-md-9">
+      <%= form.text_field(:property_owner, class: 'form-control') %>
+    </div>
+  </div>
+<% end -%>

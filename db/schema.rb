@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.text "status_note"
     t.integer "kind"
     t.bigint "category_id", null: false
+    t.text "parcel"
     t.text "property_owner"
     t.boolean "photo_requested", default: false, null: false
     t.integer "trust_level"

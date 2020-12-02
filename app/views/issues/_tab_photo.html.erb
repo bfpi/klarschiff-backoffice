@@ -1,61 +1,63 @@
 <table class="table" id="photos">
-  <thead>
-    <tr>
-      <th scope="col"><%= Photo.human_attribute_name(:file) %></th>
-      <th scope="col"><%= Photo.human_attribute_name(:author) %></th>
-      <th scope="col"><%= Photo.human_attribute_name(:status) %></th>
-      <th scope="col"><%= Photo.human_attribute_name(:created_at) %></th>
-      <th scope="col"><%= Photo.human_attribute_name(:action) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= form.fields_for :photos do |photo_form| %>
-      <tr id="photo_<%= photo_form.object.id %>">
-        <td>
-          <div class="actions">
-            <%= link_to content_tag(:i, '', class: "fa fa-refresh"), '', class: 'btn btn-sm btn-outline-primary rotate',
-                                    title: t('.rotate') %>
-            <%= link_to content_tag(:i, '', class: "fa fa-pencil"), '', class: 'btn btn-sm btn-outline-primary edit',
-                                    title: t('.edit') %>
-            <%= link_to content_tag(:i, '', class: "fa fa-close"), '', class: 'btn btn-sm btn-outline-primary stop-edit',
-                                    title: t('.stop_edit'), style: 'display: none' %>
-            <%= link_to content_tag(:i, '', class: "fa fa-undo"), '', class: 'btn btn-sm btn-outline-primary undo',
-                                    title: t('.undo'), style: 'display: none' %>
-            <%= link_to content_tag(:i, '', class: "fa fa-repeat"), '', class: 'btn btn-sm btn-outline-primary redo',
-                                    title: t('.redo'), style: 'display: none' %>
-            <%= link_to content_tag(:i, '', class: "fa fa-floppy-o"), '', class: 'btn btn-sm btn-outline-primary save',
-                                    title: t('.save'), style: 'display: none' %>
-          </div>
-          <div>
-            <div class="record"></div>
-            <%= image_tag photo_form.object.file.variant(resize_to_limit: [360, 360]) %>
-          </div>
-        </td>
-        <td><%= photo_form.object.author %></td>
-        <td>
-          <%= photo_form.label("description_status_internal", '', class: 'form-check-label',
-                         title: Photo.human_attribute_name(:status) + ': ' + Photo.human_enum_name(:status, :internal)) do %>
-            <%= photo_form.radio_button :status, :internal %>
-            <%= tag.span class: 'fa fa-home fa-2x' %>
-          <% end -%>
-          <%= photo_form.label("status_external", '', class: 'form-check-label',
-                         title: Photo.human_attribute_name(:status) + ': ' + Photo.human_enum_name(:status, :external)) do %>
-            <%= photo_form.radio_button :status, :external %>
-            <%= tag.span class: 'fa fa-globe fa-2x' %>
-          <% end -%>
-        </td>
-        <td><%= l(photo_form.object.created_at) %></td>
-        <td>
-          <%= photo_form.hidden_field :censor_rectangles, class: :censor_rectangles %>
-          <%= photo_form.hidden_field :censor_width, class: :censor_width %>
-          <%= photo_form.hidden_field :censor_height, class: :censor_height %>
-          <%= photo_form.hidden_field :_modification, class: :modification %>
-          <%= photo_form.hidden_field '_destroy', class: :delete %>
-          <%= link_to content_tag(:i, '', class: "fa fa-trash"), '', class: 'btn btn-sm btn-outline-primary delete' %>
-        </td>
+  <% unless form.object.new_record? %>
+    <thead>
+      <tr>
+        <th scope="col"><%= Photo.human_attribute_name(:file) %></th>
+        <th scope="col"><%= Photo.human_attribute_name(:author) %></th>
+        <th scope="col"><%= Photo.human_attribute_name(:status) %></th>
+        <th scope="col"><%= Photo.human_attribute_name(:created_at) %></th>
+        <th scope="col"><%= Photo.human_attribute_name(:action) %></th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+    <tbody>
+      <%= form.fields_for :photos do |photo_form| %>
+        <tr id="photo_<%= photo_form.object.id %>">
+          <td>
+            <div class="actions">
+              <%= link_to content_tag(:i, '', class: "fa fa-refresh"), '', class: 'btn btn-sm btn-outline-primary rotate',
+                                      title: t('.rotate') %>
+              <%= link_to content_tag(:i, '', class: "fa fa-pencil"), '', class: 'btn btn-sm btn-outline-primary edit',
+                                      title: t('.edit') %>
+              <%= link_to content_tag(:i, '', class: "fa fa-close"), '', class: 'btn btn-sm btn-outline-primary stop-edit',
+                                      title: t('.stop_edit'), style: 'display: none' %>
+              <%= link_to content_tag(:i, '', class: "fa fa-undo"), '', class: 'btn btn-sm btn-outline-primary undo',
+                                      title: t('.undo'), style: 'display: none' %>
+              <%= link_to content_tag(:i, '', class: "fa fa-repeat"), '', class: 'btn btn-sm btn-outline-primary redo',
+                                      title: t('.redo'), style: 'display: none' %>
+              <%= link_to content_tag(:i, '', class: "fa fa-floppy-o"), '', class: 'btn btn-sm btn-outline-primary save',
+                                      title: t('.save'), style: 'display: none' %>
+            </div>
+            <div>
+              <div class="record"></div>
+              <%= image_tag photo_form.object.file.variant(resize_to_limit: [360, 360]) %>
+            </div>
+          </td>
+          <td><%= photo_form.object.author %></td>
+          <td>
+            <%= photo_form.label("description_status_internal", '', class: 'form-check-label',
+                           title: Photo.human_attribute_name(:status) + ': ' + Photo.human_enum_name(:status, :internal)) do %>
+              <%= photo_form.radio_button :status, :internal %>
+              <%= tag.span class: 'fa fa-home fa-2x' %>
+            <% end -%>
+            <%= photo_form.label("status_external", '', class: 'form-check-label',
+                           title: Photo.human_attribute_name(:status) + ': ' + Photo.human_enum_name(:status, :external)) do %>
+              <%= photo_form.radio_button :status, :external %>
+              <%= tag.span class: 'fa fa-globe fa-2x' %>
+            <% end -%>
+          </td>
+          <td><%= l(photo_form.object.created_at) %></td>
+          <td>
+            <%= photo_form.hidden_field :censor_rectangles, class: :censor_rectangles %>
+            <%= photo_form.hidden_field :censor_width, class: :censor_width %>
+            <%= photo_form.hidden_field :censor_height, class: :censor_height %>
+            <%= photo_form.hidden_field :_modification, class: :modification %>
+            <%= photo_form.hidden_field '_destroy', class: :delete %>
+            <%= link_to content_tag(:i, '', class: "fa fa-trash"), '', class: 'btn btn-sm btn-outline-primary delete' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
   <tfoot>
     <td colspan="5">
       <div class="form-group row">
@@ -65,16 +67,18 @@
         </div>
         <%= form.submit t('action.upload'), class: 'btn btn-primary col-2' %>
       </div>
-      <div class="form-group row">
-        <div class="col-md-4">
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <%= form.check_box(:photo_requested, class: 'form-check-input') %>
-              <%= Issue.human_attribute_name(:photo_requested) %>
-            </label>
+      <% unless form.object.new_record? %>
+        <div class="form-group row">
+          <div class="col-md-4">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <%= form.check_box(:photo_requested, class: 'form-check-input') %>
+                <%= Issue.human_attribute_name(:photo_requested) %>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
+      <% end -%>
     </td>
   </tfoot>
 </table>

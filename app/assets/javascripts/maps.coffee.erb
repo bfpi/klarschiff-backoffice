@@ -1,4 +1,15 @@
-map = undefined;
+KS.Map = undefined;
+KS.projection = undefined
+
+KS.findLayerById = (id, map = KS.Map) ->
+  layers = map.getLayers()
+  i = 0
+  while i < layers.getLength()
+    tmp = layers.item(i)
+    if tmp.get('id') == id
+      return tmp
+    i++
+  null
 
 KS.initializeMaps = ->
   if $('#map').size() == 0
@@ -6,9 +17,9 @@ KS.initializeMaps = ->
 
   proj4.defs 'EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs'
   ol.proj.proj4.register proj4
-  projection = ol.proj.get('EPSG:25833')
-  projection.setExtent <%= Settings::Map.projection_25833.as_json %>
-  defaultPosition = ol.proj.transform(<%= Settings::Map.center.as_json %>, 'EPSG:4326', projection)
+  KS.projection = ol.proj.get('EPSG:25833')
+  KS.projection.setExtent <%= Settings::Map.projection_25833.as_json %>
+  defaultPosition = ol.proj.transform(<%= Settings::Map.center.as_json %>, 'EPSG:4326', KS.projection)
   defaultZoom = <%= Settings::Map.zoom %>
 
   $('#map').each (ix, m) ->
@@ -19,12 +30,13 @@ KS.initializeMaps = ->
       position = ol.proj.transform([
         elem.data('lon')
         elem.data('lat')
-      ], 'EPSG:4326', projection)
+      ], 'EPSG:4326', KS.projection)
       zoom = (defaultZoom + 4)
 
     feature = new (ol.Feature)(new (ol.geom.Point)(position))
     featureSource = new (ol.source.Vector)(features: [feature])
     featureVector = new (ol.layer.Vector)(
+      id: 'features'
       source: featureSource
       style: new (ol.style.Style) (
         image: new (ol.style.Icon) (
@@ -42,7 +54,7 @@ KS.initializeMaps = ->
         )
       )
     )
-    map = new (ol.Map)(
+    KS.Map = new (ol.Map)(
       target: 'map'
       layers: [
         <% Settings::Map.layers.each do |layer| %>
@@ -52,16 +64,16 @@ KS.initializeMaps = ->
           matrixSet: '<%= layer[:matrix_set] %>'
           format: 'image/png'
           requestEncoding: 'REST'
-          projection: projection
+          projection: KS.projection
           tileGrid: new (ol.tilegrid.WMTS)(
-            origin: ol.extent.getTopLeft(projection.getExtent())
+            origin: ol.extent.getTopLeft(KS.projection.getExtent())
             resolutions: <%= layer[:resolutions] %>
             matrixIds: <%= layer[:matrix_ids] %>)))
         <% end %>
         featureVector
       ]
       view: new (ol.View)(
-        projection: projection
+        projection: KS.projection
         center: position
         zoom: zoom
       )
@@ -72,11 +84,17 @@ KS.initializeMaps = ->
       hitTolerance: 10
     )
     interaction.on 'translateend', (e) ->
-      coordinates = e.features.getArray()[0].getGeometry().getCoordinates()
-      $(elem.data('position-input')).val('POINT(' + ol.proj.transform(coordinates, projection, 'EPSG:4326').toString().replace(',', ' ') + ')')
-    map.addInteraction interaction
+      KS.setFeatureCoordinatesToInput(e.features.getArray()[0])
+    KS.Map.addInteraction interaction
 
     window.setTimeout (->
-      map.updateSize()
+      KS.Map.updateSize()
     ), 500
 
+
+KS.setFeatureCoordinatesToInput = (feature) ->
+  coordinates = feature.getGeometry().getCoordinates()
+  map = $('#' + KS.Map.getTarget())
+  position = 'POINT(' + ol.proj.transform(coordinates, KS.projection, 'EPSG:4326').toString().replace(',', ' ') + ')'
+  $(map.data('position-input')).val(position)
+  

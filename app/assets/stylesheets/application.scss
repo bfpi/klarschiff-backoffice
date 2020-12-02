@@ -38,14 +38,14 @@ nav.navbar {
   border-top: 1px solid $secondary;
 }
 
-.status_icon.received {
+.status-icon.received {
   opacity: 0.7;
 }
 
-#photos td div.actions {
+#photos div.actions {
   margin-bottom: 0.5em;
-}
 
-#photos td div.actions a.rotate {
-  margin-right: 1em;
+  a.rotate {
+    margin-right: 1em;
+  }
 }

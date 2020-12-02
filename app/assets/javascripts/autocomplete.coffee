@@ -1,4 +1,30 @@
 
+KS.initializeIssueAddressAutocomplete = ->
+  if $('#modal #issue_address').length == 0
+    return
+  input = $('#modal #issue_address')
+  input.autocomplete
+    minLength: 3
+    source: (request, response) ->
+      $.ajax(
+        url: input.data('autocomplete-url')
+        dataType: 'json'
+        data:
+          pattern: request.term
+        success: (data) ->
+          response(data)
+      )
+    select: (event, ui) ->
+      features = KS.findLayerById('features').getSource().getFeatures()
+      if features.length == 1
+        x = ui.item.bbox[0] + (ui.item.bbox[2] - ui.item.bbox[0]) / 2
+        y = ui.item.bbox[1] + (ui.item.bbox[3] - ui.item.bbox[1]) / 2
+        pos = [x, y]
+        feature = features[0]
+        feature.getGeometry().setCoordinates(pos)
+        KS.setFeatureCoordinatesToInput(feature)
+        KS.Map.getView().setCenter(pos)
+
 KS.initializeSelectManyAutocomplete = ->
   $('.select-many .autocomplete input').each (ix, elem) ->
     input = $(elem)

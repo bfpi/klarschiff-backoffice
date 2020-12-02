@@ -184,11 +184,7 @@ de:
     status: Status
     last_editor: letzter Bearbeiter
     supporter: Unterstützer
-  create: anlegen
-  groups:
-    index:
-      new_group: Neue Gruppe
-  edit: bearbeiten
+
   enums:
     category:
       kind:
@@ -241,11 +237,18 @@ de:
         admin: Administrator
         editor: Bearbeiter
         regional_admin: Regional-Administrator
+
+  create: anlegen
+  edit: bearbeiten
+  geocodr:
+    no_match: nicht zuordenbar
+  groups:
+    index:
+      new_group: Neue Gruppe
   nav:
     dashboard: Startseite
     logout: Logout
     administration: Administration
-  pagetitle: Klarschiff-Backoffice
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issues:
     index:
@@ -272,16 +275,17 @@ de:
       save: Änderungen am Foto speichern
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
+  pagetitle: Klarschiff-Backoffice
   users:
     index:
       new_user: Neuer Benutzer
   view:
-    info: 
-      built: Erstellt 
-      db_version: Datenbank-Version 
-      environment: Umgebung 
-      rendered_by_host: Ausgeliefert durch 
-      title: Info zu dieser Klarschiff Instanz 
-      version: Version 
-      ruby_version: Ruby-Version 
+    info:
+      built: Erstellt
+      db_version: Datenbank-Version
+      environment: Umgebung
+      rendered_by_host: Ausgeliefert durch
+      title: Info zu dieser Klarschiff Instanz
+      version: Version
+      ruby_version: Ruby-Version
       rails_version: Ruby on Rails-Version
