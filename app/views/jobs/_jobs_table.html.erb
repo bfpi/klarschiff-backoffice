@@ -1,0 +1,35 @@
+<table id="<%= group_id %>-table" class="table table-draggable">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th><input type="checkbox" class="select-all"></input></th>
+      <th><%= Issue.human_attribute_name(:kind) %></th>
+      <th><%= Issue.human_attribute_name(:created_at) %></th>
+      <th colspan="2">Haupt- und Unterkategorie</th>
+      <th><%= Issue.human_attribute_name(:status) %></th>
+      <th><%= Job.human_attribute_name(:status) %></th>
+      <th>Aktionen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% jobs.each do |job| -%>
+      <tr>
+        <td><%= job.id %></td>
+        <td><%= check_box_tag :job_id, job.id, false, class: 'selectable' %></td>
+        <td><%= t "enums.issue.kind.#{(issue = job.issue).kind}" %></td>
+        <td><%= l issue.created_at.to_date  %></td>
+        <td><%= issue.category.parents&.first&.name %></td>
+        <td><%= issue.category.name %></td>
+        <td><%= image_tag issue.list_icon, title: t("enums.issue.status.#{issue.status}") %></td>
+        <td>
+          <span class="fa fa-flag<%= job.status_color %>" title="<%= t("enums.job.status.#{job.status}") %>"></span>
+        </td>
+        <td>
+          <%= link_to job_path(job, date: @date), class: 'btn btn-sm btn-outline-danger', method: :delete, remote: true do %>
+            <span class="fa fa-trash">
+          <% end -%>
+        </td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>

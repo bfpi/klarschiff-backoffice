@@ -72,6 +72,8 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
+    bootstrap-datepicker-rails (1.9.0.1)
+      railties (>= 3.0)
     builder (3.2.4)
     bullet (6.1.0)
       activesupport (>= 3.0.0)
@@ -309,6 +311,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   bootstrap
+  bootstrap-datepicker-rails
   bullet
   byebug
   capybara (>= 2.15)

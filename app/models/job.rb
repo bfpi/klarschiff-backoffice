@@ -12,6 +12,15 @@ class Job < ApplicationRecord
 
   before_validation :set_order, on: :create
 
+  def self.group_by_user_group(job_date)
+    Job.where(group: Current.user&.group, date: job_date).group_by { |j| j.group.name }
+  end
+
+  def status_color
+    return if status == 'not_checkable'
+    " text-#{status == 'checked' ? 'success' : 'danger'}"
+  end
+
   private
 
   def set_order

@@ -54,11 +54,13 @@ de:
         archived_at: Archivierungszeitpunkt
         category: Kategorie
         confirmation_hash: Bestätigungs-Hash
+        created_at: Erstellung
         delegation: Delegation
         description: Beschreibung
         description_status: Beschreibungs-Status
         expected_closure: voraussichtlichen Abschluss
         group: Gruppe
+        kind: Typ
         new_photo: Foto hinzufügen
         photo_requested: Fotowunsch
         position: Position
@@ -69,6 +71,7 @@ de:
         status_note: Statuskommentar
         trust_level: Vertrauensstufe
       job:
+        date: Ausführungsdatum
         group: Außendienst-Team
         order: Reihenfolge
       log_entry:

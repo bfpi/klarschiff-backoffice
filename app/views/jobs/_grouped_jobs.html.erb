@@ -1,0 +1,50 @@
+<div id="grouped-jobs">
+  <% if @grouped_jobs.any? -%>
+    <div id="accordion">
+      <% @grouped_jobs.each do |group, jobs| -%>
+        <div class="card">
+          <div class="card-header" id="header-<%= (group_id = group.gsub(' ', '_')) %>">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-<%= group_id %>" aria-controls="collapse-<%= group_id %>">
+              <%= group %>
+            </button>
+          </div>
+          <div id="collapse-<%= group_id %>" class="collapse" aria-labelledby="header-<%= group_id %>" data-parent="#accordion">
+            <div class="card-body">
+              <%= render partial: 'jobs_table', locals: { jobs: jobs, group_id: group_id } %>
+              <div class="row form-group">
+                <div class="col-md-2">
+                  <div class="btn-group" role="group">
+                    <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status', data: { table: "##{group_id}-table", status: 'checked' } do %>
+                      <span class="fa fa-flag text-success"></span>
+                    <% end -%>
+                    <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status', data: { table: "##{group_id}-table", status: 'unchecked' } do %>
+                      <span class="fa fa-flag text-danger"></span>
+                    <% end -%>
+                    <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status', data: { table: "##{group_id}-table", status: 'not_checkable' } do %>
+                      <span class="fa fa-flag text"></span>
+                    <% end -%>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <%= text_field_tag :job_date, nil, id: "#{group_id}-date-field", class: 'form-control datepicker' %>
+                </div>
+                <div class="col-md-2">
+                  <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-primary change-date', data: { table: "##{group_id}-table", field: "##{group_id}-date-field" } do %>
+                    Erstellung ändern
+                  <% end -%>
+                </div>
+                <div class="col-md-6">
+                  <%= link_to jobs_path(job_ids: jobs.map(&:id)), remote: true, class: 'btn btn-sm btn-outline-primary float-right' do %>
+                    Aufträge nach Erstellung aufsteigend sortieren
+                  <% end -%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  <% else -%>
+    <div class="row"><div class="col-md-12">Keine Aufträge am ausgewählten Tag gefunden.</div></div>
+  <% end -%>
+</div>

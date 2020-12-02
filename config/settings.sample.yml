@@ -12,6 +12,8 @@ development:
     property_owner_object_group: Flurstückseigentümer
   instance:
     parent_instance_url: https://www.klarschiff-mv.de/
+  job:
+    lead_time: 2
   map:
     center: [12.070739011240928, 54.11739716348975]
     zoom: 7

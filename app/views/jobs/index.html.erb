@@ -1,0 +1,12 @@
+<%= form_tag '/jobs', method: :get do %>
+  <div class="form-group row">
+    <%= label_tag :job_date, 'Datum', class: 'label-control col-md-2' %>
+    <div class="col-md-3">
+      <%= text_field_tag :job_date, @date, class: 'form-control datepicker' %>
+    </div>
+    <div class="col-md-12">
+      <%= submit_tag 'Anzeigen', class: 'btn btn-sm btn-primary' %>
+    </div>
+  </div>
+<% end -%>
+<%= render partial: 'grouped_jobs' %>
