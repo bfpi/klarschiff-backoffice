@@ -1,0 +1,172 @@
+<h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
+
+<div class="row form-group">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header" id="latest-issues">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
+          Neueste Vorgänge
+        </button>
+      </div>
+      <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
+        <div class="card-body">
+          <% @latest_issues.each do |issue| -%>
+            <div class="row">
+              <div class="col-md-12">
+                <%= link_to edit_issue_path(issue.id), remote: true do %>
+                  <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                                 title: Issue.human_enum_name(:status, issue.status) %>
+                  <%= issue %>
+                <% end -%>
+              </div>
+            </div>
+          <% end -%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header" id="own-issues">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
+          Aktivitäten an eigenen Vorgängen
+        </button>
+      </div>
+      <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
+        <div class="card-body">
+          <% @own_issues.each do |issue| -%>
+            <div class="row">
+              <div class="col-md-12">
+                <%= link_to edit_issue_path(issue.id), remote: true do %>
+                  <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                                 title: Issue.human_enum_name(:status, issue.status) %>
+                  <%= issue %>
+                <% end -%>
+              </div>
+            </div>
+          <% end -%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header" id="former-issues">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
+          Ehemalige Vorgänge
+        </button>
+      </div>
+      <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
+        <div class="card-body">
+          <% @former_issues.each do |issue| -%>
+            <div class="row">
+              <div class="col-md-12">
+                <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                               title: Issue.human_enum_name(:status, issue.status) %>
+                <%= issue %>
+              </div>
+            </div>
+          <% end -%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <b><%= @notices_count %></b> redaktionelle Hinweise zu den Vorgängen
+  </div>
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-md-12">
+        <b><%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %> und seit 3 Tagen zugewiesen, aber noch nicht akzeptiert:</b>
+      </div>
+      <div class="col-md-12">
+        <% @open_not_accepted.each do |issue| -%>
+          <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+        <% end -%>
+      </div>
+    </div>
+
+    <div class="row form-group divider">
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-12">
+        <b><%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %> und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation</b>
+      </div>
+      <div class="col-md-12">
+        <% @in_process.each do |issue| -%>
+          <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+        <% end -%>
+      </div>
+    </div>
+
+    <div class="row form-group divider">
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-12">
+        <b><%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %> mit Erstsichtung vor 60 Tagen ohne ausreichende Unterstützung</b>
+      </div>
+      <div class="col-md-12">
+        <% @open_ideas.each do |issue| -%>
+          <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+        <% end -%>
+      </div>
+    </div>
+
+    <div class="row form-group divider">
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-12">
+        <b>Zwar schon <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                            title: Issue.human_enum_name(:status, :in_process) %>, aber noch nicht akzeptiert</b>
+      </div>
+      <div class="col-md-12">
+        <% @received_not_accepted.each do |issue| -%>
+          <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+        <% end -%>
+      </div>
+    </div>
+
+    <div class="row form-group divider">
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-12">
+        <b>Beschreibung und/oder Foto nicht freigegeben für extern</b>
+      </div>
+      <div class="col-md-12">
+        <% @not_approved_issues.each do |issue| -%>
+          <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+        <% end -%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-md-12"><b><%= t(:statistics) %></b></div>
+  <% total_count = @issues_count.values.sum -%>
+  <div class="col-md-12">
+    <table class="table table-bordered">
+      <tr>
+        <td class="bar-open" width="<%= calc_percentage(@issues_count[:open], total_count) %>">
+          <b><%= @issues_count[:open] %></b><br>
+          <b>offen</b>
+        </td>
+        <td class="bar-in-process" width="<%= calc_percentage(@issues_count[:in_process], total_count) %>">
+          <b><%= @issues_count[:in_process] %></b><br>
+          <b><%= Issue.human_enum_name(:status, :in_process) %></b>
+        </td>
+        <td class="bar-closed" width="<%= calc_percentage(@issues_count[:closed], total_count) %>">
+          <b><%= @issues_count[:closed] %></b><br>
+          <b><%= Issue.human_enum_name(:status, :closed) %></b>
+        </td>
+      <tr>
+    </table>
+  </div>
+</div>

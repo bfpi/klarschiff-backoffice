@@ -91,3 +91,22 @@ tr.dragged-row td {
 #image-sources {
   display: none;
 }
+
+.divider {
+  border-bottom: 1px solid #ddd;
+}
+
+.bar-open {
+  background-color: #f00;
+  text-align: center;
+}
+
+.bar-in-process {
+  background-color: #ff0;
+  text-align: center;
+}
+
+.bar-closed {
+  background-color: #008000;
+  text-align: center;
+}

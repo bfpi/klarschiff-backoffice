@@ -8,6 +8,7 @@ de:
     save: Speichern
     send: Absenden
     upload: Hochladen
+  dashboard: "Willkommen bei %{instance_name}"
   date:
     formats:
       short: "%d.%m.%y"
@@ -357,6 +358,7 @@ de:
       open: " (offen)"
   show_map: Auf Karte anzeigen
   record_not_found: Der Datensatz konnte nicht gefunden werden
+  statistics: Alle aktiven Vorgänge auf einen Blick
   users:
     index:
       new_user: Neuer Benutzer
