@@ -60,6 +60,7 @@ de:
         description_status: Beschreibungs-Status
         expected_closure: voraussichtlichen Abschluss
         group: Gruppe
+        id: Nummer
         kind: Typ
         new_photo: Foto hinzufügen
         photo_requested: Fotowunsch

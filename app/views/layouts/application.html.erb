@@ -73,7 +73,8 @@
             <div class="row">
               <%= label_tag :search_issue, t(:edit_issue), class: 'col-md-6 col-form-label' %>
               <div class="col-md-6">
-                <%= text_field_tag :search_issue, nil, class: 'form-control', placeholder: 'Nummer', maxlength: 6 %>
+                <%= text_field_tag :search_issue, nil, class: 'form-control', placeholder: Issue.human_attribute_name(:id),
+                                   maxlength: 6 %>
               </div>
             </div>
           </div>
