@@ -1,33 +1,29 @@
-<% if issue.errors.any? %>
+<% if issue.errors.any? -%>
   <div class="alert alert-danger">
     <ul class="list-unstyled mb-0">
-      <% issue.errors.full_messages.each do |msg| %>
+      <% issue.errors.full_messages.each do |msg| -%>
         <li><%= msg %></li>
-      <% end %>
+      <% end -%>
     </ul>
   </div>
-<% end %>
+<% end -%>
 
-<% unless issue.new_record? %>
-  <% if issue.reviewed_at.blank? %>
-    <%= render partial: 'review', locals: { form: form } %>
-  <% else %>
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs mt-2">
-        <% %i[master_data responsibility comment abuse_report map photo log_entry].each do |tab| %>
-          <%= content_tag(:li, 
-                link_to(t(".tab.#{ tab }"), edit_issue_path(issue, tab: tab), remote: true, class: "nav-link #{ 'active' if tab == @tab }"),
-              class: 'nav-item') %>
-        <% end -%>
-      </ul>
-    </div>
-    <div class="card-body">
-      <%= render partial: "tab_#{ @tab }", locals: { form: form } %>
-    </div>
-  <% end %>
-<% else %>
-  <%= render partial: "tab_master_data", locals: { form: form } %>
-  <%= render partial: "tab_map", locals: { form: form } %>
-  <%= render partial: "tab_photo", locals: { form: form } %>
-<% end %>
+<% if issue.new_record? -%>
+  <%= render partial: 'tab_master_data', locals: { form: form } %>
+  <%= render partial: 'tab_map', locals: { form: form } %>
+  <%= render partial: 'tab_photo', locals: { form: form } %>
+<% elsif issue.reviewed_at.blank? -%>
+  <%= render partial: 'review', locals: { form: form } %>
+<% else -%>
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs mt-2">
+      <% %i[master_data responsibility comment abuse_report map photo log_entry].each do |tab| -%>
+        <%= nav_item(tab, issue, @tab) %>
+      <% end -%>
+    </ul>
+  </div>
+  <div class="card-body">
+    <%= render partial: "tab_#{@tab}", locals: { form: form } %>
+  </div>
+<% end -%>
 

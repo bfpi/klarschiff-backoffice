@@ -3,6 +3,8 @@
 class IssuesController < ApplicationController
   include Filter
 
+  helper CategoriesHelper
+
   before_action :set_tab
 
   def index

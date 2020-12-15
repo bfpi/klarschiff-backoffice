@@ -3,9 +3,9 @@
     <%= form.label(:status, class: 'col-md-2 col-form-label') %>
     <div class="col-md-4">
       <% Issue.statuses.each do |status, ix| -%>
-        <% next if ix < Issue.statuses[:reviewed] %>
+        <% next if ix < Issue.statuses[:reviewed] -%>
         <div>
-          <%= form.label("status_#{ status }", '', class: 'form-check-label') do %>
+          <%= form.label("status_#{ status }", '', class: 'form-check-label') do -%>
             <%= form.radio_button :status, status %>
             <%= Issue.human_enum_name(:status, status) %>
           <% end -%>
@@ -17,13 +17,13 @@
       <%= form.text_area(:status_note, class: 'form-control', rows: 5) %>
     </div>
   </div>
-<% end %>
+<% end -%>
 <div class="form-group row">
   <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-10">
+  <div class="col-md-10 col-form-label">
     <% Issue.kinds.each do |kind, ix| -%>
       <div class="form-check form-check-inline">
-        <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do %>
+        <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do -%>
           <%= form.radio_button :kind, kind %>
           <%= Issue.human_enum_name(:kind, kind) %>
         <% end -%>
@@ -34,7 +34,7 @@
 <div class="form-group row">
   <%= form.label(:category, for: :issue_main_user_id, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
-    <%= form.select :category_id, options_from_collection_for_select(Category.where(kind: form.object.kind).map(&:children).flatten, :id, :to_s, form.object.category_id), { include_blank: true },  {class: 'form-control' } %>
+    <%= form.select :category_id, options_from_collection_for_select(categories_for_kind(form.object.kind), :id, :to_s, form.object.category_id), { include_blank: true },  { class: 'form-control' } %>
   </div>
   <%= form.label(:author, class: 'col-md-2 col-form-label') %>
   <div class="col-md-4">
@@ -46,7 +46,7 @@
   <div class="col-md-9">
     <%= form.text_area(:description, class: 'form-control', rows: 5) %>
   </div>
-  <% unless form.object.new_record? %>
+  <% unless form.object.new_record? -%>
     <div class="col-md-1">
       <%= form.label("description_status_internal", '', class: 'form-check-label',
                      title: Issue.human_attribute_name(:description_status) + ': ' + Issue.human_enum_name(:description_status, :internal)) do %>
@@ -68,10 +68,10 @@
         value: form.object.expected_closure ? l(form.object.expected_closure) : nil) %>
   </div>
 </div>
-<% unless form.object.new_record? %>
+<% unless form.object.new_record? -%>
   <div class="form-group row">
     <%= form.label(:priority, class: 'col-md-2 col-form-label') %>
-    <div class="col-md-10">
+    <div class="col-md-10 col-form-label">
       <% Issue.priorities.each do |priority, ix| -%>
         <div class="form-check form-check-inline">
           <%= form.label("priority_#{ priority }", '', class: 'form-check-label') do %>
@@ -82,4 +82,4 @@
       <% end -%>
     </div>
   </div>
-<% end %>
+<% end -%>
