@@ -18,7 +18,7 @@ $ ->
   $(document).ready KS.initDatepicker
   $(document).on 'turbolinks:load', KS.initDatepicker
 
-  $(document).on 'keypress', '#search_issue', (e) ->
+  $(document).on 'keypress', '#search-issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)
       $.get
         url: "/issues/#{@.value}/edit"
