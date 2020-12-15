@@ -72,6 +72,6 @@ end
 if MailBlacklist.all.blank?
   50.times do |_ix|
     pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
-    MailBlacklist.create!(pattern: pattern, source: 'Initialisation')
+    MailBlacklist.create!(pattern: pattern, source: 'Erstinstallation')
   end
 end
