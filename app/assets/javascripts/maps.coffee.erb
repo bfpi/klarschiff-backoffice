@@ -26,34 +26,42 @@ KS.initializeMaps = ->
     elem = $(m)
     position = defaultPosition
     zoom = defaultZoom
-    if elem.data('lon') > 0 && elem.data('lat') > 0
-      position = ol.proj.transform([
-        elem.data('lon')
-        elem.data('lat')
-      ], 'EPSG:4326', KS.projection)
-      zoom = (defaultZoom + 4)
-
-    feature = new (ol.Feature)(new (ol.geom.Point)(position))
-    featureSource = new (ol.source.Vector)(features: [feature])
-    featureVector = new (ol.layer.Vector)(
-      id: 'features'
-      source: featureSource
-      style: new (ol.style.Style) (
-        image: new (ol.style.Icon) (
-          anchorXUnits: 'pixels'
-          anchorYUnits: 'pixels'
-          anchor: [
-            16
-            50
-          ]
-          src: elem.data('icon')
-          size: [
-            56
-            64
-          ]
+    ids = elem.data('issue-ids')
+    feature = null
+    featureVector = null
+    if elem.data('lat') > 0 && elem.data('lon') > 0
+      position = ol.proj.transform([elem.data('lon'), elem.data('lat')], 'EPSG:4326', KS.projection)
+      zoom = defaultZoom + 4
+    if ids? && ids.length > 0
+      featureVector = new (ol.layer.Vector)(
+        id: 'features'
+        source: new ol.source.Cluster
+          distance: 55
+          source: (feature = new KS.FeatureVector(ids))
+        style: KS.styles.featureStyle
+      )
+    else
+      feature = new (ol.Feature)(new (ol.geom.Point)(position))
+      featureSource = new (ol.source.Vector)(features: [feature])
+      featureVector = new (ol.layer.Vector)(
+        id: 'features'
+        source: featureSource
+        style: new (ol.style.Style) (
+          image: new (ol.style.Icon) (
+            anchorXUnits: 'pixels'
+            anchorYUnits: 'pixels'
+            anchor: [
+              16
+              50
+            ]
+            src: elem.data('icon')
+            size: [
+              56
+              64
+            ]
+          )
         )
       )
-    )
     KS.Map = new (ol.Map)(
       target: 'map'
       layers: [
@@ -93,10 +101,77 @@ KS.initializeMaps = ->
       KS.Map.updateSize()
     ), 500
 
+KS.styles =
+  featureAttribution: (feature) ->
+    new ol.style.Text
+      text: feature.get("attribution")
+      font: '15px Glyphicons Halflings'
+      offsetX: 28
+      offsetY: -22
+      rotation: Math.PI / -2
+      fill: new ol.style.Fill
+        color: '#ffffff'
+      stroke: new ol.style.Stroke
+        color: '#000000'
+        width: 3
+
+  featureStyle: (features) ->
+    if (size = features.get('features').length) == 1
+      feature = features.get('features')[0]
+      features.setStyle new ol.style.Style
+        image: new ol.style.Icon
+          anchorXUnits: 'pixels'
+          anchorYUnits: 'pixels'
+          anchor: [
+            6
+            40
+          ]
+          src: "/assets/#{feature.get('icon')}"
+          text: KS.styles.featureAttribution(feature)
+    else
+      features.setStyle new ol.style.Style
+        image: new ol.style.Icon
+          anchorXUnits: 'pixels'
+          anchorYUnits: 'pixels'
+          anchor: [
+            22
+            22
+          ]
+          src: KS.imagePath('cluster')
+        text: new ol.style.Text
+          text: size.toString()
+          font: 'bold 20px PT Sans, Helvetica Neue, Helvetica, Arial, sans-serif'
+          fill: new ol.style.Fill
+            color: '#000000'
+
+class KS.FeatureVector
+  constructor: (ids) ->
+    return vector = new ol.source.Vector
+      format: new ol.format.TopoJSON
+      loader: (extent, resolution, projection) ->
+        new KS.FeatureData(ids, vector)
+
+class KS.FeatureData
+  constructor: (ids, vector) ->
+    $.ajax(url: '/issues', data: { ids: ids }, dataType: 'json').done (response) ->
+      features = new Array
+      $.each response, (index, elem) ->
+        attribution = ''
+        coord = ol.proj.transform([elem.lon, elem.lat], 'EPSG:4326', KS.projection)
+        f = new ol.Feature(
+          id: elem.id
+          geometry: new ol.geom.Point(coord)
+          icon: elem.map_icon
+          attribution: attribution
+        )
+        features.push(f)
+      vector.addFeatures features
 
 KS.setFeatureCoordinatesToInput = (feature) ->
   coordinates = feature.getGeometry().getCoordinates()
   map = $('#' + KS.Map.getTarget())
   position = 'POINT(' + ol.proj.transform(coordinates, KS.projection, 'EPSG:4326').toString().replace(',', ' ') + ')'
   $(map.data('position-input')).val(position)
-  
+
+KS.imagePath = (type) ->
+  $("#image-sources img##{ type }").attr 'src'

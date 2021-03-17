@@ -5,4 +5,8 @@ module ApplicationHelper
     return nil unless object
     super
   end
+
+  def icon(color, kind: 'blank')
+    "icons/list/png/#{kind}-#{color}-22px.png"
+  end
 end

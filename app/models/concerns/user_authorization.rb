@@ -10,14 +10,21 @@ module UserAuthorization
   def authorized?(action, _object = nil)
     return false unless active?
     case action
-    when :administration
-      (%i[list_log_entries test] | STATIC_PERMISSIONS.keys.select { |k| k.to_s.starts_with? 'manage_' })
-        .any? { |permission| authorized? permission }
-    when :jobs
-      group.any?(&:kind_field_service_team?)
+    when :administration then administration_permitted?
+    when :jobs then group.any?(&:kind_field_service_team?)
+    when :manage_delegations then delegation_permitted?
     else
       static_permitted_to? action
     end
+  end
+
+  def administration_permitted?
+    (%i[list_log_entries test] | STATIC_PERMISSIONS.keys.select { |k| k.to_s.starts_with? 'manage_' })
+      .any? { |permission| authorized? permission }
+  end
+
+  def delegation_permitted?
+    static_permitted_to?(:manage_delegations) || group.any?(&:internal)
   end
 
   def static_permitted_to?(action)
@@ -27,6 +34,7 @@ module UserAuthorization
   STATIC_PERMISSIONS = {
     change_user: %i[admin],
     list_log_entries: %i[admin regional_admin],
+    manage_delegations: %i[admin regional_admin],
     manage_editorial_notifications: %i[admin regional_admin],
     manage_feedbacks: %i[admin regional_admin],
     manage_field_service: %i[admin regional_admin],

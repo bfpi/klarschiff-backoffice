@@ -15,8 +15,28 @@ $ ->
   $('.modal').on 'hide.bs.modal', ->
     location.reload()
 
+  initDnD = ->
+    $('.table-draggable').tableDnD
+      onDragClass: 'dragged-row'
+  initMap = ->
+    if $('#issues-map').length > 0
+      KS.initializeMaps()
+
   $(document).ready KS.initDatepicker
+  $(document).ready initDnD
   $(document).on 'turbolinks:load', KS.initDatepicker
+  $(document).on 'turbolinks:load', initDnD
+  $(document).on 'turbolinks:load', initMap
+
+  $(document).on 'click', '.select-all', ->
+    $(@).parents('table').find('.selectable').prop('checked', @.checked)
+
+  updateMultipleJobs = (params) ->
+    $.ajax
+      url: '/jobs/update_multiple'
+      data: params
+      dataType: 'script'
+      method: 'PUT'
 
   $(document).on 'keypress', '#search-issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)

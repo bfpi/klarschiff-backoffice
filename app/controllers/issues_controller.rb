@@ -6,7 +6,13 @@ class IssuesController < ApplicationController
   before_action :set_tab
 
   def index
-    @issues = filter(includes(Issue.all)).order(created_at: :desc).page(params[:page] || 1).per(params[:per_page] || 20)
+    respond_to do |format|
+      format.html do
+        @issues = filter(includes(Issue.all)).order(created_at: :desc)
+          .page(params[:page] || 1).per(params[:per_page] || 20)
+      end
+      format.json { render json: Issue.where(id: params[:ids]).to_json }
+    end
   end
 
   def edit
@@ -47,6 +53,10 @@ class IssuesController < ApplicationController
 
   def log_entries(issue)
     issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
+  end
+
+  def paginate(issues)
+    issues.page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def issue_params

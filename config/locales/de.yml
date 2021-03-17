@@ -269,8 +269,22 @@ de:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
+  back: Zurück
   create: anlegen
+  delegations: Delegationen
   edit: bearbeiten
+  edit_issue: Meldung bearbeiten
+  export_xlsx: Als Excel-Tabelle exportieren
+  export:
+    delegations:
+      id: '#'
+      kind: Typ
+      created_at: Erstellung
+      main_category: Hauptkategorie
+      sub_category: Unterkategorie
+      status: Status
+      address: Adresse
+      priority: Priorität
   geocodr:
     no_match: nicht zuordenbar
   groups:
@@ -318,12 +332,15 @@ de:
     dashboard: Startseite
     logout: Logout
     administration: Administration
+  no_result: Die Suche ergab kein Resultat
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
   send_email: als E-Mail versenden
   statuses:
     abuse_report:
       open: " (offen)"
+  show_map: Auf Karte anzeigen
+  record_not_found: Der Datensatz konnte nicht gefunden werden
   users:
     index:
       new_user: Neuer Benutzer
