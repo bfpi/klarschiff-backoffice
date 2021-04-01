@@ -29,8 +29,8 @@ class Issue < ApplicationRecord
 
   attr_accessor :responsibility_action, :new_photo
 
-  validates :author, email: true, on: :create
   validates :author, presence: true, on: :create
+  validates :author, email: true, on: :create
   validates :confirmation_hash, uniqueness: true
   validates :description, :kind, :position, :status, presence: true
   validates :status_note, presence: true, if: :expected_closure_changed?
