@@ -3,7 +3,6 @@
 #= require jquery-ui
 #= require bootstrap
 #= require bootstrap-datepicker
-#= require tablednd
 #= require turbolinks
 #= require proj4js
 #= require ol
@@ -12,54 +11,14 @@
 
 window.KS ||= {}
 
-KS.initializeModalFunctions = ->
-  KS.initializeIssueAddressAutocomplete()
-  KS.initializeFormActions()
-  KS.initializeMaps()
-  KS.initializePhotoActions()
-  KS.initializeSelectManyAutocomplete()
-  KS.initializeUserLdapAutocomplete()
-
 $ ->
   $('.modal').on 'hide.bs.modal', ->
     location.reload()
 
-  initDatepicker = ->
-    $('.datepicker').datepicker
-      format: 'dd.mm.yyyy'
-      language: 'de'
-      autoclose: true
-  
-  initDnD = ->
-    $('.table-draggable').tableDnD
-      onDragClass: 'dragged-row'
+  $(document).ready KS.initDatepicker
+  $(document).on 'turbolinks:load', KS.initDatepicker
 
-  $(document).ready initDatepicker
-  $(document).ready initDnD
-  $(document).on 'turbolinks:load', initDatepicker
-  $(document).on 'turbolinks:load', initDnD
-
-  $(document).on 'click', '.select-all', ->
-    $(@).parents('table').find('.selectable').prop('checked', @.checked)
-
-  updateMultipleJobs = (params) ->
-    $.ajax
-      url: '/jobs/update_multiple'
-      data: params
-      dataType: 'script'
-      method: 'PUT'
-
-  $(document).on 'click', '.change-status', ->
-    ids = $($(@).data('table')).find('.selectable').toArray().filter((e) -> e.checked).map((e) -> e.value)
-    return if ids.length == 0
-    updateMultipleJobs $.param({ job_ids: ids, job: { status: $(@).data('status') } })
-
-  $(document).on 'click', '.change-date', ->
-    ids = $($(@).data('table')).find('.selectable').toArray().filter((e) -> e.checked).map((e) -> e.value)
-    return if ids.length == 0
-    updateMultipleJobs $.param({ job_ids: ids, job: { date: $($(@).data('field')).val() } })
-  
-  $(document).on 'keypress', '#search_issue', (e) ->
+  $(document).on 'keypress', '#search-issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)
       $.get
         url: "/issues/#{@.value}/edit"
@@ -67,3 +26,22 @@ $ ->
         dataType: 'script'
     else
       e.preventDefault() unless e.key.match(/[0-9]/)
+
+KS.initializeModalFunctions = ->
+  KS.initializeIssueAddressAutocomplete()
+  KS.initializeFormActions()
+  KS.initializeMaps()
+  KS.initializePhotoActions()
+  KS.initializeSelectManyAutocomplete()
+  KS.initializeUserLdapAutocomplete()
+  KS.initDatepicker()
+
+KS.initDatepicker = ->
+  $('.datepicker').datepicker(
+    format: 'dd.mm.yyyy'
+    language: 'de'
+    autoclose: true
+  ).on 'hide', (e) ->
+    # Workaround for: https://github.com/uxsolutions/bootstrap-datepicker/issues/50
+    e.stopPropagation()
+

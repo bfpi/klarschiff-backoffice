@@ -1,0 +1,43 @@
+#  about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  address: MyText
+  archived_at: 2020-10-19 14:44:11
+  author: MyText
+  category: one
+  confirmation_hash: MyText
+  delegation: one
+  description: MyText
+  description_status: 1
+  kind: 1
+  parcel: MyText
+  photo_requested: false
+  position:
+  priority: 1
+  property_owner: MyText
+  responsibility: one
+  reviewed_at: 2020-10-19 14:44:11
+  status: 1
+  status_note: MyText
+  trust_level: 1
+
+two:
+  address: MyText
+  archived_at: 2020-10-19 14:44:11
+  author: MyText
+  category: two
+  confirmation_hash: MyText
+  delegation:
+  description: MyText
+  description_status: 1
+  kind: 1
+  parcel: MyText
+  photo_requested: false
+  position:
+  priority: 1
+  property_owner: MyText
+  responsibility: two
+  reviewed_at: 2020-10-19 14:44:11
+  status: 1
+  status_note: MyText
+  trust_level: 1

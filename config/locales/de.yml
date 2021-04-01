@@ -24,6 +24,7 @@ de:
         county:  Landkreis
         regionail_key: Regionalschlüssel
       category:
+        average_turnaround_time: durchschnittliche Bearbeitungszeit
         category: Oberkategorie
         deleted: gelöscht
         dms: DMS
@@ -285,7 +286,7 @@ de:
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
   pagetitle: Klarschiff-Backoffice
-  record_not_found: Der Datensatz konnte nicht gefunden werden
+  record_not_found: Der Datensatz konnte nicht gefunden werden!
   users:
     index:
       new_user: Neuer Benutzer

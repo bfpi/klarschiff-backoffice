@@ -1,0 +1,2 @@
+
+0  02   *   *   *   rails     rails runner CalculateAverageTurnaroundTimeJob.perform_now

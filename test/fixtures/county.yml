@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  regional_key: MyText
   name: MyText
-  area: 
-  community: one
+  area:
 
 two:
+  regional_key: MyText
   name: MyText
-  area: 
-  community: two
+  area:

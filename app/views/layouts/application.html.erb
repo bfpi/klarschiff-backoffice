@@ -34,7 +34,7 @@
                       <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:list_log_entries) %>
                       <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications)%>
                       <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist)%>
-                    </div>    
+                    </div>
                   </li>
                 <% end -%>
               <% end -%>
@@ -69,16 +69,17 @@
       </div>
       <nav class="footer">
         <div class="container">
-          <div class="col-md-4">
-            <div class="row">
-              <%= label_tag :search_issue, t(:edit_issue), class: 'col-md-6 col-form-label' %>
-              <div class="col-md-6">
-                <%= text_field_tag :search_issue, nil, class: 'form-control', placeholder: Issue.human_attribute_name(:id),
-                                   maxlength: 6 %>
-              </div>
+          <div class="row">
+            <div class="col-md-2">
+              <%= label_tag 'search-issue', t(:edit_issue), class: 'col-form-label' %>
+            </div>
+            <div class="col-md-2">
+              <%= text_field_tag 'search-issue', nil, class: 'form-control', placeholder: Issue.human_attribute_name(:id), maxlength: 6 %>
+            </div>
+            <div class="col-md-8">
+              <%= yield :footer %>
             </div>
           </div>
-          <%= yield :footer %>
         </div>
       </nav>
     </div>
