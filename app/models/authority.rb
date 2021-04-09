@@ -4,5 +4,5 @@ class Authority < ApplicationRecord
   belongs_to :county
 
   validates :area, :name, :regional_key, presence: true
-  validates :name, uniqueness: { conditions: -> { where(county: county) } }
+  validates :name, uniqueness: { scope: :county }
 end

@@ -4,5 +4,5 @@ class Community < ApplicationRecord
   belongs_to :authority
 
   validates :area, :name, :regional_key, presence: true
-  validates :name, uniqueness: { conditions: -> { where(authority: authority) } }
+  validates :name, uniqueness: { scope: :authority }
 end
