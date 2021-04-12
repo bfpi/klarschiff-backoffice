@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :places, only: %i[index]
     resources :user_ldaps, only: %i[index]
     resources :users
+    resources :tests, only: %i[index create]
   end
   resources :jobs, only: %i[index update destroy] do
     collection do

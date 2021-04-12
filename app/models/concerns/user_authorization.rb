@@ -32,7 +32,8 @@ module UserAuthorization
     manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
     manage_mail_blacklist: %i[admin regional_admin],
-    manage_users: %i[admin regional_admin]
+    manage_users: %i[admin regional_admin],
+    test: %i[admin]
   }.freeze
 
   class NotAuthorized < StandardError
