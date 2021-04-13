@@ -60,11 +60,11 @@ class Geocodr
     end
 
     def request_features(issue, search_class, type: :reverse, shape: nil)
-      uri = URI(config.url)
+      uri = URI.parse(config.url)
       query = issue
       query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position)
       uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape))
-      request_and_parse_features(uri)
+      request_and_parse_features uri
     end
 
     def request_feature_params(query, type, search_class, shape)
@@ -81,7 +81,7 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
-      if (res = URI.open(uri, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)) && res.status.include?('OK')
+      if (res = uri.open(ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)) && res.status.include?('OK')
         return JSON.parse(res.read).try(:[], 'features')
       end
       nil
