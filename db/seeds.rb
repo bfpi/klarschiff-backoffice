@@ -69,50 +69,50 @@ Category.all.each do |main_category|
   end
 end
 
-if MailBlacklist.all.blank?
-  50.times do |_ix|
+unless MailBlacklist.exists?
+  50.times do
     pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
-    MailBlacklist.create!(pattern: pattern, source: 'Erstinstallation')
+    MailBlacklist.create! pattern: pattern, source: 'Erstinstallation'
   end
 end
 
 rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
 { kreise: County, aemter: Authority, gemeinden: Community }.each do |file_name, object_class|
-  next unless File.exist?("db/seeds/#{file_name}.xml")
-  doc = Nokogiri::XML(File.read("db/seeds/#{file_name}.xml"))
+  next unless File.exist?(file = "db/seeds/#{file_name}.xml")
+  doc = Nokogiri::XML(File.read(file))
   doc.xpath('/wfs:FeatureCollection/gml:featureMember').each do |feature|
     regional_key = feature.xpath("dvg:#{file_name}/dvg:schluessel/text()").to_s.strip
     name = feature.xpath("dvg:#{file_name}/dvg:gen/text()").to_s.strip
 
-    polygone = []
-    feature.xpath("dvg:#{file_name}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/"\
-    'gml:LinearRing/gml:posList/text()').each do |polygon|
-      tmp = []
-      polygon.to_s.strip.split.each_with_index { |pol, ix| tmp << pol + (ix.even? ? ' ' : ',') }
-      polygone << "(#{tmp.join[0...-1]})"
+    condition = <<~XPATH.squish
+dvg:#{file_name}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
+    XPATH
+    polygons = feature.xpath(condition).map do |polygon|
+      tmp = polygon.to_s.strip.split.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
+      "(#{tmp.join[0...-1]})"
     end
 
     transform = false
-    obj = object_class.find_or_create_by!({ regional_key: regional_key, name: name }) do |c|
-      if file_name == :aemter
-        c.county = County.find_by(regional_key: feature.xpath("dvg:#{file_name}/dvg:zugehoerig/text()").to_s.strip)
-      end
-      if file_name == :gemeinden
-        c.authority = Authority.find_by(regional_key: feature.xpath("dvg:#{file_name
-                                                                         }/dvg:zugehoerig/text()").to_s.strip)
-      end
-      c.area = rgeo_factory.parse_wkt("MULTIPOLYGON((#{polygone.join(',')}))")
+    obj = object_class.find_or_create_by!(regional_key: regional_key, name: name) do |c|
+      options = { regional_key: feature.xpath("dvg:#{file_name}/dvg:zugehoerig/text()").to_s.strip }
+      c.county = County.find_by(options) if file_name == :aemter
+      c.authority = Authority.find_by(options) if file_name == :gemeinden
+      c.area = rgeo_factory.parse_wkt("MULTIPOLYGON((#{polygons.join(',')}))")
       transform = true
     end
-    if transform
-      ActiveRecord::Base.connection.execute("update #{object_class.table_name} set " \
-      "area = ST_MakeValid(ST_Transform(ST_GeomFromText(ST_AsText(area), 5650), 4326)) where id = #{obj.id}")
-    end
+    next unless transform
+    ActiveRecord::Base.connection.execute <<~SQL.squish
+      UPDATE #{object_class.table_name}
+      SET area = ST_MakeValid(ST_Transform(ST_GeomFromText(ST_AsText(area), 5650), 4326))
+      WHERE id = #{obj.id}
+    SQL
   end
 end
 
-ActiveRecord::Base.connection.execute("insert into #{Instance.table_name} select 1, 'MV', '', "\
-  "ST_GEOMFROMTEXT(st_astext(st_multi(ST_CollectionExtract(concat('SRID=4269;', st_astext("\
-  'ST_Makevalid(st_astext(st_multi(ST_CollectionExtract(st_polygonize(ST_AsText(ST_Boundary('\
-  'ST_GeomFromText(ST_AsText(area), 4326)))), 3)))))), 3))), 4326), '\
-  "current_timestamp, current_timestamp FROM #{County.table_name}")
+ActiveRecord::Base.connection.execute <<~SQL.squish
+  INSERT INTO #{Instance.table_name}
+  SELECT 1, 'MV', '', ST_GeomFromText(ST_AsText(ST_Multi(ST_CollectionExtract(CONCAT('SRID=4269;', ST_AsText(
+    ST_Makevalid(ST_AsText(ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_AsText(ST_Boundary(
+    ST_GeomFromText(ST_AsText(area), 4326)))), 3)))))), 3))), 4326), current_timestamp, current_timestamp
+  FROM #{County.table_name}
+SQL
