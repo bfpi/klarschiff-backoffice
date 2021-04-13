@@ -27,6 +27,21 @@ $ ->
     else
       e.preventDefault() unless e.key.match(/[0-9]/)
 
+  $(document).on 'ajax:complete', 'form', (data) ->
+    $('#notice-success').hide()
+    $('#notice-error').hide()
+    detail = data.detail[0]
+    if detail.response.length > 0
+      if detail.status == 200
+        $('#notice-success .text').html(detail.response)
+        $('#notice-success').show()
+      else
+        $('#notice-error .text').html(detail.response)
+        $('#notice-error').show()
+
+  $(document).on 'click', '.alert .close', (e) ->
+    $(e.target).parents('.alert').hide()
+
 KS.initializeModalFunctions = ->
   KS.initializeIssueAddressAutocomplete()
   KS.initializeFormActions()

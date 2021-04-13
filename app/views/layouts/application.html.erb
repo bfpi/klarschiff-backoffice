@@ -34,6 +34,7 @@
                       <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:list_log_entries) %>
                       <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications)%>
                       <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist)%>
+                      <%= link_to('Test', tests_url, class: 'dropdown-item') if authorized?(:test)%>
                     </div>
                   </li>
                 <% end -%>
@@ -64,6 +65,18 @@
         </div>
       </nav>
       <div class="content container">
+        <div class="alert alert-success" role="alert" id="notice-success" style="display: none;">
+          <span class="text"></span>
+          <button type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-danger" role="alert" id="notice-error" style="display: none;">
+          <span class="text"></span>
+          <button type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <%= yield %>
         <div id="modal" class="modal hide fade" role="dialog" aria-hidden="true"></div>
       </div>
