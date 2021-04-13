@@ -84,8 +84,8 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
     regional_key = feature.xpath("dvg:#{file_name}/dvg:schluessel/text()").to_s.strip
     name = feature.xpath("dvg:#{file_name}/dvg:gen/text()").to_s.strip
 
-    condition = <<~XPATH.squish
-dvg:#{file_name}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
+    condition = <<~XPATH.strip
+      dvg:#{file_name}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
     XPATH
     polygons = feature.xpath(condition).map do |polygon|
       tmp = polygon.to_s.strip.split.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
