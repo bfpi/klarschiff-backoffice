@@ -33,16 +33,8 @@ class Geocodr
     end
 
     def search_places(pattern)
-      places = []
-      query = if Settings::Geocodr.respond_to?(:localisator)
-                "#{Settings::Geocodr.localisator} #{pattern}"
-              else
-                pattern
-              end
-      request_features(query, config.places_search_class, type: :search, shape: :bbox).map do |place|
-        places << Place.new(place)
-      end
-      places
+      query = "#{Settings::Geocodr.try :localisator} #{pattern}".strip
+      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new p }
     end
 
     private
