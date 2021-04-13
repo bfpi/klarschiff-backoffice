@@ -28,7 +28,7 @@
         <blockquote class="blockquote">
           <p class="mb-0">E-Mail-Versand</p>
           <footer class="blockquote-footer">
-            Test-E-Mail an angegebenen Empfänger senden.
+            Sendet eine Test-E-Mail an den angegebenen Empfänger.
           </footer>
           <%= form_tag tests_path, method: :post, remote: :true do %>
             <%= hidden_field_tag :test, :protocol_email %>
@@ -37,6 +37,48 @@
               <div class="col-md-3">
                 <%= text_field_tag :recipient, '', class: 'form-control' %>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+              </div>
+            </div>
+          <% end -%>
+        </blockquote>
+        <blockquote class="blockquote">
+          <p class="mb-0">LDAP-Login</p>
+          <footer class="blockquote-footer">
+            Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortprüfung durchzuführen.
+          </footer>
+          <%= form_tag tests_path, method: :post, remote: :true do %>
+            <%= hidden_field_tag :test, :protocol_ldap %>
+            <div class="form-group row">
+              <%= label_tag :host, 'Host', class: 'label-control col-md-2' %>
+              <div class="col-md-3">
+                <%= text_field_tag :host, '', class: 'form-control' %>
+              </div>
+              <%= label_tag :port, 'Port', class: 'label-control col-md-2' %>
+              <div class="col-md-3">
+                <%= text_field_tag :port, '', class: 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= label_tag :encryption, 'Encryption', class: 'label-control col-md-2' %>
+              <div class="col-md-3">
+                <%= select_tag :encryption, options_for_select(['simple_tls']), include_blank: true %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= label_tag :username, 'User-DN', class: 'label-control col-md-2' %>
+              <div class="col-md-3">
+                <%= text_field_tag :username, '', class: 'form-control' %>
+              </div>
+              <%= label_tag :password, 'Passwort', class: 'label-control col-md-2' %>
+              <div class="col-md-3">
+                <%= password_field_tag :password, '', class: 'form-control' %>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-12">
                 <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
               </div>

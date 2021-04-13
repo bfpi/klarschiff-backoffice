@@ -58,3 +58,12 @@ tr.dragged-row td {
 #accordion .card {
   margin-bottom: 1em;
 }
+
+.blockquote {
+  border-left: 3px solid $gray-200;
+  padding-left: 1em;
+}
+
+.blockquote + .blockquote {
+  margin-top: 2em;
+}

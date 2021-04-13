@@ -7,7 +7,7 @@ class Ldap
     end
 
     def login(username, password)
-      conn(username, password).bind
+      conn(username: username, password: password).bind
     end
 
     def search(pattern)
@@ -18,13 +18,14 @@ class Ldap
       end
     end
 
-    private
-
-    def conn(username = config.username, password = config.password)
-      @conn ||= Net::LDAP.new(host: config.host, port: config.port, encryption: config.encryption)
+    def conn(host: config.host, port: config.port, encryption: config.encryption,
+      username: config.username, password: config.password)
+      @conn ||= Net::LDAP.new(host: host, port: port, encryption: encryption)
       @conn.auth username, password if username.present? && password.present?
       @conn
     end
+
+    private
 
     def search_group_members
       return @group_members if @group_members.present?
