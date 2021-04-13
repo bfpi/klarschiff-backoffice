@@ -8,7 +8,11 @@ before_script:
   - sudo -u postgres psql -c 'create extension postgis'
   - sudo -u postgres psql -c 'create database travis_ci_test'
   - rm config/database.yml
-  - cp config/database.yml.travis config/database.yml
+  - cp config/database.travis.yml config/database.yml
+  - rm config/settings.yml
+  - cp config/settings.sample.yml config/settings.yml
+  - rm config/secrets.yml
+  - cp config/secrets.sample.yml config/secrets.yml
 
 cache:
   bundler: true
