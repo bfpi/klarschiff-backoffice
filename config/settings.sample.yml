@@ -49,7 +49,6 @@ development: &default
     user_identifier: dn
     user_last_name: sn
     username:
-
 test:
   <<: *default
 

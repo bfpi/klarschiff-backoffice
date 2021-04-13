@@ -23,6 +23,7 @@ class Issue
       before_validation :set_responsibility
       before_validation :set_reviewed, on: :update
       before_save :set_expected_closure, if: :status_changed?
+      before_save :set_trust_level, if: :author_changed?
     end
 
     private
@@ -73,6 +74,16 @@ class Issue
 
     def set_expected_closure
       self.expected_closure = status_in_process? ? Time.zone.today + category.average_turnaround_time.days : nil
+    end
+
+    def set_trust_level
+      self.trust_level = calculate_trust_level
+    end
+
+    def calculate_trust_level
+      return 0 if (user = User.find_by(email: author)).blank?
+      return 2 if user.group.any?(&:kind_field_service_team?)
+      1
     end
   end
 end
