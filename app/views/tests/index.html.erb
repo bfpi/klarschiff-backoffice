@@ -19,17 +19,17 @@
     <div class="card-header" role="tab" id="headingProtocols">
       <h5 class="mb-0">
         <a class="collapsed" data-toggle="collapse" href="#collapseProtocols" aria-controls="collapseProtocols">
-          Protokolle
+          Server: Protokolle und Verbindungen
         </a>
       </h5>
     </div>
     <div id="collapseProtocols" class="collapse" role="tabpanel" aria-labelledby="headingProtocols">
-      <div class="card-body">
-        <blockquote class="blockquote">
-          <p class="mb-0">E-Mail-Versand</p>
-          <footer class="blockquote-footer">
-            Sendet eine Test-E-Mail an den angegebenen Empfänger.
-          </footer>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <p>
+            E-Mail-Versand
+            <span class="text-muted"><small>Sendet eine Test-E-Mail an den angegebenen Empfänger.</small></span>
+          </p>
           <%= form_tag tests_path, method: :post, remote: :true do %>
             <%= hidden_field_tag :test, :protocol_email %>
             <div class="form-group row">
@@ -40,16 +40,18 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+                <%= submit_tag 'Test-E-Mail senden', class: 'btn btn-sm btn-primary' %>
               </div>
             </div>
           <% end -%>
-        </blockquote>
-        <blockquote class="blockquote">
-          <p class="mb-0">LDAP-Login</p>
-          <footer class="blockquote-footer">
-            Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortprüfung durchzuführen.
-          </footer>
+        </li>
+        <li class="list-group-item">
+          <p>
+            LDAP-Login
+            <span class="text-muted">
+              <small>Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortüberprüfung durchzuführen.</small>
+            </span>
+          </p>
           <%= form_tag tests_path, method: :post, remote: :true do %>
             <%= hidden_field_tag :test, :protocol_ldap %>
             <div class="form-group row">
@@ -80,12 +82,12 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+                <%= submit_tag 'LDAP-Login testen', class: 'btn btn-sm btn-primary' %>
               </div>
             </div>
           <% end -%>
-        </blockquote>
-      </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
