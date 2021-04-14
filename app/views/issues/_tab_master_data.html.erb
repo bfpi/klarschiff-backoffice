@@ -1,83 +1,84 @@
-<% unless form.object.new_record? %>
+<% unless form.object.new_record? -%>
   <div class="form-group row">
-    <%= form.label(:status, class: 'col-md-2 col-form-label') %>
+    <%= form.label :status, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
       <% Issue.statuses.each do |status, ix| -%>
         <% next if ix < Issue.statuses[:reviewed] -%>
         <div>
-          <%= form.label("status_#{ status }", '', class: 'form-check-label') do -%>
+          <%= form.label "status_#{status}", '', class: 'form-check-label' do %>
             <%= form.radio_button :status, status %>
-            <%= Issue.human_enum_name(:status, status) %>
-          <% end -%>
+            <%= Issue.human_enum_name :status, status %>
+          <% end %>
         </div>
       <% end -%>
     </div>
-    <%= form.label(:status_note, class: 'col-md-2 col-form-label') %>
+    <%= form.label :status_note, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
-      <%= form.text_area(:status_note, class: 'form-control', rows: 5) %>
+      <%= form.text_area :status_note, class: 'form-control', rows: 5 %>
     </div>
   </div>
 <% end -%>
 <div class="form-group row">
-  <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
+  <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
     <% Issue.kinds.each do |kind, ix| -%>
       <div class="form-check form-check-inline">
-        <%= form.label("kind_#{ kind }", '', class: 'form-check-label') do -%>
+        <%= form.label("kind_#{kind}", '', class: 'form-check-label') do %>
           <%= form.radio_button :kind, kind %>
-          <%= Issue.human_enum_name(:kind, kind) %>
-        <% end -%>
+          <%= Issue.human_enum_name :kind, kind %>
+        <% end %>
       </div>
     <% end -%>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:category, for: :issue_main_user_id, class: 'col-md-2 col-form-label') %>
+  <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.select :category_id, options_from_collection_for_select(categories_for_kind(form.object.kind), :id, :to_s, form.object.category_id), { include_blank: true },  { class: 'form-control' } %>
+    <%= form.select :category_id, options_from_collection_for_select(
+          categories_for_kind(form.object.kind), :id, :to_s, form.object.category_id
+        ), { include_blank: true }, class: 'form-control' %>
   </div>
-  <%= form.label(:author, class: 'col-md-2 col-form-label') %>
+  <%= form.label :author, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.text_field(:author, class: 'form-control') %>
+    <%= form.text_field :author, class: 'form-control' %>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:description, class: 'col-md-2 col-form-label') %>
+  <%= form.label :description, class: 'col-md-2 col-form-label' %>
   <div class="col-md-9">
-    <%= form.text_area(:description, class: 'form-control', rows: 5) %>
+    <%= form.text_area :description, class: 'form-control', rows: 5 %>
   </div>
   <% unless form.object.new_record? -%>
     <div class="col-md-1">
-      <%= form.label("description_status_internal", '', class: 'form-check-label',
-                     title: Issue.human_attribute_name(:description_status) + ': ' + Issue.human_enum_name(:description_status, :internal)) do %>
+      <%= form.label :description_status_internal, '',
+            class: 'form-check-label', title: description_status_external_title do %>
         <%= form.radio_button :description_status, :internal %>
         <%= tag.span class: 'fa fa-home fa-2x' %>
       <% end -%>
-      <%= form.label("description_status_external", '', class: 'form-check-label',
-                     title: Issue.human_attribute_name(:description_status) + ': ' + Issue.human_enum_name(:description_status, :external)) do %>
+      <%= form.label :description_status_external, '',
+            class: 'form-check-label', title: description_status_external_title do %>
         <%= form.radio_button :description_status, :external %>
         <%= tag.span class: 'fa fa-globe fa-2x' %>
-      <% end -%>
+      <% end %>
     </div>
   <% end -%>
 </div>
 <div class="form-group row" style="<%= 'display: none' unless form.object.status_in_process? %>">
-  <%= form.label(:expected_closure, class: 'col-md-2 col-form-label') %>
+  <%= form.label :expected_closure, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.text_field(:expected_closure, class: 'form-control datepicker',
-        value: form.object.expected_closure ? l(form.object.expected_closure) : nil) %>
+    <%= form.text_field :expected_closure, class: 'form-control datepicker', value: l(form.object.expected_closure) %>
   </div>
 </div>
 <% unless form.object.new_record? -%>
   <div class="form-group row">
-    <%= form.label(:priority, class: 'col-md-2 col-form-label') %>
+    <%= form.label :priority, class: 'col-md-2 col-form-label' %>
     <div class="col-md-10 col-form-label">
       <% Issue.priorities.each do |priority, ix| -%>
         <div class="form-check form-check-inline">
-          <%= form.label("priority_#{ priority }", '', class: 'form-check-label') do %>
+          <%= form.label "priority_#{priority}", '', class: 'form-check-label' do %>
             <%= form.radio_button :priority, priority %>
-            <%= Issue.human_enum_name(:priority, priority) %>
-          <% end -%>
+            <%= Issue.human_enum_name :priority, priority %>
+          <% end %>
         </div>
       <% end -%>
     </div>

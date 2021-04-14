@@ -12,7 +12,7 @@ class JobsController < ApplicationController
   def update_multiple
     @jobs = Job.where(id: params[:job_ids])
     @group_id = @jobs.first.group.to_s_html
-    @jobs.update(params.require(:job).permit(:status, :date))
+    @jobs.update params.require(:job).permit(:status, :date)
     render :destroy
   end
 

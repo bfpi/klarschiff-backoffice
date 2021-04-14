@@ -1,4 +1,4 @@
-<h1><%= Group.human_enum_name(:kind, :field_service_team) %></h1>
+<h1><%= Group.human_enum_name :kind, :field_service_team %></h1>
 
 <%= paginate @field_services %>
 
@@ -6,21 +6,22 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col"><%= Group.human_attribute_name(:short_name) %></th>
-      <th scope="col"><%= Group.human_attribute_name(:name) %></th>
-      <th scope="col"><%= Group.human_attribute_name(:field_service_operator) %></th>
-      <th scope="col"><%= t('actions') %></th>
+      <th scope="col"><%= Group.human_attribute_name :short_name %></th>
+      <th scope="col"><%= Group.human_attribute_name :name %></th>
+      <th scope="col"><%= Group.human_attribute_name :field_service_operators %></th>
+      <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>
   <tbody>
-    <% @field_services.each do |field_service| %>
+    <% @field_services.each do |fs| -%>
       <tr>
-        <th scope="row"><%= field_service.id %></th>
-        <td><%= field_service.short_name %></td>
-        <td><%= field_service.name %></td>
-        <td><%= field_service.field_service_operator.map(&:to_s).sort.join('<br>').html_safe %></td>
+        <th scope="row"><%= fs.id %></th>
+        <td><%= fs.short_name %></td>
+        <td><%= fs.name %></td>
+        <td><%= operators_list fs %></td>
         <td>
-          <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_field_service_path(field_service), remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to tag.i('', class: 'fa fa-pencil'), edit_field_service_path(fs),
+                remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>
       </tr>
     <% end -%>
