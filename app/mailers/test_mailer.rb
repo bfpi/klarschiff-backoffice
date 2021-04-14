@@ -2,6 +2,6 @@
 
 class TestMailer < ApplicationMailer
   def test(to:)
-    mail to: to, subject: 'Test-Mail'
+    mail to: to
   end
 end
