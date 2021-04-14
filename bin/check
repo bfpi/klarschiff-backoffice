@@ -4,3 +4,4 @@ bin/rubocop
 bin/eslint
 bin/coffeelint
 bin/stylelint
+bin/erblint

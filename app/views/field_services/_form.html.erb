@@ -1,22 +1,23 @@
-<% if field_service.errors.any? %>
+<% if field_service.errors.any? -%>
   <div class="alert alert-danger">
     <ul class="list-unstyled mb-0">
-      <% field_service.errors.full_messages.each do |msg| %>
+      <% field_service.errors.full_messages.each do |msg| -%>
         <li><%= msg %></li>
-      <% end %>
+      <% end -%>
     </ul>
   </div>
-<% end %>
+<% end -%>
 
 <div class="form-group row">
-  <%= form.label(:name, class: 'col-md-2 col-form-label') %>
+  <%= form.label :name, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
     <%= form.object.to_s %>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:field_service_operator, class: 'col-md-2 col-form-label') %>
+  <%= form.label :field_service_operators, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.select_many_field('field_service_operator_ids', class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User) %>
+    <%= form.select_many_field 'field_service_operator_ids',
+          class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
   </div>
 </div>

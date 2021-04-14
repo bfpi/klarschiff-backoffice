@@ -1,4 +1,4 @@
-<h1><%= MailBlacklist.model_name.human(count: 2) %></h1>
+<h1><%= MailBlacklist.model_name.human count: 2 %></h1>
 
 <%= paginate @mail_blacklists %>
 
@@ -6,21 +6,22 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col"><%= MailBlacklist.human_attribute_name(:pattern) %></th>
-      <th scope="col"><%= MailBlacklist.human_attribute_name(:source) %></th>
-      <th scope="col"><%= MailBlacklist.human_attribute_name(:created_at) %></th>
-      <th scope="col"><%= t('actions') %></th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :pattern %></th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :source %></th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :created_at %></th>
+      <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>
   <tbody>
-    <% @mail_blacklists.each do |mail_blacklist| %>
+    <% @mail_blacklists.each do |mail_blacklist| -%>
       <tr class="<%= 'text-muted' unless mail_blacklist.active? %>">
         <th scope="row"><%= mail_blacklist.id %></th>
         <td><%= mail_blacklist.pattern %></td>
         <td><%= mail_blacklist.source %></td>
-        <td><%= l(mail_blacklist.created_at) %></td>
+        <td><%= l mail_blacklist.created_at %></td>
         <td>
-          <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_mail_blacklist_path(mail_blacklist), remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to tag.i('', class: 'fa fa-pencil'), edit_mail_blacklist_path(mail_blacklist),
+                remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>
       </tr>
     <% end -%>

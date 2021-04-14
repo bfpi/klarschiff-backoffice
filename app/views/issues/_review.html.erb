@@ -1,42 +1,42 @@
 <div class="form-group row">
-  <%= form.label(:kind, class: 'col-md-2 col-form-label') %>
+  <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
-    <%= Issue.human_enum_name(:kind, form.object.kind) %>
+    <%= Issue.human_enum_name :kind, form.object.kind %>
   </div>
-  <%= form.label(:category, for: :issue_main_user_id, class: 'col-md-2 col-form-label') %>
+  <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4 col-form-label">
     <%= form.object.category %>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:description, class: 'col-md-2 col-form-label') %>
+  <%= form.label :description, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
     <%= form.object.description %>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:created_at, class: 'col-md-2 col-form-label') %>
+  <%= form.label :created_at, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4 col-form-label">
-    <%= l(form.object.created_at) %>
+    <%= l form.object.created_at %>
   </div>
-  <%= form.label(:author, class: 'col-md-2 col-form-label') %>
+  <%= form.label :author, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4 col-form-label">
     <%= form.object.author %>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:position, class: 'col-md-2 col-form-label') %>
+  <%= form.label :position, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
     <div id="map" class="map"
       data-lat="<%= form.object&.position&.y %>"
       data-lon="<%= form.object&.position&.x %>"
-      data-icon="<%= asset_path(form.object&.map_icon) %>"
-      data-position-input="#issue_position"
-    ></div>
+      data-icon="<%= asset_path form.object&.map_icon %>"
+      data-position-input="#issue_position">
+    </div>
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label(:address, class: 'col-md-2 col-form-label') %>
+  <%= form.label :address, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4 col-form-label">
     <%= form.object.address %>
   </div>

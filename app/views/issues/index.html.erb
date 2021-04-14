@@ -1,4 +1,4 @@
-<h1><%= Issue.model_name.human(count: 2) %></h1>
+<h1><%= Issue.model_name.human count: 2 %></h1>
 
 <%= paginate @issues %>
 
@@ -6,25 +6,26 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col"><%= Issue.human_attribute_name(:created_at) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:category) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:status) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:address) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:supporter) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:responsibility) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:last_editor) %></th>
-      <th scope="col"><%= Issue.human_attribute_name(:priority) %></th>
-      <th scope="col"><%= t('actions') %></th>
+      <th scope="col"><%= Issue.human_attribute_name :created_at %></th>
+      <th scope="col"><%= Issue.human_attribute_name :category %></th>
+      <th scope="col"><%= Issue.human_attribute_name :status %></th>
+      <th scope="col"><%= Issue.human_attribute_name :address %></th>
+      <th scope="col"><%= Issue.human_attribute_name :supporter %></th>
+      <th scope="col"><%= Issue.human_attribute_name :responsibility %></th>
+      <th scope="col"><%= Issue.human_attribute_name :last_editor %></th>
+      <th scope="col"><%= Issue.human_attribute_name :priority %></th>
+      <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>
   <tbody>
-    <% @issues.each do |issue| %>
+    <% @issues.each do |issue| -%>
       <tr class="<%= 'text-muted' if issue.archived_at.present? %>">
         <th scope="row"><%= issue.id %></th>
-        <td><%= l(issue.created_at) %></td>
+        <td><%= l issue.created_at %></td>
         <td><%= issue.category %></td>
         <td>
-          <%= image_tag issue.list_icon, class: "status-icon #{ issue.status }" %> <%= Issue.human_enum_name(:status, issue.status) %>
+          <%= image_tag issue.list_icon, class: "status-icon #{issue.status}" %>
+          <%= Issue.human_enum_name :status, issue.status %>
         </td>
         <td><%= issue.address %></td>
         <td><%= issue.supporters.count %></td>
@@ -35,9 +36,10 @@
           <% end -%>
         </td>
         <td><%= issue.last_entry&.user %></td>
-        <td><%= Issue.human_enum_name(:priority, issue.priority) %></td>
+        <td><%= Issue.human_enum_name :priority, issue.priority %></td>
         <td>
-          <%= link_to content_tag(:i, '', class: "fa fa-pencil"), edit_issue_path(issue), remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),
+                remote: true, class: 'btn btn-sm btn-outline-primary' %>
         </td>
       </tr>
     <% end -%>
