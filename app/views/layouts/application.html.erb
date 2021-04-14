@@ -29,12 +29,13 @@
                     <div class="dropdown-menu">
                       <%= link_to(User.model_name.human(count: 2), users_url, class: 'dropdown-item') if authorized?(:manage_users) %>
                       <%= link_to(Group.model_name.human(count: 2), groups_url, class: 'dropdown-item') if authorized?(:manage_groups) %>
-                      <%= link_to(Group.human_enum_name(:kind, :field_service_team), field_services_url, class: 'dropdown-item') if authorized?(:manage_field_service)%>
+                      <%= link_to(Group.human_enum_name(:kind, :field_service_team), field_services_url, class: 'dropdown-item') if authorized?(:manage_field_service) %>
                       <%= link_to(Feedback.model_name.human(count: 2), feedbacks_url, class: 'dropdown-item') if authorized?(:manage_feedbacks) %>
                       <%= link_to(LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item') if authorized?(:list_log_entries) %>
-                      <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications)%>
-                      <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist)%>
-                      <%= link_to('Test', tests_url, class: 'dropdown-item') if authorized?(:test)%>
+                      <%= link_to(EditorialNotification.model_name.human(count: 2), editorial_notifications_url, class: 'dropdown-item') if authorized?(:manage_editorial_notifications) %>
+                      <%= link_to(MailBlacklist.model_name.human(count: 2), mail_blacklists_url, class: 'dropdown-item') if authorized?(:manage_mail_blacklist) %>
+                      <%= link_to('E-Mail-Templates / Vorschau', 'rails/mailers', target: :_blank, class: 'dropdown-item') if authorized?(:manage_mail_templates) %>
+                      <%= link_to('Tests', tests_url, class: 'dropdown-item') if authorized?(:test) %>
                     </div>
                   </li>
                 <% end -%>

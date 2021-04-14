@@ -11,8 +11,8 @@ module UserAuthorization
     return false unless active?
     case action
     when :administration
-      %i[manage_users manage_groups all_log_entries manage_editorial_notifications
-         manage_mail_blacklist].any? { |permission| authorized?(permission) }
+      (%i[list_log_entries test] | STATIC_PERMISSIONS.keys.select { |k| k.to_s.starts_with? 'manage_' })
+        .any? { |permission| authorized? permission }
     when :jobs
       group.any?(&:kind_field_service_team?)
     else
@@ -25,13 +25,14 @@ module UserAuthorization
   end
 
   STATIC_PERMISSIONS = {
-    list_log_entries: %i[admin regional_admin],
     change_user: %i[admin],
+    list_log_entries: %i[admin regional_admin],
     manage_editorial_notifications: %i[admin regional_admin],
     manage_feedbacks: %i[admin regional_admin],
     manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
     manage_mail_blacklist: %i[admin regional_admin],
+    manage_mail_templates: %i[admin],
     manage_users: %i[admin regional_admin],
     test: %i[admin]
   }.freeze
