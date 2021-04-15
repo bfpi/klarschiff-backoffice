@@ -1,21 +1,37 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  table: MyText
-  attr: MyText
-  subject_id:
-  subject_name: MyText
-  action: MyText
-  user: MyText
-  old_value: MyText
-  new_value: MyText
+delegation_entry:
+  table: issue
+  attr: delegation
+  issue: delegated
+  subject_id: <%= ActiveRecord::FixtureSet.identify :delegated %>
+  subject_name: Test
+  action: Delegation geändert
+  user: one
+  old_value: 
+  new_value: Delegation Test
+  created_at: <%= Time.current - 12.hours %>
 
-two:
-  table: MyText
-  attr: MyText
-  subject_id:
-  subject_name: MyText
-  action: MyText
-  user: MyText
-  old_value: MyText
-  new_value: MyText
+status_closed_entry:
+  table: issue
+  attr: status
+  issue: closed
+  subject_id: <%= ActiveRecord::FixtureSet.identify :closed %>
+  subject_name: Test
+  action: Status geändert
+  user: one
+  old_value: in_process
+  new_value: closed
+  created_at: <%= Time.current - 12.hours %>
+
+status_in_process__entry:
+  table: issue
+  attr: status
+  issue: in_process
+  subject_id: <%= ActiveRecord::FixtureSet.identify :in_process %>
+  subject_name: Test
+  action: Status geändert
+  user: one
+  old_value: reviewed
+  new_value: in_process
+  created_at: <%= Time.current - 12.hours %>

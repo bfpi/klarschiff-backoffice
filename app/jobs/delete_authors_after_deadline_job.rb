@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+
+class DeleteAuthorsAfterDeadlineJob < ApplicationJob
+  def perform
+    Issue.where(deletion_conds(Time.current - Jobs::Issue.author_deletion_deadline_days.days)).find_each do |issue|
+      remove_author(issue)
+    end
+  end
+
+  private
+
+  def remove_author(issue)
+    issue.update(author: nil)
+    issue.abuse_reports.update(author: nil)
+    issue.photos.update(author: nil)
+    issue.supporters.update(author: nil)
+    issue.feedback.update(author: nil)
+  end
+
+  def deletion_conds(time)
+    iat[:archived_at].not_eq(nil).iat[:archived_at].lt(time)
+  end
+
+  def iat
+    Issue.arel_table
+  end
+end

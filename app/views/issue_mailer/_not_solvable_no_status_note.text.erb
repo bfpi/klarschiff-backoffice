@@ -1,0 +1,8 @@
+
+Folgende Vorgänge mit dem Status "nicht lösbar" weisen bisher keine öffentliche Statusinformation auf. Bitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation:
+
+Nummer      aktuelle Zuständigkeit      Typ     Status "nicht lösbar" seit
+******      **********************      ***     **************************
+<% issues.each do |is| -%>
+<%= [issue.id, issue.responsibility, Issue.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t\t\t") %>
+<% end -%>

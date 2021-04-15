@@ -12,6 +12,26 @@ class IssueMailer < ApplicationMailer
     )
   end
 
+  def in_process(to:, issue:)
+    @issue = issue
+    mail(to: to, interpolation: { subject: { number: @issue.id } })
+  end
+
+  def closed(to:, issue:)
+    @issue = issue
+    mail(to: to, interpolation: { subject: { number: @issue.id } })
+  end
+
+  def delegation(to:, issues:)
+    @issues = issues
+    mail(to: to)
+  end
+
+  def inform_editorial_staff(to:, issues:)
+    @issues = issues
+    mail(to: to, interpolation: { subject: { title: 'Test' } })
+  end
+
   private
 
   def image_attachments(issue_email:)

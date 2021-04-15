@@ -9,3 +9,12 @@ two:
   issue: two
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:42:43
+
+not_supported:
+  issue: not_supported
+  confirmation_hash: 2321-1232-1212
+  confirmed_at: <%= Time.current - 1.day - 1.hour %>
+
+not_confirmed:
+  issue: not_confirmed
+  created_at: <%= Time.current - 1.day - 1.hour %>

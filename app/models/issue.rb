@@ -46,6 +46,8 @@ class Issue < ApplicationRecord
   delegate :kind, :kind_name, to: :category, allow_nil: true
   delegate :main_category, :sub_category, to: :category
 
+  after_create :send_confirmation
+
   def to_s
     "#{kind_name} ##{id}"
   end
@@ -105,5 +107,21 @@ class Issue < ApplicationRecord
 
   def latest_entry
     all_log_entries.order(created_at: :desc).find_by table: 'issue'
+  end
+
+  def responsibility_since
+    return if responsibility.blank?
+    all_log_entries.where(attr: 'responsibility').order(created_at: :desc).first.created_at
+  end
+
+  def status_since
+    return created_at if all_log_entries.where(attr: 'status').blank?
+    all_log_entries.where(attr: 'status', new_value: status).order(created_at: :desc).first.created_at
+  end
+
+  private
+
+  def send_confirmation
+    ConfirmationMailer.issue(to: author, issue_id: id, confirmation_hash: confirmation_hash).deliver_later
   end
 end

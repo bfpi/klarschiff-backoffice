@@ -11,3 +11,11 @@ one:
 
 two:
   <<: *DEFAULTS
+
+internal:
+  main_user: one
+  user: one
+
+external:
+  main_user: two
+  user: two

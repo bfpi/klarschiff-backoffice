@@ -1,0 +1,10 @@
+Folgende Vorgänge haben zwar ihre Erstsichtung bereits hinter sich, allerdings wurden Beschreibung und/oder Foto bisher noch nicht redaktionell freigegeben.
+Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "extern":
+
+Nummer      aktuelle Zuständigkeit      Typ     Status      Freigabestatus Beschreibung     Freigabestatus Foto
+******      **********************      ***     ******      ***************************     *******************
+<% issues.each do |is| -%>
+<%= [issue.id, issue.responsibility, Issue.human_enum_name(:kind, issue.kind),
+     Issue.human_enum_name(:status, issue.status), t(issue.description_status_external?),
+     t(issue.fotos.first&.description_status_external?)].join("\t\t\t") %>
+<% end -%>

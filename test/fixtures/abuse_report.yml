@@ -15,3 +15,10 @@ two:
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:42:01
   resolved_at: 2020-10-19 14:42:01
+
+not_confirmed:
+  author: test@rostock.de
+  message: Test
+  issue: not_confirmed
+  confirmation_hash:
+  created_at: <%= Time.current - 1.day - 1.hour %>

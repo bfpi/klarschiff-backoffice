@@ -9,6 +9,10 @@ before_script:
   - sudo -u postgres psql -c 'create database travis_ci_test'
   - rm config/database.yml
   - cp config/database.travis.yml config/database.yml
+  - rm config/jobs.yml
+  - cp config/jobs.sample.yml config/jobs.yml
+  - rm config/mailer.yml
+  - cp config/mailer.sample.yml config/mailer.yml
   - rm config/secrets.yml
   - cp config/secrets.sample.yml config/secrets.yml
 
