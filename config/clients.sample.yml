@@ -1,0 +1,39 @@
+#
+# Mögliche Permissions:
+#
+#  create_comments          - Lob/Hinweis/Kritik - lesen /requests/comments/create
+#  create_notes             - interne Kommentare anlegen /requests/notes/create
+#  create_requests          - Vorgang anlegen /requests/create
+#  d3_document_url          - Kategorie-Daten (D.3-Akten-Formular)
+#  destroy_requests         - Vorgang löschen /requests/destroy
+#  read_comments            - Lob/Hinweis/Kritik - lesen /requests/comments/index
+#  read_notes               - interne Kommentare lesen /requests/notes/index
+#  request_job_details      - Auftrags-Daten (Auftrag-Status, Priorität, Delegation)
+#  request_property_details - Angaben zum Flurstückseigentum
+#  update_jobs              - Aufträge auflisten/anlegen/bearbeiten /jobs/[index,create,update]
+#  update_requests          - Vorgang bearbeiten /requests/update
+#
+
+development: &default
+  <API-Key>:
+    name: <Client-Name>
+    permissions:
+      - :create_comments
+      - :create_notes
+      - :create_request
+      - :d3_document_url
+      - :destroy_requests
+      - :read_comments
+      - :read_notes
+      - :request_job_details
+      - :request_property_details
+      - :update_jobs
+      - :update_requests
+
+alpha: *default
+
+consolidation: *default
+
+production: *default
+
+test: *default

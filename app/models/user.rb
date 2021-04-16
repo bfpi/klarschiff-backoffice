@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def to_s
-    [first_name, last_name].map(&:presence).compact.join ' '
+    [first_name, last_name].filter_map(&:presence).join ' '
   end
 
   def as_json(_options = {})

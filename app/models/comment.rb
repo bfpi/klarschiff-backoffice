@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   include Logging
 
   belongs_to :issue
-  belongs_to :user, optional: true
+  belongs_to :user
 
   validates :message, presence: true
 

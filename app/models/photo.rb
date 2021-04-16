@@ -16,7 +16,7 @@ class Photo < ApplicationRecord
   attr_reader :censor_rectangles
   attr_accessor :censor_width, :censor_height
 
-  validates :file, presence: true
+  validates :file, attached: true, content_type: 'image/jpeg', on: :create
 
   def _modification
     nil
@@ -34,6 +34,18 @@ class Photo < ApplicationRecord
 
   def censor_rectangles=(string)
     @censor_rectangles = string.split(';').map { |str| CensorRectangle.new str }
+  end
+
+  def attach_media(value)
+    return if value.blank?
+    img = if value.respond_to? :path
+            MiniMagick::Image.open(value.path)
+          else
+            MiniMagick::Image.read(Base64.decode64(value))
+          end
+    img.format('JPEG') unless img.type == 'JPEG'
+    tf = img.tempfile
+    file.attach(io: File.open(tf.path), filename: 'Bild.jpg', content_type: 'iamge/jpeg')
   end
 
   private

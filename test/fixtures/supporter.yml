@@ -1,11 +1,27 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  issue: one
+DEFAULTS: &DEFAULTS
+  issue: $LABEL
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:42:43
 
+one:
+  <<: *DEFAULTS
+
 two:
-  issue: two
-  confirmation_hash: MyText
+  <<: *DEFAULTS
+
+already_confirmed:
+  <<: *DEFAULTS
+  issue: one
+  confirmation_hash: c00330d1-06a5-4969-b4c8-64184d7c99f4
   confirmed_at: 2020-10-19 14:42:43
+
+unconfirmed:
+  <<: *DEFAULTS
+  issue: one
+  confirmation_hash: 44992abb-e812-404d-b18d-a79a08bf38e3
+  confirmed_at: 
+
+undeleteable_supporter:
+  <<: *DEFAULTS

@@ -13,8 +13,7 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed, on: :update
-
+      before_validation :set_reviewed, on: :update, unless: :status_changed?
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
 

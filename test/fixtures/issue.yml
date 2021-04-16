@@ -1,29 +1,60 @@
 DEFAULTS: &DEFAULTS
   address: MyText
-  archived_at: 2020-10-19 14:44:11
+  archived_at:
   author: author@example.com
   category: one
-  confirmation_hash: MyText
+  confirmation_hash: $LABEL
   delegation:
   description: MyText $LABEL
   description_status: external
   group: one
+  job: $LABEL
   parcel: MyText
   photo_requested: false
-  position:
+  position: POINT (12.122439338030057 54.09104309547743)
   priority: middle
   property_owner: MyText
   reviewed_at: 2020-10-19 14:44:11
-  status: received
   status_note: MyText
+  status: received
   trust_level: internal
 
 one:
   <<: *DEFAULTS
   delegation: one
+  job: one
 
 two:
-  author: MyText
+  <<: *DEFAULTS
   category: two
   group: two
 
+already_confirmed:
+  <<: *DEFAULTS
+  confirmation_hash: ff53da14-fc5f-403b-bda4-ea9b632d8d84
+
+unconfirmed:
+  <<: *DEFAULTS
+  confirmation_hash: 5487366c-2894-48e6-9d52-965185f052a3
+  status: pending
+
+in_process:
+  <<: *DEFAULTS
+  status: in_process
+
+archived:
+  <<: *DEFAULTS
+  archived_at: 2020-10-19 14:44:11
+
+deleteable:
+  <<: *DEFAULTS
+
+undeleteable_supporter:
+  <<: *DEFAULTS
+
+undeleteable_abuse_report:
+  <<: *DEFAULTS
+
+undeleteable_status:
+  <<: *DEFAULTS
+  status: reviewed

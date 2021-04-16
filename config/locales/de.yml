@@ -124,6 +124,8 @@ de:
         login: Login
         password_digest: Passwort
         role: Rolle
+      supporter:
+        confirmation_hash: ''
     errors:
       models:
         issue:
@@ -137,6 +139,12 @@ de:
           attributes:
             base:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
+            status:
+              invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
+        supporter:
+          attributes:
+            confirmation_hash:
+              taken: Sie können dieselbe Meldung nicht mehrmals unterstützen.
         user:
           attributes:
             role:
@@ -206,6 +214,10 @@ de:
         other: Zuständigkeiten
       supporter: Unterstützer
       user: Benutzer
+  api_key:
+    invalid: Der übergebene API-Key ist ungültig.
+    missing: Es wurde kein API-Key übergeben.
+    no_permision: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
   attributes:
     active: Aktiv
     area: Fläche
@@ -284,6 +296,7 @@ de:
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
+  date_missing: Es wurde kein Datum übergeben.
   delegations: Delegationen
   edit: bearbeiten
   edit_issue: Meldung bearbeiten

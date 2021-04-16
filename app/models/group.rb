@@ -21,6 +21,7 @@ class Group < ApplicationRecord
   validates :name, presence: true
 
   scope :active, -> { where active: true }
+  scope :external, -> { where kind: :external }
 
   def to_s
     short_name || name

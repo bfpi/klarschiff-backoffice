@@ -8,3 +8,4 @@ one:
 
 two:
   <<: *DEFAULTS
+  kind: idea
