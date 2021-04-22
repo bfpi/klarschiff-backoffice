@@ -40,7 +40,7 @@ KS.initializeSelectManyAutocomplete = ->
         hidden = $('<input>').attr('type', 'hidden')
         hidden.attr 'name', $(event.target).attr('name')
         hidden.attr 'value', ui.item.value
-        button = $('a').attr('href', '#')
+        button = $('<a>').attr('href', '#')
         button.attr 'class', 'btn btn-sm btn-outline-primary'
         button.html '<i class="fa fa-trash"></i>'
         tr.after "<tr><td>#{hidden.prop('outerHTML')}#{ui.item.label}</td><td>#{button.prop('outerHTML')}</td></tr>"
