@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  include UserAuthorization
   include Logging
+  include UserAuthorization
 
   has_secure_password(validations: false)
 
@@ -10,9 +10,11 @@ class User < ApplicationRecord
 
   enum role: { admin: 0, regional_admin: 1, editor: 2 }, _prefix: true
 
-  has_and_belongs_to_many :group
-  has_and_belongs_to_many :district
-  has_and_belongs_to_many :field_service_team, class_name: 'Group', join_table: :field_service_team_operator
+  with_options after_add: :log_habtm_add, after_remove: :log_habtm_remove do
+    has_and_belongs_to_many :group
+    has_and_belongs_to_many :district
+    has_and_belongs_to_many :field_service_team, class_name: 'Group', join_table: :field_service_team_operator
+  end
 
   validates :first_name, :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true

@@ -22,11 +22,10 @@ module Logging
         subject = proxy_association.owner
         old = Logging.convert_value(old_value, attr, subject)
         new = Logging.convert_value(new_value, attr, subject)
-        create(
-          table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject), subject_id: subject.id,
-          subject_name: subject, action: Logging.generate_action(subject.class, attr, :update, old, new),
-          user: Current.user, old_value: old, new_value: new
-        )
+        create table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject),
+               subject_id: subject.id, subject_name: subject.logging_subject_name,
+               action: Logging.generate_action(subject.class, attr, :update, old, new),
+               user: Current.user, old_value: old, new_value: new
       end
     end
   end
@@ -36,10 +35,8 @@ module Logging
   end
 
   def log_create
-    log_entries.create(
-      table: model_name.element, action: Logging.action_text(:create),
-      user: Current.user, subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
-    )
+    log_entries.create table: model_name.element, action: Logging.action_text(:create), user: Current.user,
+                       subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
   end
 
   def log_update
@@ -59,35 +56,35 @@ module Logging
 
   def log_update_for_reflection(attr, reflection, old, new)
     klass = reflection.klass
-    log_entries.generate(attr, :update, klass.find_by(id: old).to_s, klass.find_by(id: new).to_s)
+    log_entries.generate attr, :update, klass.find_by(id: old).to_s, klass.find_by(id: new).to_s
   end
 
   def log_update_for_non_reflection(attr, old, new)
     old = new = nil if attr.in?(self.class.omit_field_log_values || self.class.superclass.omit_field_log_values)
-    log_entries.generate(attr, :update, old, new)
+    log_entries.generate attr, :update, old, new
   end
 
   def log_destroy
-    LogEntry.create(
-      table: model_name.element, action: Logging.action_text(:removed),
-      user: Current.user, subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
-    )
+    LogEntry.create table: model_name.element, action: Logging.action_text(:removed), user: Current.user,
+                    subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
   end
 
   def log_habtm_add(obj)
-    log_assoc("#{obj.model_name.human} #{Logging.action_text(:added)}: #{obj}")
+    log_assoc "#{obj.logging_subject_name} #{Logging.action_text :added}"
   end
 
   def log_habtm_remove(obj)
-    log_assoc("#{obj.model_name.human} #{Logging.action_text(:removed)}: #{obj}")
+    log_assoc "#{obj.logging_subject_name} #{Logging.action_text :removed}"
   end
 
   def log_assoc(action)
     return unless id
-    log_entries.create(
-      table: model_name.element, action: action, user: Current.user,
-      subject_id: id, subject_name: to_s, issue_id: Logging.issue_id(self)
-    )
+    log_entries.create table: model_name.element, action: action, user: Current.user,
+                       subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
+  end
+
+  def logging_subject_name
+    "#{model_name.human} #{self}"
   end
 
   def self.issue_id(subject)
