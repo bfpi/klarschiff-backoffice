@@ -1,11 +1,11 @@
 <div class="modal-dialog modal-xl">
-  <%= form_for(@group, url: groups_path, method: :post, remote: true) do |f| -%>
+  <%= form_for @group.becomes(Group), url: groups_path, method: :post, remote: true do |f| %>
     <div class="modal-content">
       <div class="modal-header">
-        <h1><%= Group.model_name.human %> <%= t('create') %></h1>
+        <h1><%= Group.model_name.human %> <%= t 'create' %></h1>
       </div>
       <div class="modal-body">
-        <%= render(partial: 'form', locals: { form: f, group: @group }) %>
+        <%= render partial: 'form', locals: { form: f, group: @group } %>
       </div>
       <div class="modal-footer">
         <%= f.submit t('action.save'), class: 'btn btn-primary offset-3 col-2' %>

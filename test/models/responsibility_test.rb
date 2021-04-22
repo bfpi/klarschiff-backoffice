@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class PropertyOwnerTest < ActiveSupport::TestCase
+class ResponsibilityTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

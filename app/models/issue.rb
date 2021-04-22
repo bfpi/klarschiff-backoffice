@@ -7,7 +7,6 @@ class Issue < ApplicationRecord
 
   with_options _prefix: true do
     enum description_status: { internal: 0, external: 1, deleted: 2 }
-    enum kind: { idea: 0, problem: 1, hint: 2 }
     enum priority: { low: 0, middle: 1, high: 2 }
     enum status: { pending: 0, received: 1, reviewed: 2, in_process: 3, not_solvable: 4, duplicate: 5, closed: 6,
                    deleted: 7 }
@@ -16,8 +15,8 @@ class Issue < ApplicationRecord
 
   belongs_to :category
   belongs_to :delegation, optional: true, class_name: 'Group'
+  belongs_to :group
   belongs_to :job, optional: true
-  belongs_to :responsibility, class_name: 'Group'
 
   with_options dependent: :destroy do
     has_many :abuse_reports
@@ -33,7 +32,7 @@ class Issue < ApplicationRecord
   validates :author, presence: true, on: :create
   validates :author, email: true, on: :create
   validates :confirmation_hash, uniqueness: true
-  validates :description, :kind, :position, :status, presence: true
+  validates :description, :position, :status, presence: true
   validates :status_note, presence: true, if: :expected_closure_changed?
 
   validate :author_blacklist
@@ -45,18 +44,20 @@ class Issue < ApplicationRecord
   before_validation :set_reviewed, on: :update
   before_save :set_expected_closure, if: :status_changed?
 
+  delegate :kind, :kind_name, to: :category, allow_nil: true
+
   def to_s
-    "#{Issue.human_enum_name(:kind, kind)} ##{id}"
+    "#{kind_name} ##{id}"
   end
 
   alias logging_subject_name to_s
 
   def map_icon
-    "icons/map/active/png/#{category&.kind || 'blank'}-#{icon_color}.png"
+    "icons/map/active/png/#{kind || 'blank'}-#{icon_color}.png"
   end
 
   def list_icon
-    "icons/list/png/#{category&.kind || 'blank'}-#{icon_color}-22px.png"
+    "icons/list/png/#{kind || 'blank'}-#{icon_color}-22px.png"
   end
 
   private
@@ -94,14 +95,14 @@ class Issue < ApplicationRecord
   end
 
   def set_responsibility
-    return if responsibility.present? && responsibility_action.blank?
+    return if group.present? && responsibility_action.blank?
     case responsibility_action&.to_sym
     when :accept
       self.responsibility_accepted = true
     when :manual
       self.responsibility_accepted = false
     else
-      self.responsibility = category&.group
+      self.group = category.responsibilities.first.group
       self.responsibility_accepted = false
     end
   end

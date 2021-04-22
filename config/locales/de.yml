@@ -60,15 +60,13 @@ de:
         description: Beschreibung
         description_status: Beschreibungs-Status
         expected_closure: voraussichtlichen Abschluss
-        group: Gruppe
+        group: Zuständigkeit
         id: Nummer
-        kind: Typ
         new_photo: Foto hinzufügen
         photo_requested: Fotowunsch
         position: Position
         priority: Priorität
         property_owner: Flurstückseigentum/-eigentümer
-        responsibility: Zuständigkeit
         reviewed_at: Erstsichtungszeitpunkt
         status_note: Statuskommentar
         trust_level: Vertrauensstufe
@@ -196,11 +194,6 @@ de:
   edit: bearbeiten
   edit_issue: Meldung bearbeiten
   enums:
-    category:
-      kind:
-        idea: Idee
-        problem: Problem
-        hint: Tipp
     group:
       kind:
         internal: Intern
@@ -211,10 +204,6 @@ de:
         internal: Intern
         external: Extern
         deleted: Gelöscht
-      kind:
-        idea: Idee
-        problem: Problem
-        hint: Tipp
       priority:
         low: Niedrig
         middle: Mittel
@@ -237,6 +226,11 @@ de:
         checked: abgehakt
         unchecked: nicht abgehakt
         not_checkable: nicht abarbeitbar
+    main_category:
+      kind:
+        idea: Idee
+        problem: Problem
+        tip: Tipp
     photo:
       status:
         internal: Intern

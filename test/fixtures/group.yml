@@ -1,15 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+DEFAULTS: &DEFAULTS
+  email: $LABEL@example.com
+  kind: external
+  main_user: one
+  name: Group $LABEL
+  reference_id: <%= ActiveRecord::FixtureSet.identify :one %>
+  short_name: $LABEL
 
 one:
-  email: test@example.com
-  kind: 1
-  main_user: one
-  name: MyText
-  short_name: MyText
+  <<: *DEFAULTS
 
 two:
-  email: test@example.com
-  kind: 1
-  main_user: two
-  name: MyText
-  short_name: MyText
+  <<: *DEFAULTS

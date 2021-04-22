@@ -5,8 +5,10 @@ class ApplicationRecord < ActiveRecord::Base
 
   before_validation :strip_input_fields
 
-  def self.human_enum_name(enum_name, enum_value)
-    I18n.t("enums.#{model_name.i18n_key}.#{enum_name}.#{enum_value}")
+  delegate :human_enum_name, to: :class
+
+  def self.human_enum_name(enum_name, value)
+    I18n.t "enums.#{model_name.i18n_key}.#{enum_name}.#{value}", default: I18n.t("enums.#{enum_name}.#{value}")
   end
 
   def strip_input_fields

@@ -35,7 +35,7 @@
           </td>
           <td><%= photo_form.object.author %></td>
           <td>
-            <%= photo_form.label 'description_status_internal', '',
+            <%= photo_form.label 'status_internal', '',
                   title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :internal}",
                   class: 'form-check-label' do %>
               <%= photo_form.radio_button :status, :internal %>

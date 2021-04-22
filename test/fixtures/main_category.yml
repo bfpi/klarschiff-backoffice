@@ -1,0 +1,10 @@
+DEFAULTS: &DEFAULTS
+  deleted: false
+  kind: problem
+  name: Main category $LABEL
+
+one:
+  <<: *DEFAULTS
+
+two:
+  <<: *DEFAULTS
