@@ -3,6 +3,8 @@
 class Issue < ApplicationRecord
   include Logging
 
+  attr_accessor :responsibility_action, :new_photo
+
   with_options _prefix: true do
     enum description_status: { internal: 0, external: 1, deleted: 2 }
     enum kind: { idea: 0, problem: 1, hint: 2 }
@@ -25,9 +27,8 @@ class Issue < ApplicationRecord
     has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :supporters
   end
-  accepts_nested_attributes_for :photos, allow_destroy: true
 
-  attr_accessor :responsibility_action, :new_photo
+  accepts_nested_attributes_for :photos, allow_destroy: true
 
   validates :author, presence: true, on: :create
   validates :author, email: true, on: :create
@@ -47,6 +48,8 @@ class Issue < ApplicationRecord
   def to_s
     "#{Issue.human_enum_name(:kind, kind)} ##{id}"
   end
+
+  alias logging_subject_name to_s
 
   def map_icon
     "icons/map/active/png/#{category&.kind || 'blank'}-#{icon_color}.png"
