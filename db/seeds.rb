@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'csv'
 
 {
+  'admin' => { first_name: 'Admin', last_name: 'Admin', email: 'admin@bfpi.de', password: 'bfpi',
+               role: User.roles[:admin] },
   'rvoss' => { first_name: 'Robert', last_name: 'Voß', email: 'voss@bfpi.de', password: 'bfpi',
                role: User.roles[:admin] },
   'akruth' => { first_name: 'Alexander', last_name: 'Kruth', email: 'kruth@bfpi.de', password: 'bfpi',
@@ -32,43 +28,6 @@
   end
 end
 
-5.times do |ix|
-  {
-    "aussen_#{ix + 1}" => { name: "Außendienst #{ix + 1}", kind: Group.kinds[:field_service_team] },
-    "innen_#{ix + 1}" => { name: "Intern #{ix + 1}", kind: Group.kinds[:internal] },
-    "extern_#{ix + 1}" => { name: "Extern #{ix + 1}", kind: Group.kinds[:external] }
-  }.each do |short_name, hsh|
-    Group.find_or_create_by!(short_name: short_name) do |group|
-      group.name = hsh[:name]
-      group.kind = hsh[:kind]
-      group.main_user = User.find_by(login: :regional_admin)
-    end
-  end
-end
-
-5.times do |ix|
-  [
-    { name: "Hauptkategorie Idee #{ix + 1}", kind: Category.kinds[:idea] },
-    { name: "Hauptkategorie Problem #{ix + 1}", kind: Category.kinds[:problem] }
-  ].each do |hsh|
-    Category.find_or_create_by!(name: hsh[:name], average_turnaround_time: 7) do |category|
-      category.kind = hsh[:kind]
-      category.group = Group.find_by(short_name: "innen_#{ix + 1}")
-    end
-  end
-end
-
-Category.all.each do |main_category|
-  5.times do |ix|
-    Category.find_or_create_by!(name: "Unterkategorie #{main_category.id} - #{ix + 1}",
-                                average_turnaround_time: 7) do |category|
-      category.group = Group.find_by(short_name: "innen_#{ix + 1}")
-      category.kind = main_category.kind
-      main_category.children << category
-    end
-  end
-end
-
 unless MailBlacklist.exists?
   50.times do
     pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
@@ -77,15 +36,15 @@ unless MailBlacklist.exists?
 end
 
 rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
-{ kreise: County, aemter: Authority, gemeinden: Community }.each do |file_name, object_class|
-  next unless File.exist?(file = "db/seeds/#{file_name}.xml")
+{ kreise: County, aemter: Authority, gemeinden: Community }.each do |xml_key, object_class|
+  next unless File.exist?(file = "db/seeds/#{object_class.to_s.downcase.pluralize}.xml")
   doc = Nokogiri::XML(File.read(file))
   doc.xpath('/wfs:FeatureCollection/gml:featureMember').each do |feature|
-    regional_key = feature.xpath("dvg:#{file_name}/dvg:schluessel/text()").to_s.strip
-    name = feature.xpath("dvg:#{file_name}/dvg:gen/text()").to_s.strip
+    regional_key = feature.xpath("dvg:#{xml_key}/dvg:schluessel/text()").to_s.strip
+    name = feature.xpath("dvg:#{xml_key}/dvg:gen/text()").to_s.strip
 
     condition = <<~XPATH.strip
-      dvg:#{file_name}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
+      dvg:#{xml_key}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
     XPATH
     polygons = feature.xpath(condition).map do |polygon|
       tmp = polygon.to_s.strip.split.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
@@ -94,11 +53,27 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
 
     transform = false
     obj = object_class.find_or_create_by!(regional_key: regional_key, name: name) do |c|
-      options = { regional_key: feature.xpath("dvg:#{file_name}/dvg:zugehoerig/text()").to_s.strip }
-      c.county = County.find_by(options) if file_name == :aemter
-      c.authority = Authority.find_by(options) if file_name == :gemeinden
+      options = { regional_key: feature.xpath("dvg:#{xml_key}/dvg:zugehoerig/text()").to_s.strip }
+      c.county = County.find_by(options) if xml_key == :aemter
+      c.authority = Authority.find_by(options) if xml_key == :gemeinden
       c.area = rgeo_factory.parse_wkt("MULTIPOLYGON((#{polygons.join(',')}))")
       transform = true
+    end
+    { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
+      next unless type == xml_key
+      group_model.create! main_user: User.first, name: "Standardzuständigkeit - #{name}", short_name: "SZ #{name}",
+                          kind: :internal, reference_default: true, reference_id: obj.id
+      next unless Rails.env.development?
+      2.times do |ix|
+        {
+          "aussen_#{ix + 1}": { name: "Außendienst #{ix + 1} #{name}", kind: :field_service_team },
+          "innen_#{ix + 1}": { name: "Intern #{ix + 1} #{name}", kind: :internal },
+          "extern_#{ix + 1}": { name: "Extern #{ix + 1} #{name}", kind: :external }
+        }.each do |short_name, values|
+          group_model.create! values.merge(short_name: short_name, reference_id: obj.id,
+                                           main_user: User.find_by(login: :regional_admin))
+        end
+      end
     end
     next unless transform
     ActiveRecord::Base.connection.execute <<~SQL.squish
@@ -116,3 +91,45 @@ ActiveRecord::Base.connection.execute <<~SQL.squish
     ST_GeomFromText(ST_AsText(area), 4326)))), 3)))))), 3))), 4326), current_timestamp, current_timestamp
   FROM #{County.table_name}
 SQL
+
+InstanceGroup.create! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
+                      kind: :internal, reference_default: true, reference_id: 1
+if Rails.env.development?
+  2.times do |ix|
+    {
+      "aussen_#{ix + 1}": { name: "Außendienst #{ix + 1} MV", kind: :field_service_team },
+      "innen_#{ix + 1}": { name: "Intern #{ix + 1} MV", kind: :internal },
+      "extern_#{ix + 1}": { name: "Extern #{ix + 1} MV", kind: :external }
+    }.each do |short_name, values|
+      InstanceGroup.create! values.merge(short_name: short_name, reference_id: 1,
+                                         main_user: User.find_by(login: :regional_admin))
+    end
+  end
+end
+
+current_main_category = nil
+CSV.table('db/seeds/categories.csv').each do |row|
+  if (name = row[0]).present?
+    current_main_category = MainCategory.find_or_create_by!(kind: row[1], name: name.strip)
+  elsif (name = row[2]).present?
+    sub_category = SubCategory.find_or_create_by!(name: name.strip)
+    Category.create! main_category: current_main_category, sub_category: sub_category
+  end
+end
+
+current_main_category = nil
+Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
+  class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
+  model = class_name.classify.constantize
+  target = model.find_by!(name: name)
+  CSV.table(file_name).each do |row|
+    if (name = row[0]).present?
+      current_main_category = MainCategory.find_by!(kind: row[1], name: name.strip)
+    elsif (name = row[2]).present? && (group_name = row[3]).present?
+      sub_category = SubCategory.find_by!(name: name.strip)
+      category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
+      group = target.groups.find_or_create_by!(name: group_name.strip)
+      Responsibility.create! category: category, group: group
+    end
+  end
+end

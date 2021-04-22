@@ -1,6 +1,4 @@
-alpha:
-
-development:
+development: &default
   geocodr:
     address_object_group: Adresse HRO
     address_search_class: address_hro
@@ -13,6 +11,8 @@ development:
     property_owner_object_group: Flurstückseigentümer
     property_owner_search_class: property_owner
     url: https://geo.sv.rostock.de/geocodr/query?
+  group:
+    main_user_optional: true
   instance:
     parent_instance_url: https://www.klarschiff-mv.de/
   job:
@@ -47,7 +47,13 @@ development:
     username:
 
 test:
+  <<: *default
+
+alpha:
+  <<: *default
 
 consolidation:
+  <<: *default
 
 production:
+  <<: *default

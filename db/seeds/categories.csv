@@ -1,0 +1,205 @@
+Main category,Type,Sub category
+Gehweg/Radweg/Straße,problem,
+,,Papierkorb/Abfalleimer schadhaft
+,,Papierkorb/Abfalleimer überfüllt
+,,Ampel schadhaft
+,,bauliche Gefahrenstelle
+,,Beleuchtung schadhaft
+,,Baum schadhaft
+,,öffentlicher Fahrstuhl
+,,Beschilderung/Markierung schadhaft
+,,Brücke/Tunnel/Mauer/Treppe schadhaft
+,,Fahrradständer schadhaft
+,,Gully schadhaft
+,,Verunreinigung Gully / Straßeneinlauf
+,,Hundekot
+,,Poller/Planke/Absperrelement schadhaft
+,,Sitzgelegenheit schadhaft
+,,Wegereinigung fehlt
+,,Wildwuchs
+Müll/Schmutz,problem,
+,,Papierkorb/Abfalleimer überfüllt
+,,Altfahrzeug/Schrottfahrrad
+,,Bauabfall
+,,Beutel in Hundetoilette fehlen
+,,Elektroschrott
+,,Grünschnitt/Gartenabfälle
+,,Hausmüll
+,,Hundekot
+,,Mülltonne/Abfallbehälter überfüllt
+,,Nebenablagerungen an Recycling-Container
+,,Recycling-Container überfüllt
+,,Sondermüll
+,,Sperrmüll
+,,Wegereinigung fehlt
+,,Verunreinigung Gully / Straßeneinlauf
+Öffentliches Grün/Spielplatz,problem,
+,,bauliche Gefahrenstelle
+,,Wegereinigung fehlt
+,,Papierkorb/Abfalleimer schadhaft
+,,Papierkorb/Abfalleimer überfüllt
+,,Kompostierplatz überfüllt
+,,Müllablagerung
+,,Baum schadhaft
+,,Baumscheibe / -einfassung ungepflegt
+,,Beleuchtung schadhaft
+,,Beschilderung/Markierung schadhaft
+,,Beutel in Hundetoilette fehlen
+,,Brunnen schadhaft
+,,Kunst im öffentlichen Raum schadhaft
+,,Fahrradständer schadhaft
+,,Grünanlage ungepflegt
+,,Hundekot
+,,Hundetoilette schadhaft
+,,Poller/Planke/Absperrelement schadhaft
+,,Sitzgelegenheit schadhaft
+,,Spielgerät schadhaft
+,,Grabstein verschmutzt
+,,Grabstein schief nicht standsicher
+,,ungepflegtes Grab
+Parken,problem,
+,,Parkautomat schadhaft
+,,dauerhaftes Falschparken
+Öffentliche Einrichtungen ,problem,
+,,Papierkorb/Abfalleimer schadhaft
+,,Papierkorb/Abfalleimer überfüllt
+,,Beschilderung schadhaft
+,,Beutel in Hundetoilette fehlen
+,,Brunnen schadhaft
+,,Kunst im öffentlichen Raum schadhaft
+,,Fahrradständer schadhaft
+,,Hundetoilette schadhaft
+,,Parkautomat schadhaft
+,,Poller/Planke/Absperrelement schadhaft
+,,Sitzgelegenheit schadhaft
+,,Spielgerät schadhaft
+,,Verteilerkasten schadhaft
+,,öffentliche Uhren
+,,öffentliche Fahrstühle
+Vandalismus/Schmiererei/Graffiti ,problem,
+,,Papierkorb/Abfalleimer
+,,Ampel
+,,Baum
+,,Beleuchtung
+,,Beschilderung/Markierung
+,,Brücke/Tunnel/Mauer/Treppe
+,,Brunnen
+,,Kunst im öffentlichen Raum
+,,Fahrradständer
+,,Gully
+,,Haltestelle
+,,Hundetoilette
+,,Mülltonne/Abfallbehälter
+,,Parkautomat
+,,Poller/Planke/Absperrelement
+,,Recycling-Container
+,,Schutzhütte
+,,Sitzgelegenheit
+,,Spielgerät
+,,Verteilerkasten
+Verkehrseinrichtung/Beleuchtung,problem,
+,,Ampel schadhaft
+,,Beleuchtung schadhaft
+,,Beschilderung/Markierung schadhaft
+,,Fahrradständer schadhaft
+,,Gully schadhaft
+,,Haltestelle schadhaft
+,,Parkautomat schadhaft
+,,Poller/Planke/Absperrelement schadhaft
+,,öffentliche Uhren
+,,öffentliche Fahrstühle
+Wald,problem,
+,,Baum schadhaft
+,,Beschilderung/Markierung schadhaft
+,,Kunst im öffentlichen Raum schadhaft
+,,Fahrradständer schadhaft
+,,Müllerablagerung
+,,Poller/Planke/Absperrelement schadhaft
+,,Reiten abseits der Reitwege
+,,Schutzhütte schadhaft
+,,Sitzgelegenheit schadhaft
+,,Spielgerät schadhaft
+,,wildes Campen
+,,verbotenes Fahren mit Kfz
+,,verbotenes Feuermachen
+,,dauerhaftes Falschparken
+,,Wegereinigung fehlt
+Winterdienst,problem,
+,,Gehweg nicht geräumt
+,,Radweg nicht geräumt
+,,Straße nicht geräumt
+,,verbotener Streusalzeinsatz
+Wasser,problem,
+,,Gehweg/Radweg/Straße überflutet
+,,Gewässerverschmutzung
+,,Grabenpflege
+,,Grünanlage überflutet
+,,Gully verstopft
+Barrierefreiheit,idea,
+,,Ampel behindertengerecht gestalten
+,,Ampelschaltung ändern
+,,Bordstein absenken
+,,Zugang rollstuhlgerecht gestalten
+Fahrradverkehr,idea,
+,,Ampelschaltung ändern
+,,Beleuchtung verändern
+,,Beschilderung/Markierung ändern
+,,Beschilderung/Markierung einführen
+,,Bordstein absenken
+,,Fahrradständer aufstellen
+Fußgänger,idea,
+,,Papierkorb/Abfalleimer aufstellen
+,,Ampelschaltung ändern
+,,Beleuchtung verändern
+,,Beschilderung/Markierung ändern
+,,Beschilderung/Markierung einführen
+,,Bordstein absenken
+,,Sitzgelegenheit aufstellen
+Öffentlicher Nahverkehr,idea,
+,,Fahrplan ändern
+,,Haltestelle verlegen
+,,Linienführung ändern
+Öffentliche Einrichtungen/Beleuchtung,idea,
+,,Papierkorb/Abfalleimer aufstellen
+,,Beleuchtung verändern
+,,Fahrradständer aufstellen
+,,Hundetoilette aufstellen
+,,Recycling-Container aufstellen
+,,Sitzgelegenheit aufstellen
+,,Spielplatz verändern
+Straßenverkehr,idea,
+,,Ampelschaltung ändern
+,,Beschilderung/Markierung ändern
+,,Beschilderung/Markierung einführen
+Wald,idea,
+,,Papierkorb/Abfalleimer aufstellen
+,,Beschilderung/Markierung ändern
+,,Beschilderung/Markierung einführen
+,,Fahrradständer aufstellen
+,,Spielplatz verändern
+,,Schutzhütte aufstellen
+,,Sitzgelegenheit aufstellen
+Gewerberecht,hint,
+,,Alkoholverkauf an Jugendliche
+,,Baustellen ohne Firmenschilder
+,,Fehlende Preisangaben
+,,Rauchen in Gaststätten
+,,Spielhallen mit Jugendlichen
+,,Verdacht auf Schwarzarbeit
+Karte,hint,
+,,Hausnummer fehlerhaft
+,,Gebäude fehlerhaft
+Winterdienst,hint,
+,,Gehweg nicht geräumt
+,,Radweg nicht geräumt
+,,Straße nicht geräumt
+,,verbotener Streusalzeinsatz
+Ruhestörung / Gerüche ,problem,
+,,Nichteinhaltung Ruhezeiten
+,,Belästigung durch Gewerbe
+,,Belästigung durch Private
+,,Belästigung durch Veranstaltungen
+Tiere / Tierschutz,problem,
+,,Beseitigung von Tierkadavern
+,,nicht artgerechte Haltung
+,,Fundtiere / freilaufende Tiere

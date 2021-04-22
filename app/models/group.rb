@@ -5,7 +5,10 @@ class Group < ApplicationRecord
 
   enum kind: { internal: 0, external: 1, field_service_team: 2 }, _prefix: true
 
-  belongs_to :main_user, class_name: 'User'
+  belongs_to :main_user, class_name: 'User', optional: Settings::Group.main_user_optional
+
+  has_many :jobs, dependent: :destroy
+  has_many :responsibilities, dependent: :destroy
 
   with_options after_add: :log_habtm_add, after_remove: :log_habtm_remove do
     has_and_belongs_to_many :field_service_operators, class_name: 'User',
@@ -15,18 +18,16 @@ class Group < ApplicationRecord
     has_and_belongs_to_many :user
   end
 
-  has_many :jobs, dependent: :destroy
+  validates :name, presence: true
 
-  validates :name, :short_name, presence: true
-
-  scope :active, -> { where(active: true) }
+  scope :active, -> { where active: true }
 
   def to_s
     name
   end
 
   def to_s_html
-    name.tr(' ', '_')
+    name.tr ' ', '_'
   end
 
   def as_json(_options = {})

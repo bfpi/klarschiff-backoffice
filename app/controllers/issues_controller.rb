@@ -3,8 +3,6 @@
 class IssuesController < ApplicationController
   include Filter
 
-  helper CategoriesHelper
-
   before_action :set_tab
 
   def index
@@ -50,7 +48,7 @@ class IssuesController < ApplicationController
   def issue_params
     return {} if params[:issue].blank?
     params.require(:issue).permit(:address, :author, :category_id, :delegation_id, :description, :description_status,
-      :expected_closure, :kind, :new_photo, :parcel, :photo_requested, :position, :priority, :property_owner,
+      :expected_closure, :new_photo, :parcel, :photo_requested, :position, :priority, :property_owner,
       :responsibility_action, :responsibility_id, :status, :status_note,
       photos_attributes: %i[id status censor_rectangles censor_width censor_height _modification _destroy])
   end

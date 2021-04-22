@@ -21,11 +21,11 @@
 <div class="form-group row">
   <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
-    <% Issue.kinds.each do |kind, ix| -%>
+    <% MainCategory.kinds.each do |kind, ix| -%>
       <div class="form-check form-check-inline">
         <%= form.label("kind_#{kind}", '', class: 'form-check-label') do %>
           <%= form.radio_button :kind, kind %>
-          <%= Issue.human_enum_name :kind, kind %>
+          <%= MainCategory.human_enum_name :kind, kind %>
         <% end %>
       </div>
     <% end -%>
@@ -34,9 +34,7 @@
 <div class="form-group row">
   <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.select :category_id, options_from_collection_for_select(
-          categories_for_kind(form.object.kind), :id, :to_s, form.object.category_id
-        ), { include_blank: true }, class: 'form-control' %>
+    <%= form.select :category_id, grouped_categories(form.object), { include_blank: true }, class: 'form-control' %>
   </div>
   <%= form.label :author, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
@@ -51,7 +49,7 @@
   <% unless form.object.new_record? -%>
     <div class="col-md-1">
       <%= form.label :description_status_internal, '',
-            class: 'form-check-label', title: description_status_external_title do %>
+            class: 'form-check-label', title: description_status_internal_title do %>
         <%= form.radio_button :description_status, :internal %>
         <%= tag.span class: 'fa fa-home fa-2x' %>
       <% end -%>

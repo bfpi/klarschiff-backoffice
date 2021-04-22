@@ -1,0 +1,14 @@
+DEFAULTS: &DEFAULTS
+  deleted: false
+  dms:
+  name: Sub category $LABEL
+
+one:
+  <<: *DEFAULTS
+
+two:
+  <<: *DEFAULTS
+
+dms:
+  <<: *DEFAULTS
+  dms: d3:AAUTO

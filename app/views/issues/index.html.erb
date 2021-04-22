@@ -11,7 +11,7 @@
       <th scope="col"><%= Issue.human_attribute_name :status %></th>
       <th scope="col"><%= Issue.human_attribute_name :address %></th>
       <th scope="col"><%= Issue.human_attribute_name :supporter %></th>
-      <th scope="col"><%= Issue.human_attribute_name :responsibility %></th>
+      <th scope="col"><%= Issue.human_attribute_name :group %></th>
       <th scope="col"><%= Issue.human_attribute_name :last_editor %></th>
       <th scope="col"><%= Issue.human_attribute_name :priority %></th>
       <th scope="col"><%= t 'actions' %></th>
@@ -30,7 +30,7 @@
         <td><%= issue.address %></td>
         <td><%= issue.supporters.count %></td>
         <td>
-          <%= issue.responsibility %>
+          <%= issue.group %>
           <% if issue.responsibility_accepted -%>
             <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
           <% end -%>

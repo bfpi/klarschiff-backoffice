@@ -1,0 +1,205 @@
+Main category,Type,Sub category,Group
+Gehweg/Radweg/Straße,problem,,
+,,Papierkorb/Abfalleimer schadhaft,Ordnungsamt
+,,Papierkorb/Abfalleimer überfüllt,Ordnungsamt
+,,Ampel schadhaft,Ordnungsamt
+,,bauliche Gefahrenstelle,Bauamt
+,,Beleuchtung schadhaft,Bauamt
+,,Baum schadhaft,Ordnungsamt
+,,öffentlicher Fahrstuhl,Bauamt
+,,Beschilderung/Markierung schadhaft,Ordnungsamt
+,,Brücke/Tunnel/Mauer/Treppe schadhaft,Bauamt
+,,Fahrradständer schadhaft,Ordnungsamt
+,,Gully schadhaft,Bauamt
+,,Verunreinigung Gully / Straßeneinlauf ,Ordnungsamt
+,,Hundekot,Ordnungsamt
+,,Poller/Planke/Absperrelement schadhaft,Ordnungsamt
+,,Sitzgelegenheit schadhaft,Ordnungsamt
+,,Wegereinigung fehlt,Ordnungsamt
+,,Wildwuchs,Ordnungsamt
+Müll/Schmutz,problem,,
+,,Papierkorb/Abfalleimer überfüllt,Ordnungsamt
+,,Altfahrzeug/Schrottfahrrad,Ordnungsamt
+,,Bauabfall,Ordnungsamt
+,,Beutel in Hundetoilette fehlen,Ordnungsamt
+,,Elektroschrott,Ordnungsamt
+,,Grünschnitt/Gartenabfälle,Ordnungsamt
+,,Hausmüll,Ordnungsamt
+,,Hundekot,Ordnungsamt
+,,Mülltonne/Abfallbehälter überfüllt,Ordnungsamt
+,,Nebenablagerungen an Recycling-Container,Ordnungsamt
+,,Recycling-Container überfüllt,Ordnungsamt
+,,Sondermüll,Ordnungsamt
+,,Sperrmüll,Ordnungsamt
+,,Wegereinigung fehlt,Ordnungsamt
+,,Verunreinigung Gully / Straßeneinlauf ,Ordnungsamt
+Öffentliches Grün/Spielplatz,problem,,
+,,bauliche Gefahrenstelle,Bauamt
+,,Wegereinigung fehlt,Ordnungsamt
+,,Papierkorb/Abfalleimer schadhaft,Ordnungsamt
+,,Papierkorb/Abfalleimer überfüllt,Ordnungsamt
+,,Kompostierplatz überfüllt ,Ordnungsamt
+,,Müllablagerung,Ordnungsamt
+,,Baum schadhaft,Ordnungsamt
+,,Baumscheibe / -einfassung ungepflegt ,Ordnungsamt
+,,Beleuchtung schadhaft,Bauamt
+,,Beschilderung/Markierung schadhaft,Ordnungsamt
+,,Beutel in Hundetoilette fehlen,Ordnungsamt
+,,Brunnen schadhaft,Bauamt
+,,Kunst im öffentlichen Raum schadhaft,Ordnungsamt
+,,Fahrradständer schadhaft,Ordnungsamt
+,,Grünanlage ungepflegt,Ordnungsamt
+,,Hundekot,Ordnungsamt
+,,Hundetoilette schadhaft,Ordnungsamt
+,,Poller/Planke/Absperrelement schadhaft,Ordnungsamt
+,,Sitzgelegenheit schadhaft,Ordnungsamt
+,,Spielgerät schadhaft,Ordnungsamt
+,,Grabstein verschmutzt,Ordnungsamt
+,,Grabstein schief nicht standsicher,Ordnungsamt
+,,ungepflegtes Grab,Ordnungsamt
+Parken,problem,,
+,,Parkautomat schadhaft,Ordnungsamt
+,,dauerhaftes Falschparken,Ordnungsamt
+Öffentliche Einrichtungen ,problem,,
+,,Papierkorb/Abfalleimer schadhaft,Ordnungsamt
+,,Papierkorb/Abfalleimer überfüllt,Ordnungsamt
+,,Beschilderung schadhaft,Ordnungsamt
+,,Beutel in Hundetoilette fehlen,Ordnungsamt
+,,Brunnen schadhaft,Bauamt
+,,Kunst im öffentlichen Raum schadhaft,Ordnungsamt
+,,Fahrradständer schadhaft,Ordnungsamt
+,,Hundetoilette schadhaft,Ordnungsamt
+,,Parkautomat schadhaft,Ordnungsamt
+,,Poller/Planke/Absperrelement schadhaft,Ordnungsamt
+,,Sitzgelegenheit schadhaft,Ordnungsamt
+,,Spielgerät schadhaft,Ordnungsamt
+,,Verteilerkasten schadhaft,Bauamt
+,,öffentliche Uhren ,Bauamt
+,,öffentliche Fahrstühle,Bauamt
+Vandalismus/Schmiererei/Graffiti ,problem,,
+,,Papierkorb/Abfalleimer,Ordnungsamt
+,,Ampel,Ordnungsamt
+,,Baum,Ordnungsamt
+,,Beleuchtung,Bauamt
+,,Beschilderung/Markierung,Ordnungsamt
+,,Brücke/Tunnel/Mauer/Treppe,Ordnungsamt
+,,Brunnen,Bauamt
+,,Kunst im öffentlichen Raum,Ordnungsamt
+,,Fahrradständer,Ordnungsamt
+,,Gully,Bauamt
+,,Haltestelle,Ordnungsamt
+,,Hundetoilette,Ordnungsamt
+,,Mülltonne/Abfallbehälter,Ordnungsamt
+,,Parkautomat,Ordnungsamt
+,,Poller/Planke/Absperrelement,Ordnungsamt
+,,Recycling-Container,Ordnungsamt
+,,Schutzhütte,Ordnungsamt
+,,Sitzgelegenheit,Ordnungsamt
+,,Spielgerät,Ordnungsamt
+,,Verteilerkasten,Bauamt
+Verkehrseinrichtung/Beleuchtung,problem,,
+,,Ampel schadhaft,Ordnungsamt
+,,Beleuchtung schadhaft,Bauamt
+,,Beschilderung/Markierung schadhaft,Ordnungsamt
+,,Fahrradständer schadhaft,Ordnungsamt
+,,Gully schadhaft,Bauamt
+,,Haltestelle schadhaft,Bauamt
+,,Parkautomat schadhaft,Ordnungsamt
+,,Poller/Planke/Absperrelement schadhaft,Ordnungsamt
+,,öffentliche Uhren ,Bauamt
+,,öffentliche Fahrstühle,Bauamt
+Wald,problem,,
+,,Baum schadhaft,Ordnungsamt
+,,Beschilderung/Markierung schadhaft,Ordnungsamt
+,,Kunst im öffentlichen Raum schadhaft,Ordnungsamt
+,,Fahrradständer schadhaft,Ordnungsamt
+,,Müllerablagerung ,Ordnungsamt
+,,Poller/Planke/Absperrelement schadhaft,Ordnungsamt
+,,Reiten abseits der Reitwege,Ordnungsamt
+,,Schutzhütte schadhaft,Ordnungsamt
+,,Sitzgelegenheit schadhaft,Ordnungsamt
+,,Spielgerät schadhaft,Ordnungsamt
+,,wildes Campen,Ordnungsamt
+,,verbotenes Fahren mit Kfz,Ordnungsamt
+,,verbotenes Feuermachen,Ordnungsamt
+,,dauerhaftes Falschparken,Ordnungsamt
+,,Wegereinigung fehlt,Ordnungsamt
+Winterdienst,problem,,
+,,Gehweg nicht geräumt,Ordnungsamt
+,,Radweg nicht geräumt,Ordnungsamt
+,,Straße nicht geräumt,Ordnungsamt
+,,verbotener Streusalzeinsatz,Ordnungsamt
+Wasser,problem,,
+,,Gehweg/Radweg/Straße überflutet,Ordnungsamt
+,,Gewässerverschmutzung,Ordnungsamt
+,,Grabenpflege,Ordnungsamt
+,,Grünanlage überflutet,Ordnungsamt
+,,Gully verstopft,Bauamt
+Barrierefreiheit,idea,,
+,,Ampel behindertengerecht gestalten,Ordnungsamt
+,,Ampelschaltung ändern,Ordnungsamt
+,,Bordstein absenken,Bauamt
+,,Zugang rollstuhlgerecht gestalten,Bauamt
+Fahrradverkehr,idea,,
+,,Ampelschaltung ändern,Ordnungsamt
+,,Beleuchtung verändern,Bauamt
+,,Beschilderung/Markierung ändern,Ordnungsamt
+,,Beschilderung/Markierung einführen,Ordnungsamt
+,,Bordstein absenken,Bauamt
+,,Fahrradständer aufstellen,Ordnungsamt
+Fußgänger,idea,,
+,,Papierkorb/Abfalleimer aufstellen,Ordnungsamt
+,,Ampelschaltung ändern,Ordnungsamt
+,,Beleuchtung verändern,Bauamt
+,,Beschilderung/Markierung ändern,Ordnungsamt
+,,Beschilderung/Markierung einführen,Ordnungsamt
+,,Bordstein absenken,Bauamt
+,,Sitzgelegenheit aufstellen,Ordnungsamt
+Öffentlicher Nahverkehr,idea,,
+,,Fahrplan ändern,Ordnungsamt
+,,Haltestelle verlegen,Ordnungsamt
+,,Linienführung ändern,Ordnungsamt
+Öffentliche Einrichtungen/Beleuchtung,idea,,
+,,Papierkorb/Abfalleimer aufstellen,Ordnungsamt
+,,Beleuchtung verändern,Bauamt
+,,Fahrradständer aufstellen,Ordnungsamt
+,,Hundetoilette aufstellen,Ordnungsamt
+,,Recycling-Container aufstellen,Ordnungsamt
+,,Sitzgelegenheit aufstellen,Ordnungsamt
+,,Spielplatz verändern,Ordnungsamt
+Straßenverkehr,idea,,
+,,Ampelschaltung ändern,Ordnungsamt
+,,Beschilderung/Markierung ändern,Ordnungsamt
+,,Beschilderung/Markierung einführen,Ordnungsamt
+Wald,idea,,
+,,Papierkorb/Abfalleimer aufstellen,Ordnungsamt
+,,Beschilderung/Markierung ändern,Ordnungsamt
+,,Beschilderung/Markierung einführen,Ordnungsamt
+,,Fahrradständer aufstellen,Ordnungsamt
+,,Spielplatz verändern,Ordnungsamt
+,,Schutzhütte aufstellen,Ordnungsamt
+,,Sitzgelegenheit aufstellen,Ordnungsamt
+Gewerberecht,hint,,
+,,Alkoholverkauf an Jugendliche,Ordnungsamt
+,,Baustellen ohne Firmenschilder,Ordnungsamt
+,,Fehlende Preisangaben,Ordnungsamt
+,,Rauchen in Gaststätten,Ordnungsamt
+,,Spielhallen mit Jugendlichen,Ordnungsamt
+,,Verdacht auf Schwarzarbeit,Ordnungsamt
+Karte,hint,,
+,,Hausnummer fehlerhaft,Ordnungsamt
+,,Gebäude fehlerhaft,Ordnungsamt
+Winterdienst,hint,,
+,,Gehweg nicht geräumt,Ordnungsamt
+,,Radweg nicht geräumt,Ordnungsamt
+,,Straße nicht geräumt,Ordnungsamt
+,,verbotener Streusalzeinsatz,Ordnungsamt
+Ruhestörung / Gerüche ,problem,,
+,,Nichteinhaltung Ruhezeiten ,Ordnungsamt
+,,Belästigung durch Gewerbe,Ordnungsamt
+,,Belästigung durch Private,Ordnungsamt
+,,Belästigung durch Veranstaltungen,Ordnungsamt
+Tiere / Tierschutz,problem,,
+,,Beseitigung von Tierkadavern,Ordnungsamt
+,,nicht artgerechte Haltung ,Ordnungsamt
+,,Fundtiere / freilaufende Tiere ,Ordnungsamt

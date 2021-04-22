@@ -1,10 +1,10 @@
 <div class="form-group row">
   <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
-    <%= Issue.human_enum_name :kind, form.object.kind %>
+    <%= MainCategory.human_enum_name :kind, form.object.kind %>
   </div>
   <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4 col-form-label">
+  <div class="col-md-10 col-form-label">
     <%= form.object.category %>
   </div>
 </div>

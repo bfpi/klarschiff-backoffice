@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_09_095908) do
+ActiveRecord::Schema.define(version: 2021_04_23_100921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,24 +60,14 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
   end
 
   create_table "category", force: :cascade do |t|
-    t.integer "kind"
-    t.bigint "group_id"
-    t.text "name"
-    t.text "dms"
-    t.boolean "deleted", default: false, null: false
-    t.integer "average_turnaround_time", null: false
+    t.integer "average_turnaround_time", default: 14, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["group_id"], name: "index_category_on_group_id"
-  end
-
-  create_table "category_mapping", force: :cascade do |t|
-    t.bigint "parent_id"
-    t.bigint "child_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["child_id"], name: "index_category_mapping_on_child_id"
-    t.index ["parent_id"], name: "index_category_mapping_on_parent_id"
+    t.bigint "main_category_id"
+    t.bigint "sub_category_id"
+    t.index ["main_category_id", "sub_category_id"], name: "index_category_on_main_category_id_and_sub_category_id", unique: true
+    t.index ["main_category_id"], name: "index_category_on_main_category_id"
+    t.index ["sub_category_id"], name: "index_category_on_sub_category_id"
   end
 
   create_table "comment", force: :cascade do |t|
@@ -87,7 +77,9 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.boolean "deleted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.index ["issue_id"], name: "index_comment_on_issue_id"
+    t.index ["user_id"], name: "index_comment_on_user_id"
   end
 
   create_table "community", force: :cascade do |t|
@@ -154,10 +146,13 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.text "short_name"
     t.integer "kind", default: 0, null: false
     t.text "email"
-    t.integer "main_user_id", null: false
+    t.integer "main_user_id"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "type"
+    t.integer "reference_id"
+    t.boolean "reference_default", default: false, null: false
   end
 
   create_table "group_user", id: false, force: :cascade do |t|
@@ -186,7 +181,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.integer "priority", default: 1, null: false
     t.integer "status"
     t.text "status_note"
-    t.integer "kind"
     t.bigint "category_id", null: false
     t.text "parcel"
     t.text "property_owner"
@@ -197,10 +191,10 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "delegation_id"
-    t.bigint "responsibility_id"
+    t.bigint "group_id"
     t.index ["category_id"], name: "index_issue_on_category_id"
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
-    t.index ["responsibility_id"], name: "index_issue_on_responsibility_id"
+    t.index ["group_id"], name: "index_issue_on_group_id"
   end
 
   create_table "job", force: :cascade do |t|
@@ -239,6 +233,14 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "main_category", force: :cascade do |t|
+    t.integer "kind"
+    t.text "name"
+    t.boolean "deleted", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "observation", force: :cascade do |t|
     t.text "key"
     t.text "category_ids"
@@ -258,10 +260,19 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
     t.index ["issue_id"], name: "index_photo_on_issue_id"
   end
 
-  create_table "property_owner", force: :cascade do |t|
-    t.text "parcel_key"
-    t.text "owner"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+  create_table "responsibility", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_responsibility_on_category_id"
+    t.index ["group_id"], name: "index_responsibility_on_group_id"
+  end
+
+  create_table "sub_category", force: :cascade do |t|
+    t.text "name"
+    t.text "dms"
+    t.boolean "deleted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -292,16 +303,19 @@ ActiveRecord::Schema.define(version: 2020_11_09_095908) do
   add_foreign_key "abuse_report", "issue"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "authority", "county"
+  add_foreign_key "comment", "\"user\"", column: "user_id"
   add_foreign_key "comment", "issue"
   add_foreign_key "community", "authority"
   add_foreign_key "district", "community"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
   add_foreign_key "feedback", "issue"
   add_foreign_key "issue", "\"group\"", column: "delegation_id"
-  add_foreign_key "issue", "\"group\"", column: "responsibility_id"
+  add_foreign_key "issue", "\"group\"", column: "group_id"
   add_foreign_key "issue", "category"
   add_foreign_key "job", "\"group\"", column: "group_id"
   add_foreign_key "job", "issue"
   add_foreign_key "photo", "issue"
+  add_foreign_key "responsibility", "\"group\"", column: "group_id"
+  add_foreign_key "responsibility", "category"
   add_foreign_key "supporter", "issue"
 end

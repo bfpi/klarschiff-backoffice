@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DataDependenciesController < ApplicationController
-  helper CategoriesHelper
+  helper IssuesHelper
 
   def update
     @attribute = params[:attribute]
