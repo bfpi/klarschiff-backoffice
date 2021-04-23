@@ -1,19 +1,18 @@
-
-<%= paginate @log_entries %>
+<%= paginate @log_entries, remote: true %>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"><%= LogEntry.human_attribute_name(:created_at) %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name(:user) %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name(:subject_name) %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name(:action) %></th>
+      <th scope="col"><%= LogEntry.human_attribute_name :created_at %></th>
+      <th scope="col"><%= LogEntry.human_attribute_name :user %></th>
+      <th scope="col"><%= LogEntry.human_attribute_name :subject_name %></th>
+      <th scope="col"><%= LogEntry.human_attribute_name :action %></th>
     </tr>
   </thead>
   <tbody>
     <% @log_entries.each do |log_entry| %>
       <tr>
-        <td><%= log_entry.id %> <%= l(log_entry.created_at) %></td>
+        <td><%= log_entry.id %> <%= l log_entry.created_at %></td>
         <td><%= log_entry.user %></td>
         <td><%= log_entry.subject_name %></td>
         <td><%= log_entry.action %></td>
@@ -22,4 +21,4 @@
   </tbody>
 </table>
 
-<%= paginate @log_entries %>
+<%= paginate @log_entries, remote: true %>
