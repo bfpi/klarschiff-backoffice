@@ -12,9 +12,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
-    return if @tab != :log_entry
-    log_entries = @issue.all_log_entries.order(created_at: :desc)
-    @log_entries = log_entries.page(params[:page] || 1).per(params[:per_page] || 20)
+    @log_entries = log_entries(@issue) if @tab == :log_entry
   end
 
   def new
@@ -26,24 +24,26 @@ class IssuesController < ApplicationController
     if @issue.update(issue_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
+      @log_entries = log_entries(@issue) if @tab == :log_entry
       render :edit
     end
   end
 
   def create
-    @issue = Issue.new issue_params.merge(status: Issue.statuses[:received])
+    @issue = Issue.new(issue_params.merge(status: :received))
     if @issue.save
-      if params[:save_and_close].present?
-        redirect_to action: :index
-      else
-        render :edit
-      end
+      return redirect_to action: :index if params[:save_and_close].present?
+      render :edit
     else
       render :new
     end
   end
 
   private
+
+  def log_entries(issue)
+    issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
+  end
 
   def issue_params
     return {} if params[:issue].blank?
