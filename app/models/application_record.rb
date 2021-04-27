@@ -16,4 +16,19 @@ class ApplicationRecord < ActiveRecord::Base
       self[name] = value.strip if value.respond_to?(:strip) && column_for_attribute(name).type == :text
     end
   end
+
+  concerning :DateTimeAttributesWithBooleanAccessor do
+    extend ActiveSupport::Concern
+
+    included do
+      unless abstract_class
+        types = %i[date datetime]
+        columns.select { |c| types.include? c.type }.each do |col|
+          define_method "#{col.name}?" do
+            self[col.name.to_sym].present?
+          end
+        end
+      end
+    end
+  end
 end
