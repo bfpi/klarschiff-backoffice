@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
+  include DateTimeAttributesWithBooleanAccessor
   include Issue::Icons
   include Issue::Validations
   include Logging
@@ -42,25 +43,23 @@ class Issue < ApplicationRecord
   end
   alias logging_subject_name to_s
 
-  def archived
-    archived_at?
+  alias archived archived_at?
+
+  def archived=(date_time)
+    self.archived_at = date_time.presence && Time.current
   end
 
-  def archived=(value)
-    self.archived_at = value.presence && Time.current
-  end
-
-  def job_date=(value)
-    return if value.blank?
+  def job_date=(date)
+    return if date.blank?
     self.job = Job.new(status: :unchecked) if job.blank?
-    job.date = value
+    job.date = date
     job.save
   end
 
-  def job_group_id=(value)
-    return if value.blank?
+  def job_group_id=(group_id)
+    return if group_id.blank?
     self.job = Job.new(status: :unchecked) if job.blank?
-    job.group = Group.find(value)
+    job.group = Group.find(group_id)
     job.save
   end
 end

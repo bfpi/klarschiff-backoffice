@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AbuseReport < ApplicationRecord
+  include DateTimeAttributesWithBooleanAccessor
   include Logging
 
   belongs_to :issue

@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class AbuseReportTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'respond_to resolved_at?' do
+    assert_respond_to abuse_report(:one), :resolved_at?
+  end
 end
