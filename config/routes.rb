@@ -5,8 +5,10 @@ Rails.application.routes.draw do
     get :change_user
   end
   with_options except: %i[destroy] do
+    resource :contacts, only: %i[show]
     resource :dashboards, only: %i[show]
     resource :data_dependencies, only: %i[update]
+    resource :imprints, only: %i[show]
     resource :infos, only: %i[show]
 
     resources :editorial_notifications, only: %i[index]
