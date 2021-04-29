@@ -43,7 +43,9 @@ class Issue < ApplicationRecord
   end
   alias logging_subject_name to_s
 
-  alias archived archived_at? if respond_to?(:archived_at?)
+  def archived
+    archived_at?
+  end
 
   def archived=(date_time)
     self.archived_at = date_time.presence && Time.current

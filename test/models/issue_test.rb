@@ -3,8 +3,11 @@
 require 'test_helper'
 
 class IssueTest < ActiveSupport::TestCase
-  test 'respond_to archived_at? and archived' do
+  test 'respond_to archived_at?' do
     assert_respond_to issue(:one), :archived_at?
+  end
+
+  test 'respond_to archived' do
     assert_respond_to issue(:one), :archived
   end
 
