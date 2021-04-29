@@ -66,6 +66,12 @@
                     </div>
                   </li>
                 <% end -%>
+                <li class="nav-item">
+                  <%= link_to t(:contact), contacts_url, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to t(:imprint), imprints_url, class: 'nav-link' %>
+                </li>
               <% end -%>
             </ul>
             <% unless Rails.env.production? -%>

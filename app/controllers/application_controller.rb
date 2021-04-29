@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
   include Authorization
 
+  prepend_view_path 'overlay/views'
+
   private
 
   def respond_with_error(error)
