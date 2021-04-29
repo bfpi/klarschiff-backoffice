@@ -12,8 +12,12 @@ class Job < ApplicationRecord
 
   before_validation :set_order, on: :create
 
+  scope :by_order, -> { order(:order, :created_at) }
+
+  self.omit_field_log |= %w[order]
+
   def self.group_by_user_group(job_date)
-    Job.where(group: Current.user&.group, date: job_date).group_by { |j| j.group.name }
+    Job.where(group: Current.user&.field_service_teams, date: job_date).group_by(&:group)
   end
 
   def status_color

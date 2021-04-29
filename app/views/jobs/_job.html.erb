@@ -1,0 +1,17 @@
+<tr id="job-<%= job.id %>" data-id="<%= job.id %>">
+  <% issue = job.issue -%>
+  <td><%= job.id %></td>
+  <td><%= check_box_tag :job_id, job.id, false, class: 'selectable' %></td>
+  <td><%= t MainCategory.human_enum_name('kind', job.issue.kind) %></td>
+  <td><%= l issue.created_at.to_date %></td>
+  <td><%= issue.main_category %></td>
+  <td><%= issue.sub_category %></td>
+  <td><%= image_tag issue.list_icon, title: t("enums.issue.status.#{issue.status}") %></td>
+  <td>
+    <span class="fa fa-flag<%= job.status_color %>" title="<%= t "enums.job.status.#{job.status}" %>"></span>
+  </td>
+  <td>
+    <%= link_to tag.i('', class: 'fa fa-trash'), job_path(job, date: @date),
+          class: 'btn btn-sm btn-outline-danger', method: :delete, remote: true %>
+  </td>
+</tr>
