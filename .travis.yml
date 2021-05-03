@@ -9,12 +9,8 @@ before_script:
   - sudo -u postgres psql -c 'create database travis_ci_test'
   - rm config/database.yml
   - cp config/database.travis.yml config/database.yml
-  - rm config/mailer.yml
-  - cp config/mailer.sample.yml config/mailer.yml
   - rm config/secrets.yml
   - cp config/secrets.sample.yml config/secrets.yml
-  - rm config/settings.yml
-  - cp config/settings.sample.yml config/settings.yml
 
 cache:
   bundler: true

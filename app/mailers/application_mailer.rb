@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  mattr_reader :mailer_config, default: Rails.application.config_for(:mailer).with_indifferent_access
+  mattr_reader :mailer_config, default: Config.for(:mailer)
 
   default from: mailer_config[:default][:from]
 
