@@ -1,0 +1,35 @@
+<h1><%= Responsibility.model_name.human count: 2 %></h1>
+
+<%= paginate @responsibilities %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= Group.model_name.human count: 1 %></th>
+      <th><%= Category.model_name.human count: 1 %></th>
+      <th><%= t :actions %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @responsibilities.each do |responsibility| -%>
+      <tr>
+        <td><%= responsibility.group %></td>
+        <td><%= responsibility.category %></td>
+        <td>
+          <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
+                remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
+                method: :delete, class: 'btn btn-sm btn-outline-danger', data: { confirm: t('.confirm_delete') } %>
+        </td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<%= paginate @responsibilities %>
+
+<% content_for :footer do %>
+  <div class="float-right">
+    <%= link_to t('.new_responsibility'), new_responsibility_path, remote: true, class: 'btn btn-primary' %>
+  </div>
+<% end %>

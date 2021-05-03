@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       put :update_multiple
     end
   end
+  resources :responsibilities
 
   root 'dashboards#show'
 end

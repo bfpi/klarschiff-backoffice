@@ -1,0 +1,25 @@
+<% if responsibility.errors.any? -%>
+  <div class="alert alert-danger">
+    <ul class="list-unstyled mb-0">
+      <% responsibility.errors.full_messages.each do |msg| -%>
+        <li><%= msg %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>
+
+<div class="form-group row">
+  <%= form.label :group, class: 'col-md-4 col-form-label' %>
+  <div class="col-md-8">
+    <%= form.select :group_id, options_for_select(groups, selected: form.object.group_id),
+          { include_blank: true }, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= form.label :category, class: 'col-md-4 col-form-label' %>
+  <div class="col-md-8">
+    <%= form.select :category_id, categories_options(form.object), { include_blank: true },
+          class: 'form-control' %>
+  </div>
+</div>

@@ -117,6 +117,9 @@ de:
       property_owner:
         owner: Eigentümer
         parcel_key: Flurstückskennzeichen
+      responsibility:
+        category: Kategorie
+        group: Gruppe
       user:
         email: E-Mail
         first_name: Vorname
@@ -191,6 +194,9 @@ de:
       property_owner:
         one: Flurstückseigentum/-eigentümer
         other: Flurstückseigentume/-eigentümer
+      responsibility:
+        one: Zuständigkeit
+        other: Zuständigkeiten
       supporter: Unterstützer
       user: Benutzer
   attributes:
@@ -335,6 +341,10 @@ de:
   no_result: Die Suche ergab kein Resultat
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
+  responsibilities:
+    index:
+      new_responsibility: Neue Zuständigkeit
+      confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   send_email: als E-Mail versenden
   statuses:
     abuse_report:

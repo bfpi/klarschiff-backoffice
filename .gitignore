@@ -39,6 +39,8 @@ lib/assets/stylesheets
 yarn-debug.log*
 .yarn-integrity
 
+db/dumps
+!db/dumps.keep
 overlay/*
 
 *.swp
