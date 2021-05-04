@@ -5,7 +5,7 @@ class Settings
   # defined in config/settings.yml
   # Each root node becomes an own module to scope the options
 
-  (@config ||= Rails.application.config_for(:settings, env: Rails.env || :development))
+  (@config ||= Config.for(:settings))
     .with_indifferent_access.each do |context, options|
     m = Module.new
     options.each do |name, value|

@@ -39,6 +39,6 @@ module IssuesHelper
   end
 
   def status_note_templates
-    YAML.safe_load(File.new('config/status_note_template.yml')).with_indifferent_access
+    (Config.for :status_note_template, env: nil).select { |_k, v| v.present? }
   end
 end
