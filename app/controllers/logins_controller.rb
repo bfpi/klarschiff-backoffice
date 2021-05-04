@@ -25,7 +25,7 @@ class LoginsController < ApplicationController
   end
 
   def destroy
-    if session[:login].present? 
+    if session[:login].present?
       session[:login] = nil
       return redirect_to root_path
     end
