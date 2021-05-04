@@ -25,8 +25,8 @@ class LoginsController < ApplicationController
   end
 
   def destroy
-    if session[:login].present? && session[:user_login].present? && session[:login] != session[:user_login]
-      session[:login] = session[:user_login]
+    if session[:login].present? 
+      session[:login] = nil
       return redirect_to root_path
     end
     session[:login] = nil
