@@ -39,6 +39,6 @@ module IssuesHelper
   end
 
   def status_note_templates
-    Config.for :status_note_template, env: nil
+    (Config.for :status_note_template, env: nil).select { |_k, v| v.present? }
   end
 end
