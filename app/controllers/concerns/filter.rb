@@ -4,11 +4,7 @@ module Filter
   extend ActiveSupport::Concern
 
   def filter(collection)
-    filter_excludes(filter_name(includes(collection)))
-  end
-
-  def includes(collection)
-    collection.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+    filter_excludes(filter_name(collection))
   end
 
   def filter_excludes(collection)

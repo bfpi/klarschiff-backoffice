@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   before_action :set_tab
 
   def index
-    @issues = filter(Issue.all).order(created_at: :desc).page(params[:page] || 1).per(params[:per_page] || 20)
+    @issues = filter(includes(Issue.all)).order(created_at: :desc).page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def edit
@@ -40,6 +40,10 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def includes(collection)
+    collection.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+  end
 
   def log_entries(issue)
     issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
