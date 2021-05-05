@@ -18,7 +18,7 @@
       <tr>
         <th scope="row"><%= feedback.id %></th>
         <td><%= l(feedback.created_at) %></td>
-        <td><%= link_to feedback.issue, edit_issue_path(feedback.issue) %></td>
+        <td><%= link_to feedback.issue, edit_issue_path(feedback.issue), remote: true %></td>
         <td><%= feedback.author %></td>
         <td><%= feedback.message %></td>
         <td></td>
