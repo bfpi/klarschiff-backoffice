@@ -32,6 +32,10 @@ nav.navbar {
   margin-bottom: 1em;
 }
 
+.content.container {
+  padding-bottom: 50px;
+}
+
 .footer {
   @extend .fixed-bottom;
   @extend .py-2;
