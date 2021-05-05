@@ -277,10 +277,6 @@ de:
     index:
       new_group: Neue Gruppe
   imprint: Impressum
-  nav:
-    dashboard: Startseite
-    logout: Logout
-    administration: Administration
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
@@ -315,6 +311,13 @@ de:
       save: Änderungen am Foto speichern
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
+  mail_blacklists:
+    index:
+      new_mail_blacklist: Neuer Eintrag
+  nav:
+    dashboard: Startseite
+    logout: Logout
+    administration: Administration
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
   send_email: als E-Mail versenden
