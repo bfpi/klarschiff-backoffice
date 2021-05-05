@@ -5,6 +5,8 @@ class MailBlacklist < ApplicationRecord
 
   validates :pattern, :source, presence: true
 
+  scope :active, -> { where active: true }
+
   def to_s
     pattern
   end

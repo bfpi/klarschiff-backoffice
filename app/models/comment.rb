@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
+  include AuthorBlacklist
   include Logging
 
   belongs_to :issue

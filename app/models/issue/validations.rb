@@ -14,8 +14,6 @@ class Issue
                                                     status_changed? && status.to_i > Issue.statuses[:reviewed]
                                                   }, on: :update
 
-      validate :author_blacklist
-
       before_validation :add_photo
       before_validation :set_confirmation_hash, on: :create
       before_validation :update_address_parcel_property_owner, if: :position_changed?
@@ -26,12 +24,6 @@ class Issue
     end
 
     private
-
-    def author_blacklist
-      return if errors[:author].present?
-      return unless MailBlacklist.exists? pattern: [author, author[author.index('@') + 1..]]
-      errors.add :author, :blacklist_pattern
-    end
 
     def add_photo
       return if new_photo.blank?
