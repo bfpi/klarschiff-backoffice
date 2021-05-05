@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Feedback < ApplicationRecord
+  include AuthorBlacklist
   include Logging
 
   belongs_to :issue

@@ -3,6 +3,7 @@
 require 'mini_magick'
 
 class Photo < ApplicationRecord
+  include AuthorBlacklist
   include Logging
 
   enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true

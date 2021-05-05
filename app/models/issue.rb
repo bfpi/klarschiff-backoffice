@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
+  include AuthorBlacklist
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Icons
   include Issue::Validations

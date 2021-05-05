@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AbuseReport < ApplicationRecord
+  include AuthorBlacklist
   include DateTimeAttributesWithBooleanAccessor
   include Logging
 
