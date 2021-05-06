@@ -1,0 +1,62 @@
+<h1><%= Issue.model_name.human(count: 2) %></h1>
+
+<div class="row form-group">
+  <div class="col-md-12">
+    <%= link_to delegations_path(status: 0), class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
+      <%= image_tag icon('yellow'), class: 'status_icon' %> offene Vorgänge
+    <% end -%>
+    <%= link_to delegations_path(status: 1), class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
+      <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Vorgänge
+    <% end -%>
+  </div>
+</div>
+
+<% if @issues.any? -%>
+  <%= paginate @issues %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"><%= Issue.human_attribute_name(:status) %></th>
+        <th scope="col"><%= Issue.human_attribute_name(:created_at) %></th>
+        <th scope="col"><%= Issue.human_attribute_name(:category) %></th>
+        <th scope="col"><%= Issue.human_attribute_name(:address) %></th>
+        <th scope="col"><%= t('actions') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @issues.each do |issue| -%>
+        <tr>
+          <td><%= issue.id %></td>
+          <td>
+            <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                           title: Issue.human_enum_name(:status, issue.status) %>
+          </td>
+          <td><%= l(issue.created_at) %></td>
+          <td><%= issue.category %></td>
+          <td><%= issue.address %></td>
+          <td>
+            <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),
+                  remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          </td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+  <%= paginate @issues %>
+<% else -%>
+  <div class="row form-group">
+    <div class="col-md-12">
+      <%= t(:no_result) %>
+    </div>
+  </div>
+<% end -%>
+
+<% content_for :footer do -%>
+  <% if @issues.any? -%>
+    <div class="float-right">
+      <%= link_to t(:export_xlsx), "/delegations.xlsx?status=#{@status}", class: 'btn btn-primary' %>
+      <%= link_to t(:show_map), delegations_path(status: @status, show_map: true), class: 'btn btn-primary' %>
+    </div>
+  <% end -%>
+<% end -%>

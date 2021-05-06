@@ -38,10 +38,24 @@ class Issue < ApplicationRecord
   delegate :kind, :kind_name, to: :category, allow_nil: true
   delegate :main_category, :sub_category, to: :category
 
+  scope :not_archived, -> { where(archived_at: nil) }
+
   def to_s
     "#{kind_name} ##{id}"
   end
   alias logging_subject_name to_s
+
+  def lat
+    position&.y
+  end
+
+  def lon
+    position&.x
+  end
+
+  def as_json(options = {})
+    super options.reverse_merge(methods: %i[lat lon map_icon])
+  end
 
   def archived
     archived_at?
