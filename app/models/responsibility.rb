@@ -16,7 +16,9 @@ class Responsibility < ApplicationRecord
     joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
   end
 
-  alias deleted deleted_at?
+  def deleted
+    deleted_at?
+  end
 
   def deleted=(date_time)
     self.deleted_at = date_time.presence && Time.current
@@ -25,7 +27,6 @@ class Responsibility < ApplicationRecord
   private
 
   def only_one_group_for_group_type
-    return if group.type.blank?
     filter = { category: category, group: { type: group.type } }
     errors.add :base, :group_type_taken if self.class.joins(:group).active.exists?(filter)
   end

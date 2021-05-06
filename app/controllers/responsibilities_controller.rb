@@ -38,7 +38,7 @@ class ResponsibilitiesController < ApplicationController
 
   def destroy
     @responsibility = Responsibility.find(params[:id])
-    @responsibility.update(deleted_at: Time.current)
+    @responsibility.update!(deleted_at: Time.current)
     redirect_to action: :index
   end
 
