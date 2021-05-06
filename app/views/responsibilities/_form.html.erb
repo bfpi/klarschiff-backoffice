@@ -9,17 +9,18 @@
 <% end -%>
 
 <div class="form-group row">
-  <%= form.label :group, class: 'col-md-4 col-form-label' %>
+  <%= form.label :category, class: 'col-md-4 col-form-label' %>
   <div class="col-md-8">
-    <%= form.select :group_id, options_for_select(groups, selected: form.object.group_id),
+    <%= form.select :category_id,
+          grouped_options_for_select(grouped_categories_for_responsibility, form.object.category_id),
           { include_blank: true }, class: 'form-control' %>
   </div>
 </div>
 
 <div class="form-group row">
-  <%= form.label :category, class: 'col-md-4 col-form-label' %>
+  <%= form.label :group, class: 'col-md-4 col-form-label' %>
   <div class="col-md-8">
-    <%= form.select :category_id, categories_options(form.object), { include_blank: true },
+    <%= form.select :group_id, groups_options(form.object), { include_blank: true },
           class: 'form-control' %>
   </div>
 </div>

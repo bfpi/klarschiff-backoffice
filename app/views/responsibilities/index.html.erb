@@ -5,16 +5,16 @@
 <table class="table">
   <thead>
     <tr>
-      <th><%= Group.model_name.human count: 1 %></th>
       <th><%= Category.model_name.human count: 1 %></th>
+      <th><%= Group.model_name.human count: 1 %></th>
       <th><%= t :actions %></th>
     </tr>
   </thead>
   <tbody>
     <% @responsibilities.each do |responsibility| -%>
       <tr>
-        <td><%= responsibility.group %></td>
         <td><%= responsibility.category %></td>
+        <td><%= responsibility.group %></td>
         <td>
           <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
                 remote: true, class: 'btn btn-sm btn-outline-primary' %>
