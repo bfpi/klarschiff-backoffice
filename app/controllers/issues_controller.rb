@@ -8,8 +8,7 @@ class IssuesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @issues = filter(includes(Issue.all)).order(created_at: :desc)
-          .page(params[:page] || 1).per(params[:per_page] || 20)
+        @issues = paginate(filter(includes(Issue.all)).order(created_at: :desc))
       end
       format.json { render json: Issue.where(id: params[:ids]).to_json }
     end
