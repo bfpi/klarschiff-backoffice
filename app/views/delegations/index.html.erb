@@ -17,10 +17,9 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col"><%= Issue.human_attribute_name(:kind) %></th>
+        <th scope="col"><%= Issue.human_attribute_name(:status) %></th>
         <th scope="col"><%= Issue.human_attribute_name(:created_at) %></th>
         <th scope="col"><%= Issue.human_attribute_name(:category) %></th>
-        <th scope="col"><%= Issue.human_attribute_name(:status) %></th>
         <th scope="col"><%= Issue.human_attribute_name(:address) %></th>
         <th scope="col"><%= t('actions') %></th>
       </tr>
@@ -29,13 +28,12 @@
       <% @issues.each do |issue| -%>
         <tr>
           <td><%= issue.id %></td>
-          <td><%= MainCategory.human_enum_name(:kind, issue.kind) %></td>
+          <td>
+            <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                           title: Issue.human_enum_name(:status, issue.status) %>
+          </td>
           <td><%= l(issue.created_at) %></td>
           <td><%= issue.category %></td>
-          <td>
-            <%= image_tag issue.list_icon, class: "status-icon #{issue.status}" %>
-            <%= Issue.human_enum_name(:status, issue.status) %>
-          </td>
           <td><%= issue.address %></td>
           <td>
             <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),

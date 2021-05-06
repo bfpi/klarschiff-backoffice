@@ -87,7 +87,6 @@ KS.initializeMaps = ->
         zoom: zoom
       )
     )
-    KS.setFeatureCoordinatesToInput(feature)
 
     interaction = new ol.interaction.Translate(
       features: new ol.Collection([feature])
@@ -164,7 +163,8 @@ class KS.FeatureData
           icon: elem.map_icon
           attribution: attribution
         )
-        features.push(f)
+        f.setId elem.id
+        features.push f
       vector.addFeatures features
 
 KS.setFeatureCoordinatesToInput = (feature) ->
