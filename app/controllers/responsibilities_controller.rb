@@ -4,8 +4,8 @@ class ResponsibilitiesController < ApplicationController
   before_action { check_auth :manage_responsibilities }
 
   def index
-    @responsibilities = Responsibility.includes(category: %i[main_category sub_category]).active
-      .order('main_category.name ASC, sub_category.name ASC')
+    @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).active
+      .order('main_category.kind ASC, main_category.name ASC, sub_category.name ASC')
       .page(params[:page] || 1).per(params[:per_page] || 20)
   end
 

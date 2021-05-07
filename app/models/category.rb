@@ -10,7 +10,7 @@ class Category < ApplicationRecord
   end
 
   delegate :kind, :kind_name, :sub_categories, to: :main_category
-  delegate :name, to: :main_category, prefix: true
+  delegate :name, :name_with_kind, to: :main_category, prefix: true
   delegate :name, to: :sub_category, prefix: true
 
   def to_s

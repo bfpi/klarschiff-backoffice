@@ -107,6 +107,8 @@ de:
         pattern: Muster
         reason: Begründung
         source: Quelle
+      main_category:
+        kind: Typ
       observation:
         key: Schlüssel
         categories: Kategorien

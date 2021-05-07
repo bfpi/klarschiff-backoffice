@@ -5,6 +5,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th><%= MainCategory.human_attribute_name(:kind) %></th>
       <th><%= Category.model_name.human count: 1 %></th>
       <th><%= Group.model_name.human count: 1 %></th>
       <th><%= t :actions %></th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @responsibilities.each do |responsibility| -%>
       <tr>
+        <td><%= responsibility.category.kind_name %></td>
         <td><%= responsibility.category %></td>
         <td><%= responsibility.group %></td>
         <td>

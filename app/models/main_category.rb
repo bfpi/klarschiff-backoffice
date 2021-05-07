@@ -19,4 +19,8 @@ class MainCategory < ApplicationRecord
   def kind_name
     human_enum_name :kind, kind
   end
+
+  def name_with_kind
+    "#{name} (#{kind_name})"
+  end
 end

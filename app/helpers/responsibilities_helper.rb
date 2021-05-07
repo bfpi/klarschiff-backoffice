@@ -2,8 +2,8 @@
 
 module ResponsibilitiesHelper
   def grouped_categories_for_responsibility
-    Category.includes(:main_category, :sub_category).sort_by(&:main_category_name)
-      .group_by(&:main_category_name).map do |mc, categories|
+    Category.includes(:main_category, :sub_category).order('main_category.kind ASC, main_category.name ASC')
+      .group_by(&:main_category_name_with_kind).map do |mc, categories|
       [mc, categories.sort_by(&:sub_category_name).map { |c| [c.sub_category_name, c.id] }]
     end
   end
