@@ -1,4 +1,3 @@
-
 KS.initializeFormActions = ->
   $('form').each (ix, form) ->
     form = $(form)
@@ -13,4 +12,4 @@ KS.initializeFormActions = ->
             attribute: elem.target.name
             value: elem.target.value
         ).done ->
-          console.log 'done'
+          console.debug 'ajax PATCH on form change:input done'
