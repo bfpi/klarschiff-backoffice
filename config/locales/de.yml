@@ -107,6 +107,8 @@ de:
         pattern: Muster
         reason: Begründung
         source: Quelle
+      main_category:
+        kind: Typ
       observation:
         key: Schlüssel
         categories: Kategorien
@@ -117,6 +119,9 @@ de:
       property_owner:
         owner: Eigentümer
         parcel_key: Flurstückskennzeichen
+      responsibility:
+        category: Kategorie
+        group: Gruppe
       user:
         email: E-Mail
         first_name: Vorname
@@ -136,6 +141,10 @@ de:
               email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
+        responsibility:
+          attributes:
+            base:
+              group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
         user:
           attributes:
             role:
@@ -147,6 +156,9 @@ de:
       authority:
         one: Amt
         other: Ämter
+      authority_group:
+        one: Amtsgruppe
+        other: Amtsgruppen
       category:
         one: Kategorie
         other: Kategorien
@@ -159,6 +171,9 @@ de:
       county:
         one: Landkreis
         other: Landkreise
+      county_group:
+        one: Kreisgruppe
+        other: Kreisgruppen
       district:
         one: Stadtteil
         other: Stadtteile
@@ -174,6 +189,9 @@ de:
       instance:
         one: Instanz
         other: Instanzen
+      instance_group:
+        one: Instanzgruppe
+        other: Instanzgruppen
       issue:
         one: Meldung
         other: Meldungen
@@ -191,6 +209,9 @@ de:
       property_owner:
         one: Flurstückseigentum/-eigentümer
         other: Flurstückseigentume/-eigentümer
+      responsibility:
+        one: Zuständigkeit
+        other: Zuständigkeiten
       supporter: Unterstützer
       user: Benutzer
   attributes:
@@ -335,6 +356,10 @@ de:
   no_result: Die Suche ergab kein Resultat
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
+  responsibilities:
+    index:
+      new_responsibility: Neue Zuständigkeit
+      confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   send_email: als E-Mail versenden
   statuses:
     abuse_report:

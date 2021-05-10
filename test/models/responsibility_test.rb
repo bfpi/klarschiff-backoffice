@@ -3,7 +3,8 @@
 require 'test_helper'
 
 class ResponsibilityTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'respond_to deleted_at? and deleted' do
+    assert_respond_to responsibility(:one), :deleted_at?
+    assert_respond_to responsibility(:one), :deleted
+  end
 end
