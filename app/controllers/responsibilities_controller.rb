@@ -5,7 +5,7 @@ class ResponsibilitiesController < ApplicationController
 
   def index
     @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).active
-      .order('main_category.kind ASC, main_category.name ASC, sub_category.name ASC')
+      .order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name], SubCategory.arel_table[:name])
       .page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
