@@ -35,7 +35,6 @@ de:
         message: Nachricht
       authority:
         county:  Landkreis
-        regionail_key: Regionalschlüssel
       category:
         average_turnaround_time: durchschnittliche Bearbeitungszeit
         deleted: gelöscht
@@ -44,10 +43,6 @@ de:
         sub_category: Unterkategorie
       community:
         authority: Amt
-        regional_key: Regionalschlüssel
-      county:
-        instance: Instanz
-        regional_key: Regionalschlüssel
       district:
         community: Gemeinde
       editorial_notification:
@@ -58,19 +53,17 @@ de:
         recipient: Empfänger
       group:
         email: E-Mail
-        instance: Instanz
+        field_service_operators: Außendienst-Koordinatoren
+        main_user: Hauptnutzer
         short_name: Kurzname
         user: Benutzer
-        main_user: Hauptnutzer
       instance:
         url: URL
       issue:
         address: Adresse
         archived: Archiviert
         archived_at: Archivierungszeitpunkt
-        main_category: Hauptkategorie
         category: Kategorie
-        confirmation_hash: Bestätigungs-Hash
         created_at: Erstellung
         delegation: Delegation
         description: Beschreibung
@@ -113,8 +106,6 @@ de:
         key: Schlüssel
         categories: Kategorien
       photo:
-        confirmation_hash: Bestätigungs-Hash
-        confirmed_at: Bestätigungszeitpunkt
         image: Foto
       property_owner:
         owner: Eigentümer
@@ -126,7 +117,7 @@ de:
         email: E-Mail
         first_name: Vorname
         group_feedback_recipient: Lob/Hinweis/Kritik Empfänger
-        group: Gruppe
+        groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
         login: Login
@@ -223,19 +214,15 @@ de:
     created_at: Zeitstempel
     deleted: gelöscht
     file: Datei
+    instance: Instanz
     issue: Meldung
     kind: Typ
+    last_editor: letzter Bearbeiter
     message: Nachricht
     name: Name
+    regional_key: Regionalschlüssel
     status: Status
-    last_editor: letzter Bearbeiter
     supporter: Unterstützer
-  create: anlegen
-  groups:
-    index:
-      new_group: Neue Gruppe
-  edit: bearbeiten
-  edit_issue: Meldung bearbeiten
 
   enums:
     group:
@@ -286,11 +273,11 @@ de:
         editor: Bearbeiter
         regional_admin: Regional-Administrator
 
+  back: Zurück
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
-  back: Zurück
   create: anlegen
   delegations: Delegationen
   edit: bearbeiten
@@ -306,6 +293,10 @@ de:
       status: Status
       address: Adresse
       priority: Priorität
+  field_services:
+    title: Außendienst Teams
+    edit:
+      title: Außendienst Team bearbeiten
   geocodr:
     no_match: nicht zuordenbar
   groups:

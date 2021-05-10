@@ -62,6 +62,8 @@ $ ->
   $(document).on 'click', '.alert .close', (e) ->
     $(e.target).parents('.alert').hide()
 
+KS.authenticityToken = { authenticity_token: $("meta[name='csrf-token']").attr('content') }
+
 KS.initializeModalFunctions = ->
   KS.initializeIssueAddressAutocomplete()
   KS.initializeFormActions()
@@ -80,4 +82,3 @@ KS.initDatepicker = ->
   ).on 'hide', (e) ->
     # Workaround for: https://github.com/uxsolutions/bootstrap-datepicker/issues/50
     e.stopPropagation()
-

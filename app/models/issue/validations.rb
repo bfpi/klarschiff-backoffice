@@ -82,7 +82,7 @@ class Issue
 
     def calculate_trust_level
       return 0 if (user = User.find_by(email: author)).blank?
-      return 2 if user.group.any?(&:kind_field_service_team?)
+      return 2 if user.groups.any?(&:kind_field_service_team?)
       1
     end
   end

@@ -42,8 +42,7 @@
                         <%= link_to Group.model_name.human(count: 2), groups_url, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_field_service) -%>
-                        <%= link_to Group.human_enum_name(:kind, :field_service_team), field_services_url,
-                              class: 'dropdown-item' %>
+                        <%= link_to t('field_services.title'), field_services_url, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_feedbacks) -%>
                         <%= link_to Feedback.model_name.human(count: 2), feedbacks_url, class: 'dropdown-item' %>

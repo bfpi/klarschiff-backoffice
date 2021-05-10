@@ -11,9 +11,12 @@ class User < ApplicationRecord
   enum role: { admin: 0, regional_admin: 1, editor: 2 }, _prefix: true
 
   with_options after_add: :log_habtm_add, after_remove: :log_habtm_remove do
-    has_and_belongs_to_many :group
-    has_and_belongs_to_many :district
-    has_and_belongs_to_many :field_service_team, class_name: 'Group', join_table: :field_service_team_operator
+    has_and_belongs_to_many :groups
+    has_and_belongs_to_many :districts
+    has_and_belongs_to_many :field_service_teams, class_name: 'Group',
+                                                  join_table: :field_service_team_operator,
+                                                  foreign_key: :operator_id,
+                                                  association_foreign_key: :field_service_team_id
   end
 
   validates :first_name, :last_name, :email, :role, presence: true

@@ -2,7 +2,7 @@
   <%= form_for @field_service.becomes(Group), url: field_service_path(@field_service), remote: true do |f| %>
     <div class="modal-content">
       <div class="modal-header">
-        <h1><%= Group.human_enum_name :kind, :field_service_team %> <%= t 'edit' %></h1>
+        <h1><%= t '.title' %></h1>
       </div>
       <div class="modal-body">
         <%= render partial: 'form', locals: { form: f, field_service: @field_service } %>
