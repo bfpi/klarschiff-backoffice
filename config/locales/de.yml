@@ -141,6 +141,10 @@ de:
               email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
+        responsibility:
+          attributes:
+            base:
+              group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
         user:
           attributes:
             role:
@@ -152,6 +156,9 @@ de:
       authority:
         one: Amt
         other: Ämter
+      authority_group:
+        one: Amtsgruppe
+        other: Amtsgruppen
       category:
         one: Kategorie
         other: Kategorien
@@ -164,6 +171,9 @@ de:
       county:
         one: Landkreis
         other: Landkreise
+      county_group:
+        one: Kreisgruppe
+        other: Kreisgruppen
       district:
         one: Stadtteil
         other: Stadtteile
@@ -179,6 +189,9 @@ de:
       instance:
         one: Instanz
         other: Instanzen
+      instance_group:
+        one: Instanzgruppe
+        other: Instanzgruppen
       issue:
         one: Meldung
         other: Meldungen
