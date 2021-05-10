@@ -3,11 +3,8 @@
   <div class="col-md-4">
     <%= form.select :job_group_id,
           options_from_collection_for_select(
-            Group.where(kind: Group.kinds[:field_service_team]),
-            :id,
-            :to_s,
-            form.object.job_group_id
-          ), { include_blank: true }, { class: 'form-control' } %>
+            Group.kind_field_service_team.order(:name), :id, :to_s, form.object.job_group_id
+          ), { include_blank: true }, class: 'form-control' %>
   </div>
   <%= form.label :field_service_date, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
