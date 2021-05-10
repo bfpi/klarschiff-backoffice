@@ -11,7 +11,7 @@
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
         <div class="card-body">
           <% @latest_issues.each do |issue| -%>
-            <div class="row">
+            <div class="row form-group">
               <div class="col-md-12">
                 <%= link_to edit_issue_path(issue.id), remote: true do %>
                   <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
@@ -35,7 +35,7 @@
       <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
         <div class="card-body">
           <% @own_issues.each do |issue| -%>
-            <div class="row">
+            <div class="row form-group">
               <div class="col-md-12">
                 <%= link_to edit_issue_path(issue.id), remote: true do %>
                   <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
@@ -59,7 +59,7 @@
       <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
         <div class="card-body">
           <% @former_issues.each do |issue| -%>
-            <div class="row">
+            <div class="row form-group">
               <div class="col-md-12">
                 <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                                title: Issue.human_enum_name(:status, issue.status) %>
@@ -147,7 +147,7 @@
     </div>
   </div>
 </div>
-
+<br>
 <div class="row form-group">
   <div class="col-md-12"><b><%= t(:statistics) %></b></div>
   <% total_count = @issues_count.values.sum -%>

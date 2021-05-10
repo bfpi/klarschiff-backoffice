@@ -3,6 +3,7 @@
 class Issue < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Icons
+  include Issue::Scopes
   include Issue::Validations
   include Logging
 
@@ -37,32 +38,6 @@ class Issue < ApplicationRecord
   delegate :group_id, :date, to: :job, prefix: true, allow_nil: true
   delegate :kind, :kind_name, to: :category, allow_nil: true
   delegate :main_category, :sub_category, to: :category
-
-  scope :not_archived, -> { where(archived_at: nil) }
-  scope :open, -> { where(status: %w[received reviewed]) }
-
-  def self.by_kind(kind)
-    includes(category: :main_category).where(main_category: { kind: kind })
-  end
-
-  def self.not_approved
-    includes(:photos).by_kind('idea').where(
-      description_status: %i[internal deleted], photo: { status: %i[internal deleted] }
-    )
-  end
-
-  def self.unsupported
-    by_kind('idea').eager_load(:supporters).where(supporters_sql)
-  end
-
-  def self.supporters_sql(comp = '<')
-    Arel.sql(<<~SQL.squish)
-      (
-        SELECT COUNT(s.id)
-        FROM #{Supporter.table_name} "s" WHERE "s"."issue_id" = "issue"."id"
-      ) #{comp} #{Settings::Vote.min_requirement}
-    SQL
-  end
 
   def to_s
     "#{kind_name} ##{id}"

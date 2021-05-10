@@ -11,7 +11,7 @@ class DashboardsController < ApplicationController
   private
 
   def issues
-    @latest_issues = Issue.not_archived.order(created_at: :desc).limit(10)
+    @latest_issues = Issue.includes(category: :main_category).not_archived.order(created_at: :desc).limit(10)
     @own_issues = own_issues
     @former_issues = former_issues
     @issues_count = { open: Issue.open.count, in_process: Issue.where(status: 'in_process').count,
@@ -27,14 +27,14 @@ class DashboardsController < ApplicationController
   end
 
   def own_issues
-    Issue.not_archived.joins(:all_log_entries).where(
+    Issue.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
       status: %w[pending received reviewed in_process not_solvable closed],
       log_entry: { attr: [nil] + %w[address status description kind] }
     ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
   end
 
   def former_issues
-    Issue.joins(:all_log_entries).not_archived.where(archived_at: nil)
+    Issue.not_archived.includes(category: :main_category).joins(:all_log_entries).where(archived_at: nil)
       .where.not(group_id: Current.user.group_ids).where(changed_responsibilities).limit(10).distinct
   end
 
