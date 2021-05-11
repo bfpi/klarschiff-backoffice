@@ -1,6 +1,7 @@
 development: &default
   default:
     from: from@example.com
+    interceptions_recipient: interceptions@example.com
   issue_mailer:
     forward:
       subject: weitergeleiteter Vorgang
