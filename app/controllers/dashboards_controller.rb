@@ -40,22 +40,25 @@ class DashboardsController < ApplicationController
   end
 
   def former_issues
-    Issue.not_archived.includes(category: :main_category).joins(:all_log_entries).where(archived_at: nil)
-      .where.not(group_id: Current.user.group_ids).where(changed_responsibilities)
-      .limit(10).distinct
+    Issue.not_archived.includes(category: :main_category).where(
+      id: changed_responsibilities
+    ).limit(10)
   end
 
   def changed_responsibilities
     Arel.sql(<<~SQL.squish)
-      (
-        SELECT COUNT("le"."created_at") FROM #{LogEntry.table_name} "le"
-        WHERE "le"."issue_id" = "issue"."id" AND "le"."created_at" <= (
-          SELECT "le2"."created_at" FROM #{LogEntry.table_name} "le2"
-          WHERE "le2"."attr" = 'responsibility_accepted' AND "le2"."new_value" = 'ja' AND "le2"."issue_id" = "issue"."id"
-          ORDER BY "le2"."created_at" ASC LIMIT 1
-        )
-        GROUP BY "le"."created_at" ORDER BY "le"."created_at" DESC LIMIT 1
-      ) = 1
+      SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
+        INNER JOIN (
+          SELECT "issue_id", "created_at" FROM #{LogEntry.quoted_table_name}
+            WHERE "attr" = 'responsibility_accepted' AND "new_value" = '#{I18n.t(true)}'
+        ) "le2" ON "le"."issue_id" = "le2"."issue_id" AND "le2"."created_at" >= "le"."created_at" AND (
+          SELECT COUNT("id") FROM #{LogEntry.quoted_table_name} "le3"
+           WHERE "le3"."issue"."id" = "le"."issue_id" AND "le3"."attr" = 'group'
+             AND "le3"."created_at" = "le"."created_at"
+        ) = 0
+      WHERE "attr" = 'group' AND "new_value" IN (#{Current.user.groups.map(&:to_s).join(', ')}) AND "le"."issue_id" IS NOT NULL
+        AND "le"."issue_id" NOT IN (
+          SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id IN #{Current.user.group_ids.join(', ')}")
     SQL
   end
 
@@ -75,18 +78,17 @@ class DashboardsController < ApplicationController
 
   def open_not_accepted(date)
     Issue.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
-      .where(responsibility_sql(date))
+      .where(id: responsibility_entries(date))
   end
 
-  def responsibility_sql(date)
-    Arel.sql(<<~SQL.squish)
-      (
-        SELECT COUNT("le"."created_at") FROM #{LogEntry.table_name} "le"
-        WHERE "le"."attr" = 'group' AND "le"."issue_id" = "issue"."id" AND "le"."new_value" IS NOT NULL
-          AND "le"."created_at" <= '#{date}'
-        GROUP BY "le"."created_at" ORDER BY "le"."created_at" DESC LIMIT 1
-      ) = 1
-    SQL
+  def responsibility_entries(date)
+    LogEntry.select('DISTINCT ON ("issue_id") "issue_id"').where(
+      leat[:issue_id].not_eq(nil).and(leat[:attr].eq('group')).and(leat[:created_at].lteq(date))
+    ).order(:issue_id, created_at: :desc)
+  end
+
+  def leat
+    LogEntry.arel_table
   end
 
   def iat

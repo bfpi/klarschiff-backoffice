@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_115442) do
+ActiveRecord::Schema.define(version: 2021_05_11_115334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,6 +221,8 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
     t.text "new_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["attr"], name: "index_log_entry_on_attr"
+    t.index ["issue_id"], name: "index_log_entry_on_issue_id"
     t.index ["table", "subject_id"], name: "index_log_entry_on_table_and_subject_id"
   end
 
