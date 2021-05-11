@@ -280,6 +280,10 @@ de:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
   create: anlegen
+  dashboards:
+    issue:
+      high_priority: hohe Priorität
+      trust: vertrauenswürdig
   delegations: Delegationen
   edit: bearbeiten
   edit_issue: Meldung bearbeiten

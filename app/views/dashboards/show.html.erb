@@ -11,15 +11,7 @@
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
         <div class="card-body">
           <% @latest_issues.each do |issue| -%>
-            <div class="row form-group">
-              <div class="col-md-12">
-                <%= link_to edit_issue_path(issue.id), remote: true do %>
-                  <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                                 title: Issue.human_enum_name(:status, issue.status) %>
-                  <%= issue %>
-                <% end -%>
-              </div>
-            </div>
+            <%= render partial: 'issue', locals: { issue: issue } %>
           <% end -%>
         </div>
       </div>
@@ -35,15 +27,7 @@
       <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
         <div class="card-body">
           <% @own_issues.each do |issue| -%>
-            <div class="row form-group">
-              <div class="col-md-12">
-                <%= link_to edit_issue_path(issue.id), remote: true do %>
-                  <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                                 title: Issue.human_enum_name(:status, issue.status) %>
-                  <%= issue %>
-                <% end -%>
-              </div>
-            </div>
+            <%= render partial: 'issue', locals: { issue: issue } %>
           <% end -%>
         </div>
       </div>
@@ -63,7 +47,8 @@
               <div class="col-md-12">
                 <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                                title: Issue.human_enum_name(:status, issue.status) %>
-                <%= issue %>
+                #<%= issue.id %><br>
+                <%= issue.address %>
               </div>
             </div>
           <% end -%>
@@ -126,7 +111,7 @@
                             title: Issue.human_enum_name(:status, :in_process) %>, aber noch nicht akzeptiert</b>
       </div>
       <div class="col-md-12">
-        <% @received_not_accepted.each do |issue| -%>
+        <% @in_process_not_accepted.each do |issue| -%>
           <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
         <% end -%>
       </div>
@@ -152,7 +137,7 @@
   <div class="col-md-12"><b><%= t(:statistics) %></b></div>
   <% total_count = @issues_count.values.sum -%>
   <div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="statistics">
       <tr>
         <td class="bar-open" width="<%= calc_percentage(@issues_count[:open], total_count) %>">
           <b><%= @issues_count[:open] %></b><br>

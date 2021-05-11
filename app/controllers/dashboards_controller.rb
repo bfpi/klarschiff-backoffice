@@ -4,26 +4,32 @@ class DashboardsController < ApplicationController
   def show
     issues
     notices
-    @notices_count = @received_not_accepted.count + @open_ideas.count + @not_approved_issues.count +
+    @notices_count = @in_process_not_accepted.count + @open_ideas.count + @not_approved_issues.count +
                      @in_process.count + @open_not_accepted.count
   end
 
   private
 
   def issues
-    @latest_issues = Issue.includes(category: :main_category).not_archived.order(created_at: :desc).limit(10)
+    @latest_issues = latest_issues
     @own_issues = own_issues
     @former_issues = former_issues
-    @issues_count = { open: Issue.open.count, in_process: Issue.where(status: 'in_process').count,
-                      closed: Issue.where(status: 'closed').count }
+    @issues_count = { open: Issue.status_open.count, in_process: Issue.status_in_process.count,
+                      closed: Issue.status_closed.count }
   end
 
   def notices
-    @received_not_accepted = received_not_accepted
+    @in_process_not_accepted = in_process_not_accepted
     @open_ideas = open_ideas(Time.current - 60.days)
     @not_approved_issues = Issue.not_archived.not_approved
     @in_process = in_process(Time.current - 30.days)
     @open_not_accepted = open_not_accepted(Time.current - 3.days)
+  end
+
+  def latest_issues
+    Issue.includes(:delegation, { category: :main_category }).not_archived
+      .where(status: %w[received reviewed in_process not_solvable closed])
+      .order(iat[:priority].desc, iat[:created_at].desc, iat[:id].desc).limit(10)
   end
 
   def own_issues
@@ -35,7 +41,8 @@ class DashboardsController < ApplicationController
 
   def former_issues
     Issue.not_archived.includes(category: :main_category).joins(:all_log_entries).where(archived_at: nil)
-      .where.not(group_id: Current.user.group_ids).where(changed_responsibilities).limit(10).distinct
+      .where.not(group_id: Current.user.group_ids).where(changed_responsibilities)
+      .limit(10).distinct
   end
 
   def changed_responsibilities
@@ -52,22 +59,22 @@ class DashboardsController < ApplicationController
     SQL
   end
 
-  def received_not_accepted
-    Issue.not_archived.where(responsibility_accepted: false, status: :in_process)
+  def in_process_not_accepted
+    Issue.not_archived.status_in_process.where(responsibility_accepted: false)
   end
 
   def open_ideas(date)
-    Issue.not_archived.open.unsupported.where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date)))
+    Issue.not_archived.status_open.unsupported.where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date)))
   end
 
   def in_process(date)
-    Issue.not_archived.where(
-      iat[:status].eq('in_process').and(iat[:status_note].eq(nil)).and(iat[:created_at].lteq(date))
+    Issue.not_archived.status_in_process.where(
+      iat[:status_note].eq(nil).and(iat[:created_at].lteq(date))
     )
   end
 
   def open_not_accepted(date)
-    Issue.not_archived.open.where(responsibility_accepted: false).where.not(group_id: nil)
+    Issue.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
       .where(responsibility_sql(date))
   end
 

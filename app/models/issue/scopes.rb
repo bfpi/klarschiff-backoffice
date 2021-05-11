@@ -6,7 +6,7 @@ class Issue
 
     included do
       scope :not_archived, -> { where(archived_at: nil) }
-      scope :open, -> { where(status: %w[received reviewed]) }
+      scope :status_open, -> { where(status: %w[received reviewed]) }
 
       def self.by_kind(kind)
         includes(category: :main_category).where(main_category: { kind: kind })

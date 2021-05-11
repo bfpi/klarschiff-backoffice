@@ -96,17 +96,38 @@ tr.dragged-row td {
   border-bottom: 1px solid #ddd;
 }
 
-.bar-open {
-  background-color: #f00;
-  text-align: center;
+.priority-icon {
+  color: #ff8800;
 }
 
-.bar-in-process {
-  background-color: #ff0;
-  text-align: center;
+.trust-icon {
+  color: #c3bb19;
 }
 
-.bar-closed {
-  background-color: #008000;
-  text-align: center;
+table.statistics {
+  border: 1px solid #737373;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #737373;
+  padding: 0px;
+
+  td {
+    text-align: center;
+    vertical-align: top;
+    padding: 0px 3px;
+  }
+
+  td.bar-open {
+    background-color: #f00;
+  }
+
+  td.bar-in-process {
+    background-color: #ff0;
+  }
+
+  td.bar-closed {
+    background-color: #008000;
+  }
 }
