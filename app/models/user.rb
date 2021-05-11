@@ -19,7 +19,7 @@ class User < ApplicationRecord
                                                   association_foreign_key: :field_service_team_id
   end
 
-  validates :first_name, :last_name, :email, :role, presence: true
+  validates :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
   validate :role_permissions
@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def to_s
-    [first_name, last_name].join(' ')
+    [first_name, last_name].map(&:presence).compact.join ' '
   end
 
   def as_json(_options = {})
