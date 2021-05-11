@@ -97,7 +97,7 @@ tr.dragged-row td {
 }
 
 .priority-icon {
-  color: #ff8800;
+  color: #f80;
 }
 
 .trust-icon {
@@ -105,18 +105,15 @@ tr.dragged-row td {
 }
 
 table.statistics {
-  border: 1px solid #737373;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  border-radius: 5px;
   background-color: #737373;
-  padding: 0px;
+  border: 1px solid #737373;
+  border-radius: 5px;
+  padding: 0;
 
   td {
+    padding: 0 3px;
     text-align: center;
     vertical-align: top;
-    padding: 0px 3px;
   }
 
   td.bar-open {
