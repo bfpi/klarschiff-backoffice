@@ -40,25 +40,27 @@ class DashboardsController < ApplicationController
   end
 
   def former_issues
+    group_names = Current.user.groups.map { |g| "'#{g}'" }.join(', ')
+    group_ids = Current.user.group_ids.join(', ')
     Issue.not_archived.includes(category: :main_category).where(
-      id: changed_responsibilities
+      changed_responsibilities(group_names, group_ids)
     ).limit(10)
   end
 
-  def changed_responsibilities
+  def changed_responsibilities(group_names, group_ids)
     Arel.sql(<<~SQL.squish)
-      SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
+      #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
         INNER JOIN (
           SELECT "issue_id", "created_at" FROM #{LogEntry.quoted_table_name}
             WHERE "attr" = 'responsibility_accepted' AND "new_value" = '#{I18n.t(true)}'
         ) "le2" ON "le"."issue_id" = "le2"."issue_id" AND "le2"."created_at" >= "le"."created_at" AND (
           SELECT COUNT("id") FROM #{LogEntry.quoted_table_name} "le3"
-           WHERE "le3"."issue"."id" = "le"."issue_id" AND "le3"."attr" = 'group'
-             AND "le3"."created_at" = "le"."created_at"
+           WHERE "le3"."issue_id" = "le"."issue_id" AND "le3"."attr" = 'group'
+           AND "le3"."created_at" > "le"."created_at" AND "le3"."created_at" <= "le2"."created_at"
         ) = 0
-      WHERE "attr" = 'group' AND "new_value" IN (#{Current.user.groups.map(&:to_s).join(', ')}) AND "le"."issue_id" IS NOT NULL
-        AND "le"."issue_id" NOT IN (
-          SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id IN #{Current.user.group_ids.join(', ')}")
+        WHERE "attr" = 'group' AND "new_value" IN (#{group_names})
+          AND "le"."issue_id" IS NOT NULL AND "le"."issue_id" NOT IN (
+            SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id" IN (#{group_ids})))
     SQL
   end
 

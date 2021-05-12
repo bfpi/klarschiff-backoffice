@@ -1,6 +1,6 @@
 de:
-  false: Nein
-  true: Ja
+  false: nein
+  true: ja
   actions: Aktion
   action:
     abort: Abbrechen

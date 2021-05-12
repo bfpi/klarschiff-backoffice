@@ -17,6 +17,14 @@ module IssuesHelper
     status.to_sym == :external ? 'globe' : 'home'
   end
 
+  def delegations
+    Group.where(kind: Group.kinds[:external]).map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
+  end
+
+  def responsibilities
+    Group.where(kind: Group.kinds[:internal]).map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
+  end
+
   def grouped_categories(kind_or_isse)
     kind, category_id = kind_or_isse.is_a?(Issue) ? [kind_or_isse.kind, kind_or_isse.category_id] : [kind_or_isse, nil]
     return [] unless kind
