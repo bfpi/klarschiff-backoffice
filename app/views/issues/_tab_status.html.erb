@@ -1,0 +1,19 @@
+<div class="form-group row">
+  <%= form.label :status, class: 'col-md-2 col-form-label' %>
+  <div class="col-md-4">
+    <% Issue.delegation_statuses.each do |status, ix| -%>
+      <div>
+        <%= form.label "status_#{status}", '', class: 'form-check-label' do %>
+          <%= form.radio_button :status, status %>
+          <%= Issue.human_enum_name :status, status %>
+        <% end %>
+      </div>
+    <% end -%>
+  </div>
+  <%= form.label :status_note, class: 'col-md-2 col-form-label' %>
+  <div class="col-md-4">
+    <%= form.text_area(:status_note, class: 'form-control', rows: 3) %>
+    <%= select_tag(:status_note_template, options_for_select(status_note_templates),
+          class: 'form-control', prompt: 'Vorlage wählen') %>
+  </div>
+</div>

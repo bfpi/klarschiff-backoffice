@@ -1,0 +1,11 @@
+<div class="card-header">
+  <%= render partial: 'issues/head', locals: { issue: issue } %>
+  <ul class="nav nav-tabs card-header-tabs mt-2">
+    <% %i[status rejection comment map].each do |tab| -%>
+      <%= nav_item(tab, issue, @tab, 'delegation') %>
+    <% end -%>
+  </ul>
+</div>
+<div class="card-body">
+  <%= render partial: "issues/tab_#{@tab}", locals: { form: form, restricted: true } %>
+</div>
