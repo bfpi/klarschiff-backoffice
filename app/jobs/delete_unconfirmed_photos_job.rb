@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UnconfirmedPhotosDeletionJob < ApplicationJob
+class DeleteUnconfirmedPhotosJob < ApplicationJob
   def perform
     unconfirmed_photos(Time.current - Jobs::Photo.deletion_deadline.hours).destroy_all
   end
@@ -8,10 +8,10 @@ class UnconfirmedPhotosDeletionJob < ApplicationJob
   private
 
   def unconfirmed_photos(time)
-    Photo.where(iat[:confirmed_at].eq(nil).and(iat[:created_at].lt(time)))
+    Photo.where(pat[:confirmed_at].eq(nil).and(pat[:created_at].lt(time)))
   end
 
-  def iat
+  def pat
     Photo.arel_table
   end
 end

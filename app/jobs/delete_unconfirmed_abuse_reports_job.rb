@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UnconfirmedAbuseReportsDeletionJob < ApplicationJob
+class DeleteUnconfirmedAbuseReportsJob < ApplicationJob
   def perform
     unconfirmed_abuse_reports(Time.current - Jobs::Abuse.deletion_deadline.hours).destroy_all
   end
@@ -8,10 +8,10 @@ class UnconfirmedAbuseReportsDeletionJob < ApplicationJob
   private
 
   def unconfirmed_abuse_reports(time)
-    AbuseReport.where(iat[:confirmed_at].eq(nil).and(iat[:created_at].lt(time)))
+    AbuseReport.where(arat[:confirmed_at].eq(nil).and(arat[:created_at].lt(time)))
   end
 
-  def iat
+  def arat
     AbuseReport.arel_table
   end
 end

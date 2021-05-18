@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UnconfirmedIssuesDeletionJob < ApplicationJob
+class DeleteUnconfirmedIssuesJob < ApplicationJob
   def perform
     unconfirmed_issues(Time.current - Jobs::Issue.deletion_deadline.hours).destroy_all
   end

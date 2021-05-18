@@ -10,11 +10,10 @@ class DeleteAuthorsAfterDeadlineJob < ApplicationJob
   private
 
   def remove_author(issue)
-    issue.update(author: nil)
-    issue.abuse_reports.update(author: nil)
-    issue.photos.update(author: nil)
-    issue.supporters.update(author: nil)
-    issue.feedback.update(author: nil)
+    issue.update_all(author: nil)
+    issue.abuse_reports.update_all(author: nil)
+    issue.photos.update_all(author: nil)
+    issue.feedbacks.update_all(author: nil)
   end
 
   def deletion_conds(time)
