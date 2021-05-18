@@ -6,29 +6,26 @@ class Issue
 
     included do
       scope :not_archived, -> { where(archived_at: nil) }
-      scope :status_open, -> { where(status: %w[received reviewed]) }
+      scope :status_open, -> { where(status: %w[received reviewed in_process]) }
+    end
 
-      def self.by_kind(kind)
+    class_methods do
+      def by_kind(kind)
         includes(category: :main_category).where(main_category: { kind: kind })
       end
 
-      def self.not_approved
+      def not_approved
         includes(:photos).where(
           description_status: %i[internal deleted], photo: { status: %i[internal deleted] }
         )
       end
 
-      def self.unsupported
-        by_kind(0).eager_load(:supporters).where(supporters_sql)
+      def ideas_without_min_supporters
+        by_kind(0).having('COUNT("supporter"."id") < ?', Settings::Vote.min_requirement)
       end
 
-      def self.supporters_sql(comp = '<')
-        Arel.sql(<<~SQL.squish)
-          (
-            SELECT COUNT(s.id)
-            FROM #{Supporter.table_name} "s" WHERE "s"."issue_id" = "issue"."id"
-          ) #{comp} #{Settings::Vote.min_requirement}
-        SQL
+      def ideas_with_min_supporters
+        by_kind(0).having('COUNT("supporter"."id") >= ?', Settings::Vote.min_requirement)
       end
     end
   end

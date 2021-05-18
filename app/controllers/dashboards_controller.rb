@@ -4,8 +4,8 @@ class DashboardsController < ApplicationController
   def show
     issues
     notices
-    @notices_count = @in_process_not_accepted.count + @open_ideas.count + @not_approved_issues.count +
-                     @in_process.count + @open_not_accepted.count
+    @notices_count = @in_process_not_accepted.count + @open_ideas_without_min_supporters.count +
+                     @not_approved_issues.count + @in_process.count + @open_not_accepted.count
   end
 
   private
@@ -20,14 +20,14 @@ class DashboardsController < ApplicationController
 
   def notices
     @in_process_not_accepted = in_process_not_accepted
-    @open_ideas = open_ideas(Time.current - 60.days)
+    @open_ideas_without_min_supporters = open_ideas_without_min_supporters(Time.current - 60.days)
     @not_approved_issues = Issue.not_archived.not_approved
     @in_process = in_process(Time.current - 30.days)
     @open_not_accepted = open_not_accepted(Time.current - 3.days)
   end
 
   def latest_issues
-    Issue.includes(:delegation, { category: :main_category }).not_archived
+    Issue.includes({ category: :main_category }).not_archived
       .where(status: %w[received reviewed in_process not_solvable closed])
       .order(iat[:priority].desc, iat[:created_at].desc, iat[:id].desc).limit(10)
   end
@@ -52,7 +52,7 @@ class DashboardsController < ApplicationController
       #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
         INNER JOIN (
           SELECT "issue_id", "created_at" FROM #{LogEntry.quoted_table_name}
-            WHERE "attr" = 'responsibility_accepted' AND "new_value" = '#{I18n.t(true)}'
+            WHERE "attr" = 'responsibility_accepted' AND LOWER("new_value") = '#{I18n.t(true).downcase}'
         ) "le2" ON "le"."issue_id" = "le2"."issue_id" AND "le2"."created_at" >= "le"."created_at" AND (
           SELECT COUNT("id") FROM #{LogEntry.quoted_table_name} "le3"
            WHERE "le3"."issue_id" = "le"."issue_id" AND "le3"."attr" = 'group'
@@ -68,8 +68,26 @@ class DashboardsController < ApplicationController
     Issue.not_archived.status_in_process.where(responsibility_accepted: false)
   end
 
-  def open_ideas(date)
-    Issue.not_archived.status_open.unsupported.where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date)))
+  def open_ideas_without_min_supporters(date)
+    open_issues.ideas_without_min_supporters
+      .where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date))).to_a
+  end
+
+  def open_issues
+    Issue.includes(includes).references(includes).left_joins(:supporters).group(group_by)
+      .not_archived.status_open
+  end
+
+  def includes
+    [:abuse_reports, :group, :delegation, :job, :photos, { category: %i[main_category sub_category] }]
+  end
+
+  def group_by
+    [
+      Category.arel_table[:id], 'delegation_issue.id', Group.arel_table[:id],
+      Issue.arel_table[:id], Job.arel_table[:id], MainCategory.arel_table[:id],
+      Photo.arel_table[:id], SubCategory.arel_table[:id], AbuseReport.arel_table[:id]
+    ]
   end
 
   def in_process(date)

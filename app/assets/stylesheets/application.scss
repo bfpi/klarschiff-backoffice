@@ -114,11 +114,11 @@ table.statistics {
   td {
     padding: 0 3px;
     text-align: center;
-    vertical-align: top;
+    vertical-align: middle;
   }
 
   td.bar-open {
-    background-color: #f00;
+    background-color: #ff3700;
   }
 
   td.bar-in-process {
@@ -126,6 +126,6 @@ table.statistics {
   }
 
   td.bar-closed {
-    background-color: #008000;
+    background-color: #50c80f;
   }
 }

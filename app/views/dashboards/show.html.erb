@@ -10,9 +10,7 @@
       </div>
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
         <div class="card-body">
-          <% @latest_issues.each do |issue| -%>
-            <%= render partial: 'issue', locals: { issue: issue } %>
-          <% end -%>
+          <%= render partial: 'issue', collection: @latest_issues %>
         </div>
       </div>
     </div>
@@ -26,9 +24,7 @@
       </div>
       <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
         <div class="card-body">
-          <% @own_issues.each do |issue| -%>
-            <%= render partial: 'issue', locals: { issue: issue } %>
-          <% end -%>
+          <%= render partial: 'issue', collection: @own_issues %>
         </div>
       </div>
     </div>
@@ -96,7 +92,7 @@
         <b><%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %> mit Erstsichtung vor 60 Tagen ohne ausreichende Unterstützung</b>
       </div>
       <div class="col-md-12">
-        <% @open_ideas.each do |issue| -%>
+        <% @open_ideas_without_min_supporters.each do |issue| -%>
           <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
         <% end -%>
       </div>

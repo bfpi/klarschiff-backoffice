@@ -18,11 +18,11 @@ module IssuesHelper
   end
 
   def delegations
-    Group.where(kind: Group.kinds[:external]).map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
+    Group.kind_external.map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
   end
 
   def responsibilities
-    Group.where(kind: Group.kinds[:internal]).map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
+    Group.kind_internal.map { |gr| [gr.to_s, gr.id, { title: gr.name }] }
   end
 
   def grouped_categories(kind_or_isse)
