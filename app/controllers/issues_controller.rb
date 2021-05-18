@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @issues = paginate(filter(includes(Issue.all)).order(created_at: :desc))
+        @issues = paginate(filter(base_collection))
       end
       format.json { render json: Issue.where(id: params[:ids]).to_json }
     end
@@ -46,8 +46,8 @@ class IssuesController < ApplicationController
 
   private
 
-  def includes(collection)
-    collection.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+  def base_collection
+    Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category]).order created_at: :desc
   end
 
   def log_entries(issue)

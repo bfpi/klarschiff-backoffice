@@ -4,6 +4,7 @@ module AuthorBlacklist
   extend ActiveSupport::Concern
 
   included do
+    validates :author, presence: true, email: true, on: :create
     validate :author_blacklist
   end
 

@@ -1,38 +1,35 @@
 # frozen_string_literal: true
 
 class Issue
-  module Validations
+  module Callbacks
     extend ActiveSupport::Concern
 
-    included do
-      validates :author, presence: true, on: :create
-      validates :author, email: true, on: :create
-      validates :confirmation_hash, uniqueness: true
-      validates :description, :position, :status, presence: true
-      validates :status_note, presence: true, if: :expected_closure_changed?
-      validates :status_note, presence: true, if: lambda {
-                                                    status_changed? && status.to_i > Issue.statuses[:reviewed]
-                                                  }, on: :update
+    include AuthorBlacklist
+    include ConfirmationWithHash
 
+    included do
       before_validation :add_photo
       before_validation :set_confirmation_hash, on: :create
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
       before_validation :set_reviewed, on: :update
+
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
+
+      validates :description, :position, :status, presence: true
+      validates :status_note, presence: true, if: :expected_closure_changed?
+      validates :status_note, presence: true, if: lambda {
+                                                    status_changed? && status.to_i > Issue.statuses[:reviewed]
+                                                  }, on: :update
     end
 
     private
 
     def add_photo
       return if new_photo.blank?
-      photos.new file: new_photo, author: Current.user.to_s, status: :internal
-    end
-
-    def set_confirmation_hash
-      self.confirmation_hash = SecureRandom.uuid
+      photos.new file: new_photo, author: Current.user.email, status: :internal
     end
 
     def update_address_parcel_property_owner
