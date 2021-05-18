@@ -1,0 +1,14 @@
+[Unit]
+Description=Puma HTTP Server für Klarschiff Backoffice
+After=network.target
+
+[Service]
+ExecStart=<%= `rvm wrapper show puma`.chomp %> -e <%= ENV['RAILS_ENV'] %>
+Restart=always
+Type=simple
+User=rails
+WorkingDirectory=<%= ENV['RAILS_ROOT'] %>
+
+[Install]
+WantedBy=multi-user.target
+
