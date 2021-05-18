@@ -47,7 +47,8 @@ class IssuesController < ApplicationController
   private
 
   def base_collection
-    Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category]).order created_at: :desc
+    Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+      .order created_at: :desc
   end
 
   def log_entries(issue)
