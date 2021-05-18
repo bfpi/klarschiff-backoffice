@@ -51,13 +51,13 @@
   <div class="col text-right">
     <%= link_to image_tag('mail-message-new'),
           new_issue_issue_email_path(issue), remote: true,
-                                             title: 'Daten des Vorgangs als E-Mail versenden' %>
+                                             title: 'Daten der Meldung als E-Mail versenden' %>
     <%= link_to image_tag('mail-groupwise'),
           issue_issue_email_path(issue), id: :issue_email_direct,
-                                         title: 'Daten des Vorgangs als E-Mail aus eigenem E-Mail-Client versenden' %>
+                                         title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
     <%= link_to image_tag('printer'),
           issue_issue_exports_path(issue), target: :_blank, id: :issue_export,
-                                           title: 'Daten des Vorgangs ausdrucken', rel: :noopener %>
+                                           title: 'Daten der Meldung ausdrucken', rel: :noopener %>
   </div>
   <div id="print-map" class="print-map"
     data-lat="<%= issue.position&.y %>"
