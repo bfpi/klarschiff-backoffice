@@ -16,7 +16,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
   private
 
   def find_issues(time)
-    %i[open_not_accepted in_process_no_status_note unsupported_ideas in_process].each do |method|
+    %i[open_not_accepted in_process_no_status_note ideas_without_min_supporters in_process].each do |method|
       next if (issues = send(method, time - Jobs::Issue.send("#{method}_days").days)).blank?
       @issues[method] = issues.to_a
     end
@@ -35,8 +35,8 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     Issue.status_in_process.where(status_note: nil).where(id: latest_attr_change(time, 'status'))
   end
 
-  def unsupported_ideas(time)
-    Issue.unsupported.where(status: 'received').where(id: latest_attr_change(time, 'group'))
+  def ideas_without_min_supporters(time)
+    Issue.status_open.ideas_without_min_supporters.where(id: latest_attr_change(time, 'group'))
   end
 
   def in_process(time)
@@ -52,7 +52,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
   end
 
   def description_or_photo_not_released
-    Issue.status_received.where(description_status: 'internal').select { |is| !is.photos.status_external.exists? }
+    Issue.status_received.where(description_status: 'internal').reject { |is| is.photos.status_external.exists? }
   end
 
   def no_responsibility

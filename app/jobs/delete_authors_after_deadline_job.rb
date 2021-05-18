@@ -9,12 +9,14 @@ class DeleteAuthorsAfterDeadlineJob < ApplicationJob
 
   private
 
+  # rubocop:disable Rails/SkipsModelValidations
   def remove_author(issue)
     issue.update_all(author: nil)
     issue.abuse_reports.update_all(author: nil)
     issue.photos.update_all(author: nil)
     issue.feedbacks.update_all(author: nil)
   end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def deletion_conds(time)
     iat[:archived_at].not_eq(nil).iat[:archived_at].lt(time)
