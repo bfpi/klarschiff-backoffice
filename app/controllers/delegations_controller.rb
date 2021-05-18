@@ -8,7 +8,7 @@ class DelegationsController < ApplicationController
 
   def index
     @status = params[:status].to_i
-    @issues = filter(includes(Issue).not_archived.where.not(delegation_id: nil)).order(created_at: :desc)
+    @issues = issues
     respond_to do |format|
       format.html { html_response }
       format.xlsx { xlsx_export }
@@ -31,13 +31,16 @@ class DelegationsController < ApplicationController
 
   private
 
+  def issues
+    issues = Issue.includes(category: %i[main_category sub_category]).not_archived.where.not(delegation_id: nil)
+      .order(created_at: :desc)
+    return issues.status_in_process if @status.zero?
+    issues.where(status: %i[duplicate not_solvable closed])
+  end
+
   def html_response
     @issues = paginate_issues
     return render :map if params[:show_map] == 'true'
-  end
-
-  def includes(collection)
-    collection.includes(category: %i[main_category sub_category])
   end
 
   def reject
@@ -52,11 +55,6 @@ class DelegationsController < ApplicationController
   def issue_params
     return {} if params[:issue].blank?
     params.require(:issue).permit(:status, :status_note)
-  end
-
-  def filter(issues)
-    return issues.where(status: :in_process) if @status.zero?
-    issues.where(status: %i[duplicate not_solvable closed])
   end
 
   def paginate_issues
