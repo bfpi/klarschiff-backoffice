@@ -13,12 +13,13 @@
 <div class="form-group row">
   <%= form.label :address, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.autocomplete_field :address, class: 'form-control', 'data-autocomplete-url': places_path %>
+    <%= form.autocomplete_field :address, class: 'form-control', 'data-autocomplete-url': places_path,
+                                          disabled: restricted %>
   </div>
   <% unless form.object.new_record? -%>
     <%= form.label :parcel, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
-      <%= form.text_field :parcel, class: 'form-control' %>
+      <%= form.text_field :parcel, class: 'form-control', disabled: restricted %>
     </div>
   <% end -%>
 </div>
@@ -26,7 +27,7 @@
   <div class="form-group row">
     <%= form.label :property_owner, class: 'col-md-3 col-form-label' %>
     <div class="col-md-9">
-      <%= form.text_field :property_owner, class: 'form-control' %>
+      <%= form.text_field :property_owner, class: 'form-control', disabled: restricted %>
     </div>
   </div>
 <% end -%>

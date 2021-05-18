@@ -23,10 +23,10 @@ module IssuesHelper
     grouped_options_for_select grouped_categories_for_kind(kind), category_id
   end
 
-  def nav_item(tab, issue, current_tab)
+  def nav_item(tab, issue, current_tab, issue_or_delegation = :issue)
     css_class = "nav-link #{:active if tab == current_tab}"
-    tag.li link_to(t(".tab.#{tab}"), edit_issue_path(issue, tab: tab), remote: true, class: css_class),
-      class: 'nav-item'
+    path = send("edit_#{issue_or_delegation}_path", issue, tab: tab)
+    tag.li link_to(t("issues.form.tab.#{tab}"), path, remote: true, class: css_class), class: 'nav-item'
   end
 
   private

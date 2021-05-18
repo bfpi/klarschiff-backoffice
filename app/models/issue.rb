@@ -18,6 +18,10 @@ class Issue < ApplicationRecord
 
   CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
 
+  mattr_reader :delegation_statuses do
+    statuses.slice('in_process', 'closed')
+  end
+
   belongs_to :category
   belongs_to :delegation, optional: true, class_name: 'Group'
   belongs_to :group

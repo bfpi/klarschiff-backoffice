@@ -27,7 +27,7 @@
     <% unless issue.reviewed_at? -%>
       <%= render partial: 'review', locals: { form: form } %>
     <% else -%>
-      <%= render partial: "tab_#{@tab}", locals: { form: form } %>
+      <%= render partial: "tab_#{@tab}", locals: { form: form, restricted: false } %>
     <% end -%>
   </div>
 <% end -%>
