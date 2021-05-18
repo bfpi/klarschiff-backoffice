@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
-  include AuthorBlacklist
   include DateTimeAttributesWithBooleanAccessor
+  include Issue::Callbacks
   include Issue::Icons
-  include Issue::Validations
   include Logging
 
   attr_accessor :responsibility_action, :new_photo

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_115442) do
+ActiveRecord::Schema.define(version: 2021_05_18_090338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
   create_table "authority", force: :cascade do |t|
     t.text "regional_key"
     t.text "name"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.bigint "county_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
 
   create_table "comment", force: :cascade do |t|
     t.bigint "issue_id", null: false
-    t.text "author"
     t.text "message"
     t.boolean "deleted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -85,7 +84,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
   create_table "community", force: :cascade do |t|
     t.text "regional_key"
     t.text "name"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.bigint "authority_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -95,14 +94,14 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
   create_table "county", force: :cascade do |t|
     t.text "regional_key"
     t.text "name"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "district", force: :cascade do |t|
     t.text "name"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.bigint "community_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -164,13 +163,13 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
   create_table "instance", force: :cascade do |t|
     t.text "name"
     t.text "instance_url"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "issue", force: :cascade do |t|
-    t.geometry "position", limit: {:srid=>0, :type=>"st_point"}
+    t.geometry "position", limit: {:srid=>4326, :type=>"st_point"}
     t.text "address"
     t.datetime "archived_at"
     t.text "author"
@@ -244,7 +243,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_115442) do
   create_table "observation", force: :cascade do |t|
     t.text "key"
     t.text "category_ids"
-    t.geometry "area", limit: {:srid=>0, :type=>"multi_polygon"}
+    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
