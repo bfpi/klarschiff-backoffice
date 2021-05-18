@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 2021_05_18_090338) do
   end
 
   create_table "issue", force: :cascade do |t|
-    t.geometry "position", limit: {:srid=>0, :type=>"st_point"}
+    t.geometry "position", limit: {:srid=>4326, :type=>"st_point"}
     t.text "address"
     t.datetime "archived_at"
     t.text "author"
