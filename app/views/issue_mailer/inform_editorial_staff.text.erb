@@ -2,6 +2,7 @@ Sehr geehrte(r) Bearbeiter/-in,
 
 es gibt folgende wichtige Hinweise zum Bearbeitungsstand:
 <% @issues.each do |key, issues| -%>
+
   <%= render partial: key.to_s, locals: { issues: issues } if issues.present? %>
 <% end -%>
 

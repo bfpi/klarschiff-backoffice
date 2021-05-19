@@ -8,7 +8,7 @@ development: &default
     author_deletion_deadline_days: 1
     open_not_accepted_days: 1
     in_process_no_status_note_days: 1
-    unsupported_ideas_days: 1
+    ideas_without_min_supporters_days: 1
     in_process_days: 1
     status_change_days: 1
   photo:
