@@ -49,7 +49,7 @@ class DelegationsController < ApplicationController
   end
 
   def set_tab
-    @tab = params[:tab]&.to_sym || :status
+    @tab = params[:tab]&.to_sym || :master_data
   end
 
   def issue_params
