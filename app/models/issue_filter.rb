@@ -78,7 +78,7 @@ class IssueFilter
 
   def filter_district(params)
     district = District.find(params[:district])
-    @collection = @collection.where('ST_Contains(?::geometry, position::geometry)', "SRID=4326;#{district.area}")
+    @collection = @collection.where('ST_Contains(?, position)', district.area)
   end
 
   def filter_statuses(params)
