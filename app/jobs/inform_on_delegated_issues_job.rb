@@ -3,7 +3,7 @@
 class InformOnDelegatedIssuesJob < ApplicationJob
   def perform
     time = Time.current
-    iss = delegated_issues(time - Jobs::Issue.delegation_deadline.hours)
+    iss = delegated_issues(time - JobSettings::Issue.delegation_deadline.hours)
     iss.group_by(&:delegation).each do |delegation, issues|
       IssueMailer.delegation(to: delegation.user.pluck(:email), issues: issues).deliver_later
     end

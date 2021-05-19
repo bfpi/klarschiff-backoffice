@@ -1,8 +1,9 @@
-Folgende Vorgänge mit dem Status "in Bearbeitung" sind seit mindestens <%= Jobs::Issue.in_process_no_status_note_days %> Tagen unverändert.
+Folgende Vorgänge mit dem Status "in Bearbeitung" sind seit mindestens
+<%= JobSettings::Issue.in_process_no_status_note_days %> Tagen unverändert.
 Bitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation oder schließen Sie den Vorgang ab, falls dies bislang einfach vergessen wurde:
 
 Nummer      aktuelle Zuständigkeit      Typ     unverändert seit
 ******      **********************      ***     ****************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.responsibility, Issue.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t\t\t") %>
+<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t\t\t") %>
 <% end -%>

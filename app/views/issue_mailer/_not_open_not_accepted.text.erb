@@ -3,6 +3,6 @@ Folgende Vorgänge weisen zwar nicht mehr den Status "offen" auf, wurden bisher 
 Nummer    aktuelle Zuständigkeit     Typ     Status      nicht akzeptiert seit
 ******    **********************     ***     ******      *********************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.responsibility, Issue.human_enum_name(:kind, issue.kind),
+<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind),
      Issue.human_enum_name(:kind, issue.kind), l(issue.responsibility_since)].join("\t\t\t") %>
 <% end -%>

@@ -11,7 +11,7 @@ class ConfirmationMailer < ApplicationMailer
     mail(to: to, interpolation: { subject: { number: issue_id } })
   end
 
-  def abuse(to:, issue_id:, confirmation_hash:)
+  def abuse_report(to:, issue_id:, confirmation_hash:)
     @url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/abuse"
     mail(to: to, interpolation: { subject: { number: issue_id } })
   end

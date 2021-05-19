@@ -9,7 +9,7 @@ class AbuseReportTest < ActiveSupport::TestCase
     report = AbuseReport.create(issue: issue(:one), author: 'test@rostock.de', message: 'Test')
     assert report.valid?
     assert_enqueued_email_with(
-      ConfirmationMailer, :abuse,
+      ConfirmationMailer, :abuse_report,
       args: [{ to: report.author, confirmation_hash: report.confirmation_hash, issue_id: report.issue_id }]
     )
   end

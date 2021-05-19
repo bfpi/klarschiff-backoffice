@@ -2,6 +2,7 @@
 
 class AbuseReport < ApplicationRecord
   include AuthorBlacklist
+  include ConfirmationCallbacks
   include ConfirmationWithHash
   include DateTimeAttributesWithBooleanAccessor
   include Logging
@@ -16,11 +17,5 @@ class AbuseReport < ApplicationRecord
 
   def to_s
     "#{I18n.l(created_at, format: :no_seconds)}#{I18n.t('statuses.abuse_report.open') unless resolved_at?}"
-  end
-
-  private
-
-  def send_confirmation
-    ConfirmationMailer.abuse(to: author, issue_id: issue.id, confirmation_hash: confirmation_hash).deliver_later
   end
 end

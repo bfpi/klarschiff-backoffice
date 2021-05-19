@@ -4,7 +4,7 @@ class NotifyOnClosedIssuesJob < ApplicationJob
   include QueryMethods
 
   def perform
-    issues_with_status_changes(Time.current - Jobs::Issue.status_change_days.days).find_each do |issue|
+    issues_with_status_changes(Time.current - JobSettings::Issue.status_change_days.days).find_each do |issue|
       IssueMailer.closed(to: issue.author, issue: issue).deliver_later
     end
   end

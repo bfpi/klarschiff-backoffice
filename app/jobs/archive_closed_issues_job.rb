@@ -3,7 +3,7 @@
 class ArchiveClosedIssuesJob < ApplicationJob
   def perform
     time = Time.current
-    issues_to_be_archived(time - Jobs::Issue.archival_deadline.hours).update(archived_at: time)
+    issues_to_be_archived(time - JobSettings::Issue.archival_deadline.hours).update(archived_at: time)
   end
 
   private

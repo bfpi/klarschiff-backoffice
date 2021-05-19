@@ -18,7 +18,7 @@ module QueryMethods
 
   def status_conds(time, statuses)
     leat[:issue_id].not_eq(nil).and(leat[:attr].eq('status')).and(leat[:new_value].in(statuses))
-      .and(leat[:created_at].lt(time))
+      .and(leat[:created_at].gteq(time))
   end
 
   def iat

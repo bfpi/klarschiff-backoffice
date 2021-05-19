@@ -2,7 +2,9 @@
 
 class DeleteAuthorsAfterDeadlineJob < ApplicationJob
   def perform
-    Issue.where(deletion_conds(Time.current - Jobs::Issue.author_deletion_deadline_days.days)).find_each do |issue|
+    Issue.where(
+      deletion_conds(Time.current - JobSettings::Issue.author_deletion_deadline_days.days)
+    ).find_each do |issue|
       remove_author(issue)
     end
   end

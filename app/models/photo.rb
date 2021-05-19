@@ -4,6 +4,7 @@ require 'mini_magick'
 
 class Photo < ApplicationRecord
   include AuthorBlacklist
+  include ConfirmationCallbacks
   include ConfirmationWithHash
   include Logging
 
@@ -17,8 +18,6 @@ class Photo < ApplicationRecord
   attr_accessor :censor_width, :censor_height, :skip_email_notification
 
   validates :file, presence: true
-
-  after_create :send_confirmation, unless: :skip_email_notification
 
   def _modification
     nil
@@ -74,9 +73,5 @@ class Photo < ApplicationRecord
     new_image = current_image
     new_image = new_image.rotate 90
     save_modified_image(new_image)
-  end
-
-  def send_confirmation
-    ConfirmationMailer.photo(to: author, issue_id: issue.id, confirmation_hash: confirmation_hash).deliver_later
   end
 end

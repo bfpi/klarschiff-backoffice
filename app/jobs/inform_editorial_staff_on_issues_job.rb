@@ -17,7 +17,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
 
   def find_issues(time)
     %i[open_not_accepted in_process_no_status_note ideas_without_min_supporters in_process].each do |method|
-      next if (issues = send(method, time - Jobs::Issue.send("#{method}_days").days)).blank?
+      next if (issues = send(method, time - JobSettings::Issue.send("#{method}_days").days)).blank?
       @issues[method] = issues.to_a
     end
     %i[not_solvable_no_status_note not_open_not_accepted description_and_photo_not_released

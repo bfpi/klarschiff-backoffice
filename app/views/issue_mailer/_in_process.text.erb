@@ -1,7 +1,7 @@
-Folgende Vorgänge sind älter als <%= Jobs::Issue.in_process_days %> Tage und noch im Status "in Bearbeitung":
+Folgende Vorgänge sind älter als <%= JobSettings::Issue.in_process_days %> Tage und noch im Status "in Bearbeitung":
 
 Nummer      aktuelle Zuständigkeit      Typ     Erstellungszeitpunkt
 ******      **********************      ***     ********************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.responsibility, Issue.human_enum_name(:kind, issue.kind), l(issue.created_at)].join("\t\t\t") %>
+<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind), l(issue.created_at)].join("\t\t\t") %>
 <% end -%>

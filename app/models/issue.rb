@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
+  include ConfirmationCallbacks
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Callbacks
   include Issue::Icons
@@ -110,18 +111,12 @@ class Issue < ApplicationRecord
   end
 
   def responsibility_since
-    return if responsibility.blank?
-    all_log_entries.where(attr: 'responsibility').order(created_at: :desc).first.created_at
+    return if group.blank?
+    all_log_entries.where(attr: 'group').order(created_at: :desc).first.created_at
   end
 
   def status_since
     return created_at if all_log_entries.where(attr: 'status').blank?
     all_log_entries.where(attr: 'status', new_value: status).order(created_at: :desc).first.created_at
-  end
-
-  private
-
-  def send_confirmation
-    ConfirmationMailer.issue(to: author, issue_id: id, confirmation_hash: confirmation_hash).deliver_later
   end
 end
