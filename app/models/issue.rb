@@ -5,7 +5,6 @@ class Issue < ApplicationRecord
   include Issue::Callbacks
   include Issue::Icons
   include Issue::Scopes
-  
   include Logging
 
   attr_accessor :responsibility_action, :new_photo
