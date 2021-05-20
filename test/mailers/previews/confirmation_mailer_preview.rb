@@ -9,8 +9,8 @@ class ConfirmationMailerPreview < ActionMailer::Preview
     ConfirmationMailer.supporter(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
   end
 
-  def abuse
-    ConfirmationMailer.abuse(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
+  def abuse_report
+    ConfirmationMailer.abuse_report(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
   end
 
   def photo

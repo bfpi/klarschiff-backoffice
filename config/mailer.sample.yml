@@ -9,7 +9,7 @@ development: &default
     issue:
       subject: weitergeleiteter Vorgang aus dem Beteiligungsportal Klarschiff von Schwerin
   confirmation_mailer:
-    abuse:
+    abuse_report:
       subject: "#%{number}: Bestätigung einer Missbrauchsmeldung"
     issue:
       subject: "#%{number}: Meldungsbestätigung"
