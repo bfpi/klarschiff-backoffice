@@ -8,11 +8,11 @@ Rails.application.routes.draw do
     resource :contacts, only: %i[show]
     resource :dashboards, only: %i[show]
     resource :data_dependencies, only: %i[update]
+    resource :editorials, only: %i[show]
     resource :imprints, only: %i[show]
     resource :infos, only: %i[show]
 
     resources :delegations, only: %i[index edit update]
-    resources :editorial_notifications, only: %i[index]
     resources :feedbacks, only: %i[index]
     resources :field_services
     resources :groups
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   end
   resources :abuse_reports, only: %i[create update]
   resources :comments, only: %i[create edit update show destroy]
+  resources :editorial_notifications, only: %i[index new create edit update destroy]
   resources :jobs, only: %i[index update destroy] do
     collection do
       post :assign
