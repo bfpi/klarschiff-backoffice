@@ -11,6 +11,6 @@ class Comment < ApplicationRecord
   default_scope { where(deleted: false).order(created_at: :desc) }
 
   def to_s
-    "#{author} - #{I18n.l(created_at)}"
+    "#{user} - #{I18n.l(created_at)}"
   end
 end

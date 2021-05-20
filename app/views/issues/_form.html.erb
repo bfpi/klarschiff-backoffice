@@ -10,7 +10,7 @@
 
 <% if issue.new_record? -%>
   <%= render partial: 'tab_master_data', locals: { form: form } %>
-  <%= render partial: 'tab_map', locals: { form: form } %>
+  <%= render partial: 'tab_map', locals: { form: form, restricted: false } %>
   <%= render partial: 'tab_photo', locals: { form: form } %>
 <% else -%>
   <div class="card-header">
@@ -27,7 +27,7 @@
     <% unless issue.reviewed_at? -%>
       <%= render partial: 'review', locals: { form: form } %>
     <% else -%>
-      <%= render partial: "tab_#{@tab}", locals: { form: form } %>
+      <%= render partial: "tab_#{@tab}", locals: { form: form, restricted: false } %>
     <% end -%>
   </div>
 <% end -%>

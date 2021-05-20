@@ -3,6 +3,8 @@
 require 'mini_magick'
 
 class Photo < ApplicationRecord
+  include AuthorBlacklist
+  include ConfirmationWithHash
   include Logging
 
   enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
@@ -14,10 +16,7 @@ class Photo < ApplicationRecord
   attr_reader :censor_rectangles
   attr_accessor :censor_width, :censor_height
 
-  validates :confirmation_hash, presence: true, uniqueness: true
   validates :file, presence: true
-
-  before_validation :set_confirmation_hash, on: :create
 
   def _modification
     nil
@@ -73,9 +72,5 @@ class Photo < ApplicationRecord
     new_image = current_image
     new_image = new_image.rotate 90
     save_modified_image(new_image)
-  end
-
-  def set_confirmation_hash
-    self.confirmation_hash = SecureRandom.uuid
   end
 end

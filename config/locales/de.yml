@@ -328,7 +328,9 @@ de:
         map: Karte
         master_data: Stammdaten
         photo: Foto
+        rejection: Zurückweisen
         responsibility: Zuständigkeit
+        status: Status
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für den Vorgang akzeptieren
@@ -342,6 +344,8 @@ de:
       save: Änderungen am Foto speichern
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
+    tab_rejection:
+      reject: "Vorgang an %{group} zurückweisen"
   mail_blacklists:
     index:
       new_mail_blacklist: Neuer Eintrag

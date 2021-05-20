@@ -4,7 +4,7 @@ class ConsolidationEmailInterceptor
   class << self
     def delivering_email(message)
       delivery_method = message.delivery_method
-      return unless delivery_method.is_a? Mail::SMTP
+      return unless delivery_method.is_a?(Mail::SMTP) || delivery_method.is_a?(Mail::Sendmail)
       return if /true/i.match?(message.header['X-Override-Consolidation'].to_s)
       message.subject = "#{message.subject} (#{original_recipients message})"
       message.to = Config.for(:mailer).dig(:default, :interceptions_recipient)

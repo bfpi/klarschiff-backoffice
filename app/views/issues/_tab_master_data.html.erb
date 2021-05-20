@@ -6,7 +6,7 @@
         <% next if ix < Issue.statuses[:reviewed] -%>
         <div>
           <%= form.label "status_#{status}", '', class: 'form-check-label' do %>
-            <%= form.radio_button :status, status %>
+            <%= form.radio_button :status, status, disabled: restricted %>
             <%= Issue.human_enum_name :status, status %>
           <% end %>
         </div>
@@ -14,9 +14,12 @@
     </div>
     <%= form.label :status_note, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
-      <%= form.text_area(:status_note, class: 'form-control', rows: 3) %>
-      <%= select_tag(:status_note_template, options_for_select(status_note_templates),
-            class: 'form-control', prompt: 'Vorlage wählen') %>
+      <%= form.text_area(:status_note, class: 'form-control', rows: 3, readonly: restricted) %>
+      <%= select_tag :status_note_template,
+            options_for_select(status_note_templates),
+            class: 'form-control',
+            prompt: 'Vorlage wählen',
+            disabled: restricted %>
     </div>
   </div>
 <% end -%>
@@ -26,7 +29,7 @@
     <% MainCategory.kinds.each do |kind, ix| -%>
       <div class="form-check form-check-inline">
         <%= form.label("kind_#{kind}", '', class: 'form-check-label') do %>
-          <%= form.radio_button :kind, kind %>
+          <%= form.radio_button :kind, kind, disabled: restricted %>
           <%= MainCategory.human_enum_name :kind, kind %>
         <% end %>
       </div>
@@ -36,31 +39,32 @@
 <div class="form-group row">
   <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.select :category_id, grouped_categories(form.object), { include_blank: true }, class: 'form-control' %>
+    <%= form.select :category_id, grouped_categories(form.object),
+          { include_blank: true }, class: 'form-control', disabled: restricted %>
   </div>
   <%= form.label :author, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.text_field(:author,
+    <%= form.text_field :author,
           class: 'form-control',
           value: form.object.new_record? ? Current.user.email : form.object.author,
-          readonly: !form.object.new_record?) %>
+          readonly: !form.object.new_record? || restricted %>
   </div>
 </div>
 <div class="form-group row">
   <%= form.label :description, class: 'col-md-2 col-form-label' %>
   <div class="col-md-9">
-    <%= form.text_area :description, class: 'form-control', rows: 5 %>
+    <%= form.text_area :description, class: 'form-control', rows: 5, disabled: restricted %>
   </div>
   <% unless form.object.new_record? -%>
     <div class="col-md-1">
       <%= form.label :description_status_internal, '',
             class: 'form-check-label', title: description_status_internal_title do %>
-        <%= form.radio_button :description_status, :internal %>
+        <%= form.radio_button :description_status, :internal, disabled: restricted %>
         <%= tag.span class: 'fa fa-home fa-2x' %>
       <% end -%>
       <%= form.label :description_status_external, '',
             class: 'form-check-label', title: description_status_external_title do %>
-        <%= form.radio_button :description_status, :external %>
+        <%= form.radio_button :description_status, :external, disabled: restricted %>
         <%= tag.span class: 'fa fa-globe fa-2x' %>
       <% end %>
     </div>
@@ -69,7 +73,10 @@
 <div class="form-group row" style="<%= 'display: none' unless form.object.status_in_process? %>">
   <%= form.label :expected_closure, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
-    <%= form.text_field :expected_closure, class: 'form-control datepicker', value: l(form.object.expected_closure) %>
+    <%= form.text_field :expected_closure,
+          class: 'form-control datepicker',
+          value: l(form.object.expected_closure),
+          readonly: restricted %>
   </div>
 </div>
 <% unless form.object.new_record? -%>
@@ -79,7 +86,7 @@
       <% Issue.priorities.each do |priority, ix| -%>
         <div class="form-check form-check-inline">
           <%= form.label "priority_#{priority}", '', class: 'form-check-label' do %>
-            <%= form.radio_button :priority, priority %>
+            <%= form.radio_button :priority, priority, disabled: restricted %>
             <%= Issue.human_enum_name :priority, priority %>
           <% end %>
         </div>
@@ -91,7 +98,7 @@
   <div class="form-group row">
     <div class="col-md-10 offset-md-2">
       <%= form.label(:archived, '', class: 'form-check-label') do %>
-        <%= form.check_box(:archived, class: 'form-check form-check-inline') %>
+        <%= form.check_box(:archived, class: 'form-check form-check-inline', disabled: restricted) %>
         <%= Issue.human_attribute_name(:archived) %>
       <% end %>
     </div>

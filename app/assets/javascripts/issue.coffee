@@ -1,4 +1,3 @@
-
 $ ->
   $(document).on 'change', '#status_note_template', ->
     $('#issue_status_note').val($('#status_note_template')[0]['value'])
@@ -29,17 +28,11 @@ $ ->
       req.setRequestHeader "Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"
       req.send 'map_image=' + btoa(img)
 
-      req.onreadystatechange = ->
-        # Call a function when the state changes.
-        if req.readyState == 4 and req.status == 200
-          console.debug req.responseText
-        return
-
       req.onload = (event) ->
         blob = req.response
         link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
-        link.download = 'Druckansicht.pdf'
+        link.download = req.getResponseHeader('X-FileName')
         link.click()
     ), 1000
 

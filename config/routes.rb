@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resource :imprints, only: %i[show]
     resource :infos, only: %i[show]
 
-    resources :delegations, only: %i[index]
+    resources :delegations, only: %i[index edit update]
     resources :editorial_notifications, only: %i[index]
     resources :feedbacks, only: %i[index]
     resources :field_services

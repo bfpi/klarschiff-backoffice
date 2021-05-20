@@ -7,7 +7,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col"><%= Issue.human_attribute_name :created_at %></th>
-      <th scope="col"><%= Issue.human_attribute_name :category %></th>
+      <th scope="col"><%= Category.human_attribute_name :sub_category %></th>
       <th scope="col"><%= Issue.human_attribute_name :status %></th>
       <th scope="col"><%= Issue.human_attribute_name :address %></th>
       <th scope="col"><%= Issue.human_attribute_name :supporter %></th>
@@ -22,7 +22,7 @@
       <tr class="<%= 'text-muted' if issue.archived_at.present? %> <%= 'highlight' if issue.abuse_reports.present? %>">
         <th scope="row"><%= issue.id %></th>
         <td><%= l issue.created_at %></td>
-        <td><%= issue.category %></td>
+        <td><%= issue.sub_category %></td>
         <td>
           <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                          title: Issue.human_enum_name(:status, issue.status) %>
