@@ -21,11 +21,11 @@ class Issue
       end
 
       def ideas_without_min_supporters
-        by_kind(0).having('COUNT("supporter"."id") < ?', Settings::Vote.min_requirement)
+        by_kind(0).having Supporter.arel_table[:id].count.lt(Settings::Vote.min_requirement)
       end
 
       def ideas_with_min_supporters
-        by_kind(0).having('COUNT("supporter"."id") >= ?', Settings::Vote.min_requirement)
+        by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
       end
     end
   end
