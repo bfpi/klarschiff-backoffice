@@ -81,4 +81,8 @@ class Issue < ApplicationRecord
     job.group = Group.find(group_id)
     job.save
   end
+
+  def latest_editor
+    all_log_entries.order(created_at: :desc).first&.user
+  end
 end
