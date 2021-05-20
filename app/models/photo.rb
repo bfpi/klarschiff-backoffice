@@ -4,7 +4,6 @@ require 'mini_magick'
 
 class Photo < ApplicationRecord
   include AuthorBlacklist
-  include ConfirmationCallbacks
   include ConfirmationWithHash
   include Logging
 

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Issue < ApplicationRecord
-  include ConfirmationCallbacks
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Callbacks
   include Issue::Icons

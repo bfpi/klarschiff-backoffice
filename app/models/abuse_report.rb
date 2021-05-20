@@ -2,7 +2,6 @@
 
 class AbuseReport < ApplicationRecord
   include AuthorBlacklist
-  include ConfirmationCallbacks
   include ConfirmationWithHash
   include DateTimeAttributesWithBooleanAccessor
   include Logging
