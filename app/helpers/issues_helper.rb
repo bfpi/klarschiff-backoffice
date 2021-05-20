@@ -70,7 +70,7 @@ module IssuesHelper
   end
 
   def districts
-    [[t('issues.extended_filter.all_districts'), nil]] + District.all.map { |d| [d.name, d.id] }
+    [[t('issues.extended_filter.all_districts'), nil]] + District.order(:name).map { |d| [d.name, d.id] }
   end
 
   def archived_options

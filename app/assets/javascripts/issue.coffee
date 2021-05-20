@@ -4,7 +4,6 @@ $ ->
       KS.initializeFormActions()
 
   $(document).on 'turbolinks:load', initializeExtendedFilter
-  $(document).ready initializeExtendedFilter
 
   $(document).on 'change', '#status_note_template', ->
     $('#issue_status_note').val($('#status_note_template')[0]['value'])
