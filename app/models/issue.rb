@@ -4,6 +4,7 @@ class Issue < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Callbacks
   include Issue::Icons
+  include Issue::Scopes
   include Logging
 
   attr_accessor :responsibility_action, :new_photo
@@ -41,8 +42,6 @@ class Issue < ApplicationRecord
   delegate :group_id, :date, to: :job, prefix: true, allow_nil: true
   delegate :kind, :kind_name, to: :category, allow_nil: true
   delegate :main_category, :sub_category, to: :category
-
-  scope :not_archived, -> { where(archived_at: nil) }
 
   def to_s
     "#{kind_name} ##{id}"

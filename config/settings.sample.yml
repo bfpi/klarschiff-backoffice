@@ -49,6 +49,9 @@ development: &default
     user_identifier: dn
     user_last_name: sn
     username:
+  vote:
+    min_requirement: 20
+
 test:
   <<: *default
 

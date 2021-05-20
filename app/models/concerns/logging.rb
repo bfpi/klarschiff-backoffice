@@ -113,8 +113,7 @@ module Logging
     return subject.class.enum_value(value, attr) if attr.in?(ENUM_ATTRS)
     return ActiveSupport::NumberHelper.number_to_delimited(value) if value.is_a? Numeric
     case value
-    when true then 'ja'
-    when false then 'nein'
+    when false, true then I18n.t(value)
     else value
     end
   end

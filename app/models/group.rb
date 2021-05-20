@@ -23,7 +23,7 @@ class Group < ApplicationRecord
   scope :active, -> { where active: true }
 
   def to_s
-    name
+    short_name || name
   end
 
   def as_json(_options = {})

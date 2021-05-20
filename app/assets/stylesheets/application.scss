@@ -91,3 +91,41 @@ tr.dragged-row td {
 #image-sources {
   display: none;
 }
+
+.divider {
+  border-bottom: 1px solid #ddd;
+}
+
+.priority-icon {
+  color: #f80;
+}
+
+.trust-icon {
+  color: #c3bb19;
+}
+
+table.statistics {
+  background-color: #737373;
+  border: 1px solid #737373;
+  border-collapse: separate;
+  border-radius: 5px;
+  padding: 0;
+
+  td {
+    padding: 0 3px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  td.bar-open {
+    background-color: #ff3700;
+  }
+
+  td.bar-in-process {
+    background-color: #f5e123;
+  }
+
+  td.bar-closed {
+    background-color: #50c80f;
+  }
+}

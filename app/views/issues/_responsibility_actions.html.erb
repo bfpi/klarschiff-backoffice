@@ -32,9 +32,8 @@
   </div>
   <div class="col-md-4" id="manual-responsibility"
        style="display: <%= form.object.responsibility_action&.to_sym == :manual ? 'inline' : 'none' %>;">
-    <%= form.select :group_id, options_from_collection_for_select(
-          Group.where(kind: Group.kinds[:internal]), :id, :to_s, form.object.group_id
-        ), { include_blank: true }, class: 'form-control' %>
+    <%= form.select :group_id, options_for_select(responsibilities, form.object.group_id),
+          { include_blank: true }, class: 'form-control' %>
   </div>
 </div>
 <div class="form-group row">
