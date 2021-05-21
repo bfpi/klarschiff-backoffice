@@ -17,6 +17,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
+    @feedbacks = feedbacks(@issue) if @tab == :feedback
     @log_entries = log_entries(@issue) if @tab == :log_entry
   end
 
@@ -49,6 +50,10 @@ class IssuesController < ApplicationController
   def base_collection
     Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
       .order created_at: :desc
+  end
+
+  def feedbacks(issue)
+    issue.feedbacks.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
   end
 
   def log_entries(issue)
