@@ -38,15 +38,16 @@ module IssuesHelper
   end
 
   def responsibilities
-    [[t('issues.extended_filter.my_responsibility'), 0]] + Group.kind_internal.map { |gr| [gr.name, gr.id] }
+    [[t('issues.extended_filter.my_responsibility'), 0]] +
+      Group.kind_internal.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def delegations
-    Group.kind_external.map { |gr| [gr.name, gr.id] }
+    Group.kind_external.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def field_service_teams
-    Group.kind_field_service_team.map { |gr| [gr.name, gr.id] }
+    Group.kind_field_service_team.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def kinds
@@ -56,13 +57,13 @@ module IssuesHelper
 
   def main_categories(kind = nil)
     [[t('issues.extended_filter.all_main_categories'), nil]] +
-      MainCategory.where(kind: kind).map { |c| [c.name, c.id] }
+      MainCategory.where(kind: kind).order(:name).map { |c| [c.name, c.id] }
   end
 
   def sub_categories(main_id = nil)
     [[t('issues.extended_filter.all_sub_categories'), nil]] +
       SubCategory.includes(categories: :main_category)
-        .where(main_category: { id: main_id }).map { |c| [c.name, c.id] }
+        .where(main_category: { id: main_id }).order(:name).map { |c| [c.name, c.id] }
   end
 
   def priorities
