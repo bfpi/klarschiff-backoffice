@@ -82,7 +82,7 @@ class Issue < ApplicationRecord
     job.save
   end
 
-  def latest_editor
-    all_log_entries.order(created_at: :desc).first&.user
+  def latest_entry
+    all_log_entries.where(table: 'issue').order(created_at: :desc).first
   end
 end

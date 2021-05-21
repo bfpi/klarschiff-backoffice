@@ -19,7 +19,7 @@ class Group < ApplicationRecord
   end
 
   validates :name, presence: true
-  validates :email, presence: -> { main_user_id.blank? }
+  validates :email, presence: true, if: -> { main_user_id.blank? }
 
   scope :active, -> { where active: true }
 
