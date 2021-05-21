@@ -17,7 +17,7 @@ class MainCategory < ApplicationRecord
   end
 
   def kind_name
-    human_enum_name :kind, kind
+    human_enum_name :kind
   end
 
   def name_with_kind

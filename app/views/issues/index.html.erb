@@ -22,3 +22,10 @@
       </div>
     </span>
   <% end %>
+<% end %>
+<%= javascript_tag do %>
+  $(function() {
+    window.history.replaceState(null, null, '<%= issues_path %>');
+    $.ajax({ url: '<%= @edit_issue_url %>' });
+  });
+<% end if @edit_issue_url -%>

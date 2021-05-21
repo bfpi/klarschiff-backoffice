@@ -1,3 +1,6 @@
-<%= issue %>: <%= issue.category %>
+<%= Issue.human_attribute_name :id %><%= "\t\t" %>: <%= issue.id %>
+<%= MainCategory.human_attribute_name :kind %><%= "\t\t" %>: <%= MainCategory.human_enum_name :kind, issue.kind %>
+<%= Category.human_attribute_name :main_category %><%= "\t" %>: <%= issue.main_category %>
+<%= Category.human_attribute_name :sub_category %><%= "\t" %>: <%= issue.sub_category %>
 
-<%= issue.description %>
+URL <%= "\t\t" %>: <%= Settings::Instance.frontend_issue_url % issue.id %>

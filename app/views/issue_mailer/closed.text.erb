@@ -2,11 +2,11 @@ Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
 
 hiermit teilen wir Ihnen mit, dass die Bearbeitung Ihrer Meldung vom <%= l(@issue.created_at) %> abgeschlossen ist, und zwar mit folgendem Status:
 
-<%= t("enums.issue.status.#{@issue.status}") %>
+<%= status_with_optional_status_note @issue %>
 
 Nachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:
 
-<%= render partial: 'issue', locals: { issue: @issue } %>
+<%= render partial: 'issue', object: @issue %>
 
 Vielen Dank und mit freundlichen Grüßen
 

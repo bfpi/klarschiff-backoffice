@@ -14,6 +14,12 @@ class IssuesController < ApplicationController
     end
   end
 
+  def show
+    @edit_issue_url = edit_issue_url(params[:id])
+    @issues = paginate(filter(base_collection))
+    render :index
+  end
+
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept

@@ -39,8 +39,7 @@ Delegiert an: <%= @issue_email.issue.delegation %>
 <% if @issue_email.send_map? -%>
 Karte
 *****
-Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url.gsub('{issue_id}',
-                                                @issue_email.issue.id.to_s) %>
+Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url % @issue_email.issue.id %>
 
 Aufruf in <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.issue) %>
 <% end -%>
@@ -48,11 +47,10 @@ Aufruf in <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.iss
 interne Kommentare
 ******************
 <% @issue_email.issue.comments.each do |comment| -%>
-- <%= comment.author %> <%= l(comment.created_at, format: :no_seconds) %> -
+- <%= comment.to_s skip_seconds: true %> -
 <%= comment.message %>
 
 <% end -%>
-
 <% end -%>
 <% if @issue_email.send_feedbacks? -%>
 Lob, Hinweise oder Kritik von Bürger/-innen
@@ -62,7 +60,6 @@ Lob, Hinweise oder Kritik von Bürger/-innen
 <%= feedback.message %>
 
 <% end -%>
-
 <% end -%>
 <% if @issue_email.send_abuse_reports? -%>
 Missbrauchsmeldungen
@@ -72,7 +69,6 @@ Missbrauchsmeldungen
 <%= abuse_report.message %>
 
 <% end -%>
-
 <% end -%>
 Vielen Dank und mit freundlichen Grüßen
 

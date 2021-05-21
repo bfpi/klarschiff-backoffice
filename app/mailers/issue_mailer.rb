@@ -5,11 +5,8 @@ class IssueMailer < ApplicationMailer
 
   def issue(issue_email:)
     @issue_email = issue_email
-    image_attachments(issue_email: issue_email)
-    mail(
-      to: issue_email.to_email,
-      bcc: issue_email.from_email
-    )
+    image_attachments issue_email: issue_email if issue_email.send_photos?
+    mail to: issue_email.to_email, bcc: issue_email.from_email
   end
 
   def in_process(to:, issue:)
@@ -24,7 +21,7 @@ class IssueMailer < ApplicationMailer
 
   def delegation(to:, issues:)
     @issues = issues
-    mail(to: to)
+    mail to: to
   end
 
   def inform_editorial_staff(to:, issues:)
@@ -35,7 +32,6 @@ class IssueMailer < ApplicationMailer
   private
 
   def image_attachments(issue_email:)
-    return unless issue_email.send_photos?
     issue_email.issue.photos.each_with_index do |photo, ix|
       blob = photo.file.variant(resize_to_limit: [600, 600]).blob
       attachments["Foto#{ix + 1}#{File.extname(blob.filename.to_s)}"] = {

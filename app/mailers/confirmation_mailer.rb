@@ -2,7 +2,9 @@
 
 class ConfirmationMailer < ApplicationMailer
   def issue(to:, issue_id:, confirmation_hash:)
-    @url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/issue"
+    @confirmation_url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/issue"
+    @delete_url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/delete_issue"
+    @issue_url = Settings::Instance.frontend_issue_url % issue_id
     mail(to: to, interpolation: { subject: { number: issue_id } })
   end
 
