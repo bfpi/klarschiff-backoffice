@@ -8,9 +8,13 @@ class Feedback < ApplicationRecord
 
   validates :author, :message, presence: true
 
+  before_create :set_recipient
+
   default_scope -> { order created_at: :desc }
 
-  before_create :set_recipient
+  def to_s
+    "##{id}"
+  end
 
   private
 

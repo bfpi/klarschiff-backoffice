@@ -43,7 +43,21 @@ class JobsController < ApplicationController
     reload_all(date, group)
   end
 
+  def assign
+    params[:issue_ids].each { |issue_id| assign_issue(Issue.find(issue_id)) }
+    redirect_to issues_url
+  end
+
   private
+
+  def assign_issue(issue)
+    if issue.job
+      issue.job.update!(group_id: params[:group_id], date: params[:date])
+    else
+      job = Job.create!(group_id: params[:group_id], date: params[:date], status: :unchecked)
+      issue.update(job_id: job.id)
+    end
+  end
 
   def reload_all(date, group)
     @active_group_id = group.id

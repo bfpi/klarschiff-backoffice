@@ -48,6 +48,7 @@ $ ->
       e.preventDefault() unless e.key.match(/[0-9]/)
 
   $(document).on 'ajax:complete', 'form', (data) ->
+    return if @.id == 'issues-filter'
     $('#notice-success').hide()
     $('#notice-error').hide()
     detail = data.detail[0]
@@ -82,3 +83,24 @@ KS.initDatepicker = ->
   ).on 'hide', (e) ->
     # Workaround for: https://github.com/uxsolutions/bootstrap-datepicker/issues/50
     e.stopPropagation()
+
+  $(document).on 'click', '#assign-jobs', ->
+    ids = $('.selectable').toArray().filter((e) -> e.checked).map((e) -> e.value)
+    return false if ids.length == 0
+    $('#job-modal').modal()
+    console.log(ids)
+    for id in ids
+      $('form#job-assignment-form').append("<input type='hidden' name='issue_ids[]' value=#{id}>")
+
+  $(document).on 'click', '.show-map', ->
+    if @.dataset.extendedFilter == 'true'
+      $.get
+        url: '/issues?show_map=true&extended_filter=true'
+        method: 'GET'
+        data: $('form#issues-filter').serialize()
+        dataType: 'script'
+    else
+      $.get
+        url: "/issues?status=#{@.dataset.status}&show_map=true"
+        method: 'GET'
+        dataType: 'script'
