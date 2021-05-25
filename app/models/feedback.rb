@@ -9,4 +9,8 @@ class Feedback < ApplicationRecord
   validates :author, :message, presence: true
 
   default_scope -> { order created_at: :desc }
+
+  def to_s
+    "##{id}"
+  end
 end

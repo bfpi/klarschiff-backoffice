@@ -17,6 +17,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
+    @tabs = issue_tabs
     @feedbacks = feedbacks(@issue) if @tab == :feedback
     @log_entries = log_entries(@issue) if @tab == :log_entry
   end
@@ -47,17 +48,23 @@ class IssuesController < ApplicationController
 
   private
 
+  def issue_tabs
+    tabs = %i[master_data responsibility job]
+    tabs << :feedback if @issue.feedbacks.any?
+    tabs + %i[comment abuse_report map photo log_entry]
+  end
+
   def base_collection
     Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
       .order created_at: :desc
   end
 
   def feedbacks(issue)
-    issue.feedbacks.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
+    issue.feedbacks.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
   end
 
   def log_entries(issue)
-    issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
+    issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
   end
 
   def paginate(issues)
