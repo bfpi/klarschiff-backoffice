@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
     resources :delegations, only: %i[index edit show update]
     resources :editorial_notifications, only: %i[index]
+    resources :districts, only: %i[index]
     resources :feedbacks, only: %i[index]
     resources :field_services
     resources :groups

@@ -41,7 +41,7 @@ end
 # http://www.geodaten-mv.de/dienste/dvg_laiv_wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=dvg:gemeinden&OUTPUTFORMAT=gml3&srsName=EPSG:4326
 #
 rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assertions: true)
-{ kreise: County, aemter: Authority, gemeinden: Community }.each do |xml_key, object_class|
+{ kreise: County, aemter: Authority, gemeinden: District }.each do |xml_key, object_class|
   next unless File.exist?(file = "db/seeds/#{object_class.to_s.downcase.pluralize}.xml")
   doc = Nokogiri::XML(File.read(file))
   doc.xpath('/wfs:FeatureCollection/gml:featureMember').each do |feature|

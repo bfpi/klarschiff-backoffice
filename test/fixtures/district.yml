@@ -3,9 +3,9 @@
 one:
   name: MyText
   area:
-  community: one
+  authority: one
 
 two:
   name: MyText
   area:
-  community: two
+  authority: two
