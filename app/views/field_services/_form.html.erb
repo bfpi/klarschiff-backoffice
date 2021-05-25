@@ -1,12 +1,4 @@
-<% if field_service.errors.any? -%>
-  <div class="alert alert-danger">
-    <ul class="list-unstyled mb-0">
-      <% field_service.errors.full_messages.each do |msg| -%>
-        <li><%= msg %></li>
-      <% end -%>
-    </ul>
-  </div>
-<% end -%>
+<%= render partial: 'errors', locals: { object: field_service } %>
 
 <div class="form-group row">
   <%= form.label :name, class: 'col-md-2 col-form-label' %>

@@ -13,7 +13,7 @@ class DashboardsController < ApplicationController
   def issues
     @latest_issues = latest_issues
     @own_issues = own_issues
-    @former_issues = former_issues
+    @former_issues = former_issues(Current.user.groups)
     @issues_count = { open: Issue.status_open.count, in_process: Issue.status_in_process.count,
                       closed: Issue.status_closed.count }
   end
@@ -39,9 +39,10 @@ class DashboardsController < ApplicationController
     ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
   end
 
-  def former_issues
-    group_names = Current.user.groups.map { |g| "'#{g}'" }.join(', ')
-    group_ids = Current.user.group_ids.join(', ')
+  def former_issues(groups)
+    return [] if groups.blank?
+    group_names = groups.map { |g| "'#{g}'" }.join(', ')
+    group_ids = groups.ids.join(', ')
     Issue.not_archived.includes(category: :main_category).where(
       changed_responsibilities(group_names, group_ids)
     ).limit(10)

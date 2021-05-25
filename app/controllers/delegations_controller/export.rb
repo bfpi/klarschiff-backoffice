@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+require 'rubyXL'
+require 'rubyXL/convenience_methods'
+
 class DelegationsController
   module Export
     extend ActiveSupport::Concern
-
-    require 'rubyXL'
-    require 'rubyXL/convenience_methods'
 
     private
 
@@ -19,7 +19,7 @@ class DelegationsController
     end
 
     def column_widths(worksheet)
-      I18n.t('export.delegations').keys.each_with_index do |attr, idx|
+      Issue::DELEGATION_EXPORT_ATTRIBUTES.each_with_index do |attr, idx|
         worksheet.change_column_width idx, column_width(attr)
       end
     end
@@ -36,14 +36,14 @@ class DelegationsController
     end
 
     def xlsx_header(worksheet)
-      I18n.t('export.delegations').values.each_with_index do |value, idx|
-        worksheet.add_cell 0, idx, value
+      Issue::DELEGATION_EXPORT_ATTRIBUTES.each_with_index do |attr, idx|
+        worksheet.add_cell 0, idx, header_value(attr)
       end
       header_properties worksheet
     end
 
     def header_properties(worksheet)
-      I18n.t('export.delegations').keys.count.times do |col|
+      Issue::DELEGATION_EXPORT_ATTRIBUTES.count.times do |col|
         (cell = worksheet.sheet_data[0][col]).change_fill '0000ff'
         cell.change_font_bold true
         cell.change_horizontal_alignment 'center'
@@ -57,8 +57,17 @@ class DelegationsController
     end
 
     def write_content_row(worksheet, issue, row)
-      I18n.t('export.delegations').keys.each_with_index do |attr, col|
+      Issue::DELEGATION_EXPORT_ATTRIBUTES.each_with_index do |attr, col|
         worksheet.add_cell row, col, cell_value(issue, attr)
+      end
+    end
+
+    def header_value(attr)
+      case attr
+      when :kind then MainCategory.human_attribute_name(:kind)
+      when :main_category, :sub_category then Category.human_attribute_name(attr)
+      else
+        Issue.human_attribute_name(attr)
       end
     end
 

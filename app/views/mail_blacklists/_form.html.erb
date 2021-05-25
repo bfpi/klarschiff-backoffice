@@ -1,12 +1,4 @@
-<% if mail_blacklist.errors.any? %>
-  <div class="alert alert-danger">
-    <ul class="list-unstyled mb-0">
-      <% mail_blacklist.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render partial: 'errors', locals: { object: mail_blacklist } %>
 
 <div class="form-group row">
   <%= form.label(:active, class: 'col-md-2 col-form-label') %>

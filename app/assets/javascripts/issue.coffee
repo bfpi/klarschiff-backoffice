@@ -1,4 +1,10 @@
 $ ->
+  initializeExtendedFilter = ->
+    if $('form#issues-filter').length == 1
+      KS.initializeFormActions()
+
+  $(document).on 'turbolinks:load', initializeExtendedFilter
+
   $(document).on 'change', '#status_note_template', ->
     $('#issue_status_note').val($('#status_note_template')[0]['value'])
     $('#status_note_template').val('')
@@ -51,4 +57,3 @@ $ ->
       url: link.attr('href')
       type: 'PUT'
       data: link.parents('.card').find(':input')
-
