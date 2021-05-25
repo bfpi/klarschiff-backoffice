@@ -17,9 +17,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
-    @tabs = issue_tabs
-    @feedbacks = feedbacks(@issue) if @tab == :feedback
-    @log_entries = log_entries(@issue) if @tab == :log_entry
+    prepare_tabs
   end
 
   def new
@@ -28,12 +26,9 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find(params[:id])
-    if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      @log_entries = log_entries(@issue) if @tab == :log_entry
-      render :edit
-    end
+    return redirect_to action: :index if @issue.update(issue_params) && params[:save_and_close].present?
+    prepare_tabs
+    render :edit
   end
 
   def create
@@ -47,6 +42,12 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def prepare_tabs
+    @tabs = issue_tabs
+    @feedbacks = feedbacks(@issue) if @tab == :feedback
+    @log_entries = log_entries(@issue) if @tab == :log_entry
+  end
 
   def issue_tabs
     tabs = %i[master_data responsibility job]
