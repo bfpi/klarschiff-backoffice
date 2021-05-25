@@ -3,4 +3,5 @@
 <%= Category.human_attribute_name :main_category %><%= "\t" %>: <%= issue.main_category %>
 <%= Category.human_attribute_name :sub_category %><%= "\t" %>: <%= issue.sub_category %>
 
-URL <%= "\t\t" %>: <%= Settings::Instance.frontend_issue_url % issue.id %>
+<% url = local_assigns[:issue_link] ? issue_link : nil -%>
+URL <%= "\t\t" %>: <%= url || Settings::Instance.frontend_issue_url % issue.id %>
