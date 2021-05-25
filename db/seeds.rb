@@ -35,7 +35,11 @@ unless MailBlacklist.exists?
   end
 end
 
-rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
+"http://www.geodaten-mv.de/dienste/dvg_laiv_wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=dvg:aemter&OUTPUTFORMAT=gml3&srsName=EPSG:4326"
+"http://www.geodaten-mv.de/dienste/dvg_laiv_wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=dvg:kreise&OUTPUTFORMAT=gml3&srsName=EPSG:4326"
+"http://www.geodaten-mv.de/dienste/dvg_laiv_wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=dvg:gemeinden&OUTPUTFORMAT=gml3&srsName=EPSG:4326"
+
+rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assertions: true)
 { kreise: County, aemter: Authority, gemeinden: Community }.each do |xml_key, object_class|
   next unless File.exist?(file = "db/seeds/#{object_class.to_s.downcase.pluralize}.xml")
   doc = Nokogiri::XML(File.read(file))
@@ -57,7 +61,6 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
       c.county = County.find_by(options) if xml_key == :aemter
       c.authority = Authority.find_by(options) if xml_key == :gemeinden
       c.area = rgeo_factory.parse_wkt("MULTIPOLYGON((#{polygons.join(',')}))")
-      transform = true
     end
     { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
       next unless type == xml_key
@@ -75,20 +78,13 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(uses_lenient_assertions: true)
         end
       end
     end
-    next unless transform
-    ActiveRecord::Base.connection.execute <<~SQL.squish
-      UPDATE #{object_class.table_name}
-      SET area = ST_MakeValid(ST_Transform(ST_GeomFromText(ST_AsText(area), 5650), 4326))
-      WHERE id = #{obj.id}
-    SQL
   end
 end
 
 ActiveRecord::Base.connection.execute <<~SQL.squish
   INSERT INTO #{Instance.table_name}
-  SELECT 1, 'MV', '', ST_GeomFromText(ST_AsText(ST_Multi(ST_CollectionExtract(CONCAT('SRID=4269;', ST_AsText(
-    ST_Makevalid(ST_AsText(ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_AsText(ST_Boundary(
-    ST_GeomFromText(ST_AsText(area), 4326)))), 3)))))), 3))), 4326), current_timestamp, current_timestamp
+  SELECT 1, 'MV', '', ST_Multi(ST_CollectionExtract(st_polygonize(ST_Boundary(area)), 3)),
+    current_timestamp, current_timestamp
   FROM #{County.table_name}
 SQL
 
