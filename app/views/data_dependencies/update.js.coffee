@@ -19,3 +19,6 @@
   $('#sub_category').attr('disabled', <%= @value.blank? %>)
   $('#sub_category').html("<%= j options_for_select(sub_categories(@value)) %>")
 <% end %>
+<% if @attribute == 'group[type]' -%>
+  $('#regional_restriction').html("<%= j render(partial: 'groups/regional_restriction', locals: { type: @value, select: nil }) %>")
+<% end %>

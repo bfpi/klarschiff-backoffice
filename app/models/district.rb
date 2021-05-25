@@ -3,10 +3,10 @@
 class District < ApplicationRecord
   include Citysdk::Serialization
 
-  belongs_to :community
+  belongs_to :authority
 
   validates :area, :name, :regional_key, presence: true
-  validates :name, uniqueness: { conditions: -> { where(community: community) } }
+  validates :name, uniqueness: { conditions: -> { where(authority: authority) } }
 
   self.serialization_attributes = %i[id name grenze]
 

@@ -6,4 +6,20 @@ class County < ApplicationRecord
 
   validates :area, :name, :regional_key, presence: true
   validates :name, uniqueness: true
+
+  def self.authorized(user = Current.user)
+    if user&.role_admin?
+      all
+    elsif user&.role_regional_admin?
+      where id: user.groups.where(type: 'CountyGroup').map { |gr|
+        Group.where(type: gr.type, reference_id: gr.reference_id)
+      }.flatten.map(&:reference_id)
+    else
+      none
+    end
+  end
+
+  def to_s
+    name
+  end
 end

@@ -11,6 +11,18 @@ class Issue
     end
 
     class_methods do
+      def authorized(user = Current.user)
+        return all if user&.role_admin?
+        authorized_group_ids = authorized_groups(user)
+        where Issue.arel_table[:group_id].in(authorized_group_ids)
+          .or(Issue.arel_table[:delegation_id].in(authorized_group_ids))
+      end
+
+      def authorized_groups(user = Current.user)
+        return user.groups.map(&:id) unless user&.role_regional_admin?
+        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+      end
+
       def by_kind(kind)
         includes(category: :main_category).where(main_category: { kind: kind })
       end
