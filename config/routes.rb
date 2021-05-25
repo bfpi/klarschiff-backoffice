@@ -31,9 +31,10 @@ Rails.application.routes.draw do
   resources :comments, only: %i[create edit update show destroy]
   resources :jobs, only: %i[index update destroy] do
     collection do
+      post :assign
+      put :change_order
       put :update_dates
       put :update_statuses
-      put :change_order
     end
   end
   resources :responsibilities

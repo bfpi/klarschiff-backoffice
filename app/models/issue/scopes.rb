@@ -7,6 +7,7 @@ class Issue
     included do
       scope :not_archived, -> { where(archived_at: nil) }
       scope :status_open, -> { where(status: %w[received reviewed in_process]) }
+      scope :status_solved, -> { where(status: %w[duplicate not_solvable closed]) }
     end
 
     class_methods do
