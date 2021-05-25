@@ -346,6 +346,8 @@ de:
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
+    tab_map:
+      coordinates: "Koordinaten der Meldung: %{x} %{y}"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor

@@ -21,6 +21,7 @@ KS.initializeMaps = ->
   KS.projection.setExtent <%= Settings::Map.projection_25833.as_json %>
   defaultPosition = ol.proj.transform(<%= Settings::Map.center.as_json %>, 'EPSG:4326', KS.projection)
   defaultZoom = <%= Settings::Map.zoom %>
+  console.log(defaultPosition)
 
   $('#map').each (ix, m) ->
     elem = $(m)

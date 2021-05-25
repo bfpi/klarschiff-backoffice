@@ -11,6 +11,10 @@ development: &default
     property_owner_object_group: Flurstückseigentümer
     property_owner_search_class: property_owner
     url: https://geo.sv.rostock.de/geocodr/query?
+  geoportal:
+    name: Geoport.HRO
+    scale: 1508
+    url: https://geo.sv.rostock.de/geoport?poi[point]=%f,%f&poi[scale]=%d&poi[label]=%s
   group:
     main_user_optional: true
   instance:

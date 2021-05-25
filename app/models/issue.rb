@@ -60,6 +60,14 @@ class Issue < ApplicationRecord
     position&.x
   end
 
+  def lat_external
+    external_position[1]
+  end
+
+  def lon_external
+    external_position[0]
+  end
+
   def as_json(options = {})
     super options.reverse_merge(methods: %i[lat lon map_icon])
   end
@@ -84,5 +92,14 @@ class Issue < ApplicationRecord
     self.job = Job.new(status: :unchecked) if job.blank?
     job.group = Group.find(group_id)
     job.save
+  end
+
+  private
+
+  def external_position
+    point = ActiveRecord::Base.connection.execute(
+      "SELECT ST_asText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833));"
+    ).first['st_astext']
+    point.scan(/[0-9]+\.?[0-9]*/).map(&:to_f)
   end
 end
