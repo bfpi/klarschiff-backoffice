@@ -9,7 +9,7 @@
     <%= render partial: 'head', locals: { issue: issue } %>
     <ul class="nav nav-tabs card-header-tabs mt-2">
       <% if issue.reviewed_at? -%>
-        <% %i[master_data responsibility job comment abuse_report map photo log_entry].each do |tab| -%>
+        <% @tabs.each do |tab| -%>
           <%= nav_item(tab, issue, @tab) %>
         <% end -%>
       <% end -%>

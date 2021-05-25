@@ -17,7 +17,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
-    @log_entries = log_entries(@issue) if @tab == :log_entry
+    prepare_tabs
   end
 
   def new
@@ -26,12 +26,9 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find(params[:id])
-    if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      @log_entries = log_entries(@issue) if @tab == :log_entry
-      render :edit
-    end
+    return redirect_to action: :index if @issue.update(issue_params) && params[:save_and_close].present?
+    prepare_tabs
+    render :edit
   end
 
   def create
@@ -45,6 +42,23 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def prepare_tabs
+    @tabs = issue_tabs
+    @feedbacks = feedbacks(@issue) if @tab == :feedback
+    @log_entries = log_entries(@issue) if @tab == :log_entry
+  end
+
+  def issue_tabs
+    tabs = %i[master_data responsibility job]
+    tabs << :feedback if @issue.feedbacks.any?
+    tabs + %i[comment abuse_report map photo log_entry]
+  end
+
+  def base_collection
+    Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+      .order created_at: :desc
+  end
 
   def xlsx_response
     @issues = results
@@ -62,8 +76,12 @@ class IssuesController < ApplicationController
     IssueFilter.new(params).collection
   end
 
+  def feedbacks(issue)
+    issue.feedbacks.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
+  end
+
   def log_entries(issue)
-    issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 20
+    issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
   end
 
   def paginate(issues)
