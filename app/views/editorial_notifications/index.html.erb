@@ -1,0 +1,95 @@
+<h1><%= t '.editorial' %></h1>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <b><%= t '.criteria' %></b>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><%= t '.level' %></th>
+          <th scope="col"><%= t '.days_created_not_in_work' %></th>
+          <th scope="col"><%= t '.days_in_work_without_status_note' %></th>
+          <th scope="col"><%= t '.ideas_days_open_without_minimum_supporters' %></th>
+          <th scope="col"><%= t '.days_open_but_not_accepted' %></th>
+          <th scope="col"><%= t '.unsolvable_without_status_note' %></th>
+          <th scope="col"><%= t '.reviewed_but_not_accepted' %></th>
+          <th scope="col"><%= t '.without_editorial_approval' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @editorial_criteria.each do |criteria| -%>
+          <tr>
+            <td><%= criteria[:level] %></td>
+            <td><%= criteria[:days_created_not_in_work] %></td>
+            <td><%= criteria[:days_in_work_without_status_note] %></td>
+            <td><%= criteria[:ideas_days_open_without_minimum_supporters] %></td>
+            <td><%= criteria[:days_open_but_not_accepted] %></td>
+            <td><%= tag.i('', class: 'fa fa-check') if criteria[:unsolvable_without_status_note] %></td>
+            <td><%= tag.i('', class: 'fa fa-check') if criteria[:reviewed_but_not_accepted] %></td>
+            <td><%= tag.i('', class: 'fa fa-check') if criteria[:without_editorial_approval] %></td>
+          </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <b><%= EditorialNotification.model_name.human(count: 2) %></b>
+  </div>
+  <div class="card-body">
+    <%= paginate @editorial_notifications %>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><%= User.human_attribute_name :groups %></th>
+          <th scope="col"><%= User.human_attribute_name :first_name %></th>
+          <th scope="col"><%= User.human_attribute_name :last_name %></th>
+          <th scope="col"><%= User.human_attribute_name :email %></th>
+          <th scope="col"><%= EditorialNotification.human_attribute_name :level %></th>
+          <th scope="col"><%= EditorialNotification.human_attribute_name :repetition %></th>
+          <th scope="col"><%= EditorialNotification.human_attribute_name :notified_at %></th>
+          <th scope="col"><%= User.human_attribute_name :group_feedback_recipient %></th>
+          <th scope="col"><%= t 'actions' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @editorial_notifications.each do |notification| -%>
+          <tr>
+            <td><%= notification.user.groups.join(', ') %></td>
+            <td><%= notification.user_first_name %></td>
+            <td><%= notification.user_last_name %></td>
+            <td><%= notification.user_email %></td>
+            <td><%= notification.level %></td>
+            <td><%= notification.repetition %></td>
+            <td><%= notification.notified_at %></td>
+            <td><%= tag.i('', class: 'fa fa-check') if notification.user_group_feedback_recipient %></td>
+            <td>
+              <div class="btn-group" role="group">
+                <%= link_to tag.i('', class: 'fa fa-pencil'), edit_editorial_notification_path(notification),
+                      remote: true, class: 'btn btn-sm btn-outline-primary' %>
+                <%= link_to tag.i('', class: 'fa fa-trash'), editorial_notification_path(notification),
+                      method: :delete,
+                      class: 'btn btn-sm btn-outline-danger',
+                      data: { confirm: t('.confirm_delete') } %>
+              </div>
+            </td>
+          <tr>
+        <% end -%>
+      </tbody>
+    </table>
+
+    <%= paginate @editorial_notifications %>
+  </div>
+</div>
+
+<% content_for :footer do %>
+  <div class="float-right">
+    <%= link_to t('.new_editorial_notification'), new_editorial_notification_path,
+          remote: true, class: 'btn btn-primary' %>
+  </div>
+<% end %>
