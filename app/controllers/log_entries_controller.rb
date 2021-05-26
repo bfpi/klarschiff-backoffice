@@ -4,6 +4,7 @@ class LogEntriesController < ApplicationController
   before_action { check_auth :list_log_entries }
 
   def index
-    @log_entries = LogEntry.order(created_at: :desc).page(params[:page] || 1).per(params[:per_page] || 20)
+    @log_entries = LogEntry.includes(:auth_code, :user).order(created_at: :desc)
+      .page(params[:page] || 1).per(params[:per_page] || 20)
   end
 end
