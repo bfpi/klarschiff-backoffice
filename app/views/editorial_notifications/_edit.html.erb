@@ -1,6 +1,5 @@
 <div class="modal-dialog modal-xl">
-  <%= form_for @editorial_notification,
-        url: editorial_notification_path(@editorial_notification), remote: true do |f| %>
+  <%= form_for @editorial_notification, remote: true do |f| %>
     <div class="modal-content">
       <div class="modal-header">
         <h1><%= EditorialNotification.model_name.human %> <%= t 'edit' %></h1>
