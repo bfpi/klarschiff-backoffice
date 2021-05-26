@@ -52,7 +52,7 @@
   </div>
 </div>
 <div class="form-group row">
-  <%= form.label :user, class: 'col-md-2 col-form-label' %>
+  <%= form.label :users, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
     <%= form.select_many_field 'user_ids',
           class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>

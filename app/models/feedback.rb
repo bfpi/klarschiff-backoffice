@@ -32,7 +32,7 @@ class Feedback < ApplicationRecord
 
   def identify_recipients_from_user(user, group)
     return user.email if user.group_feedback_recipient && group.in?(user.groups)
-    users = group.user.where(group_feedback_recipient: true)
+    users = group.users.where(group_feedback_recipient: true)
     return users.pluck(:email).join(', ') if users.any?
     identify_recipients_from_group(group)
   end
