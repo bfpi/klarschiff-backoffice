@@ -1,7 +1,0 @@
-Folgende Vorgänge weisen auf Grund von Kommunikationsfehlern im System keine Einträge in den Datenbankfeldern "Zustaendigkeit" auf:
-
-Nummer      Typ     Status
-******      ***     ******
-<% issues.each do |is| -%>
-<%= [issue.id, Issue.human_enum_name(:kind, issue.kind), Issue.human_enum_name(:status, issue.status)].join("\t\t\t") %>
-<% end -%>

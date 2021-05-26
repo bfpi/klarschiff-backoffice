@@ -5,38 +5,54 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
 
   def perform
     time = Time.current
-    @issues = {}
-    find_issues(time)
-    return if @issues.blank?
-    IssueMailer.inform_editorial_staff(
-      to: EditorialNotification.all.map { |n| n.user.email }, issues: @issues
-    ).deliver_later
+    EditorialNotification.all.find_each do |notification|
+      @issues = {}
+      find_issues(time, notification)
+      return if @issues.blank?
+      IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues).deliver_later
+    end
   end
 
   private
 
-  def find_issues(time)
-    %i[open_not_accepted in_process_no_status_note ideas_without_min_supporters in_process].each do |method|
-      next if (issues = send(method, time - JobSettings::Issue.send("#{method}_days").days)).blank?
+  def find_issues(time, notification)
+    %i[open_but_not_accepted in_work_without_status_note
+       open_ideas_without_minimum_supporters created_not_in_work].each do |method|
+      next if (issues = send(method, deadline(time, notification.level, method))).blank?
       @issues[method] = issues.to_a
     end
-    %i[not_solvable_no_status_note not_open_not_accepted description_and_photo_not_released
-       no_responsibility].each do |method|
-      next if (issues = send(method)).blank?
+    optional_notifications(notification)
+  end
+
+  def optional_notifications(notification)
+    %i[unsolvable_without_status_note reviewed_but_not_accepted without_editorial_approval].each do |method|
+      next if (issues = send(method)).blank? || notification_enabled?(notification.level, method)
       @issues[method] = issues.to_a
     end
   end
 
-  def open_not_accepted(time)
+  def deadline(time, level, method)
+    time - notification_config(level)["days_#{method}".to_sym].days
+  end
+
+  def notification_enabled?(level, method)
+    (conf = notification_config(level)) && conf[method]
+  end
+
+  def notification_config(level)
+    EditorialSettings::Config.levels.find { |l| l[:level] == level }
+  end
+
+  def open_but_not_accepted(time)
     Issue.not_archived.status_received.where(responsibility_accepted: false)
       .where(id: latest_attr_change(time, 'group'))
   end
 
-  def in_process_no_status_note(time)
+  def in_work_without_status_note(time)
     Issue.not_archived.status_in_process.where(status_note: nil).where(id: latest_attr_change(time, 'status'))
   end
 
-  def ideas_without_min_supporters(time)
+  def open_ideas_without_minimum_supporters(time)
     open_issues.ideas_without_min_supporters.where(id: latest_attr_change(time, 'group'))
   end
 
@@ -57,26 +73,20 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     ]
   end
 
-  def in_process(time)
+  def created_not_in_work(time)
     Issue.not_archived.status_in_process.where(iat[:created_at].lt(time))
   end
 
-  def not_solvable_no_status_note
+  def unsolvable_without_status_note
     Issue.not_archived.status_not_solvable.where(status_note: nil)
   end
 
-  def not_open_not_accepted
+  def reviewed_but_not_accepted
     Issue.not_archived.where(status: %w[reviewed in_process], responsibility_accepted: false)
   end
 
-  def description_and_photo_not_released
+  def without_editorial_approval
     Issue.not_archived.status_received.where(description_status: 'internal')
       .reject { |is| is.photos.status_external.exists? }
-  end
-
-  def no_responsibility
-    Issue.not_archived.where(
-      iat[:archived_at].eq(nil).and(iat[:status].not_eq('pending')).and(iat[:group_id].eq(nil))
-    )
   end
 end
