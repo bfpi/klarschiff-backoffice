@@ -5,7 +5,7 @@
         <h1><%= EditorialNotification.model_name.human %> <%= t 'edit' %></h1>
       </div>
       <div class="modal-body">
-        <%= render partial: 'form', locals: { form: f, editorial_notification: @editorial_notification } %>
+        <%= render partial: 'form', object: f %>
       </div>
       <div class="modal-footer">
         <%= f.submit t('action.save'), class: 'btn btn-primary offset-3 col-2' %>
