@@ -1,11 +1,18 @@
 <div class="form-group row">
   <%= form.label :position, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10">
-    <div id="map" class="map"
-      data-lat="<%= form.object&.position&.y %>"
-      data-lon="<%= form.object&.position&.x %>"
-      data-icon="<%= asset_path form.object&.map_icon %>"
-      data-position-input="#issue_position">
+    <% unless restricted || form.object.new_record? -%>
+      <%= render partial: 'external_map', locals: { issue: form.object } %>
+    <% end -%>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="map" class="map"
+          data-lat="<%= form.object&.position&.y %>"
+          data-lon="<%= form.object&.position&.x %>"
+          data-icon="<%= asset_path form.object&.map_icon %>"
+          data-position-input="#issue_position">
+        </div>
+      </div>
     </div>
     <%= form.hidden_field :position, class: 'form-control' %>
   </div>

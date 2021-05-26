@@ -70,6 +70,13 @@ module IssuesHelper
     [true, false].map { |val| [t(val), val] }
   end
 
+  def external_map_url(issue)
+    format(
+      Settings::Geoportal.url, issue.lon_external, issue.lat_external,
+      Settings::Geoportal.scale, "Vorgang+#{issue.id}"
+    )
+  end
+
   private
 
   def grouped_categories_for_kind(kind)

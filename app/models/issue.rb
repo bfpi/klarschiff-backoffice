@@ -60,6 +60,14 @@ class Issue < ApplicationRecord
     position&.x
   end
 
+  def lat_external
+    external_position.y
+  end
+
+  def lon_external
+    external_position.x
+  end
+
   def as_json(options = {})
     super options.reverse_merge(methods: %i[lat lon map_icon])
   end
@@ -84,6 +92,15 @@ class Issue < ApplicationRecord
     self.job = Job.new(status: :unchecked) if job.blank?
     job.group = Group.find(group_id)
     job.save
+  end
+
+  def external_position
+    return @external_position if @external_position
+    point = self.class.connection.select_value(
+      "SELECT ST_AsText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833)) AS point"
+    )
+    factory = RGeo::Cartesian.preferred_factory(srid: 25_833)
+    @external_position = factory.parse_wkt(point)
   end
 
   def latest_entry

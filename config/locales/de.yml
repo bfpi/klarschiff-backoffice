@@ -328,6 +328,8 @@ de:
       all_main_categories: Alle Hauptkategorien
       all_sub_categories: Alle Unterkategorien
       my_responsibility: Mir zugewiesen
+    external_map:
+      coordinates: "Koordinaten der Meldung: %{x} %{y}"
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
