@@ -4,8 +4,9 @@
     <% unless restricted -%>
       <div class="row form-group">
         <div class="col-md-12">
-          <%= link_to tag.i('', class: 'fa fa-globe'), external_map_url,
-            class: 'btn btn-sm btn-outline-primary', title: Settings::Geoportal.name, target: '_blank' %>
+          <%= link_to tag.i('', class: 'fa fa-globe'), external_map_url(@issue),
+                class: 'btn btn-sm btn-outline-primary', title: Settings::Geoportal.name,
+                target: '_blank', rel: :noopener %>
           <%= t('.coordinates', x: form.object.lon_external, y: form.object.lat_external) %>
         </div>
       </div>

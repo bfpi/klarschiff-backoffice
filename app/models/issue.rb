@@ -61,11 +61,11 @@ class Issue < ApplicationRecord
   end
 
   def lat_external
-    external_position[1]
+    external_position.y
   end
 
   def lon_external
-    external_position[0]
+    external_position.x
   end
 
   def as_json(options = {})
@@ -94,12 +94,12 @@ class Issue < ApplicationRecord
     job.save
   end
 
-  private
-
   def external_position
-    point = ActiveRecord::Base.connection.execute(
-      "SELECT ST_asText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833));"
-    ).first['st_astext']
-    point.scan(/[0-9]+\.?[0-9]*/).map(&:to_f)
+    return @external_position if @external_position
+    point = self.class.connection.select_value(
+      "SELECT ST_AsText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833)) AS point"
+    )
+    factory = RGeo::Cartesian.preferred_factory(srid: 25_833)
+    @external_position = factory.parse_wkt(point)
   end
 end
