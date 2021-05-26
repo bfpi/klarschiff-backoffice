@@ -33,7 +33,7 @@ class Issue < ApplicationRecord
 
   with_options dependent: :destroy do
     has_many :abuse_reports
-    has_many :all_log_entries, class_name: 'LogEntry'
+    has_many :all_log_entries, -> { includes(:auth_code, :user) }, class_name: 'LogEntry', inverse_of: :issue
     has_many :comments
     has_many :feedbacks
     has_many :photos, -> { order(:created_at) }, inverse_of: :issue
@@ -101,5 +101,9 @@ class Issue < ApplicationRecord
     )
     factory = RGeo::Cartesian.preferred_factory(srid: 25_833)
     @external_position = factory.parse_wkt(point)
+  end
+
+  def latest_entry
+    all_log_entries.order(created_at: :desc).find_by table: 'issue'
   end
 end
