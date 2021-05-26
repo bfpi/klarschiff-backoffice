@@ -8,7 +8,6 @@ Rails.application.routes.draw do
     resource :contacts, only: %i[show]
     resource :dashboards, only: %i[show]
     resource :data_dependencies, only: %i[update]
-    resource :editorials, only: %i[show]
     resource :imprints, only: %i[show]
     resource :infos, only: %i[show]
 

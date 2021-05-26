@@ -5,9 +5,7 @@ class EditorialNotificationsController < ApplicationController
 
   def index
     @editorial_criteria = EditorialSettings::Config.levels
-    @editorial_notifications = paginate(
-      EditorialNotification.includes(:user).references(:user).order(*order_attributes)
-    )
+    @editorial_notifications = paginate(base_collection)
   end
 
   def new
@@ -33,7 +31,7 @@ class EditorialNotificationsController < ApplicationController
 
   def update
     @editorial_notification = EditorialNotification.find(params[:id])
-    if @editorial_notification.update(group_params) && params[:save_and_close].present?
+    if @editorial_notification.update(editorial_notification_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
       render :edit
@@ -47,6 +45,11 @@ class EditorialNotificationsController < ApplicationController
   end
 
   private
+
+  def base_collection
+    EditorialNotification.includes(user: %i[groups_users groups]).references(user: %i[groups_users groups])
+      .order(*order_attributes)
+  end
 
   def order_attributes
     [User.arel_table[:last_name], User.arel_table[:first_name], EditorialNotification.arel_table[:level]]
