@@ -87,6 +87,6 @@ class Issue < ApplicationRecord
   end
 
   def latest_entry
-    all_log_entries.where(table: 'issue').order(created_at: :desc).first
+    all_log_entries.order(created_at: :desc).find_by table: 'issue'
   end
 end
