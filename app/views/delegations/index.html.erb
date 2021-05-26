@@ -2,10 +2,12 @@
 
 <div class="row form-group">
   <div class="col-md-12">
-    <%= link_to delegations_path(filter_status: 0), class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
+    <%= link_to delegations_path(filter_status: 0),
+          class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
       <%= image_tag icon('yellow'), class: 'status_icon' %> offene Vorgänge
     <% end -%>
-    <%= link_to delegations_path(filter_status: 1), class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
+    <%= link_to delegations_path(filter_status: 1),
+          class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
       <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Vorgänge
     <% end -%>
   </div>
@@ -60,9 +62,11 @@
     </div>
   <% end -%>
 <% end -%>
-<%= javascript_tag do %>
-  $(function() {
-    window.history.replaceState(null, null, '<%= delegations_path filter_status: @status %>');
-    $.ajax({ url: '<%= @edit_delegation_url %>' });
-  });
-<% end if @edit_delegation_url -%>
+<% if @edit_delegation_url -%>
+  <script defer="true">
+    $(function() {
+      window.history.replaceState(null, null, '<%= delegations_path(filter_status: @status).to_json %>');
+      $.ajax({ url: '<%= @edit_delegation_url.to_json %>' });
+    });
+  </script>
+<% end -%>
