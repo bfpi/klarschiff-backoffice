@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_090338) do
+ActiveRecord::Schema.define(version: 2021_05_21_082704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 2021_05_18_090338) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "auth_code", force: :cascade do |t|
+    t.uuid "uuid"
+    t.bigint "issue_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_auth_code_on_group_id"
+    t.index ["issue_id"], name: "index_auth_code_on_issue_id"
   end
 
   create_table "authority", force: :cascade do |t|
@@ -215,14 +225,17 @@ ActiveRecord::Schema.define(version: 2021_05_18_090338) do
     t.bigint "subject_id"
     t.text "subject_name"
     t.text "action"
-    t.text "user"
     t.text "old_value"
     t.text "new_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "auth_code_id"
     t.index ["attr"], name: "index_log_entry_on_attr"
+    t.index ["auth_code_id"], name: "index_log_entry_on_auth_code_id"
     t.index ["issue_id"], name: "index_log_entry_on_issue_id"
     t.index ["table", "subject_id"], name: "index_log_entry_on_table_and_subject_id"
+    t.index ["user_id"], name: "index_log_entry_on_user_id"
   end
 
   create_table "mail_blacklist", force: :cascade do |t|
@@ -304,6 +317,8 @@ ActiveRecord::Schema.define(version: 2021_05_18_090338) do
 
   add_foreign_key "abuse_report", "issue"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "auth_code", "\"group\"", column: "group_id"
+  add_foreign_key "auth_code", "issue"
   add_foreign_key "authority", "county"
   add_foreign_key "comment", "\"user\"", column: "user_id"
   add_foreign_key "comment", "issue"
@@ -315,6 +330,8 @@ ActiveRecord::Schema.define(version: 2021_05_18_090338) do
   add_foreign_key "issue", "\"group\"", column: "group_id"
   add_foreign_key "issue", "category"
   add_foreign_key "job", "\"group\"", column: "group_id"
+  add_foreign_key "log_entry", "\"user\"", column: "user_id"
+  add_foreign_key "log_entry", "auth_code"
   add_foreign_key "photo", "issue"
   add_foreign_key "responsibility", "\"group\"", column: "group_id"
   add_foreign_key "responsibility", "category"

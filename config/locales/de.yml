@@ -48,6 +48,7 @@ de:
         field_service_operators: Außendienst-Koordinatoren
         main_user: Hauptnutzer
         short_name: Kurzname
+        users: Benutzer
       instance:
         url: URL
       issue:
