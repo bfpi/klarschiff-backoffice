@@ -69,13 +69,6 @@ module IssuesHelper
   def archived_options
     [true, false].map { |val| [t(val), val] }
   end
-  
-  def external_map_url(issue = @issue)
-    (
-      Settings::Geoportal.url %
-      [issue.lon_external, issue.lat_external, Settings::Geoportal.scale, "Vorgang+#{issue.id}"]
-    ).html_safe
-  end
 
   def external_map_url(issue)
     format(

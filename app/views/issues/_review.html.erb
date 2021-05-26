@@ -27,9 +27,14 @@
 <div class="form-group row">
   <%= form.label :position, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10 col-form-label">
-    <div id="map" class="map"
-      data-issue-ids="<%= [form.object&.id] %>"
-      data-position-input="#issue_position">
+    <%= render partial: 'external_map', locals: { issue: form.object } %>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="map" class="map"
+          data-issue-ids="<%= [form.object&.id] %>"
+          data-position-input="#issue_position">
+        </div>
+      </div>
     </div>
   </div>
 </div>

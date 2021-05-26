@@ -327,6 +327,8 @@ de:
       all_main_categories: Alle Hauptkategorien
       all_sub_categories: Alle Unterkategorien
       my_responsibility: Mir zugewiesen
+    external_map:
+      coordinates: "Koordinaten der Meldung: %{x} %{y}"
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
@@ -346,8 +348,6 @@ de:
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
-    tab_map:
-      coordinates: "Koordinaten der Meldung: %{x} %{y}"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
