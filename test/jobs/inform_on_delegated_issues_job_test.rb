@@ -9,7 +9,7 @@ class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
     assert_nothing_raised { InformOnDelegatedIssuesJob.perform_now }
     assert_enqueued_email_with(
       IssueMailer, :delegation,
-      args: [{ to: group(:external).user.pluck(:email), issues: Issue.where(id: issue(:delegated).id) }]
+      args: [{ to: group(:external).users.pluck(:email), issues: Issue.where(id: issue(:delegated).id) }]
     )
   end
 end

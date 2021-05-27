@@ -24,7 +24,7 @@ status_closed_entry:
   new_value: closed
   created_at: <%= Time.current - 12.hours %>
 
-status_in_process__entry:
+status_in_process_entry:
   table: issue
   attr: status
   issue: in_process

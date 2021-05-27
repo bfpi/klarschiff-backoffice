@@ -7,26 +7,28 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     time = Time.current
     EditorialNotification.all.find_each do |notification|
       @issues = {}
-      find_issues(time, notification)
+      @days = {}
+      find_issues(time, notification.level, notification.user.group_ids)
       return if @issues.blank?
-      IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues).deliver_later
+      IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_later
     end
   end
 
   private
 
-  def find_issues(time, notification)
+  def find_issues(time, level, group_ids)
     %i[open_but_not_accepted in_work_without_status_note
        open_ideas_without_minimum_supporters created_not_in_work].each do |method|
-      next if (issues = send(method, deadline(time, notification.level, method))).blank?
+      next if (issues = send(method, deadline(time, level, method), group_ids)).blank?
+      @days[method] = notification_config(level)["days_#{method}".to_sym]
       @issues[method] = issues.to_a
     end
-    optional_notifications(notification)
+    optional_notifications(level, group_ids)
   end
 
-  def optional_notifications(notification)
+  def optional_notifications(level, group_ids)
     %i[unsolvable_without_status_note reviewed_but_not_accepted without_editorial_approval].each do |method|
-      next if (issues = send(method)).blank? || notification_enabled?(notification.level, method)
+      next if (issues = send(method, group_ids)).blank? || notification_enabled?(level, method)
       @issues[method] = issues.to_a
     end
   end
@@ -43,17 +45,19 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     EditorialSettings::Config.levels.find { |l| l[:level] == level }
   end
 
-  def open_but_not_accepted(time)
-    Issue.not_archived.status_received.where(responsibility_accepted: false)
-      .where(id: latest_attr_change(time, 'group'))
+  def open_but_not_accepted(time, group_ids)
+    Issue.not_archived.where(status: %w[reviewed in_process], responsibility_accepted: false)
+      .where(group_id: group_ids).where(id: latest_attr_change(time, 'group'))
   end
 
-  def in_work_without_status_note(time)
-    Issue.not_archived.status_in_process.where(status_note: nil).where(id: latest_attr_change(time, 'status'))
+  def in_work_without_status_note(time, group_ids)
+    Issue.not_archived.status_in_process.where(
+      status_note: nil, id: latest_attr_change(time, 'status'), group_id: group_ids
+    )
   end
 
-  def open_ideas_without_minimum_supporters(time)
-    open_issues.ideas_without_min_supporters.where(id: latest_attr_change(time, 'group'))
+  def open_ideas_without_minimum_supporters(time, group_ids)
+    open_issues.ideas_without_min_supporters.where(id: latest_attr_change(time, 'group'), group_id: group_ids)
   end
 
   def open_issues
@@ -73,20 +77,22 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     ]
   end
 
-  def created_not_in_work(time)
-    Issue.not_archived.status_in_process.where(iat[:created_at].lt(time))
+  def created_not_in_work(time, group_ids)
+    Issue.not_archived.status_in_process.where(iat[:created_at].lt(time)).where(group_id: group_ids)
   end
 
-  def unsolvable_without_status_note
-    Issue.not_archived.status_not_solvable.where(status_note: nil)
+  def unsolvable_without_status_note(group_ids)
+    Issue.not_archived.status_not_solvable.where(status_note: nil, group_id: group_ids)
   end
 
-  def reviewed_but_not_accepted
-    Issue.not_archived.where(status: %w[reviewed in_process], responsibility_accepted: false)
+  def reviewed_but_not_accepted(group_ids)
+    Issue.not_archived.where(
+      status: %w[reviewed in_process], responsibility_accepted: false, group_id: group_ids
+    )
   end
 
-  def without_editorial_approval
-    Issue.not_archived.status_received.where(description_status: 'internal')
+  def without_editorial_approval(group_ids)
+    Issue.not_archived.status_received.where(description_status: 'internal', group_id: group_ids)
       .reject { |is| is.photos.status_external.exists? }
   end
 end

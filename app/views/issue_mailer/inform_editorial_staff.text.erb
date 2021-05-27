@@ -3,7 +3,7 @@ Sehr geehrte(r) Bearbeiter/-in,
 es gibt folgende wichtige Hinweise zum Bearbeitungsstand:
 <% @issues.each do |key, issues| -%>
 
-  <%= render partial: key.to_s, locals: { issues: issues } if issues.present? %>
+  <%= render partial: key.to_s, locals: { issues: issues, days: @days[key] } if issues.present? %>
 <% end -%>
 
 Wir möchten Sie bitten diesen Hinweisen nachzugehen.

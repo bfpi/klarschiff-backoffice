@@ -14,8 +14,8 @@ two:
 
 internal:
   main_user: one
-  user: one
+  users: one
 
 external:
   main_user: two
-  user: two
+  users: two

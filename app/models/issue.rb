@@ -111,11 +111,11 @@ class Issue < ApplicationRecord
 
   def responsibility_since
     return if group.blank?
-    all_log_entries.where(attr: 'group').order(created_at: :desc).first.created_at
+    all_log_entries.order(created_at: :desc).find_by(attr: 'group')&.created_at || reviewed_at
   end
 
   def status_since
     return created_at if all_log_entries.where(attr: 'status').blank?
-    all_log_entries.where(attr: 'status', new_value: status).order(created_at: :desc).first.created_at
+    all_log_entries.order(created_at: :desc).find_by(attr: 'status', new_value: status)&.created_at
   end
 end

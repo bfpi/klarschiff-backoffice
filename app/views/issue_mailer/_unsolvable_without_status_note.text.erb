@@ -3,5 +3,5 @@ Folgende Vorgänge mit dem Status "nicht lösbar" weisen bisher keine öffentlic
 Nummer      aktuelle Zuständigkeit      Typ     Status "nicht lösbar" seit
 ******      **********************      ***     **************************
 <% issues.each do |is| -%>
-<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t\t\t") %>
+<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t\t\t") %>
 <% end -%>

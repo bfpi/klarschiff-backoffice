@@ -3,8 +3,8 @@ Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie
 
 Nummer      aktuelle Zuständigkeit      Typ     Status      Freigabestatus Beschreibung     Freigabestatus Foto
 ******      **********************      ***     ******      ***************************     *******************
-<% issues.each do |is| -%>
-<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind),
+<% issues.each do |issue| -%>
+<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
      Issue.human_enum_name(:status, issue.status), t(issue.description_status_external?),
-     t(issue.fotos.first&.description_status_external?)].join("\t\t\t") %>
+     t(issue.photos.first&.status_external?)].join("\t\t\t") %>
 <% end -%>

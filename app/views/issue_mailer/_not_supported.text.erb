@@ -1,9 +1,0 @@
-Folgende Vorgänge mit dem Status "offen" sind seit mindestens <%= JobSettings::Issue.open_not_supported_days %> Tagen zugewiesen. Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten den Vorgang weiter.
-Falls Sie die Zuständigkeit akzeptieren, so führen Sie bitte außerdem die Erstsichtung durch, falls diese noch nicht erfolgt ist:
-
-Nummer    aktuelle Zuständigkeit    Typ     unverändert seit
-******    **********************    ***     ****************
-<% issues.each do |issue| -%>
-<%= [issue.id, issue.group, Issue.human_enum_name(:kind, issue.kind),
-     l(issue.responsibility_since)].join("\t\t\t") %>
-<% end -%>
