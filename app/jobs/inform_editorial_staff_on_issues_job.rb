@@ -6,15 +6,22 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
   def perform
     time = Time.current
     EditorialNotification.all.find_each do |notification|
+      next unless repetition_deadline_reached?(time, notification)
       @issues = {}
       @days = {}
       find_issues(time, notification.level, notification.user.group_ids)
-      return if @issues.blank?
+      next if @issues.blank?
+      notification.update(notified_at: Time.current)
       IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_later
     end
   end
 
   private
+
+  def repetition_deadline_reached?(time, notification)
+    return true if notification.notified_at.blank?
+    (time.to_date - notification.notified_at.to_date) >= notification.repetition
+  end
 
   def find_issues(time, level, group_ids)
     %i[open_but_not_accepted in_work_without_status_note

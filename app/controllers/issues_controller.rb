@@ -16,7 +16,7 @@ class IssuesController < ApplicationController
 
   def show
     @edit_issue_url = edit_issue_url(params[:id])
-    @issues = paginate(filter(base_collection))
+    @issues = paginate(results)
     render :index
   end
 

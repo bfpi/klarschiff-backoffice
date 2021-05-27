@@ -4,7 +4,17 @@ class AuthCode < ApplicationRecord
   belongs_to :issue
   belongs_to :group
 
+  validates :uuid, presence: true
+
+  before_validation :set_uuid
+
   def to_s
     group
+  end
+
+  private
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

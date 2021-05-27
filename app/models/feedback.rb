@@ -9,6 +9,7 @@ class Feedback < ApplicationRecord
   validates :author, :message, presence: true
 
   before_create :set_recipient
+  after_create :notify
 
   default_scope -> { order created_at: :desc }
 
@@ -39,5 +40,23 @@ class Feedback < ApplicationRecord
 
   def identify_recipients_from_group(group)
     group.main_user&.email || group.email
+  end
+
+  def notify
+    return notify_responsible_group if recipient.blank?
+    recipient.split(', ').each do |email|
+      params = { to: email, issue: issue }
+      params[:auth_code] = add_auth_code(email) if User.find_by(email: email).blank?
+      FeedbackMailer.notification(params).deliver_later
+    end
+  end
+
+  def add_auth_code(email)
+    AuthCode.find_or_create_by(issue: issue, group: Group.find_by(email: email))
+  end
+
+  def notify_responsible_group
+    auth_code = AuthCode.find_or_create_by(issue: issue, group: issue.group)
+    FeedbackMailer.notification(issue: issue, auth_code: auth_code).deliver_later
   end
 end
