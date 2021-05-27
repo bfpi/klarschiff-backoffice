@@ -1,0 +1,55 @@
+<div id="issues">
+  <%= paginate @issues %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" class="select-all"></th>
+        <th scope="col">#</th>
+        <th scope="col"><%= Issue.human_attribute_name :created_at %></th>
+        <th scope="col"><%= Category.human_attribute_name :sub_category %></th>
+        <th scope="col"><%= Issue.human_attribute_name :status %></th>
+        <th scope="col"><%= Issue.human_attribute_name :address %></th>
+        <th scope="col"><%= Issue.human_attribute_name :supporter %></th>
+        <th scope="col"><%= Issue.human_attribute_name :group %></th>
+        <th scope="col"><%= Issue.human_attribute_name :last_editor %></th>
+        <th scope="col"><%= Issue.human_attribute_name :priority %></th>
+        <th scope="col"><%= t 'actions' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @issues.each do |issue| %>
+        <tr class="<%= 'text-muted' if issue.archived_at.present? %> <%= 'highlight' if issue.abuse_reports.present? %>">
+          <td><%= check_box_tag :issue_id, issue.id, false, class: 'selectable' %></td>
+          <td><%= issue.id %></td>
+          <td><%= l issue.created_at %></td>
+          <td><%= issue.sub_category %></td>
+          <td>
+            <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                           title: Issue.human_enum_name(:status, issue.status) %>
+            <%= image_tag 'archiviert', title: Issue.human_attribute_name(:archived) if issue.archived %>
+          </td>
+          <td><%= issue.address %></td>
+          <td><%= issue.supporters.count %></td>
+          <td>
+            <%= issue.group %>
+            <% if issue.responsibility_accepted -%>
+              <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+            <% end -%>
+            <% if issue.delegation.present? -%>
+              (<i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>)
+            <% end -%>
+          </td>
+          <td><%= issue.last_entry&.user %></td>
+          <td><%= Issue.human_enum_name :priority, issue.priority %></td>
+          <td>
+            <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),
+                  remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          </td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+
+  <%= paginate @issues %>
+</div>

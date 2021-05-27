@@ -18,6 +18,9 @@ class Issue < ApplicationRecord
   end
 
   CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
+  DELEGATION_EXPORT_ATTRIBUTES = %i[id kind created_at main_category sub_category status address priority].freeze
+  EXPORT_ATTRIBUTES = %i[id kind created_at updated_at main_category sub_category status address district
+                         supporters group delegation priority].freeze
 
   mattr_reader :delegation_statuses do
     statuses.slice('in_process', 'closed')
@@ -30,7 +33,7 @@ class Issue < ApplicationRecord
 
   with_options dependent: :destroy do
     has_many :abuse_reports
-    has_many :all_log_entries, class_name: 'LogEntry'
+    has_many :all_log_entries, -> { includes(:auth_code, :user) }, class_name: 'LogEntry', inverse_of: :issue
     has_many :comments
     has_many :feedbacks
     has_many :photos, -> { order(:created_at) }, inverse_of: :issue
@@ -46,6 +49,7 @@ class Issue < ApplicationRecord
   def to_s
     "#{kind_name} ##{id}"
   end
+
   alias logging_subject_name to_s
 
   def lat
@@ -54,6 +58,14 @@ class Issue < ApplicationRecord
 
   def lon
     position&.x
+  end
+
+  def lat_external
+    external_position.y
+  end
+
+  def lon_external
+    external_position.x
   end
 
   def as_json(options = {})
@@ -80,5 +92,18 @@ class Issue < ApplicationRecord
     self.job = Job.new(status: :unchecked) if job.blank?
     job.group = Group.find(group_id)
     job.save
+  end
+
+  def external_position
+    return @external_position if @external_position
+    point = self.class.connection.select_value(
+      "SELECT ST_AsText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833)) AS point"
+    )
+    factory = RGeo::Cartesian.preferred_factory(srid: 25_833)
+    @external_position = factory.parse_wkt(point)
+  end
+
+  def latest_entry
+    all_log_entries.order(created_at: :desc).find_by table: 'issue'
   end
 end

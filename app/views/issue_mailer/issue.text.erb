@@ -10,8 +10,8 @@ Daten des weitergeleiteten Vorgangs
 ***********************************
 <%= MainCategory.human_attribute_name(:kind) %>: <%= Issue.human_enum_name(:kind, @issue_email.issue.kind) %>
 <%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>
-<%= Category.human_attribute_name(:main_category) %>: <%= @issue_email.main_category %>
-<%= Category.human_attribute_name(:sub_category) %>: <%= @issue_email.sub_category %>
+<%= Category.human_attribute_name(:main_category) %>: <%= @issue_email.issue.main_category %>
+<%= Category.human_attribute_name(:sub_category) %>: <%= @issue_email.issue.sub_category %>
 <% if @issue_email.issue.description.present? -%>
 <%= Issue.human_attribute_name(:description) %>: <%= @issue_email.issue.description %>
 Beschreibung Freigabestatus: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
@@ -42,6 +42,7 @@ Karte
 Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url.gsub('{issue_id}',
                                                 @issue_email.issue.id.to_s) %>
 
+Aufruf in <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.issue) %>
 <% end -%>
 <% if @issue_email.send_comments? -%>
 interne Kommentare

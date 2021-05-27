@@ -24,6 +24,7 @@ class User < ApplicationRecord
   validates :email, email: { if: -> { email.present? } }
   validate :role_permissions
 
+  default_scope -> { order :last_name, :first_name }
   scope :active, -> { where(active: true) }
 
   def self.authorized(user = Current.user)

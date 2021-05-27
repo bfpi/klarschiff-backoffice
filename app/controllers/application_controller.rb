@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def respond_with_error(error)
     raise if Rails.env.test?
-    logger.error error.inspect + error.backtrace.join("\n ")
+    logger.error "#{error.inspect}\n#{error.backtrace.join "\n "}"
     @message = error.message
     render :exception
   end

@@ -1,23 +1,15 @@
-<% if issue.errors.any? -%>
-  <div class="alert alert-danger">
-    <ul class="list-unstyled mb-0">
-      <% issue.errors.full_messages.each do |msg| -%>
-        <li><%= msg %></li>
-      <% end -%>
-    </ul>
-  </div>
-<% end -%>
+<%= render partial: 'errors', locals: { object: issue } %>
 
 <% if issue.new_record? -%>
-  <%= render partial: 'tab_master_data', locals: { form: form } %>
+  <%= render partial: 'tab_master_data', locals: { form: form, restricted: false } %>
   <%= render partial: 'tab_map', locals: { form: form, restricted: false } %>
-  <%= render partial: 'tab_photo', locals: { form: form } %>
+  <%= render partial: 'tab_photo', locals: { form: form, restricted: false } %>
 <% else -%>
   <div class="card-header">
     <%= render partial: 'head', locals: { issue: issue } %>
     <ul class="nav nav-tabs card-header-tabs mt-2">
       <% if issue.reviewed_at? -%>
-        <% %i[master_data responsibility job comment abuse_report map photo log_entry].each do |tab| -%>
+        <% @tabs.each do |tab| -%>
           <%= nav_item(tab, issue, @tab) %>
         <% end -%>
       <% end -%>

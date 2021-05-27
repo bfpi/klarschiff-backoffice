@@ -12,7 +12,6 @@ Rails.application.routes.draw do
     resource :infos, only: %i[show]
 
     resources :delegations, only: %i[index edit update]
-    resources :editorial_notifications, only: %i[index]
     resources :feedbacks, only: %i[index]
     resources :field_services
     resources :groups
@@ -29,11 +28,13 @@ Rails.application.routes.draw do
   end
   resources :abuse_reports, only: %i[create update]
   resources :comments, only: %i[create edit update show destroy]
+  resources :editorial_notifications, only: %i[index new create edit update destroy]
   resources :jobs, only: %i[index update destroy] do
     collection do
+      post :assign
+      put :change_order
       put :update_dates
       put :update_statuses
-      put :change_order
     end
   end
   resources :responsibilities

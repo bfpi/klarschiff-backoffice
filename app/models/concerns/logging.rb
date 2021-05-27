@@ -25,7 +25,7 @@ module Logging
         create table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject),
                subject_id: subject.id, subject_name: subject.logging_subject_name,
                action: Logging.generate_action(subject.class, attr, :update, old, new),
-               user: Current.user, old_value: old, new_value: new
+               user: Current.user, auth_code: Current.auth_code, old_value: old, new_value: new
       end
     end
   end
@@ -36,7 +36,8 @@ module Logging
 
   def log_create
     log_entries.create table: model_name.element, action: Logging.action_text(:create), user: Current.user,
-                       subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
+                       auth_code: Current.auth_code, subject_id: id, subject_name: logging_subject_name,
+                       issue_id: Logging.issue_id(self)
   end
 
   def log_update
@@ -66,7 +67,8 @@ module Logging
 
   def log_destroy
     LogEntry.create table: model_name.element, action: Logging.action_text(:removed), user: Current.user,
-                    subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
+                    auth_code: Current.auth_code, subject_id: id, subject_name: logging_subject_name,
+                    issue_id: Logging.issue_id(self)
   end
 
   def log_habtm_add(obj)
@@ -79,7 +81,7 @@ module Logging
 
   def log_assoc(action)
     return unless id
-    log_entries.create table: model_name.element, action: action, user: Current.user,
+    log_entries.create table: model_name.element, action: action, user: Current.user, auth_code: Current.auth_code,
                        subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
   end
 

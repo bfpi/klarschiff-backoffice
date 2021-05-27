@@ -8,15 +8,6 @@ de:
     save: Speichern
     send: Absenden
     upload: Hochladen
-  dashboard: "Willkommen bei %{instance_name}"
-  date:
-    formats:
-      short: "%d.%m.%y"
-  time:
-    formats:
-      default: "%d.%m.%Y %H:%M:%S"
-      no_seconds: "%d.%m.%Y %H:%M"
-      short: "%H:%M"
   activemodel:
     attributes:
       issue_email:
@@ -57,10 +48,11 @@ de:
         field_service_operators: Außendienst-Koordinatoren
         main_user: Hauptnutzer
         short_name: Kurzname
-        user: Benutzer
+        users: Benutzer
       instance:
         url: URL
       issue:
+        id: Nummer
         address: Adresse
         archived: Archiviert
         archived_at: Archivierungszeitpunkt
@@ -85,6 +77,7 @@ de:
         responsibility: Zuständigkeit
         reviewed_at: Erstsichtungszeitpunkt
         status_note: Statuskommentar
+        supporters: Unterstützungen
         trust_level: Vertrauensstufe
       job:
         date: Ausführungsdatum
@@ -96,7 +89,6 @@ de:
         old_value: Wert Neu
         subject_id: Datensatz
         subject_name: Datensatz Name
-        user: Benutzer
       mail_blacklist:
         pattern: Muster
         reason: Begründung
@@ -236,7 +228,40 @@ de:
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützer
-
+    updated_at: Zuletzt geändert
+    user: Benutzer
+  back: Zurück
+  comments:
+    show:
+      confirm_delete: Soll der Kommentar wirklich gelöscht werden?
+  contact: Kontakt
+  create: Anlegen
+  dashboard: "Willkommen bei %{instance_name}"
+  dashboards:
+    issue:
+      high_priority: hohe Priorität
+      trust: vertrauenswürdig
+  date:
+    formats:
+      short: "%d.%m.%y"
+  date_missing: Es wurde kein Datum übergeben.
+  delegations: Delegationen
+  edit: Bearbeiten
+  edit_issue: Meldung bearbeiten
+  editorial_notifications:
+    index:
+      confirm_delete: Möchten Sie diesen Eintrag wirklich aus der Datenbank entfernen?
+      criteria: Redaktionskriterien
+      days_created_not_in_work: n Tage offen, aber nicht akzeptiert
+      days_in_work_without_status_note: n Tage in Bearbeitung, aber ohne öffentliche Statusinformation
+      days_open_but_not_accepted: mehr als n Tage im System und noch in Bearbeitung
+      editorial: Redaktion
+      ideas_days_open_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
+      level: Stufe
+      new_editorial_notification: Neue redaktionelle Benachrichtigung
+      reviewed_but_not_accepted: nicht mehr offen, aber nicht akzeptiert
+      unsolvable_without_status_note: nicht lösbar, aber ohne öffentliche Statusinformation
+      without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
     group:
       kind:
@@ -253,23 +278,23 @@ de:
         middle: Mittel
         high: Hoch
       status:
-        pending: gemeldet
-        received: offen
-        reviewed: gesichtet
-        in_process: in Bearbeitung
-        duplicate: duplikat
-        deleted: gelöscht
-        not_solvable: nicht lösbar
-        closed: gelöst
+        pending: Gemeldet
+        received: Offen
+        reviewed: Gesichtet
+        in_process: In Bearbeitung
+        duplicate: Duplikat
+        deleted: Gelöscht
+        not_solvable: Nicht lösbar
+        closed: Gelöst
       trust_level:
         internal: Intern
         external: Extern
         field_service_team: Außendienst
     job:
       status:
-        checked: abgehakt
-        unchecked: nicht abgehakt
-        not_checkable: nicht abarbeitbar
+        checked: Abgehakt
+        unchecked: Nicht abgehakt
+        not_checkable: Nicht abarbeitbar
     main_category:
       kind:
         idea: Idee
@@ -285,32 +310,8 @@ de:
         admin: Administrator
         editor: Bearbeiter
         regional_admin: Regional-Administrator
-
-  back: Zurück
-  comments:
-    show:
-      confirm_delete: Soll der Kommentar wirklich gelöscht werden?
-  contact: Kontakt
-  create: anlegen
-  dashboards:
-    issue:
-      high_priority: hohe Priorität
-      trust: vertrauenswürdig
-  date_missing: Es wurde kein Datum übergeben.
-  delegations: Delegationen
-  edit: bearbeiten
-  edit_issue: Meldung bearbeiten
   export_xlsx: Als Excel-Tabelle exportieren
-  export:
-    delegations:
-      id: '#'
-      kind: Typ
-      created_at: Erstellung
-      main_category: Hauptkategorie
-      sub_category: Unterkategorie
-      status: Status
-      address: Adresse
-      priority: Priorität
+  extended_search: Erweiterte Suche
   field_services:
     title: Außendienst Teams
     edit:
@@ -331,11 +332,22 @@ de:
         headline: Welche Daten sollen mitgesendet werden?
   issues:
     index:
+      assign_jobs: Zuordnung für den Außendienst
+      map: Kartenansicht
       new_issue: Neue Meldung
+    extended_filter:
+      all_districts: Alle Ortsteile
+      all_kinds: Alle Typen
+      all_main_categories: Alle Hauptkategorien
+      all_sub_categories: Alle Unterkategorien
+      my_responsibility: Mir zugewiesen
+    external_map:
+      coordinates: "Koordinaten der Meldung: %{x} %{y}"
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: Kommentare
+        feedback: Lobe/Hinweise/Kritiken
         job: Außendienst-Auftrag
         log_entry: Verlauf
         map: Karte
@@ -374,12 +386,18 @@ de:
       new_responsibility: Neue Zuständigkeit
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   send_email: als E-Mail versenden
+  search: Suchen
+  show_map: Auf Karte anzeigen
+  simple_search: Einfache Suche
   statuses:
     abuse_report:
       open: " (offen)"
-  show_map: Auf Karte anzeigen
-  record_not_found: Der Datensatz konnte nicht gefunden werden
   statistics: Alle aktiven Vorgänge auf einen Blick
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M:%S"
+      no_seconds: "%d.%m.%Y %H:%M"
+      short: "%H:%M"
   users:
     index:
       new_user: Neuer Benutzer
