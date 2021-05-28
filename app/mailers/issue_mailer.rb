@@ -27,7 +27,7 @@ class IssueMailer < ApplicationMailer
   def inform_editorial_staff(to:, issues:, days:)
     @days = days
     @issues = issues
-    mail(to: to, interpolation: { subject: { title: 'Test' } })
+    mail(to: to, interpolation: { subject: { title: Settings::Instance.name } })
   end
 
   private

@@ -5,5 +5,5 @@ Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>zugewiesen seit
 ******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>***************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
-     l(issue.responsibility_since)].join("\t") %>
+     (issue.responsibility_since ? l(issue.responsibility_since) : '')].join("\t") %>
 <% end -%>
