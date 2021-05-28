@@ -277,8 +277,6 @@ de:
         internal: Intern
         external: Extern
         field_service_team: Außendienst
-      virtual_status:
-        open: Offen
     job:
       status:
         checked: Abgehakt
@@ -319,6 +317,18 @@ de:
       headline: Sie können hier die Daten des aktuellen Vorgangs als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
       send_data:
         headline: Welche Daten sollen mitgesendet werden?
+  issue_mailer:
+    open_ideas_without_minimum_supporters:
+      problem: >-
+        Folgende Ideen mit dem Status "%{status}" haben ihre Erstsichtung seit mindestens %{days} Tagen hinter sich,
+        weisen aber bisher noch nicht die notwendige Anzahl von %{votes} Unterstützungen auf.
+      hint: >-
+        Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status "%{status}" und
+        geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels der öffentlichen Statusinformation:
+    without_editorial_approval:
+      hint: >-
+        Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
+        redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
   issues:
     index:
       assign_jobs: Zuordnung für den Außendienst
