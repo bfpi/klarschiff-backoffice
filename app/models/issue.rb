@@ -46,8 +46,6 @@ class Issue < ApplicationRecord
   delegate :kind, :kind_name, to: :category, allow_nil: true
   delegate :main_category, :sub_category, to: :category
 
-  after_create :send_confirmation
-
   def to_s
     "#{kind_name} ##{id}"
   end
