@@ -89,7 +89,7 @@ ActiveRecord::Base.connection.execute <<~SQL.squish
 SQL
 
 InstanceGroup.find_or_create_by! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
-                      kind: :internal, reference_default: true, reference_id: 1
+                                 kind: :internal, reference_default: true, reference_id: 1
 if Rails.env.development?
   2.times do |ix|
     {
@@ -98,7 +98,7 @@ if Rails.env.development?
       "extern_#{ix + 1}": { name: "Extern #{ix + 1} MV", kind: :external }
     }.each do |short_name, values|
       InstanceGroup.find_or_create_by! values.merge(short_name: short_name, reference_id: 1,
-                                         main_user: User.find_by(login: :regional_admin))
+                                                    main_user: User.find_by(login: :regional_admin))
     end
   end
 end
