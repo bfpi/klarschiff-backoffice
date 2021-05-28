@@ -4,6 +4,8 @@ class User < ApplicationRecord
   include Logging
   include UserAuthorization
 
+  attr_accessor :auth_code
+
   has_secure_password(validations: false)
 
   self.omit_field_log_values += %w[password_digest password_history]

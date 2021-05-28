@@ -24,7 +24,7 @@ module UserAuthorization
   end
 
   def delegation_permitted?
-    static_permitted_to?(:manage_delegations) || groups.any?(&:internal)
+    static_permitted_to?(:manage_delegations) || groups.any?(&:external)
   end
 
   def static_permitted_to?(action)
