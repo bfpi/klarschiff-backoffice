@@ -88,7 +88,7 @@ ActiveRecord::Base.connection.execute <<~SQL.squish
   FROM #{County.table_name}
 SQL
 
-InstanceGroup.create! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
+InstanceGroup.find_or_create_by! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
                       kind: :internal, reference_default: true, reference_id: 1
 if Rails.env.development?
   2.times do |ix|
@@ -97,7 +97,7 @@ if Rails.env.development?
       "innen_#{ix + 1}": { name: "Intern #{ix + 1} MV", kind: :internal },
       "extern_#{ix + 1}": { name: "Extern #{ix + 1} MV", kind: :external }
     }.each do |short_name, values|
-      InstanceGroup.create! values.merge(short_name: short_name, reference_id: 1,
+      InstanceGroup.find_or_create_by! values.merge(short_name: short_name, reference_id: 1,
                                          main_user: User.find_by(login: :regional_admin))
     end
   end
@@ -109,7 +109,7 @@ CSV.table('db/seeds/categories.csv').each do |row|
     current_main_category = MainCategory.find_or_create_by!(kind: row[1], name: name.strip)
   elsif (name = row[2]).present?
     sub_category = SubCategory.find_or_create_by!(name: name.strip)
-    Category.create! main_category: current_main_category, sub_category: sub_category
+    Category.find_or_create_by! main_category: current_main_category, sub_category: sub_category
   end
 end
 
@@ -124,8 +124,8 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
     elsif (name = row[2]).present? && (group_name = row[3]).present?
       sub_category = SubCategory.find_by!(name: name.strip)
       category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
-      group = target.groups.find_or_create_by!(name: group_name.strip)
-      Responsibility.create! category: category, group: group
+      group = target.groups.find_or_create_by!(name: group_name.strip, main_user: User.find_by(login: :regional_admin))
+      Responsibility.find_or_create_by! category: category, group: group
     end
   end
 end
