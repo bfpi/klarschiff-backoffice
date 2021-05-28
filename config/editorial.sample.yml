@@ -5,7 +5,7 @@ development: &default
         days_created_not_in_work: 10
         days_in_work_without_status_note: 10
         days_open_but_not_accepted: 10
-        ideas_days_open_without_minimum_supporters: 30
+        days_open_ideas_without_minimum_supporters: 30
         reviewed_but_not_accepted: true
         unsolvable_without_status_note: true
         without_editorial_approval: true
@@ -13,7 +13,7 @@ development: &default
         days_created_not_in_work: 20
         days_in_work_without_status_note: 20
         days_open_but_not_accepted: 10
-        ideas_days_open_without_minimum_supporters: 10
+        days_open_ideas_without_minimum_supporters: 10
         reviewed_but_not_accepted: true
         unsolvable_without_status_note: true
         without_editorial_approval: false
@@ -21,7 +21,7 @@ development: &default
         days_created_not_in_work: 10
         days_in_work_without_status_note: 10
         days_open_but_not_accepted: 10
-        ideas_days_open_without_minimum_supporters: 30
+        days_open_ideas_without_minimum_supporters: 30
         reviewed_but_not_accepted: false
         unsolvable_without_status_note: false
         without_editorial_approval: false

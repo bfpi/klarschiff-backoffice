@@ -1,22 +1,84 @@
 DEFAULTS: &DEFAULTS
-  address: MyText
-  archived_at: 2020-10-19 14:44:11
-  author: author@example.com
+  address: $LABEL
+  author: test@rostock.de
   category: one
-  confirmation_hash: MyText
-  delegation:
-  description: MyText $LABEL
-  description_status: external
-  group: one
-  parcel: MyText
+  confirmation_hash: $LABEL
+  description: $LABEL
+  description_status: 1
   photo_requested: false
-  position:
-  priority: middle
-  property_owner: MyText
-  reviewed_at: 2020-10-19 14:44:11
+  position: POINT(12.104630572065371 54.07595060029302)
+  priority: 1
+  property_owner:
+  status: pending
+  status_note: $LABEL
+  trust_level: 1
+  group: internal
+  responsibility_accepted: true
+
+received:
+  <<: *DEFAULTS
   status: received
-  status_note: MyText
-  trust_level: internal
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+
+received_not_accepted:
+  <<: *DEFAULTS
+  status: received
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  responsibility_accepted: false
+
+received_not_released:
+  <<: *DEFAULTS
+  status: received
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+
+reviewed:
+  <<: *DEFAULTS
+  status: reviewed
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+
+in_process:
+  <<: *DEFAULTS
+  status: in_process
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+
+closed:
+  <<: *DEFAULTS
+  status: closed
+  created_at: <%= Time.current - 4.days - 2.hours %>
+  reviewed_at: <%= Time.current - 4.days - 1.hour %>
+
+not_solvable_no_status_note:
+  <<: *DEFAULTS
+  status: not_solvable
+  status_note:
+  created_at: <%= Time.current - 4.days - 2.hours %>
+  reviewed_at: <%= Time.current - 4.days - 1.hour %>
+
+not_supported:
+  <<: *DEFAULTS
+  category: two
+  status: received
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+
+not_confirmed:
+  <<: *DEFAULTS
+  status: received
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  confirmation_hash:
+
+delegated:
+  <<: *DEFAULTS
+  status: received
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  delegation: external
 
 one:
   <<: *DEFAULTS

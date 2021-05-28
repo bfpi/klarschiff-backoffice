@@ -1,0 +1,14 @@
+Sehr geehrte(r) Bearbeiter/-in von Vorgängen in <%= Settings::Instance.name %>,
+
+innerhalb der letzten <%= JobSettings::Issue.delegation_deadline %> Stunden wurden Vorgänge an Sie delegiert. Bitte bearbeiten Sie diese Vorgänge:
+
+Daten der neuen delegierten Vorgänge
+************************************
+<% @issues.each do |issue| -%>
+<%= render partial: 'issue', object: issue, locals: { issue_link: edit_delegation_url(issue) } -%>
+************************************
+<% end -%>
+
+Vielen Dank und mit freundlichen Grüßen
+
+Ihr <%= Settings::Instance.name %>-Team

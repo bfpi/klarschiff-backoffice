@@ -1,0 +1,23 @@
+development: &default
+  abuse:
+    deletion_deadline: 24
+  issue:
+    delegation_deadline: 24
+    deletion_deadline: 24
+    archival_deadline: 24
+    author_deletion_deadline_days: 1
+    open_not_accepted_days: 1
+    in_process_no_status_note_days: 1
+    ideas_without_min_supporters_days: 1
+    in_process_days: 1
+    status_change_days: 1
+  photo:
+    deletion_deadline: 24
+  support:
+    deletion_deadline: 24
+
+consolidation: *default
+
+production: *default
+
+test: *default

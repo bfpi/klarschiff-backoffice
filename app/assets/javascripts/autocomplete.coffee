@@ -1,4 +1,3 @@
-
 KS.initializeIssueAddressAutocomplete = ->
   if $('#modal #issue_address').length == 0
     return

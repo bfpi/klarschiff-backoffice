@@ -13,3 +13,9 @@ two:
   status: 1
   confirmation_hash: MyText
   confirmed_at: 2020-10-19 14:44:02
+
+not_confirmed:
+  author: test@rostock.de
+  issue: not_confirmed
+  confirmation_hash:
+  created_at: <%= Time.current - 1.day - 1.hour %>

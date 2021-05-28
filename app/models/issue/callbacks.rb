@@ -9,7 +9,6 @@ class Issue
 
     included do
       before_validation :add_photo
-      before_validation :set_confirmation_hash, on: :create
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
@@ -23,6 +22,8 @@ class Issue
       validates :status_note, presence: true, if: lambda {
                                                     status_changed? && status.to_i > Issue.statuses[:reviewed]
                                                   }, on: :update
+
+      after_create :send_confirmation
     end
 
     private
