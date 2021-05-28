@@ -46,12 +46,12 @@ class Feedback < ApplicationRecord
     return notify_responsible_group if recipient.blank?
     recipient.split(', ').each do |email|
       params = { to: email, issue: issue }
-      params[:auth_code] = add_auth_code(email) if User.find_by(email: email).blank?
+      params[:auth_code] = auth_code(email) if User.find_by(email: email).blank?
       FeedbackMailer.notification(params).deliver_later
     end
   end
 
-  def add_auth_code(email)
+  def auth_code(email)
     AuthCode.find_or_create_by(issue: issue, group: Group.find_by(email: email))
   end
 

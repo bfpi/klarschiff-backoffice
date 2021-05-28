@@ -6,7 +6,7 @@ class AuthCode < ApplicationRecord
 
   validates :uuid, presence: true
 
-  before_validation :set_uuid
+  before_validation :set_uuid, on: :create
 
   def to_s
     group

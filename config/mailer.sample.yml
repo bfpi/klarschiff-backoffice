@@ -19,7 +19,7 @@ development: &default
       subject: "#%{number}: Bestätigung einer Unterstützung"
   feedback_mailer:
     notification:
-      to: support@klarschiff-bfpi.de
+      to: support-klarschiff@bfpi.de
       subject: "Lob/Hinweis/Kritik zur Meldung #%{number}"
   issue_mailer:
     in_process:

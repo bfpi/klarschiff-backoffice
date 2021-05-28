@@ -5,7 +5,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
 
   def perform
     time = Time.current
-    EditorialNotification.all.find_each do |notification|
+    EditorialNotification.find_each do |notification|
       next unless repetition_deadline_reached?(time, notification)
       @issues = {}
       @days = {}

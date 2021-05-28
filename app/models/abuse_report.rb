@@ -12,7 +12,6 @@ class AbuseReport < ApplicationRecord
 
   default_scope -> { order created_at: :desc }
 
-  after_create :send_confirmation
 
   def to_s
     "#{I18n.l(created_at, format: :no_seconds)}#{I18n.t('statuses.abuse_report.open') unless resolved_at?}"
