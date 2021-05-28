@@ -52,7 +52,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
       dvg:#{xml_key}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
     XPATH
     polygons = feature.xpath(condition).map do |polygon|
-      tmp = polygon.to_s.strip.split.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
+      tmp = polygon.to_s.strip.split.reverse.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
       "(#{tmp.join[0...-1]})"
     end
 
@@ -124,7 +124,7 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
     elsif (name = row[2]).present? && (group_name = row[3]).present?
       sub_category = SubCategory.find_by!(name: name.strip)
       category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
-      group = target.groups.find_or_create_by!(name: group_name.strip)
+      group = target.groups.find_or_create_by!(name: group_name.strip, main_user: User.find_by(login: :regional_admin))
       Responsibility.create! category: category, group: group
     end
   end
