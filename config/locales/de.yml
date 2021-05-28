@@ -223,7 +223,7 @@ de:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
-  create: anlegen
+  create: Anlegen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     issue:
@@ -233,22 +233,22 @@ de:
     formats:
       short: "%d.%m.%y"
   delegations: Delegationen
-  edit: bearbeiten
+  edit: Bearbeiten
   edit_issue: Meldung bearbeiten
   editorial_notifications:
     index:
       confirm_delete: Möchten Sie diesen Eintrag wirklich aus der Datenbank entfernen?
       criteria: Redaktionskriterien
-      days_created_not_in_work: mehr als n Tage im System und noch in Bearbeitung
+      days_created_not_in_work: Mehr als n Tage im System und noch in Bearbeitung
       days_in_work_without_status_note: n Tage in Bearbeitung, aber ohne öffentliche Statusinformation
       days_open_but_not_accepted: n Tage offen, aber nicht akzeptiert
       editorial: Redaktion
       days_open_ideas_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
       level: Stufe
       new_editorial_notification: Neue redaktionelle Benachrichtigung
-      reviewed_but_not_accepted: nicht mehr offen, aber nicht akzeptiert
-      unsolvable_without_status_note: nicht lösbar, aber ohne öffentliche Statusinformation
-      without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
+      reviewed_but_not_accepted: Nicht mehr offen, aber nicht akzeptiert
+      unsolvable_without_status_note: Nicht lösbar, aber ohne öffentliche Statusinformation
+      without_editorial_approval: Nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
     group:
       kind:
@@ -277,6 +277,8 @@ de:
         internal: Intern
         external: Extern
         field_service_team: Außendienst
+      virtual_status:
+        open: Offen
     job:
       status:
         checked: Abgehakt

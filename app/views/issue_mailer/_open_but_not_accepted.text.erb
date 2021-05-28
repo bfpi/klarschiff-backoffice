@@ -1,9 +1,9 @@
-Folgende Vorgänge mit dem Status "offen" sind seit mindestens <%= days %> Tagen zugewiesen. Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten den Vorgang weiter.
+Folgende Vorgänge mit dem Status "<%= Issue.human_enum_name :virtual_status, :open %>" sind seit mindestens <%= days %> Tagen zugewiesen. Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten den Vorgang weiter.
 Falls Sie die Zuständigkeit akzeptieren, so führen Sie bitte außerdem die Erstsichtung durch, falls diese noch nicht erfolgt ist:
 
-Nummer      akuelle Zuständigkeit     Typ     zugewiesen seit
-******      *********************     ***     ***************
+Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>zugewiesen seit
+******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>***************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
-     l(issue.responsibility_since)].join("\t\t\t") %>
+     l(issue.responsibility_since)].join("\t") %>
 <% end -%>

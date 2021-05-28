@@ -1,7 +1,7 @@
-Folgende Vorgänge sind älter als <%= days %> Tage und noch im Status "in Bearbeitung":
+Folgende Vorgänge sind älter als <%= days %> Tage und noch im Status "<%= Issue.human_enum_name :status, :in_process %>":
 
-Nummer      aktuelle Zuständigkeit      Typ     Erstellungszeitpunkt
-******      **********************      ***     ********************
+Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Erstellungszeitpunkt
+******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>********************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind), l(issue.created_at)].join("\t\t\t") %>
+<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind), l(issue.created_at)].join("\t") %>
 <% end -%>

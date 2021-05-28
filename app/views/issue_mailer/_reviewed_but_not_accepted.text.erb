@@ -1,8 +1,8 @@
-Folgende Vorgänge weisen zwar nicht mehr den Status "offen" auf, wurden bisher aber dennoch nicht akzeptiert. Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten den Vorgang weiter:
+Folgende Vorgänge weisen zwar nicht mehr den Status "<%= Issue.human_enum_name :virtual_status, :open %>" auf, wurden bisher aber dennoch nicht akzeptiert. Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten den Vorgang weiter:
 
-Nummer    aktuelle Zuständigkeit     Typ     Status      nicht akzeptiert seit
-******    **********************     ***     ******      *********************
+Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Status<%= "\t" %>nicht akzeptiert seit
+******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>******<%= "\t" %>*********************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
-     Issue.human_enum_name(:status, issue.status), l(issue.responsibility_since)].join("\t\t\t") %>
+     Issue.human_enum_name(:status, issue.status), l(issue.responsibility_since)].join("\t") %>
 <% end -%>
