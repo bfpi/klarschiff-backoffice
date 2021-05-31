@@ -7,10 +7,6 @@ addons:
 before_script:
   - sudo -u postgres psql -c 'create extension postgis'
   - sudo -u postgres psql -c 'create database travis_ci_test'
-  - rm config/citysdk.yml
-  - cp config/citysdk.sample.yml config/citysdk.yml
-  - rm config/clients.yml
-  - cp config/clients.travis.yml config/clients.yml
   - rm config/database.yml
   - cp config/database.travis.yml config/database.yml
   - rm config/secrets.yml

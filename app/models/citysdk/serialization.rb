@@ -9,18 +9,8 @@ module Citysdk
       include ActiveModel::Serialization
 
       cattr_accessor :serialization_attributes
-      mattr_reader :config, default: Rails.application.config_for(:citysdk).with_indifferent_access
+      mattr_reader :config, default: Config.for(:citysdk)
     end
-
-    #     def jurisdiction_id
-    #       config[:jurisdiction_id]
-    #     end
-    #
-    #     def assign_attributes(values)
-    #       values.each do |k, v|
-    #         send("#{k}=", v)
-    #       end
-    #     end
 
     def attributes
       hsh = {}
@@ -39,14 +29,6 @@ module Citysdk
     def as_json(options)
       serializable_hash(serialization_options(options))
     end
-
-    #     def method_missing(method, *arguments, &block)
-    #       if /.*=$/.match?(method.to_s)
-    #         Rails.logger.info "Method #{method} not found." unless Rails.env.production?
-    #       else
-    #         super
-    #       end
-    #     end
 
     private
 

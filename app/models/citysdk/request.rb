@@ -18,12 +18,6 @@ module Citysdk
     alias_attribute :email, :author
     alias_attribute :service_code, :category_id
 
-    # CITYSDK_KEYWORDS = { 'problem' => 'problem', 'idea' => 'idee', 'tip' => 'tipp' }.freeze
-
-    # def self.citysdk_keywords_for_backoffice(keywords)
-    #  CITYSDK_KEYWORDS.slice(*Array(keywords)).values.flatten
-    # end
-
     def assign_attributes(attributes)
       super(attributes)
       set_position_from_attributes

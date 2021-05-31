@@ -2,8 +2,8 @@
 
 module Citysdk
   class CitysdkController < ApplicationController
-    include CitysdkResponder
-    include CitysdkParameterValidation
+    include ParameterValidation
+    include Responder
     skip_before_action :verify_authenticity_token
   end
 end

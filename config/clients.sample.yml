@@ -15,12 +15,19 @@
 #
 
 development: &default
-  <API-Key>:
-    name: <Client-Name>
+  <API-Key-Frontend>:
+    name: <Name Frontend-Client>
     permissions:
       - :create_comments
+      - :create_requests
+
+  <API-Key-PPC>:
+    name: <Name Prüf- und Protokoll-Client>
+    permissions:
+      - :citysdk_d3_document_url
+      - :create_comments
       - :create_notes
-      - :create_request
+      - :create_requests
       - :d3_document_url
       - :destroy_requests
       - :read_comments

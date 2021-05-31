@@ -18,14 +18,8 @@ module Citysdk
 
     def group_by
       [
-        Category.arel_table[:id],
-        'delegation_issue.id',
-        Group.arel_table[:id],
-        Issue.arel_table[:id],
-        Job.arel_table[:id],
-        MainCategory.arel_table[:id],
-        Photo.arel_table[:id],
-        SubCategory.arel_table[:id]
+        Category.arel_table[:id], 'delegation_issue.id', Group.arel_table[:id], Issue.arel_table[:id],
+        Job.arel_table[:id], MainCategory.arel_table[:id], Photo.arel_table[:id], SubCategory.arel_table[:id]
       ]
     end
 
@@ -59,9 +53,10 @@ module Citysdk
 
     def default_filter_area(params)
       return if (lat = params[:lat]).blank? || (long = params[:long]).blank? || (radius = params[:radius]).blank?
-      @collection = @collection.where('ST_Within(issue.position, '\
-        'ST_Buffer(ST_SetSRID(ST_MakePoint(:lat, :long), 4326), :radius))',
-        { lat: lat, long: long, radius: radius.to_f / 100_000 })
+      @collection = @collection.where(<<~SQL.squish, lat: lat, long: long, radius: radius.to_f / 100_000)
+        ST_Within(#{Issue.quoted_table_name}."position",
+          ST_Buffer(ST_SetSRID(ST_MakePoint(:lat, :long), 4326), :radius))
+      SQL
     end
 
     def filter_service_request_id(params)
@@ -78,19 +73,19 @@ module Citysdk
     end
 
     def filter_start_date(params)
-      @collection = @collection.where("#{Issue.table_name}.created_at >= ?", DateTime.parse(params[:start_date]))
+      @collection = @collection.where(Issue.table_name[:created_at].gteq(DateTime.parse(params[:start_date])))
     end
 
     def filter_end_date(params)
-      @collection = @collection.where("#{Issue.table_name}.created_at <= ?", DateTime.parse(params[:end_date]))
+      @collection = @collection.where(Issue.table_name[:created_at].lteq(DateTime.parse(params[:end_date])))
     end
 
     def filter_updated_after(_params)
-      @collection = @collection.where("#{Issue.table_name}.updated_at >= ?", DateTime.parse(params[:updated_after]))
+      @collection = @collection.where(Issue.table_name[:updated_at].gteq(DateTime.parse(params[:updated_after])))
     end
 
     def filter_updated_before(_params)
-      @collection = @collection.where("#{Issue.table_name}.updated_at <= ?", DateTime.parse(params[:updated_before]))
+      @collection = @collection.where(Issue.table_name[:updated_at].lteq(DateTime.parse(params[:updated_before])))
     end
 
     def filter_agency_responsible(params)
@@ -106,15 +101,18 @@ module Citysdk
     def filter_observation_key(params)
       obs = Observation.find_by(key: params[:observation_key])
       @collection = @collection.where(category_id: obs.category_ids.split(',').map(&:to_i))
-      @collection = @collection.where("ST_Within(#{Issue.table_name}.position,"\
-        "(select o.area from #{Observation.table_name} o where o.key = ?))",
-        params[:observation_key])
+      Observation.where(key: params[:observation_key]).select(:area)
+      @collection = @collection.where(<<~SQL.squish)
+        ST_Within(#{Issue.quoted_table_name}."position",
+          (#{Observation.where(key: :observation_key).select(:area).to_sq}))
+      SQL
     end
 
     def filter_area_code(params)
-      @collection = @collection.where("ST_Within(#{Issue.table_name}.position,"\
-        "(select d.area from #{District.table_name} d where d.id = ?))",
-        params[:area_code].to_i)
+      @collection = @collection.where(<<~SQL.squish)
+        ST_Within(#{Issue.quoted_table_name}."position",
+          (#{District.where(id: params[:area_code].to_i).select(:area).to_sql})
+      SQL
     end
 
     def filter_with_picture(_params)

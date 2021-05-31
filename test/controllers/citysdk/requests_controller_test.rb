@@ -154,9 +154,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_equal 1, service_request_id.count
-
-    # Nach Merge von Ticket 2713 (PR 14) reaktivieren
-    # assert_equal 1, ActionMailer::Base.deliveries.count
+    assert_equal 1, ActionMailer::Base.deliveries.count
   end
 
   test 'update without api-key' do
