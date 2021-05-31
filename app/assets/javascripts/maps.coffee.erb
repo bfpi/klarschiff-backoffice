@@ -126,7 +126,7 @@ KS.styles =
             6
             40
           ]
-          src: "/assets/#{feature.get('icon')}"
+          src: "<%= Rails.application.config.relative_url_root %>/assets/#{feature.get('icon')}"
           text: KS.styles.featureAttribution(feature)
     else
       features.setStyle new ol.style.Style
@@ -153,7 +153,7 @@ class KS.FeatureVector
 
 class KS.FeatureData
   constructor: (ids, vector) ->
-    $.ajax(url: '/issues', data: { ids: ids }, dataType: 'json').done (response) ->
+    $.ajax(url: '<%= Rails.application.routes.url_helpers.issues_path %>', data: { ids: ids }, dataType: 'json').done (response) ->
       features = new Array
       $.each response, (index, elem) ->
         attribution = ''
