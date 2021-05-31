@@ -8,6 +8,7 @@ module Citysdk
     before_action :set_root
 
     protected
+
     def set_root
       Rails.application.config.root_url = root_url[0...-1]
     end
