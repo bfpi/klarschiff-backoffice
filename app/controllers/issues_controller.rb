@@ -15,6 +15,7 @@ class IssuesController < ApplicationController
   end
 
   def show
+    check_auth(:edit_issue, Issue.find(params[:id]))
     @edit_issue_url = edit_issue_url(params[:id])
     @issues = paginate(results)
     render :index
@@ -22,6 +23,7 @@ class IssuesController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
+    check_auth(:edit_issue, @issue)
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     prepare_tabs
   end
@@ -32,6 +34,7 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find(params[:id])
+    check_auth(:edit_issue, @issue)
     return redirect_to action: :index if @issue.update(issue_params) && params[:save_and_close].present?
     prepare_tabs
     render :edit

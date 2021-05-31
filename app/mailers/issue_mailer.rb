@@ -19,7 +19,7 @@ class IssueMailer < ApplicationMailer
     mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
-  def delegation(to:, issues:)
+  def delegation(to:, issue:)
     @issues = issues
     mail to: to
   end

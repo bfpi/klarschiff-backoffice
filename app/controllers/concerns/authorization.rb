@@ -40,7 +40,7 @@ module Authorization
   def authenticate_with_auth_code
     session[:auth_code] ||= params[:auth_code]
     init_current_user_with_auth_code or return
-    return logger_current_user(Current.user.login) if (Current.user)
+    return logger_current_user(Current.user.login) if Current.user
     redirect_to new_logins_path
   end
 
@@ -64,8 +64,8 @@ module Authorization
     logger.info msg
   end
 
-  def check_auth(action)
-    raise UserAuthorization::NotAuthorized, action unless authorized?(action)
+  def check_auth(action, object = nil)
+    raise UserAuthorization::NotAuthorized, action unless authorized?(action, object)
   end
 
   def check_citysdk_authentication
