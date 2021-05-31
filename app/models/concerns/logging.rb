@@ -25,7 +25,7 @@ module Logging
         create table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject),
                subject_id: subject.id, subject_name: subject.logging_subject_name,
                action: Logging.generate_action(subject.class, attr, :update, old, new),
-               user: (Current.user.id ? Current.user : nil), auth_code: Current.user.auth_code,
+               user_id: Current.user&.id, auth_code: Current.user&.auth_code,
                old_value: old, new_value: new
       end
     end
@@ -36,8 +36,8 @@ module Logging
   end
 
   def log_create
-    log_entries.create table: model_name.element, action: Logging.action_text(:create), user: current_user,
-                       auth_code: Current.user.auth_code, subject_id: id, subject_name: logging_subject_name,
+    log_entries.create table: model_name.element, action: Logging.action_text(:create), user: Current.user&.id,
+                       auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
                        issue_id: Logging.issue_id(self)
   end
 
@@ -67,8 +67,8 @@ module Logging
   end
 
   def log_destroy
-    LogEntry.create table: model_name.element, action: Logging.action_text(:removed), user: current_user,
-                    auth_code: Current.user.auth_code, subject_id: id, subject_name: logging_subject_name,
+    LogEntry.create table: model_name.element, action: Logging.action_text(:removed), user_id: Current.user&.id,
+                    auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
                     issue_id: Logging.issue_id(self)
   end
 
@@ -82,17 +82,13 @@ module Logging
 
   def log_assoc(action)
     return unless id
-    log_entries.create table: model_name.element, action: action, user: current_user, auth_code: Current.user.auth_code,
-                       subject_id: id, subject_name: logging_subject_name, issue_id: Logging.issue_id(self)
+    log_entries.create table: model_name.element, action: action, user: Current.user&.id,
+                       auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
+                       issue_id: Logging.issue_id(self)
   end
 
   def logging_subject_name
     "#{model_name.human} #{self}"
-  end
-
-  def current_user
-    return if Current.user.id.blank?
-    Current.user
   end
 
   def self.issue_id(subject)

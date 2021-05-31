@@ -19,8 +19,9 @@ class IssueMailer < ApplicationMailer
     mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
-  def delegation(to:, issue:)
+  def delegation(to:, issues:, with_auth_code:)
     @issues = issues
+    @with_auth_code = with_auth_code
     mail to: to
   end
 

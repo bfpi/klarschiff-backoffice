@@ -45,12 +45,11 @@ module Authorization
   end
 
   def init_current_user_with_auth_code
-    redirect_to new_logins_path unless session[:auth_code]
+    return redirect_to new_logins_path unless session[:auth_code]
     reset_session_user
     Current.user = User.new login: session[:auth_code]
     Current.login = session[:auth_code]
     Current.user.auth_code = AuthCode.find_by uuid: session[:auth_code]
-    Current.login
   end
 
   def reset_session_user
