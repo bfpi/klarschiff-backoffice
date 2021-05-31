@@ -8,12 +8,9 @@ class County < ApplicationRecord
   validates :name, uniqueness: true
 
   def self.authorized(user = Current.user)
-    if user&.role_admin?
-      all
-    elsif user&.role_regional_admin?
-      where id: user.groups.where(type: 'CountyGroup').map { |gr|
-        Group.where(type: gr.type, reference_id: gr.reference_id)
-      }.flatten.map(&:reference_id)
+    return all if user&.role_admin?
+    if user&.role_regional_admin?
+      where id: user.groups.select(:reference_id).where(type: 'CountyGroup')
     else
       none
     end

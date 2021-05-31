@@ -2,7 +2,7 @@
 
 module GroupsHelper
   def types
-    Group.distinct(:type).uniq.reverse
+    %w[InstanceGroup AuthorityGroup CountyGroup]
   end
 
   def references(type)

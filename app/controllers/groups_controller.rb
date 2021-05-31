@@ -18,7 +18,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.new(type: InstanceGroup)
+    @group = InstanceGroup.new
   end
 
   def update
