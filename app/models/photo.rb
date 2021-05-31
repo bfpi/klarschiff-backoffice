@@ -45,7 +45,7 @@ class Photo < ApplicationRecord
           end
     img.format('JPEG') unless img.type == 'JPEG'
     tf = img.tempfile
-    file.attach(io: File.open(tf.path), filename: 'Bild.jpg', content_type: 'iamge/jpeg')
+    file.attach(io: File.open(tf.path), filename: 'Bild.jpg', content_type: 'image/jpeg')
   end
 
   private

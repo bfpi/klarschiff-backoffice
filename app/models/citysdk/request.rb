@@ -101,8 +101,7 @@ module Citysdk
              trust: trust_level.to_i, votes: votes }
       ea[:property_owner] = property_owner if @property_attributes
       if @job_detail_attributes
-        ea.merge!({ delegation: delegation_name, job_status: job_status,
-                    job_priority: job_priority })
+        ea.merge! delegation: delegation_name, job_status: job_status, job_priority: job_priority
       end
       ea
     end

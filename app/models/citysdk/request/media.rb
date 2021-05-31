@@ -4,7 +4,9 @@ module Citysdk
   class Request
     module Media
       extend ActiveSupport::Concern
-      include Rails.application.routes.url_helpers
+
+      delegate :rails_blob_path, to: ActionView::Helpers::UrlHelper
+
       def media_url
         return nil unless photos.first
         [Rails.application.config.root_url, rails_blob_path(photos.first.file, only_path: true)].join

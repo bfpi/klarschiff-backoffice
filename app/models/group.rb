@@ -22,7 +22,6 @@ class Group < ApplicationRecord
   validates :email, presence: true, if: -> { main_user_id.blank? }
 
   scope :active, -> { where active: true }
-  scope :external, -> { where kind: :external }
 
   def to_s
     short_name || name
