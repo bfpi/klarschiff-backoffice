@@ -5,7 +5,7 @@ class IssueEmailsController < ApplicationController
     @issue_email = IssueEmail.new
     @issue_email.issue_id = params[:issue_id]
     @issue_email.enable_all
-    subject = ApplicationMailer.mailer_config[:issue_mailer][:forward][:subject]
+    subject = ApplicationMailer.mailer_config.dig(:issue_mailer, :forward, :subject)
     str = render_to_string(template: 'issue_mailer/issue')
     render plain: "mailto:?subject=#{subject}&body=#{ERB::Util.url_encode(str)}"
   end

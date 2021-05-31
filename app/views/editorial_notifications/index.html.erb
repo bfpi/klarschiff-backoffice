@@ -11,7 +11,7 @@
           <th scope="col"><%= t '.level' %></th>
           <th scope="col"><%= t '.days_created_not_in_work' %></th>
           <th scope="col"><%= t '.days_in_work_without_status_note' %></th>
-          <th scope="col"><%= t '.ideas_days_open_without_minimum_supporters' %></th>
+          <th scope="col"><%= t '.days_open_ideas_without_minimum_supporters' %></th>
           <th scope="col"><%= t '.days_open_but_not_accepted' %></th>
           <th scope="col"><%= t '.unsolvable_without_status_note' %></th>
           <th scope="col"><%= t '.reviewed_but_not_accepted' %></th>
@@ -24,7 +24,7 @@
             <td><%= criteria[:level] %></td>
             <td><%= criteria[:days_created_not_in_work] %></td>
             <td><%= criteria[:days_in_work_without_status_note] %></td>
-            <td><%= criteria[:ideas_days_open_without_minimum_supporters] %></td>
+            <td><%= criteria[:days_open_ideas_without_minimum_supporters] %></td>
             <td><%= criteria[:days_open_but_not_accepted] %></td>
             <td><%= tag.i('', class: 'fa fa-check') if criteria[:unsolvable_without_status_note] %></td>
             <td><%= tag.i('', class: 'fa fa-check') if criteria[:reviewed_but_not_accepted] %></td>

@@ -12,13 +12,21 @@
   <%= render partial: 'job_assignment' %>
 </div>
 <% content_for :footer do %>
-    <span id="issues-footer">
-      <%= button_tag t('.map'), type: 'button', class: 'btn btn-primary show-map',
-                                data: { extended_filter: @extended_filter, status: @status } %>
-      <%= link_to t(:export_xlsx), '/issues.xlsx', class: 'btn btn-primary' %>
-      <%= button_tag t('.assign_jobs'), id: 'assign-jobs', type: 'button', class: 'btn btn-primary' %>
-      <div class="float-right">
-        <%= link_to t('.new_issue'), new_issue_path, remote: true, class: 'btn btn-primary' %>
-      </div>
-    </span>
-  <% end %>
+  <span id="issues-footer">
+    <%= button_tag t('.map'), type: 'button', class: 'btn btn-primary show-map',
+                              data: { extended_filter: @extended_filter, status: @status } %>
+    <%= link_to t(:export_xlsx), issues_path(format: :xlsx), class: 'btn btn-primary' %>
+    <%= button_tag t('.assign_jobs'), id: 'assign-jobs', type: 'button', class: 'btn btn-primary' %>
+    <div class="float-right">
+      <%= link_to t('.new_issue'), new_issue_path, remote: true, class: 'btn btn-primary' %>
+    </div>
+  </span>
+<% end %>
+<% if @edit_issue_url -%>
+  <script defer="true">
+    $(function() {
+      window.history.replaceState(null, null, '<%= issues_path.to_json %>');
+      $.ajax({ url: '<%= @edit_issue_url.to_json %>' });
+    });
+  </script>
+<% end -%>

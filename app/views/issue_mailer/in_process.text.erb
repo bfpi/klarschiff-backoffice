@@ -1,0 +1,11 @@
+Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
+
+hiermit teilen wir Ihnen mit, dass Ihre Meldung vom <%= l(@issue.created_at) %> nun in Bearbeitung ist.
+
+Nachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:
+
+<%= render partial: 'issue', locals: { issue: @issue } %>
+
+Vielen Dank und mit freundlichen Grüßen
+
+Ihr <%= Settings::Instance.name %>-Team

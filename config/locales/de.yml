@@ -40,7 +40,7 @@ de:
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
-        repetition: Wiederholung
+        repetition: Wiederholung alle n Tage
       feedback:
         recipient: Empfänger
       group:
@@ -252,16 +252,16 @@ de:
     index:
       confirm_delete: Möchten Sie diesen Eintrag wirklich aus der Datenbank entfernen?
       criteria: Redaktionskriterien
-      days_created_not_in_work: n Tage offen, aber nicht akzeptiert
+      days_created_not_in_work: Mehr als n Tage im System und noch in Bearbeitung
       days_in_work_without_status_note: n Tage in Bearbeitung, aber ohne öffentliche Statusinformation
-      days_open_but_not_accepted: mehr als n Tage im System und noch in Bearbeitung
+      days_open_but_not_accepted: n Tage offen, aber nicht akzeptiert
       editorial: Redaktion
-      ideas_days_open_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
+      days_open_ideas_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
       level: Stufe
       new_editorial_notification: Neue redaktionelle Benachrichtigung
-      reviewed_but_not_accepted: nicht mehr offen, aber nicht akzeptiert
-      unsolvable_without_status_note: nicht lösbar, aber ohne öffentliche Statusinformation
-      without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
+      reviewed_but_not_accepted: Nicht mehr offen, aber nicht akzeptiert
+      unsolvable_without_status_note: Nicht lösbar, aber ohne öffentliche Statusinformation
+      without_editorial_approval: Nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
     group:
       kind:
@@ -330,6 +330,18 @@ de:
       headline: Sie können hier die Daten des aktuellen Vorgangs als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
       send_data:
         headline: Welche Daten sollen mitgesendet werden?
+  issue_mailer:
+    open_ideas_without_minimum_supporters:
+      problem: >-
+        Folgende Ideen mit dem Status "%{status}" haben ihre Erstsichtung seit mindestens %{days} Tagen hinter sich,
+        weisen aber bisher noch nicht die notwendige Anzahl von %{votes} Unterstützungen auf.
+      hint: >-
+        Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status "%{status}" und
+        geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels der öffentlichen Statusinformation:
+    without_editorial_approval:
+      hint: >-
+        Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
+        redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
   issues:
     index:
       assign_jobs: Zuordnung für den Außendienst

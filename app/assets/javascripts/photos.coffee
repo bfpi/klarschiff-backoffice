@@ -1,4 +1,3 @@
-
 KS.photoCurrStackItem
 KS.photoIndex = 0
 KS.photoIsMouseDown = false

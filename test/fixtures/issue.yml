@@ -1,23 +1,89 @@
 DEFAULTS: &DEFAULTS
-  address: MyText
+  address: $LABEL
   archived_at:
-  author: author@example.com
+  author: test@rostock.de
   category: one
   confirmation_hash: $LABEL
   delegation:
   description: MyText $LABEL
   description_status: external
-  group: one
+  group: internal
   job: $LABEL
   parcel: MyText
   photo_requested: false
-  position: POINT (12.122439338030057 54.09104309547743)
+  position: POINT(12.104630572065371 54.07595060029302)
   priority: middle
   property_owner: MyText
+  responsibility_accepted: true
   reviewed_at: 2020-10-19 14:44:11
-  status_note: MyText
-  status: received
+  status: pending
+  status_note: status note $LABEL
   trust_level: internal
+
+received:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
+
+received_not_accepted:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  responsibility_accepted: false
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
+
+received_not_released:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
+
+reviewed:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: reviewed
+
+in_process:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: in_process
+
+closed:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 4.days - 2.hours %>
+  reviewed_at: <%= Time.current - 4.days - 1.hour %>
+  status: closed
+
+not_solvable_no_status_note:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 4.days - 2.hours %>
+  reviewed_at: <%= Time.current - 4.days - 1.hour %>
+  status: not_solvable
+  status_note:
+
+not_supported:
+  <<: *DEFAULTS
+  category: two
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
+
+not_confirmed:
+  <<: *DEFAULTS
+  confirmation_hash:
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
+
+delegated:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  delegation: external
+  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  status: received
 
 one:
   <<: *DEFAULTS
@@ -36,7 +102,6 @@ already_confirmed:
 unconfirmed:
   <<: *DEFAULTS
   confirmation_hash: 5487366c-2894-48e6-9d52-965185f052a3
-  status: pending
 
 in_process:
   <<: *DEFAULTS

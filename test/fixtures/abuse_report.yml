@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 DEFAULTS: &DEFAULTS
+  author: test@example.com
   issue: $LABEL
   message: MyText $LABEL
-  author: test@example.com
   resolved_at: 2020-10-19 14:42:01
 
 one:
@@ -14,15 +14,22 @@ two:
 
 already_confirmed:
   <<: *DEFAULTS
-  issue: one
   confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b8898b0
   confirmed_at: 2020-10-19 14:42:01
+  issue: one
 
 unconfirmed:
   <<: *DEFAULTS
-  issue: one
   confirmation_hash: 1cfb8eea-586d-4289-9072-d2e2c9d5bfe1
-  confirmed_at: 
+  confirmed_at:
+  issue: one
 
 undeleteable_abuse_report:
   <<: *DEFAULTS
+
+not_confirmed:
+  <<: *DEFAULTS
+  author: test@rostock.de
+  confirmation_hash:
+  created_at: <%= Time.current - 1.day - 1.hour %>
+  message: Test

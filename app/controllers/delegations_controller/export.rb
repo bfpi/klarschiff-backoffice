@@ -9,12 +9,12 @@ class DelegationsController
 
     private
 
-    def xlsx_export
+    def xlsx_export(issues)
       wb = RubyXL::Workbook.new
       sheet = wb[0]
       xlsx_header sheet
       column_widths sheet
-      xlsx_content sheet
+      xlsx_content sheet, issues
       send_data wb.stream.read, filename: "#{Issue.model_name.human(count: 2)}.xlsx", disposition: 'attachment'
     end
 
@@ -50,8 +50,8 @@ class DelegationsController
       end
     end
 
-    def xlsx_content(worksheet)
-      @issues.each_with_index do |issue, idx|
+    def xlsx_content(worksheet, issues)
+      issues.each_with_index do |issue, idx|
         write_content_row worksheet, issue, idx + 1
       end
     end

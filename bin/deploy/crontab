@@ -1,2 +1,11 @@
 
 0  02   *   *   *   rails     rails runner CalculateAverageTurnaroundTimeJob.perform_now
+0  32   *   *   *   rails     rails runner DeleteUnconfirmedIssuesJob.perform_now
+0  37   *   *   *   rails     rails runner DeleteUnconfirmedSupportersJob.perform_now
+0  42   *   *   *   rails     rails runner DeleteUnconfirmedAbusesJob.perform_now
+0  47   *   *   *   rails     rails runner DeleteUnconfirmedPhotosJob.perform_now
+0  40  00   *   *   rails     rails runner ArchiveClosedIssuesJob.perform_now
+0  40  01   *   *   rails     rails runner InformEditorialStaffOnIssuesJob.perform_now
+0  00  07   *   *   rails     rails runner InformOnDelegatedIssuesJob.perform_now
+0  05  10   *   *   rails     rails runner NotifyOnIssuesInProcessJob.perform_now
+0  10  10   *   *   rails     rails runner NotifyOnClosedIssuesJob.perform_now

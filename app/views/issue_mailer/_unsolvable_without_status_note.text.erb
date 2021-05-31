@@ -1,0 +1,7 @@
+Folgende Vorgänge mit dem Status "<%= Issue.human_enum_name :status, :not_solvable %>" weisen bisher keine öffentliche Statusinformation auf. Bitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation:
+
+Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Status "<%= Issue.human_enum_name :status, :not_solvable %>" seit
+******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>**************************
+<% issues.each do |issue| -%>
+<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind), l(issue.status_since)].join("\t") %>
+<% end -%>

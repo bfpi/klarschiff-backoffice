@@ -7,5 +7,6 @@ one:
   <<: *DEFAULTS
 
 two:
+  kind: idea
   <<: *DEFAULTS
   kind: idea

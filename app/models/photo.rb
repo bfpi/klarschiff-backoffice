@@ -14,7 +14,7 @@ class Photo < ApplicationRecord
   has_one_attached :file
 
   attr_reader :censor_rectangles
-  attr_accessor :censor_width, :censor_height
+  attr_accessor :censor_width, :censor_height, :skip_email_notification
 
   validates :file, attached: true, content_type: 'image/jpeg', on: :create
 

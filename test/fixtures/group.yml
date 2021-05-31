@@ -15,7 +15,13 @@ two:
 external:
   <<: *DEFAULTS
   kind: external
+  main_user: two
+  users: two
 
-field_service: 
+field_service:
   <<: *DEFAULTS
   kind: field_service_team
+
+internal:
+  <<: *DEFAULTS
+  users: one
