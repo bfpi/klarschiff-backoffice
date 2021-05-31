@@ -40,7 +40,7 @@ de:
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
-        repetition: Wiederholung
+        repetition: Wiederholung alle n Tage
       feedback:
         recipient: Empfänger
       group:
