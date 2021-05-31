@@ -16,7 +16,7 @@ module Citysdk
     end
 
     def author=(value)
-      self.user = User.find_by(email: value)
+      self.user = User.active.find_by(email: value)
     end
   end
 end
