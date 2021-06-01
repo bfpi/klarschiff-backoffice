@@ -1,0 +1,32 @@
+DEFAULTS: &DEFAULTS
+  filename: test.jpg
+  content_type: 'image/jpg'
+  metadata: nil
+  byte_size: 2000
+  checksum: "123456789012345678901234"
+  created_at: <%= Time.current - 5.days %>
+
+one:
+  <<: *DEFAULTS
+  id: <%= ActiveRecord::FixtureSet.identify :one %>
+  key: <%= ActiveRecord::FixtureSet.identify :one %>
+
+two:
+  <<: *DEFAULTS
+  id: <%= ActiveRecord::FixtureSet.identify :two %>
+  key: <%= ActiveRecord::FixtureSet.identify :two %>
+
+already_confirmed:
+  <<: *DEFAULTS
+  id: <%= ActiveRecord::FixtureSet.identify :already_confirmed %>
+  key: <%= ActiveRecord::FixtureSet.identify :already_confirmed %>
+
+unconfirmed:
+  <<: *DEFAULTS
+  id: <%= ActiveRecord::FixtureSet.identify :unconfirmed %>
+  key: <%= ActiveRecord::FixtureSet.identify :unconfirmed %>
+
+not_confirmed:
+  <<: *DEFAULTS
+  id: <%= ActiveRecord::FixtureSet.identify :not_confirmed %>
+  key: <%= ActiveRecord::FixtureSet.identify :not_confirmed %>

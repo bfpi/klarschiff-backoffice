@@ -4,11 +4,12 @@ class Job < ApplicationRecord
   include Logging
 
   enum status: { unchecked: 0, checked: 1, not_checkable: 2 }, _prefix: true
+  enum citysdk_status: { unchecked: 'UNCHECKED', checked: 'CHECKED', not_checkable: 'NOT_CHECKABLE' }
 
   has_one :issue, dependent: :nullify
   belongs_to :group, -> { where(kind: :field_service_team) }, inverse_of: :jobs
 
-  validates :status, presence: true
+  validates :status, :date, presence: true
 
   before_validation :set_order, on: :create
 

@@ -1,6 +1,6 @@
 DEFAULTS: &DEFAULTS
   email: $LABEL@example.com
-  kind: external
+  kind: internal
   main_user: one
   name: Group $LABEL
   reference_id: <%= ActiveRecord::FixtureSet.identify :one %>
@@ -12,10 +12,16 @@ one:
 two:
   <<: *DEFAULTS
 
-internal:
-  main_user: one
-  users: one
-
 external:
+  <<: *DEFAULTS
+  kind: external
   main_user: two
   users: two
+
+field_service:
+  <<: *DEFAULTS
+  kind: field_service_team
+
+internal:
+  <<: *DEFAULTS
+  users: one

@@ -52,7 +52,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
       dvg:#{xml_key}/dvg:geometry/gml:MultiSurface/gml:surfaceMember/gml:Polygon/gml:exterior/gml:LinearRing/gml:posList/text()
     XPATH
     polygons = feature.xpath(condition).map do |polygon|
-      tmp = polygon.to_s.strip.split.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
+      tmp = polygon.to_s.strip.split.reverse.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
       "(#{tmp.join[0...-1]})"
     end
 

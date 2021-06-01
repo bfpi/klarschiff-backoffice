@@ -37,6 +37,18 @@ class Geocodr
       request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new p }
     end
 
+    def find(address)
+      request_features(address, config.places_search_class, type: :search, out_epsg: 4326)
+    end
+
+    def valid?(address)
+      return unless address =~ /(\d{5})/
+      attr = { zip: Regexp.last_match(1) }
+      address.delete! Regexp.last_match(1), ','
+      return unless address =~ /([a-zA-Zß .]*)\s(\d*)([a-zA-Z ]*)/
+      attr.merge street: Regexp.last_match(1), no: Regexp.last_match(2), no_addition: Regexp.last_match(3)
+    end
+
     private
 
     def format_address(feature)
@@ -51,24 +63,18 @@ class Geocodr
       request_features(issue, search_class).map { |f| f['properties'] }.sort_by { |a| a['entfernung'] }
     end
 
-    def request_features(issue, search_class, type: :reverse, shape: nil)
+    def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
       uri = URI.parse(config.url)
       query = issue
       query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position)
-      uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape))
+      uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape, out_epsg))
       request_and_parse_features uri
     end
 
-    def request_feature_params(query, type, search_class, shape)
-      uri_params = {
-        key: config.api_key,
-        query: query,
-        type: type,
-        class: search_class,
-        in_epsg: 4326,
-        limit: 5
-      }
+    def request_feature_params(query, type, search_class, shape, out_epsg)
+      uri_params = { key: config.api_key, query: query, type: type, class: search_class, in_epsg: 4326, limit: 5 }
       uri_params[:shape] = shape if shape.present?
+      uri_params[:out_epsg] = out_epsg if out_epsg.present?
       uri_params
     end
 

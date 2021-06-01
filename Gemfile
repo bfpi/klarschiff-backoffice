@@ -53,6 +53,7 @@ group :test do
 end
 
 gem 'activerecord-postgis-adapter'
+gem 'active_storage_validations'
 gem 'bootstrap'
 gem 'bootstrap-datepicker-rails'
 gem 'coffee-rails'

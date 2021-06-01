@@ -9,3 +9,4 @@ one:
 two:
   kind: idea
   <<: *DEFAULTS
+  kind: idea
