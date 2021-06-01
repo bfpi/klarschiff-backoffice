@@ -13,8 +13,7 @@ module UserAuthorization
     when :administration then administration_permitted?
     when :jobs then groups.any?(&:kind_field_service_team?)
     when :manage_delegations then delegations_permitted?
-    when :edit_delegation then delegation_permitted?(object)
-    when :edit_issue then issue_permitted?(object)
+    when :edit_delegation, :edit_issue then edit_permitted?(action, object)
     else
       static_permitted_to? action
     end
@@ -25,8 +24,17 @@ module UserAuthorization
       .any? { |permission| authorized? permission }
   end
 
+  def edit_permitted?(action, object)
+    case action
+    when :edit_delegation then delegation_permitted?(object)
+    when :edit_issue then issue_permitted?(object)
+    else
+      static_permitted_to? action
+    end
+  end
+
   def issue_permitted?(issue)
-    static_permtted_to?(:manage_issues) || auth_code&.issue_id == issue.id
+    static_permitted_to?(:manage_issues) || auth_code&.issue_id == issue.id
   end
 
   def delegations_permitted?

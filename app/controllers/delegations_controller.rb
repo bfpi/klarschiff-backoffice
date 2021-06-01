@@ -3,7 +3,7 @@
 class DelegationsController < ApplicationController
   include DelegationsController::Export
 
-  before_action -> { check_auth :manage_delegations }, except: %i[show update]
+  before_action -> { check_auth :manage_delegations }, except: %i[show edit update]
   before_action :set_status, :set_tab
 
   def index
@@ -22,6 +22,7 @@ class DelegationsController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
+    check_auth(:edit_delegation, Issue.find(params[:id]))
   end
 
   def update

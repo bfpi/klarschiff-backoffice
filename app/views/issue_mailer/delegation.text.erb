@@ -5,7 +5,8 @@ innerhalb der letzten <%= JobSettings::Issue.delegation_deadline %> Stunden wurd
 Daten der neuen delegierten Vorgänge
 ************************************
 <% @issues.each do |issue| -%>
-<% url = @with_auth_code ? edit_delegation_url(issue, auth_code: AuthCode.find_by(issue: issue, group: issue.delegation)) : edit_delegation_url(issue) -%>
+<% auth_code = AuthCode.find_by(issue: issue, group: issue.delegation).uuid if @with_auth_code -%>
+<% url = @with_auth_code ? delegation_url(issue, auth_code: auth_code) : delegation_url(issue) -%>
 <%= render partial: 'issue', object: issue, locals: { issue_link: url } -%>
 ************************************
 <% end -%>

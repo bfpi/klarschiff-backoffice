@@ -47,6 +47,10 @@ module Authorization
   def init_current_user_with_auth_code
     return redirect_to new_logins_path unless session[:auth_code]
     reset_session_user
+    temp_user_with_auth_code
+  end
+
+  def temp_user_with_auth_code
     Current.user = User.new login: session[:auth_code]
     Current.login = session[:auth_code]
     Current.user.auth_code = AuthCode.find_by uuid: session[:auth_code]

@@ -17,7 +17,7 @@ class InformOnDelegatedIssuesJob < ApplicationJob
 
   def recipients(group, issues)
     return group.users.pluck(:email) if group.users.any?
-    issues.find_each { |issue| AuthCode.find_or_create_by(group: group, issue: issue) }
+    issues.each { |issue| AuthCode.find_or_create_by(group: group, issue: issue) }
     group.email
   end
 

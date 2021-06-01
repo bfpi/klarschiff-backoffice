@@ -36,7 +36,7 @@ module Logging
   end
 
   def log_create
-    log_entries.create table: model_name.element, action: Logging.action_text(:create), user: Current.user&.id,
+    log_entries.create table: model_name.element, action: Logging.action_text(:create), user_id: Current.user&.id,
                        auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
                        issue_id: Logging.issue_id(self)
   end
