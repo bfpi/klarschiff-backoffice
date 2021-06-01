@@ -12,7 +12,7 @@ module ResponsibilitiesHelper
   def groups_options(resp_or_category)
     category_id = resp_or_category.is_a?(Responsibility) ? resp_or_category.category_id : resp_or_category
     return [] if category_id.blank?
-    groups = Group.includes(:responsibilities).references(:responsibilities).where(
+    groups = Group.authorized.includes(:responsibilities).references(:responsibilities).where(
       responsibility_cond(category_id)
     ).collect { |gr| [gr.name, gr.id] }
     return groups_options_with_selected(resp_or_category, groups) if resp_or_category.is_a?(Responsibility)
