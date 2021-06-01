@@ -11,7 +11,7 @@ class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
       IssueMailer, :delegation,
       args: [
         {
-          to: group(:external).users.pluck(:email), issues: Issue.where(id: issue(:delegated).id), with_auth_code: false
+          to: group(:external).users.pluck(:email), issues: Issue.where(id: issue(:delegated).id), auth_codes: nil
         }
       ]
     )

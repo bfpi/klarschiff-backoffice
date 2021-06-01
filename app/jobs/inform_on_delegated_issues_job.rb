@@ -7,18 +7,19 @@ class InformOnDelegatedIssuesJob < ApplicationJob
     time = Time.current
     delegated_issues(time - JobSettings::Issue.delegation_deadline.hours)
       .group_by(&:delegation).each do |delegation, issues|
+      recipients, auth_codes = recipients_and_auth_codes(delegation, issues)
       IssueMailer.delegation(
-        to: recipients(delegation, issues), issues: issues, with_auth_code: delegation.users.none?
+        to: recipients, issues: issues, auth_codes: auth_codes
       ).deliver_later
     end
   end
 
   private
 
-  def recipients(group, issues)
-    return group.users.pluck(:email) if group.users.any?
-    issues.each { |issue| AuthCode.find_or_create_by(group: group, issue: issue) }
-    group.email
+  def recipients_and_auth_codes(group, issues)
+    return [group.users.pluck(:email)] if group.users.exists?
+    return [group.main_user.email] if group.main_user
+    [group.email, issues.map { |issue| AuthCode.find_or_create_by(group: group, issue: issue) }]
   end
 
   def delegated_issues(time)
