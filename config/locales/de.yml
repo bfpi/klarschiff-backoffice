@@ -119,6 +119,7 @@ de:
       supporter:
         confirmation_hash: ''
     errors:
+      authorization_error: Sie haben nicht die nötigen Rechte für diese Aktion!
       models:
         issue:
           attributes:
