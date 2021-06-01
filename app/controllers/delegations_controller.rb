@@ -3,10 +3,10 @@
 class DelegationsController < ApplicationController
   include DelegationsController::Export
 
-  before_action -> { check_auth :manage_delegations }, except: %i[show edit update]
   before_action :set_status, :set_tab
 
   def index
+    check_auth :manage_delegations
     respond_to do |format|
       format.html { html_response }
       format.xlsx { xlsx_export issues }
@@ -14,7 +14,7 @@ class DelegationsController < ApplicationController
   end
 
   def show
-    check_auth(:edit_delegation, Issue.find(params[:id]))
+    check_auth :edit_delegation, Issue.find(params[:id])
     @edit_delegation_url = edit_delegation_url(params[:id])
     @issues = paginate(issues)
     render :index
@@ -22,12 +22,12 @@ class DelegationsController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
-    check_auth(:edit_delegation, Issue.find(params[:id]))
+    check_auth :edit_delegation, @issue
   end
 
   def update
     @issue = Issue.find(params[:id])
-    check_auth(:edit_delegation, @issue)
+    check_auth :edit_delegation, @issue
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
       redirect_to delegations_url(filter_status: @status)
