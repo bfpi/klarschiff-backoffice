@@ -65,8 +65,8 @@
 <% if @edit_delegation_url -%>
   <script defer="true">
     $(function() {
-      window.history.replaceState(null, null, '<%= delegations_path(filter_status: @status).to_json %>');
-      $.ajax({ url: '<%= @edit_delegation_url.to_json %>' });
+      window.history.replaceState(null, null, <%= raw delegations_path(filter_status: @status).to_json %>);
+      $.ajax({ url: <%= raw @edit_delegation_url.to_json %> });
     });
   </script>
 <% end -%>
