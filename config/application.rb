@@ -32,6 +32,8 @@ module KlarschiffBackoffice
     # the framework and any gems in your application.
     config.active_record.pluralize_table_names = false
 
+    config.action_mailer.show_previews = true
+
     config.assets.precompile += %w[ol.css]
 
     config.generators do |g|
