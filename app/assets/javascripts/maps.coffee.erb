@@ -87,6 +87,7 @@ KS.initializeMaps = ->
         zoom: zoom
       )
     )
+    KS.setFeatureCoordinatesToInput(feature)
 
     interaction = new ol.interaction.Translate(
       features: new ol.Collection([feature])
