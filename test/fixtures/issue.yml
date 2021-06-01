@@ -16,7 +16,7 @@ DEFAULTS: &DEFAULTS
   property_owner: MyText
   responsibility_accepted: true
   reviewed_at: 2020-10-19 14:44:11
-  status: pending
+  status: received
   status_note: status note $LABEL
   trust_level: internal
 
@@ -102,6 +102,7 @@ already_confirmed:
 unconfirmed:
   <<: *DEFAULTS
   confirmation_hash: 5487366c-2894-48e6-9d52-965185f052a3
+  status: pending
 
 in_process:
   <<: *DEFAULTS
