@@ -11,6 +11,7 @@ class DistrictsController < ApplicationController
   end
 
   private
+
   def filter_name_columns
     %i[name]
   end
