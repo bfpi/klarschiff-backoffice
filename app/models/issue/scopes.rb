@@ -14,24 +14,9 @@ class Issue
       def authorized(user = Current.user)
         return all if user&.role_admin?
         authorized_group_ids = authorized_group_ids(user)
-        where(authorized_area_issue_ids(authorized_group_ids))
+        authorized_by_areas_for(authorized_group_ids)
           .where(Issue.arel_table[:group_id].in(authorized_group_ids)
             .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
-      end
-
-      def authorized_group_ids(user = Current.user)
-        return user.group_ids unless user&.role_regional_admin?
-        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
-      end
-
-      def authorized_area_issue_ids(group_ids)
-        groups = Group.where(id: group_ids)
-        'ST_Within(position, '\
-          "(SELECT ST_Multi(ST_CollectionExtract(st_polygonize(ST_Boundary(cou.area)), 3)) FROM #{
-            County.table_name} cou where cou.id in (#{groups.map(&:reference_id).join(',')}))) OR "\
-            'ST_Within(position, (SELECT ST_Multi(ST_CollectionExtract(st_polygonize('\
-            "ST_Boundary(aut.area)), 3)) FROM #{Authority.table_name} aut where aut.id in (#{
-            groups.map(&:reference_id).join(',')})))"
       end
 
       def by_kind(kind)
@@ -50,6 +35,29 @@ class Issue
 
       def ideas_with_min_supporters
         by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
+      end
+
+      private
+
+      def authorized_group_ids(user = Current.user)
+        return user.group_ids unless user&.role_regional_admin?
+        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+      end
+
+      def authorized_by_areas_for(group_ids)
+        reference_ids = Group.where(id: group_ids).pluck(:reference_id)
+        return none if reference_ids.blank?
+        where <<~SQL.squish, reference_ids, reference_ids
+          ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{County.quoted_table_name}
+            WHERE "id" IN (?)
+          ) OR ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{Authority.quoted_table_name}
+            WHERE "id" IN (?)
+          )
+        SQL
       end
     end
   end
