@@ -9,7 +9,7 @@ class DropCommunityTable < ActiveRecord::Migration[6.0]
     create_table :community do |t|
       t.text :regional_key
       t.text :name
-      t.multi_polygon :area
+      t.multi_polygon :area, srid: 4326
       t.references :authority, null: false, foreign_key: true
 
       t.timestamps
