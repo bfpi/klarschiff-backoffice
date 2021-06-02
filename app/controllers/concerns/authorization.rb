@@ -30,6 +30,10 @@ module Authorization
     return check_citysdk_authentication if controller_path.starts_with?('citysdk')
     return authenticate_with_auth_code if (session[:auth_code] || params[:auth_code]).present?
     login = init_current_login or return
+    authenticate_user login
+  end
+
+  def authenticate_user(login)
     if (Current.user = User.active.find_by(User.arel_table[:login].matches(login)))
       logger_current_user login
     else

@@ -391,6 +391,7 @@ de:
     logout: Logout
     administration: Administration
   no_result: Die Suche ergab kein Resultat
+  not_authorized: Sie haben nicht die nötigen Rechte für diese Aktion!
   pagetitle: Klarschiff-Backoffice
   record_not_found: Der Datensatz konnte nicht gefunden werden!
   responsibilities:

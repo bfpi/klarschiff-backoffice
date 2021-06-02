@@ -6,7 +6,7 @@ class DelegationsController < ApplicationController
   before_action :set_status, :set_tab
 
   def index
-    check_auth :manage_delegations
+    check_auth :delegations
     respond_to do |format|
       format.html { html_response }
       format.xlsx { xlsx_export issues }
@@ -39,10 +39,15 @@ class DelegationsController < ApplicationController
   private
 
   def issues
+    return auth_code_results if Current.user.auth_code
     issues = Issue.includes(category: %i[main_category sub_category]).not_archived.where.not(delegation_id: nil)
       .order(created_at: :desc)
     return issues.status_in_process if @status.zero?
     issues.where(status: %i[duplicate not_solvable closed])
+  end
+
+  def auth_code_results
+    Issue.where(id: Current.user.auth_code.issue_id)
   end
 
   def html_response

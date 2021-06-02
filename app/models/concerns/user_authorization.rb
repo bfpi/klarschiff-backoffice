@@ -11,9 +11,8 @@ module UserAuthorization
     return false unless active?
     case action
     when :administration then administration_permitted?
-    when :jobs then groups.any?(&:kind_field_service_team?)
-    when :manage_delegations then delegations_permitted?
-    when :edit_delegation, :edit_issue then edit_permitted?(action, object)
+    when :delegations, :issues, :jobs then index_permitted?(action)
+    when :create_issue, :edit_delegation, :edit_issue then edit_permitted?(action, object)
     else
       static_permitted_to? action
     end
@@ -24,45 +23,61 @@ module UserAuthorization
       .any? { |permission| authorized? permission }
   end
 
-  def edit_permitted?(action, object)
+  def index_permitted?(action)
     case action
-    when :edit_delegation then delegation_permitted?(object)
-    when :edit_issue then issue_permitted?(object)
-    else
-      static_permitted_to? action
+    when :delegations then delegations_permitted?
+    when :issues then issues_permitted?
+    when :jobs then groups.any?(&:kind_field_service_team?)
     end
   end
 
-  def issue_permitted?(issue)
-    static_permitted_to?(:manage_issues) || auth_code&.issue_id == issue.id
+  def edit_permitted?(action, object)
+    case action
+    when :create_issue then create_issue_permitted?
+    when :edit_delegation then edit_delegation_permitted?(object)
+    when :edit_issue then edit_issue_permitted?(object)
+    end
+  end
+
+  def issues_permitted?
+    static_permitted_to?(:issues) || groups.any?(&:kind_internal?) || auth_code&.group&.kind_internal?
+  end
+
+  def create_issue_permitted?
+    statis_permitted_to?(:issues) || groups.any?(&:kind_internal?)
+  end
+
+  def edit_issue_permitted?(issue)
+    static_permitted_to?(:issues) || auth_code&.issue_id == issue.id
   end
 
   def delegations_permitted?
-    static_permitted_to?(:manage_delegations) || groups.any?(&:external)
+    static_permitted_to?(:delegations) || groups.any?(&:kind_internal?) || auth_code&.group&.kind_external?
   end
 
-  def delegation_permitted?(issue)
-    static_permitted_to?(:manage_delegations) || auth_code&.issue_id == issue.id
+  def edit_delegation_permitted?(issue)
+    static_permitted_to?(:delegations) || auth_code&.issue_id == issue.id
   end
 
   def static_permitted_to?(action)
-    static_permissions.include? action
+    id.present? && static_permissions.include?(action)
   end
 
   STATIC_PERMISSIONS = {
     change_user: %i[admin],
+    delegations: %i[admin regional_admin],
+    issues: %i[admin regional_admin],
     list_log_entries: %i[admin regional_admin],
-    manage_delegations: %i[admin regional_admin],
     manage_editorial_notifications: %i[admin regional_admin],
     manage_feedbacks: %i[admin regional_admin],
     manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
-    manage_issues: %i[admin regional_admin],
     manage_mail_blacklist: %i[admin regional_admin],
     manage_mail_templates: %i[admin],
     manage_responsibilities: %i[admin regional_admin],
     manage_users: %i[admin regional_admin],
-    test: %i[admin]
+    test: %i[admin],
+    view_dashboard: %i[admin regional_admin editor]
   }.freeze
 
   class NotAuthorized < StandardError

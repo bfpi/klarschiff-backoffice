@@ -6,6 +6,7 @@ class IssuesController < ApplicationController
   before_action :set_tab
 
   def index
+    check_auth(:issues)
     respond_to do |format|
       format.json { render json: Issue.where(id: params[:ids]).to_json }
       format.js { js_response }
@@ -41,6 +42,7 @@ class IssuesController < ApplicationController
   end
 
   def create
+    check_auth(:create_issue)
     @issue = Issue.new(issue_params.merge(status: :received))
     if @issue.save
       return redirect_to action: :index if params[:save_and_close].present?
@@ -82,7 +84,12 @@ class IssuesController < ApplicationController
   def results
     @extended_filter = params[:extended_filter] == 'true'
     @status = (params[:status] || 0).to_i
+    return auth_code_results if Current.user.auth_code
     IssueFilter.new(params).collection
+  end
+
+  def auth_code_results
+    Issue.where(id: Current.user.auth_code.issue_id)
   end
 
   def feedbacks(issue)
