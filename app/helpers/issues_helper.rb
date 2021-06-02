@@ -31,30 +31,21 @@ module IssuesHelper
 
   def responsibilities(issue = nil)
     groups = Group.kind_internal
-    groups = groups.where(id: possible_issue_group_ids(issue)) if issue.present?
+    groups = groups.where(id: possible_group_ids(issue)) if issue.present?
     [[t('issues.extended_filter.my_responsibility'), 0]] +
       groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def delegations(issue = nil)
     groups = Group.kind_external
-    groups = groups.where(id: possible_issue_group_ids(issue)) if issue.present?
+    groups = groups.where(id: possible_group_ids(issue)) if issue.present?
     groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def field_service_teams(issue = nil)
     groups = Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
-    groups = groups.where(id: possible_issue_group_ids(issue)) if issue.present?
+    groups = groups.where(id: possible_group_ids(issue)) if issue.present?
     groups.order(:name).map { |gr| [gr.to_s, gr.id] }
-  end
-
-  def possible_issue_group_ids(issue)
-    (
-      Authority.where('ST_WITHIN(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), area)',
-        long: issue.position.x, lat: issue.position.y).map(&:groups) +
-      County.where('ST_WITHIN(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), area)',
-        long: issue.position.x, lat: issue.position.y).map(&:groups)
-    ).flatten.map(&:id)
   end
 
   def kinds
@@ -100,6 +91,12 @@ module IssuesHelper
   end
 
   def status_note_templates
-    (Config.for :status_note_template, env: nil).select { |_k, v| v.present? }
+    Config.for(:status_note_template, env: nil).select { |_k, v| v.present? }
+  end
+
+  def possible_group_ids(issue)
+    cond = 'ST_WITHIN(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), "area")'
+    values = { long: issue.position.x, lat: issue.position.y }
+    AuthorityGroup.joins(:authority).where(cond, values).ids | CountyGroup.joins(:county).where(cond, values).ids
   end
 end
