@@ -11,6 +11,13 @@ class Issue
     end
 
     class_methods do
+      def authorized(user = Current.user)
+        return all if user&.role_admin?
+        authorized_group_ids = user.group_ids
+        where Issue.arel_table[:group_id].in(authorized_group_ids)
+          .or(Issue.arel_table[:delegation_id].in(authorized_group_ids))
+      end
+
       def by_kind(kind)
         includes(category: :main_category).where(main_category: { kind: kind })
       end

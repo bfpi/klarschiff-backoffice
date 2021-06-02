@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action { check_auth :manage_groups }
 
   def index
-    groups = filter(Group.all).order(:short_name)
+    groups = filter(Group.authorized).order(:short_name)
 
     respond_to do |format|
       format.html { @groups = groups.page(params[:page] || 1).per(params[:per_page] || 20) }
@@ -18,7 +18,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.new
+    @group = InstanceGroup.new
   end
 
   def update
@@ -46,7 +46,8 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:active, :name, :short_name, :kind, :email, :main_user_id, user_ids: [])
+    params.require(:group).permit(:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_id,
+      user_ids: [])
   end
 
   def filter_name_columns

@@ -24,6 +24,16 @@ class Group < ApplicationRecord
 
   scope :active, -> { where active: true }
 
+  def self.authorized(user = Current.user)
+    if user&.role_admin?
+      active
+    elsif user&.role_regional_admin?
+      where id: user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+    else
+      none
+    end
+  end
+
   def to_s
     short_name || name
   end

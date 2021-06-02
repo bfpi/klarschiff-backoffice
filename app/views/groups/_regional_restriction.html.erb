@@ -1,0 +1,7 @@
+<div class="row">
+  <%= label_tag :group_reference_id, reference_label(type), class: 'col-md-4 col-form-label' %>
+  <div class="col-md-8">
+    <%= select_tag 'group[reference_id]', options_from_collection_for_select(references(type), :id, :to_s, select),
+          include_blank: true, class: 'form-control' %>
+  </div>
+</div>

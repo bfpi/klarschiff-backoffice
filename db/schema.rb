@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_082704) do
+ActiveRecord::Schema.define(version: 2021_05_25_130235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,16 +91,6 @@ ActiveRecord::Schema.define(version: 2021_05_21_082704) do
     t.index ["user_id"], name: "index_comment_on_user_id"
   end
 
-  create_table "community", force: :cascade do |t|
-    t.text "regional_key"
-    t.text "name"
-    t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.bigint "authority_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["authority_id"], name: "index_community_on_authority_id"
-  end
-
   create_table "county", force: :cascade do |t|
     t.text "regional_key"
     t.text "name"
@@ -112,10 +102,11 @@ ActiveRecord::Schema.define(version: 2021_05_21_082704) do
   create_table "district", force: :cascade do |t|
     t.text "name"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.bigint "community_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["community_id"], name: "index_district_on_community_id"
+    t.text "regional_key"
+    t.bigint "authority_id", default: 1, null: false
+    t.index ["authority_id"], name: "index_district_on_authority_id"
   end
 
   create_table "district_user", id: false, force: :cascade do |t|
@@ -322,8 +313,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_082704) do
   add_foreign_key "authority", "county"
   add_foreign_key "comment", "\"user\"", column: "user_id"
   add_foreign_key "comment", "issue"
-  add_foreign_key "community", "authority"
-  add_foreign_key "district", "community"
+  add_foreign_key "district", "authority"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
   add_foreign_key "feedback", "issue"
   add_foreign_key "issue", "\"group\"", column: "delegation_id"
