@@ -1,13 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  group: one
-  status: 1
+DEFAULTS: &DEFAULTS
+  group: field_service
+  status: unchecked
   order: 1
-  date: 2020-10-19
+  date: <%= Time.zone.today %>
+
+one:
+  <<: *DEFAULTS
 
 two:
-  group: two
-  status: 1
-  order: 1
-  date: 2020-10-19
+  <<: *DEFAULTS
+  status: checked

@@ -43,9 +43,9 @@ module IssuesHelper
   end
 
   def field_service_teams(issue = nil)
-    groups = Group.kind_field_service_team
+    groups = Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
     groups = groups.where(id: possible_issue_group_ids(issue)) if issue.present?
-    groups.order(:name).map { |gr| [gr.name, gr.id] }
+    groups.order(:name).map { |gr| [gr.to_s, gr.id] }
   end
 
   def possible_issue_group_ids(issue)
@@ -86,10 +86,8 @@ module IssuesHelper
   end
 
   def external_map_url(issue)
-    format(
-      Settings::Geoportal.url, issue.lon_external, issue.lat_external,
-      Settings::Geoportal.scale, "Vorgang+#{issue.id}"
-    )
+    I18n.interpolate Settings::Geoportal.url, lon: issue.lon_external, lat: issue.lat_external,
+                                              scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
   private

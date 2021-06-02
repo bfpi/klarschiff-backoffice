@@ -1,6 +1,6 @@
 DEFAULTS: &DEFAULTS
   deleted: false
-  dms:
+  dms: dms
   name: Sub category $LABEL
 
 one:

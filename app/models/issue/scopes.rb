@@ -13,14 +13,14 @@ class Issue
     class_methods do # rubocop:disable Metrics/BlockLength
       def authorized(user = Current.user)
         return all if user&.role_admin?
-        authorized_group_ids = authorized_groups(user)
+        authorized_group_ids = authorized_group_ids(user)
         where(authorized_area_issue_ids(authorized_group_ids))
           .where(Issue.arel_table[:group_id].in(authorized_group_ids)
             .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
       end
 
-      def authorized_groups(user = Current.user)
-        return user.groups.map(&:id) unless user&.role_regional_admin?
+      def authorized_group_ids(user = Current.user)
+        return user.group_ids unless user&.role_regional_admin?
         user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
       end
 

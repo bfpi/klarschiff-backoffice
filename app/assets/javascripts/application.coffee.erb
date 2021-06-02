@@ -33,7 +33,7 @@ $ ->
 
   updateMultipleJobs = (params) ->
     $.ajax
-      url: '/jobs/update_multiple'
+      url: '<%= Rails.application.routes.url_helpers.jobs_path %>/update_multiple'
       data: params
       dataType: 'script'
       method: 'PUT'
@@ -41,7 +41,7 @@ $ ->
   $(document).on 'keypress', '#search-issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)
       $.get
-        url: "/issues/#{@.value}/edit"
+        url: "<%= Rails.application.routes.url_helpers.issues_path %>/#{@.value}/edit"
         method: 'GET'
         dataType: 'script'
     else
@@ -95,12 +95,12 @@ KS.initDatepicker = ->
   $(document).on 'click', '.show-map', ->
     if @.dataset.extendedFilter == 'true'
       $.get
-        url: '/issues?show_map=true&extended_filter=true'
+        url: '<%= Rails.application.routes.url_helpers.issues_path %>?show_map=true&extended_filter=true'
         method: 'GET'
         data: $('form#issues-filter').serialize()
         dataType: 'script'
     else
       $.get
-        url: "/issues?status=#{@.dataset.status}&show_map=true"
+        url: "<%= Rails.application.routes.url_helpers.issues_path %>?status=#{@.dataset.status}&show_map=true"
         method: 'GET'
         dataType: 'script'

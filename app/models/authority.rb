@@ -11,10 +11,9 @@ class Authority < ApplicationRecord
   validates :name, uniqueness: { scope: :county }
 
   def self.authorized(user = Current.user)
-    if user&.role_admin?
-      all
-    elsif user&.role_regional_admin?
-      where(id: user.groups.select(:reference_id).where(type: 'AuthorityGroup'))
+    return all if user&.role_admin?
+    if user&.role_regional_admin?
+      where id: user.groups.select(:reference_id).where(type: 'AuthorityGroup')
         .or(where(county: County.authorized(user).select(:id)))
     else
       none

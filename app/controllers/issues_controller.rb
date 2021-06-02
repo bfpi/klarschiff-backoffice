@@ -56,7 +56,8 @@ class IssuesController < ApplicationController
   end
 
   def issue_tabs
-    tabs = %i[master_data responsibility job]
+    tabs = %i[master_data responsibility]
+    tabs << :job if Current.user.authorized?(:jobs)
     tabs << :feedback if @issue.feedbacks.any?
     tabs + %i[comment abuse_report map photo log_entry]
   end
@@ -96,10 +97,20 @@ class IssuesController < ApplicationController
 
   def issue_params
     return {} if params[:issue].blank?
-    params.require(:issue).permit(:address, :archived, :author, :category_id, :delegation_id, :description,
-      :description_status, :expected_closure, :group_id, :job_date, :job_group_id, :new_photo, :parcel,
-      :photo_requested, :position, :priority, :property_owner, :responsibility_action, :status, :status_note,
-      photos_attributes: %i[id status censor_rectangles censor_width censor_height _modification _destroy])
+    params.require(:issue).permit(*permitted_attributes)
+  end
+
+  def permitted_attributes
+    attributes = [:address, :archived, :author, :category_id, :delegation_id, :description,
+                  :description_status, :expected_closure, :group_id, :new_photo, :parcel, :photo_requested,
+                  :position, :priority, :property_owner, :responsibility_action, :status, :status_note,
+                  { photos_attributes: permitted_photo_attributes }]
+    attributes += %i[job_date job_group_id] if Current.user.authorized?(:jobs)
+    attributes
+  end
+
+  def permitted_photo_attributes
+    %i[id status censor_rectangles censor_width censor_height _modification _destroy]
   end
 
   def set_tab

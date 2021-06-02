@@ -41,5 +41,34 @@ Rails.application.routes.draw do
   end
   resources :responsibilities
 
+  namespace :citysdk do
+    get 'coverage' => 'coverage#valid'
+    resources :areas, only: %i[index]
+    resources :discovery, only: %i[index]
+    resources :jobs, only: %i[index create update]
+    resources :observations, only: %i[create]
+    resources :requests, except: %i[destroy]
+    resources :services, only: %i[index show]
+    put 'requests/:confirmation_hash/confirm' => 'requests#confirm'
+    put 'requests/:confirmation_hash/revoke' => 'requests#destroy'
+
+    namespace :requests do
+      put 'abuses/:confirmation_hash/confirm' => 'abuses#confirm'
+      post 'abuses/:service_request_id' => 'abuses#create', as: :abuses
+
+      get   'comments/:service_request_id' => 'comments#index'
+      post  'comments/:service_request_id' => 'comments#create', as: :comments
+
+      put 'photos/:confirmation_hash/confirm' => 'photos#confirm'
+      post 'photos/:service_request_id' => 'photos#create', as: :photos
+
+      get   'notes/:service_request_id'    => 'notes#index'
+      post  'notes/:service_request_id'    => 'notes#create', as: :notes
+
+      put 'votes/:confirmation_hash/confirm' => 'votes#confirm'
+      post 'votes/:service_request_id' => 'votes#create', as: :votes
+    end
+  end
+
   root 'dashboards#show'
 end

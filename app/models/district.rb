@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 class District < ApplicationRecord
+  include Citysdk::Serialization
+
   belongs_to :authority
 
   validates :area, :name, :regional_key, presence: true
-  validates :name, uniqueness: { scope: :authority }
+  validates :name, uniqueness: { conditions: -> { where authority: authority } }
+
+  self.serialization_attributes = %i[id name grenze]
+
+  alias_attribute :grenze, :area
 
   def self.authorized(user = Current.user)
-    if user&.role_admin?
-      all
-    elsif user&.role_regional_admin?
-      where(authority: Authority.authorized(user).select(:id))
-    else
-      none
-    end
+    return all if user&.role_admin?
+    return none unless user&.role_regional_admin?
+    where authority: Authority.authorized(user).select(:id)
   end
 
   def to_s

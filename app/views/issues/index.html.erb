@@ -25,8 +25,8 @@
 <% if @edit_issue_url -%>
   <script defer="true">
     $(function() {
-      window.history.replaceState(null, null, '<%= issues_path.to_json %>');
-      $.ajax({ url: '<%= @edit_issue_url.to_json %>' });
+      window.history.replaceState(null, null, <%= raw issues_path.to_json %>);
+      $.ajax({ url: <%= raw @edit_issue_url.to_json %> });
     });
   </script>
 <% end -%>

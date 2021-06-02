@@ -21,5 +21,10 @@ linters:
         Enabled: false
       Lint/UselessAssignment:
         Enabled: false
+      Rails/OutputSafety:
+        Exclude:
+          - '**/app/views/delegations/index.html.erb'
+          - '**/app/views/issues/index.html.erb'
       Style/FrozenStringLiteralComment:
         Enabled: false
+

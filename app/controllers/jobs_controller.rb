@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class JobsController < ApplicationController
+  before_action { check_auth :jobs }
+
   def index
     return order_jobs if params[:job_ids]
     @date = params[:job_date] || l(Date.current + Settings::Job.lead_time.days)

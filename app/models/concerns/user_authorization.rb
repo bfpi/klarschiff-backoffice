@@ -11,7 +11,7 @@ module UserAuthorization
     return false unless active?
     case action
     when :administration then administration_permitted?
-    when :jobs then groups.any?(&:kind_field_service_team?)
+    when :jobs then field_service_teams.any?
     when :manage_delegations then delegation_permitted?
     else
       static_permitted_to? action
