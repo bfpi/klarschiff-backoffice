@@ -6,6 +6,13 @@ class DropCommunityTable < ActiveRecord::Migration[6.0]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration
+    create_table :community do |t|
+      t.text :regional_key
+      t.text :name
+      t.multi_polygon :area
+      t.references :authority, null: false, foreign_key: true
+
+      t.timestamps
+    end
   end
 end
