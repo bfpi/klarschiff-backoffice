@@ -25,16 +25,12 @@ de:
       abuse_report:
         resolved_at: Bearbeitungszeitpunkt
         message: Nachricht
-      authority:
-        county:  Landkreis
       category:
         average_turnaround_time: durchschnittliche Bearbeitungszeit
         deleted: gelöscht
         dms: DMS
         main_category: Hauptkategorie
         sub_category: Unterkategorie
-      district:
-        authority: Amt
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
@@ -210,8 +206,10 @@ de:
     active: Aktiv
     area: Fläche
     author: Autor
+    authority: Amt
     confirmation_hash: Bestätigungs-Hash
     confirmed_at: Bestätigungszeitpunkt
+    county: Landkreis
     created_at: Zeitstempel
     deleted: gelöscht
     file: Datei
