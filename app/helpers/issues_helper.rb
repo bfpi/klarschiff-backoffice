@@ -72,10 +72,8 @@ module IssuesHelper
   end
 
   def external_map_url(issue)
-    format(
-      Settings::Geoportal.url, issue.lon_external, issue.lat_external,
-      Settings::Geoportal.scale, "Vorgang+#{issue.id}"
-    )
+    I18n.interpolate Settings::Geoportal.url, lon: issue.lon_external, lat: issue.lat_external,
+      scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
   private
