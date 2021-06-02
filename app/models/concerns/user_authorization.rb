@@ -44,7 +44,7 @@ module UserAuthorization
   end
 
   def create_issue_permitted?
-    statis_permitted_to?(:issues) || groups.any?(&:kind_internal?)
+    static_permitted_to?(:issues) || groups.any?(&:kind_internal?)
   end
 
   def edit_issue_permitted?(issue)
