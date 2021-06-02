@@ -16,6 +16,14 @@ class Geocodr
       I18n.t 'geocodr.no_match'
     end
 
+    def address_dms(issue)
+      order_features(issue, config.address_search_class).select do |feature|
+        next if feature['objektgruppe'] != config.address_object_group
+        return feature
+      end
+      I18n.t 'geocodr.no_match'
+    end
+
     def parcel(issue)
       order_features(issue, config.parcel_search_class).map do |feature|
         next if feature['objektgruppe'] != config.parcel_object_group

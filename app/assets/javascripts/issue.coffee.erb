@@ -57,3 +57,16 @@ $ ->
       url: link.attr('href')
       type: 'PUT'
       data: link.parents('.card').find(':input')
+
+  $(document).on 'click', '#dms_link', (e) ->
+    console.log 'e', e
+    e.preventDefault()
+    open_url = ''
+    $.ajax
+      url: '<%= Rails.application.routes.url_helpers.dms_path %>'
+      type: 'GET'
+      data: { issue_id: $(e.target).data('id') }
+      async: false
+      success: (data) ->
+        open_url = data
+    window.open(open_url, '_blank')
