@@ -383,6 +383,8 @@ de:
       undo: zurück
     tab_rejection:
       reject: "Vorgang an %{group} zurückweisen"
+  jobs:
+    title: Außendienst Aufträge
   mail_blacklists:
     index:
       new_mail_blacklist: Neuer Eintrag

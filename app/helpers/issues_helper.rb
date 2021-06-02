@@ -39,7 +39,8 @@ module IssuesHelper
   end
 
   def field_service_teams
-    Group.kind_field_service_team.order(:name).map { |gr| [gr.name, gr.id] }
+    Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
+      .order(:name).map { |gr| [gr.to_s, gr.id] }
   end
 
   def kinds
