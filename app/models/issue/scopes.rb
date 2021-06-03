@@ -52,11 +52,11 @@ class Issue
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{County.quoted_table_name}
             WHERE "id" IN (?)
-          ) OR ST_Within("position", (
+          )) OR ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{Authority.quoted_table_name}
             WHERE "id" IN (?)
-          )
+          ))
         SQL
       end
     end
