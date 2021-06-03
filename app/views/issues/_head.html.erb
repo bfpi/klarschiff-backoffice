@@ -49,13 +49,13 @@
     </div>
   <% end -%>
   <div class="col text-right">
-    <%= link_to image_tag('mail-message-new'),
+    <%= link_to image_tag('mail-message-new.png'),
           new_issue_issue_email_path(issue), remote: true,
                                              title: 'Daten der Meldung als E-Mail versenden' %>
-    <%= link_to image_tag('mail-groupwise'),
+    <%= link_to image_tag('mail-groupwise.png'),
           issue_issue_email_path(issue), id: :issue_email_direct,
                                          title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
-    <%= link_to image_tag('printer'),
+    <%= link_to image_tag('printer.png'),
           issue_issue_exports_path(issue), target: :_blank, id: :issue_export,
                                            title: 'Daten der Meldung ausdrucken', rel: :noopener %>
   </div>
