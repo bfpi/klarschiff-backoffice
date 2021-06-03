@@ -79,12 +79,11 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
-      uri_options = ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE, proxy: URI.parse(config.proxy)
+      uri_options = { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE, proxy: URI.parse(config.proxy) }
       if (res = uri.open(uri_options)) && res.status.include?('OK')
         return JSON.parse(res.read).try(:[], 'features')
       end
       nil
     end
-
   end
 end
