@@ -10,6 +10,7 @@ development: &default
     places_search_class: address
     property_owner_object_group: Flurstückseigentümer
     property_owner_search_class: property_owner
+    proxy:
     url: https://geo.sv.rostock.de/geocodr/query?
   geoportal:
     name: Geoport.HRO
