@@ -34,7 +34,7 @@ class Geocodr
 
     def search_places(pattern)
       query = "#{Settings::Geocodr.try :localisator} #{pattern}".strip
-      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new p }
+      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new(p).as_json }
     end
 
     def find(address)
