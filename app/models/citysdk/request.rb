@@ -33,7 +33,7 @@ module Citysdk
     end
 
     def agency_responsible
-      group.to_s
+      group.name
     end
 
     def service_code
