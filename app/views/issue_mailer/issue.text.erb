@@ -1,12 +1,12 @@
 Sehr geehrte Damen und Herren,
 
-der folgende Vorgang wurde durch die/den <%= Settings::Instance.name %>-Nutzer/-in <%= Current.user %> an Sie weitergeleitet:
+die folgende Meldung wurde durch die/den <%= Settings::Instance.name %>-Nutzer/-in <%= Current.user %> an Sie weitergeleitet:
 
 Anmerkungen der/des Absenderin/Absenders
 ****************************************
 <%= @issue_email.text %>
 
-Daten des weitergeleiteten Vorgangs
+Daten der weitergeleiteten Meldung
 ***********************************
 <%= MainCategory.human_attribute_name(:kind) %>: <%= MainCategory.human_enum_name(:kind, @issue_email.issue.kind) %>
 <%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>

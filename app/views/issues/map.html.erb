@@ -1,0 +1,17 @@
+<div id="issues-map">
+  <div class="form-group row">
+    <div class="col-md-12">
+      <div id="map" class="map"
+           data-filter="<%= @filter.to_json %>"
+           data-extended-filter="<%= @extended_filter %>"
+           data-controller="issues">
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do -%>
+  <div class="float-right">
+    <%= link_to t(:back), issues_path(@filter.merge(extended_filter: @extended_filter)), class: 'btn btn-primary' %>
+  </div>
+<% end -%>

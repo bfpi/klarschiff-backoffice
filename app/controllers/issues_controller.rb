@@ -7,9 +7,9 @@ class IssuesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.json { render json: Issue.where(id: params[:ids]).to_json }
-      format.js { js_response }
-      format.html { @issues = paginate(results) }
+      format.json { render json: results.to_json }
+      format.js { @issues = paginate(results) }
+      format.html { html_response }
       format.xlsx { xlsx_response }
     end
   end
@@ -67,18 +67,22 @@ class IssuesController < ApplicationController
       .order created_at: :desc
   end
 
-  def xlsx_response
-    @issues = results
-    xlsx_export
+  def html_response
+    return @issues = paginate(results) unless params[:show_map] == 'true'
+    @filter = params.permit(*permitted_filter_attributes)
+    logger.info "TESTING #{@filter.inspect}"
+    @extended_filter = params[:extended_filter] == 'true'
+    render :map
   end
 
-  def js_response
+  def xlsx_response
     @issues = paginate(results)
-    return render(:map) if params[:show_map] == 'true'
+    xlsx_export
   end
 
   def results
     @extended_filter = params[:extended_filter] == 'true'
+    @filter = params.permit(*permitted_filter_attributes)
     @status = (params[:status] || 0).to_i
     IssueFilter.new(params).collection
   end
@@ -100,6 +104,11 @@ class IssuesController < ApplicationController
     params.require(:issue).permit(*permitted_attributes)
   end
 
+  def permitted_filter_attributes
+    [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
+     :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text]
+  end
+
   def permitted_attributes
     attributes = [:address, :archived, :author, :category_id, :delegation_id, :description,
                   :description_status, :expected_closure, :group_id, :new_photo, :parcel, :photo_requested,
@@ -115,13 +124,5 @@ class IssuesController < ApplicationController
 
   def set_tab
     @tab = params[:tab]&.to_sym || :master_data
-  end
-
-  def iat
-    Issue.arel_table
-  end
-
-  def cat
-    Category.arel_table
   end
 end
