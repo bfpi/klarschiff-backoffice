@@ -10,12 +10,13 @@ class Issue
       scope :status_solved, -> { where(status: %w[duplicate not_solvable closed]) }
     end
 
-    class_methods do
+    class_methods do # rubocop:disable Metrics/BlockLength
       def authorized(user = Current.user)
         return all if user&.role_admin?
-        authorized_group_ids = user.group_ids
-        where Issue.arel_table[:group_id].in(authorized_group_ids)
-          .or(Issue.arel_table[:delegation_id].in(authorized_group_ids))
+        authorized_group_ids = authorized_group_ids(user)
+        authorized_by_areas_for(authorized_group_ids)
+          .where(Issue.arel_table[:group_id].in(authorized_group_ids)
+            .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
       end
 
       def by_kind(kind)
@@ -34,6 +35,29 @@ class Issue
 
       def ideas_with_min_supporters
         by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
+      end
+
+      private
+
+      def authorized_group_ids(user = Current.user)
+        return user.group_ids unless user&.role_regional_admin?
+        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+      end
+
+      def authorized_by_areas_for(group_ids)
+        reference_ids = Group.where(id: group_ids).pluck(:reference_id)
+        return none if reference_ids.blank?
+        where <<~SQL.squish, reference_ids, reference_ids
+          ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{County.quoted_table_name}
+            WHERE "id" IN (?)
+          )) OR ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{Authority.quoted_table_name}
+            WHERE "id" IN (?)
+          ))
+        SQL
       end
     end
   end

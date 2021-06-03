@@ -14,6 +14,7 @@ class Authority < ApplicationRecord
     return all if user&.role_admin?
     if user&.role_regional_admin?
       where id: user.groups.select(:reference_id).where(type: 'AuthorityGroup')
+        .or(where(county: County.authorized(user).select(:id)))
     else
       none
     end

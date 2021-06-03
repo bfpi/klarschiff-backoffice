@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   end
 
   def edit
-    @issue = Issue.find(params[:id])
+    @issue = Issue.authorized.find(params[:id])
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     prepare_tabs
   end

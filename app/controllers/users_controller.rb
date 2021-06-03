@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email, :password,
-      :group_feedback_recipient, group_ids: [])
+      :group_feedback_recipient, district_ids: [], group_ids: [])
   end
 
   def filter_name_columns
