@@ -73,19 +73,19 @@ module Citysdk
     end
 
     def filter_start_date(params)
-      @collection = @collection.where(Issue.table_name[:created_at].gteq(DateTime.parse(params[:start_date])))
+      @collection = @collection.where(Issue.arel_table[:created_at].gteq(DateTime.parse(params[:start_date])))
     end
 
     def filter_end_date(params)
-      @collection = @collection.where(Issue.table_name[:created_at].lteq(DateTime.parse(params[:end_date])))
+      @collection = @collection.where(Issue.arel_table[:created_at].lteq(DateTime.parse(params[:end_date])))
     end
 
     def filter_updated_after(_params)
-      @collection = @collection.where(Issue.table_name[:updated_at].gteq(DateTime.parse(params[:updated_after])))
+      @collection = @collection.where(Issue.arel_table[:updated_at].gteq(DateTime.parse(params[:updated_after])))
     end
 
     def filter_updated_before(_params)
-      @collection = @collection.where(Issue.table_name[:updated_at].lteq(DateTime.parse(params[:updated_before])))
+      @collection = @collection.where(Issue.arel_table[:updated_at].lteq(DateTime.parse(params[:updated_before])))
     end
 
     def filter_agency_responsible(params)
