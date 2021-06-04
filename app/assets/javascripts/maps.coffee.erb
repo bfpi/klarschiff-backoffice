@@ -28,7 +28,6 @@ KS.initializeMaps = ->
     zoom = defaultZoom
     filter = elem.data('filter')
     extended_filter = elem.data('extended-filter')
-    console.log('filter: ', filter)
     feature = null
     featureVector = null
     if elem.data('lat') > 0 && elem.data('lon') > 0
@@ -167,7 +166,6 @@ class KS.FeatureVector
 class KS.FeatureData
   constructor: (filter, extended_filter, controller, vector) ->
     data = if extended_filter then filter else { status: filter['status'] }
-    console.log('DATA: ', data, extended_filter)
     $.ajax(
       url: KS.controllerUrl(controller)
       data: Object.assign(data, { extended_filter: extended_filter })

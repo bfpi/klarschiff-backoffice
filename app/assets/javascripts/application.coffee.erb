@@ -68,19 +68,6 @@ $ ->
     for id in ids
       $('form#job-assignment-form').append("<input type='hidden' name='issue_ids[]' value=#{id}>")
 
-  $(document).on 'click', '.show-map', ->
-    if @.dataset.extendedFilter == 'true'
-      $.get
-        url: '<%= Rails.application.routes.url_helpers.issues_path %>?show_map=true&extended_filter=true'
-        method: 'GET'
-        data: $('form#issues-filter').serialize()
-        dataType: 'script'
-    else
-      $.get
-        url: "<%= Rails.application.routes.url_helpers.issues_path %>?status=#{@.dataset.status}&show_map=true"
-        method: 'GET'
-        dataType: 'script'
-
   $(document).on 'click', '.alert .close', (e) ->
     $(e.target).parents('.alert').hide()
 
