@@ -80,10 +80,9 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
     end
   end
   ActiveRecord::Base.connection.execute <<~SQL.squish
-  update #{object_class.table_name} set area = ST_CollectionExtract(ST_MakeValid(ST_SetSRID(area, 4326)), 3)
-    where ST_IsValidReason(area) like '%Self-intersection%';
+    update #{object_class.table_name} set area = ST_CollectionExtract(ST_MakeValid(ST_SetSRID(area, 4326)), 3)
+      where ST_IsValidReason(area) like '%Self-intersection%';
   SQL
-
 end
 
 ActiveRecord::Base.connection.execute <<~SQL.squish
