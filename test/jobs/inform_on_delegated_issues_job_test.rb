@@ -6,10 +6,11 @@ class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
   include ActionMailer::TestHelper
 
   test 'perform and mails get sent' do
+    assert_emails 0
     assert_nothing_raised { InformOnDelegatedIssuesJob.perform_now }
-    assert_enqueued_email_with(
-      IssueMailer, :delegation,
-      args: [{ to: group(:external).users.pluck(:email), issues: Issue.where(id: issue(:delegated).id) }]
-    )
+    assert_emails 1
+    mail = ActionMailer::Base.deliveries.first
+    group(:external).users.pluck(:email).each { |email| assert_includes mail.to, email }
+    assert_equal 'Neue delegierte Vorgänge', mail.subject
   end
 end
