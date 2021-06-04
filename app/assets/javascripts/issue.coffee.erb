@@ -59,7 +59,6 @@ $ ->
       data: link.parents('.card').find(':input')
 
   $(document).on 'click', '#dms_link', (e) ->
-    console.log 'e', e
     e.preventDefault()
     open_url = ''
     $.ajax
