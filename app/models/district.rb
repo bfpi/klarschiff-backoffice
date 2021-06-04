@@ -5,11 +5,6 @@ class District < ApplicationRecord
 
   validates :area, :name, :regional_key, presence: true
   validates :name, uniqueness: { scope: :authority }
-  validates :name, uniqueness: { conditions: -> { where authority: authority } }
-
-  self.serialization_attributes = %i[id name grenze]
-
-  alias_attribute :grenze, :area
 
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
