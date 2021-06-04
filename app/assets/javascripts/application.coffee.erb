@@ -12,8 +12,9 @@
 window.KS ||= {}
 
 $ ->
-  $('.modal').on 'hide.bs.modal', ->
-    location.reload()
+  initBootstrapModal = ->
+    $('.modal').on 'hide.bs.modal', ->
+      location.reload()
 
   initDnD = ->
     $('.table-draggable').tableDnD
@@ -22,8 +23,7 @@ $ ->
     if $('#issues-map').length > 0
       KS.initializeMaps()
 
-  $(document).ready KS.initDatepicker
-  $(document).ready initDnD
+  $(document).on 'turbolinks:load', initBootstrapModal
   $(document).on 'turbolinks:load', KS.initDatepicker
   $(document).on 'turbolinks:load', initDnD
   $(document).on 'turbolinks:load', initMap
