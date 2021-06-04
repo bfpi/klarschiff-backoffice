@@ -27,6 +27,7 @@ class IssueMailer < ApplicationMailer
   def inform_editorial_staff(to:, issues:, days:)
     @days = days
     @issues = issues
+    puts @issues.inspect
     mail(to: to, interpolation: { subject: { title: Settings::Instance.name } })
   end
 
