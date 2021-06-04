@@ -7,7 +7,9 @@ module Citysdk
     end
 
     def response_data
-      if instances.blank? || (instance_url = instances.filter_map { |fm| fm if fm.instance_url.present? }).present?
+      if instances.blank? || (instance_url = instances.filter_map do |fm|
+                                fm.instance_url.presence
+                              end).present?
         rd = { result: false }
         rd[:instance_url] = instance_url.blank? ? Settings::Instance.parent_instance_url : instance_url.first
         return rd
