@@ -18,6 +18,19 @@
   </div>
 </div>
 <div class="form-group row">
+  <%= form.label :type, class: 'col-md-2 col-form-label' %>
+  <div class="col-md-10">
+    <% types.each do |type, ix| -%>
+      <div class="form-check form-check-inline">
+        <%= form.label "type_#{type.downcase}", '', class: 'form-check-label' do -%>
+          <%= form.radio_button :type, type %>
+          <%= Group.human_enum_name :type, type %>
+        <% end -%>
+      </div>
+    <% end -%>
+  </div>
+</div>
+<div class="form-group row">
   <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10">
     <% Group.kinds.each do |kind, ix| -%>
@@ -56,5 +69,8 @@
   <div class="col-md-4">
     <%= form.select_many_field 'user_ids',
           class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
+  </div>
+  <div id="regional_restriction" class="col-md-6">
+    <%= render partial: 'regional_restriction', locals: { type: @group.type, select: @group.reference_id } %>
   </div>
 </div>

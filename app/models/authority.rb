@@ -9,4 +9,18 @@ class Authority < ApplicationRecord
 
   validates :area, :name, :regional_key, presence: true
   validates :name, uniqueness: { scope: :county }
+
+  def self.authorized(user = Current.user)
+    return all if user&.role_admin?
+    if user&.role_regional_admin?
+      where id: user.groups.select(:reference_id).where(type: 'AuthorityGroup')
+        .or(where(county: County.authorized(user).select(:id)))
+    else
+      none
+    end
+  end
+
+  def to_s
+    name
+  end
 end

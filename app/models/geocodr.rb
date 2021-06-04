@@ -34,7 +34,7 @@ class Geocodr
 
     def search_places(pattern)
       query = "#{Settings::Geocodr.try :localisator} #{pattern}".strip
-      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new p }
+      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new(p).as_json }
     end
 
     def find(address)
@@ -79,7 +79,9 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
-      if (res = uri.open(ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)) && res.status.include?('OK')
+      uri_options = { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }
+      uri_options[:proxy] = URI.parse(config.proxy) if config.respond_to?(:proxy) && config.proxy.present?
+      if (res = uri.open(uri_options)) && res.status.include?('OK')
         return JSON.parse(res.read).try(:[], 'features')
       end
       nil

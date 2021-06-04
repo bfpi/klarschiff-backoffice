@@ -4,6 +4,8 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
+    rescue_from UserAuthorization::NotAuthorized, with: -> { respond_with_forbidden }
+
     before_action :authenticate
 
     helper_method :authorized?, :authorized_for_administration?
@@ -120,5 +122,13 @@ module Authorization
     raise Citysdk::NotAuthorized, "401|#{t('api_key.invalid')}" if Client[key].blank? && !skip_raise
 
     Client[key]
+  end
+
+  def respond_with_forbidden(layout: 'application')
+    raise if Rails.env.test?
+    respond_to do |format|
+      format.any(:csv, :json, :xlsx, :pdf) { head :forbidden }
+      format.html { render template: 'application/denied', layout: layout, status: :forbidden }
+    end
   end
 end

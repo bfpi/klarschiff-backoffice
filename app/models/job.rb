@@ -3,8 +3,8 @@
 class Job < ApplicationRecord
   include Logging
 
-  enum status: { unchecked: 0, checked: 1, not_checkable: 2 }, _prefix: true
-  enum citysdk_status: { unchecked: 'UNCHECKED', checked: 'CHECKED', not_checkable: 'NOT_CHECKABLE' }
+  enum status: { unchecked: 0, checked: 1, uncheckable: 2 }, _prefix: true
+  enum citysdk_status: { unchecked: 'UNCHECKED', checked: 'CHECKED', uncheckable: 'NOT_CHECKABLE' }
 
   has_one :issue, dependent: :nullify
   belongs_to :group, -> { where(kind: :field_service_team) }, inverse_of: :jobs
@@ -22,8 +22,8 @@ class Job < ApplicationRecord
   end
 
   def status_color
-    return if status == 'not_checkable'
-    " text-#{status == 'checked' ? 'success' : 'danger'}"
+    return if status_uncheckable?
+    " text-#{status_checked? ? 'success' : 'danger'}"
   end
 
   def to_s

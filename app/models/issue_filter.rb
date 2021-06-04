@@ -4,7 +4,7 @@ class IssueFilter
   attr_reader :collection
 
   def initialize(params = {})
-    @collection = Issue.includes(includes).references(includes).left_joins(:supporters).group(group_by)
+    @collection = Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
       .order created_at: :desc
     filter_collection(params)
   end

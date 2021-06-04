@@ -28,13 +28,13 @@ class DashboardsController < ApplicationController
   end
 
   def latest_issues
-    Issue.includes({ category: :main_category }).not_archived
+    Issue.authorized.includes({ category: :main_category }).not_archived
       .where(status: %w[received reviewed in_process not_solvable closed])
       .order(iat[:priority].desc, iat[:created_at].desc, iat[:id].desc).limit(10)
   end
 
   def own_issues
-    Issue.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
+    Issue.authorized.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
       status: %w[pending received reviewed in_process not_solvable closed],
       log_entry: { attr: [nil] + %w[address status description kind] }
     ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
@@ -44,7 +44,7 @@ class DashboardsController < ApplicationController
     return [] if groups.blank?
     group_names = groups.map { |g| "'#{g}'" }.join(', ')
     group_ids = groups.ids.join(', ')
-    Issue.not_archived.includes(category: :main_category).where(
+    Issue.authorized.not_archived.includes(category: :main_category).where(
       changed_responsibilities(group_names, group_ids)
     ).limit(10)
   end
@@ -67,7 +67,7 @@ class DashboardsController < ApplicationController
   end
 
   def in_process_not_accepted
-    Issue.not_archived.status_in_process.where(responsibility_accepted: false)
+    Issue.authorized.not_archived.status_in_process.where(responsibility_accepted: false)
   end
 
   def open_ideas_without_min_supporters(date)
@@ -76,7 +76,7 @@ class DashboardsController < ApplicationController
   end
 
   def open_issues
-    Issue.includes(includes).references(includes).left_joins(:supporters).group(group_by)
+    Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
       .not_archived.status_open
   end
 
@@ -93,13 +93,13 @@ class DashboardsController < ApplicationController
   end
 
   def in_process(date)
-    Issue.not_archived.status_in_process.where(
+    Issue.authorized.not_archived.status_in_process.where(
       iat[:status_note].eq(nil).and(iat[:created_at].lteq(date))
     )
   end
 
   def open_not_accepted(date)
-    Issue.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
+    Issue.authorized.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
       .where(id: responsibility_entries(date))
   end
 

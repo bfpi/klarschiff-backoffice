@@ -25,18 +25,12 @@ de:
       abuse_report:
         resolved_at: Bearbeitungszeitpunkt
         message: Nachricht
-      authority:
-        county:  Landkreis
       category:
         average_turnaround_time: durchschnittliche Bearbeitungszeit
         deleted: gelöscht
         dms: DMS
         main_category: Hauptkategorie
         sub_category: Unterkategorie
-      community:
-        authority: Amt
-      district:
-        community: Gemeinde
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
@@ -48,6 +42,7 @@ de:
         field_service_operators: Außendienst-Koordinatoren
         main_user: Hauptnutzer
         short_name: Kurzname
+        type: Art
         users: Benutzer
       instance:
         url: URL
@@ -119,6 +114,7 @@ de:
       supporter:
         confirmation_hash: ''
     errors:
+      authorization_error: Sie haben nicht die nötigen Rechte für diese Aktion!
       models:
         issue:
           attributes:
@@ -158,9 +154,6 @@ de:
       comment:
         one: Kommentar
         other: Kommentare
-      community:
-        one: Gemeinde
-        other: Gemeinden
       county:
         one: Landkreis
         other: Landkreise
@@ -215,8 +208,10 @@ de:
     active: Aktiv
     area: Fläche
     author: Autor
+    authority: Amt
     confirmation_hash: Bestätigungs-Hash
     confirmed_at: Bestätigungszeitpunkt
+    county: Landkreis
     created_at: Zeitstempel
     deleted: gelöscht
     file: Datei
@@ -269,6 +264,10 @@ de:
         internal: Intern
         external: Extern
         field_service_team: Außendienst
+      type:
+        AuthorityGroup: Amt
+        CountyGroup: Kreis
+        InstanceGroup: Instanz
     issue:
       description_status:
         internal: Intern
@@ -384,6 +383,8 @@ de:
       undo: zurück
     tab_rejection:
       reject: "Vorgang an %{group} zurückweisen"
+  jobs:
+    title: Außendienst Aufträge
   mail_blacklists:
     index:
       new_mail_blacklist: Neuer Eintrag

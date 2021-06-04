@@ -57,6 +57,10 @@
   <div class="col-md-4">
     <%= form.text_field :email, class: 'form-control' %>
   </div>
+  <%= form.label :password, class: 'col-md-2 col-form-label' %>
+  <div class="col-md-4">
+    <%= form.password_field :password, class: 'form-control' %>
+  </div>
 </div>
 <div class="form-group row">
   <div class="col-md-4 offset-md-2">
@@ -73,5 +77,10 @@
   <div class="col-md-4">
     <%= form.select_many_field 'group_ids',
           class: 'form-control', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
+  </div>
+  <%= form.label :districts, class: 'col-md-2 col-form-label' %>
+  <div class="col-md-4">
+    <%= form.select_many_field 'district_ids',
+          class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
   </div>
 </div>

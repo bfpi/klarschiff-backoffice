@@ -33,9 +33,11 @@
                     <%= link_to(Issue.model_name.human(count: 2), delegations_url, class: 'nav-link') %>
                   </li>
                 <% end -%>
-                <li class="nav-item">
-                  <%= link_to Job.model_name.human(count: 2), jobs_url, class: 'nav-link' if authorized?(:jobs) %>
-                </li>
+                <% if authorized?(:jobs) -%>
+                  <li class="nav-item">
+                    <%= link_to Job.model_name.human(count: 2), jobs_url, class: 'nav-link', title: t('jobs.title') %>
+                  </li>
+                <% end -%>
                 <% if authorized?(:administration) %>
                   <li class="nav-item dropdown">
                     <%= link_to t('nav.administration'), '#',

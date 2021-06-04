@@ -27,7 +27,7 @@ module UserAuthorization
     case action
     when :delegations then delegations_permitted?
     when :issues then issues_permitted?
-    when :jobs then groups.any?(&:kind_field_service_team?)
+    when :jobs then field_service_teams.any?
     end
   end
 

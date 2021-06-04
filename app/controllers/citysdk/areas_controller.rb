@@ -9,8 +9,8 @@ module Citysdk
     #   with_districts  optional - Response mit allen verfuegbaren Stadtteilgrenzen
     def index
       @response = [Instance.first]
-      @response = District.all if params[:with_districts].present? && params[:area_code].blank?
-      @response = District.find(params[:area_code].split(',')) if params[:area_code].present?
+      @response = Citysdk::District.all if params[:with_districts].present? && params[:area_code].blank?
+      @response = Citysdk::District.find(params[:area_code].split(',')) if params[:area_code].present?
       citysdk_response(@response, { root: :areas, element_name: :area })
     end
   end

@@ -19,10 +19,20 @@ class Group < ApplicationRecord
   end
 
   validates :name, presence: true
-  validates :email, presence: true, if: -> { main_user_id.blank? }
+  validates :email, presence: true, if: -> { main_user_id.blank? && !kind_field_service_team? }
   validates :email, uniqueness: true, allow_blank: true
 
   scope :active, -> { where active: true }
+
+  def self.authorized(user = Current.user)
+    if user&.role_admin?
+      active
+    elsif user&.role_regional_admin?
+      where id: user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+    else
+      none
+    end
+  end
 
   def to_s
     short_name || name
