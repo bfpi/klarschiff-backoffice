@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     raise if Rails.env.test?
     logger.error "#{error.inspect}\n#{error.backtrace.join "\n "}"
     @message = error.message
+    ExceptionNotifier.notify_exception(error, env: request.env)
     render :exception
   end
 
