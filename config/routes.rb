@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resource :infos, only: %i[show]
 
     resources :delegations, only: %i[index edit show update]
+    resources :dms, only: %i[index show]
     resources :editorial_notifications, only: %i[index]
     resources :districts, only: %i[index]
     resources :feedbacks, only: %i[index]
