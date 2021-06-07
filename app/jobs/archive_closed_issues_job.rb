@@ -9,7 +9,7 @@ class ArchiveClosedIssuesJob < ApplicationJob
   private
 
   def issues_to_be_archived(time)
-    Issue.where(iat[:status].eq('closed').and(iat[:archived_at].eq(nil)).and(iat[:updated_at].lt(time)))
+    Issue.where(iat[:status].in(Issue::CLOSED_STATUSES).and(iat[:archived_at].eq(nil)).and(iat[:updated_at].lt(time)))
   end
 
   def iat

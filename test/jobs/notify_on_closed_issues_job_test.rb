@@ -6,8 +6,12 @@ class NotifyOnClosedIssuesJobTest < ActiveJob::TestCase
   include ActionMailer::TestHelper
 
   test 'performable and mails get sent' do
+    assert_emails 0
     assert_nothing_raised { NotifyOnClosedIssuesJob.perform_now }
+    assert_emails 1
     issue = issue(:closed)
-    assert_enqueued_email_with(IssueMailer, :closed, args: [{ to: issue.author, issue: issue }])
+    mail = ActionMailer::Base.deliveries.first
+    assert_includes mail.to, issue.author
+    assert_equal "##{issue.id}: abgeschlossen", mail.subject
   end
 end

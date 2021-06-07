@@ -21,7 +21,7 @@ class DeleteAuthorsAfterDeadlineJob < ApplicationJob
   # rubocop:enable Rails/SkipsModelValidations
 
   def deletion_conds(time)
-    iat[:archived_at].not_eq(nil).iat[:archived_at].lt(time)
+    iat[:archived_at].not_eq(nil).and(iat[:archived_at].lt(time))
   end
 
   def iat
