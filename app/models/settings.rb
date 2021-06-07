@@ -12,4 +12,8 @@ class Settings
     end
     const_set context.classify, m
   end
+
+  def self.main_instance?
+    Settings::Instance.parent_instance_url.blank?
+  end
 end
