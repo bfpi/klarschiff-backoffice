@@ -2,18 +2,9 @@
 
 class IssuesController < ApplicationController
   include Export
+  include Index
 
   before_action :set_tab
-
-  def index
-    check_auth(:issues)
-    respond_to do |format|
-      format.json { render json: Issue.where(id: params[:ids]).to_json }
-      format.js { js_response }
-      format.html { @issues = paginate(results) }
-      format.xlsx { xlsx_response }
-    end
-  end
 
   def show
     check_auth(:edit_issue, Issue.find(params[:id]))
@@ -67,42 +58,12 @@ class IssuesController < ApplicationController
     tabs + %i[comment abuse_report map photo log_entry]
   end
 
-  def base_collection
-    Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
-      .order created_at: :desc
-  end
-
-  def xlsx_response
-    @issues = results
-    xlsx_export
-  end
-
-  def js_response
-    @issues = paginate(results)
-    return render(:map) if params[:show_map] == 'true'
-  end
-
-  def results
-    @extended_filter = params[:extended_filter] == 'true'
-    @status = (params[:status] || 0).to_i
-    return auth_code_results if Current.user.auth_code
-    IssueFilter.new(params).collection
-  end
-
-  def auth_code_results
-    Issue.where(id: Current.user.auth_code.issue_id)
-  end
-
   def feedbacks(issue)
     issue.feedbacks.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
   end
 
   def log_entries(issue)
     issue.all_log_entries.order(created_at: :desc).page(params[:page] || 1).per params[:per_page] || 10
-  end
-
-  def paginate(issues)
-    issues.page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def issue_params

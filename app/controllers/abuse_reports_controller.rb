@@ -3,7 +3,7 @@
 class AbuseReportsController < ApplicationController
   def create
     return head(:unprocessable_entity) if permitted_params[:message].blank?
-    @abuse_report = AbuseReport.create!(permitted_params.merge(author: Current.user.email))
+    @abuse_report = AbuseReport.create!(permitted_params.merge(author: Current.user.author))
     @issue = @abuse_report.issue
   end
 

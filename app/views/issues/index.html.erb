@@ -1,13 +1,15 @@
 <h1><%= Issue.model_name.human(count: 2) %></h1>
 <div id="issues-result">
-  <div class="card mb-3">
-    <div class="card-body <%= 'pb-0' unless @extended_filter %>">
-      <%= link_to t("#{@extended_filter ? :simple : :extended}_search"),
-            issues_path(extended_filter: !@extended_filter),
-            class: 'btn btn-sm btn-outline-primary float-right' %>
-      <%= render partial: "#{@extended_filter ? 'extended' : 'simple'}_filter" %>
+  <% unless Current.user.auth_code -%>
+    <div class="card mb-3">
+      <div class="card-body <%= 'pb-0' unless @extended_filter %>">
+        <%= link_to t("#{@extended_filter ? :simple : :extended}_search"),
+              issues_path(extended_filter: !@extended_filter),
+              class: 'btn btn-sm btn-outline-primary float-right' %>
+        <%= render partial: "#{@extended_filter ? 'extended' : 'simple'}_filter" %>
+      </div>
     </div>
-  </div>
+  <% end -%>
   <%= render partial: 'result_list' %>
   <%= render partial: 'job_assignment' %>
 </div>

@@ -1,17 +1,19 @@
 <h1><%= Issue.model_name.human(count: 2) %></h1>
 
-<div class="row form-group">
-  <div class="col-md-12">
-    <%= link_to delegations_path(filter_status: 0),
-          class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
-      <%= image_tag icon('yellow'), class: 'status_icon' %> offene Vorgänge
-    <% end -%>
-    <%= link_to delegations_path(filter_status: 1),
-          class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
-      <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Vorgänge
-    <% end -%>
+<% unless Current.user.auth_code -%>
+  <div class="row form-group">
+    <div class="col-md-12">
+      <%= link_to delegations_path(filter_status: 0),
+            class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
+        <%= image_tag icon('yellow'), class: 'status_icon' %> offene Vorgänge
+      <% end -%>
+      <%= link_to delegations_path(filter_status: 1),
+            class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
+        <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Vorgänge
+      <% end -%>
+    </div>
   </div>
-</div>
+<% end -%>
 
 <% if @issues.any? -%>
   <%= paginate @issues %>

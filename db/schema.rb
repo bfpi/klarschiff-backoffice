@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_25_130504) do
+ActiveRecord::Schema.define(version: 2021_06_07_075127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 2021_05_25_130504) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
+    t.bigint "auth_code_id"
+    t.index ["auth_code_id"], name: "index_comment_on_auth_code_id"
     t.index ["issue_id"], name: "index_comment_on_issue_id"
     t.index ["user_id"], name: "index_comment_on_user_id"
   end
@@ -312,6 +314,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_130504) do
   add_foreign_key "auth_code", "issue"
   add_foreign_key "authority", "county"
   add_foreign_key "comment", "\"user\"", column: "user_id"
+  add_foreign_key "comment", "auth_code"
   add_foreign_key "comment", "issue"
   add_foreign_key "district", "authority"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"

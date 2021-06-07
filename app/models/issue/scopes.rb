@@ -12,6 +12,7 @@ class Issue
 
     class_methods do # rubocop:disable Metrics/BlockLength
       def authorized(user = Current.user)
+        return where(id: user.auth_code.issue_id) if user.auth_code
         return all if user&.role_admin?
         authorized_group_ids = authorized_group_ids(user)
         authorized_by_areas_for(authorized_group_ids)

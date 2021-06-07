@@ -41,4 +41,8 @@ class Group < ApplicationRecord
   def as_json(_options = {})
     { value: id, label: to_s }
   end
+
+  def recipient
+    main_user&.email || email
+  end
 end

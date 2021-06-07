@@ -45,10 +45,14 @@ class User < ApplicationRecord
     { value: id, label: to_s }
   end
 
+  def author
+    auth_code ? auth_code.group.recipient : email
+  end
+
   private
 
   def role_permissions
-    return true unless Current.user
+    return true unless Current.user && !Current.user.auth_code
     if self.class.roles[role] < Current.user.read_attribute_before_type_cast(:role)
       errors.add :role, :invalid_permissions
       return false
