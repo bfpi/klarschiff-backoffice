@@ -62,7 +62,7 @@ $ ->
     e.preventDefault()
     open_url = ''
     $.ajax
-      url: '<%= Rails.application.routes.url_helpers.dms_path %>'
+      url: '<%= Rails.application.routes.url_helpers.dms_index_path %>'
       type: 'GET'
       data: { issue_id: $(e.target).data('id') }
       async: false
