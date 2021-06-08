@@ -26,6 +26,7 @@ unconfirmed:
 
 undeleteable_abuse_report:
   <<: *DEFAULTS
+  confirmed_at: 2020-10-19 14:42:01
 
 not_confirmed:
   <<: *DEFAULTS

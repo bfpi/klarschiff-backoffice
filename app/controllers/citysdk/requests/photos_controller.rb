@@ -21,7 +21,7 @@ module Citysdk
       end
 
       def confirm
-        photo = Citysdk::Photo.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
+        photo = Citysdk::Photo.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if photo.blank?
         pho = photo.becomes(::Photo)
         pho.update! confirmed_at: Time.current

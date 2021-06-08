@@ -22,7 +22,7 @@ class Issue
                                                     status_changed? && status.to_i > Issue.statuses[:reviewed]
                                                   }, on: :update
 
-      after_create :send_confirmation
+      after_create :confirm
     end
 
     private
