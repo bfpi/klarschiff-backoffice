@@ -10,7 +10,7 @@ class InformOnDelegatedIssuesJob < ApplicationJob
       recipients, auth_codes = recipients_and_auth_codes(delegation, issues)
       IssueMailer.delegation(
         to: recipients, issues: issues, auth_codes: auth_codes
-      ).deliver_later
+      ).deliver_now
     end
   end
 

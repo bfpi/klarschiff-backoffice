@@ -12,7 +12,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
       find_issues(time, notification.level, notification.user.group_ids)
       next if @issues.blank?
       notification.update(notified_at: Time.current)
-      IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_later
+      IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_now
     end
   end
 

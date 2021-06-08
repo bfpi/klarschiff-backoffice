@@ -94,6 +94,13 @@
     </div>
   </div>
 <% end -%>
+<% if form.object.dms.present? -%>
+  <div class="form-group row">
+    <div class="col-md-10 offset-md-2">
+      <%= form.button 'DMS', class: 'btn btn-secondary col-2', id: :dms_link, data: { id: form.object.id } %>
+    </div>
+  </div>
+<% end -%>
 <% if Issue::CLOSED_STATUSES.include?(form.object.status&.to_sym) -%>
   <div class="form-group row">
     <div class="col-md-10 offset-md-2">
