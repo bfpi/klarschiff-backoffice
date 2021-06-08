@@ -7,7 +7,7 @@ module Citysdk
     def initialize(params = {})
       @collection = Citysdk::Request.includes(includes).references(includes)
         .select('issue.*, count(supporter.id) as supporter_count')
-        .joins('LEFT JOIN supporter ON supporter.issue_id = issue.id')
+        .joins('LEFT JOIN supporter ON supporter.issue_id = issue.id and supporter.confirmed_at is not null')
         .group(group_by)
       filter_collection(params)
     end
