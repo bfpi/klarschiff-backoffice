@@ -40,8 +40,8 @@ class DelegationsController < ApplicationController
 
   def issues
     return auth_code_results if Current.user.auth_code
-    issues = Issue.includes(category: %i[main_category sub_category]).not_archived.where.not(delegation_id: nil)
-      .order(created_at: :desc)
+    issues = Issue.authorized.includes(category: %i[main_category sub_category])
+      .not_archived.where.not(delegation_id: nil).order(created_at: :desc)
     return issues.status_in_process if @status.zero?
     issues.where(status: %i[duplicate not_solvable closed])
   end

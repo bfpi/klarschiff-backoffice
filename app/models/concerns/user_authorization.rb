@@ -52,11 +52,12 @@ module UserAuthorization
   end
 
   def delegations_permitted?
-    static_permitted_to?(:delegations) || groups.any?(&:kind_internal?) || auth_code&.group&.kind_external?
+    static_permitted_to?(:delegations) || groups.where(kind: %i[internal external]).any? ||
+      auth_code&.group&.kind_external?
   end
 
   def edit_delegation_permitted?(issue)
-    static_permitted_to?(:delegations) || auth_code&.issue_id == issue.id
+    static_permitted_to?(:delegations) || group_ids.include?(issue.delegation_id) || auth_code&.issue_id == issue.id
   end
 
   def static_permitted_to?(action)
