@@ -12,6 +12,6 @@
 
 <% content_for :footer do -%>
   <div class="float-right">
-    <%= link_to t(:back), delegations_path(status: @status), class: 'btn btn-primary' %>
+    <%= link_to t(:back), delegations_path(filter: { status: @status }), class: 'btn btn-primary' %>
   </div>
 <% end -%>

@@ -165,7 +165,7 @@ class KS.FeatureVector
 
 class KS.FeatureData
   constructor: (filter, extended_filter, controller, vector) ->
-    data = if extended_filter then filter else { status: filter['status'] }
+    data = { filter: filter }
     $.ajax(
       url: KS.controllerUrl(controller)
       data: Object.assign(data, { extended_filter: extended_filter })

@@ -1,7 +1,7 @@
 <span id="issues-footer">
-  <%= link_to t('.map'), issues_path(@filter.merge({ extended_filter: @extended_filter, show_map: true })),
+  <%= link_to t('.map'), issues_path(filter: @filter, extended_filter: @extended_filter, show_map: true),
         class: 'btn btn-primary' %>
-  <%= link_to t(:export_xlsx), issues_path(@filter.merge({ extended_filter: @extended_filter, format: :xlsx })),
+  <%= link_to t(:export_xlsx), issues_path(filter: @filter, extended_filter: @extended_filter, format: :xlsx),
         class: 'btn btn-primary' %>
   <%= button_tag t('.assign_jobs'), id: 'assign-jobs', type: 'button', class: 'btn btn-primary' %>
   <div class="float-right">

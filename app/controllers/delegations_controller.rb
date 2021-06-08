@@ -10,7 +10,7 @@ class DelegationsController < ApplicationController
     respond_to do |format|
       format.json { render json: issues.to_json }
       format.html { html_response }
-      format.xlsx { xlsx_export issues }
+      format.xlsx { xlsx_export paginate(issues) }
     end
   end
 
@@ -55,7 +55,7 @@ class DelegationsController < ApplicationController
   end
 
   def set_status
-    @status = params[:status].to_i
+    @status = params.fetch(:filter, {})[:status].to_i
   end
 
   def set_tab

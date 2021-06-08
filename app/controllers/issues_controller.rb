@@ -67,11 +67,6 @@ class IssuesController < ApplicationController
     params.require(:issue).permit(*permitted_attributes)
   end
 
-  def permitted_filter_attributes
-    [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
-     :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text]
-  end
-
   def permitted_attributes
     attributes = [:address, :archived, :author, :category_id, :delegation_id, :description,
                   :description_status, :expected_closure, :group_id, :new_photo, :parcel, :photo_requested,

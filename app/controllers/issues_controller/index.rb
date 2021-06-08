@@ -22,7 +22,7 @@ class IssuesController
 
     def html_response
       return @issues = paginate(results) unless params[:show_map] == 'true'
-      @filter = params.permit(*permitted_filter_attributes)
+      @filter = filter_params
       @extended_filter = params[:extended_filter] == 'true'
       render :map
     end
@@ -34,13 +34,17 @@ class IssuesController
 
     def results
       @extended_filter = params[:extended_filter] == 'true'
-      @filter = params.permit(*permitted_filter_attributes)
-      @status = (params[:status] || 0).to_i
-      IssueFilter.new(params).collection
+      @filter = filter_params
+      @status = (params.fetch(:filter, {})[:status] || 0).to_i
+      IssueFilter.new(@extended_filter, @filter).collection
     end
 
     def paginate(issues)
       issues.page(params[:page] || 1).per(params[:per_page] || 20)
+    end
+
+    def filter_params
+      params.fetch(:filter, {}).permit(*permitted_filter_attributes)
     end
 
     def permitted_filter_attributes

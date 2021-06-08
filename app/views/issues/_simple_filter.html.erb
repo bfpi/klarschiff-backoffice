@@ -1,14 +1,17 @@
 <div class="row form-group">
   <div class="col-md-12">
-    <%= link_to issues_path(status: 0), class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
+    <%= link_to issues_path(filter: { status: 0 }),
+          class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
       <%= image_tag icon('red'), class: 'status_icon' %> <%= image_tag icon('yellow'), class: 'status_icon' %>
       offene Meldungen
     <% end -%>
-    <%= link_to issues_path(status: 1), class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
+    <%= link_to issues_path(filter: { status: 1 }),
+          class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
       <%= image_tag icon('red', kind: 'idea'), class: 'status_icon' %>
       offene Ideen ohne ausreichend Unterstützer
     <% end -%>
-    <%= link_to issues_path(status: 2), class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 2}" do %>
+    <%= link_to issues_path(filter: { status: 2 }),
+          class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 2}" do %>
       <%= image_tag icon('green'), class: 'status_icon' %> <%= image_tag icon('yellowgreen'), class: 'status_icon' %>
       abgeschlossene Meldungen
     <% end -%>
