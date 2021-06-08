@@ -111,6 +111,11 @@ KS.initializeMaps = ->
             if features.length == 1
               $.ajax(url: "#{KS.controllerUrl(controller)}/#{features[0].get('id')}/edit", dataType: 'script')
 
+      map.on 'pointermove', (e) ->
+        hover = map.forEachFeatureAtPixel e.pixel, (feature, layer) ->
+          return true if feature
+        e.map.getTargetElement().style.cursor = if hover then 'pointer' else ''
+
     addControls(KS.Map, elem.data('controller'))
 
 KS.styles =

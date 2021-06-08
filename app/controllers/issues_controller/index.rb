@@ -22,7 +22,7 @@ class IssuesController
 
     def html_response
       return @issues = paginate(results) unless params[:show_map] == 'true'
-      @filter = filter_params
+      @filter = filter_params.presence || { statuses: (1..6).to_a }
       @extended_filter = params[:extended_filter] == 'true'
       render :map
     end
@@ -34,7 +34,7 @@ class IssuesController
 
     def results
       @extended_filter = params[:extended_filter] == 'true'
-      @filter = filter_params
+      @filter = filter_params.presence || { statuses: (1..6).to_a }
       @status = (params.fetch(:filter, {})[:status] || 0).to_i
       IssueFilter.new(@extended_filter, @filter).collection
     end
