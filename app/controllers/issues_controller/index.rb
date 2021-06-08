@@ -17,7 +17,7 @@ class IssuesController
     private
 
     def base_collection
-      Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+      Issue.authorized.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
         .order created_at: :desc
     end
 
@@ -34,12 +34,8 @@ class IssuesController
     def results
       @extended_filter = params[:extended_filter] == 'true'
       @status = (params[:status] || 0).to_i
-      return auth_code_results if Current.user.auth_code
+      return base_collection if Current.user.auth_code
       IssueFilter.new(params).collection
-    end
-
-    def auth_code_results
-      Issue.where(id: Current.user.auth_code.issue_id)
     end
 
     def paginate(issues)
