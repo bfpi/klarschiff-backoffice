@@ -44,8 +44,8 @@ class Issue < ApplicationRecord
 
   delegate :group_id, :date, to: :job, prefix: true, allow_nil: true
   delegate :kind, :kind_name, to: :category, allow_nil: true
-  delegate :main_category, :sub_category, to: :category
-  delegate :dms, to: :sub_category
+  delegate :main_category, :sub_category, to: :category, allow_nil: true
+  delegate :dms, to: :sub_category, allow_nil: true
 
   def to_s
     "#{kind_name} ##{id}"
