@@ -109,6 +109,7 @@ KS.initializeMaps = ->
           if feature
             features = feature.get('features')
             if features.length == 1
+              controller = 'issues' if controller == 'jobs'
               $.ajax(url: "#{KS.controllerUrl(controller)}/#{features[0].get('id')}/edit", dataType: 'script')
 
       map.on 'pointermove', (e) ->
@@ -202,5 +203,6 @@ KS.imagePath = (type) ->
 
 KS.controllerUrl = (controller) ->
   switch controller
-    when 'issues' then '<%= Rails.application.routes.url_helpers.issues_path %>'
     when 'delegations' then '<%= Rails.application.routes.url_helpers.delegations_path %>'
+    when 'issues' then '<%= Rails.application.routes.url_helpers.issues_path %>'
+    when 'jobs' then '<%= Rails.application.routes.url_helpers.jobs_path %>'

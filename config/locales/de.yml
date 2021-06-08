@@ -390,6 +390,10 @@ de:
       reject: "Meldung an %{group} zurückweisen"
   jobs:
     title: Außendienst Aufträge
+    grouped_jobs:
+      change_date: Ausführungsdatum ändern
+      map: Kartenansicht
+      sort_jobs: Aufträge nach Erstellung aufsteigend sortieren
   mail_blacklists:
     index:
       new_mail_blacklist: Neuer Eintrag

@@ -14,20 +14,6 @@ $ ->
     return if ids.length == 0
     KS.updateMultipleJobs { job_ids: ids, job: { date: $($(@).data('field')).val() } }, 'update_dates'
 
-KS.initDnD = ->
-  $('.table-draggable').tableDnD(
-    onDragClass: 'dragged-row'
-    onDrop: (table, row) ->
-      jobsOrder = []
-      $(table.rows).each (idx) ->
-        jobsOrder.push({ "#{@.dataset.id}": idx })
-      $.ajax
-        url: '<%= Rails.application.routes.url_helpers.jobs_path %>/change_order'
-        data: Object.assign({ jobs: jobsOrder }, KS.authenticityToken)
-        dataType: 'script'
-        method: 'PUT'
-  )
-
 KS.updateMultipleJobs = (params, method) ->
   $.ajax
     url: "<%= Rails.application.routes.url_helpers.jobs_path %>/#{method}"
