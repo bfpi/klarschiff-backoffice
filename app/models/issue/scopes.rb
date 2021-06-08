@@ -14,9 +14,10 @@ class Issue
       def authorized(user = Current.user)
         return all if user&.role_admin?
         authorized_group_ids = authorized_group_ids(user)
-        authorized_by_areas_for(authorized_group_ids)
+        results = authorized_by_areas_for(authorized_group_ids)
           .where(Issue.arel_table[:group_id].in(authorized_group_ids)
             .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
+        filter_districts(results)
       end
 
       def by_kind(kind)
@@ -55,6 +56,17 @@ class Issue
           )) OR ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{Authority.quoted_table_name}
+            WHERE "id" IN (?)
+          ))
+        SQL
+      end
+
+      def filter_districts(results, user = Current.user)
+        return results if user.districts.blank?
+        results.where <<~SQL.squish, user.district_ids
+          ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{District.quoted_table_name}
             WHERE "id" IN (?)
           ))
         SQL
