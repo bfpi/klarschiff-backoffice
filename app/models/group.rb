@@ -42,7 +42,7 @@ class Group < ApplicationRecord
     { value: id, label: to_s }
   end
 
-  def recipient
+  def feedback_recipient
     main_user&.email || email
   end
 end

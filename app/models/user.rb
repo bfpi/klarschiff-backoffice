@@ -45,10 +45,6 @@ class User < ApplicationRecord
     { value: id, label: to_s }
   end
 
-  def author
-    auth_code ? auth_code.group.recipient : email
-  end
-
   private
 
   def role_permissions

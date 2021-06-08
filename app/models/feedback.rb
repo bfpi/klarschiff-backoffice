@@ -27,15 +27,15 @@ class Feedback < ApplicationRecord
     group = issue.delegation || issue.group
     entry = issue.latest_entry
     return identify_recipients_from_user(entry.user, group) if entry&.user
-    return group.recipient if entry&.auth_code
-    group.recipient
+    return entry.auth_code.group.feedback_recipient if entry&.auth_code
+    group.feedback_recipient
   end
 
   def identify_recipients_from_user(user, group)
     return user.email if user.group_feedback_recipient && group.in?(user.groups)
     users = group.users.where(group_feedback_recipient: true)
     return users.pluck(:email).join(', ') if users.any?
-    group.recipient
+    group.feedback_recipient
   end
 
   def notify
