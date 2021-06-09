@@ -134,9 +134,11 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
   end
 end
 
+# rubocop:disable Rails/Output
 Dir.glob('db/seeds/users_*.csv').each do |file_name|
   class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
   model = class_name.classify.constantize
+  puts "Amt: #{ name }"
   target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
     next if row[0].blank?
@@ -148,7 +150,9 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
                                           role: :editor)
     next if user.password_digest.present?
     new_password = SecureRandom.base64(8)[0..-2]
-    puts "#{user.login} : '#{new_password}'" # rubocop:disable Rails/Output
+    puts "#{user.login} : '#{new_password}'"
     user.update! password: new_password
   end
+  puts "=" * 50
 end
+# rubocop:enable Rails/Output
