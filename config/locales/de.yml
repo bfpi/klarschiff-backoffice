@@ -299,7 +299,7 @@ de:
       status:
         checked: Abgehakt
         unchecked: Nicht abgehakt
-        not_checkable: Nicht abarbeitbar
+        uncheckable: Nicht abarbeitbar
     main_category:
       kind:
         idea: Idee
