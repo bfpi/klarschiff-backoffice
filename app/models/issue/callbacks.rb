@@ -42,7 +42,7 @@ class Issue
     def position_inside_instance
       return if position.blank?
       cond = 'ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "area")'
-      errors.add :position, :outside_instance unless Instance.where(cond, lat: lat, lon: lon).exists?
+      errors.add :position, :outside_instance unless Instance.exists?([cond, { lat: lat, lon: lon }])
     end
 
     def reset_archived
