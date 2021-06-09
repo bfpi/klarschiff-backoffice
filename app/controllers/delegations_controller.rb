@@ -47,6 +47,7 @@ class DelegationsController < ApplicationController
   end
 
   def html_response
+    @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
     @issues = paginate(issues)
     return render :map if params[:show_map] == 'true'
   end

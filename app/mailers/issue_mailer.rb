@@ -31,6 +31,12 @@ class IssueMailer < ApplicationMailer
     mail(to: to, interpolation: { subject: { title: Settings::Instance.name } })
   end
 
+  def responsibility(to:, issue:, auth_code:)
+    @issue = issue
+    @auth_code = auth_code
+    mail to: to
+  end
+
   private
 
   def image_attachments(issue_email:)

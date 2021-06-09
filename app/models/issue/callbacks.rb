@@ -18,11 +18,17 @@ class Issue
 
       validates :description, :position, :status, presence: true
       validates :status_note, presence: true, if: :expected_closure_changed?
-      validates :status_note, presence: true, if: lambda {
-                                                    status_changed? && status.to_i > Issue.statuses[:reviewed]
-                                                  }, on: :update
+      validates :status_note, presence: true,
+                              if: lambda {
+                                    status_changed? && Issue.statuses[status] > Issue.statuses[:reviewed]
+                                  }, on: :update
 
       after_create :send_confirmation
+      after_save :notify_group,
+        if: lambda {
+              saved_change_to_status? && Issue.statuses[status] == Issue.statuses[:received] && group_id.present? ||
+                saved_change_to_group_id? && Issue.statuses[status] > Issue.statuses[:pending]
+            }
     end
 
     private
@@ -73,6 +79,13 @@ class Issue
       return 0 if (user = User.find_by(email: author)).blank?
       return 2 if user.groups.any?(&:kind_field_service_team?)
       1
+    end
+
+    def notify_group
+      return if group.user_ids.present?
+      auth_code = AuthCode.find_or_create_by(issue: self, group: group)
+      Rails.logger.info "AUTH CODE #{auth_code.inspect}"
+      IssueMailer.responsibility(to: group.email, issue: self, auth_code: auth_code).deliver_now
     end
   end
 end

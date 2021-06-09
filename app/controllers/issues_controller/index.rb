@@ -9,7 +9,7 @@ class IssuesController
       respond_to do |format|
         format.json { render json: Issue.where(id: params[:ids]).to_json }
         format.js { js_response }
-        format.html { @issues = paginate(results) }
+        format.html { html_response }
         format.xlsx { xlsx_response }
       end
     end
@@ -19,6 +19,11 @@ class IssuesController
     def base_collection
       Issue.authorized.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
         .order created_at: :desc
+    end
+
+    def html_response
+      @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
+      @issues = paginate(results)
     end
 
     def xlsx_response

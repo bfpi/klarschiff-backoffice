@@ -6,7 +6,7 @@ Daten der neuen delegierten Vorgänge
 ************************************
 <% @issues.each do |issue| -%>
 <% auth_code = @auth_codes.find { |ac| ac.issue_id == issue.id }.uuid if @auth_codes.present? -%>
-<% url = @auth_codes.present? ? delegation_url(issue, auth_code: auth_code) : delegation_url(issue) -%>
+<% url = @auth_codes.present? ? delegations_url(auth_code: auth_code) : delegation_url(issue) -%>
 <%= render partial: 'issue', object: issue, locals: { issue_link: url } -%>
 ************************************
 <% end -%>

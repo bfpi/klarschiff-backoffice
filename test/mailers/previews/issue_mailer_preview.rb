@@ -19,6 +19,10 @@ class IssueMailerPreview < ActionMailer::Preview
     IssueMailer.delegation to: 'test@bfpi.de', issues: Issue.limit(5)
   end
 
+  def responsibility
+    IssueMailer.responsibility to: 'test@bfpi.de', issue: Issue.first, auth_code: AuthCode.first
+  end
+
   def delegation_with_auth_code
     issues = Issue.limit(2)
     auth_codes = issues.map { |i| AuthCode.new group: Group.first, issue: i, uuid: SecureRandom.uuid }
