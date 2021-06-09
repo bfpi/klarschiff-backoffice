@@ -18,6 +18,7 @@ class Issue
         authorized_by_areas_for(authorized_group_ids)
           .where(Issue.arel_table[:group_id].in(authorized_group_ids)
             .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
+          .authorized_by_user_districts
       end
 
       def by_kind(kind)
@@ -51,6 +52,17 @@ class Issue
         return user.group_ids unless user&.role_regional_admin?
         user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
       end
+      
+      def authorized_by_user_districts(user = Current.user)
+        return all if user.blank? || user.districts.blank?
+        where <<~SQL.squish, user.district_ids
+          ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{District.quoted_table_name}
+            WHERE "id" IN (?)
+          ))
+        SQL
+      end
 
       def authorized_by_areas_for(group_ids)
         reference_ids = Group.where(id: group_ids).pluck(:reference_id)
@@ -66,6 +78,13 @@ class Issue
             WHERE "id" IN (?)
           ))
         SQL
+      end
+
+      private
+
+      def authorized_group_ids(user = Current.user)
+        return user.group_ids unless user&.role_regional_admin?
+        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
       end
     end
   end
