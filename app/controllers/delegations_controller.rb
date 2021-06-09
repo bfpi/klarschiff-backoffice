@@ -28,7 +28,7 @@ class DelegationsController < ApplicationController
     @issue = Issue.find(params[:id])
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to delegations_url(status: @status)
+      redirect_to delegations_url(filter: { status: @status })
     else
       render :edit
     end
