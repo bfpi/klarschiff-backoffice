@@ -8,8 +8,9 @@ class DelegationsController < ApplicationController
 
   def index
     respond_to do |format|
+      format.json { render json: issues.to_json }
       format.html { html_response }
-      format.xlsx { xlsx_export issues }
+      format.xlsx { xlsx_export paginate(issues) }
     end
   end
 
@@ -27,7 +28,7 @@ class DelegationsController < ApplicationController
     @issue = Issue.find(params[:id])
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to delegations_url(filter_status: @status)
+      redirect_to delegations_url(filter: { status: @status })
     else
       render :edit
     end
@@ -43,8 +44,9 @@ class DelegationsController < ApplicationController
   end
 
   def html_response
-    @issues = paginate(issues)
-    return render :map if params[:show_map] == 'true'
+    return @issues = paginate(issues) unless params[:show_map] == 'true'
+    @filter = { status: @status }.to_json
+    render :map
   end
 
   def reject
@@ -53,7 +55,7 @@ class DelegationsController < ApplicationController
   end
 
   def set_status
-    @status = params[:filter_status].to_i
+    @status = params.fetch(:filter, {})[:status].to_i
   end
 
   def set_tab

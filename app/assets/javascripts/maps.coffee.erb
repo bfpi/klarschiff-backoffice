@@ -26,18 +26,19 @@ KS.initializeMaps = ->
     elem = $(m)
     position = defaultPosition
     zoom = defaultZoom
-    ids = elem.data('issue-ids')
+    filter = elem.data('filter')
+    extended_filter = elem.data('extended-filter')
     feature = null
     featureVector = null
     if elem.data('lat') > 0 && elem.data('lon') > 0
       position = ol.proj.transform([elem.data('lon'), elem.data('lat')], 'EPSG:4326', KS.projection)
       zoom = defaultZoom + 4
-    if ids? && ids.length > 0
+    if filter?
       featureVector = new (ol.layer.Vector)(
         id: 'features'
         source: new ol.source.Cluster
           distance: 55
-          source: (feature = new KS.FeatureVector(ids))
+          source: (feature = new KS.FeatureVector(filter, extended_filter, elem.data('controller')))
         style: KS.styles.featureStyle
       )
     else
@@ -100,6 +101,22 @@ KS.initializeMaps = ->
     window.setTimeout (->
       KS.Map.updateSize()
     ), 500
+    
+    addControls = (map, controller) ->
+      map.on 'click', (e) ->
+        return unless controller?
+        map.forEachFeatureAtPixel e.pixel, (feature, layer) ->
+          if feature
+            features = feature.get('features')
+            if features.length == 1
+              $.ajax(url: "#{KS.controllerUrl(controller)}/#{features[0].get('id')}/edit", dataType: 'script')
+
+      map.on 'pointermove', (e) ->
+        hover = map.forEachFeatureAtPixel e.pixel, (feature, layer) ->
+          return true if feature
+        e.map.getTargetElement().style.cursor = if hover then 'pointer' else ''
+
+    addControls(KS.Map, elem.data('controller'))
 
 KS.styles =
   featureAttribution: (feature) ->
@@ -145,15 +162,20 @@ KS.styles =
             color: '#000000'
 
 class KS.FeatureVector
-  constructor: (ids) ->
+  constructor: (filter, extended_filter, controller) ->
     return vector = new ol.source.Vector
       format: new ol.format.TopoJSON
       loader: (extent, resolution, projection) ->
-        new KS.FeatureData(ids, vector)
+        new KS.FeatureData(filter, extended_filter, controller, vector)
 
 class KS.FeatureData
-  constructor: (ids, vector) ->
-    $.ajax(url: '<%= Rails.application.routes.url_helpers.issues_path %>', data: { ids: ids }, dataType: 'json').done (response) ->
+  constructor: (filter, extended_filter, controller, vector) ->
+    data = { filter: filter }
+    $.ajax(
+      url: KS.controllerUrl(controller)
+      data: Object.assign(data, { extended_filter: extended_filter })
+      dataType: 'json'
+    ).done (response) ->
       features = new Array
       $.each response, (index, elem) ->
         attribution = ''
@@ -169,10 +191,16 @@ class KS.FeatureData
       vector.addFeatures features
 
 KS.setFeatureCoordinatesToInput = (feature) ->
-  coordinates = feature.getGeometry().getCoordinates()
   map = $('#' + KS.Map.getTarget())
+  return unless map.data('position-input')?
+  coordinates = feature.getGeometry().getCoordinates()
   position = 'POINT(' + ol.proj.transform(coordinates, KS.projection, 'EPSG:4326').toString().replace(',', ' ') + ')'
   $(map.data('position-input')).val(position)
 
 KS.imagePath = (type) ->
   $("#image-sources img##{ type }").attr 'src'
+
+KS.controllerUrl = (controller) ->
+  switch controller
+    when 'issues' then '<%= Rails.application.routes.url_helpers.issues_path %>'
+    when 'delegations' then '<%= Rails.application.routes.url_helpers.delegations_path %>'

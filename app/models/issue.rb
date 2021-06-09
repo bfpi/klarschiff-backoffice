@@ -70,7 +70,7 @@ class Issue < ApplicationRecord
   end
 
   def as_json(options = {})
-    super options.reverse_merge(methods: %i[lat lon map_icon])
+    super options.reverse_merge(only: :id, methods: %i[lat lon map_icon])
   end
 
   def archived
