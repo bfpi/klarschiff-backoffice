@@ -48,11 +48,6 @@ class Issue
         issues
       end
 
-      def authorized_group_ids(user = Current.user)
-        return user.group_ids unless user&.role_regional_admin?
-        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
-      end
-      
       def authorized_by_user_districts(user = Current.user)
         return all if user.blank? || user.districts.blank?
         where <<~SQL.squish, user.district_ids
@@ -79,8 +74,6 @@ class Issue
           ))
         SQL
       end
-
-      private
 
       def authorized_group_ids(user = Current.user)
         return user.group_ids unless user&.role_regional_admin?
