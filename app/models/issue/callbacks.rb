@@ -41,9 +41,8 @@ class Issue
 
     def position_inside_instance
       return if position.blank?
-      sql = 'ST_Within(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), area)'
-      errors.add :position, :outside_instance if Instance.where(sql,
-        { lat: position.y.to_f, long: position.x.to_f }).order(:instance_url).blank?
+      cond = 'ST_Within(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), "area")'
+      errors.add :position, :outside_instance unless Instance.where(cond, lat: lat, long: long).exists?
     end
 
     def reset_archived
