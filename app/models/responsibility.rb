@@ -27,8 +27,12 @@ class Responsibility < ApplicationRecord
   private
 
   def only_one_group_for_group_type
-    filter = { category: category, group: { type: group.type, reference_id: group.reference_id } }
+    filter = { category: category, group: filter_group }
     return unless self.class.joins(:group).where.not(group: { id: group_id_was }).exists?(filter)
     errors.add :base, :group_type_taken, type: group.type.constantize.model_name.human
+  end
+
+  def filter_group
+    { type: group.type, reference_id: group.reference_id }
   end
 end

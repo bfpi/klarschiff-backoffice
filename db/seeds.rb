@@ -138,7 +138,7 @@ end
 Dir.glob('db/seeds/users_*.csv').each do |file_name|
   class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
   model = class_name.classify.constantize
-  puts "Amt: #{ name }"
+  puts "Amt: #{name}"
   target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
     next if row[0].blank?
@@ -153,6 +153,6 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
     puts "#{user.login} : '#{new_password}'"
     user.update! password: new_password
   end
-  puts "=" * 50
+  puts '=' * 50
 end
 # rubocop:enable Rails/Output
