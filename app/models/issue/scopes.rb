@@ -14,10 +14,10 @@ class Issue
       def authorized(user = Current.user)
         return all if user&.role_admin?
         authorized_group_ids = authorized_group_ids(user)
-        results = authorized_by_areas_for(authorized_group_ids)
+        authorized_by_areas_for(authorized_group_ids)
           .where(Issue.arel_table[:group_id].in(authorized_group_ids)
             .or(Issue.arel_table[:delegation_id].in(authorized_group_ids)))
-        filter_districts(results)
+          .authorized_by_user_districts
       end
 
       def by_kind(kind)
@@ -38,11 +38,15 @@ class Issue
         by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
       end
 
-      private
-
-      def authorized_group_ids(user = Current.user)
-        return user.group_ids unless user&.role_regional_admin?
-        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+      def authorized_by_user_districts(user = Current.user)
+        return all if user.blank? || user.districts.blank?
+        where <<~SQL.squish, user.district_ids
+          ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{District.quoted_table_name}
+            WHERE "id" IN (?)
+          ))
+        SQL
       end
 
       def authorized_by_areas_for(group_ids)
@@ -61,15 +65,11 @@ class Issue
         SQL
       end
 
-      def filter_districts(results, user = Current.user)
-        return results if user.districts.blank?
-        results.where <<~SQL.squish, user.district_ids
-          ST_Within("position", (
-            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{District.quoted_table_name}
-            WHERE "id" IN (?)
-          ))
-        SQL
+      private
+
+      def authorized_group_ids(user = Current.user)
+        return user.group_ids unless user&.role_regional_admin?
+        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
       end
     end
   end
