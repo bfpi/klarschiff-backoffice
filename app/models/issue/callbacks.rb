@@ -13,22 +13,25 @@ class Issue
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
       before_validation :set_reviewed, on: :update, unless: :status_changed?
+
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
-
-      validates :description, :position, :status, presence: true
-      validates :status_note, presence: true, if: :expected_closure_changed?
-      validates :status_note, presence: true,
-                              if: lambda {
-                                    status_changed? && Issue.statuses[status] > Issue.statuses[:reviewed]
-                                  }, on: :update
-      validate :position_inside_instance
 
       after_save :notify_group,
         if: lambda {
               saved_change_to_status? && status_received? && group_id.present? ||
-                saved_change_to_group_id? && Issue.statuses[status] > Issue.statuses[:pending]
+                saved_change_to_group_id? && status.to_i > Issue.statuses[:pending]
             }
+
+      validate do |is|
+        is.errors.add(:base, I18n.t('activerecord.errors.models.issue.attributes.group.blank')) if is.group.blank?
+      end
+
+      validates :description, :position, :status, presence: true
+      validates :status_note, presence: true, if: :expected_closure_changed?
+      validates :status_note, presence: true, if: lambda {
+                                                    status_changed? && status.to_i > Issue.statuses[:reviewed]
+                                                  }, on: :update
     end
 
     private
@@ -50,12 +53,6 @@ class Issue
       self.property_owner = Geocodr.property_owner(self)
     end
 
-    def position_inside_instance
-      return if position.blank?
-      cond = 'ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "area")'
-      errors.add :position, :outside_instance unless Instance.exists?([cond, { lat: lat, lon: lon }])
-    end
-
     def reset_archived
       self.archived_at = nil
     end
@@ -68,7 +65,7 @@ class Issue
       when :manual
         self.responsibility_accepted = false
       else
-        self.group = category&.group
+        self.group = category&.group(lat: lat, lon: lon)
         self.responsibility_accepted = false
       end
     end

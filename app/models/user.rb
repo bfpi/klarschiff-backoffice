@@ -30,11 +30,9 @@ class User < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def self.authorized(user = Current.user)
-    if user&.role_admin?
-      all
-    else
-      where(User.arel_table[:role].in(User.roles.keys.to_a.map(&:to_sym) - [:admin]))
-    end
+    return all if user&.role_admin?
+    return not_role_admin if user&.role_regional_admin?
+    none
   end
 
   def to_s

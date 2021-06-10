@@ -18,8 +18,7 @@ module Citysdk
     end
 
     def instances
-      @instances ||= Instance.where('ST_Within(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), area)',
-        { lat: params[:lat].to_f, long: params[:long].to_f }).order(:instance_url)
+      @instances ||= Instance.regional(lat: params[:lat], lon: params[:long]).order(:instance_url)
     end
   end
 end

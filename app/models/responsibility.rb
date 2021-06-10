@@ -11,9 +11,15 @@ class Responsibility < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
 
-  def self.default_scope
-    type = Group.arel_table[:type]
-    joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
+  class << self
+    def default_scope
+      type = Group.arel_table[:type]
+      joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
+    end
+
+    def regional(lat:, lon:)
+      where group_id: Group.regional(lat: lat, lon: lon)
+    end
   end
 
   def deleted

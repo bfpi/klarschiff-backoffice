@@ -18,7 +18,7 @@ class Category < ApplicationRecord
     [main_category, sub_category].join(' - ')
   end
 
-  def group
-    responsibilities&.first&.group
+  def group(lat:, lon:)
+    responsibilities.regional(lat: lat, lon: lon).first&.group
   end
 end
