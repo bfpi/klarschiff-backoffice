@@ -64,8 +64,9 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
     end
     { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
       next unless type == xml_key
-      group_model.find_or_create_by! main_user: User.first, name: "Standardzuständigkeit - #{name}", short_name: "SZ #{name}",
-                          kind: :internal, reference_default: true, reference_id: obj.id
+      group_model.find_or_create_by! main_user: User.first, name: "Standardzuständigkeit - #{name}",
+                                     short_name: "SZ #{name}", kind: :internal, reference_default: true,
+                                     reference_id: obj.id
       next unless Rails.env.development?
       2.times do |ix|
         {
@@ -74,7 +75,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
           "extern_#{ix + 1}": { name: "Extern #{ix + 1} #{name}", kind: :external }
         }.each do |short_name, values|
           group_model.find_or_create_by! values.merge(short_name: short_name, reference_id: obj.id,
-                                           main_user: User.find_by(login: :regional_admin))
+                                                      main_user: User.find_by(login: :regional_admin))
         end
       end
     end
