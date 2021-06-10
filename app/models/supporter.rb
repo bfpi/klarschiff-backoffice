@@ -9,6 +9,8 @@ class Supporter < ApplicationRecord
 
   belongs_to :issue
 
+  default_scope -> { where.not(confirmed_at: nil) }
+
   private
 
   def set_confirmation_hash

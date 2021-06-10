@@ -20,7 +20,7 @@ module Citysdk
       end
 
       def confirm
-        vote = Citysdk::Vote.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
+        vote = Citysdk::Vote.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if vote.blank?
         supporter = vote.becomes(Supporter)
         supporter.update! confirmed_at: Time.current

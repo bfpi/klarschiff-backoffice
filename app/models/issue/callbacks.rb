@@ -23,7 +23,7 @@ class Issue
                                                   }, on: :update
       validate :position_inside_instance
 
-      after_create :send_confirmation
+      after_create :confirm
     end
 
     private

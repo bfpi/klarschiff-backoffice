@@ -8,7 +8,7 @@ class DeleteUnconfirmedSupportersJob < ApplicationJob
   private
 
   def unconfirmed_supporters(time)
-    Supporter.where(sat[:confirmed_at].eq(nil).and(sat[:created_at].lt(time)))
+    Supporter.unscoped.where(sat[:confirmed_at].eq(nil).and(sat[:created_at].lt(time)))
   end
 
   def sat
