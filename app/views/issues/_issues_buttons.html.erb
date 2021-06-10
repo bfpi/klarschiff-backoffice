@@ -4,7 +4,9 @@
   <%= link_to t(:export_xlsx), issues_path(filter: @filter, extended_filter: @extended_filter, format: :xlsx),
         class: 'btn btn-primary' %>
   <%= button_tag t('.assign_jobs'), id: 'assign-jobs', type: 'button', class: 'btn btn-primary' %>
-  <div class="float-right">
-    <%= link_to t('.new_issue'), new_issue_path, remote: true, class: 'btn btn-primary' %>
-  </div>
+  <% if authorized?(:create_issue) -%>
+    <div class="float-right">
+      <%= link_to t('.new_issue'), new_issue_path, remote: true, class: 'btn btn-primary' %>
+    </div>
+  <% end -%>
 </span>

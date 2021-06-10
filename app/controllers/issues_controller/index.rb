@@ -5,7 +5,6 @@ class IssuesController
     extend ActiveSupport::Concern
 
     def index
-
       check_auth(:issues)
       respond_to do |format|
         format.json { render json: results.to_json }
@@ -23,13 +22,15 @@ class IssuesController
     end
 
     def html_response
-      if params[:show_map] == 'true'
-        @filter = filter_params.presence || { statuses: (1..6).to_a }
-        @extended_filter = params[:extended_filter] == 'true'
-        return render :map
-      end
+      return map_response if params[:show_map] == 'true'
       @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
       @issues = paginate(results)
+    end
+
+    def map_response
+      @filter = filter_params.presence || { statuses: (1..6).to_a }
+      @extended_filter = params[:extended_filter] == 'true'
+      render :map
     end
 
     def xlsx_response
