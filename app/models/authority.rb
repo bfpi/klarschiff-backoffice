@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Authority < ApplicationRecord
+  include RegionalScope
+
   belongs_to :county
 
   has_many :groups, class_name: 'AuthorityGroup', foreign_key: :reference_id, inverse_of: :authority,

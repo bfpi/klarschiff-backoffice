@@ -123,6 +123,8 @@ de:
               email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
+            group:
+              blank: Die ausgewählte Kategorie wird derzeit an dieser Position nicht unterstützt.
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs
         responsibility:

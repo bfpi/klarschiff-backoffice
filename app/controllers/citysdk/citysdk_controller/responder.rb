@@ -24,11 +24,11 @@ module Citysdk
         end
       end
 
-      def citysdk_respond_with_unprocessable_entity(record)
-        citysdk_response [{ code: 422, description: record.to_s }], root: :error_messages, status: :unprocessable_entity
+      def citysdk_respond_with_unprocessable_entity(error)
+        citysdk_response [{ code: 422, description: error.to_s }], root: :error_messages, status: :unprocessable_entity
       end
 
-      def citysdk_respond_with_record_not_found(_record)
+      def citysdk_respond_with_record_not_found(_error)
         citysdk_response [{ code: 404, description: 'record_not_found' }], root: :error_messages, status: :not_found
       end
 
