@@ -19,8 +19,9 @@ class IssueMailer < ApplicationMailer
     mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
-  def delegation(to:, issues:)
+  def delegation(to:, issues:, auth_codes: [])
     @issues = issues
+    @auth_codes = auth_codes
     mail to: to
   end
 
@@ -28,6 +29,12 @@ class IssueMailer < ApplicationMailer
     @days = days
     @issues = issues
     mail(to: to, interpolation: { subject: { title: Settings::Instance.name } })
+  end
+
+  def responsibility(to:, issue:, auth_code:)
+    @issue = issue
+    @auth_code = auth_code
+    mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
   private

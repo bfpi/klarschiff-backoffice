@@ -5,6 +5,7 @@ class IssuesController
     extend ActiveSupport::Concern
 
     def index
+      check_auth(:issues)
       respond_to do |format|
         format.json { render json: results.to_json }
         format.js { @issues = paginate(results) }
@@ -16,12 +17,17 @@ class IssuesController
     private
 
     def base_collection
-      Issue.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
+      Issue.authorized.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
         .order created_at: :desc
     end
 
     def html_response
-      return @issues = paginate(results) unless params[:show_map] == 'true'
+      return map_response if params[:show_map] == 'true'
+      @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
+      @issues = paginate(results)
+    end
+
+    def map_response
       @filter = filter_params.presence || { statuses: (1..6).to_a }
       @extended_filter = params[:extended_filter] == 'true'
       render :map
@@ -36,6 +42,7 @@ class IssuesController
       @extended_filter = params[:extended_filter] == 'true'
       @filter = filter_params.presence || { statuses: (1..6).to_a }
       @status = (params.fetch(:filter, {})[:status] || 0).to_i
+      return base_collection if Current.user.auth_code
       IssueFilter.new(@extended_filter, @filter).collection
     end
 

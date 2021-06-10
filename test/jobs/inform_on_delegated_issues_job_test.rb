@@ -13,6 +13,6 @@ class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
     assert_emails 1
     mail = ActionMailer::Base.deliveries.first
     group(:external).users.pluck(:email).each { |email| assert_includes mail.to, email }
-    assert_equal 'Neue delegierte Vorgänge', mail.subject
+    assert_equal 'Neue delegierte Meldungen', mail.subject
   end
 end

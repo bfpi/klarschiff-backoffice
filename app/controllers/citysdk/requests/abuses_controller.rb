@@ -20,7 +20,7 @@ module Citysdk
       end
 
       def confirm
-        abuse = Citysdk::Abuse.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
+        abuse = Citysdk::Abuse.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if abuse.blank?
         abuse_report = abuse.becomes(AbuseReport)
         abuse_report.update! confirmed_at: Time.current

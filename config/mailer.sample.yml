@@ -6,9 +6,9 @@ development: &default
     interceptions_recipient: support-klarschiff@bfpi.de
   issue_mailer:
     forward:
-      subject: weitergeleiteter Vorgang
+      subject: weitergeleitete Meldung
     issue:
-      subject: weitergeleiteter Vorgang aus dem Beteiligungsportal Klarschiff von Schwerin
+      subject: weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV
   confirmation_mailer:
     abuse_report:
       subject: "#%{number}: Bestätigung einer Missbrauchsmeldung"
@@ -23,14 +23,16 @@ development: &default
       to: support-klarschiff@bfpi.de
       subject: "Lob/Hinweis/Kritik zur Meldung #%{number}"
   issue_mailer:
-    in_process:
-      subject: "#%{number}: in Bearbeitung"
     closed:
       subject: "#%{number}: abgeschlossen"
     delegation:
-      subject: "Neue delegierte Vorgänge"
+      subject: "Neue delegierte Meldungen"
+    in_process:
+      subject: "#%{number}: in Bearbeitung"
     inform_editorial_staff:
       subject: "%{title}: wichtige redaktionelle Hinweise"
+    responsibility:
+      subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
   test_mailer:
     test:
       subject: Test-Mail

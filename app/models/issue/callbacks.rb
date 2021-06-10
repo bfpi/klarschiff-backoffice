@@ -13,19 +13,26 @@ class Issue
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
       before_validation :set_reviewed, on: :update, unless: :status_changed?
+      
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
+      
+      after_save :notify_group,
+        if: lambda {
+              saved_change_to_status? && status_received? && group_id.present? ||
+                saved_change_to_group_id? && status.to_i > Issue.statuses[:pending]
+            }
 
+      validate :position_inside_instance
       validate do |is|
         is.errors.add(:base, I18n.t('activerecord.errors.models.issue.attributes.group.blank')) if is.group.blank?
       end
+      
       validates :description, :position, :status, presence: true
       validates :status_note, presence: true, if: :expected_closure_changed?
       validates :status_note, presence: true, if: lambda {
                                                     status_changed? && status.to_i > Issue.statuses[:reviewed]
                                                   }, on: :update
-
-      after_create :send_confirmation
     end
 
     private
@@ -33,6 +40,12 @@ class Issue
     def add_photo
       return if new_photo.blank?
       photos.new file: new_photo, author: Current.user.email, status: :internal
+    end
+
+    # overwrite ConfirmationWithHash#confirm
+    def confirm
+      return send_confirmation if Current.user.blank?
+      status_received!
     end
 
     def update_address_parcel_property_owner
@@ -76,6 +89,12 @@ class Issue
       return 0 if (user = User.find_by(email: author)).blank?
       return 2 if user.groups.any?(&:kind_field_service_team?)
       1
+    end
+
+    def notify_group
+      return if group.user_ids.present?
+      auth_code = AuthCode.find_or_create_by(issue: self, group: group)
+      IssueMailer.responsibility(to: group.email, issue: self, auth_code: auth_code).deliver_now
     end
   end
 end

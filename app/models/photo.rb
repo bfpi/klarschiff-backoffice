@@ -18,6 +18,8 @@ class Photo < ApplicationRecord
 
   validates :file, attached: true, content_type: 'image/jpeg', on: :create
 
+  default_scope -> { where.not(confirmed_at: nil) }
+
   def _modification
     nil
   end

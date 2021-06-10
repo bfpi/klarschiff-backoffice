@@ -12,6 +12,7 @@ class Issue
 
     class_methods do # rubocop:disable Metrics/BlockLength
       def authorized(user = Current.user)
+        return auth_code_issues(user.auth_code) if user.auth_code
         return all if user&.role_admin?
         authorized_group_ids = authorized_group_ids(user)
         authorized_by_areas_for(authorized_group_ids)
@@ -36,6 +37,15 @@ class Issue
 
       def ideas_with_min_supporters
         by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
+      end
+
+      private
+
+      def auth_code_issues(auth_code)
+        issues = where(id: auth_code.issue_id)
+        issues = issues.where(group_id: auth_code.group_id) if auth_code.group.kind_internal?
+        issues = issues.where(delegation_id: auth_code.group_id) if auth_code.group.kind_external?
+        issues
       end
 
       def authorized_by_user_districts(user = Current.user)
@@ -64,8 +74,6 @@ class Issue
           ))
         SQL
       end
-
-      private
 
       def authorized_group_ids(user = Current.user)
         return user.group_ids unless user&.role_regional_admin?

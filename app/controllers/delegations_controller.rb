@@ -3,10 +3,10 @@
 class DelegationsController < ApplicationController
   include DelegationsController::Export
 
-  before_action { check_auth :manage_delegations }
   before_action :set_status, :set_tab
 
   def index
+    check_auth :delegations
     respond_to do |format|
       format.json { render json: issues.to_json }
       format.html { html_response }
@@ -15,6 +15,7 @@ class DelegationsController < ApplicationController
   end
 
   def show
+    check_auth :edit_delegation, Issue.find(params[:id])
     @edit_delegation_url = edit_delegation_url(params[:id])
     @issues = paginate(issues)
     render :index
@@ -22,10 +23,12 @@ class DelegationsController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
+    check_auth :edit_delegation, @issue
   end
 
   def update
     @issue = Issue.find(params[:id])
+    check_auth :edit_delegation, @issue
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
       redirect_to delegations_url(filter: { status: @status })
@@ -37,16 +40,20 @@ class DelegationsController < ApplicationController
   private
 
   def issues
-    issues = Issue.includes(category: %i[main_category sub_category]).not_archived.where.not(delegation_id: nil)
-      .order(created_at: :desc)
+    issues = Issue.authorized.includes(category: %i[main_category sub_category])
+      .not_archived.where.not(delegation_id: nil).order(created_at: :desc)
+    return issues if Current.user.auth_code
     return issues.status_in_process if @status.zero?
     issues.where(status: %i[duplicate not_solvable closed])
   end
 
   def html_response
-    return @issues = paginate(issues) unless params[:show_map] == 'true'
-    @filter = { status: @status }.to_json
-    render :map
+    if params[:show_map] == 'true'
+      @filter = { status: @status }.to_json
+      return render :map
+    end
+    @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
+    @issues = paginate(issues)
   end
 
   def reject

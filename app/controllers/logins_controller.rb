@@ -29,6 +29,7 @@ class LoginsController < ApplicationController
       session[:login] = nil
       return redirect_to root_path
     end
+    session[:auth_code] = nil
     session[:login] = nil
     session[:user_login] = nil
     redirect_to new_logins_url

@@ -8,7 +8,7 @@ class DeleteUnconfirmedAbuseReportsJob < ApplicationJob
   private
 
   def unconfirmed_abuse_reports(time)
-    AbuseReport.where(arat[:confirmed_at].eq(nil).and(arat[:created_at].lt(time)))
+    AbuseReport.unscoped.where(arat[:confirmed_at].eq(nil).and(arat[:created_at].lt(time)))
   end
 
   def arat
