@@ -46,5 +46,17 @@ module Citysdk
       job.order = value.to_i
       job.save
     end
+
+    def media=(value)
+      tempfile = Tempfile.new('fileupload')
+      tempfile.binmode
+      tempfile.write(Base64.decode64(value))
+      tempfile.close
+
+      filename = 'filename.jpg'
+      mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
+      self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: filename, type: mime_type)
+      self.photo_requested = false
+    end
   end
 end

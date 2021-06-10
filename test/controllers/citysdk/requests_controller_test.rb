@@ -215,6 +215,12 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
       .xpath('/service_requests/request/extended_attributes/photo_required/text()').first.to_s
   end
 
+  test 'update attribute media with ppc api-key' do
+    reloaded_request = update_request_and_reload(issue(:one).id, :media,
+      Base64.encode64(File.read('test/fixtures/files/test.jpg')), email: user(:one).email)
+    assert_not_empty reloaded_request.xpath('/service_requests/request/media_url/text()').first.to_s
+  end
+
   test 'update attribute detailed_status with ppc api-key' do
     new_value = 'IN_PROCESS'
     reloaded_request = update_request_and_reload(issue(:one).id, :detailed_status, new_value)
@@ -356,8 +362,8 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
                               job_priority: 1)
   end
 
-  def update_request_and_reload(request_id, attr, value)
-    put "/citysdk/requests/#{request_id}.xml?api_key=#{api_key_ppc}", params: { attr => value }
+  def update_request_and_reload(request_id, attr, value, additional_params = {})
+    put "/citysdk/requests/#{request_id}.xml?api_key=#{api_key_ppc}", params: { attr => value }.merge(additional_params)
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_equal 1, service_request_id.count

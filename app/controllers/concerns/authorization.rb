@@ -73,15 +73,12 @@ module Authorization
   end
 
   def check_citysdk_authentication
+    Current.user = User.active.find_by(User.arel_table[:email].matches(params[:email])) if params[:email].present?
     case controller_path
-    when 'citysdk/requests/notes'
-      check_citysdk_authentication_for_notes
-    when 'citysdk/requests/comments'
-      check_citysdk_authentication_for_comments
-    when 'citysdk/requests'
-      check_citysdk_authentication_for_requests
-    when 'citysdk/jobs'
-      check_citysdk_authentication_for_jobs
+    when 'citysdk/requests/notes' then check_citysdk_authentication_for_notes
+    when 'citysdk/requests/comments' then check_citysdk_authentication_for_comments
+    when 'citysdk/requests' then check_citysdk_authentication_for_requests
+    when 'citysdk/jobs' then check_citysdk_authentication_for_jobs
     end
   end
 
