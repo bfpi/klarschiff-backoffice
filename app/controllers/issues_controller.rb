@@ -37,6 +37,7 @@ class IssuesController < ApplicationController
     @issue = Issue.new(issue_params.merge(status: :received))
     if @issue.save
       return redirect_to action: :index if params[:save_and_close].present?
+      prepare_tabs
       render :edit
     else
       render :new

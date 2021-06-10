@@ -24,10 +24,9 @@ class Issue
                                   }, on: :update
       validate :position_inside_instance
 
-      after_create :confirm
       after_save :notify_group,
         if: lambda {
-              saved_change_to_status? && Issue.statuses[status] == Issue.statuses[:received] && group_id.present? ||
+              saved_change_to_status? && status_received? && group_id.present? ||
                 saved_change_to_group_id? && Issue.statuses[status] > Issue.statuses[:pending]
             }
     end
@@ -37,6 +36,12 @@ class Issue
     def add_photo
       return if new_photo.blank?
       photos.new file: new_photo, author: Current.user.email, status: :internal
+    end
+
+    # overwrite ConfirmationWithHash#confirm
+    def confirm
+      return send_confirmation if Current.user.blank?
+      status_received!
     end
 
     def update_address_parcel_property_owner
@@ -91,7 +96,6 @@ class Issue
     def notify_group
       return if group.user_ids.present?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
-      Rails.logger.info "AUTH CODE #{auth_code.inspect}"
       IssueMailer.responsibility(to: group.email, issue: self, auth_code: auth_code).deliver_now
     end
   end

@@ -1,8 +1,8 @@
-Sehr geehrte(r) Bearbeiter/-in von Vorgängen in <%= Settings::Instance.name %>,
+Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
 
-es wurde ein Vorgang an Sie zugewiesen. Klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
+es wurde eine Meldung an Sie zugewiesen. Klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
 
-Daten des zugewiesenen Vorgangs
+Daten der zugewiesenen Meldung
 ************************************
 <%= render partial: 'issue', object: @issue, locals: { issue_link: issues_url(auth_code: @auth_code.uuid) } -%>
 ************************************

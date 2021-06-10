@@ -4,7 +4,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th><input type="checkbox" class="select-all"></th>
+        <% if authorized?(:jobs) -%>
+          <th><input type="checkbox" class="select-all"></th>
+        <% end -%>
         <th scope="col">#</th>
         <th scope="col"><%= Issue.human_attribute_name :created_at %></th>
         <th scope="col"><%= Category.human_attribute_name :sub_category %></th>
@@ -20,7 +22,9 @@
     <tbody>
       <% @issues.each do |issue| %>
         <tr class="<%= 'text-muted' if issue.archived_at.present? %> <%= 'highlight' if issue.abuse_reports.present? %>">
-          <td><%= check_box_tag :issue_id, issue.id, false, class: 'selectable' %></td>
+          <% if authorized?(:jobs) -%>
+            <td><%= check_box_tag :issue_id, issue.id, false, class: 'selectable' %></td>
+          <% end -%>
           <td><%= issue.id %></td>
           <td><%= l issue.created_at %></td>
           <td><%= issue.sub_category %></td>

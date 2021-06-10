@@ -34,7 +34,7 @@ class IssueMailer < ApplicationMailer
   def responsibility(to:, issue:, auth_code:)
     @issue = issue
     @auth_code = auth_code
-    mail to: to
+    mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
   private
