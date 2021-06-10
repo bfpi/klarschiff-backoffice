@@ -329,7 +329,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '404', 'record_not_found'
   end
 
-  test 'deletion cancellation due to existing sbuse_report with ppc api-key' do
+  test 'deletion cancellation due to existing abuse_report with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_abuse_report).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '404', 'record_not_found'

@@ -24,7 +24,7 @@ class Issue
                                   }, on: :update
       validate :position_inside_instance
 
-      after_create :send_confirmation
+      after_create :confirm
       after_save :notify_group,
         if: lambda {
               saved_change_to_status? && Issue.statuses[status] == Issue.statuses[:received] && group_id.present? ||
