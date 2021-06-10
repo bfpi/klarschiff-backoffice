@@ -8,7 +8,7 @@ module Citysdk
       included do
         rescue_from StandardError, with: :citysdk_respond_with_error
         rescue_from ActiveRecord::RecordInvalid, with: :citysdk_respond_with_unprocessable_entity
-        rescue_from ActiveRecord::RecordNotFound, with: :citysdk_respond_with_record_not_found
+        rescue_from ActiveRecord::RecordNotFound, with: -> { citysdk_respond_with_record_not_found }
       end
 
       def citysdk_response(objects, opts = {})
@@ -28,7 +28,7 @@ module Citysdk
         citysdk_response [{ code: 422, description: error.to_s }], root: :error_messages, status: :unprocessable_entity
       end
 
-      def citysdk_respond_with_record_not_found(_error)
+      def citysdk_respond_with_record_not_found
         citysdk_response [{ code: 404, description: 'record_not_found' }], root: :error_messages, status: :not_found
       end
 
