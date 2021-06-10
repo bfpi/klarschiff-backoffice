@@ -3,7 +3,7 @@
 one:
   first_name: MyText
   last_name: MyText
-  email: one@example.com
+  email: One@example.com
   login: MyText
   password_digest: MyText
   ldap: MyText
@@ -13,7 +13,7 @@ one:
 two:
   first_name: MyText
   last_name: MyText
-  email: two@example.com
+  email: Two@example.com
   login: MyText
   password_digest: MyText
   ldap: MyText
