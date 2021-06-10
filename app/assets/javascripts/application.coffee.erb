@@ -92,7 +92,6 @@ KS.initDnD = ->
   $('.table-draggable').tableDnD(
     onDragClass: 'dragged-row'
     onDrop: (table, row) ->
-      console.log('drop')
       jobsOrder = []
       $(table.rows).each (idx) ->
         jobsOrder.push({ "#{@.dataset.id}": idx })
