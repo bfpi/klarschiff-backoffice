@@ -26,13 +26,9 @@ class Group < ApplicationRecord
 
   class << self
     def authorized(user = Current.user)
-      if user&.role_admin?
-        active
-      elsif user&.role_regional_admin?
-        where id: user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
-      else
-        none
-      end
+      return active if user&.role_admin?
+      return none unless user&.role_regional_admin?
+      user.groups.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }.inject :or
     end
 
     def regional(lat:, lon:)
