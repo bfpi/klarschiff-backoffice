@@ -2,6 +2,7 @@
 
 class DashboardsController < ApplicationController
   def show
+    check_auth(:view_dashboard)
     issues
     notices
     @notices_count = @in_process_not_accepted.count + @open_ideas_without_min_supporters.count +

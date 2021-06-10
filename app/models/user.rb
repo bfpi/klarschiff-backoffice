@@ -4,6 +4,8 @@ class User < ApplicationRecord
   include Logging
   include UserAuthorization
 
+  attr_accessor :auth_code
+
   has_secure_password(validations: false)
 
   self.omit_field_log_values += %w[password_digest password_history]
@@ -46,7 +48,7 @@ class User < ApplicationRecord
   private
 
   def role_permissions
-    return true unless Current.user
+    return true unless Current.user && !Current.user.auth_code
     if self.class.roles[role] < Current.user.read_attribute_before_type_cast(:role)
       errors.add :role, :invalid_permissions
       return false

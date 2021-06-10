@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   rescue_from StandardError, with: :respond_with_error
   rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
+
   include Authorization
 
   prepend_view_path 'overlay/views'
@@ -19,7 +20,11 @@ class ApplicationController < ActionController::Base
 
   def respond_with_not_found
     raise if Rails.env.test?
-    @message = I18n.t(:record_not_found)
+    respond_with_execption I18n.t('activerecord.errors.record_not_found')
+  end
+
+  def respond_with_execption(message)
+    @message = message
     respond_to do |format|
       format.js { render :exception, formats: :js }
       format.html { render :exception }

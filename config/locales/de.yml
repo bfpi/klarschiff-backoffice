@@ -139,6 +139,7 @@ de:
           attributes:
             role:
               invalid_permissions: darf nicht mehr Berechtigungen als die eigene haben.
+      record_not_found: Der Datensatz konnte nicht gefunden werden!
     models:
       abuse_report:
         one: Missbrauchsmeldung
@@ -399,7 +400,6 @@ de:
     administration: Administration
   no_result: Die Suche ergab kein Resultat
   pagetitle: Klarschiff-Backoffice
-  record_not_found: Der Datensatz konnte nicht gefunden werden!
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit

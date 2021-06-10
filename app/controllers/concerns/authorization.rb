@@ -30,12 +30,36 @@ module Authorization
 
   def authenticate
     return check_citysdk_authentication if controller_path.starts_with?('citysdk')
+    return authenticate_with_auth_code if (session[:auth_code] || params[:auth_code]).present?
     login = init_current_login or return
+    authenticate_user login
+  end
+
+  def authenticate_user(login)
     if (Current.user = User.active.find_by(User.arel_table[:login].matches(login)))
       logger_current_user login
     else
       redirect_to new_logins_path
     end
+  end
+
+  def authenticate_with_auth_code
+    reset_session_user
+    session[:auth_code] = params[:auth_code] if params[:auth_code].present?
+    init_current_user_with_auth_code
+    return logger_current_user(Current.login) if Current.user.auth_code
+    redirect_to new_logins_path
+  end
+
+  def init_current_user_with_auth_code
+    Current.login = session[:auth_code]
+    Current.user = User.new(login: Current.login)
+    Current.user.auth_code = AuthCode.find_by(uuid: Current.login)
+  end
+
+  def reset_session_user
+    session[:user_login] = nil
+    Current.login = nil
   end
 
   def logger_current_user(login)
@@ -44,8 +68,8 @@ module Authorization
     logger.info msg
   end
 
-  def check_auth(action)
-    raise UserAuthorization::NotAuthorized, action unless authorized?(action)
+  def check_auth(action, object = nil)
+    raise UserAuthorization::NotAuthorized, action unless authorized?(action, object)
   end
 
   def check_citysdk_authentication
