@@ -28,7 +28,7 @@ class IssuesController
     end
 
     def xlsx_response
-      @issues = paginate(results)
+      @issues = results
       xlsx_export
     end
 

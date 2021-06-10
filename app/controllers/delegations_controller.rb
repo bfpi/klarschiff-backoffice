@@ -10,7 +10,7 @@ class DelegationsController < ApplicationController
     respond_to do |format|
       format.json { render json: issues.to_json }
       format.html { html_response }
-      format.xlsx { xlsx_export paginate(issues) }
+      format.xlsx { xlsx_export issues }
     end
   end
 
