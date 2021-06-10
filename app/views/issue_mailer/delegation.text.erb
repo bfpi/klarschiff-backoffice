@@ -1,8 +1,8 @@
-Sehr geehrte(r) Bearbeiter/-in von Vorgängen in <%= Settings::Instance.name %>,
+Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
 
-innerhalb der letzten <%= JobSettings::Issue.delegation_deadline %> Stunden wurden Vorgänge an Sie delegiert. Bitte bearbeiten Sie diese Vorgänge:
+innerhalb der letzten <%= JobSettings::Issue.delegation_deadline %> Stunden wurden Meldungen an Sie delegiert. Bitte bearbeiten Sie diese Meldungen:
 
-Daten der neuen delegierten Vorgänge
+Daten der neuen delegierten Meldungen
 ************************************
 <% @issues.each do |issue| -%>
 <% auth_code = @auth_codes.find { |ac| ac.issue_id == issue.id }.uuid if @auth_codes.present? -%>

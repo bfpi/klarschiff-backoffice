@@ -5,10 +5,11 @@ class IssuesController
     extend ActiveSupport::Concern
 
     def index
+
       check_auth(:issues)
       respond_to do |format|
-        format.json { render json: Issue.where(id: params[:ids]).to_json }
-        format.js { js_response }
+        format.json { render json: results.to_json }
+        format.js { @issues = paginate(results) }
         format.html { html_response }
         format.xlsx { xlsx_response }
       end
@@ -22,29 +23,39 @@ class IssuesController
     end
 
     def html_response
+      if params[:show_map] == 'true'
+        @filter = filter_params.presence || { statuses: (1..6).to_a }
+        @extended_filter = params[:extended_filter] == 'true'
+        return render :map
+      end
       @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
       @issues = paginate(results)
     end
 
     def xlsx_response
-      @issues = results
-      xlsx_export
-    end
-
-    def js_response
       @issues = paginate(results)
-      return render(:map) if params[:show_map] == 'true'
+      xlsx_export
     end
 
     def results
       @extended_filter = params[:extended_filter] == 'true'
-      @status = (params[:status] || 0).to_i
+      @filter = filter_params.presence || { statuses: (1..6).to_a }
+      @status = (params.fetch(:filter, {})[:status] || 0).to_i
       return base_collection if Current.user.auth_code
-      IssueFilter.new(params).collection
+      IssueFilter.new(@extended_filter, @filter).collection
     end
 
     def paginate(issues)
       issues.page(params[:page] || 1).per(params[:per_page] || 20)
+    end
+
+    def filter_params
+      params.fetch(:filter, {}).permit(*permitted_filter_attributes)
+    end
+
+    def permitted_filter_attributes
+      [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
+       :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text]
     end
   end
 end

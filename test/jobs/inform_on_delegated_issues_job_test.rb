@@ -5,6 +5,8 @@ require 'test_helper'
 class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
   include ActionMailer::TestHelper
 
+  setup { ActionMailer::Base.deliveries.clear }
+
   test 'perform and mails get sent' do
     assert_emails 0
     assert_nothing_raised { InformOnDelegatedIssuesJob.perform_now }

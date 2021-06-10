@@ -8,8 +8,9 @@ class DelegationsController < ApplicationController
   def index
     check_auth :delegations
     respond_to do |format|
+      format.json { render json: issues.to_json }
       format.html { html_response }
-      format.xlsx { xlsx_export issues }
+      format.xlsx { xlsx_export paginate(issues) }
     end
   end
 
@@ -30,7 +31,7 @@ class DelegationsController < ApplicationController
     check_auth :edit_delegation, @issue
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to delegations_url(filter_status: @status)
+      redirect_to delegations_url(filter: { status: @status })
     else
       render :edit
     end
@@ -47,9 +48,12 @@ class DelegationsController < ApplicationController
   end
 
   def html_response
+    if params[:show_map] == 'true'
+      @filter = { status: @status }.to_json
+      return render :map
+    end
     @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
     @issues = paginate(issues)
-    return render :map if params[:show_map] == 'true'
   end
 
   def reject
@@ -58,7 +62,7 @@ class DelegationsController < ApplicationController
   end
 
   def set_status
-    @status = params[:filter_status].to_i
+    @status = params.fetch(:filter, {})[:status].to_i
   end
 
   def set_tab

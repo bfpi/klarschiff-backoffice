@@ -31,7 +31,7 @@ end
 unless MailBlacklist.exists?
   50.times do
     pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
-    MailBlacklist.create! pattern: pattern, source: 'Erstinstallation'
+    MailBlacklist.find_or_create_by! pattern: pattern, source: 'Erstinstallation'
   end
 end
 
@@ -64,8 +64,9 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
     end
     { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
       next unless type == xml_key
-      group_model.create! main_user: User.first, name: "Standardzuständigkeit - #{name}", short_name: "SZ #{name}",
-                          kind: :internal, reference_default: true, reference_id: obj.id
+      group_model.find_or_create_by! main_user: User.first, name: "Standardzuständigkeit - #{name}",
+                                     short_name: "SZ #{name}", kind: :internal, reference_default: true,
+                                     reference_id: obj.id
       next unless Rails.env.development?
       2.times do |ix|
         {
@@ -73,8 +74,8 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
           "innen_#{ix + 1}": { name: "Intern #{ix + 1} #{name}", kind: :internal },
           "extern_#{ix + 1}": { name: "Extern #{ix + 1} #{name}", kind: :external }
         }.each do |short_name, values|
-          group_model.create! values.merge(short_name: short_name, reference_id: obj.id,
-                                           main_user: User.find_by(login: :regional_admin))
+          group_model.find_or_create_by! values.merge(short_name: short_name, reference_id: obj.id,
+                                                      main_user: User.find_by(login: :regional_admin))
         end
       end
     end
@@ -85,12 +86,14 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
   SQL
 end
 
-ActiveRecord::Base.connection.execute <<~SQL.squish
-  INSERT INTO #{Instance.table_name}
-  SELECT 1, 'MV', '', ST_Multi(ST_CollectionExtract(st_polygonize(ST_Boundary(area)), 3)),
-    current_timestamp, current_timestamp
-  FROM #{County.table_name}
-SQL
+if Instance.where(id: 1).blank?
+  ActiveRecord::Base.connection.execute <<~SQL.squish
+    INSERT INTO #{Instance.table_name}
+    SELECT 1, 'MV', '', ST_Multi(ST_CollectionExtract(st_polygonize(ST_Boundary(area)), 3)),
+      current_timestamp, current_timestamp
+    FROM #{County.table_name}
+  SQL
+end
 
 InstanceGroup.find_or_create_by! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
                                  kind: :internal, reference_default: true, reference_id: 1
@@ -126,6 +129,7 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
     if (name = row[0]).present?
       current_main_category = MainCategory.find_by!(kind: row[1], name: name.strip)
     elsif (name = row[2]).present? && (group_name = row[3]).present?
+      target.groups.where(short_name: "SZ #{target}").delete_all
       sub_category = SubCategory.find_by!(name: name.strip)
       category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
       group = target.groups.find_or_create_by!(name: group_name.strip, main_user: User.find_by(login: :regional_admin))

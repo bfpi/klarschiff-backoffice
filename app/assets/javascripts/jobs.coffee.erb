@@ -1,9 +1,6 @@
 #= require tablednd
 
 $ ->
-  $(document).ready KS.initDnD
-  $(document).on 'turbolinks:load', KS.initDnD
-
   $(document).on 'click', '.select-all', ->
     $(@).parents('table').find('.selectable').prop('checked', @.checked)
 

@@ -3,10 +3,10 @@
 class IssueFilter
   attr_reader :collection
 
-  def initialize(params = {})
+  def initialize(extended_filter, params = {})
     @collection = Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
       .order created_at: :desc
-    filter_collection(params)
+    filter_collection(params, extended_filter)
   end
 
   private
@@ -23,8 +23,8 @@ class IssueFilter
     [:abuse_reports, :group, :delegation, :job, :photos, { category: %i[main_category sub_category] }]
   end
 
-  def filter_collection(params)
-    return extended_filter(params) if params[:extended_filter] == 'true'
+  def filter_collection(params, extended_filter)
+    return extended_filter(params) if extended_filter
     simple_filter params[:status].to_i
   end
 

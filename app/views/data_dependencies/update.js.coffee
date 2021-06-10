@@ -11,13 +11,13 @@
     $('#manual-responsibility').hide()
   <% end -%>
 <% end -%>
-<% if @attribute == 'kind' %>
-  $('#main_category').attr('disabled', <%= @value.blank? %>)
-  $('#main_category').html("<%= j options_for_select(main_categories(@value)) %>")
+<% if @attribute == 'filter[kind]' %>
+  $('#filter_main_category').attr('disabled', <%= @value.blank? %>)
+  $('#filter_main_category').html("<%= j options_for_select(main_categories(@value)) %>")
 <% end %>
-<% if @attribute == 'main_category' %>
-  $('#sub_category').attr('disabled', <%= @value.blank? %>)
-  $('#sub_category').html("<%= j options_for_select(sub_categories(@value)) %>")
+<% if @attribute == 'filter[main_category]' %>
+  $('#filter_sub_category').attr('disabled', <%= @value.blank? %>)
+  $('#filter_sub_category').html("<%= j options_for_select(sub_categories(@value)) %>")
 <% end %>
 <% if @attribute == 'group[type]' -%>
   $('#regional_restriction').html("<%= j render(partial: 'groups/regional_restriction', locals: { type: @value, select: nil }) %>")

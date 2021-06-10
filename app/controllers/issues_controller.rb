@@ -87,12 +87,4 @@ class IssuesController < ApplicationController
   def set_tab
     @tab = params[:tab]&.to_sym || :master_data
   end
-
-  def iat
-    Issue.arel_table
-  end
-
-  def cat
-    Category.arel_table
-  end
 end

@@ -123,6 +123,8 @@ de:
               email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
+            position:
+              outside_instance: befindet sich außerhalb des gültigen Bereichs
         responsibility:
           attributes:
             base:
@@ -298,7 +300,7 @@ de:
       status:
         checked: Abgehakt
         unchecked: Nicht abgehakt
-        not_checkable: Nicht abarbeitbar
+        uncheckable: Nicht abarbeitbar
     main_category:
       kind:
         idea: Idee
@@ -329,9 +331,9 @@ de:
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
-      success: Eine E-Mail mit den Daten des aktuellen Vorgangs wurde erfolgreich versendet.
+      success: Eine E-Mail mit den Daten der aktuellen Meldung wurde erfolgreich versendet.
     new:
-      headline: Sie können hier die Daten des aktuellen Vorgangs als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
+      headline: Sie können hier die Daten der aktuellen Meldung als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
       send_data:
         headline: Welche Daten sollen mitgesendet werden?
   issue_mailer:
@@ -347,7 +349,7 @@ de:
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
         redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
   issues:
-    index:
+    issues_buttons:
       assign_jobs: Zuordnung für den Außendienst
       map: Kartenansicht
       new_issue: Neue Meldung
@@ -374,7 +376,7 @@ de:
         status: Status
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
-      responsibility_action_accept: Zuständigkeit für den Vorgang akzeptieren
+      responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
@@ -386,7 +388,7 @@ de:
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
     tab_rejection:
-      reject: "Vorgang an %{group} zurückweisen"
+      reject: "Meldung an %{group} zurückweisen"
   jobs:
     title: Außendienst Aufträge
   mail_blacklists:
@@ -409,7 +411,7 @@ de:
   statuses:
     abuse_report:
       open: " (offen)"
-  statistics: Alle aktiven Vorgänge auf einen Blick
+  statistics: Alle aktiven Meldungen auf einen Blick
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"

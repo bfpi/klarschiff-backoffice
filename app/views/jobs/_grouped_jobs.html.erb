@@ -26,7 +26,7 @@
                       <span class="fa fa-flag text-danger"></span>
                     <% end %>
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                                   data: { table: "#group-#{group_id}-table", status: 'not_checkable' } do %>
+                                   data: { table: "#group-#{group_id}-table", status: 'uncheckable' } do %>
                       <span class="fa fa-flag text"></span>
                     <% end %>
                   </div>
@@ -35,13 +35,13 @@
                   <%= text_field_tag :job_date, nil, id: "group-#{group_id}-date-field",
                                                      class: 'form-control datepicker' %>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-primary change-date',
                                  data: { table: "#group-#{group_id}-table", field: "#group-#{group_id}-date-field" } do %>
                     Ausführungsdatum ändern
                   <% end %>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4 offset-md-1">
                   <%= link_to jobs_path(job_ids: jobs.map(&:id)),
                         remote: true, class: 'btn btn-sm btn-outline-primary float-right' do %>
                     Aufträge nach Erstellung aufsteigend sortieren

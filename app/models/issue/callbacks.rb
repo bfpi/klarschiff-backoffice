@@ -22,6 +22,7 @@ class Issue
                               if: lambda {
                                     status_changed? && Issue.statuses[status] > Issue.statuses[:reviewed]
                                   }, on: :update
+      validate :position_inside_instance
 
       after_create :send_confirmation
       after_save :notify_group,
@@ -42,6 +43,12 @@ class Issue
       self.address = Geocodr.address(self)
       self.parcel = Geocodr.parcel(self)
       self.property_owner = Geocodr.property_owner(self)
+    end
+
+    def position_inside_instance
+      return if position.blank?
+      cond = 'ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "area")'
+      errors.add :position, :outside_instance unless Instance.exists?([cond, { lat: lat, lon: lon }])
     end
 
     def reset_archived

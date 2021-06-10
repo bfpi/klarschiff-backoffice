@@ -1,15 +1,14 @@
 <h1><%= Issue.model_name.human(count: 2) %></h1>
-
 <% unless Current.user.auth_code -%>
   <div class="row form-group">
     <div class="col-md-12">
-      <%= link_to delegations_path(filter_status: 0),
+      <%= link_to delegations_path(filter: { status: 0 }),
             class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
-        <%= image_tag icon('yellow'), class: 'status_icon' %> offene Vorgänge
+        <%= image_tag icon('yellow'), class: 'status_icon' %> offene Meldungen
       <% end -%>
-      <%= link_to delegations_path(filter_status: 1),
+      <%= link_to delegations_path(filter: { status: 1 }),
             class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
-        <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Vorgänge
+        <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Meldungen
       <% end -%>
     </div>
   </div>
@@ -59,15 +58,17 @@
 <% content_for :footer do -%>
   <% if @issues.any? -%>
     <div class="float-right">
-      <%= link_to t(:export_xlsx), delegations_path(filter_status: @status, format: :xlsx), class: 'btn btn-primary' %>
-      <%= link_to t(:show_map), delegations_path(filter_status: @status, show_map: true), class: 'btn btn-primary' %>
+      <%= link_to t(:export_xlsx), delegations_path(filter: { status: @status }, format: :xlsx),
+            class: 'btn btn-primary' %>
+      <%= link_to t(:show_map), delegations_path(filter: { status: @status }, show_map: true),
+            class: 'btn btn-primary' %>
     </div>
   <% end -%>
 <% end -%>
 <% if @edit_delegation_url -%>
   <script defer="true">
     $(function() {
-      window.history.replaceState(null, null, <%= raw delegations_path(filter_status: @status).to_json %>);
+      window.history.replaceState(null, null, <%= raw delegations_path(status: @status).to_json %>);
       $.ajax({ url: <%= raw @edit_delegation_url.to_json %> });
     });
   </script>

@@ -5,6 +5,8 @@ require 'test_helper'
 class NotifyOnIssuesInProcessJobTest < ActiveJob::TestCase
   include ActionMailer::TestHelper
 
+  setup { ActionMailer::Base.deliveries.clear }
+
   test 'performable and mails get sent' do
     assert_emails 0
     assert_nothing_raised { NotifyOnIssuesInProcessJob.perform_now }
