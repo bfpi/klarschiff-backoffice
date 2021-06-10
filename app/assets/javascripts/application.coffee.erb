@@ -16,16 +16,13 @@ $ ->
     $('.modal').on 'hide.bs.modal', ->
       location.reload()
 
-  initDnD = ->
-    $('.table-draggable').tableDnD
-      onDragClass: 'dragged-row'
   initMap = ->
     if $('#issues-map').length > 0
       KS.initializeMaps()
 
   $(document).on 'turbolinks:load', initBootstrapModal
   $(document).on 'turbolinks:load', KS.initDatepicker
-  $(document).on 'turbolinks:load', initDnD
+  $(document).on 'turbolinks:load', KS.initDnD
   $(document).on 'turbolinks:load', initMap
 
   $(document).on 'click', '.select-all', ->
@@ -90,3 +87,17 @@ KS.initDatepicker = ->
   ).on 'hide', (e) ->
     # Workaround for: https://github.com/uxsolutions/bootstrap-datepicker/issues/50
     e.stopPropagation()
+
+KS.initDnD = ->
+  $('.table-draggable').tableDnD(
+    onDragClass: 'dragged-row'
+    onDrop: (table, row) ->
+      jobsOrder = []
+      $(table.rows).each (idx) ->
+        jobsOrder.push({ "#{@.dataset.id}": idx })
+      $.ajax
+        url: '<%= Rails.application.routes.url_helpers.jobs_path %>/change_order'
+        data: Object.assign({ jobs: jobsOrder }, KS.authenticityToken)
+        dataType: 'script'
+        method: 'PUT'
+  )
