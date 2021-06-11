@@ -71,5 +71,6 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'logout', to: 'logins#destroy', as: :logout
   root 'dashboards#show'
 end
