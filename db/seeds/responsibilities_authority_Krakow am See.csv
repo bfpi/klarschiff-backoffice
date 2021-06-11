@@ -1,0 +1,205 @@
+"Hauptkategorie","typ","Unterkategorie","Fachamt"
+"Gehweg/Radweg/Straße","problem",,
+,"problem","Papierkorb/Abfalleimer schadhaft","Bauamt"
+,"problem","Papierkorb/Abfalleimer überfüllt","Ordnungsamt"
+,"problem","Ampel schadhaft","Ordnungsamt"
+,"problem","bauliche Gefahrenstelle","Bauamt"
+,"problem","Beleuchtung schadhaft","Bauamt"
+,"problem","Baum schadhaft","Ordnungsamt"
+,"problem","öffentlicher Fahrstuhl",
+,"problem","Beschilderung/Markierung schadhaft","Bauamt"
+,"problem","Brücke/Tunnel/Mauer/Treppe schadhaft","Bauamt"
+,"problem","Fahrradständer schadhaft","Bauamt"
+,"problem","Gully schadhaft","Bauamt"
+,"problem","Verunreinigung Gully / Straßeneinlauf ","Bauamt"
+,"problem","Hundekot","Bauamt"
+,"problem","Poller/Planke/Absperrelement schadhaft","Bauamt"
+,"problem","Sitzgelegenheit schadhaft","Bauamt"
+,"problem","Wegereinigung fehlt","Bauamt"
+,"problem","Wildwuchs","Bauamt"
+"Müll/Schmutz","problem",,
+,"problem","Papierkorb/Abfalleimer überfüllt","Bauamt"
+,"problem","Altfahrzeug/Schrottfahrrad","Ordnungsamt"
+,"problem","Bauabfall","Ordnungsamt"
+,"problem","Beutel in Hundetoilette fehlen","Ordnungsamt"
+,"problem","Elektroschrott","Ordnungsamt"
+,"problem","Grünschnitt/Gartenabfälle","Ordnungsamt"
+,"problem","Hausmüll","Ordnungsamt"
+,"problem","Hundekot","Ordnungsamt"
+,"problem","Mülltonne/Abfallbehälter überfüllt",
+,"problem","Nebenablagerungen an Recycling-Container","Ordnungsamt"
+,"problem","Recycling-Container überfüllt","Ordnungsamt"
+,"problem","Sondermüll","Ordnungsamt"
+,"problem","Sperrmüll","Ordnungsamt"
+,"problem","Wegereinigung fehlt","Ordnungsamt"
+,"problem","Verunreinigung Gully / Straßeneinlauf ","Bauamt"
+"Öffentliches Grün/Spielplatz","problem",,
+,"problem","bauliche Gefahrenstelle","Bauamt"
+,"problem","Wegereinigung fehlt","Bauamt"
+,"problem","Papierkorb/Abfalleimer schadhaft","Bauamt"
+,"problem","Papierkorb/Abfalleimer überfüllt","Bauamt"
+,"problem","Kompostierplatz überfüllt ","Bauamt"
+,"problem","Müllablagerung","Bauamt"
+,"problem","Baum schadhaft","Ordnungsamt"
+,"problem","Baumscheibe / -einfassung ungepflegt ","Ordnungsamt"
+,"problem","Beleuchtung schadhaft","Bauamt"
+,"problem","Beschilderung/Markierung schadhaft","Bauamt"
+,"problem","Beutel in Hundetoilette fehlen","Ordnungsamt"
+,"problem","Brunnen schadhaft","Bauamt"
+,"problem","Kunst im öffentlichen Raum schadhaft","Bauamt"
+,"problem","Fahrradständer schadhaft","Bauamt"
+,"problem","Grünanlage ungepflegt","Bauamt"
+,"problem","Hundekot","Bauamt"
+,"problem","Hundetoilette schadhaft",
+,"problem","Poller/Planke/Absperrelement schadhaft","Bauamt"
+,"problem","Sitzgelegenheit schadhaft","Bauamt"
+,"problem","Spielgerät schadhaft","Ordnungsamt"
+,"problem","Grabstein verschmutzt","Friedhof"
+,"problem","Grabstein schief nicht standsicher","Friedhof"
+,"problem","ungepflegtes Grab","Friedhof"
+"Parken","problem",,
+,"problem","Parkautomat schadhaft",
+,"problem","dauerhaftes Falschparken","Ordnungsamt"
+"Öffentliche Einrichtungen ","problem",,
+,"problem","Papierkorb/Abfalleimer schadhaft","Bauamt"
+,"problem","Papierkorb/Abfalleimer überfüllt","Bauamt"
+,"problem","Beschilderung schadhaft","Bauamt"
+,"problem","Beutel in Hundetoilette fehlen","Ordnungsamt"
+,"problem","Brunnen schadhaft","Bauamt"
+,"problem","Kunst im öffentlichen Raum schadhaft","Bauamt"
+,"problem","Fahrradständer schadhaft","Bauamt"
+,"problem","Hundetoilette schadhaft",
+,"problem","Parkautomat schadhaft",
+,"problem","Poller/Planke/Absperrelement schadhaft","Bauamt"
+,"problem","Sitzgelegenheit schadhaft","Bauamt"
+,"problem","Spielgerät schadhaft","Ordnungsamt"
+,"problem","Verteilerkasten schadhaft","Bauamt"
+,"problem","öffentliche Uhren ","Bauamt"
+,"problem","öffentliche Fahrstühle",
+"Vandalismus/Schmiererei/Graffiti ","problem",,
+,"problem","Papierkorb/Abfalleimer","Ordnungsamt"
+,"problem","Ampel","Ordnungsamt"
+,"problem","Baum","Ordnungsamt"
+,"problem","Beleuchtung","Bauamt"
+,"problem","Beschilderung/Markierung","Ordnungsamt"
+,"problem","Brücke/Tunnel/Mauer/Treppe","Bauamt"
+,"problem","Brunnen","Bauamt"
+,"problem","Kunst im öffentlichen Raum","Bauamt"
+,"problem","Fahrradständer","Bauamt"
+,"problem","Gully","Bauamt"
+,"problem","Haltestelle","Bauamt"
+,"problem","Hundetoilette",
+,"problem","Mülltonne/Abfallbehälter",
+,"problem","Parkautomat",
+,"problem","Poller/Planke/Absperrelement","Bauamt"
+,"problem","Recycling-Container","Ordnungsamt"
+,"problem","Schutzhütte",
+,"problem","Sitzgelegenheit","Bauamt"
+,"problem","Spielgerät","Ordnungsamt"
+,"problem","Verteilerkasten","Bauamt"
+"Verkehrseinrichtung/Beleuchtung","problem",,
+,"problem","Ampel schadhaft","Ordnungsamt"
+,"problem","Beleuchtung schadhaft","Bauamt"
+,"problem","Beschilderung/Markierung schadhaft","Ordnungsamt"
+,"problem","Fahrradständer schadhaft","Bauamt"
+,"problem","Gully schadhaft","Bauamt"
+,"problem","Haltestelle schadhaft","Bauamt"
+,"problem","Parkautomat schadhaft",
+,"problem","Poller/Planke/Absperrelement schadhaft","Bauamt"
+,"problem","öffentliche Uhren ","Bauamt"
+,"problem","öffentliche Fahrstühle",
+"Wald","problem",,
+,"problem","Baum schadhaft","Ordnungsamt"
+,"problem","Beschilderung/Markierung schadhaft","Ordnungsamt"
+,"problem","Kunst im öffentlichen Raum schadhaft","Ordnungsamt"
+,"problem","Fahrradständer schadhaft","Bauamt"
+,"problem","Müllablagerung ","Ordnungsamt"
+,"problem","Poller/Planke/Absperrelement schadhaft","Ordnungsamt"
+,"problem","Reiten abseits der Reitwege","Bauamt"
+,"problem","Schutzhütte schadhaft",
+,"problem","Sitzgelegenheit schadhaft","Bauamt"
+,"problem","Spielgerät schadhaft","Ordnungsamt"
+,"problem","wildes Campen","Ordnungsamt"
+,"problem","verbotenes Fahren mit Kfz","Ordnungsamt"
+,"problem","verbotenes Feuermachen","Ordnungsamt"
+,"problem","dauerhaftes Falschparken","Ordnungsamt"
+,"problem","Wegereinigung fehlt","Ordnungsamt"
+"Winterdienst","problem",,
+,"problem","Gehweg nicht geräumt","Ordnungsamt"
+,"problem","Radweg nicht geräumt","Ordnungsamt"
+,"problem","Straße nicht geräumt","Bauamt"
+,"problem","verbotener Streusalzeinsatz","Ordnungsamt"
+"Wasser","problem",,
+,"problem","Gehweg/Radweg/Straße überflutet","Bauamt"
+,"problem","Gewässerverschmutzung","Ordnungsamt"
+,"problem","Grabenpflege","Ordnungsamt"
+,"problem","Grünanlage überflutet","Ordnungsamt"
+,"problem","Gully verstopft","Bauamt"
+"Barrierefreiheit","idea",,
+,"idea","Ampel behindertengerecht gestalten",
+,"idea","Ampelschaltung ändern",
+,"idea","Bordstein absenken","Bauamt"
+,"idea","Zugang rollstuhlgerecht gestalten","Bauamt"
+"Fahrradverkehr","idea",,
+,"idea","Ampelschaltung ändern",
+,"idea","Beleuchtung verändern",
+,"idea","Beschilderung/Markierung ändern",
+,"idea","Beschilderung/Markierung einführen",
+,"idea","Bordstein absenken",
+,"idea","Fahrradständer aufstellen",
+"Fußgänger","idea",,
+,"idea","Papierkorb/Abfalleimer aufstellen",
+,"idea","Ampelschaltung ändern",
+,"idea","Beleuchtung verändern",
+,"idea","Beschilderung/Markierung ändern",
+,"idea","Beschilderung/Markierung einführen",
+,"idea","Bordstein absenken",
+,"idea","Sitzgelegenheit aufstellen",
+"Öffentlicher Nahverkehr","idea",,
+,"idea","Fahrplan ändern",
+,"idea","Haltestelle verlegen",
+,"idea","Linienführung ändern",
+"Öffentliche Einrichtungen/Beleuchtung","idea",,
+,"idea","Papierkorb/Abfalleimer aufstellen",
+,"idea","Beleuchtung verändern",
+,"idea","Fahrradständer aufstellen",
+,"idea","Hundetoilette aufstellen",
+,"idea","Recycling-Container aufstellen",
+,"idea","Sitzgelegenheit aufstellen",
+,"idea","Spielplatz verändern",
+"Straßenverkehr","idea",,
+,"idea","Ampelschaltung ändern",
+,"idea","Beschilderung/Markierung ändern",
+,"idea","Beschilderung/Markierung einführen",
+"Wald","idea",,
+,"idea","Papierkorb/Abfalleimer aufstellen",
+,"idea","Beschilderung/Markierung ändern",
+,"idea","Beschilderung/Markierung einführen",
+,"idea","Fahrradständer aufstellen",
+,"idea","Spielplatz verändern",
+,"idea","Schutzhütte aufstellen",
+,"idea","Sitzgelegenheit aufstellen",
+"Gewerberecht","tip",,
+,"tip","Alkoholverkauf an Jugendliche","Ordnungsamt"
+,"tip","Baustellen ohne Firmenschilder",
+,"tip","Fehlende Preisangaben","Ordnungsamt"
+,"tip","Rauchen in Gaststätten",
+,"tip","Spielhallen mit Jugendlichen",
+,"tip","Verdacht auf Schwarzarbeit","Ordnungsamt"
+"Karte","tip",,
+,"tip","Hausnummer fehlerhaft","Liegenschaften"
+,"tip","Gebäude fehlerhaft","Liegenschaften"
+"Winterdienst","tip",,
+,"tip","Gehweg nicht geräumt",
+,"tip","Radweg nicht geräumt",
+,"tip","Straße nicht geräumt",
+,"tip","verbotener Streusalzeinsatz",
+"Ruhestörung / Gerüche ","problem",,
+,"problem","Nichteinhaltung Ruhezeiten ","Ordnungsamt"
+,"problem","Belästigung durch Gewerbe","Ordnungsamt"
+,"problem","Belästigung durch Private","Ordnungsamt"
+,"problem","Belästigung durch Veranstaltungen","Ordnungsamt"
+"Tiere / Tierschutz","problem",,
+,"problem","Beseitigung von Tierkadavern","Ordnungsamt"
+,"problem","nicht artgerechte Haltung ","Ordnungsamt"
+,"problem","Fundtiere / freilaufende Tiere ","Ordnungsamt"

@@ -126,13 +126,13 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
   model = class_name.classify.constantize
   target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
-    if (name = row[0]).present?
-      current_main_category = MainCategory.find_by!(kind: row[1], name: name.strip)
-    elsif (name = row[2]).present? && (group_name = row[3]).present?
+    if (name = row[0]&.strip).present?
+      current_main_category = MainCategory.find_by!(kind: row[1], name: name)
+    elsif (name = row[2]&.strip).present? && (group_name = row[3]&.strip).present?
       target.groups.where(short_name: "SZ #{target}").delete_all
-      sub_category = SubCategory.find_by!(name: name.strip)
+      sub_category = SubCategory.find_by!(name: name)
       category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
-      group = target.groups.find_or_create_by!(name: group_name.strip, main_user: User.find_by(login: :regional_admin))
+      group = target.groups.find_or_create_by!(name: group_name, main_user: User.find_by(login: :regional_admin))
       Responsibility.find_or_create_by! category: category, group: group
     end
   end
@@ -146,12 +146,12 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
   target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
     next if row[0].blank?
+    user = User.find_or_create_by!(email: row[1].strip,
+                                   login: row[2].downcase.strip,
+                                   last_name: row[3].strip,
+                                   first_name: row[4].strip)
     group = target.groups.find_by!(name: row[0].strip)
-    user = group.users.find_or_create_by!(email: row[1].strip,
-                                          login: row[2].downcase.strip,
-                                          last_name: row[3].strip,
-                                          first_name: row[4].strip,
-                                          role: :editor)
+    group.users << user unless group.user_ids.include? user.id
     next if user.password_digest.present?
     new_password = SecureRandom.base64(8)[0..-2]
     puts "#{user.login} : '#{new_password}'"
