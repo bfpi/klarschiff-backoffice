@@ -39,15 +39,6 @@ class Issue
         by_kind(0).having Supporter.arel_table[:id].count.gteq(Settings::Vote.min_requirement)
       end
 
-      private
-
-      def auth_code_issues(auth_code)
-        issues = where(id: auth_code.issue_id)
-        issues = issues.where(group_id: auth_code.group_id) if auth_code.group.kind_internal?
-        issues = issues.where(delegation_id: auth_code.group_id) if auth_code.group.kind_external?
-        issues
-      end
-
       def authorized_by_user_districts(user = Current.user)
         return all if user.blank? || user.districts.blank?
         where <<~SQL.squish, user.district_ids
@@ -57,6 +48,15 @@ class Issue
             WHERE "id" IN (?)
           ))
         SQL
+      end
+
+      private
+
+      def auth_code_issues(auth_code)
+        issues = where(id: auth_code.issue_id)
+        issues = issues.where(group_id: auth_code.group_id) if auth_code.group.kind_internal?
+        issues = issues.where(delegation_id: auth_code.group_id) if auth_code.group.kind_external?
+        issues
       end
 
       def authorized_by_areas_for(group_ids)
