@@ -33,7 +33,9 @@ module Citysdk
     end
 
     def agency_responsible
-      group.name
+      v = group.name
+      v << " [delegiert an: #{delegation.name}]" if delegation
+      v
     end
 
     def service_code
