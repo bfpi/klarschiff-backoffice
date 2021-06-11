@@ -20,7 +20,7 @@ class IssueMailerPreview < ActionMailer::Preview
   end
 
   def responsibility
-    IssueMailer.responsibility to: 'test@bfpi.de', issue: Issue.first, auth_code: AuthCode.first
+    IssueMailer.responsibility to: 'test@bfpi.de', issue: Issue.first, auth_code: AuthCode.new(uuid: SecureRandom.uuid)
   end
 
   def delegation_with_auth_code
