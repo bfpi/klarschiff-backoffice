@@ -6,8 +6,8 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col"><%= Group.human_attribute_name :short_name %></th>
       <th scope="col"><%= Group.human_attribute_name :name %></th>
+      <th scope="col"><%= Group.human_attribute_name :short_name %></th>
       <th scope="col"><%= Group.human_attribute_name :type %></th>
       <th scope="col"><%= Group.human_attribute_name :kind %></th>
       <th scope="col"><%= Group.human_attribute_name :email %></th>
@@ -18,8 +18,8 @@
     <% @groups.each do |group| -%>
       <tr class="<%= 'text-muted' unless group.active? %>">
         <th scope="row"><%= group.id %></th>
-        <td><%= group.short_name %></td>
         <td><%= group.name %></td>
+        <td><%= group.short_name %></td>
         <td><%= Group.human_enum_name :type, group.type %></td>
         <td><%= Group.human_enum_name :kind, group.kind %></td>
         <td><%= group.email %></td>
