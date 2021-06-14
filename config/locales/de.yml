@@ -102,6 +102,7 @@ de:
         category: Kategorie
         group: Gruppe
       user:
+        districts: Gemeinden / Stadtteile
         email: E-Mail
         first_name: Vorname
         group_feedback_recipient: Lob/Hinweis/Kritik Empfänger
