@@ -24,6 +24,7 @@ class User < ApplicationRecord
   validates :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
+  validates :groups, presence: true, unless: :role_admin?
   validate :role_permissions
 
   default_scope -> { order :last_name, :first_name }
