@@ -49,7 +49,9 @@ class Group < ApplicationRecord
   end
 
   def to_s
-    short_name || name
+    v = (short_name.presence || name).dup
+    v << " (#{reference_name})" if Current.user.blank? || Current.user.role_admin?
+    v
   end
 
   def as_json(_options = {})
@@ -58,5 +60,11 @@ class Group < ApplicationRecord
 
   def feedback_recipient
     main_user&.email || email
+  end
+
+  private
+
+  def reference_name
+    send(type.remove(/Group$/).downcase).to_s with_model_name: true
   end
 end
