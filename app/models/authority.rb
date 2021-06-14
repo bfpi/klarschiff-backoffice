@@ -15,11 +15,8 @@ class Authority < ApplicationRecord
 
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
-    if user&.role_regional_admin?
-      where id: user.groups.select(:reference_id).where(type: 'AuthorityGroup')
-        .or(where(county: County.authorized(user).select(:id)))
-    else
-      none
-    end
+    return none unless user&.role_regional_admin?
+    where(id: user.groups.where(type: 'AuthorityGroup').select(:reference_id))
+      .or(where(county: County.authorized(user)))
   end
 end
