@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action { check_auth :manage_groups }
 
   def index
-    groups = filter(Group.authorized).order(:short_name)
+    groups = filter(Group.authorized).order(:name)
 
     respond_to do |format|
       format.html { @groups = groups.page(params[:page] || 1).per(params[:per_page] || 20) }
