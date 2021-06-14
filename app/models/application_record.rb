@@ -9,6 +9,10 @@ class ApplicationRecord < ActiveRecord::Base
     I18n.t "enums.#{model_name.i18n_key}.#{enum_name}.#{value}", default: I18n.t("enums.#{enum_name}.#{value}")
   end
 
+  def to_s
+    "##{id}"
+  end
+
   def human_enum_name(enum_name)
     self.class.human_enum_name enum_name, self[enum_name]
   end
