@@ -2,6 +2,7 @@
 
 class Authority < ApplicationRecord
   include RegionalScope
+  include StringRepresentationWithOptionalModelName
 
   belongs_to :county
 
@@ -20,9 +21,5 @@ class Authority < ApplicationRecord
     else
       none
     end
-  end
-
-  def to_s
-    name
   end
 end

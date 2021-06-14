@@ -57,7 +57,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create without service_request_id' do
     post '/citysdk/jobs.xml', params: { api_key: api_key_ppc,
-                                        agency_responsible: group(:field_service).to_s,
+                                        agency_responsible: group(:field_service).short_name,
                                         date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '404', 'record_not_found'
@@ -80,14 +80,14 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create without date' do
     post '/citysdk/jobs.xml', params: { api_key: api_key_ppc, service_request_id: issue(:in_process).id,
-                                        agency_responsible: group(:field_service).to_s }
+                                        agency_responsible: group(:field_service).short_name }
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'create' do
     post '/citysdk/jobs.xml', params: { api_key: api_key_ppc, service_request_id: issue(:in_process).id,
-                                        agency_responsible: group(:field_service).to_s,
+                                        agency_responsible: group(:field_service).short_name,
                                         date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/jobs/job/id').count

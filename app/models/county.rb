@@ -2,6 +2,7 @@
 
 class County < ApplicationRecord
   include RegionalScope
+  include StringRepresentationWithOptionalModelName
 
   has_many :groups, class_name: 'CountyGroup', foreign_key: :reference_id, inverse_of: :county, dependent: :destroy
   has_many :responsibilities, through: :groups
@@ -11,14 +12,7 @@ class County < ApplicationRecord
 
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
-    if user&.role_regional_admin?
-      where id: user.groups.select(:reference_id).where(type: 'CountyGroup')
-    else
-      none
-    end
-  end
-
-  def to_s
-    name
+    return none unless user&.role_regional_admin?
+    where id: user.groups.where(type: 'CountyGroup').select(:reference_id)
   end
 end
