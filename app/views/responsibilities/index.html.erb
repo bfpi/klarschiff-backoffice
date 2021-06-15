@@ -16,7 +16,9 @@
       <tr>
         <td><%= responsibility.category.kind_name %></td>
         <td><%= responsibility.category %></td>
-        <td><%= responsibility.group %></td>
+        <td title="<%= responsibility.group.logging_subject_name %>">
+          <%= responsibility.group %>
+        </td>
         <td>
           <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
                 remote: true, class: 'btn btn-sm btn-outline-primary' %>
