@@ -32,8 +32,8 @@ class User < ApplicationRecord
 
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
-    return not_role_admin if user&.role_regional_admin?
-    none
+    return none unless user&.role_regional_admin?
+    not_role_admin.joins(:groups).where(group: { id: Group.authorized(user) }).distinct
   end
 
   def to_s
