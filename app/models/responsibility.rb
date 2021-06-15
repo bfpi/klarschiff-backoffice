@@ -17,6 +17,12 @@ class Responsibility < ApplicationRecord
       joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
     end
 
+    def authorized(user = Current.user)
+      return all if user&.role_admin?
+      return none unless user&.role_regional_admin?
+      where group_id: Group.authorized(user)
+    end
+
     def regional(lat:, lon:)
       where group_id: Group.regional(lat: lat, lon: lon)
     end
