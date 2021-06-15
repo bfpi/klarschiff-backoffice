@@ -12,9 +12,7 @@ module ResponsibilitiesHelper
   def groups_options(resp_or_category)
     category_id = resp_or_category.is_a?(Responsibility) ? resp_or_category.category_id : resp_or_category
     return [] if category_id.blank?
-    groups = Group.authorized.includes(:responsibilities).references(:responsibilities).where(
-      responsibility_cond(category_id)
-    ).map { |gr| [gr.to_s, gr.id] }
+    groups = Group.authorized.map { |gr| [gr.to_s, gr.id] }
     return groups_options_with_selected(resp_or_category, groups) if resp_or_category.is_a?(Responsibility)
     options_for_select groups
   end
@@ -24,13 +22,5 @@ module ResponsibilitiesHelper
   def groups_options_with_selected(responsibility, groups)
     group = responsibility.group
     options_for_select groups | [[group.to_s, group.id]], selected: group.id
-  end
-
-  def responsibility_cond(category_id)
-    rat[:deleted_at].eq(nil).and(rat[:category_id].not_eq(category_id))
-  end
-
-  def rat
-    Responsibility.arel_table
   end
 end
