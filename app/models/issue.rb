@@ -117,13 +117,4 @@ class Issue < ApplicationRecord
     return created_at if all_log_entries.where(attr: 'status').blank?
     all_log_entries.order(created_at: :desc).find_by(attr: 'status', new_value: status)&.created_at
   end
-
-  def kind_and_status_tooltip
-    ["#{MainCategory.human_attribute_name(:kind)}: #{main_category.human_enum_name(:kind)}",
-     "#{Issue.human_attribute_name(:status)}: #{human_enum_name(:status)}"].join(', ')
-  end
-
-  def delegation_tooltip
-    "#{Issue.human_attribute_name(:delegation)}: #{delegation.name}"
-  end
 end

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                   title: issue.kind_and_status_tooltip %>
+                                   title: kind_and_status_tooltip(issue) %>
     <%= image_tag 'archiviert', title: Issue.human_attribute_name(:archived) if issue.archived %>
   </div>
   <div class="col-md-auto" title="<%= Issue.human_attribute_name(:id) %>">
@@ -23,7 +23,7 @@
          title="<%= Issue.human_attribute_name(:responsibility_accepted) %>"
          aria-hidden="true"></i>
       <% if issue.delegation.present? -%>
-        (<span title="<%= issue.delegation_tooltip %>">
+        (<span title="<%= delegation_tooltip(issue) %>">
            <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>
          </span>)
       <% end -%>
