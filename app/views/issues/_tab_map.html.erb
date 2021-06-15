@@ -11,6 +11,7 @@
           data-lon="<%= form.object&.position&.x %>"
           data-icon="<%= asset_path form.object&.map_icon %>"
           data-position-input="#issue_position">
+          <%= render partial: 'map_toggle' %>
         </div>
       </div>
     </div>

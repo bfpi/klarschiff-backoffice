@@ -67,18 +67,21 @@ KS.initializeMaps = ->
       target: 'map'
       layers: [
         <% Settings::Map.layers.each do |layer| %>
-        new (ol.layer.Tile)(source: new (ol.source.WMTS)(
-          url: '<%= layer[:url] %>'
-          layer: '<%= layer[:layer] %>'
-          matrixSet: '<%= layer[:matrix_set] %>'
-          format: 'image/png'
-          requestEncoding: 'REST'
-          crossOrigin: 'anonymous' # crossOrigin-Key ist für die Karte beim  Druck von Meldungen relevant
-          projection: KS.projection
-          tileGrid: new (ol.tilegrid.WMTS)(
-            origin: ol.extent.getTopLeft(KS.projection.getExtent())
-            resolutions: <%= layer[:resolutions] %>
-            matrixIds: <%= layer[:matrix_ids] %>)))
+        new (ol.layer.Tile)
+          id: '<%= layer[:id] %>'
+          source: new (ol.source.WMTS)
+            url: '<%= layer[:url] %>'
+            layer: '<%= layer[:layer] %>'
+            matrixSet: '<%= layer[:matrix_set] %>'
+            format: 'image/png'
+            requestEncoding: 'REST'
+            crossOrigin: 'anonymous' # crossOrigin-Key ist für die Karte beim  Druck von Meldungen relevant
+            projection: KS.projection
+            tileGrid: new (ol.tilegrid.WMTS)
+              origin: ol.extent.getTopLeft(KS.projection.getExtent())
+              resolutions: <%= layer[:resolutions] %>
+              matrixIds: <%= layer[:matrix_ids] %>
+          visible: <%= layer[:visible] %>
         <% end %>
         featureVector
       ]
@@ -89,7 +92,6 @@ KS.initializeMaps = ->
       )
     )
     KS.setFeatureCoordinatesToInput(feature)
-
     interaction = new ol.interaction.Translate(
       features: new ol.Collection([feature])
       hitTolerance: 10
@@ -206,3 +208,14 @@ KS.controllerUrl = (controller) ->
     when 'delegations' then '<%= Rails.application.routes.url_helpers.delegations_path %>'
     when 'issues' then '<%= Rails.application.routes.url_helpers.issues_path %>'
     when 'jobs' then '<%= Rails.application.routes.url_helpers.jobs_path %>'
+
+$ ->
+  $(document).on 'click', '.toggle-map', ->
+    layers = KS.Map.getLayers().getArray()
+    if parseInt($(@).val()) == 1
+      layers[1].setVisible(true)
+      layers[0].setVisible(false)
+    else
+      layers[0].setVisible(true)
+      layers[1].setVisible(false)
+

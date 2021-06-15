@@ -1,0 +1,27 @@
+<div class="card map-toggler">
+  <div class="card-header" id="toggle-header ol-control-button">
+    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+      <i class="fa fa-map float-right"></i>
+    </button>
+  </div>
+  <div id="collapse" class="collapse" aria-labelledby="toggle-header">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-form-label">
+          <%= label_tag :map_view_0, '', class: 'form-check-label' do %>
+            <%= radio_button_tag :map_view, 0, true, class: 'toggle-map' %>
+            <%= t :city_view %>
+          <% end -%>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-form-label">
+          <%= label_tag :map_view_1, '', class: 'form-check-label' do %>
+            <%= radio_button_tag :map_view, 1, false, class: 'toggle-map' %>
+            <%= t :aerial_view %>
+          <% end -%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
