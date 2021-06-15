@@ -81,6 +81,15 @@ module IssuesHelper
                                               scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
+  def kind_and_status_tooltip(issue)
+    ["#{MainCategory.human_attribute_name(:kind)}: #{issue.main_category.human_enum_name(:kind)}",
+     "#{Issue.human_attribute_name(:status)}: #{issue.human_enum_name(:status)}"].join(', ')
+  end
+
+  def delegation_tooltip(issue)
+    "#{Issue.human_attribute_name(:delegation)}: #{issue.delegation.name}"
+  end
+
   private
 
   def grouped_categories_for_kind(kind)

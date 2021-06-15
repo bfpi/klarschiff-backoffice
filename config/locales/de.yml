@@ -70,6 +70,7 @@ de:
         property_owner: Flurstückseigentum/-eigentümer
         property_owner_short: Flurstückseigentum
         responsibility: Zuständigkeit
+        responsibility_accepted: akzeptiert
         reviewed_at: Erstsichtungszeitpunkt
         status_note: Statuskommentar
         supporters: Unterstützungen
@@ -376,6 +377,8 @@ de:
         rejection: Zurückweisen
         responsibility: Zuständigkeit
         status: Status
+    head:
+      abuse_reports: "Es liegt/liegen %{count} Missbrauchsmeldung(en) vor"
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
