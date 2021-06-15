@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action { check_auth :manage_users }
 
   def index
-    users = filter(User.authorized).order(:login)
+    users = filter(User.authorized).order(:last_name, :first_name, :login)
     respond_to do |format|
       format.html { @users = users.page(params[:page] || 1).per(params[:per_page] || 20) }
       format.json { render json: users }
