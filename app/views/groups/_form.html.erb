@@ -20,7 +20,7 @@
 <div class="form-group row">
   <%= form.label :type, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10">
-    <% types.each do |type, ix| -%>
+    <% Current.user.permitted_group_types.each do |type| -%>
       <div class="form-check form-check-inline">
         <%= form.label "type_#{type.downcase}", '', class: 'form-check-label' do -%>
           <%= form.radio_button :type, type %>
@@ -33,7 +33,7 @@
 <div class="form-group row">
   <%= form.label :kind, class: 'col-md-2 col-form-label' %>
   <div class="col-md-10">
-    <% Group.kinds.each do |kind, ix| -%>
+    <% Group.kinds.keys.each do |kind| -%>
       <div class="form-check form-check-inline">
         <%= form.label "kind_#{kind}", '', class: 'form-check-label' do -%>
           <%= form.radio_button :kind, kind %>

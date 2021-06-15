@@ -66,6 +66,12 @@ module UserAuthorization
     id.present? && static_permissions.include?(action)
   end
 
+  def permitted_group_types
+    return [] if role_editor?
+    return %w[CountyGroup AuthorityGroup] & Group.authorized(self).distinct.pluck(:type) if role_regional_admin?
+    %w[InstanceGroup CountyGroup AuthorityGroup]
+  end
+
   STATIC_PERMISSIONS = {
     change_user: %i[admin],
     delegations: %i[admin regional_admin],
