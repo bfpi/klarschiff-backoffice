@@ -14,7 +14,7 @@ module ResponsibilitiesHelper
     return [] if category_id.blank?
     groups = Group.authorized.includes(:responsibilities).references(:responsibilities).where(
       responsibility_cond(category_id)
-    ).collect { |gr| [gr.name, gr.id] }
+    ).map { |gr| [gr.to_s, gr.id] }
     return groups_options_with_selected(resp_or_category, groups) if resp_or_category.is_a?(Responsibility)
     options_for_select groups
   end
@@ -23,7 +23,7 @@ module ResponsibilitiesHelper
 
   def groups_options_with_selected(responsibility, groups)
     group = responsibility.group
-    options_for_select groups | [[group.name, group.id]], selected: group.id
+    options_for_select groups | [[group.to_s, group.id]], selected: group.id
   end
 
   def responsibility_cond(category_id)
