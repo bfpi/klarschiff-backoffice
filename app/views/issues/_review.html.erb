@@ -34,7 +34,8 @@
           data-lat="<%= form.object&.position&.y %>"
           data-lon="<%= form.object&.position&.x %>"
           data-icon="<%= asset_path form.object&.map_icon %>"
-          data-position-input="#issue_position">
+          data-position-input="<%= '#issue_position' if Current.user.auth_code.blank? %>">
+          <%= render partial: 'map_toggle' %>
         </div>
       </div>
     </div>

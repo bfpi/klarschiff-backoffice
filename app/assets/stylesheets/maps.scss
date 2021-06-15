@@ -1,4 +1,29 @@
 #map {
   height: 400px;
   width: 100%;
+
+  .map-toggler {
+    background-color: rgba(0, 60, 136, 0.6);
+    color: #fff;
+    
+    max-width: 150px;
+    position: absolute;
+    right: 1.5em;
+    top: 0.5em;
+    z-index: 1;
+  }
+
+  button.toggle {
+    color: #fff;
+    display: block;
+    width: 100%;
+  }
+  
+  .card-header {
+    padding: 1px;
+  }
+
+  .card-body {
+    padding: 0.25rem;
+  }
 }
