@@ -4,7 +4,7 @@ class ResponsibilitiesController < ApplicationController
   before_action { check_auth :manage_responsibilities }
 
   def index
-    @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).active
+    @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).authorized.active
       .order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name], SubCategory.arel_table[:name])
       .page(params[:page] || 1).per(params[:per_page] || 20)
   end
@@ -14,11 +14,11 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def edit
-    @responsibility = Responsibility.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params[:id])
   end
 
   def update
-    @responsibility = Responsibility.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params[:id])
     if @responsibility.update(responsibility_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -37,7 +37,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def destroy
-    @responsibility = Responsibility.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params[:id])
     @responsibility.update!(deleted_at: Time.current)
     redirect_to action: :index
   end
