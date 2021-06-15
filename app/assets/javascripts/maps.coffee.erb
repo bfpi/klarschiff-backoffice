@@ -96,9 +96,10 @@ KS.initializeMaps = ->
       features: new ol.Collection([feature])
       hitTolerance: 10
     )
-    interaction.on 'translateend', (e) ->
-      KS.setFeatureCoordinatesToInput(e.features.getArray()[0])
-    KS.Map.addInteraction interaction
+    if elem.data('position-input')? && elem.data('position-input') != ''
+      interaction.on 'translateend', (e) ->
+        KS.setFeatureCoordinatesToInput(e.features.getArray()[0])
+      KS.Map.addInteraction(interaction)
 
     window.setTimeout (->
       KS.Map.updateSize()
@@ -195,7 +196,7 @@ class KS.FeatureData
 
 KS.setFeatureCoordinatesToInput = (feature) ->
   map = $('#' + KS.Map.getTarget())
-  return unless map.data('position-input')?
+  return unless map.data('position-input')? && map.data('position-input') != ''
   coordinates = feature.getGeometry().getCoordinates()
   position = 'POINT(' + ol.proj.transform(coordinates, KS.projection, 'EPSG:4326').toString().replace(',', ' ') + ')'
   $(map.data('position-input')).val(position)
@@ -218,4 +219,5 @@ $ ->
     else
       layers[0].setVisible(true)
       layers[1].setVisible(false)
-
+  $(document).on 'click', '.btn-link.toggle', (e) ->
+    e.preventDefault()
