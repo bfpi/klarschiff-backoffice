@@ -81,7 +81,7 @@ KS.initializeMaps = ->
               origin: ol.extent.getTopLeft(KS.projection.getExtent())
               resolutions: <%= layer[:resolutions] %>
               matrixIds: <%= layer[:matrix_ids] %>
-          visible: <%= layer[:visible] %>
+          visible: <%= layer[:visible].present? %>
         <% end %>
         featureVector
       ]
@@ -104,7 +104,7 @@ KS.initializeMaps = ->
     window.setTimeout (->
       KS.Map.updateSize()
     ), 500
-    
+
     addControls = (map, controller) ->
       map.on 'click', (e) ->
         return unless controller?
