@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_075127) do
+ActiveRecord::Schema.define(version: 2021_06_16_114001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_075127) do
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
     t.index ["group_id"], name: "index_issue_on_group_id"
     t.index ["job_id"], name: "index_issue_on_job_id"
+    t.index ["position"], name: "index_issue_on_position", using: :gist
   end
 
   create_table "job", force: :cascade do |t|
