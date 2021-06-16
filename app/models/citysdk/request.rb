@@ -33,9 +33,7 @@ module Citysdk
     end
 
     def agency_responsible
-      v = group.name
-      v << " [delegiert an: #{delegation.name}]" if delegation
-      v
+      group.name.dup.tap { |v| v << " [delegiert an: #{delegation.name}]" if delegation }
     end
 
     def service_code
