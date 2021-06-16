@@ -19,7 +19,7 @@ module Citysdk
       search_class = Settings.main_instance? ? Citysdk::Authority : Citysdk::District
       response = [Instance.first]
       response = search_class.all if params[:with_districts].present? && params[:area_code].blank?
-      response = search_class.find(params[:area_code].split(',')) if params[:area_code].present?
+      response = search_class.where(id: params[:area_code].split(',')) if params[:area_code].present?
       response
     end
 
