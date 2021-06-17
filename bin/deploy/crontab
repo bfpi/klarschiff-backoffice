@@ -1,13 +1,13 @@
 # vim: filetype=crontab
-# m h  dom mon dow  user      command
-0  02   *   *   *   rails     $HOME/bin/cron rails runner CalculateAverageTurnaroundTimeJob.perform_now
-0  32   *   *   *   rails     $HOME/bin/cron rails runner DeleteUnconfirmedIssuesJob.perform_now
-0  37   *   *   *   rails     $HOME/bin/cron rails runner DeleteUnconfirmedSupportersJob.perform_now
-0  42   *   *   *   rails     $HOME/bin/cron rails runner DeleteUnconfirmedAbusesJob.perform_now
-0  47   *   *   *   rails     $HOME/bin/cron rails runner DeleteUnconfirmedPhotosJob.perform_now
-0  52   *   *   *   rails     $HOME/bin/cron rails runner DeleteAuthorsAfterDeadlineJob.perform_now
-0  40  00   *   *   rails     $HOME/bin/cron rails runner ArchiveClosedIssuesJob.perform_now
-0  40  01   *   *   rails     $HOME/bin/cron rails runner InformEditorialStaffOnIssuesJob.perform_now
-0  00  07   *   *   rails     $HOME/bin/cron rails runner InformOnDelegatedIssuesJob.perform_now
-0  05  10   *   *   rails     $HOME/bin/cron rails runner NotifyOnIssuesInProcessJob.perform_now
-0  10  10   *   *   rails     $HOME/bin/cron rails runner NotifyOnClosedIssuesJob.perform_now
+# m h   dom mon dow  user      command
+*   32   *   *   *  rails     $HOME/bin/cron rails runner DeleteUnconfirmedIssuesJob.perform_now
+*   37   *   *   *  rails     $HOME/bin/cron rails runner DeleteUnconfirmedSupportersJob.perform_now
+*   42   *   *   *  rails     $HOME/bin/cron rails runner DeleteUnconfirmedAbusesJob.perform_now
+*   47   *   *   *  rails     $HOME/bin/cron rails runner DeleteUnconfirmedPhotosJob.perform_now
+*   52   *   *   *  rails     $HOME/bin/cron rails runner DeleteAuthorsAfterDeadlineJob.perform_now
+40  00   *   *   *  rails     $HOME/bin/cron rails runner ArchiveClosedIssuesJob.perform_now
+40  01   *   *   *  rails     $HOME/bin/cron rails runner InformEditorialStaffOnIssuesJob.perform_now
+00  02   *   *   *  rails     $HOME/bin/cron rails runner CalculateAverageTurnaroundTimeJob.perform_now
+00  07   *   *   *  rails     $HOME/bin/cron rails runner InformOnDelegatedIssuesJob.perform_now
+05  10   *   *   *  rails     $HOME/bin/cron rails runner NotifyOnIssuesInProcessJob.perform_now
+10  10   *   *   *  rails     $HOME/bin/cron rails runner NotifyOnClosedIssuesJob.perform_now
