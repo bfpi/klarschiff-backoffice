@@ -13,6 +13,13 @@ class TestsController < ApplicationController
 
   private
 
+  def run_job
+    params[:job].constantize.perform_now
+    render plain: "#{params[:job]} erfolgreich ausgeführt", status: :ok
+  rescue StandardError => e
+    render plain: e.message, status: :bad_request
+  end
+
   def protocol_email
     return render plain: 'Kein Empfänger angegeben', status: :bad_request if params[:recipient].blank?
     TestMailer.test(to: params[:recipient]).deliver_now

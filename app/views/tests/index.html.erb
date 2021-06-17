@@ -7,13 +7,169 @@
         </a>
       </h5>
     </div>
-
     <div id="collapseJobs" class="collapse" role="tabpanel" aria-labelledby="headingJobs">
-      <div class="card-body">
-        TODO
-      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <p>
+            DeleteUnconfirmedIssuesJob
+            <span class="text-muted"><small>
+              Alle Meldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
+              Ausführung täglich um *:32 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteUnconfirmedIssuesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            DeleteUnconfirmedSupportersJob
+            <span class="text-muted"><small>
+              Alle Unterstützungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
+              Ausführung täglich um *:37 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteUnconfirmedSupportersJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            DeleteUnconfirmedAbusesJob
+            <span class="text-muted"><small>
+              Alle Missbrauchsmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
+              Ausführung täglich um *:42 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteUnconfirmedAbusesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            DeleteUnconfirmedPhotosJob
+            <span class="text-muted"><small>
+              Alle Photos, die gesendet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
+              Ausführung täglich um *:47 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteUnconfirmedPhotosJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            DeleteAuthorsAfterDeadlineJob
+            <span class="text-muted"><small>
+              Entfernt nach einem bestimmten Zeitraum von allen Meldungen und mit verbundenen Objekten den Autor / Absender.
+              Ausführung täglich um *:52 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteAuthorsAfterDeadlineJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            ArchiveClosedIssuesJob
+            <span class="text-muted"><small>
+              Alle Meldungen, die abgeschlossen sind und seit einem bestimmten Zeitraum nicht mehr bearbeitet wurden, werden archiviert.
+              Ausführung täglich um 00:40 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :ArchiveClosedIssuesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            InformEditorialStaffOnIssuesJob
+            <span class="text-muted"><small>
+              Die Empfänger redaktioneller E-Mails werden informiert.
+              Ausführung täglich um 01:40 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :InformEditorialStaffOnIssuesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            CalculateAverageTurnaroundTimeJob
+            <span class="text-muted"><small>
+              Berechnet und aktualisiert die durchschnittliche Bearbeitungszeit pro Kategorie.
+              Ausführung täglich um 2:00 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :CalculateAverageTurnaroundTimeJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            InformOnDelegatedIssuesJob
+            <span class="text-muted"><small>
+              Externe Nutzer werden mittels E-Mail über die Meldungen informiert, die innerhalb der letzten 24 Stunden an sie delegiert wurden.
+              Dabei werden immer alle Meldungen berücksichtigt, deren Delegierung innerhalb der letzten 24 Stunden stattfand.
+              Ausführung täglich um 07:00 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :InformOnDelegatedIssuesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            NotifyOnIssuesInProcessJob
+            <span class="text-muted"><small>
+              Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.
+              Dabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.
+              Ausführung täglich um 10:05 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :NotifyOnIssuesInProcessJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
+            NotifyOnClosedIssuesJob
+            <span class="text-muted"><small>
+              Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden abgeschlossen wurden.
+              Dabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden abgeschlossen wurden.
+              Ausführung täglich um 10:10 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :NotifyOnClosedIssuesJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+      </ul>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header" role="tab" id="headingProtocols">
       <h5 class="mb-0">
