@@ -5,7 +5,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col"><%= link_to '#', mail_blacklists_path(order: { column: :id }) %></th>
       <th scope="col"><%= MailBlacklist.human_attribute_name :pattern %></th>
       <th scope="col"><%= MailBlacklist.human_attribute_name :source %></th>
       <th scope="col"><%= MailBlacklist.human_attribute_name :created_at %></th>
