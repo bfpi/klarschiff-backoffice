@@ -11,6 +11,8 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - rm config/secrets.yml
   - cp config/secrets.sample.yml config/secrets.yml
+  - rm config/storage.yml
+  - cp config/storage.sample.yml config/storage.yml
 
 cache:
   bundler: true
