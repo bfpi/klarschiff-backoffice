@@ -2,7 +2,7 @@
   <div class="col-md-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                    title: kind_and_status_tooltip(issue) %>
-    <%= image_tag 'archiviert', title: Issue.human_attribute_name(:archived) if issue.archived %>
+    <%= image_tag 'archiviert.png', title: Issue.human_attribute_name(:archived) if issue.archived %>
   </div>
   <div class="col-md-auto" title="<%= Issue.human_attribute_name(:id) %>">
     <%= issue.id %>
