@@ -1,13 +1,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <%= stylesheet_link_tag stylesheet_url('pdf_print'), media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag stylesheet_path('pdf_print'), media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
   <body class="print-pdf">
 
 <div class="container">
   <h1>
-    <%= image_tag image_url('klarschiff.png') %>
+    <%= image_tag image_path('klarschiff.png') %>
     <%= t(:pagetitle) %>
   </h1>
   <h2>
@@ -76,7 +76,7 @@
       <%= Issue.human_attribute_name(:status) %>
     </div>
     <div class="col-4">
-      <%= image_tag image_url(@issue.list_icon), class: "status-icon #{@issue.status}" %>
+      <%= image_tag image_path(@issue.list_icon), class: "status-icon #{@issue.status}" %>
       <%= t "enums.issue.status.#{@issue.status}" %>
     </div>
     <div class="col-2 label">
@@ -139,7 +139,8 @@
       <div class="col-10">
         <% @issue.photos.each do |photo| -%>
           <div class="photo">
-            <%= image_tag photo.file.variant(resize_to_limit: [270, 270]) %>
+            <% blob = photo.file.download -%>
+            <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %
             <div>
               <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
               <%= t "enums.photo.status.#{photo.status}" %>
