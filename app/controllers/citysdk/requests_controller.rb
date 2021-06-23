@@ -38,6 +38,7 @@ module Citysdk
         :address_string, :photo_required, :media, :privacy_policy_accepted).merge(status: :pending)
 
       issue = request.becomes(Issue)
+      issue.new_photo = request.new_photo if request.new_photo.present?
       issue.save!
 
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true, status: :created

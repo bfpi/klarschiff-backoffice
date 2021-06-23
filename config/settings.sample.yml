@@ -13,6 +13,7 @@ development: &default
     proxy:
     url: https://geo.sv.rostock.de/geocodr/query?
   geoportal:
+    enabled: true
     name: Geoport.HRO
     scale: 1508
     url: https://geo.sv.rostock.de/geoport?poi[point]=%{lon},%{lat}&poi[scale]=%{scale}&poi[label]=%{title}

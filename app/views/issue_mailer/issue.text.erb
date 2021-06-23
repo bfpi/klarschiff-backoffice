@@ -40,8 +40,10 @@ Delegiert an: <%= @issue_email.issue.delegation %>
 Karte
 *****
 Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url % @issue_email.issue.id %>
+<% if Settings::Geoportal.enabled -%>
 
 Aufruf in <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.issue) %>
+<% end -%>
 <% end -%>
 <% if @issue_email.send_comments? -%>
 interne Kommentare

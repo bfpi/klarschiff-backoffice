@@ -319,7 +319,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'delete with invalid api-key' do
     put "/citysdk/requests/#{issue(:one).confirmation_hash}/revoke.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
   end
 
   test 'delete successfully with ppc api-key' do

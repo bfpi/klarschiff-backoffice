@@ -140,7 +140,7 @@
         <% @issue.photos.each do |photo| -%>
           <div class="photo">
             <% blob = photo.file.download -%>
-            <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %
+            <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %>
             <div>
               <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
               <%= t "enums.photo.status.#{photo.status}" %>

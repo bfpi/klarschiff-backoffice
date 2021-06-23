@@ -23,6 +23,7 @@ development: &default
 
   <API-Key-PPC>:
     name: <Name Prüf- und Protokoll-Client>
+    trust_email_for_user_identification: true
     permissions:
       - :citysdk_d3_document_url
       - :create_comments

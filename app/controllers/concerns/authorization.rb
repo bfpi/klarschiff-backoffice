@@ -36,7 +36,7 @@ module Authorization
   end
 
   def authenticate_user(login)
-    if (Current.user = User.active.find_by(User.arel_table[:login].matches(login)))
+    if (Current.user = User.active.find_by(uat[:login].matches(login)))
       logger_current_user login
     else
       redirect_to new_logins_path
@@ -73,7 +73,7 @@ module Authorization
   end
 
   def check_citysdk_authentication
-    Current.user = User.active.find_by(User.arel_table[:email].matches(params[:email])) if params[:email].present?
+    current_user
     case controller_path
     when 'citysdk/requests/notes' then check_citysdk_authentication_for_notes
     when 'citysdk/requests/comments' then check_citysdk_authentication_for_comments
@@ -107,6 +107,12 @@ module Authorization
     raise Citysdk::NotAuthorized, "403|#{t('api_key.no_permision')}"
   end
 
+  def current_user
+    Current.email = params[:email].presence
+    return if !trust_email_for_user_identification? || Current.email.blank?
+    Current.user = User.active.find_by(uat[:email].matches(params[:email]))
+  end
+
   def current_citysdk_client(skip_raise: false)
     raise Citysdk::NotAuthorized, "400|#{t('api_key.missing')}" if params['api_key'].blank? && !skip_raise
 
@@ -122,5 +128,13 @@ module Authorization
       format.any(:csv, :json, :xlsx, :pdf) { head :forbidden }
       format.html { render template: 'application/denied', layout: layout, status: :forbidden }
     end
+  end
+
+  def trust_email_for_user_identification?
+    params['api_key'].present? && current_citysdk_client[:trust_email_for_user_identification].present?
+  end
+
+  def uat
+    User.arel_table
   end
 end
