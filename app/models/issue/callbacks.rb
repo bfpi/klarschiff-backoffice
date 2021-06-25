@@ -93,7 +93,8 @@ class Issue
     def notify_group
       return if group.user_ids.present?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
-      IssueMailer.responsibility(to: group.email, issue: self, auth_code: auth_code).deliver_now
+      email = group.email.presence || group.main_user.email
+      IssueMailer.responsibility(to: email, issue: self, auth_code: auth_code).deliver_now
     end
   end
 end

@@ -70,7 +70,28 @@
     <%= form.select_many_field 'user_ids',
           class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
   </div>
-  <div id="regional_restriction" class="col-md-6">
-    <%= render partial: 'regional_restriction', locals: { type: @group.type, select: @group.reference_id } %>
+  <div class="col-md-6">
+    <div class="form-group row">
+      <div id="regional_restriction" class="col-md-12">
+        <%= render partial: 'regional_restriction', locals: { type: @group.type, select: @group.reference_id } %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <%= form.label :reference_default, class: 'col-md-4 col-form-label' %>
+      <div class="col-md-8">
+        <div class="form-check form-check-inline">
+          <%= form.label :reference_default_true, '', class: 'form-check-label' do -%>
+            <%= form.radio_button :reference_default, true, disabled: !Current.user.role_admin? %>
+            <%= t true %>
+          <% end -%>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= form.label :reference_default_false, '', class: 'form-check-label' do -%>
+            <%= form.radio_button :reference_default, false, disabled: !Current.user.role_admin? %>
+            <%= t false %>
+          <% end -%>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

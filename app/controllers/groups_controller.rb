@@ -46,8 +46,8 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_id,
-      user_ids: [])
+    params.require(:group).permit(:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_default,
+                                  :reference_id, user_ids: [])
   end
 
   def filter_name_columns

@@ -44,6 +44,7 @@ de:
         short_name: Kurzname
         type: Art
         users: Benutzer
+        reference_default: Standardzuständigkeit
       instance:
         url: URL
       issue:
