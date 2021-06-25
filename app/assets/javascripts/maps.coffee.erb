@@ -147,7 +147,7 @@ KS.styles =
             6
             40
           ]
-          src: "<%= Rails.application.config.relative_url_root %>/assets/#{feature.get('icon')}"
+          src: feature.get('icon')
           text: KS.styles.featureAttribution(feature)
     else
       features.setStyle new ol.style.Style

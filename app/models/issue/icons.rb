@@ -5,11 +5,11 @@ class Issue
     extend ActiveSupport::Concern
 
     def map_icon
-      "icons/map/active/png/#{kind || 'blank'}-#{icon_color}.png"
+      ActionController::Base.helpers.asset_path "icons/map/active/png/#{kind || 'blank'}-#{icon_color}.png"
     end
 
     def list_icon
-      "icons/list/png/#{kind || 'blank'}-#{icon_color}-22px.png"
+      ActionController::Base.helpers.asset_path "icons/list/png/#{kind || 'blank'}-#{icon_color}-22px.png"
     end
 
     private
