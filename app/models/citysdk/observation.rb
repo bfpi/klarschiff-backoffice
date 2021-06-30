@@ -16,7 +16,7 @@ module Citysdk
     end
 
     def geometry=(value)
-      self.area = value
+      self.area = value if value.present?
     end
 
     def ideas=(_value); end

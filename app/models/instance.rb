@@ -15,5 +15,5 @@ class Instance < ApplicationRecord
 
   alias_attribute :grenze, :area
 
-  scope :current, -> { where instance_url: nil }
+  scope :current, -> { where instance_url: [nil, ''] }
 end
