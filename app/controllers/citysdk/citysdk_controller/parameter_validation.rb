@@ -35,7 +35,10 @@ module Citysdk
       end
 
       def validate_service_request_id
-        return unless params[:service_request_id].present? && !params[:service_request_id].i?
+        return unless (ids = params[:service_request_id]).present? && !ids.i?
+        return if ids.present? && ids.include?(',') && ids.split(',').all? do |e|
+                    e =~ /^\d+$/
+                  end
         raise 'service_request_id is not a number'
       end
     end
