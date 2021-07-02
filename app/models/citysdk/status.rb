@@ -3,13 +3,13 @@
 module Citysdk
   class Status
     CITYSDK = { 'PENDING' => defined?(STATUS_CITYSDK_PENDING) ? STATUS_CITYSDK_PENDING : 'pending',
-                'RECEIVED' => defined?(STATUS_CITYSDK_RECEIVED) ? STATUS_CITYSDK_RECEIVED : 'received,reviewed',
+                'RECEIVED' => defined?(STATUS_CITYSDK_RECEIVED) ? STATUS_CITYSDK_RECEIVED : %w[received reviewed],
                 'IN_PROCESS' => defined?(STATUS_CITYSDK_IN_PROCESS) ? STATUS_CITYSDK_IN_PROCESS : 'in_process',
                 'PROCESSED' => defined?(STATUS_CITYSDK_PROCESSED) ? STATUS_CITYSDK_PROCESSED : 'closed',
                 'REJECTED' => if defined?(STATUS_CITYSDK_REJECTED)
                                 STATUS_CITYSDK_REJECTED
                               else
-                                'duplicate,not_solvable'
+                                %w[duplicate not_solvable]
                               end }.freeze
 
     PERMISSABLE_CITYSDK_KEYS = %w[IN_PROCESS PROCESSED REJECTED].freeze
@@ -31,7 +31,7 @@ module Citysdk
     DELETED = 'geloescht'
 
     def initialize(status)
-      @citysdk = CITYSDK.find { |_k, v| v.split(',').any?(status) }.try(:first)
+      @citysdk = CITYSDK.find { |_k, v| v.include?(status) }.try(:first)
       @open311 = OPEN311.find { |k, v| k.eql?(status) || v.include?(status) }.first
       @backend = status
     end
