@@ -29,6 +29,7 @@ development: &default
     lead_time: 2
   map:
     center: [12.070739011240928, 54.11739716348975]
+    max_zoom: 16
     zoom: 7
     layers:
       -

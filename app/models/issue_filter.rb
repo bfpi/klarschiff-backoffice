@@ -6,7 +6,7 @@ class IssueFilter
   def initialize(extended_filter, params = {})
     @collection = Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
       .order created_at: :desc
-    filter_collection(params, extended_filter)
+    params[:only_number].blank? ? filter_collection(params, extended_filter) : filter_number(params)
   end
 
   private
@@ -48,7 +48,7 @@ class IssueFilter
   end
 
   def filter_number(params)
-    @collection = @collection.where(id: params[:number])
+    @collection = @collection.where(id: params[:only_number] || params[:number])
   end
 
   def filter_kind(params)

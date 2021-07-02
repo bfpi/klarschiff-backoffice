@@ -17,6 +17,7 @@ KS.initializeMaps = ->
 
   proj4.defs 'EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs'
   ol.proj.proj4.register proj4
+  KS.maxZoom = <%= Settings::Map.max_zoom %>
   KS.projection = ol.proj.get('EPSG:25833')
   KS.projection.setExtent <%= Settings::Map.projection_25833.as_json %>
   defaultPosition = ol.proj.transform(<%= Settings::Map.center.as_json %>, 'EPSG:4326', KS.projection)
@@ -89,6 +90,7 @@ KS.initializeMaps = ->
         projection: KS.projection
         center: position
         zoom: zoom
+        maxZoom: KS.maxZoom
       )
     )
     KS.setFeatureCoordinatesToInput(feature)
@@ -114,6 +116,18 @@ KS.initializeMaps = ->
             if features.length == 1
               controller = 'issues' if controller == 'jobs'
               $.ajax(url: "#{KS.controllerUrl(controller)}/#{features[0].get('id')}/edit", dataType: 'script')
+            else if map.getView().getZoom() == KS.Map.getView().getMaxZoom()
+              id_params = Array()
+              $(features).each (ix, feature) ->
+                id_params.push 'filter[only_number][]=' + feature.get('id')
+              location.href = "#{KS.controllerUrl(controller)}?" + id_params.join('&')
+            else
+              # Zoom in
+              map.getView().setCenter e.coordinate
+              current_zoom = map.getView().getZoom()
+              if current_zoom == undefined
+                current_zoom = zoom
+              map.getView().setZoom parseInt(current_zoom + 1)
 
       map.on 'pointermove', (e) ->
         hover = map.forEachFeatureAtPixel e.pixel, (feature, layer) ->
