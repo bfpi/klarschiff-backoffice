@@ -8,6 +8,8 @@ class Issue
     include ConfirmationWithHash
 
     included do
+      before_destroy :clear_photos
+
       before_validation :add_photo
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
@@ -35,6 +37,10 @@ class Issue
     end
 
     private
+
+    def clear_photos
+      photos.unscoped.destroy_all
+    end
 
     def add_photo
       return if new_photo.blank?
