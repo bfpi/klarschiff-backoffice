@@ -160,3 +160,8 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
   puts '=' * 50
 end
 # rubocop:enable Rails/Output
+
+CSV.table('db/seeds/default_responsibilities.csv').each do |row|
+  group = Group.find_by(name: "Standardzuständigkeit - #{row[1]}")
+  group.update! email: row[2] if group.present?
+end
