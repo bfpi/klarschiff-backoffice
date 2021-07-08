@@ -20,7 +20,7 @@ class Group < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, if: -> { main_user_id.blank? && !kind_field_service_team? }
-  validates :email, uniqueness: true, allow_blank: true
+  validates :email, allow_blank: true
 
   scope :active, -> { where active: true }
 
