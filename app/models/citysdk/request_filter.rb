@@ -115,7 +115,7 @@ module Citysdk
     end
 
     def filter_with_picture(_params)
-      @collection = @collection.where(photo: { status: :external })
+      @collection = @collection.where(photo: { status: Photo.statuses[:external] })
     end
   end
 end
