@@ -77,8 +77,8 @@ class Issue < ApplicationRecord
     archived_at?
   end
 
-  def archived=(date_time)
-    self.archived_at = date_time.presence && Time.current
+  def archived=(value)
+    self.archived_at = value.to_i > 0 ? Time.current : 0
   end
 
   def job_date=(date)
