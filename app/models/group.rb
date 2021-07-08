@@ -35,7 +35,7 @@ class Group < ApplicationRecord
       cqtn = County.quoted_table_name
       gqtn = Group.quoted_table_name
       iqtn = Instance.quoted_table_name
-      joins(<<~JOIN.squish).where <<~SQL.squish, lat: lat.to_f, lon: lon.to_f
+      joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
         LEFT JOIN #{aqtn} "a" ON "a"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'AuthorityGroup'
         LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
         LEFT JOIN #{iqtn} "i" ON "i"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'InstanceGroup'
