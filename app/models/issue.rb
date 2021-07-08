@@ -81,6 +81,10 @@ class Issue < ApplicationRecord
     self.archived_at = date_time.presence && Time.current
   end
 
+  def closed?
+    CLOSED_STATUSES.include? status.to_sym
+  end
+
   def job_date=(date)
     return if date.blank?
     self.job = Job.new(status: :unchecked) if job.blank?
