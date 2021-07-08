@@ -53,14 +53,14 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
     XPATH
     polygons = feature.xpath(condition).map do |polygon|
       tmp = polygon.to_s.strip.split.reverse.map.with_index { |p, ix| p + (ix.even? ? ' ' : ',') }
-      "(#{tmp.join[0...-1]})"
+      "((#{tmp.join[0...-1]}))"
     end
 
     obj = object_class.find_or_create_by!(regional_key: regional_key, name: name) do |c|
       options = { regional_key: feature.xpath("dvg:#{xml_key}/dvg:zugehoerig/text()").to_s.strip }
       c.county = County.find_by(options) if xml_key == :aemter
       c.authority = Authority.find_by(options) if xml_key == :gemeinden
-      c.area = rgeo_factory.parse_wkt("MULTIPOLYGON((#{polygons.join(',')}))")
+      c.area = rgeo_factory.parse_wkt("MULTIPOLYGON(#{polygons.join(',')})")
     end
     { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
       next unless type == xml_key
