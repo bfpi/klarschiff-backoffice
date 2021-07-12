@@ -82,6 +82,7 @@ class Issue < ApplicationRecord
   end
 
   def closed?
+    return false unless status
     CLOSED_STATUSES.include? status.to_sym
   end
 
