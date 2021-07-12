@@ -30,6 +30,7 @@ class Issue
       end
 
       validates :description, :position, :status, presence: true
+      validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
       validates :status_note, presence: true, if: lambda {
                                                     status_changed? && status.to_i > Issue.statuses[:reviewed]
