@@ -45,6 +45,7 @@ class Issue
     def add_photo
       return if new_photo.blank?
       photos.new file: new_photo, author: Current.email, status: :internal
+      self.new_photo = nil
     end
 
     # overwrite ConfirmationWithHash#confirm
