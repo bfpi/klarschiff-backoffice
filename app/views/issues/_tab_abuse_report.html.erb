@@ -1,6 +1,8 @@
-<div class="card mt-2 abuse-report" id="new_abuse_report">
-  <%= render partial: 'abuse_reports/new' %>
-</div>
+<% unless form.object.closed? -%>
+  <div class="card mt-2 abuse-report" id="new_abuse_report">
+    <%= render partial: 'abuse_reports/new' %>
+  </div>
+<% end -%>
 
 <% @issue.abuse_reports.each do |abuse_report| -%>
   <div class="card mt-2 abuse-report <%= 'border-warning' unless abuse_report.resolved_at? %>"

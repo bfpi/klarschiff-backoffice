@@ -10,7 +10,8 @@
           data-lat="<%= form.object&.position&.y %>"
           data-lon="<%= form.object&.position&.x %>"
           data-icon="<%= asset_path form.object&.map_icon %>"
-          data-position-input="<%= '#issue_position' if !restricted && Current.user.auth_code.blank? %>">
+          data-position-input="<%= '#issue_position' if !(restricted || form.object.closed?) &&
+                                                        Current.user.auth_code.blank? %>">
           <%= render partial: 'map_toggle' %>
         </div>
       </div>
@@ -22,12 +23,12 @@
   <%= form.label :address, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
     <%= form.autocomplete_field :address, class: 'form-control', 'data-autocomplete-url': places_path,
-                                          disabled: restricted %>
+                                          disabled: restricted || form.object.closed? %>
   </div>
   <% unless form.object.new_record? -%>
     <%= form.label :parcel, class: 'col-md-2 col-form-label' %>
     <div class="col-md-4">
-      <%= form.text_field :parcel, class: 'form-control', disabled: restricted %>
+      <%= form.text_field :parcel, class: 'form-control', disabled: restricted || form.object.closed? %>
     </div>
   <% end -%>
 </div>
@@ -35,7 +36,7 @@
   <div class="form-group row">
     <%= form.label :property_owner, class: 'col-md-3 col-form-label' %>
     <div class="col-md-9">
-      <%= form.text_field :property_owner, class: 'form-control', disabled: restricted %>
+      <%= form.text_field :property_owner, class: 'form-control', disabled: restricted || form.object.closed? %>
     </div>
   </div>
 <% end -%>

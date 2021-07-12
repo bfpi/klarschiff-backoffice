@@ -4,6 +4,6 @@
   <%= form.label :delegation, for: :issue_delegation_id, class: 'col-md-2 col-form-label' %>
   <div class="col-md-4">
     <%= form.select :delegation_id, options_for_select(delegations(form.object), form.object.delegation_id),
-          { include_blank: true }, class: 'form-control' %>
+          { include_blank: true }, disabled: form.object.closed?, class: 'form-control' %>
   </div>
 </div>
