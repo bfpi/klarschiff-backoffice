@@ -10,7 +10,7 @@
       <span class="float-right priority-icon fa fa-exclamation-triangle" title="<%= t('.high_priority') %>">
       </span>
     <% end -%>
-    <% if issue.trust_level_external? -%>
+    <% unless issue.trust_level_external? -%>
       <span class="float-right trust-icon fa fa-star" title="<%= t('.trust') %>">
       </span>
     <% end -%>
