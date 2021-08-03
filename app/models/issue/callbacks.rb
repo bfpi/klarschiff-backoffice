@@ -8,7 +8,7 @@ class Issue
     include ConfirmationWithHash
 
     included do
-      before_destroy :clear_photos
+      before_destroy :destroy_dangling_associations
 
       before_validation :add_photo
       before_validation :update_address_parcel_property_owner, if: :position_changed?
@@ -39,8 +39,9 @@ class Issue
 
     private
 
-    def clear_photos
-      photos.unscoped.destroy_all
+    def destroy_dangling_associations
+      photos.unscope(where: :confirmed_at).destroy_all
+      supporters.unscope(where: :confirmed_at).destroy_all
     end
 
     def add_photo
