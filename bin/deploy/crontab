@@ -4,7 +4,7 @@ MAILTO=support-klarschiff@bfpi.de
 # m h   dom mon dow  user      command
 32  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteUnconfirmedIssuesJob.perform_now
 37  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteUnconfirmedSupportersJob.perform_now
-42  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteUnconfirmedAbusesJob.perform_now
+42  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteUnconfirmedAbuseReportsJob.perform_now
 47  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteUnconfirmedPhotosJob.perform_now
 52  *    *   *   *  rails     $HOME/backoffice/bin/cron rails runner DeleteAuthorsAfterDeadlineJob.perform_now
 40  00   *   *   *  rails     $HOME/backoffice/bin/cron rails runner ArchiveClosedIssuesJob.perform_now
