@@ -60,7 +60,7 @@ class Issue
       end
 
       def authorized_by_areas_for(group_ids)
-        reference_ids = Group.where(id: group_ids).pluck(:reference_id)
+        reference_ids = Group.active.where(id: group_ids).pluck(:reference_id)
         return none if reference_ids.blank?
         where <<~SQL.squish, reference_ids, reference_ids
           ST_Within("position", (
@@ -76,8 +76,9 @@ class Issue
       end
 
       def authorized_group_ids(user = Current.user)
-        return user.group_ids unless user&.role_regional_admin?
-        user.groups.map { |gr| Group.where(type: gr.type, reference_id: gr.reference_id) }.flatten.map(&:id)
+        return user.groups.active.ids unless user&.role_regional_admin?
+        user.groups.active.map { |gr| Group.active.where(type: gr.type, reference_id: gr.reference_id) }
+          .flatten.map(&:id)
       end
     end
   end

@@ -15,14 +15,14 @@ class DashboardsController < ApplicationController
     @latest_issues = latest_issues
     @own_issues = own_issues
     @former_issues = former_issues(Current.user.groups)
-    @issues_count = { open: Issue.status_open.count, in_process: Issue.status_in_process.count,
-                      closed: Issue.status_closed.count }
+    @issues_count = { open: Issue.authorized.status_open.count, in_process: Issue.authorized.status_in_process.count,
+                      closed: Issue.authorized.status_closed.count }
   end
 
   def notices
     @in_process_not_accepted = in_process_not_accepted
     @open_ideas_without_min_supporters = open_ideas_without_min_supporters(Time.current - 60.days)
-    @not_approved_issues = Issue.not_archived.not_approved
+    @not_approved_issues = Issue.authorized.not_archived.not_approved
     @in_process = in_process(Time.current - 30.days)
     @open_not_accepted = open_not_accepted(Time.current - 3.days)
   end

@@ -27,7 +27,8 @@ class Group < ApplicationRecord
     def authorized(user = Current.user)
       return active if user&.role_admin?
       return none unless user&.role_regional_admin?
-      user.groups.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }.inject :or
+      user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
+        .inject :or
     end
 
     def regional(lat:, lon:)
@@ -35,7 +36,7 @@ class Group < ApplicationRecord
       cqtn = County.quoted_table_name
       gqtn = Group.quoted_table_name
       iqtn = Instance.quoted_table_name
-      joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
+      active.joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
         LEFT JOIN #{aqtn} "a" ON "a"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'AuthorityGroup'
         LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
         LEFT JOIN #{iqtn} "i" ON "i"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'InstanceGroup'

@@ -11,7 +11,7 @@ module Citysdk
     end
 
     def agency_responsible=(value)
-      self.group = Group.kind_field_service_team.find_by(short_name: value)
+      self.group = Group.active.kind_field_service_team.find_by(short_name: value) || group
     end
 
     def service_request_id

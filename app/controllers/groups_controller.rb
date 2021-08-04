@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id])
+    @group = Group.authorized.find(params[:id])
   end
 
   def new
@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    @group = Group.find(params[:id])
+    @group = Group.authorized.find(params[:id])
     if @group.update(group_params) && params[:save_and_close].present?
       redirect_to action: :index
     else

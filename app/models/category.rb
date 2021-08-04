@@ -20,6 +20,6 @@ class Category < ApplicationRecord
 
   def group(lat:, lon:)
     responsibilities.regional(lat: lat, lon: lon).first&.group ||
-      Group.regional(lat: lat, lon: lon).find_by(reference_default: true).active
+      Group.regional(lat: lat, lon: lon).find_by(reference_default: true)
   end
 end

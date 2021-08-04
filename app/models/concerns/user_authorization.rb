@@ -40,25 +40,25 @@ module UserAuthorization
   end
 
   def issues_permitted?
-    static_permitted_to?(:issues) || groups.any?(&:kind_internal?) || auth_code&.group&.kind_internal?
+    static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) || auth_code&.group&.kind_internal?
   end
 
   def create_issue_permitted?
-    static_permitted_to?(:issues) || groups.any?(&:kind_internal?)
+    static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?)
   end
 
   def edit_issue_permitted?(issue)
-    static_permitted_to?(:issues) || group_ids.include?(issue.group_id) ||
+    static_permitted_to?(:issues) || groups.active.ids.include?(issue.group_id) ||
       auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id
   end
 
   def delegations_permitted?
-    static_permitted_to?(:delegations) || groups.where(kind: %i[internal external]).any? ||
+    static_permitted_to?(:delegations) || groups.active.where(kind: %i[internal external]).any? ||
       auth_code&.group&.kind_external?
   end
 
   def edit_delegation_permitted?(issue)
-    static_permitted_to?(:delegations) || group_ids.include?(issue.delegation_id) ||
+    static_permitted_to?(:delegations) || groups.active.ids.include?(issue.delegation_id) ||
       auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id
   end
 
