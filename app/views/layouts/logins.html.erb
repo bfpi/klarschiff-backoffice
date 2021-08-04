@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Klarschiff Backoffice</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <%= link_to root_url, class: 'navbar-brand' do %>
+            <%= image_tag 'klarschiff.png' %>
+            <%= t :pagetitle %>
+          <% end %>
+        </div>
+      </nav>
+      <div class="content container">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>
