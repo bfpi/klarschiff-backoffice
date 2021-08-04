@@ -71,12 +71,12 @@ class Issue
       case responsibility_action&.to_sym
       when :accept
         self.responsibility_accepted = true
-      when :manual
-        self.responsibility_accepted = false
+        return
+      # when :manual
       else
-        self.group = category&.group(lat: lat, lon: lon)
-        self.responsibility_accepted = false
+        self.group = category&.group(lat: lat, lon: lon) || group
       end
+      self.responsibility_accepted = false
     end
 
     def set_reviewed
