@@ -26,8 +26,8 @@ class Issue
       end
 
       def not_approved
-        includes(:photos).where(
-          description_status: %i[internal deleted], photo: { status: %i[internal deleted] }
+        where(description_status: %i[internal deleted]).or(
+          where(id: Photo.select(:issue_id).where(status: %i[internal deleted]))
         )
       end
 
