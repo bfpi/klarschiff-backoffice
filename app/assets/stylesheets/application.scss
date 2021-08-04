@@ -128,4 +128,8 @@ table.statistics {
   td.bar-closed {
     background-color: #50c80f;
   }
+
+  th, td {
+    border-top: 0;
+  }
 }

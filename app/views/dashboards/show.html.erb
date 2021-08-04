@@ -133,7 +133,7 @@
   <div class="col-md-12"><b><%= t(:statistics) %></b></div>
   <% total_count = @issues_count.values.sum -%>
   <div class="col-md-12">
-    <table class="statistics">
+    <table class="table statistics">
       <tr>
         <td class="bar-open" width="<%= calc_percentage(@issues_count[:open], total_count) %>">
           <b><%= @issues_count[:open] %></b><br>
@@ -147,7 +147,7 @@
           <b><%= @issues_count[:closed] %></b><br>
           <b><%= Issue.human_enum_name(:status, :closed) %></b>
         </td>
-      <tr>
+      </tr>
     </table>
   </div>
 </div>
