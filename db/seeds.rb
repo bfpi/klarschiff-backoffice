@@ -129,7 +129,7 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
     if (name = row[0]&.strip).present?
       current_main_category = MainCategory.find_by!(kind: row[1], name: name)
     elsif (name = row[2]&.strip).present? && (group_name = row[3]&.strip).present?
-      target.groups.where(short_name: "SZ #{target}").update_all(active: false)
+      target.groups.where(short_name: "SZ #{target}").update(active: false)
       sub_category = SubCategory.find_by!(name: name)
       category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
       group = target.groups.find_or_create_by!(name: group_name, main_user: User.find_by(login: :regional_admin))
