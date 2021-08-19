@@ -37,6 +37,7 @@ development: &default
       - :request_property_details
       - :update_jobs
       - :update_requests
+      - :user_login
 
 alpha: *default
 

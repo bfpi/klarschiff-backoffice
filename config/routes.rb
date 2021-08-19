@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     resources :observations, only: %i[create]
     resources :requests, except: %i[destroy]
     resources :services, only: %i[index show]
+    resources :users, only: %i[index create]
     put 'requests/:confirmation_hash/confirm' => 'requests#confirm'
     put 'requests/:confirmation_hash/revoke' => 'requests#destroy'
 

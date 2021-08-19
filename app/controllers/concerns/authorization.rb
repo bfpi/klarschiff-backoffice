@@ -79,6 +79,7 @@ module Authorization
     when 'citysdk/requests/comments' then check_citysdk_authentication_for_comments
     when 'citysdk/requests' then check_citysdk_authentication_for_requests
     when 'citysdk/jobs' then check_citysdk_authentication_for_jobs
+    when 'citysdk/users' then check_citysdk_authentication_for_user_login
     end
   end
 
@@ -99,6 +100,10 @@ module Authorization
 
   def check_citysdk_authentication_for_jobs
     check_citysdk_action_permission(:update_jobs)
+  end
+
+  def check_citysdk_authentication_for_user_login
+    check_citysdk_action_permission(:user_login)
   end
 
   def check_citysdk_action_permission(action)
