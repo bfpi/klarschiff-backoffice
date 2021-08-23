@@ -4,6 +4,7 @@ module UserLogin
   extend ActiveSupport::Concern
 
   private
+
   def login(group_kind: nil)
     user = login_user(@credentials[:login], group_kind: group_kind)
     if user&.ldap.present? && Ldap.login(user.ldap, @credentials[:password]) ||

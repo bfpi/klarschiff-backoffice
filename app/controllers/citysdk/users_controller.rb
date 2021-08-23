@@ -15,6 +15,7 @@ module Citysdk
     end
 
     private
+
     def login_error(error)
       citysdk_respond_with_unprocessable_entity(error)
     end
