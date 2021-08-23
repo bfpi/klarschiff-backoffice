@@ -3,6 +3,7 @@
 module UserLogin
   extend ActiveSupport::Concern
 
+  private
   def login(group_kind: nil)
     user = login_user(@credentials[:login], group_kind: group_kind)
     if user&.ldap.present? && Ldap.login(user.ldap, @credentials[:password]) ||
@@ -23,7 +24,7 @@ module UserLogin
     redirect_to root_url
   end
 
-  def find_user(login, group_kind: nil)
+  def find_users(login, group_kind: nil)
     user_condition(Citysdk::User.active, login: login, group_kind: group_kind)
   end
 
