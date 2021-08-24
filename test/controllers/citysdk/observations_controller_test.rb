@@ -26,8 +26,9 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with geometry and all categories' do
     post '/citysdk/observations.xml', params: { geometry: 'MULTIPOLYGON(((306803.3620605468 '\
-      '6004727.578979492,306780.11022949213 6002596.1611328125,308942.53051757807 '\
-      '6003727.750244141,306803.3620605468 6004727.578979492)))',
+                                                          '6004727.578979492,306780.11022949213 '\
+                                                          '6002596.1611328125,308942.53051757807 '\
+                                                          '6003727.750244141,306803.3620605468 6004727.578979492)))',
                                                 idea_service: MainCategory.kind_idea.map(&:id).join(','),
                                                 problem_service: MainCategory.kind_problem.map(&:id).join(',') }
     doc = Nokogiri::XML(response.parsed_body)

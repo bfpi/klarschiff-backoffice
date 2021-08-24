@@ -1,35 +1,35 @@
-<div class="form-group row">
-  <%= form.label :kind, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10 col-form-label">
+<div class="row">
+  <%= form.label :kind, class: 'col-2 col-form-label' %>
+  <div class="col-10 col-form-label">
     <%= MainCategory.human_enum_name :kind, form.object.kind %>
   </div>
-  <%= form.label :category, for: :issue_main_user_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10 col-form-label">
+  <%= form.label :category, for: :issue_main_user_id, class: 'col-2 col-form-label' %>
+  <div class="col-10 col-form-label">
     <%= form.object.category %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :description, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10 col-form-label">
+<div class="row">
+  <%= form.label :description, class: 'col-2 col-form-label' %>
+  <div class="col-10 col-form-label">
     <%= form.object.description %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :created_at, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4 col-form-label">
+<div class="row">
+  <%= form.label :created_at, class: 'col-2 col-form-label' %>
+  <div class="col-4 col-form-label">
     <%= l form.object.created_at %>
   </div>
-  <%= form.label :author, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4 col-form-label">
+  <%= form.label :author, class: 'col-2 col-form-label' %>
+  <div class="col-4 col-form-label">
     <%= form.object.author %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :position, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10 col-form-label">
+<div class="row">
+  <%= form.label :position, class: 'col-2 col-form-label' %>
+  <div class="col-10 col-form-label">
     <%= render partial: 'external_map', locals: { issue: form.object } %>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <div id="map" class="map"
           data-lat="<%= form.object&.position&.y %>"
           data-lon="<%= form.object&.position&.x %>"
@@ -41,9 +41,9 @@
     </div>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :address, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4 col-form-label">
+<div class="row">
+  <%= form.label :address, class: 'col-2 col-form-label' %>
+  <div class="col-4 col-form-label">
     <%= form.object.address %>
   </div>
 </div>

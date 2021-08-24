@@ -1,6 +1,6 @@
 <div id="issues-map">
-  <div class="form-group row">
-    <div class="col-md-12">
+  <div class="row">
+    <div class="col-12">
       <div id="map" class="map"
            data-filter="<%= @filter.to_json %>"
            data-extended-filter="<%= @extended_filter %>"
@@ -12,7 +12,7 @@
 </div>
 
 <% content_for :footer do -%>
-  <div class="float-right">
+  <div class="float-end">
     <%= link_to t(:back), issues_path(filter: @filter, extended_filter: @extended_filter), class: 'btn btn-primary' %>
   </div>
 <% end -%>

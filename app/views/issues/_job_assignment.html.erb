@@ -7,24 +7,24 @@
         </div>
         <div class="modal-body">
           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-          <div class="row form-group">
-            <%= label_tag :group_id, Group.model_name.human << ' *', class: 'col-md-4 col-form-label' %>
-            <div class="col-md-8">
+          <div class="row">
+            <%= label_tag :group_id, Group.model_name.human << ' *', class: 'col-4 col-form-label' %>
+            <div class="col-8">
               <%= select_tag :group_id, options_for_select(field_service_teams),
-                    include_blank: true, class: 'form-control' %>
+                    include_blank: true, class: 'form-select' %>
             </div>
           </div>
           <div class="row">
-            <%= label_tag :date, Job.human_attribute_name(:date), class: 'col-md-4 col-form-label' %>
-            <div class="col-md-8">
+            <%= label_tag :date, Job.human_attribute_name(:date), class: 'col-4 col-form-label' %>
+            <div class="col-8">
               <%= text_field_tag :date, nil, class: 'form-control datepicker' %>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <div class="float-right">
+          <div class="float-end">
             <%= submit_tag t('action.save'), class: 'btn btn-primary' %>
-            <%= submit_tag t('action.abort'), type: :reset, class: 'btn btn-secondary', 'data-dismiss': :modal %>
+            <%= submit_tag t('action.abort'), type: :reset, class: 'btn btn-secondary', 'data-bs-dismiss': :modal %>
           </div>
         </div>
       <% end -%>

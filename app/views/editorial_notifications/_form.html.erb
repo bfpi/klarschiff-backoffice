@@ -1,20 +1,20 @@
 <%= render partial: 'errors', locals: { object: form.object } %>
-<div class="form-group row">
-  <%= form.label :user, for: :editorial_notification_user_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :user, for: :editorial_notification_user_id, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select :user_id,
           options_from_collection_for_select(User.reorder(:first_name, :last_name), :id, :to_s, form.object.user_id),
-          { include_blank: true }, { class: 'form-control' } %>
+          { include_blank: true }, { class: 'form-select' } %>
   </div>
-  <%= form.label :level, for: :editorial_level, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :level, for: :editorial_level, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select :level, options_for_select(levels, selected: form.object.level),
-          { include_blank: true }, { class: 'form-control' } %>
+          { include_blank: true }, { class: 'form-select' } %>
   </div>
 </div>
 <div class="row">
-  <%= form.label :repetition, for: :editorial_repetition, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :repetition, for: :editorial_repetition, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :repetition, class: 'form-control', type: 'number' %>
   </div>
 </div>

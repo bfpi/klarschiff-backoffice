@@ -31,7 +31,7 @@
 <%= paginate @mail_blacklists %>
 
 <% content_for :footer do %>
-  <div class="float-right">
+  <div class="float-end">
     <%= link_to t('.new_mail_blacklist'), new_mail_blacklist_path, remote: true, class: 'btn btn-primary' %>
   </div>
 <% end %>

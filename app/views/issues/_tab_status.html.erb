@@ -1,6 +1,6 @@
-<div class="form-group row">
-  <%= form.label :status, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :status, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <% Issue.delegation_statuses.each do |status, ix| -%>
       <div>
         <%= form.label "status_#{status}", '', class: 'form-check-label' do %>
@@ -10,10 +10,10 @@
       </div>
     <% end -%>
   </div>
-  <%= form.label :status_note, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :status_note, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_area(:status_note, class: 'form-control', rows: 3) %>
     <%= select_tag(:status_note_template, options_for_select(status_note_templates),
-          class: 'form-control', prompt: 'Vorlage wählen') %>
+          class: 'form-select', prompt: 'Vorlage wählen') %>
   </div>
 </div>

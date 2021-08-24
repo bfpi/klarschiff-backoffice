@@ -1,8 +1,8 @@
 <%= render partial: 'errors', locals: { object: mail_blacklist } %>
 
-<div class="form-group row">
-  <%= form.label(:active, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label(:active, class: 'col-2 col-form-label') %>
+  <div class="col-10">
     <div class="form-check form-check-inline">
       <%= form.label(:active_true, '', class: 'form-check-label') do %>
         <%= form.radio_button :active, true %>
@@ -17,19 +17,19 @@
     </div>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label(:pattern, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label(:pattern, class: 'col-2 col-form-label') %>
+  <div class="col-10">
     <%= form.text_field(:pattern, class: 'form-control') %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label(:source, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label(:source, class: 'col-2 col-form-label') %>
+  <div class="col-4">
     <%= form.text_field(:source, class: 'form-control') %>
   </div>
-  <%= form.label(:reason, class: 'col-md-2 col-form-label') %>
-  <div class="col-md-4">
+  <%= form.label(:reason, class: 'col-2 col-form-label') %>
+  <div class="col-4">
     <%= form.text_field(:reason, class: 'form-control') %>
   </div>
 </div>

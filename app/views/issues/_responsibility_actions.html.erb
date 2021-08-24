@@ -1,14 +1,14 @@
 <% if form.object.reviewed_at.present? -%>
-  <div class="form-group row">
-    <%= form.label :group, for: :issue_group_id, class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+  <div class="row">
+    <%= form.label :group, for: :issue_group_id, class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <label class="col-form-label">
         <%= t '.current_responsibility' %> <%= form.object.group %>
       </label>
     </div>
   </div>
-  <div class="form-group row">
-    <div class="col-md-4 offset-2">
+  <div class="row">
+    <div class="col-4 offset-2">
       <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_accept, '', class: 'form-check-label' do %>
           <%= form.radio_button :responsibility_action, :accept, disabled: form.object.closed? %>
@@ -18,11 +18,11 @@
     </div>
   </div>
 <% end -%>
-<div class="form-group row">
+<div class="row">
   <% if form.object.reviewed_at.blank? -%>
-    <%= form.label :group, for: :issue_group_id, class: 'col-md-2 col-form-label' %>
+    <%= form.label :group, for: :issue_group_id, class: 'col-2 col-form-label' %>
   <% end -%>
-  <div class="col-md-4 <%= 'offset-2' if form.object.reviewed_at.present? %>">
+  <div class="col-4 <%= 'offset-2' if form.object.reviewed_at.present? %>">
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_manual, '', class: 'form-check-label' do %>
         <%= form.radio_button :responsibility_action, :manual, disabled: form.object.closed? %>
@@ -30,14 +30,14 @@
       <% end %>
     </div>
   </div>
-  <div class="col-md-4" id="manual-responsibility"
+  <div class="col-4" id="manual-responsibility"
        style="display: <%= form.object.responsibility_action&.to_sym == :manual ? 'inline' : 'none' %>;">
     <%= form.select :group_id, options_for_select(responsibilities(form.object), form.object.group_id),
-          { include_blank: true }, class: 'form-control' %>
+          { include_blank: true }, class: 'form-select' %>
   </div>
 </div>
-<div class="form-group row">
-  <div class="col-md-4 offset-2">
+<div class="row">
+  <div class="col-4 offset-2">
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_recalculation, '', class: 'form-check-label' do %>
         <%= form.radio_button :responsibility_action, :recalculation, disabled: form.object.closed? %>

@@ -1,12 +1,12 @@
-<div class="form-group row">
-  <%= form.label :field_service_team, for: :field_service_team_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :field_service_team, for: :field_service_team_id, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select :job_group_id,
           options_for_select(field_service_teams(form.object), form.object.job_group_id),
-          { include_blank: true }, class: 'form-control' %>
+          { include_blank: true }, class: 'form-select' %>
   </div>
-  <%= form.label :field_service_date, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :field_service_date, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field(:job_date, class: 'form-control datepicker', value: l(form.object.job_date)) %>
   </div>
 </div>

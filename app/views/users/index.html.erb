@@ -39,7 +39,7 @@
 <%= paginate @users %>
 
 <% content_for :footer do %>
-  <div class="float-right">
+  <div class="float-end">
     <%= link_to t('.new_user'), new_user_path, remote: true, class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -1,8 +1,8 @@
 <%= render partial: 'errors', locals: { object: group } %>
 
-<div class="form-group row">
-  <%= form.label :active, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label :active, class: 'col-2 col-form-label' %>
+  <div class="col-10">
     <div class="form-check form-check-inline">
       <%= form.label :active_true, '', class: 'form-check-label' do -%>
         <%= form.radio_button :active, true %>
@@ -17,9 +17,9 @@
     </div>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :type, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label :type, class: 'col-2 col-form-label' %>
+  <div class="col-10">
     <% Current.user.permitted_group_types.each do |type| -%>
       <div class="form-check form-check-inline">
         <%= form.label "type_#{type.downcase}", '', class: 'form-check-label' do -%>
@@ -30,9 +30,9 @@
     <% end -%>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :kind, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label :kind, class: 'col-2 col-form-label' %>
+  <div class="col-10">
     <% Group.kinds.keys.each do |kind| -%>
       <div class="form-check form-check-inline">
         <%= form.label "kind_#{kind}", '', class: 'form-check-label' do -%>
@@ -43,42 +43,42 @@
     <% end -%>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :name, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :name, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :name, class: 'form-control' %>
   </div>
-  <%= form.label :short_name, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :short_name, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :short_name, class: 'form-control' %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :email, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :email, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :email, class: 'form-control' %>
   </div>
-  <%= form.label :main_user, for: :group_main_user_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :main_user, for: :group_main_user_id, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select :main_user_id, options_from_collection_for_select(User.all, :id, :to_s, form.object.main_user_id),
-          { include_blank: true }, { class: 'form-control' } %>
+          { include_blank: true }, { class: 'form-select' } %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :users, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :users, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select_many_field 'user_ids',
-          class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
+          class: 'form-select', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
   </div>
-  <div class="col-md-6">
-    <div class="form-group row">
-      <div id="regional_restriction" class="col-md-12">
+  <div class="col-6">
+    <div class="row">
+      <div id="regional_restriction" class="col-12">
         <%= render partial: 'regional_restriction', locals: { type: @group.type, select: @group.reference_id } %>
       </div>
     </div>
-    <div class="form-group row">
-      <%= form.label :reference_default, class: 'col-md-4 col-form-label' %>
-      <div class="col-md-8">
+    <div class="row">
+      <%= form.label :reference_default, class: 'col-4 col-form-label' %>
+      <div class="col-8">
         <div class="form-check form-check-inline">
           <%= form.label :reference_default_true, '', class: 'form-check-label' do -%>
             <%= form.radio_button :reference_default, true, disabled: !Current.user.role_admin? %>

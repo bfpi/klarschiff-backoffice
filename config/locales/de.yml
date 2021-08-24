@@ -119,6 +119,11 @@ de:
     errors:
       authorization_error: Sie haben nicht die nötigen Rechte für diese Aktion!
       models:
+        feedback:
+          attributes:
+            author:
+              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              email: ist keine gültige E-Mail-Adresse.
         issue:
           attributes:
             author:
@@ -140,6 +145,9 @@ de:
           attributes:
             confirmation_hash:
               taken: Sie können dieselbe Meldung nicht mehrmals unterstützen.
+            author:
+              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              email: ist keine gültige E-Mail-Adresse.
         user:
           attributes:
             role:

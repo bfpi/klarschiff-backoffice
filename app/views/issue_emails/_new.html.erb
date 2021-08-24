@@ -11,37 +11,37 @@
       <div class="card-body">
         <h5><%= t('.headline') %></h5>
         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group row">
-              <%= form.label(:from, class: 'col-md-4 col-form-label') %>
-              <div class="col-md-8">
+          <div class="col-6">
+            <div class="row">
+              <%= form.label(:from, class: 'col-4 col-form-label') %>
+              <div class="col-8">
                 <%= form.text_field(:from, class: 'form-control', readonly: true) %>
               </div>
             </div>
-            <div class="form-group row">
-              <%= form.label(:from_email, class: 'col-md-4 col-form-label') %>
-              <div class="col-md-8">
+            <div class="row">
+              <%= form.label(:from_email, class: 'col-4 col-form-label') %>
+              <div class="col-8">
                 <%= form.text_field(:from_email, class: 'form-control', readonly: true) %>
               </div>
             </div>
-            <div class="form-group row">
-              <%= form.label(:to_email, class: 'col-md-4 col-form-label') %>
-              <div class="col-md-8">
+            <div class="row">
+              <%= form.label(:to_email, class: 'col-4 col-form-label') %>
+              <div class="col-8">
                 <%= form.text_field(:to_email, class: 'form-control') %>
               </div>
             </div>
-            <div class="form-group row">
-              <%= form.label(:text, class: 'col-md-4 col-form-label') %>
-              <div class="col-md-8">
+            <div class="row">
+              <%= form.label(:text, class: 'col-4 col-form-label') %>
+              <div class="col-8">
                 <%= form.text_area(:text, class: 'form-control') %>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-6">
             <h6><%= t('.send_data.headline') %></h6>
             <% %i[map photos comments feedbacks abuse_reports].each do |data| %>
-              <div class="form-group row">
-                <div class="col-md-12">
+              <div class="row">
+                <div class="col-12">
                   <%= form.label("send_#{data}", '', class: 'form-check-label') do %>
                     <%= form.check_box("send_#{data}", class: 'form-check form-check-inline') %>
                     <%= IssueEmail.human_attribute_name("send_#{data}") %>
@@ -56,7 +56,7 @@
     <div class="modal-footer">
       <%= submit_tag t('action.send'), id: 'btn-send', class: 'btn btn-primary offset-3 col-2' %>
       <%= submit_tag t('action.abort'), id: 'btn-close', type: :reset, class: 'btn btn-secondary offset-1 col-2',
-                                        'data-dismiss': :modal %>
+                                        'data-bs-dismiss': :modal %>
     </div>
   <% end %>
 </div>

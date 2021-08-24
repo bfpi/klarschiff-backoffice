@@ -1,10 +1,11 @@
 DEFAULTS: &DEFAULTS
-  filename: test.jpg
-  content_type: 'image/jpg'
-  metadata: nil
   byte_size: 2000
   checksum: "123456789012345678901234"
+  content_type: 'image/jpg'
   created_at: <%= Time.current - 5.days %>
+  filename: test.jpg
+  metadata: nil
+  service_name: local
 
 one:
   <<: *DEFAULTS

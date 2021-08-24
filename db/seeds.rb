@@ -65,8 +65,8 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
     { kreise: CountyGroup, aemter: AuthorityGroup }.each do |type, group_model|
       next unless type == xml_key
       group_model.find_or_create_by! main_user: User.first, name: "Standardzuständigkeit - #{name}",
-                                     short_name: "SZ #{name}", kind: :internal, reference_default: true,
-                                     reference_id: obj.id
+        short_name: "SZ #{name}", kind: :internal, reference_default: true,
+        reference_id: obj.id
       next unless Rails.env.development?
       2.times do |ix|
         {
@@ -75,7 +75,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
           "extern_#{ix + 1}": { name: "Extern #{ix + 1} #{name}", kind: :external }
         }.each do |short_name, values|
           group_model.find_or_create_by! values.merge(short_name: short_name, reference_id: obj.id,
-                                                      main_user: User.find_by(login: :regional_admin))
+            main_user: User.find_by(login: :regional_admin))
         end
       end
     end
@@ -96,7 +96,7 @@ if Instance.where(id: 1).blank?
 end
 
 InstanceGroup.find_or_create_by! main_user: User.first, name: 'Standardzuständigkeit - MV', short_name: 'SZ MV',
-                                 kind: :internal, reference_default: true, reference_id: 1
+  kind: :internal, reference_default: true, reference_id: 1
 if Rails.env.development?
   2.times do |ix|
     {
@@ -105,7 +105,7 @@ if Rails.env.development?
       "extern_#{ix + 1}": { name: "Extern #{ix + 1} MV", kind: :external }
     }.each do |short_name, values|
       InstanceGroup.find_or_create_by! values.merge(short_name: short_name, reference_id: 1,
-                                                    main_user: User.find_by(login: :regional_admin))
+        main_user: User.find_by(login: :regional_admin))
     end
   end
 end
@@ -147,9 +147,9 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
   CSV.table(file_name).each do |row|
     next if row[0].blank?
     user = User.find_or_create_by!(email: row[1].strip,
-                                   login: row[2].downcase.strip,
-                                   last_name: row[3].strip,
-                                   first_name: row[4].strip)
+      login: row[2].downcase.strip,
+      last_name: row[3].strip,
+      first_name: row[4].strip)
     group = target.groups.find_by!(name: row[0].strip)
     group.users << user unless group.user_ids.include? user.id
     next if user.password_digest.present?

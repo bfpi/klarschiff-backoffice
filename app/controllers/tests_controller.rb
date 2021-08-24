@@ -31,7 +31,7 @@ class TestsController < ApplicationController
       protocol_ldap_search(protocol_ldap_bind)
     rescue Net::LDAP::NoBindResultError
       return render plain: 'LDAP-Verbindung nicht möglich. Eventuell falsche Encryption Einstellung.',
-                    status: :bad_request
+        status: :bad_request
     rescue StandardError => e
       return render plain: e.message, status: :bad_request
     end
