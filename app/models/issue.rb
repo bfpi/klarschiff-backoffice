@@ -37,6 +37,7 @@ class Issue < ApplicationRecord
     has_many :comments
     has_many :feedbacks
     has_many :photos, -> { order(:created_at) }, inverse_of: :issue
+    has_many :external_photos, -> { status_external.order(:created_at) }, class_name: 'Photo', inverse_of: :issue
     has_many :supporters
   end
 

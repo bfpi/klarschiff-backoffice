@@ -5,22 +5,12 @@ module Citysdk
     attr_reader :collection
 
     def initialize(params = {})
-      @collection = Citysdk::Request.includes(includes).references(includes)
-        .select('issue.*, count(supporter.id) as supporter_count')
-        .joins('LEFT JOIN supporter ON supporter.issue_id = issue.id and supporter.confirmed_at is not null')
-        .group(group_by)
+      @collection = Citysdk::Request.includes(includes).references(includes).eager_load(:external_photos, :supporters)
       filter_collection(params)
     end
 
     def includes
       [:group, :delegation, :job, :photos, { category: %i[main_category sub_category] }]
-    end
-
-    def group_by
-      [
-        Category.arel_table[:id], 'delegation_issue.id', Group.arel_table[:id], Issue.arel_table[:id],
-        Job.arel_table[:id], MainCategory.arel_table[:id], Photo.arel_table[:id], SubCategory.arel_table[:id]
-      ]
     end
 
     def filter_collection(params)

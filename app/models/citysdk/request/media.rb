@@ -8,13 +8,13 @@ module Citysdk
       delegate :rails_blob_path, to: 'Rails.application.routes.url_helpers'
 
       def media_url
-        return unless (photo = photos.status_external.first)
+        return unless (photo = external_photos.first)
         [config[:media_base_url], rails_blob_path(photo.file, only_path: true)].join
       end
 
       def media_urls
-        return unless photos.status_external.exists?
-        photos.status_external.map do |photo|
+        return if external_photos.empty? # use eager loaded relation instead of AR exist / count
+        external_photos.map do |photo|
           [config[:media_base_url], rails_blob_path(photo.file, only_path: true)].join
         end
       end

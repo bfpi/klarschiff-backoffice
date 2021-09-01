@@ -74,7 +74,7 @@ module Citysdk
     end
 
     def votes
-      respond_to?(:supporter_count) ? supporter_count : supporters.count
+      supporters.size # use eager loaded relation for count instead of AR count
     end
 
     def job_status
