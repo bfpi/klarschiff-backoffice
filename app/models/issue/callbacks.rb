@@ -72,9 +72,10 @@ class Issue
       when :accept
         self.responsibility_accepted = true
         return
-      # when :manual
+      when :manual
+        self.group = group
       else
-        self.group = category&.group(lat: lat, lon: lon) || group
+        self.group = category&.group(lat: lat, lon: lon)
       end
       self.responsibility_accepted = false
     end
