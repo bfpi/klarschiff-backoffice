@@ -31,7 +31,7 @@
           <td>
             <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                            title: Issue.human_enum_name(:status, issue.status) %>
-            <%= tag.i class: "fa fa-archive", title: Issue.human_attribute_name(:archived) if issue.archived %>
+            <%= tag.i class: 'fa fa-archive', title: Issue.human_attribute_name(:archived) if issue.archived %>
           </td>
           <td><%= issue.address %></td>
           <td><%= issue.supporters.count %></td>
