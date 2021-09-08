@@ -2,7 +2,7 @@
   <div class="col-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                    title: kind_and_status_tooltip(issue) %>
-    <%= image_tag 'archiviert.png', title: Issue.human_attribute_name(:archived) if issue.archived %>
+    <%= tag.i class: 'fa fa-archive', title: Issue.human_attribute_name(:archived) if issue.archived %>
   </div>
   <div class="col-auto" title="<%= Issue.human_attribute_name(:id) %>">
     <%= issue.id %>
@@ -31,7 +31,7 @@
   </div>
   <% if issue.abuse_reports.present? -%>
     <div class="col-auto" title="<%= t('.abuse_reports', count: issue.abuse_reports.count) %>">
-      <%= image_tag 'abuse_report.png' %>
+      <%= tag.span class: 'fa fa-exclamation-circle' %>
     </div>
   <% end -%>
   <div class="col-auto">
@@ -54,13 +54,13 @@
     </div>
   <% end -%>
   <div class="col text-end">
-    <%= link_to image_tag('mail-message-new.png'),
+    <%= link_to tag.i(class: 'fa fa-envelope btn btn-outline-secondary'),
           new_issue_issue_email_path(issue), remote: true,
                                              title: 'Daten der Meldung als E-Mail versenden' %>
-    <%= link_to image_tag('mail-groupwise.png'),
+    <%= link_to tag.i(class: 'fa fa-share btn btn-outline-secondary'),
           issue_issue_email_path(issue), id: :issue_email_direct,
                                          title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
-    <%= link_to image_tag('printer.png'),
+    <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
           issue_issue_exports_path(issue), target: :_blank, id: :issue_export,
                                            title: 'Daten der Meldung ausdrucken', rel: :noopener %>
   </div>
