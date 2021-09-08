@@ -3,15 +3,6 @@
     <%= link_to edit_issue_path(issue.id), remote: true do %>
       <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                      title: Issue.human_enum_name(:status, issue.status) %>
-      <% if issue.responsibility_accepted -%>
-        <i class="fa fa-check-square-o text-success"
-           title="<%= Issue.human_attribute_name(:responsibility_accepted) %>"
-           aria-hidden="true"></i>
-      <% else -%>
-        <i class="fa fa-times-circle-o text-warning"
-           title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-           aria-hidden="true"></i>
-      <% end -%>
       #<%= issue.id %><br>
       (<%= issue.address %>)
     <% end -%>

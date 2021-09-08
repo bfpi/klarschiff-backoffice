@@ -64,9 +64,6 @@
         <div class="row">
           <div class="col-12">
             <b><%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %> und seit 3 Tagen zugewiesen, aber noch nicht akzeptiert:</b>
-            <i class="fa fa-times-circle-o text-warning"
-               title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-               aria-hidden="true"></i>
           </div>
           <div class="col-12">
             <% @open_not_accepted.each do |issue| -%>
