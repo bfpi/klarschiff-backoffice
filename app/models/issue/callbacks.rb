@@ -72,10 +72,14 @@ class Issue
       when :accept
         self.responsibility_accepted = true
         return
-      when :recalculation
-        self.group = category&.group(lat: lat, lon: lon) || group
+      when :recalculation, nil
+        recalculate_responsibility
       end
       self.responsibility_accepted = false
+    end
+
+    def recalculate_responsibility
+      self.group = category&.group(lat: lat, lon: lon) || group
     end
 
     def set_reviewed
