@@ -1,18 +1,18 @@
 <%= render partial: 'errors', locals: { object: responsibility } %>
 
-<div class="form-group row">
-  <%= form.label :category, class: 'col-md-4 col-form-label' %>
-  <div class="col-md-8">
+<div class="row">
+  <%= form.label :category, class: 'col-4 col-form-label' %>
+  <div class="col-8">
     <%= form.select :category_id,
           grouped_options_for_select(grouped_categories_for_responsibility, form.object.category_id),
-          { include_blank: true }, class: 'form-control' %>
+          { include_blank: true }, class: 'form-select' %>
   </div>
 </div>
 
-<div class="form-group row">
-  <%= form.label :group, class: 'col-md-4 col-form-label' %>
-  <div class="col-md-8">
+<div class="row">
+  <%= form.label :group, class: 'col-4 col-form-label' %>
+  <div class="col-8">
     <%= form.select :group_id, groups_options(form.object), { include_blank: true },
-          class: 'form-control' %>
+          class: 'form-select' %>
   </div>
 </div>

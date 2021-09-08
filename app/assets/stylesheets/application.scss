@@ -134,3 +134,11 @@ table.statistics {
     border-top: 0;
   }
 }
+
+a {
+  text-decoration: none;
+}
+
+.row + .row {
+  margin-top: 1rem;
+}

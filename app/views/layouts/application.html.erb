@@ -52,7 +52,7 @@
                 <% if authorized?(:administration) %>
                   <li class="nav-item dropdown">
                     <%= link_to t('nav.administration'), '#',
-                          class: 'nav-link dropdown-toggle', 'data-toggle': 'dropdown' %>
+                          class: 'nav-link dropdown-toggle', 'data-bs-toggle': 'dropdown' %>
                     <div class="dropdown-menu">
                       <% if authorized?(:manage_users) -%>
                         <%= link_to User.model_name.human(count: 2), users_url, class: 'dropdown-item' %>
@@ -105,7 +105,7 @@
             <% if Current.user.present? -%>
               <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= Current.user %></a>
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><%= Current.user %></a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <% if Current.user&.authorized?(:change_user) -%>
                       <%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %>
@@ -142,14 +142,14 @@
         <nav class="footer">
           <div class="container">
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-2">
                 <%= label_tag 'search-issue', t(:edit_issue), class: 'col-form-label' %>
               </div>
-              <div class="col-md-2">
+              <div class="col-2">
                 <%= text_field_tag 'search-issue', nil,
                       class: 'form-control', placeholder: Issue.human_attribute_name(:id), maxlength: 6 %>
               </div>
-              <div class="col-md-7 offset-md-1">
+              <div class="col-7 offset-md-1">
                 <%= yield :footer %>
               </div>
             </div>

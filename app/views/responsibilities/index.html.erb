@@ -33,7 +33,7 @@
 <%= paginate @responsibilities %>
 
 <% content_for :footer do %>
-  <div class="float-right">
+  <div class="float-end">
     <%= link_to t('.new_responsibility'), new_responsibility_path, remote: true, class: 'btn btn-primary' %>
   </div>
 <% end %>

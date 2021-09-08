@@ -4,7 +4,7 @@
       <% @grouped_jobs.each do |group, jobs| -%>
         <div class="card">
           <div class="card-header" id="header-group-<%= (group_id = group.id) %>">
-            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-group-<%= group_id %>"
+            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-group-<%= group_id %>"
               aria-controls="collapse-group-<%= group_id %>">
               <%= group %>
             </button>
@@ -14,28 +14,28 @@
                aria-expanded="<%= group_id == @active_group_id.to_i %>">
             <div class="card-body">
               <%= render partial: 'jobs_table', locals: { jobs: jobs, group_id: group_id } %>
-              <div class="row form-group">
-                <div class="col-md-2">
+              <div class="row">
+                <div class="col-2">
                   <div class="btn-group" role="group">
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                                   data: { table: "#group-#{group_id}-table", status: 'checked' } do %>
+                          data: { table: "#group-#{group_id}-table", status: 'checked' } do %>
                       <span class="fa fa-flag text-success"></span>
                     <% end %>
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                                   data: { table: "#group-#{group_id}-table", status: 'unchecked' } do %>
+                          data: { table: "#group-#{group_id}-table", status: 'unchecked' } do %>
                       <span class="fa fa-flag text-danger"></span>
                     <% end %>
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                                   data: { table: "#group-#{group_id}-table", status: 'uncheckable' } do %>
+                          data: { table: "#group-#{group_id}-table", status: 'uncheckable' } do %>
                       <span class="fa fa-flag text"></span>
                     <% end %>
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-2">
                   <%= text_field_tag :job_date, nil, id: "group-#{group_id}-date-field",
                                                      class: 'form-control datepicker' %>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                   <div class="d-flex justify-content-between">
                     <%= button_tag t('.change_date'),
                           type: 'button', class: 'btn btn-sm btn-outline-primary change-date',
@@ -53,6 +53,6 @@
       <% end -%>
     </div>
   <% else -%>
-    <div class="row"><div class="col-md-12">Keine Aufträge am ausgewählten Tag gefunden.</div></div>
+    <div class="row"><div class="col-12">Keine Aufträge am ausgewählten Tag gefunden.</div></div>
   <% end -%>
 </div>

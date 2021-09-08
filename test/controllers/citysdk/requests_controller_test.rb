@@ -358,8 +358,8 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   def valid_update_params
     valid_create_params.merge(detailed_status: 'IN_PROCESS', status_notes: 'consetetur sadipscing elitr, sed diam',
-                              priority: 2, delegation: group(:external).short_name, job_status: 'CHECKED',
-                              job_priority: 1)
+      priority: 2, delegation: group(:external).short_name, job_status: 'CHECKED',
+      job_priority: 1)
   end
 
   def update_request_and_reload(request_id, attr, value, additional_params = {})

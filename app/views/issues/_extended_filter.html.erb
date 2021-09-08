@@ -2,42 +2,42 @@
                           data: { dependencies: data_dependencies_path }) do %>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
-  <div class="row form-group">
-    <%= label_tag :filter_text, 'Freitext', class: 'col-md-2 col-form-label' %>
-    <div class="col-md-8">
+  <div class="row">
+    <%= label_tag :filter_text, 'Freitext', class: 'col-2 col-form-label' %>
+    <div class="col-8">
       <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
     </div>
   </div>
-  <div class="row form-group">
+  <div class="row">
     <%= label_tag :filter_responsibility, Issue.human_attribute_name(:responsibility),
-          class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+          class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= select_tag 'filter[responsibility]', options_for_select(responsibilities, @filter[:responsibility]),
-            include_blank: true, class: 'form-control' %>
+            include_blank: true, class: 'form-select' %>
     </div>
-    <%= label_tag :filter_kind, Issue.human_attribute_name(:kind), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
-      <%= select_tag 'filter[kind]', options_for_select(kinds, @filter[:kind]), class: 'form-control' %>
+    <%= label_tag :filter_kind, Issue.human_attribute_name(:kind), class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= select_tag 'filter[kind]', options_for_select(kinds, @filter[:kind]), class: 'form-select' %>
     </div>
   </div>
-  <div class="row form-group">
-    <%= label_tag :filter_delegation, Issue.human_attribute_name(:delegation), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+  <div class="row">
+    <%= label_tag :filter_delegation, Issue.human_attribute_name(:delegation), class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= select_tag 'filter[delegation]', options_for_select(delegations, @filter[:delegation]),
-            include_blank: true, class: 'form-control' %>
+            include_blank: true, class: 'form-select' %>
     </div>
-    <%= label_tag :filter_main_category, 'Hauptkategorie', class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+    <%= label_tag :filter_main_category, 'Hauptkategorie', class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= select_tag 'filter[main_category]', options_for_select(main_categories, @filter[:main_category]),
-            class: 'form-control', disabled: true %>
+            class: 'form-select', disabled: true %>
     </div>
   </div>
-  <div class="row form-group">
-    <%= label_tag :filter_statuses, Issue.human_attribute_name(:status), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+  <div class="row">
+    <%= label_tag :filter_statuses, Issue.human_attribute_name(:status), class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <div class="row">
         <% Issue.statuses.each do |name, id| -%>
-          <%= label_tag "filter_statuses_#{name}", class: 'col-md-12 col-form-label' do %>
+          <%= label_tag "filter_statuses_#{name}", class: 'col-12 col-form-label' do %>
             <%= check_box_tag 'filter[statuses][]', id, id.in?(@filter[:statuses].map(&:to_i)),
                   id: "statuses_#{name}" %>
             <%= t("enums.issue.status.#{name}") %>
@@ -45,60 +45,60 @@
         <% end -%>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="row form-group">
-        <%= label_tag :filter_sub_category, 'Unterkategorie', class: 'col-md-4 col-form-label' %>
-        <div class="col-md-8">
+    <div class="col-6">
+      <div class="row">
+        <%= label_tag :filter_sub_category, 'Unterkategorie', class: 'col-4 col-form-label' %>
+        <div class="col-8">
           <%= select_tag 'filter[sub_category]', options_for_select(sub_categories, @filter[:sub_category]),
-                class: 'form-control', disabled: true %>
+                class: 'form-select', disabled: true %>
         </div>
       </div>
-      <div class="row form-group">
-        <%= label_tag :filter_begin_at, 'Erstellung', class: 'col-md-4 col-form-label' %>
-        <div class="col-md-4">
+      <div class="row">
+        <%= label_tag :filter_begin_at, 'Erstellung', class: 'col-4 col-form-label' %>
+        <div class="col-4">
           <%= text_field_tag 'filter[begin_at]', @filter[:begin_at], class: 'form-control datepicker' %>
         </div>
-        <div class="col-md-4">
+        <div class="col-4">
           <%= text_field_tag 'filter[end_at]', @filter[:end_at], class: 'form-control datepicker' %>
         </div>
       </div>
-      <div class="row form-group">
-        <%= label_tag :supporters, Issue.human_attribute_name(:supporters), class: 'col-md-4 col-form-label' %>
-        <%= label_tag :filter_supported, class: 'col-md-8 col-form-label' do %>
+      <div class="row">
+        <%= label_tag :supporters, Issue.human_attribute_name(:supporters), class: 'col-4 col-form-label' %>
+        <%= label_tag :filter_supported, class: 'col-8 col-form-label' do %>
           <%= check_box_tag 'filter[supported]', true, @filter[:supported] == 'true' %> mindestens 20
         <% end -%>
       </div>
-      <div class="row form-group">
-        <%= label_tag :filter_priority, Issue.human_attribute_name(:priority), class: 'col-md-4 col-form-label' %>
-        <div class="col-md-8">
+      <div class="row">
+        <%= label_tag :filter_priority, Issue.human_attribute_name(:priority), class: 'col-4 col-form-label' %>
+        <div class="col-8">
           <%= select_tag 'filter[priority]', options_for_select(priorities, @filter[:priority]),
-                include_blank: true, class: 'form-control' %>
+                include_blank: true, class: 'form-select' %>
         </div>
       </div>
     </div>
   </div>
-  <div class="row form-group">
-    <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+  <div class="row">
+    <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
-            include_blank: true, class: 'form-control' %>
+            include_blank: true, class: 'form-select' %>
     </div>
-    <%= label_tag :filter_district, District.model_name.human, class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
-      <%= select_tag 'filter[district]', options_for_select(districts, @filter[:district]), class: 'form-control' %>
+    <%= label_tag :filter_district, District.model_name.human, class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= select_tag 'filter[district]', options_for_select(districts, @filter[:district]), class: 'form-select' %>
     </div>
   </div>
-  <div class="row form-group">
-    <%= label_tag :filter_number, Issue.human_attribute_name(:id), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+  <div class="row">
+    <%= label_tag :filter_number, Issue.human_attribute_name(:id), class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= text_field_tag 'filter[number]', @filter[:number], class: 'form-control' %>
     </div>
-    <%= label_tag :filter_author, Issue.human_attribute_name(:author), class: 'col-md-2 col-form-label' %>
-    <div class="col-md-4">
+    <%= label_tag :filter_author, Issue.human_attribute_name(:author), class: 'col-2 col-form-label' %>
+    <div class="col-4">
       <%= text_field_tag 'filter[author]', @filter[:author], class: 'form-control' %>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12"><%= submit_tag t(:search), class: 'btn btn-primary float-right' %></div>
+    <div class="col-12"><%= submit_tag t(:search), class: 'btn btn-primary float-end' %></div>
   </div>
 <% end -%>

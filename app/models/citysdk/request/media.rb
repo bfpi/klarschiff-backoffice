@@ -9,14 +9,22 @@ module Citysdk
 
       def media_url
         return unless (photo = external_photos.first)
-        [config[:media_base_url], rails_blob_path(photo.file, only_path: true)].join
+        resized_url(photo.file)
       end
 
       def media_urls
         return if external_photos.empty? # use eager loaded relation instead of AR exist / count
         external_photos.map do |photo|
-          [config[:media_base_url], rails_blob_path(photo.file, only_path: true)].join
+          resized_url(photo.file)
         end
+      end
+
+      private
+
+      def resized_url(file)
+        [config[:media_base_url], Rails.application.routes.url_helpers.rails_representation_url(
+          file.variant(resize: '360x'), only_path: true
+        )].join
       end
     end
   end

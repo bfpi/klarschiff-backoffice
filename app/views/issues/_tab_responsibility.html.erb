@@ -1,9 +1,9 @@
 <%= render partial: 'responsibility_actions', locals: { form: form } %>
 
-<div class="form-group row">
-  <%= form.label :delegation, for: :issue_delegation_id, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :delegation, for: :issue_delegation_id, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select :delegation_id, options_for_select(delegations(form.object), form.object.delegation_id),
-          { include_blank: true }, disabled: form.object.closed?, class: 'form-control' %>
+          { include_blank: true }, disabled: form.object.closed?, class: 'form-select' %>
   </div>
 </div>

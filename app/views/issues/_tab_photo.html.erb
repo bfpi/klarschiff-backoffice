@@ -68,16 +68,16 @@
   <% unless restricted || form.object.closed? -%>
     <tfoot>
       <td colspan="5">
-        <div class="form-group row">
-          <%= form.label :new_photo, for: :issue_new_photo, class: 'col-md-2 col-form-label' %>
-          <div class="col-md-4">
+        <div class="row">
+          <%= form.label :new_photo, for: :issue_new_photo, class: 'col-2 col-form-label' %>
+          <div class="col-4">
             <%= form.file_field :new_photo, class: 'form-control' %>
           </div>
           <%= form.submit t('action.upload'), class: 'btn btn-primary col-2' %>
         </div>
         <% unless form.object.new_record? -%>
-          <div class="form-group row">
-            <div class="col-md-4">
+          <div class="row">
+            <div class="col-4">
               <div class="form-check form-check-inline">
                 <label class="form-check-label">
                   <%= form.check_box :photo_requested, class: 'form-check-input' %>

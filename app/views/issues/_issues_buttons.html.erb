@@ -5,7 +5,7 @@
         class: 'btn btn-primary' %>
   <%= button_tag t('.assign_jobs'), id: 'assign-jobs', type: 'button', class: 'btn btn-primary' if authorized?(:jobs) %>
   <% if authorized?(:create_issue) -%>
-    <div class="float-right">
+    <div class="float-end">
       <%= link_to t('.new_issue'), new_issue_path, remote: true, class: 'btn btn-primary' %>
     </div>
   <% end -%>

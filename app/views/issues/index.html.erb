@@ -5,7 +5,7 @@
       <div class="card-body <%= 'pb-0' unless @extended_filter %>">
         <%= link_to t("#{@extended_filter ? :simple : :extended}_search"),
               issues_path(extended_filter: !@extended_filter),
-              class: 'btn btn-sm btn-outline-primary float-right' %>
+              class: 'btn btn-sm btn-outline-primary float-end' %>
         <%= render partial: "#{@extended_filter ? 'extended' : 'simple'}_filter" %>
       </div>
     </div>

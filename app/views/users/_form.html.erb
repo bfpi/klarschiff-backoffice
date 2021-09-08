@@ -1,8 +1,8 @@
 <%= render partial: 'errors', locals: { object: user } %>
 
-<div class="form-group row">
-  <%= form.label :active, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label :active, class: 'col-2 col-form-label' %>
+  <div class="col-10">
     <div class="form-check form-check-inline">
       <%= form.label :active_true, '', class: 'form-check-label' do %>
         <%= form.radio_button :active, true %>
@@ -17,9 +17,9 @@
     </div>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :role, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-10">
+<div class="row">
+  <%= form.label :role, class: 'col-2 col-form-label' %>
+  <div class="col-10">
     <% User.roles.each do |role, ix| -%>
       <% if User.roles[role] >= Current.user.read_attribute_before_type_cast(:role) -%>
         <div class="form-check form-check-inline">
@@ -32,38 +32,38 @@
     <% end -%>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :first_name, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :first_name, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :first_name, class: 'form-control' %>
   </div>
-  <%= form.label :last_name, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :last_name, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :last_name, class: 'form-control' %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :login, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :login, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :login, class: 'form-control' %>
   </div>
-  <%= form.label :ldap, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :ldap, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.autocomplete_field :ldap, class: 'form-control', 'data-autocomplete-url': user_ldaps_path %>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :email, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :email, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.text_field :email, class: 'form-control' %>
   </div>
-  <%= form.label :password, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :password, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.password_field :password, class: 'form-control' %>
   </div>
 </div>
-<div class="form-group row">
-  <div class="col-md-4 offset-md-2">
+<div class="row">
+  <div class="col-4 offset-md-2">
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <%= form.check_box :group_feedback_recipient, class: 'form-check-input' %>
@@ -72,15 +72,15 @@
     </div>
   </div>
 </div>
-<div class="form-group row">
-  <%= form.label :groups, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+<div class="row">
+  <%= form.label :groups, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select_many_field 'group_ids',
-          class: 'form-control', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
+          class: 'form-select', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
   </div>
-  <%= form.label :districts, class: 'col-md-2 col-form-label' %>
-  <div class="col-md-4">
+  <%= form.label :districts, class: 'col-2 col-form-label' %>
+  <div class="col-4">
     <%= form.select_many_field 'district_ids',
-          class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
+          class: 'form-select', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
   </div>
 </div>

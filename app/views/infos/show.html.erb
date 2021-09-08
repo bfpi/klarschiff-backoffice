@@ -4,13 +4,13 @@
   </div>
   <div class="card-body">
     <div class="form-row">
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.version' %></label>
         <input type="text" readonly="readonly"
                value="<%= `git rev-parse --short HEAD`.strip %> / <%= `git branch --show-current`.strip %>"
                class="form-control">
       </div>
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.built' %></label>
         <input type="text" readonly="readonly"
                value="<%= Time.current %> / <%= `uname -n`.strip %>"
@@ -18,13 +18,13 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.rendered_by_host' %></label>
         <input type="text" readonly="readonly"
                value="<%= Socket.gethostname %>"
                class="form-control">
       </div>
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.environment' %></label>
         <input type="text" readonly="readonly"
                value="<%= Rails.env %>"
@@ -32,13 +32,13 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.ruby_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= RUBY_VERSION %>"
                class="form-control">
       </div>
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.rails_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= Rails.version %>"
@@ -46,13 +46,13 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col">
+      <div class="col">
         <label><%= I18n.t 'view.info.db_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= ActiveRecord::Migrator.current_version %>"
                class="form-control">
       </div>
-      <div class="form-group col">
+      <div class="col">
       </div>
     </div>
   </div>

@@ -4,15 +4,16 @@ require:
 
 AllCops:
   Exclude:
-    - 'Rakefile'
     - 'bin/bundle'
     - 'bin/onetime-jobs'
     - 'bin/rails'
     - 'bin/rake'
     - 'bin/setup'
     - 'bin/update'
+    - 'bin/yarn'
     - 'config.ru'
     - 'db/schema.rb'
+    - 'Rakefile'
     - 'vendor/**/**'
   NewCops: enable
 
@@ -59,17 +60,28 @@ Metrics/ParameterLists:
 Naming/FileName:
   Exclude: ['bin/onetime-jobs/*']
 
+Naming/InclusiveLanguage:
+  Enabled: false
+
 Naming/MethodParameterName:
   MinNameLength: 2
 
 Rails:
   Enabled: true
 
+Rails/CreateTableWithTimestamps:
+  Exclude:
+    - 'db/migrate/20210824111007_create_active_storage_variant_records.active_storage.rb'
+
 Rails/HasAndBelongsToMany:
   Enabled: false
 
 Rails/PluckId:
   Enabled: true
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/20210824111006_add_service_name_to_active_storage_blobs.active_storage.rb'
 
 Rails/UniqBeforePluck:
   EnforcedStyle: aggressive

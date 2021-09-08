@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header" role="tab" id="headingJobs">
       <h5 class="mb-0">
-        <a data-toggle="collapse" href="#collapseJobs" aria-expanded="true" aria-controls="collapseJobs">
+        <a data-bs-toggle="collapse" href="#collapseJobs" aria-expanded="true" aria-controls="collapseJobs">
           Jobs
         </a>
       </h5>
@@ -173,7 +173,7 @@
   <div class="card">
     <div class="card-header" role="tab" id="headingProtocols">
       <h5 class="mb-0">
-        <a class="collapsed" data-toggle="collapse" href="#collapseProtocols" aria-controls="collapseProtocols">
+        <a class="collapsed" data-bs-toggle="collapse" href="#collapseProtocols" aria-controls="collapseProtocols">
           Server: Protokolle und Verbindungen
         </a>
       </h5>
@@ -187,14 +187,14 @@
           </p>
           <%= form_tag tests_path, method: :post, remote: true do %>
             <%= hidden_field_tag :test, :protocol_email %>
-            <div class="form-group row">
-              <%= label_tag :recipient, 'Empfänger', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
+            <div class="row">
+              <%= label_tag :recipient, 'Empfänger', class: 'label-control col-2' %>
+              <div class="col-3">
                 <%= text_field_tag :recipient, '', class: 'form-control' %>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-12">
                 <%= submit_tag 'Test-E-Mail senden', class: 'btn btn-sm btn-primary' %>
               </div>
             </div>
@@ -209,34 +209,35 @@
           </p>
           <%= form_tag tests_path, method: :post, remote: true do %>
             <%= hidden_field_tag :test, :protocol_ldap %>
-            <div class="form-group row">
-              <%= label_tag :host, 'Host', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
+            <div class="row">
+              <%= label_tag :host, 'Host', class: 'label-control col-2' %>
+              <div class="col-3">
                 <%= text_field_tag :host, '', class: 'form-control' %>
               </div>
-              <%= label_tag :port, 'Port', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
+              <%= label_tag :port, 'Port', class: 'label-control col-2' %>
+              <div class="col-3">
                 <%= text_field_tag :port, '', class: 'form-control' %>
               </div>
             </div>
-            <div class="form-group row">
-              <%= label_tag :encryption, 'Encryption', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
-                <%= select_tag :encryption, options_for_select(['simple_tls']), include_blank: true %>
+            <div class="row">
+              <%= label_tag :encryption, 'Encryption', class: 'label-control col-2' %>
+              <div class="col-3">
+                <%= select_tag :encryption, options_for_select(['simple_tls']), include_blank: true,
+                      class: 'form-select' %>
               </div>
             </div>
-            <div class="form-group row">
-              <%= label_tag :username, 'User-DN', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
+            <div class="row">
+              <%= label_tag :username, 'User-DN', class: 'label-control col-2' %>
+              <div class="col-3">
                 <%= text_field_tag :username, '', class: 'form-control' %>
               </div>
-              <%= label_tag :password, 'Passwort', class: 'label-control col-md-2' %>
-              <div class="col-md-3">
+              <%= label_tag :password, 'Passwort', class: 'label-control col-2' %>
+              <div class="col-3">
                 <%= password_field_tag :password, '', class: 'form-control' %>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-12">
                 <%= submit_tag 'LDAP-Login testen', class: 'btn btn-sm btn-primary' %>
               </div>
             </div>

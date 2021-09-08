@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-md-auto">
+  <div class="col-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                    title: kind_and_status_tooltip(issue) %>
     <%= image_tag 'archiviert.png', title: Issue.human_attribute_name(:archived) if issue.archived %>
   </div>
-  <div class="col-md-auto" title="<%= Issue.human_attribute_name(:id) %>">
+  <div class="col-auto" title="<%= Issue.human_attribute_name(:id) %>">
     <%= issue.id %>
   </div>
-  <div class="col-md-auto" title="<%= Issue.human_attribute_name(:created_at) %>">
+  <div class="col-auto" title="<%= Issue.human_attribute_name(:created_at) %>">
     <%= l(issue.created_at.to_date) %>
   </div>
-  <div class="col-md-auto" title="<%= Category.human_attribute_name(:main_category) %>">
+  <div class="col-auto" title="<%= Category.human_attribute_name(:main_category) %>">
     <%= issue.main_category %>
   </div>
-  <div class="col-md-auto" title="<%= Category.human_attribute_name(:sub_category) %>">
+  <div class="col-auto" title="<%= Category.human_attribute_name(:sub_category) %>">
     <%= issue.sub_category %>
   </div>
-  <div class="col-md-auto">
+  <div class="col-auto">
     <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group.name}" %>"><%= issue.group %></span>
     <% if issue.responsibility_accepted -%>
       <i class="fa fa-check-square-o text-success"
@@ -30,17 +30,17 @@
     <% end -%>
   </div>
   <% if issue.abuse_reports.present? -%>
-    <div class="col-md-auto" title="<%= t('.abuse_reports', count: issue.abuse_reports.count) %>">
+    <div class="col-auto" title="<%= t('.abuse_reports', count: issue.abuse_reports.count) %>">
       <%= image_tag 'abuse_report.png' %>
     </div>
   <% end -%>
-  <div class="col-md-auto">
+  <div class="col-auto">
     <%= Issue.human_attribute_name(:description) %>
     <%= tag.span class: "fa fa-#{status_symbol(issue.description_status)}",
-                 title: Issue.human_enum_name(:description_status, issue.description_status) %>
+          title: Issue.human_enum_name(:description_status, issue.description_status) %>
   </div>
   <% if issue.photos.present? %>
-    <div class="col-md-auto">
+    <div class="col-auto">
       <%= Issue.human_attribute_name(:photo) %>
       <% issue.photos.map(&:status).uniq.each do |status| -%>
         <%= tag.span class: "fa fa-#{status_symbol(status)}", title: Photo.human_enum_name(:status, status) %>
@@ -48,12 +48,12 @@
     </div>
   <% end -%>
   <% if issue.priority.to_sym == :high %>
-    <div class="col-md-auto">
+    <div class="col-auto">
       <%= Issue.human_attribute_name(:priority) %>
       <%= Issue.human_enum_name(:priority, issue.priority) %>
     </div>
   <% end -%>
-  <div class="col text-right">
+  <div class="col text-end">
     <%= link_to image_tag('mail-message-new.png'),
           new_issue_issue_email_path(issue), remote: true,
                                              title: 'Daten der Meldung als E-Mail versenden' %>
