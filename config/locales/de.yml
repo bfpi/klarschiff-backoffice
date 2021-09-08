@@ -71,7 +71,8 @@ de:
         property_owner: Flurstückseigentum/-eigentümer
         property_owner_short: Flurstückseigentum
         responsibility: Zuständigkeit
-        responsibility_accepted: akzeptiert
+        responsibility_accepted: Zuständigkeit akzeptiert
+        responsibility_not_accepted: Zuständigkeit noch nicht akzeptiert
         reviewed_at: Erstsichtungszeitpunkt
         status_note: Statuskommentar
         supporters: Unterstützungen

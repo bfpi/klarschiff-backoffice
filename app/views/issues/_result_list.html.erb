@@ -38,7 +38,13 @@
           <td>
             <%= issue.group %>
             <% if issue.responsibility_accepted -%>
-              <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+              <i class="fa fa-check-square-o text-success"
+                 title="<%= Issue.human_attribute_name(:responsibility_accepted) %>"
+                 aria-hidden="true"></i>
+            <% else -%>
+              <i class="fa fa-times-circle-o text-warning"
+                 title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                 aria-hidden="true"></i>
             <% end -%>
             <% if issue.delegation.present? -%>
               (<i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>)
