@@ -63,7 +63,13 @@
       <div class="card-body">
         <div class="row">
           <div class="col-12">
-            <b><%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %> und seit 3 Tagen zugewiesen, aber noch nicht akzeptiert:</b>
+            <b>
+              <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
+              und seit 3 Tagen zugewiesen, aber
+              <i class="fa fa-times-circle-o text-warning"
+                 title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                 aria-hidden="true"></i>
+            </b>
           </div>
           <div class="col-12">
             <% @open_not_accepted.each do |issue| -%>
