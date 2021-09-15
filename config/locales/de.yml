@@ -303,8 +303,8 @@ de:
         pending: gemeldet
         received: offen
         reviewed: gesichtet
-        in_process: in bearbeitung
-        duplicate: duplikat
+        in_process: in Bearbeitung
+        duplicate: Duplikat
         deleted: gelöscht
         not_solvable: nicht lösbar
         closed: gelöst
