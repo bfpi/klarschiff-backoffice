@@ -111,8 +111,15 @@
 
         <div class="row">
           <div class="col-12">
-            <b>Zwar schon <%= image_tag 'icons/list/png/blank-yellow-22px.png',
-                                title: Issue.human_enum_name(:status, :in_process) %>, aber noch nicht akzeptiert</b>
+            <b>
+              Zwar schon
+              <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                             title: Issue.human_enum_name(:status, :in_process) %>
+              , aber
+              <i class="fa fa-times-circle-o text-warning"
+                 title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                 aria-hidden="true"></i>
+            </b>
           </div>
           <div class="col-12">
             <% @in_process_not_accepted.each do |issue| -%>
