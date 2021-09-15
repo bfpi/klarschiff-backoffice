@@ -1,21 +1,17 @@
 development: &default
   abuse:
-    deletion_deadline: 24
+    deletion_deadline_days: 1
   issue:
-    delegation_deadline: 24
-    deletion_deadline: 24
-    archival_deadline: 24
+    delegation_deadline_days: 1
+    deletion_deadline_days: 1
+    archival_deadline_days: 30
     author_deletion_deadline_days: 1
     author_deletion_replacement: '- bei Archivierung entfernt - '
-    open_not_accepted_days: 1
-    in_process_no_status_note_days: 1
-    ideas_without_min_supporters_days: 1
-    in_process_days: 1
     status_change_days: 1
   photo:
-    deletion_deadline: 24
+    deletion_deadline_days: 1
   support:
-    deletion_deadline: 24
+    deletion_deadline_days: 1
 
 consolidation: *default
 
