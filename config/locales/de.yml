@@ -1,13 +1,13 @@
 de:
-  false: Nein
-  true: Ja
+  false: nein
+  true: ja
   actions: Aktion
   action:
-    abort: Abbrechen
-    save_and_close: Speichern & Schließen
-    save: Speichern
-    send: Absenden
-    upload: Hochladen
+    abort: abbrechen
+    save_and_close: speichern & schließen
+    save: speichern
+    send: absenden
+    upload: hochladen
   activemodel:
     attributes:
       issue_email:
@@ -16,7 +16,7 @@ de:
         send_map: Karte
         send_photos: Foto
         send_comments: interne Kommentare
-        send_feedbacks: Lob, Hinweise oder Kritik von Bürger/-innen
+        send_feedbacks: Lobe/Hinweise/Kritiken
         send_abuse_reports: Missbrauchsmeldungen
         to_email: Empfängeradresse
         text: Text
@@ -50,14 +50,14 @@ de:
       issue:
         id: Nummer
         address: Adresse
-        archived: Archiviert
+        archived: archiviert
         archived_at: Archivierungszeitpunkt
         category: Kategorie
         created_at: Erstellung
         delegation: Delegation
         description: Beschreibung
-        description_status: Beschreibungs-Status
-        expected_closure: voraussichtlichen Abschluss
+        description_status: Beschreibungsstatus
+        expected_closure: voraussichtlicher Abschluss
         field_service_date: Datum
         field_service_team: Team
         group: Zuständigkeit
@@ -74,7 +74,7 @@ de:
         responsibility_accepted: Zuständigkeit akzeptiert
         responsibility_not_accepted: Zuständigkeit noch nicht akzeptiert
         reviewed_at: Erstsichtungszeitpunkt
-        status_note: Statuskommentar
+        status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
         trust_level: Vertrauensstufe
       job:
@@ -83,10 +83,10 @@ de:
         order: Reihenfolge
       log_entry:
         action: Aktion
-        new_value: Wert Alt
-        old_value: Wert Neu
+        new_value: Wert alt
+        old_value: Wert neu
         subject_id: Datensatz
-        subject_name: Datensatz Name
+        subject_name: Datensatz
       mail_blacklist:
         pattern: Muster
         reason: Begründung
@@ -105,10 +105,10 @@ de:
         category: Kategorie
         group: Gruppe
       user:
-        districts: Gemeinden / Stadtteile
+        districts: Gemeinden/Gemeindeteile
         email: E-Mail
         first_name: Vorname
-        group_feedback_recipient: Lob/Hinweis/Kritik Empfänger
+        group_feedback_recipient: Empfänger Lob/Hinweis/Kritik
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
@@ -118,24 +118,24 @@ de:
       supporter:
         confirmation_hash: ''
     errors:
-      authorization_error: Sie haben nicht die nötigen Rechte für diese Aktion!
+      authorization_error: Sie besitzen nicht die notwendigen Rechte für diese Aktion!
       models:
         feedback:
           attributes:
             author:
-              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
               email: ist keine gültige E-Mail-Adresse.
         issue:
           attributes:
             author:
-              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
               email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
             group:
               blank: Die ausgewählte Kategorie wird derzeit an dieser Position nicht unterstützt.
             position:
-              outside_instance: befindet sich außerhalb des gültigen Bereichs
+              outside_instance: befindet sich außerhalb des gültigen Bereichs.
         responsibility:
           attributes:
             base:
@@ -147,13 +147,13 @@ de:
             confirmation_hash:
               taken: Sie können dieselbe Meldung nicht mehrmals unterstützen.
             author:
-              blacklist_pattern: E-Mail-Adresse ist nicht zulässig.
+              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
               email: ist keine gültige E-Mail-Adresse.
         user:
           attributes:
             role:
               invalid_permissions: darf nicht mehr Berechtigungen als die eigene haben.
-      record_not_found: Der Datensatz konnte nicht gefunden werden!
+      record_not_found: Der Datensatz konnte nicht gefunden werden.
     models:
       abuse_report:
         one: Missbrauchsmeldung
@@ -171,17 +171,17 @@ de:
         one: Kommentar
         other: Kommentare
       county:
-        one: Landkreis
-        other: Landkreise
+        one: Landkreis/kreisfreie Stadt
+        other: Landkreise/kreisfreie Städte
       county_group:
         one: Kreisgruppe
         other: Kreisgruppen
       district:
-        one: Stadtteil
-        other: Stadtteile
+        one: Gemeindeteil
+        other: Gemeindeteile
       editorial_notification:
-        one: Redaktionelle Benachrichtigung
-        other: Redaktionelle Benachrichtigungen
+        one: redaktionelle Benachrichtigung
+        other: redaktionelle Benachrichtigungen
       feedback:
         one: Lob/Hinweis/Kritik
         other: Lobe/Hinweise/Kritiken
@@ -222,13 +222,13 @@ de:
     missing: Es wurde kein API-Key übergeben.
     no_permision: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
   attributes:
-    active: Aktiv
+    active: aktiv
     area: Fläche
     author: Autor
     authority: Amt
-    confirmation_hash: Bestätigungs-Hash
+    confirmation_hash: Bestätigungshash
     confirmed_at: Bestätigungszeitpunkt
-    county: Landkreis
+    county: Landkreis/kreisfreie Stadt
     created_at: Zeitstempel
     deleted: gelöscht
     file: Datei
@@ -241,15 +241,15 @@ de:
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützer
-    updated_at: Zuletzt geändert
+    updated_at: zuletzt geändert
     user: Benutzer
-  back: Zurück
-  city_view: Stadtplan
+  back: zurück
+  city_view: Karte
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
-  create: Anlegen
+  create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     issue:
@@ -264,27 +264,27 @@ de:
     no_doc_id: >-
       Die d.3-Akte ist zwar vorhanden, jedoch liefert die d.3-API nicht deren Aktennummer zurück,
       sodass die Akte nicht geöffnet werden kann.
-  edit: Bearbeiten
+  edit: bearbeiten
   edit_issue: Meldung bearbeiten
   editorial_notifications:
     index:
       confirm_delete: Möchten Sie diesen Eintrag wirklich aus der Datenbank entfernen?
       criteria: Redaktionskriterien
-      days_created_not_in_work: Mehr als n Tage im System und noch in Bearbeitung
-      days_in_work_without_status_note: n Tage in Bearbeitung, aber ohne öffentliche Statusinformation
+      days_created_not_in_work: mehr als n Tage im System und noch in Bearbeitung
+      days_in_work_without_status_note: n Tage in Bearbeitung, aber ohne öffentlichen Statuskommentar
       days_open_but_not_accepted: n Tage offen, aber nicht akzeptiert
       editorial: Redaktion
       days_open_ideas_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
       level: Stufe
-      new_editorial_notification: Neue redaktionelle Benachrichtigung
-      reviewed_but_not_accepted: Nicht mehr offen, aber nicht akzeptiert
-      unsolvable_without_status_note: Nicht lösbar, aber ohne öffentliche Statusinformation
-      without_editorial_approval: Nicht mehr offen, aber ohne redaktionelle Freigaben
+      new_editorial_notification: neue redaktionelle Benachrichtigung
+      reviewed_but_not_accepted: nicht mehr offen, aber noch nicht akzeptiert
+      unsolvable_without_status_note: nicht lösbar, aber ohne öffentlichen Statuskommentar
+      without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
     group:
       kind:
-        internal: Intern
-        external: Extern
+        internal: intern
+        external: extern
         field_service_team: Außendienst
       type:
         AuthorityGroup: Amt
@@ -292,31 +292,31 @@ de:
         InstanceGroup: Instanz
     issue:
       description_status:
-        internal: Intern
-        external: Extern
-        deleted: Gelöscht
+        internal: intern
+        external: extern
+        deleted: gelöscht
       priority:
-        low: Niedrig
-        middle: Mittel
-        high: Hoch
+        low: niedrig
+        middle: mittel
+        high: hoch
       status:
-        pending: Gemeldet
-        received: Offen
-        reviewed: Gesichtet
-        in_process: In Bearbeitung
-        duplicate: Duplikat
-        deleted: Gelöscht
-        not_solvable: Nicht lösbar
-        closed: Gelöst
+        pending: gemeldet
+        received: offen
+        reviewed: gesichtet
+        in_process: in bearbeitung
+        duplicate: duplikat
+        deleted: gelöscht
+        not_solvable: nicht lösbar
+        closed: gelöst
       trust_level:
-        internal: Intern
-        external: Extern
+        internal: intern
+        external: extern
         field_service_team: Außendienst
     job:
       status:
-        checked: Abgehakt
-        unchecked: Nicht abgehakt
-        uncheckable: Nicht abarbeitbar
+        checked: abgehakt
+        unchecked: nicht abgehakt
+        uncheckable: nicht abarbeitbar
     main_category:
       kind:
         idea: Idee
@@ -324,32 +324,32 @@ de:
         tip: Tipp
     photo:
       status:
-        internal: Intern
-        external: Extern
-        deleted: Gelöscht
+        internal: intern
+        external: extern
+        deleted: gelöscht
     user:
       role:
         admin: Administrator
         editor: Bearbeiter
-        regional_admin: Regional-Administrator
-  export_xlsx: Als Excel-Tabelle exportieren
-  extended_search: Erweiterte Suche
+        regional_admin: Regionaladministrator
+  export_xlsx: als Excel-Tabelle exportieren
+  extended_search: erweiterte Suche
   field_services:
-    title: Außendienst Teams
+    title: Außendienst-Teams
     edit:
-      title: Außendienst Team bearbeiten
+      title: Außendienst-Team bearbeiten
   geocodr:
     no_match: nicht zuordenbar
   groups:
     index:
-      new_group: Neue Gruppe
+      new_group: neue Gruppe
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
-      success: Eine E-Mail mit den Daten der aktuellen Meldung wurde erfolgreich versendet.
+      success: Eine E-Mail mit den Daten der aktuellen Meldung wurde erfolgreich versandt.
     new:
-      headline: Sie können hier die Daten der aktuellen Meldung als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, welcher der E-Mail beigefügt wird.
+      headline: Sie können hier die Daten der aktuellen Meldung als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, der der E-Mail beigefügt wird.
       send_data:
         headline: Welche Daten sollen mitgesendet werden?
   issue_mailer:
@@ -359,7 +359,7 @@ de:
         weisen aber bisher noch nicht die notwendige Anzahl von %{votes} Unterstützungen auf.
       hint: >-
         Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status "%{status}" und
-        geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels der öffentlichen Statusinformation:
+        geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels des öffentlichen Statuskommentars:
     without_editorial_approval:
       hint: >-
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
@@ -368,13 +368,13 @@ de:
     issues_buttons:
       assign_jobs: Zuordnung für den Außendienst
       map: Kartenansicht
-      new_issue: Neue Meldung
+      new_issue: neue Meldung
     extended_filter:
-      all_districts: Alle Ortsteile
-      all_kinds: Alle Typen
-      all_main_categories: Alle Hauptkategorien
-      all_sub_categories: Alle Unterkategorien
-      my_responsibility: Mir zugewiesen
+      all_districts: alle Gemeindeteile
+      all_kinds: alle Typen
+      all_main_categories: alle Hauptkategorien
+      all_sub_categories: alle Unterkategorien
+      my_responsibility: meiner/meinen Gruppe(n) zugewiesen
     external_map:
       coordinates: "Koordinaten der Meldung: %{x} %{y}"
     form:
@@ -387,17 +387,17 @@ de:
         map: Karte
         master_data: Stammdaten
         photo: Foto
-        rejection: Zurückweisen
+        rejection: zurückweisen
         responsibility: Zuständigkeit
         status: Status
     head:
-      abuse_reports: "Es liegt/liegen %{count} Missbrauchsmeldung(en) vor"
+      abuse_reports: "Es liegt/liegen %{count} Missbrauchsmeldung(en) vor."
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
-      responsibility_action_recalculation_review: "Zuständigkeit automatisch zuweisen auf:"
+      responsibility_action_recalculation_review: "Zuständigkeit neu zuweisen auf:"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
@@ -408,32 +408,32 @@ de:
     tab_rejection:
       reject: "Meldung an %{group} zurückweisen"
   jobs:
-    title: Außendienst Aufträge
+    title: Außendienst-Aufträge
     grouped_jobs:
       change_date: Ausführungsdatum ändern
       map: Kartenansicht
       sort_jobs: Aufträge nach Erstellung aufsteigend sortieren
   mail_blacklists:
     index:
-      new_mail_blacklist: Neuer Eintrag
+      new_mail_blacklist: neuer Eintrag
   nav:
     dashboard: Startseite
     logout: Logout
     administration: Administration
-  no_result: Die Suche ergab kein Resultat
-  pagetitle: Klarschiff-Backoffice
+  no_result: Die Suche ergab kein Resultat.
+  pagetitle: Backoffice
   responsibilities:
     index:
-      new_responsibility: Neue Zuständigkeit
+      new_responsibility: neue Zuständigkeit
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   send_email: als E-Mail versenden
-  search: Suchen
-  show_map: Auf Karte anzeigen
-  simple_search: Einfache Suche
+  search: suchen
+  show_map: auf Karte anzeigen
+  simple_search: einfache Suche
   statuses:
     abuse_report:
       open: " (offen)"
-  statistics: Alle aktiven Meldungen auf einen Blick
+  statistics: alle aktiven Meldungen auf einen Blick
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"
@@ -441,14 +441,14 @@ de:
       short: "%H:%M"
   users:
     index:
-      new_user: Neuer Benutzer
+      new_user: neuer Benutzer
   view:
     info:
-      built: Erstellt
+      built: erstellt
       db_version: Datenbank-Version
       environment: Umgebung
-      rendered_by_host: Ausgeliefert durch
-      title: Info zu dieser Klarschiff Instanz
+      rendered_by_host: ausgeliefert durch
+      title: Info zu dieser Instanz
       version: Version
       ruby_version: Ruby-Version
-      rails_version: Ruby on Rails-Version
+      rails_version: Ruby-on-Rails-Version

@@ -66,7 +66,7 @@
                                          title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
     <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
           issue_issue_exports_path(issue), target: :_blank, id: :issue_export,
-                                           title: 'Daten der Meldung ausdrucken', rel: :noopener %>
+                                           title: 'Daten der Meldung drucken', rel: :noopener %>
   </div>
   <div id="print-map" class="print-map"
     data-lat="<%= issue.position&.y %>"

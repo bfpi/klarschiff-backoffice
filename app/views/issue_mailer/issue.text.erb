@@ -28,7 +28,7 @@ Beschreibung Freigabestatus: <%= Issue.human_enum_name(:description_status, @iss
 <% end -%>
 <%= Issue.human_attribute_name(:status) %>: <%= Issue.human_enum_name(:status, @issue_email.issue.status) %>
 <% if @issue_email.issue.status_note.present? -%>
-öffentliche Statusinformation: <%= @issue_email.issue.status_note %>
+öffentlicher Statuskommentar: <%= @issue_email.issue.status_note %>
 <% end -%>
 <%= Issue.human_attribute_name(:group) %>: <%= "#{@issue_email.issue.group} (#{
   @issue_email.issue.responsibility_accepted ? 'akzeptiert' : 'zugewiesen'})" %>

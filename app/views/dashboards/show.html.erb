@@ -5,7 +5,7 @@
     <div class="card">
       <div class="card-header" id="latest-issues">
         <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
-          Neueste Meldungen
+          neueste Meldungen
         </button>
       </div>
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
@@ -33,7 +33,7 @@
     <div class="card">
       <div class="card-header" id="former-issues">
         <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
-          Ehemalige Meldungen
+          ehemalige Meldungen
         </button>
       </div>
       <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
@@ -83,7 +83,7 @@
 
         <div class="row">
           <div class="col-12">
-            <b><%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %> und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation</b>
+            <b><%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %> und seit 30 Tagen unverändert, aber ohne öffentlichen Statuskommentar</b>
           </div>
           <div class="col-12">
             <% @in_process.each do |issue| -%>
@@ -112,7 +112,7 @@
         <div class="row">
           <div class="col-12">
             <b>
-              Zwar schon
+              zwar schon
               <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
               , aber
               <i class="fa fa-times-circle-o text-warning"
