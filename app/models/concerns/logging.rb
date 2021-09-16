@@ -115,7 +115,7 @@ module Logging
 
   def self.enum_value(value, attr, subject)
     i18n_string = "enums.#{subject.model_name.singular}.#{attr}"
-    I18n.t("#{i18n_string}.#{value}", default: value ? I18n.t(i18n_string.to_s)[value] : nil)
+    I18n.t("#{i18n_string}.#{value}", default: value ? I18n.t(i18n_string)[value] : nil)
   end
 
   def self.convert_value(value, attr, subject)
