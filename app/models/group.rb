@@ -65,6 +65,7 @@ class Group < ApplicationRecord
   private
 
   def reference_name
-    send(type.remove(/Group$/).downcase).to_s with_model_name: true
+    send(type.remove(/Group$/).downcase).to_s with_model_name: true unless type == 'CountyGroup'
+    send(type.remove(/Group$/).downcase).to_s with_model_name: false
   end
 end
