@@ -6,7 +6,7 @@ development: &default
     deletion_deadline_days: 1
     archival_deadline_days: 30
     author_deletion_deadline_days: 1
-    author_deletion_replacement: '- bei Archivierung entfernt - '
+    author_deletion_replacement: '- bei Archivierung entfernt -'
     status_change_days: 1
   photo:
     deletion_deadline_days: 1
