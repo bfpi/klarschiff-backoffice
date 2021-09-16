@@ -5,7 +5,7 @@ class InformOnDelegatedIssuesJob < ApplicationJob
 
   def perform
     time = Time.current
-    delegated_issues(time - JobSettings::Issue.delegation_deadline.hours)
+    delegated_issues(time - JobSettings::Issue.delegation_deadline_days.days)
       .group_by(&:delegation).each do |delegation, issues|
       recipients, auth_codes = recipients_and_auth_codes(delegation, issues)
       IssueMailer.delegation(

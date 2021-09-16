@@ -2,7 +2,7 @@
 
 class DeleteUnconfirmedSupportersJob < ApplicationJob
   def perform
-    unconfirmed_supporters(Time.current - JobSettings::Support.deletion_deadline.hours).destroy_all
+    unconfirmed_supporters(Time.current - JobSettings::Support.deletion_deadline_days.days).destroy_all
   end
 
   private

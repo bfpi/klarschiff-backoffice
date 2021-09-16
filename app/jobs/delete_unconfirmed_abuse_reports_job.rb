@@ -2,7 +2,7 @@
 
 class DeleteUnconfirmedAbuseReportsJob < ApplicationJob
   def perform
-    unconfirmed_abuse_reports(Time.current - JobSettings::Abuse.deletion_deadline.hours).destroy_all
+    unconfirmed_abuse_reports(Time.current - JobSettings::Abuse.deletion_deadline_days.days).destroy_all
   end
 
   private
