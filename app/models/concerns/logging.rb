@@ -16,17 +16,24 @@ module Logging
     after_create :log_create
     before_update :log_update
     after_destroy :log_destroy
+
     has_many :log_entries, ->(c) { where(table: c.class.table_name) }, # rubocop:disable Rails/InverseOf
       foreign_key: :subject_id do
       def generate(attr, _action_key, old_value, new_value)
         subject = proxy_association.owner
-        old = Logging.convert_value(old_value, attr, subject)
-        new = Logging.convert_value(new_value, attr, subject)
+        old, new = converted_changes(attr, subject, old_value, new_value)
+        return if old.blank? && new.blank?
         create table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject),
           subject_id: subject.id, subject_name: subject.logging_subject_name,
           action: Logging.generate_action(subject.class, attr, :update, old, new),
           user: Current.user, auth_code: Current.user&.auth_code,
           old_value: old, new_value: new
+      end
+
+      private
+
+      def converted_changes(attr, subject, old_value, new_value)
+        [Logging.convert_value(old_value, attr, subject), Logging.convert_value(new_value, attr, subject)]
       end
     end
   end
