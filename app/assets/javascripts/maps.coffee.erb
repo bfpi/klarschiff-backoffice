@@ -129,6 +129,15 @@ KS.initializeMaps = ->
                 current_zoom = zoom
               map.getView().setZoom parseInt(current_zoom + 1)
 
+      map.on 'dblclick', (e) ->
+        features = KS.findLayerById('features').getSource().getFeatures()
+        if features.length == 1
+          pos = e.coordinate
+          feature = features[0]
+          feature.getGeometry().setCoordinates(pos)
+          KS.setFeatureCoordinatesToInput(feature)
+          e.preventDefault()
+
       map.on 'pointermove', (e) ->
         hover = map.forEachFeatureAtPixel e.pixel, (feature, layer) ->
           return true if feature
