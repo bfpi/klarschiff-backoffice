@@ -26,8 +26,10 @@ module Citysdk
     def order_response(response)
       return response if params[:center].blank?
       response.order(
-        ActiveRecord::Base.sanitize_sql_for_order(['ST_Distance(ST_SetSRID(ST_MakePoint(?, ?), 4326), area)',
-                                                   params[:center].first.to_f, params[:center].last.to_f])
+        ActiveRecord::Base.sanitize_sql_for_order(
+          [Arel.sql('ST_Distance(ST_SetSRID(ST_MakePoint(?, ?), 4326), area)'),
+           params[:center].first.to_f, params[:center].last.to_f]
+        )
       )
     end
 
