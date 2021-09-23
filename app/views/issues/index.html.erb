@@ -2,7 +2,7 @@
 <div id="issues-result">
   <% unless Current.user.auth_code -%>
     <div class="card mb-3">
-      <div class="card-body <%= 'pb-0' unless @extended_filter %>">
+      <div class="card-body">
         <%= link_to t("#{@extended_filter ? :simple : :extended}_search"),
               issues_path(extended_filter: !@extended_filter),
               class: 'btn btn-sm btn-outline-primary float-end' %>
