@@ -46,8 +46,8 @@ class IssuesController < ApplicationController
 
   def resend_responsibility
     issue = Issue.find(params[:issue_id])
-    raise UserAuthorization::NotAuthorized, action unless authorized?(:resend_responsibility, issue)
-    issue.send(:notify_group)
+    check_auth :resend_responsibility, issue
+    issue.send :notify_group
   end
 
   private
