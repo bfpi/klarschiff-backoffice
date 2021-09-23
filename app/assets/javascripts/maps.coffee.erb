@@ -107,6 +107,11 @@ KS.initializeMaps = ->
       KS.Map.updateSize()
     ), 500
 
+    setTimeout (->
+      KS.Map.getView().fit KS.findLayerById('features').getSource().getExtent(), KS.Map.getSize()
+      KS.Map.getView().setZoom(KS.Map.getView().getZoom() - 0.15)
+    ), 500
+
     addControls = (map, controller) ->
       map.on 'click', (e) ->
         return unless controller?
