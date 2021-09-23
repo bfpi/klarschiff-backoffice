@@ -112,8 +112,6 @@ KS.initializeMaps = ->
 
     setTimeout (->
       KS.Map.updateSize()
-      KS.Map.getView().fit KS.findLayerById('features_unclustered').getSource().getExtent(), KS.Map.getSize()
-      KS.Map.getView().setZoom(KS.Map.getView().getZoom() - 0.15)
     ), 500
 
     addControls = (map, controller) ->
@@ -197,12 +195,18 @@ KS.styles =
           fill: new ol.style.Fill
             color: '#000000'
 
+KS.zoomToFeaturesExtend = ->
+  KS.Map.getView().fit KS.findLayerById('features_unclustered').getSource().getExtent(), KS.Map.getSize()
+  KS.Map.getView().setZoom KS.Map.getView().getZoom() - 0.15
+
 class KS.FeatureVector
   constructor: (filter, extended_filter, controller) ->
-    return vector = new ol.source.Vector
+    vector = new ol.source.Vector
       format: new ol.format.TopoJSON
       loader: (extent, resolution, projection) ->
         new KS.FeatureData(filter, extended_filter, controller, vector)
+    vector.on 'change', (event) -> KS.zoomToFeaturesExtend()
+    return vector
 
 class KS.FeatureData
   constructor: (filter, extended_filter, controller, vector) ->
