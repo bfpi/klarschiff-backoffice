@@ -205,7 +205,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute address_string with ppc api-key' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
     reloaded_request = update_request_and_reload(issue(:one).id, :address_string, new_value)
-    assert_equal 'Holbeinplatz 14 (Rhg)',
+    assert_equal 'Holbeinplatz 14 (Reutershagen)',
       reloaded_request.xpath('/service_requests/request/address/text()').first.to_s
   end
 

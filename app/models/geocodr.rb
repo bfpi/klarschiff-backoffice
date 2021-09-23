@@ -63,7 +63,7 @@ class Geocodr
       addr = feature['strasse_name']
       addr << " #{feature['hausnummer']}" if feature['hausnummer'].present?
       addr << feature['hausnummer_zusatz'] if feature['hausnummer_zusatz'].present?
-      addr << " (#{feature['gemeindeteil_abkuerzung']})" if feature['gemeindeteil_abkuerzung'].present?
+      addr << " (#{feature['gemeindeteil_name']})" if feature['gemeindeteil_name'].present?
       addr
     end
 
