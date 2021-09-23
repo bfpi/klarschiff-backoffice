@@ -44,7 +44,7 @@ module Citysdk
       end
 
       def filtered_requests
-        Citysdk::RequestFilter.new(params).collection
+        Citysdk::RequestFilter.new(params, tips: authorized?(:read_tips)).collection
       end
     end
   end

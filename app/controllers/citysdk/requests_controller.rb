@@ -13,7 +13,7 @@ module Citysdk
     #   api_key             optional - API-Key
     #   extensions          optional - Response mit erweitereten Attributsausgaben
     def show
-      @request = Citysdk::Request.where(id: params[:id])
+      @request = Citysdk::Request.authorized(tips: authorized?(:read_tips)).where(id: params[:id])
       citysdk_response @request, root: :service_requests, element_name: :request,
                                  extensions: params[:extensions].try(:to_boolean),
                                  property_details: authorized?(:request_property_details),
