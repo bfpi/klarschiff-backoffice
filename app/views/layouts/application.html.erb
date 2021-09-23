@@ -99,7 +99,7 @@
             </ul>
             <% unless Rails.env.production? -%>
               <span class="h4 flex-grow-1 text-center mb-1">
-                <span class="badge badge-warning text-uppercase"><%= Rails.env %></span>
+                <span class="badge bg-warning text-uppercase"><%= Rails.env %></span>
               </span>
             <% end -%>
             <% if Current.user.present? -%>
