@@ -44,6 +44,12 @@ class IssuesController < ApplicationController
     end
   end
 
+  def resend_responsibility
+    issue = Issue.find(params[:issue_id])
+    raise UserAuthorization::NotAuthorized, action unless authorized?(:resend_responsibility, issue)
+    issue.send(:notify_group)
+  end
+
   private
 
   def prepare_tabs

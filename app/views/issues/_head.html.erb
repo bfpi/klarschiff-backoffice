@@ -67,6 +67,13 @@
     <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
           issue_issue_exports_path(issue), target: :_blank, id: :issue_export,
                                            title: 'Daten der Meldung ausdrucken', rel: :noopener %>
+    <% if authorized?(:resend_responsibility, issue) -%>
+      <%= link_to tag.i(class: 'fa fa-paper-plane btn btn-primary'),
+            issue_resend_responsibility_path(issue),
+            remote: true,
+            title: 'Erneuter Versand der Mail an Standardzuständigkeit',
+            data: { confirm: 'Soll die E-Mail wirklich erneut versandt werden?' } %>
+    <% end -%>
   </div>
   <div id="print-map" class="print-map"
     data-lat="<%= issue.position&.y %>"
