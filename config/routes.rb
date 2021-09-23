@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :field_services
     resources :groups
     resources :issues do
+      get :resend_responsibility
       resource :issue_email, only: %i[new create show]
       resources :issue_exports, only: %i[create], defaults: { format: :pdf }
     end

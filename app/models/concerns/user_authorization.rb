@@ -13,6 +13,7 @@ module UserAuthorization
     when :administration then administration_permitted?
     when :delegations, :issues, :jobs then index_permitted?(action)
     when :create_issue, :edit_delegation, :edit_issue then edit_permitted?(action, object)
+    when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
     end
@@ -37,6 +38,10 @@ module UserAuthorization
     when :edit_delegation then edit_delegation_permitted?(object)
     when :edit_issue then edit_issue_permitted?(object)
     end
+  end
+
+  def resend_responsibility(object)
+    static_permitted_to?(:resend_responsibility) && object.group.reference_default
   end
 
   def issues_permitted?
@@ -85,6 +90,7 @@ module UserAuthorization
     manage_mail_templates: %i[admin],
     manage_responsibilities: %i[admin regional_admin],
     manage_users: %i[admin regional_admin],
+    resend_responsibility: %i[admin],
     test: %i[admin],
     view_dashboard: %i[admin regional_admin editor]
   }.freeze
