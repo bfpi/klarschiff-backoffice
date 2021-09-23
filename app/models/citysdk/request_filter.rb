@@ -4,8 +4,10 @@ module Citysdk
   class RequestFilter
     attr_reader :collection
 
-    def initialize(params = {})
-      @collection = Citysdk::Request.includes(includes).references(includes).eager_load(:external_photos, :supporters)
+    def initialize(params = {}, tips:)
+      @collection = Citysdk::Request.authorized(tips: tips).includes(includes).references(includes).eager_load(
+        :external_photos, :supporters
+      )
       filter_collection(params)
     end
 

@@ -8,6 +8,7 @@
 #  destroy_requests         - Vorgang löschen /requests/destroy
 #  read_comments            - Lob/Hinweis/Kritik - lesen /requests/comments/index
 #  read_notes               - interne Kommentare lesen /requests/notes/index
+#  read_tips                - Tips mit ausgeben
 #  request_job_details      - Auftrags-Daten (Auftrag-Status, Priorität, Delegation)
 #  request_property_details - Angaben zum Flurstückseigentum
 #  update_jobs              - Aufträge auflisten/anlegen/bearbeiten /jobs/[index,create,update]
@@ -33,6 +34,7 @@ development: &default
       - :destroy_requests
       - :read_comments
       - :read_notes
+      - :read_tips
       - :request_job_details
       - :request_property_details
       - :update_jobs

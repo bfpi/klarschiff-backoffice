@@ -19,6 +19,11 @@ module Citysdk
     alias_attribute :email, :author
     alias_attribute :service_code, :category_id
 
+    def self.authorized(tips:)
+      return all if tips
+      includes(category: :main_category).where.not(main_category: { kind: MainCategory.kinds[:tip] })
+    end
+
     def assign_attributes(attributes)
       super(attributes)
       set_position_from_attributes
