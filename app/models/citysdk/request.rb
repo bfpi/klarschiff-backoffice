@@ -21,7 +21,7 @@ module Citysdk
 
     def self.authorized(tips:)
       return all if tips
-      includes(category: :main_category).where.not(main_category: { kind: MainCategory.kinds[:tip] })
+      includes(category: :main_category).where.not main_category: { kind: :tip }
     end
 
     def assign_attributes(attributes)
