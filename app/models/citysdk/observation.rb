@@ -12,7 +12,7 @@ module Citysdk
 
     def area_code=(value)
       self.area = Instance.current.first.area and return if value.to_i == -1
-      self.area = cast_districts_to_cartesian_multipolygon(District.where(id: ids_from(value)).pluck(:area))
+      self.area = cast_areas_to_cartesian_multipolygon(Authority.where(id: ids_from(value)).pluck(:area))
     end
 
     def geometry=(value)
@@ -45,9 +45,9 @@ module Citysdk
 
     private
 
-    def cast_districts_to_cartesian_multipolygon(districts)
+    def cast_areas_to_cartesian_multipolygon(areas)
       factory = RGeo::Cartesian.preferred_factory(srid: 4326)
-      factory.multi_polygon(districts.map { |d| factory.parse_wkt(d.as_text) })
+      factory.multi_polygon(areas.map { |d| factory.parse_wkt(d.as_text) })
     end
 
     def ids_from(value)
