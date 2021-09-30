@@ -43,7 +43,7 @@ class Feedback < ApplicationRecord
     recipient.split(', ').each do |email|
       params = { to: email, issue: issue }
       params[:auth_code] = auth_code(email) if User.find_by(User.arel_table[:email].matches(email)).blank?
-      FeedbackMailer.notification(params).deliver_later
+      FeedbackMailer.notification(**params).deliver_later
     end
   end
 
