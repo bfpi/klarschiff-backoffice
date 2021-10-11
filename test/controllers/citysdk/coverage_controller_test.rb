@@ -16,7 +16,7 @@ class CoverageControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     result = doc.xpath('/hash/result/text()')
     assert_equal 'false', result.to_s
-    assert_not doc.xpath('/hash/instance_url/text()').blank?
+    assert_not_empty doc.xpath('/hash/instance_url/text()')
   end
 
   test 'call with sn position' do
@@ -24,7 +24,7 @@ class CoverageControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     result = doc.xpath('/hash/result/text()')
     assert_equal 'false', result.to_s
-    assert_not doc.xpath('/hash/instance_url/text()').blank?
+    assert_not_empty doc.xpath('/hash/instance_url/text()')
   end
 
   test 'call with mv position' do
