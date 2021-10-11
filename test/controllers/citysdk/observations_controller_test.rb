@@ -49,7 +49,6 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
     post '/citysdk/observations.xml', params: { area_code: Authority.ids.join(','),
                                                 idea_service: MainCategory.kind_idea.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
-    p response.parsed_body
     requests = doc.xpath('/observation/rss_id')
     assert requests.count.positive?
   end

@@ -1,0 +1,33 @@
+name: Rails Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:12-3.1
+        env:
+          POSTGRES_DB: klarschiff_backoffice_test
+          POSTGRES_PASSWORD: <password>
+          POSTGRES_USER: klarschiff_backoffice
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Prepare Config
+        run: |
+          rm config/database.yml
+          cp config/database.sample.yml config/database.yml
+          rm config/secrets.yml
+          cp config/secrets.sample.yml config/secrets.yml
+          rm config/storage.yml
+          cp config/storage.sample.yml config/storage.yml
+      - name: Run Rails Tests
+        run: bundle exec rails test -b -d
+
