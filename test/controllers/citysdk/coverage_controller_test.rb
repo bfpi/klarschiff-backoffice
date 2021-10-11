@@ -32,7 +32,7 @@ class CoverageControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     result = doc.xpath('/hash/result/text()')
     assert_equal 'true', result.to_s
-    assert doc.xpath('/hash/instance_url/text()').blank?
+    assert_empty doc.xpath('/hash/instance_url/text()')
   end
 
   test 'call with invalid position' do
@@ -40,6 +40,6 @@ class CoverageControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     result = doc.xpath('/hash/result/text()')
     assert_equal 'false', result.to_s
-    assert doc.xpath('/hash/instance_url/text()')
+    assert_not_empty doc.xpath('/hash/instance_url/text()')
   end
 end
