@@ -20,7 +20,7 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Prepare Config
-        run: 
+        run: |
           rm config/database.yml
           cp config/database.sample.yml config/database.yml
           rm config/secrets.yml
