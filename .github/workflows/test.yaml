@@ -29,10 +29,5 @@ jobs:
           rm config/storage.yml
           cp config/storage.sample.yml config/storage.yml
       - name: Run Rails Tests
-        env:
-          PGHOST: localhost
-          PGPASSWORD: <password>
-          PGUSER: postgres
-          RAILS_ENV: test
         run: bundle exec rails test -b -d
 
