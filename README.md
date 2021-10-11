@@ -1,4 +1,4 @@
-![Build Status](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yaml/badge.svg)
+![Build Status](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yml/badge.svg)
 ![RuboCop](https://github.com/bfpi/klarschiff-backoffice/workflows/RuboCop/badge.svg)
 [![License](https://img.shields.io/github/license/bfpi/klarschiff-backoffice)](LICENSE)
 
