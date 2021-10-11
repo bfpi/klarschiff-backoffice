@@ -5,7 +5,7 @@ class Issue
     extend ActiveSupport::Concern
 
     def map_icon
-      ActionController::Base.helpers.asset_path "icons/map/active/png/#{kind || 'blank'}-#{icon_color}.png"
+      ActionController::Base.helpers.asset_path "icons/map/inactive/png/#{kind || 'blank'}-#{icon_color}.png"
     end
 
     def list_icon
