@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/bfpi/klarschiff-backoffice.svg?branch=master)](https://travis-ci.com/bfpi/klarschiff-backoffice)
+![Build Status](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yaml/badge.svg)
 ![RuboCop](https://github.com/bfpi/klarschiff-backoffice/workflows/RuboCop/badge.svg)
 [![License](https://img.shields.io/github/license/bfpi/klarschiff-backoffice)](LICENSE)
 
