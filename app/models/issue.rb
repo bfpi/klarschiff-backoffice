@@ -28,7 +28,7 @@ class Issue < ApplicationRecord
 
   belongs_to :category
   belongs_to :delegation, optional: true, class_name: 'Group'
-  belongs_to :group, optional: true
+  belongs_to :group
   belongs_to :job, optional: true
 
   with_options dependent: :destroy do

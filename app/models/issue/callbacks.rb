@@ -25,10 +25,6 @@ class Issue
                 saved_change_to_group_id? && !status_pending?
             }
 
-      validate do |is|
-        is.errors.add(:base, I18n.t('activerecord.errors.models.issue.attributes.group.blank')) if is.group.blank?
-      end
-
       validates :description, :position, :status, presence: true
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
