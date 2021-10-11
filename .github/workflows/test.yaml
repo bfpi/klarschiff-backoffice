@@ -1,0 +1,39 @@
+name: test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:12-3.1
+        env:
+          POSTGRES_PASSWORD: klarschiff_backoffice_test
+          POSTGRES_DB: klarschiff_backoffice_test
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+      - name: Cache gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-${{ github.repository }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.repository }}-
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle config set without 'default doc job cable storage ujs test db'
+          bundle install --jobs 4 --retry 3
+      - name: Run Rails Tests
+        env:
+          PGHOST: localhost
+          PGPASSWORD: klarschiff_backoffice_test
+          PGUSER: postgres
+          RAILS_ENV: test
+        run: bundle exec rails test -b -d
+
