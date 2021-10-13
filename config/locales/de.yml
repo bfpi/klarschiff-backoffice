@@ -119,27 +119,18 @@ de:
         confirmation_hash: ''
     errors:
       authorization_error: Sie besitzen nicht die notwendigen Rechte für diese Aktion!
+      messages:
+        blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
+        email: ist keine gültige E-Mail-Adresse.
       models:
-        feedback:
-          attributes:
-            author:
-              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
-              email: ist keine gültige E-Mail-Adresse.
         issue:
           attributes:
-            author:
-              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
-              email: ist keine gültige E-Mail-Adresse.
             category:
               kind_mismatch: passt nicht zum ausgewählten Typ.
             group:
               blank: Die ausgewählte Kategorie wird derzeit an dieser Position nicht unterstützt.
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
-        photo:
-          attributes:
-            author:
-              email: ist keine gültige E-Mail-Adresse.
         responsibility:
           attributes:
             base:
@@ -150,9 +141,6 @@ de:
           attributes:
             confirmation_hash:
               taken: Sie können dieselbe Meldung nicht mehrmals unterstützen.
-            author:
-              blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
-              email: ist keine gültige E-Mail-Adresse.
         user:
           attributes:
             role:
