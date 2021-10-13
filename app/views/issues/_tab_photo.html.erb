@@ -11,57 +11,59 @@
     </thead>
     <tbody>
       <%= form.fields_for :photos do |photo_form| %>
-        <tr id="photo_<%= photo_form.object.id %>">
-          <td>
-            <% unless restricted || form.object.closed? -%>
-              <div class="actions">
-                <%= link_to tag.i('', class: 'fa fa-refresh'), '',
-                      class: 'btn btn-sm btn-outline-primary rotate', title: t('.rotate') %>
-                <%= link_to tag.i('', class: 'fa fa-pencil'), '',
-                      class: 'btn btn-sm btn-outline-primary edit', title: t('.edit') %>
-                <%= link_to tag.i('', class: 'fa fa-close'), '',
-                      class: 'btn btn-sm btn-outline-primary stop-edit', title: t('.stop_edit'),
-                      style: 'display: none' %>
-                <%= link_to tag.i('', class: 'fa fa-undo'), '',
-                      class: 'btn btn-sm btn-outline-primary undo', title: t('.undo'), style: 'display: none' %>
-                <%= link_to tag.i('', class: 'fa fa-repeat'), '',
-                      class: 'btn btn-sm btn-outline-primary redo', title: t('.redo'), style: 'display: none' %>
-                <%= link_to tag.i('', class: 'fa fa-floppy-o'), '',
-                      class: 'btn btn-sm btn-outline-primary save', title: t('.save'), style: 'display: none' %>
-              </div>
-            <% end -%>
-            <div>
-              <div class="record"></div>
-              <%= image_tag photo_form.object.file.variant(resize_to_limit: [360, 360]) %>
-            </div>
-          </td>
-          <td><%= photo_form.object.author %></td>
-          <td>
-            <%= photo_form.label 'status_internal', '',
-                  title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :internal}",
-                  class: 'form-check-label' do %>
-              <%= photo_form.radio_button :status, :internal, disabled: restricted || form.object.closed? %>
-              <%= tag.span class: 'fa fa-home fa-2x' %>
-            <% end %>
-            <%= photo_form.label 'status_external', '',
-                  title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :external}",
-                  class: 'form-check-label' do %>
-              <%= photo_form.radio_button :status, :external, disabled: restricted || form.object.closed? %>
-              <%= tag.span class: 'fa fa-globe fa-2x' %>
-            <% end %>
-          </td>
-          <td><%= l photo_form.object.created_at %></td>
-          <% unless restricted || form.object.closed? -%>
+        <% if photo_form.object.persisted? %>
+          <tr id="photo_<%= photo_form.object.id %>">
             <td>
-              <%= photo_form.hidden_field :censor_rectangles, class: :censor_rectangles %>
-              <%= photo_form.hidden_field :censor_width, class: :censor_width %>
-              <%= photo_form.hidden_field :censor_height, class: :censor_height %>
-              <%= photo_form.hidden_field :_modification, class: :modification %>
-              <%= photo_form.hidden_field '_destroy', class: :delete %>
-              <%= link_to tag.i('', class: 'fa fa-trash'), '', class: 'btn btn-sm btn-outline-primary delete' %>
+              <% unless restricted || form.object.closed? -%>
+                <div class="actions">
+                  <%= link_to tag.i('', class: 'fa fa-refresh'), '',
+                        class: 'btn btn-sm btn-outline-primary rotate', title: t('.rotate') %>
+                  <%= link_to tag.i('', class: 'fa fa-pencil'), '',
+                        class: 'btn btn-sm btn-outline-primary edit', title: t('.edit') %>
+                  <%= link_to tag.i('', class: 'fa fa-close'), '',
+                        class: 'btn btn-sm btn-outline-primary stop-edit', title: t('.stop_edit'),
+                        style: 'display: none' %>
+                  <%= link_to tag.i('', class: 'fa fa-undo'), '',
+                        class: 'btn btn-sm btn-outline-primary undo', title: t('.undo'), style: 'display: none' %>
+                  <%= link_to tag.i('', class: 'fa fa-repeat'), '',
+                        class: 'btn btn-sm btn-outline-primary redo', title: t('.redo'), style: 'display: none' %>
+                  <%= link_to tag.i('', class: 'fa fa-floppy-o'), '',
+                        class: 'btn btn-sm btn-outline-primary save', title: t('.save'), style: 'display: none' %>
+                </div>
+              <% end -%>
+              <div>
+                <div class="record"></div>
+                <%= image_tag photo_form.object.file.variant(resize_to_limit: [360, 360]) %>
+              </div>
             </td>
-          <% end -%>
-        </tr>
+            <td><%= photo_form.object.author %></td>
+            <td>
+              <%= photo_form.label 'status_internal', '',
+                    title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :internal}",
+                    class: 'form-check-label' do %>
+                <%= photo_form.radio_button :status, :internal, disabled: restricted || form.object.closed? %>
+                <%= tag.span class: 'fa fa-home fa-2x' %>
+              <% end %>
+              <%= photo_form.label 'status_external', '',
+                    title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :external}",
+                    class: 'form-check-label' do %>
+                <%= photo_form.radio_button :status, :external, disabled: restricted || form.object.closed? %>
+                <%= tag.span class: 'fa fa-globe fa-2x' %>
+              <% end %>
+            </td>
+            <td><%= l photo_form.object.created_at %></td>
+            <% unless restricted || form.object.closed? -%>
+              <td>
+                <%= photo_form.hidden_field :censor_rectangles, class: :censor_rectangles %>
+                <%= photo_form.hidden_field :censor_width, class: :censor_width %>
+                <%= photo_form.hidden_field :censor_height, class: :censor_height %>
+                <%= photo_form.hidden_field :_modification, class: :modification %>
+                <%= photo_form.hidden_field '_destroy', class: :delete %>
+                <%= link_to tag.i('', class: 'fa fa-trash'), '', class: 'btn btn-sm btn-outline-primary delete' %>
+              </td>
+            <% end -%>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   <% end -%>

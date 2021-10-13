@@ -136,6 +136,10 @@ de:
               blank: Die ausgewählte Kategorie wird derzeit an dieser Position nicht unterstützt.
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
+        photo:
+          attributes:
+            author:
+              email: ist keine gültige E-Mail-Adresse.
         responsibility:
           attributes:
             base:
