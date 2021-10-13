@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <%= form.fields_for :photos do |photo_form| %>
-        <% if photo_form.object.persisted? %>
+        <% if photo_form.object.persisted? -%>
           <tr id="photo_<%= photo_form.object.id %>">
             <td>
               <% unless restricted || form.object.closed? -%>
@@ -63,7 +63,7 @@
               </td>
             <% end -%>
           </tr>
-        <% end %>
+        <% end -%>
       <% end %>
     </tbody>
   <% end -%>
