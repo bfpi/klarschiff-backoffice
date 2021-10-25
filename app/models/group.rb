@@ -65,6 +65,6 @@ class Group < ApplicationRecord
   private
 
   def reference_name
-    send(type.remove(/Group$/).downcase).to_s with_model_name: true
+    type.remove(/Group$/).camelize.constantize.find(reference_id).to_s with_model_name: true
   end
 end
