@@ -16,8 +16,8 @@ module Citysdk
     private
 
     def sorted
-      Service.all.joins(:main_category, :sub_category).includes(:main_category, :sub_category)
-        .order('main_category.name': :asc, 'sub_category.name': :asc)
+      Service.eager_load(:main_category, :sub_category)
+        .order(MainCategory.arel_table[:name], SubCategory.arel_table[:name])
     end
   end
 end

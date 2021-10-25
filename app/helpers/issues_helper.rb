@@ -94,7 +94,7 @@ module IssuesHelper
 
   def grouped_categories_for_kind(kind)
     Category.includes(:main_category, :sub_category).where(main_category: { kind: kind })
-      .order('main_category.name': :asc, 'sub_category.name': :asc)
+      .order(MainCategory.arel_table[:name], SubCategory.arel_table[:name])
       .to_a.group_by(&:main_category_name).map do |mc, categories|
       [mc, categories.map { |c| [c.sub_category_name, c.id] }]
     end
