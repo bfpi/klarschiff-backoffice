@@ -60,6 +60,7 @@ de:
         expected_closure: voraussichtlicher Abschluss
         field_service_date: Datum
         field_service_team: Team
+        from: von
         group: Zuständigkeit
         id: Nummer
         new_photo: Foto hinzufügen
@@ -76,6 +77,7 @@ de:
         reviewed_at: Erstsichtungszeitpunkt
         status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
+        to: bis
         trust_level: Vertrauensstufe
       job:
         date: Ausführungsdatum
@@ -241,7 +243,7 @@ de:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
-  create: Anlegen
+  create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     issue:

@@ -55,10 +55,16 @@
       </div>
       <div class="row">
         <%= label_tag :filter_begin_at, 'Erstellung', class: 'col-4 col-form-label' %>
-        <div class="col-4">
+        <div class="col-1">
+          <%= Issue.human_attribute_name(:from) %>
+        </div>
+        <div class="col-3">
           <%= text_field_tag 'filter[begin_at]', @filter[:begin_at], class: 'form-control datepicker' %>
         </div>
-        <div class="col-4">
+        <div class="col-1">
+          <%= Issue.human_attribute_name(:to) %>
+        </div>
+        <div class="col-3">
           <%= text_field_tag 'filter[end_at]', @filter[:end_at], class: 'form-control datepicker' %>
         </div>
       </div>
