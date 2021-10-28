@@ -94,7 +94,7 @@ tr.dragged-row td {
 }
 
 .card-header {
-  & > a {
+  > a {
     cursor: pointer;
   }
 }
@@ -141,8 +141,8 @@ table.statistics {
 
   th,
   td {
-    border-top: 0;
     border-bottom: 0;
+    border-top: 0;
   }
 }
 
