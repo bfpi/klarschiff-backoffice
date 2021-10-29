@@ -52,11 +52,7 @@
 </div>
 <div class="row">
   <%= form.label :description, class: 'col-2 col-form-label' %>
-  <% if form.object.new_record? -%>
-  <div class="col-10">
-  <% else -%>
-  <div class="col-9">
-  <% end -%>
+  <div class="col-<%= form.object.new_record? ? 10 : 9 %>">
     <%= form.text_area :description, class: 'form-control', rows: 5, disabled: restricted || form.object.closed? %>
   </div>
   <% unless form.object.new_record? -%>

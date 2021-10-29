@@ -60,7 +60,6 @@ de:
         expected_closure: voraussichtlicher Abschluss
         field_service_date: Datum
         field_service_team: Team
-        from: von
         group: Zuständigkeit
         id: Nummer
         new_photo: Foto hinzufügen
@@ -77,7 +76,6 @@ de:
         reviewed_at: Erstsichtungszeitpunkt
         status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
-        to: bis
         trust_level: Vertrauensstufe
       job:
         date: Ausführungsdatum
@@ -332,6 +330,7 @@ de:
     title: Außendienst-Teams
     edit:
       title: Außendienst-Team bearbeiten
+  from: von
   geocodr:
     no_match: nicht zuordenbar
   groups:
@@ -433,6 +432,7 @@ de:
       default: "%d.%m.%Y %H:%M:%S"
       no_seconds: "%d.%m.%Y %H:%M"
       short: "%H:%M"
+  to: bis
   users:
     index:
       new_user: Neuer Benutzer
