@@ -42,8 +42,8 @@
     <%= form.select :category_id, grouped_categories(form.object),
           { include_blank: true }, class: 'form-select', disabled: restricted || form.object.closed? %>
   </div>
-  <%= form.label :author, class: 'col-2 col-form-label' %>
-  <div class="col-4">
+  <%= form.label :author, class: 'col-1 col-form-label' %>
+  <div class="col-5">
     <%= form.text_field :author,
           class: 'form-control',
           value: form.object.new_record? ? Current.user.email : form.object.author,
@@ -52,7 +52,7 @@
 </div>
 <div class="row">
   <%= form.label :description, class: 'col-2 col-form-label' %>
-  <div class="col-9">
+  <div class="col-<%= form.object.new_record? ? 10 : 9 %>">
     <%= form.text_area :description, class: 'form-control', rows: 5, disabled: restricted || form.object.closed? %>
   </div>
   <% unless form.object.new_record? -%>

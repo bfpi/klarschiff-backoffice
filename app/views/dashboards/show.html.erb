@@ -4,9 +4,9 @@
   <div class="col-4">
     <div class="card">
       <div class="card-header" id="latest-issues">
-        <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
+        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
           Neueste Meldungen
-        </button>
+        </a>
       </div>
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
         <div class="card-body">
@@ -18,9 +18,9 @@
   <div class="col-4">
     <div class="card">
       <div class="card-header" id="own-issues">
-        <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
+        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
           Aktivitäten an eigenen Meldungen
-        </button>
+        </a>
       </div>
       <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
         <div class="card-body">
@@ -32,9 +32,9 @@
   <div class="col-4">
     <div class="card">
       <div class="card-header" id="former-issues">
-        <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
+        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
           Ehemalige Meldungen
-        </button>
+        </a>
       </div>
       <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
         <div class="card-body">
@@ -58,7 +58,7 @@
   <div class="col">
     <div class="card">
       <div class="card-header">
-        <b><%= @notices_count %></b> redaktionelle Hinweise zu den Meldungen
+        <b><%= @notices_count %></b> redaktionelle Hinweise
       </div>
       <div class="card-body">
         <div class="row">
@@ -132,7 +132,12 @@
 
         <div class="row">
           <div class="col-12">
-            <b>Beschreibung und/oder Foto nicht freigegeben für extern</b>
+            <b>
+              Beschreibung und/oder Foto nicht freigegeben für
+              <i class="fa fa-globe"
+                 title="<%= Issue.human_enum_name(:description_status, :external) %>"
+                 aria-hidden="true"></i>
+            </b>
           </div>
           <div class="col-12">
             <% @not_approved_issues.each do |issue| -%>

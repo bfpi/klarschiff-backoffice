@@ -14,12 +14,12 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
           <% if Current.user&.auth_code -%>
-            <div class="navbar-brand">
+            <div class="navbar-brand mb-0 h1">
               <%= image_tag 'klarschiff.png' %>
               <%= t :pagetitle %>
             </div>
           <% else -%>
-            <%= link_to root_url, class: 'navbar-brand' do %>
+            <%= link_to root_url, class: 'navbar-brand mb-0 h1' do %>
               <%= image_tag 'klarschiff.png' %>
               <%= t :pagetitle %>
             <% end %>

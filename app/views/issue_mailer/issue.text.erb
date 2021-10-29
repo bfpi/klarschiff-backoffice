@@ -7,7 +7,7 @@ Anmerkungen der/des Absenderin/Absenders
 <%= @issue_email.text %>
 
 Daten der weitergeleiteten Meldung
-***********************************
+**********************************
 <%= MainCategory.human_attribute_name(:kind) %>: <%= MainCategory.human_enum_name(:kind, @issue_email.issue.kind) %>
 <%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>
 <%= Category.human_attribute_name(:main_category) %>: <%= @issue_email.issue.main_category %>

@@ -241,7 +241,7 @@ de:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   contact: Kontakt
-  create: Anlegen
+  create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     issue:
@@ -330,6 +330,7 @@ de:
     title: Außendienst-Teams
     edit:
       title: Außendienst-Team bearbeiten
+  from: von
   geocodr:
     no_match: nicht zuordenbar
   groups:
@@ -431,6 +432,7 @@ de:
       default: "%d.%m.%Y %H:%M:%S"
       no_seconds: "%d.%m.%Y %H:%M"
       short: "%H:%M"
+  to: bis
   users:
     index:
       new_user: Neuer Benutzer
