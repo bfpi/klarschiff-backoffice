@@ -13,3 +13,11 @@ KS.initializeFormActions = ->
             value: elem.target.value
         ).done ->
           console.debug 'ajax PATCH on form change:input done'
+    form.find(':input[type=file]').imageUploadResizer
+      max_width: 2000
+      max_height: 2000
+      quality: 1
+      do_not_resize: [
+        'gif'
+        'svg'
+      ]
