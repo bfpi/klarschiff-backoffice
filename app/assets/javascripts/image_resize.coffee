@@ -24,9 +24,8 @@ $.fn.imageUploadResizer = (options) ->
         img.src = e.target.result
 
         img.onload = ->
-          `var ctx`
-          ctx = canvas.getContext('2d')
-          ctx.drawImage img, 0, 0
+          ctx2 = canvas.getContext('2d')
+          ctx2.drawImage img, 0, 0
           if img.width < settings.max_width and img.height < settings.max_height
             # Resize not required
             return
