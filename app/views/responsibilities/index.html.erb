@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>
-        <%= order_link MainCategory.human_attribute_name(:level), :responsibilities, :kind %>
+        <%= order_link MainCategory.human_attribute_name(:kind), :responsibilities, :kind %>
       </th>
       <th>
         <%= order_link Category.model_name.human(count: 1), :responsibilities, :category %>
