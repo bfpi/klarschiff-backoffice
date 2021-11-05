@@ -2,10 +2,11 @@
 
 class MailBlacklistsController < ApplicationController
   include Filter
+  include Sorting
   before_action { check_auth :manage_mail_blacklist }
 
   def index
-    mail_blacklists = filter(MailBlacklist.all).order(:pattern)
+    mail_blacklists = filter(MailBlacklist.all).order(order_attr)
 
     respond_to do |format|
       format.html { @mail_blacklists = mail_blacklists.page(params[:page] || 1).per(params[:per_page] || 20) }
@@ -51,5 +52,9 @@ class MailBlacklistsController < ApplicationController
 
   def filter_name_columns
     %i[pattern source reason]
+  end
+
+  def default_order
+    :pattern
   end
 end

@@ -3,6 +3,7 @@
 class IssuesController
   module Index
     extend ActiveSupport::Concern
+    include Sorting
 
     def index
       check_auth(:issues)
@@ -18,7 +19,7 @@ class IssuesController
 
     def base_collection
       Issue.authorized.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
-        .order created_at: :desc
+        .order(order_attr)
     end
 
     def html_response
@@ -43,7 +44,7 @@ class IssuesController
       @filter = filter_params.presence || { statuses: (1..6).to_a }
       @status = (params.fetch(:filter, {})[:status] || 0).to_i
       return base_collection if Current.user.auth_code
-      IssueFilter.new(@extended_filter, @filter).collection
+      IssueFilter.new(@extended_filter, order_attr, @filter).collection
     end
 
     def paginate(issues)
@@ -58,6 +59,21 @@ class IssuesController
       [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
        :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text,
        { only_number: [] }]
+    end
+
+    def custom_order(col, dir)
+      case col.to_sym
+      when :category
+        [SubCategory.arel_table[:name].send(dir)]
+      when :supporter
+        ["COUNT(\"supporter\".\"id\") #{dir}"]
+      when :group
+        [Group.arel_table[:name].send(dir)]
+      end
+    end
+
+    def default_order
+      { created_at: :desc }
     end
   end
 end

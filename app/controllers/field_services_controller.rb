@@ -2,10 +2,11 @@
 
 class FieldServicesController < ApplicationController
   include Filter
+  include Sorting
   before_action { check_auth :manage_field_service }
 
   def index
-    field_services = filter(groups).includes(:field_service_operators).order(:short_name, :name)
+    field_services = filter(groups).includes(:field_service_operators).order(order_attr)
 
     respond_to do |format|
       format.html { @field_services = field_services.page(params[:page] || 1).per(params[:per_page] || 20) }
@@ -38,5 +39,9 @@ class FieldServicesController < ApplicationController
 
   def filter_name_columns
     %i[pattern source reason]
+  end
+
+  def default_order
+    %i[short_name name]
   end
 end

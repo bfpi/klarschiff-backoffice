@@ -5,12 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col"><%= Group.human_attribute_name :name %></th>
-      <th scope="col"><%= Group.human_attribute_name :short_name %></th>
-      <th scope="col"><%= Group.human_attribute_name :type %></th>
-      <th scope="col"><%= Group.human_attribute_name :kind %></th>
-      <th scope="col"><%= Group.human_attribute_name :email %></th>
+      <% %w[id name short_name type kind email].each do |col| %>
+        <th scope="col">
+          <%= order_link Group.human_attribute_name(col), :groups, col %>
+        </th>
+      <% end -%>
       <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>

@@ -2,6 +2,7 @@
 
 class DelegationsController < ApplicationController
   include DelegationsController::Export
+  include Sorting
 
   before_action :set_status, :set_tab
 
@@ -40,8 +41,8 @@ class DelegationsController < ApplicationController
   private
 
   def issues
-    issues = Issue.authorized.includes(category: %i[main_category sub_category])
-      .not_archived.where.not(delegation_id: nil).order(created_at: :desc)
+    issues = Issue.authorized.joins(category: %i[main_category sub_category])
+      .not_archived.where.not(delegation_id: nil).order(order_attr)
     return issues if Current.user.auth_code
     return issues.status_in_process if @status.zero?
     issues.where(status: %i[duplicate not_solvable closed])
@@ -76,5 +77,16 @@ class DelegationsController < ApplicationController
 
   def paginate(issues)
     issues.page(params[:page] || 1).per(params[:per_page] || 20)
+  end
+
+  def custom_order(col, dir)
+    case col.to_sym
+    when :category
+      [MainCategory.arel_table[:name].send(dir), SubCategory.arel_table[:name].send(dir)]
+    end
+  end
+
+  def default_order
+    { created_at: :desc }
   end
 end

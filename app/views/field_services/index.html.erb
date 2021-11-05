@@ -5,9 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col"><%= Group.human_attribute_name :short_name %></th>
-      <th scope="col"><%= Group.human_attribute_name :name %></th>
+      <% %w[id short_name name].each do |col| %>
+        <th scope="col">
+          <%= order_link Group.human_attribute_name(col), :field_services, col %>
+        </th>
+      <% end -%>
       <th scope="col"><%= Group.human_attribute_name :field_service_operators %></th>
       <th scope="col"><%= t 'actions' %></th>
     </tr>

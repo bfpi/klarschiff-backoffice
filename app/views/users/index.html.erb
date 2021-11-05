@@ -5,12 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col"><%= User.human_attribute_name :last_name %></th>
-      <th scope="col"><%= User.human_attribute_name :first_name %></th>
-      <th scope="col"><%= User.human_attribute_name :login %></th>
-      <th scope="col"><%= User.human_attribute_name :role %></th>
-      <th scope="col"><%= User.human_attribute_name :ldap %></th>
+      <% %w[id last_name first_name login role ldap].each do |col| %>
+        <th scope="col">
+          <%= order_link User.human_attribute_name(col), :users, col %>
+        </th>
+      <% end -%>
       <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>

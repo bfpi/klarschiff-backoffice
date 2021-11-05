@@ -2,10 +2,11 @@
 
 class GroupsController < ApplicationController
   include Filter
+  include Sorting
   before_action { check_auth :manage_groups }
 
   def index
-    groups = filter(Group.authorized).order(:name)
+    groups = filter(Group.authorized).order(order_attr)
 
     respond_to do |format|
       format.html { @groups = groups.page(params[:page] || 1).per(params[:per_page] || 20) }
@@ -52,5 +53,9 @@ class GroupsController < ApplicationController
 
   def filter_name_columns
     %i[name short_name]
+  end
+
+  def default_order
+    :name
   end
 end

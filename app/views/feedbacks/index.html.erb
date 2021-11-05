@@ -5,10 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col"><%= Feedback.human_attribute_name(:created_at) %></th>
-      <th scope="col"><%= Feedback.human_attribute_name(:issue) %></th>
-      <th scope="col"><%= Feedback.human_attribute_name(:author) %></th>
+      <% %w[id created_at issue author].each do |col| %>
+        <th scope="col">
+          <%= order_link Feedback.human_attribute_name(col), :feedbacks, col %>
+        </th>
+      <% end -%>
       <th scope="col"><%= Feedback.human_attribute_name(:message) %></th>
       <th scope="col"><%= t('actions') %></th>
     </tr>

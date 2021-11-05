@@ -7,15 +7,15 @@
         <% if authorized?(:jobs) -%>
           <th><input type="checkbox" class="select-all"></th>
         <% end -%>
-        <th scope="col">#</th>
-        <th scope="col"><%= Issue.human_attribute_name :created_at %></th>
-        <th scope="col"><%= Category.human_attribute_name :sub_category %></th>
-        <th scope="col"><%= Issue.human_attribute_name :status %></th>
-        <th scope="col"><%= Issue.human_attribute_name :address %></th>
-        <th scope="col"><%= Issue.human_attribute_name :supporter %></th>
-        <th scope="col"><%= Issue.human_attribute_name :group %></th>
+        <% %w[id created_at category status address supporter group].each do |col| %>
+          <th scope="col">
+            <%= order_link Issue.human_attribute_name(col), :issues, col %>
+          </th>
+        <% end -%>
         <th scope="col"><%= Issue.human_attribute_name :last_editor %></th>
-        <th scope="col"><%= Issue.human_attribute_name :priority %></th>
+        <th scope="col">
+          <%= order_link Issue.human_attribute_name(:priority), :issues, :priority %>
+        </th>
         <th scope="col"><%= t 'actions' %></th>
       </tr>
     </thead>

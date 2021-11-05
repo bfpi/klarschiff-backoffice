@@ -5,9 +5,15 @@
 <table class="table">
   <thead>
     <tr>
-      <th><%= MainCategory.human_attribute_name(:kind) %></th>
-      <th><%= Category.model_name.human count: 1 %></th>
-      <th><%= Group.model_name.human count: 1 %></th>
+      <th>
+        <%= order_link MainCategory.human_attribute_name(:level), :responsibilities, :kind %>
+      </th>
+      <th>
+        <%= order_link Category.model_name.human(count: 1), :responsibilities, :category %>
+      </th>
+      <th>
+        <%= order_link Group.model_name.human(count: 1), :responsibilities, :group %>
+      </th>
       <th><%= t :actions %></th>
     </tr>
   </thead>

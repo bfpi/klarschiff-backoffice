@@ -19,11 +19,11 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col"><%= Issue.human_attribute_name(:status) %></th>
-        <th scope="col"><%= Issue.human_attribute_name(:created_at) %></th>
-        <th scope="col"><%= Issue.human_attribute_name(:category) %></th>
-        <th scope="col"><%= Issue.human_attribute_name(:address) %></th>
+        <% %w[id status created_at category address].each do |col| %>
+          <th scope="col">
+            <%= order_link Issue.human_attribute_name(col), :delegations, col %>
+          </th>
+        <% end -%>
         <th scope="col"><%= t('actions') %></th>
       </tr>
     </thead>
