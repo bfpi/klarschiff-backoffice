@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Group < ApplicationRecord
+  include FullTextFilter
   include Logging
 
   enum kind: { internal: 0, external: 1, field_service_team: 2 }, _prefix: true
@@ -66,5 +67,10 @@ class Group < ApplicationRecord
 
   def reference_name
     type.remove(/Group$/).camelize.constantize.find(reference_id).to_s with_model_name: true
+  end
+
+  def update_full_text
+    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
+      .update(content: [name, short_name, type, kind, email].join(' '))
   end
 end

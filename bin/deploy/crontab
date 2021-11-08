@@ -10,6 +10,7 @@ MAILTO=support-klarschiff@bfpi.de
 40  00   *   *   *  rails     $HOME/backoffice/bin/cron rails runner ArchiveClosedIssuesJob.perform_now
 40  01   *   *   *  rails     $HOME/backoffice/bin/cron rails runner InformEditorialStaffOnIssuesJob.perform_now
 00  02   *   *   *  rails     $HOME/backoffice/bin/cron rails runner CalculateAverageTurnaroundTimeJob.perform_now
+20  02   *   *   *  rails     $HOME/backoffice/bin/cron rails runner FullTextContentJob.perform_now
 00  07   *   *   *  rails     $HOME/backoffice/bin/cron rails runner InformOnDelegatedIssuesJob.perform_now
 05  10   *   *   *  rails     $HOME/backoffice/bin/cron rails runner NotifyOnIssuesInProcessJob.perform_now
 10  10   *   *   *  rails     $HOME/backoffice/bin/cron rails runner NotifyOnClosedIssuesJob.perform_now

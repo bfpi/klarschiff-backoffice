@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_24_111007) do
+ActiveRecord::Schema.define(version: 2021_11_08_074840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,14 @@ ActiveRecord::Schema.define(version: 2021_08_24_111007) do
     t.bigint "field_service_team_id", null: false
     t.bigint "operator_id", null: false
     t.index ["field_service_team_id", "operator_id"], name: "index_field_service_team_operator_on_team_and_operator", unique: true
+  end
+
+  create_table "full_text_content", force: :cascade do |t|
+    t.text "table"
+    t.bigint "subject_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "group", force: :cascade do |t|

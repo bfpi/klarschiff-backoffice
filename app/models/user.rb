@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include FullTextFilter
   include Logging
   include UserAuthorization
 
@@ -53,5 +54,10 @@ class User < ApplicationRecord
       return false
     end
     true
+  end
+
+  def update_full_text
+    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
+      .update(content: [last_name, first_name, login, User.human_enum_name(:role, role)].join(' '))
   end
 end

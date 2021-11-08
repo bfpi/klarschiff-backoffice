@@ -166,6 +166,20 @@
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
+        <li class="list-group-item">
+          <p>
+            FullTextContentJob
+            <span class="text-muted"><small>
+              Für die Textsuche im Backend wird die Daten-Tabelle nńeu befüllt.
+              Ausführung täglich um 02:20 Uhr.
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :FullTextContentJob %>
+            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
       </ul>
     </div>
   </div>

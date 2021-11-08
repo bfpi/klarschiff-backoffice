@@ -2,6 +2,7 @@
 
 class Responsibility < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
+  include FullTextFilter
   include Logging
 
   belongs_to :category
@@ -46,5 +47,10 @@ class Responsibility < ApplicationRecord
 
   def filter_group
     { type: group.type, reference_id: group.reference_id }
+  end
+
+  def update_full_text
+    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
+      .update(content: [category, group].join(' '))
   end
 end
