@@ -106,7 +106,7 @@ KS.initializeMaps = ->
       features: new ol.Collection([feature])
       hitTolerance: 10
     )
-    if elem.data('position-input')? && elem.data('position-input') != ''
+    if elem.data('position-input')? && elem.data('position-input') != '' && $(elem.data('position-input')).length > 0
       interaction.on 'translateend', (e) ->
         KS.setFeatureCoordinatesToInput(e.features.getArray()[0])
       KS.Map.addInteraction(interaction)
