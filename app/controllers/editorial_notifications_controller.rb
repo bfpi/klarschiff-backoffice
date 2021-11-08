@@ -49,8 +49,6 @@ class EditorialNotificationsController < ApplicationController
 
   private
 
-  def base_collection; end
-
   def editorial_notification_params
     params.require(:editorial_notification).permit(:user_id, :level, :repetition)
   end
