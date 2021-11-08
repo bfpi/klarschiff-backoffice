@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFullTextContent < ActiveRecord::Migration[6.1]
   def change
     create_table :full_text_content do |t|

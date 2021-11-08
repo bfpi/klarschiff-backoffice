@@ -1,17 +1,15 @@
 <h1><%= MailBlacklist.model_name.human count: 2 %></h1>
 
 <%= render partial: 'simple_text_filter' %>
-
 <%= paginate @mail_blacklists %>
 
 <table class="table">
   <thead>
     <tr>
-      <% %w[id pattern source created_at].each do |col| %>
-        <th scope="col">
-          <%= order_link MailBlacklist.human_attribute_name(col), :mail_blacklists, col %>
-        </th>
-      <% end -%>
+      <th scope="col">#</th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :pattern %></th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :source %></th>
+      <th scope="col"><%= MailBlacklist.human_attribute_name :created_at %></th>
       <th scope="col"><%= t 'actions' %></th>
     </tr>
   </thead>

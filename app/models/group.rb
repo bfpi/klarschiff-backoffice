@@ -71,6 +71,7 @@ class Group < ApplicationRecord
 
   def update_full_text
     FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [name, short_name, type, kind, email].join(' '))
+      .update(content: [name, short_name, Group.human_enum_name(:type, type), Group.human_enum_name(:kind, kind),
+                        email].join(' '))
   end
 end

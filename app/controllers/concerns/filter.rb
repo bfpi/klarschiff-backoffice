@@ -4,6 +4,8 @@ module Filter
   extend ActiveSupport::Concern
 
   def filter(collection)
+    @filter = params[:filter] || {}
+    collection = collection.filter_by_full_text_search(@filter[:text]) if @filter[:text].present?
     filter_excludes(filter_name(collection))
   end
 

@@ -12,7 +12,7 @@ module FullTextFilter
   class_methods do
     def filter_by_full_text_search(pattern)
       where(id: FullTextContent.select(:subject_id).where(table: table_name).where(
-        pattern.split(' ').map do |pat|
+        pattern.split.map do |pat|
           FullTextContent.arel_table[:content].matches("%#{pat}%")
         end.inject(&:and)
       ))

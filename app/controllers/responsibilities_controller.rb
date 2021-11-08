@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class ResponsibilitiesController < ApplicationController
+  include Filter
   include Sorting
   before_action { check_auth :manage_responsibilities }
 
   def index
-    @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).authorized.active
-      .order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
+    @responsibilities = filter(Responsibility.includes(:group, { category: %i[main_category sub_category] })
+      .authorized.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def new
