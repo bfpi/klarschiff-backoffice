@@ -3,7 +3,6 @@
 module Sorting
   extend ActiveSupport::Concern
   include ActionView::Helpers::TagHelper
-  include Rails.application.routes.url_helpers
 
   included do
     helper_method :order_link
