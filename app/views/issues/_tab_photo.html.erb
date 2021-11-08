@@ -73,14 +73,14 @@
         <div class="row">
           <%= form.label :new_photo, for: :issue_new_photo, class: 'col-2 col-form-label' %>
           <div class="col-4">
-            <%= form.file_field :new_photo, class: 'form-control' %>
+            <%= form.file_field :new_photo, class: 'form-control', accept: 'image/*' %>
           </div>
           <%= form.submit t('action.upload'), class: 'btn btn-primary col-2' %>
         </div>
         <% unless form.object.new_record? -%>
           <div class="row">
             <div class="col-4">
-              <div class="form-check form-check-inline">
+              <div class="form-check-inline">
                 <label class="form-check-label">
                   <%= form.check_box :photo_requested, class: 'form-check-input' %>
                   <%= Issue.human_attribute_name :photo_requested %>

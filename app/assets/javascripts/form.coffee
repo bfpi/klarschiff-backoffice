@@ -11,5 +11,4 @@ KS.initializeFormActions = ->
             authenticity_token: $(form).find('#authenticity_token').val()
             attribute: elem.target.name
             value: elem.target.value
-        ).done ->
-          console.debug 'ajax PATCH on form change:input done'
+        )
