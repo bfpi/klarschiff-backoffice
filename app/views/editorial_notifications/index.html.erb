@@ -46,11 +46,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col"><%= User.human_attribute_name :groups %></th>
-          <th scope="col"><%= User.human_attribute_name :first_name %></th>
-          <th scope="col"><%= User.human_attribute_name :last_name %></th>
-          <th scope="col"><%= User.human_attribute_name :email %></th>
-          <th scope="col"><%= EditorialNotification.human_attribute_name :level %></th>
+          <% %w[groups first_name last_name email].each do |col| %>
+            <th scope="col">
+              <%= order_link User.human_attribute_name(col), :editorial_notifications, col %>
+            </th>
+          <% end -%>
+          <th scope="col">
+            <%= order_link User.human_attribute_name(:level), :editorial_notifications, :level %>
+          </th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :repetition %></th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :notified_at %></th>
           <th scope="col"><%= User.human_attribute_name :group_feedback_recipient %></th>

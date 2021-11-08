@@ -224,6 +224,7 @@ de:
     created_at: Zeitstempel
     deleted: gelöscht
     file: Datei
+    id: '#'
     instance: Instanz
     issue: Meldung
     kind: Typ

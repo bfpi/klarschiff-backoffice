@@ -5,10 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"><%= LogEntry.human_attribute_name :created_at %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name :user %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name :subject_name %></th>
-      <th scope="col"><%= LogEntry.human_attribute_name :action %></th>
+      <% %w[created_at user subject_name action].each do |col| %>
+        <th scope="col">
+          <%= order_link LogEntry.human_attribute_name(col), :log_entries, col %>
+        </th>
+      <% end -%>
     </tr>
   </thead>
   <tbody>

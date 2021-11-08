@@ -3,9 +3,9 @@
 class IssueFilter
   attr_reader :collection
 
-  def initialize(extended_filter, params = {})
+  def initialize(extended_filter, order, params = {})
     @collection = Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
-      .order created_at: :desc
+      .order(order)
     params[:only_number].blank? ? filter_collection(params, extended_filter) : filter_number(params)
   end
 

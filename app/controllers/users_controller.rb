@@ -2,10 +2,11 @@
 
 class UsersController < ApplicationController
   include Filter
+  include Sorting
   before_action { check_auth :manage_users }
 
   def index
-    users = filter(User.authorized).order(:last_name, :first_name, :login)
+    users = filter(User.authorized).unscoped.order(order_attr)
     respond_to do |format|
       format.html { @users = users.page(params[:page] || 1).per(params[:per_page] || 20) }
       format.json { render json: users }
@@ -51,5 +52,9 @@ class UsersController < ApplicationController
 
   def filter_name_columns
     %i[first_name last_name login]
+  end
+
+  def default_order
+    %i[last_name first_name login]
   end
 end

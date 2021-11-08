@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class ResponsibilitiesController < ApplicationController
+  include Sorting
   before_action { check_auth :manage_responsibilities }
 
   def index
     @responsibilities = Responsibility.includes(:group, { category: %i[main_category sub_category] }).authorized.active
-      .order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name], SubCategory.arel_table[:name])
-      .page(params[:page] || 1).per(params[:per_page] || 20)
+      .order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def new
@@ -47,5 +47,20 @@ class ResponsibilitiesController < ApplicationController
   def responsibility_params
     return {} if params[:responsibility].blank?
     params.require(:responsibility).permit(:group_id, :category_id)
+  end
+
+  def custom_order(col, dir)
+    case col.to_sym
+    when :kind
+      MainCategory.arel_table[:kind].send(dir)
+    when :category
+      [MainCategory.arel_table[:name].send(dir), SubCategory.arel_table[:name].send(dir)]
+    when :group
+      Group.arel_table[:name].send(dir)
+    end
+  end
+
+  def default_order
+    [MainCategory.arel_table[:kind], MainCategory.arel_table[:name], SubCategory.arel_table[:name]]
   end
 end
