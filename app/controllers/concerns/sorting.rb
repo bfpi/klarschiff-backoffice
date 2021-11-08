@@ -2,10 +2,10 @@
 
 module Sorting
   extend ActiveSupport::Concern
-  include ActionView::Helpers::TagHelper
 
   included do
     helper_method :order_link
+    delegate :tag, to: 'ActionController::Base.helpers'
   end
 
   def order_params
