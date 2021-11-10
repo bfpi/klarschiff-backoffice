@@ -39,7 +39,7 @@ module ActionView
 
       def autocomplete_field(method, options = {})
         tag.div(text_field(method, options) + tag.div('', class: 'spinner-border'),
-          class: 'autocomplete input-group ui-front')
+          class: 'autocomplete ui-front')
       end
     end
   end

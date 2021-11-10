@@ -76,11 +76,11 @@
   <%= form.label :groups, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.select_many_field 'group_ids',
-          class: 'form-select', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
+          class: 'form-control', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
   </div>
   <%= form.label :districts, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.select_many_field 'district_ids',
-          class: 'form-select', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
+          class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
   </div>
 </div>
