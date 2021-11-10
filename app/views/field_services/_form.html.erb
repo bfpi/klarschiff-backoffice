@@ -10,6 +10,6 @@
   <%= form.label :field_service_operators, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.select_many_field 'field_service_operator_ids',
-          class: 'form-select', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
+          class: 'form-control', 'data-autocomplete-url': users_path, columns: 'name', object: User %>
   </div>
 </div>

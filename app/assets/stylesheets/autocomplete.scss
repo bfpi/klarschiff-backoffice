@@ -1,12 +1,12 @@
+.autocomplete:not(.input-group) {
+  position: relative;
+}
 
 .autocomplete .spinner-border {
+  border-radius: 50% !important;
   display: none;
   position: absolute;
   right: 0.75em;
   top: 0.75em;
   z-index: 20;
-}
-
-.autocomplete .spinner-border {
-  border-radius: 50% !important;;
 }

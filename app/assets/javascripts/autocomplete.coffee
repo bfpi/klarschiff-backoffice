@@ -70,9 +70,7 @@ KS.initializeSelectManyAutocomplete = ->
 KS.createShowAllButton = (input) ->
   wrapper = $(input).parent('.autocomplete')
   wrapper.addClass 'input-group'
-  $(input).removeClass('form-select').addClass('form-control')
-  append = $('<div>').addClass('input-group-append').appendTo(wrapper)
-  button = $('<div>').addClass('input-group-text').html('&nbsp;<i class="fa fa-caret-down"></i>&nbsp;').appendTo(append)
+  button = $('<div>').addClass('input-group-text').html('&nbsp;<i class="fa fa-caret-down"></i>&nbsp;').appendTo(wrapper)
   button.on 'click', ->
     $(input).trigger 'focus'
     $(input).autocomplete 'search', ''
