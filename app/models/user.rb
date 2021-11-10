@@ -56,8 +56,7 @@ class User < ApplicationRecord
     true
   end
 
-  def update_full_text
-    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [last_name, first_name, login, User.human_enum_name(:role, role)].join(' '))
+  def full_text_content
+    [last_name, first_name, login, human_enum_name(:role)].join(' ')
   end
 end

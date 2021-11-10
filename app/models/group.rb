@@ -69,9 +69,7 @@ class Group < ApplicationRecord
     type.remove(/Group$/).camelize.constantize.find(reference_id).to_s with_model_name: true
   end
 
-  def update_full_text
-    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [name, short_name, Group.human_enum_name(:type, type), Group.human_enum_name(:kind, kind),
-                        email].join(' '))
+  def full_text_content
+    [name, short_name, human_enum_name(:type), human_enum_name(:kind), email].join(' ')
   end
 end

@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 2021_11_08_074840) do
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["table", "subject_id"], name: "index_full_text_content_on_table_and_subject_id", unique: true
   end
 
   create_table "group", force: :cascade do |t|

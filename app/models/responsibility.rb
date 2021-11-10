@@ -49,8 +49,7 @@ class Responsibility < ApplicationRecord
     { type: group.type, reference_id: group.reference_id }
   end
 
-  def update_full_text
-    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [category, group].join(' '))
+  def full_text_content
+    [category, group].join(' ')
   end
 end

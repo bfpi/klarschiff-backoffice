@@ -14,8 +14,7 @@ class MailBlacklist < ApplicationRecord
 
   private
 
-  def update_full_text
-    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [pattern, source].join(' '))
+  def full_text_content
+    [pattern, source].join(' ')
   end
 end

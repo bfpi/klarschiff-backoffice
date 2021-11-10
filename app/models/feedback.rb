@@ -57,8 +57,7 @@ class Feedback < ApplicationRecord
     FeedbackMailer.notification(issue: issue, auth_code: auth_code).deliver_later
   end
 
-  def update_full_text
-    FullTextContent.find_or_initialize_by(table: self.class.table_name, subject_id: id)
-      .update(content: [author, message].join(' '))
+  def full_text_content
+    [author, message].join(' ')
   end
 end
