@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include FullTextFilter
   include Logging
   include UserAuthorization
 
@@ -53,5 +54,9 @@ class User < ApplicationRecord
       return false
     end
     true
+  end
+
+  def full_text_content
+    [last_name, first_name, login, human_enum_name(:role)].join(' ')
   end
 end

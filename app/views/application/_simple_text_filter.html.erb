@@ -1,0 +1,10 @@
+<%= form_tag(nil, method: :get) do %>
+  <div class="row mb-3">
+    <div class="col">
+     <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
+    </div>
+    <div class="col-1">
+      <%= submit_tag t(:search), class: 'btn btn-primary float-end' %>
+    </div>
+  </div>
+<% end -%>

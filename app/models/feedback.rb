@@ -2,6 +2,7 @@
 
 class Feedback < ApplicationRecord
   include AuthorBlacklist
+  include FullTextFilter
   include Logging
 
   belongs_to :issue
@@ -54,5 +55,9 @@ class Feedback < ApplicationRecord
   def notify_responsible_group
     auth_code = AuthCode.find_or_create_by(issue: issue, group: issue.group)
     FeedbackMailer.notification(issue: issue, auth_code: auth_code).deliver_later
+  end
+
+  def full_text_content
+    [author, message].join(' ')
   end
 end

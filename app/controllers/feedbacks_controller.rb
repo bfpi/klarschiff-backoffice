@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class FeedbacksController < ApplicationController
+  include Filter
   include Sorting
+
   before_action { check_auth :manage_feedbacks }
 
   def index
-    @feedbacks = Feedback.all.unscoped.order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
+    @feedbacks = filter(Feedback.all).unscope(:order).order(order_attr).page(params[:page] || 1)
+      .per(params[:per_page] || 20)
   end
 
   private

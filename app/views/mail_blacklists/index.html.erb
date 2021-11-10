@@ -1,5 +1,6 @@
 <h1><%= MailBlacklist.model_name.human count: 2 %></h1>
 
+<%= render partial: 'simple_text_filter' %>
 <%= paginate @mail_blacklists %>
 
 <table class="table">
