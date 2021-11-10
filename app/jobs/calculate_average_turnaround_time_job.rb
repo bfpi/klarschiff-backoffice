@@ -23,10 +23,10 @@ class CalculateAverageTurnaroundTimeJob < ApplicationJob
             "prev"."created_at" < "le"."created_at" AND
             "prev"."table" = 'issue' AND
             "prev"."attr" = 'status' AND
-            "prev"."new_value" = 'in_process'
+            "prev"."new_value" = '#{Issue.human_enum_name(:status, :in_process)}'
         WHERE "le"."table" = 'issue' AND
           "le"."attr" = 'status' AND
-          "le"."old_value" = 'in_process' AND
+          "le"."old_value" = '#{Issue.human_enum_name(:status, :in_process)}' AND
           "le"."issue_id" IN (SELECT "id" FROM #{Issue.quoted_table_name} WHERE "category_id" = #{category_id})
         ORDER BY "le".id, "prev"."created_at" DESC
       ) s
