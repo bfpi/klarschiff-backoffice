@@ -28,7 +28,7 @@ KS.initializeSelectManyAutocomplete = ->
   $('.select-many .autocomplete input').each (ix, elem) ->
     input = $(elem)
     input.autocomplete(
-      minLength: 3
+      minLength: 0
       source: input.data('autocomplete-url')
       search: (event, ui) ->
         $(this).parent('.autocomplete').find('.spinner-border').show()
@@ -46,6 +46,9 @@ KS.initializeSelectManyAutocomplete = ->
         ui.item.value = ''
     ).on 'blur', (event) ->
       $(this).val ''
+
+    KS.createShowAllButton(input[0])
+
   $('.select-many').on 'keyup change', 'input[data-autocomplete-url]', (event) ->
     input = $(event.target)
     if input.val().length < 3
@@ -63,6 +66,16 @@ KS.initializeSelectManyAutocomplete = ->
   $('.select-many').on 'click', 'a', (event) ->
     $(event.target).parents('tr').remove()
     event.preventDefault()
+
+KS.createShowAllButton = (input) ->
+  wrapper = $(input).parent('.autocomplete')
+  wrapper.addClass 'input-group'
+  $(input).removeClass('form-select').addClass('form-control')
+  append = $('<div>').addClass('input-group-append').appendTo(wrapper)
+  button = $('<div>').addClass('input-group-text').html('&nbsp;<i class="fa fa-caret-down"></i>&nbsp;').appendTo(append)
+  button.on 'click', ->
+    $(input).trigger 'focus'
+    $(input).autocomplete 'search', ''
 
 KS.initializeUserLdapAutocomplete = ->
   if $('#modal #user_ldap').length == 0
