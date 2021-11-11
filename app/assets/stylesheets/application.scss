@@ -11,7 +11,8 @@
  * It is generally better to create a new file per style scope.
  *
  *= require ol
- *= require_tree .
+ *= require autocomplete
+ *= require maps
  *= require_self
  */
 

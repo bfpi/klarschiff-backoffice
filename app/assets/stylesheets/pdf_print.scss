@@ -10,54 +10,76 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require ol
- *= require_tree .
- *= require_self
  */
 
-body.print-pdf {
+@import 'font-awesome';
+
+body {
   font-size: 120% !important;
 }
 
-body.print-pdf h1 {
+h1 {
   font-size: 150% !important;
 }
 
-body.print-pdf h2 {
+h2 {
   display: inline-block;
   font-size: 130% !important;
   font-weight: bold;
-  margin-left: -15px;
   margin-top: 1em;
 }
 
-body.print-pdf .row {
-  display: flex;
-  flex-wrap: wrap;
+table {
+  border: 0;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-body.print-pdf .row > * {
-  float: left;
-  margin-bottom: 0.5em;
-  min-height: 1.5em;
+table td {
+  padding: 5px;
 }
 
-body.print-pdf div.label {
+table td .right {
+  position: absolute;
+  right: 0;
+}
+
+tr .col-1 {
+  width: 10em;
+}
+
+tr .col-2 {
+  width: 20em;
+}
+
+tr .col-4 {
+  width: 40em;
+}
+
+tr .col-9 {
+  width: 90em;
+}
+
+td.label {
   font-weight: bold;
   padding-left: 0;
 }
 
-body.print-pdf div.photo {
+td.photo {
   float: left;
   margin-bottom: 1em;
   width: 50%;
 }
 
-body.print-pdf div.photo > * {
+td.photo > * {
   float: left;
 }
 
-body.print-pdf div.photo > div {
+td.photo > div {
   margin-left: 0.5em;
   margin-top: 0.5em;
+}
+
+span.title {
+  color: #747474;
 }
