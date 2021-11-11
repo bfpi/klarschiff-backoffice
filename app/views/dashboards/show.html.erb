@@ -155,11 +155,10 @@
   <div class="col-12">
     <table class="table statistics">
       <tr>
-        <% %w[open in_process closed].each do |status| %>
-          <% if @issues_count[status.to_sym] > 0 %>
-            <td class="bar-<%= status.tr('_', '-') %>"
-              width="<%= calc_percentage(@issues_count[status.to_sym], total_count) %>">
-              <b><%= @issues_count[status.to_sym] %></b><br>
+        <% { open: 'bar-open', in_process: 'bar-in-process', closed: 'bar-closed' }.each do |status, css_class| %>
+          <% if (count = @issues_count[status]).positive? %>
+            <td class="<%= css_class %>" width="<%= calc_percentage(count, total_count) %>">
+              <b><%= count %></b><br>
               <b><%= Issue.human_enum_name(:status, status) %></b>
             </td>
           <% end -%>
