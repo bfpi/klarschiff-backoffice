@@ -15,8 +15,9 @@ class DashboardsController < ApplicationController
     @latest_issues = latest_issues
     @own_issues = own_issues
     @former_issues = former_issues(Current.user.groups)
-    @issues_count = { open: Issue.authorized.status_open.count, in_process: Issue.authorized.status_in_process.count,
-                      closed: Issue.authorized.status_closed.count }
+    scoped = Issue.not_archived.authorized
+    @issues_count = { open: scoped.status_open.count, in_process: scoped.status_in_process.count,
+                      closed: scoped.status_closed.count }
   end
 
   def notices
