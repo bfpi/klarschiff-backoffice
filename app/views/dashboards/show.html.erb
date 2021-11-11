@@ -155,18 +155,14 @@
   <div class="col-12">
     <table class="table statistics">
       <tr>
-        <td class="bar-open" width="<%= calc_percentage(@issues_count[:open], total_count) %>">
-          <b><%= @issues_count[:open] %></b><br>
-          <b>offen</b>
-        </td>
-        <td class="bar-in-process" width="<%= calc_percentage(@issues_count[:in_process], total_count) %>">
-          <b><%= @issues_count[:in_process] %></b><br>
-          <b><%= Issue.human_enum_name(:status, :in_process) %></b>
-        </td>
-        <td class="bar-closed" width="<%= calc_percentage(@issues_count[:closed], total_count) %>">
-          <b><%= @issues_count[:closed] %></b><br>
-          <b><%= Issue.human_enum_name(:status, :closed) %></b>
-        </td>
+        <% %w[open in_process closed].each do |status| %>
+          <% if @issues_count[status.to_sym] > 0 %>
+            <td class="bar-<%= status.gsub('_', '-') %>" width="<%= calc_percentage(@issues_count[status.to_sym], total_count) %>">
+              <b><%= @issues_count[status.to_sym] %></b><br>
+              <b><%= Issue.human_enum_name(:status, status) %></b>
+            </td>
+          <% end -%>
+        <% end -%>
       </tr>
     </table>
   </div>

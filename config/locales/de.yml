@@ -293,14 +293,15 @@ de:
         middle: mittel
         high: hoch
       status:
+        closed: gelöst
+        deleted: gelöscht
+        duplicate: Duplikat
+        in_process: in Bearbeitung
+        not_solvable: nicht lösbar
+        open: offen
         pending: gemeldet
         received: offen
         reviewed: gesichtet
-        in_process: in Bearbeitung
-        duplicate: Duplikat
-        deleted: gelöscht
-        not_solvable: nicht lösbar
-        closed: gelöst
       trust_level:
         internal: intern
         external: extern
