@@ -88,6 +88,16 @@ KS.initializeMaps = ->
             matrixIds: <%= layer[:matrix_ids] %>
         visible: <%= layer[:visible].present? %>
       <% end %>
+      <% Settings::Map.wms_layers.each do |layer| %>
+      new (ol.layer.Image)
+        id: '<%= layer[:id] %>'
+        source: new ol.source.ImageWMS
+          url: '<%= layer[:url] %>'
+          params:
+            "LAYERS": '<%= layer[:content] %>'
+            "FORMAT": '<%= layer[:format] %>'
+        visible: <%= layer[:visible].present? %>
+      <% end %>
       featureVector
     ]
     layers.push featureVectorUnclustered if featureVectorUnclustered

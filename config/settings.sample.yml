@@ -50,6 +50,13 @@ development: &default
         matrix_ids: [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
         matrix_set: epsg_25833
         visible: false
+    wms_layers:
+      -
+        id: poi
+        url: https://geo.sv.rostock.de/geodienste/klarschiff-poi/wms?
+        content: hro.klarschiff-poi.abfallbehaelter,hro.klarschiff-poi.ampeln,hro.klarschiff-poi.beleuchtung,hro.klarschiff-poi.brunnen,hro.klarschiff-poi.denkmale,hro.klarschiff-poi.hundetoiletten,hro.klarschiff-poi.kabelverteilerschraenke,hro.klarschiff-poi.recyclingcontainer,hro.klarschiff-poi.sitzgelegenheiten,hro.klarschiff-poi.sperrmuelltermine_oeffentlich,hro.klarschiff-poi.gemeinde-hro-invers
+        format: image/png
+        visible: true
     projection_25833: [-464849.38, 5057815.8685756, 787494.89142433, 6310160.14]
   ldap:
     encryption: :simple_tls
