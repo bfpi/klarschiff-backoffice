@@ -18,7 +18,7 @@ class SubCategory < ApplicationRecord
 
   def dms_link
     target, ddc = dms.try(:split, ':')
-    return if target.blank?
+    return if target.blank? || ddc.blank?
     config[target][:create_link][ddc]
   end
 end
