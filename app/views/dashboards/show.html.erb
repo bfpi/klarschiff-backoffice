@@ -157,7 +157,8 @@
       <tr>
         <% %w[open in_process closed].each do |status| %>
           <% if @issues_count[status.to_sym] > 0 %>
-            <td class="bar-<%= status.gsub('_', '-') %>" width="<%= calc_percentage(@issues_count[status.to_sym], total_count) %>">
+            <td class="bar-<%= status.tr('_', '-') %>"
+              width="<%= calc_percentage(@issues_count[status.to_sym], total_count) %>">
               <b><%= @issues_count[status.to_sym] %></b><br>
               <b><%= Issue.human_enum_name(:status, status) %></b>
             </td>
