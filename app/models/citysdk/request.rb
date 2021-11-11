@@ -103,7 +103,7 @@ module Citysdk
       ea = { detailed_status: detailed_status, detailed_status_datetime: detailed_status_datetime,
              description_public: description_public, expected_closure: expected_closure,
              priority: priority_before_type_cast, media_urls: media_urls, photo_required: photo_required,
-             trust: trust_level.to_i, votes: votes }
+             trust: trust_level_before_type_cast, votes: votes }
       ea[:property_owner] = property_owner if @property_attributes
       if @job_detail_attributes
         ea.merge! delegation: delegation_name, job_status: job_status, job_priority: job_priority
