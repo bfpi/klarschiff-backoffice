@@ -16,7 +16,7 @@ class DashboardsController < ApplicationController
     @own_issues = own_issues
     @former_issues = former_issues(Current.user.groups)
     scoped = Issue.not_archived.authorized
-    @issues_count = { open: scoped.status_open.count, in_process: scoped.status_in_process.count,
+    @issues_count = { open: scoped.status_open.not_status_in_process.count, in_process: scoped.status_in_process.count,
                       closed: scoped.status_closed.count }
   end
 
