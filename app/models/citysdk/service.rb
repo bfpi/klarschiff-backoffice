@@ -39,7 +39,7 @@ module Citysdk
     end
 
     def document_url
-      sub_category_dms
+      sub_category_dms_link
     end
 
     def serializable_methods(options)

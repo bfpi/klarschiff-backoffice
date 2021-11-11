@@ -7,7 +7,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     get '/citysdk/services.xml'
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service')
-    assert services.count.positive?
+    assert_not_empty services
   end
 
   test 'index with invalid api-key' do
@@ -22,14 +22,14 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     services = doc.xpath('/services/service')
     assert services.count.positive?
     document_url = doc.xpath('/services/service/document_url')
-    assert document_url.blank?
+    assert_empty document_url
   end
 
   test 'index with api-key ppc' do
     get "/citysdk/services.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     document_url = doc.xpath('/services/service/document_url')
-    assert document_url.count.positive?
+    assert_not_empty document_url
   end
 
   test 'show without api-key' do
@@ -51,13 +51,13 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     services = doc.xpath('/service_definition/service')
     assert services.count.positive?
     document_url = doc.xpath('/service_definition/service/document_url')
-    assert document_url.blank?
+    assert_empty document_url
   end
 
   test 'show with api-key ppc' do
     get "/citysdk/services/#{category(:one).id}.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     document_url = doc.xpath('/service_definition/service/document_url')
-    assert document_url.count.positive?
+    assert_not_empty document_url
   end
 end
