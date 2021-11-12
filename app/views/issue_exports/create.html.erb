@@ -140,14 +140,14 @@
         </td>
         <td colspan="3">
           <% @issue.photos.each do |photo| -%>
-            <td class="photo">
+            <div class="photo">
               <% blob = photo.file.download -%>
               <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %>
-              <td>
+              <div>
                 <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
                 <%= t "enums.photo.status.#{photo.status}" %>
-              </td>
-            </td>
+              </div>
+            </div>
           <% end -%>
         </td>
       </tr>

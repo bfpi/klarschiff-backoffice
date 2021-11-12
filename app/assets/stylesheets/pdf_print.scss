@@ -63,21 +63,22 @@ tr .col-9 {
 td.label {
   font-weight: bold;
   padding-left: 0;
+  vertical-align: top;
 }
 
-td.photo {
+div.photo {
   float: left;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   width: 50%;
 }
 
-td.photo > * {
+div.photo > * {
   float: left;
 }
 
-td.photo > div {
+div.photo > div {
+  height: 200px;
   margin-left: 0.5em;
-  margin-top: 0.5em;
 }
 
 span.title {

@@ -18,9 +18,13 @@ $ ->
         location.href = data
 
   $(document).on 'click', '#issue_export', (e) ->
-    $('#print-map').attr('id', 'map') if $('#map').size() == 0
+    reopen = false
+    if $('#map').size() == 0
+      $('#print-map').attr('id', 'map')
+    else
+      reopen = true
     $('#map').html('')
-    KS.initializeMaps()
+    KS.initializeMaps(false)
     e.preventDefault()
     href = $('#issue_export').attr('href')
 
@@ -40,6 +44,9 @@ $ ->
         link.href = window.URL.createObjectURL(blob)
         link.download = req.getResponseHeader('X-FileName')
         link.click()
+
+      $('#map').html('')
+      KS.initializeMaps(true)
     ), 1000
 
   $(document).on 'click', '.card .btn-create', (e) ->
