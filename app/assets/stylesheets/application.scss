@@ -53,11 +53,21 @@ nav.navbar {
   opacity: 0.7;
 }
 
-#photos div.actions {
-  margin-bottom: 0.5em;
+#photos {
+  div.actions {
+    margin-bottom: 0.5em;
 
-  a.rotate {
-    margin-right: 1em;
+    a.rotate {
+      margin-right: 1em;
+    }
+  }
+
+  img {
+    cursor: pointer;
+  }
+
+  .image-big {
+    display: none;
   }
 }
 

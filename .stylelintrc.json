@@ -13,6 +13,7 @@
         "ignoreAtRules": ["extend"]
       }
     ],
+    "max-nesting-depth": 2,
     "scss/at-extend-no-missing-placeholder": null,
     "selector-max-id": 1,
     "selector-no-qualifying-type": null
