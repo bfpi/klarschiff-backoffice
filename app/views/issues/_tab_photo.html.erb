@@ -33,7 +33,7 @@
               <% end -%>
               <div>
                 <div class="record"></div>
-                <%= image_tag photo_form.object.file.variant(resize_to_limit: [360, 360]) %>
+                <%= image_tag(photo_form.object.file.variant(resize_to_limit: [360, 360]), class: 'imagezoom') %>
               </div>
             </td>
             <td><%= photo_form.object.author %></td>
@@ -62,6 +62,11 @@
                 <%= link_to tag.i('', class: 'fa fa-trash'), '', class: 'btn btn-sm btn-outline-primary delete' %>
               </td>
             <% end -%>
+          </tr>
+          <tr id="photo_<%= photo_form.object.id %>_big" class="image-big">
+            <td colspan="5">
+              <%= image_tag(photo_form.object.file.variant(resize_to_limit: [1100, 1100])) %>
+            </td>
           </tr>
         <% end -%>
       <% end %>
@@ -93,3 +98,4 @@
     </tfoot>
   <% end -%>
 </table>
+<div id="imagezoom-container"></div>
