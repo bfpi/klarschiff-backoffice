@@ -1,7 +1,7 @@
 <table id="group-<%= group_id %>-table" class="table">
   <thead>
     <tr>
-      <th>#</th>
+      <th><%= Issue.human_attribute_name :id %></th>
       <th><input type="checkbox" class="select-all"></th>
       <th><%= Issue.human_attribute_name :kind %></th>
       <th><%= Issue.human_attribute_name :created_at %></th>
@@ -9,7 +9,7 @@
       <th><%= Issue.human_attribute_name :status %></th>
       <th><%= Job.human_attribute_name :status %></th>
       <th><%= Job.human_attribute_name :updated_at %></th>
-      <th>Aktionen</th>
+      <th><%= t 'actions' %></th>
     </tr>
   </thead>
   <tbody class="table-draggable">
