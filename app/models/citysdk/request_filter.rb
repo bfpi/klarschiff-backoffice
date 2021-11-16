@@ -24,7 +24,7 @@ module Citysdk
         send("filter_#{key}", params) if respond_to?("filter_#{key}", true) && value.present?
       end
       @collection = @collection.not_status_deleted
-      @collection = @collection.not_archived if params[:also_archived].blank? || params[:also_archived] == 'false'
+      @collection = @collection.not_archived if params[:also_archived].blank?
       limit_requests(params)
     end
 
