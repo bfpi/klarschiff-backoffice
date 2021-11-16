@@ -63,7 +63,8 @@ module UserAuthorization
   end
 
   def edit_delegation_permitted?(issue)
-    static_permitted_to?(:delegations) || groups.active.ids.include?(issue.delegation_id) ||
+    edit_issue_permitted?(issue) ||
+      static_permitted_to?(:delegations) || groups.active.ids.include?(issue.delegation_id) ||
       auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id
   end
 
