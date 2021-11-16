@@ -29,10 +29,9 @@ class Issue
         issues = where(status: %w[received reviewed in_process]).or(
           where(status: %w[duplicate not_solvable closed])
         )
-        issues = issues.where(description_status: %i[internal deleted]).or(
+        issues.where(description_status: %i[internal deleted]).or(
           where(id: Photo.select(:issue_id).where(status: %i[internal deleted]))
         )
-        issues
       end
 
       def ideas_without_min_supporters
