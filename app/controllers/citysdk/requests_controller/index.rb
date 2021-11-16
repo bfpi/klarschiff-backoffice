@@ -40,7 +40,7 @@ module Citysdk
       private
 
       def index_just_counts
-        citysdk_response [{ count: filtered_requests.ids.count }], root: :service_requests
+        citysdk_response [{ count: filtered_requests.count }], root: :service_requests
       end
 
       def filtered_requests
