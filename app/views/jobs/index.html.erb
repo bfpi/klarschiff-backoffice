@@ -2,7 +2,7 @@
 <div class="row">
   <%= form_tag jobs_path, method: :get do %>
     <div class="row">
-      <%= label_tag :job_date, 'Ausführungsdatum', class: 'label-control col-2' %>
+      <%= label_tag :job_date, Job.human_attribute_name(:date), class: 'label-control col-2' %>
       <div class="col-3">
         <%= text_field_tag :job_date, @date, class: 'form-control datepicker' %>
       </div>

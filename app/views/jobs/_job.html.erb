@@ -1,20 +1,22 @@
 <tr id="job-<%= job.id %>" data-id="<%= job.id %>">
   <% issue = job.issue -%>
+  <td><%= check_box_tag :job_id, job.id, false, class: 'selectable' %></td>
   <td>
     <%= issue.id %>
     <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),
           remote: true, class: 'btn btn-sm btn-outline-primary' %>
   </td>
-  <td><%= check_box_tag :job_id, job.id, false, class: 'selectable' %></td>
-  <td><%= t MainCategory.human_enum_name('kind', job.issue.kind) %></td>
-  <td><%= l issue.created_at.to_date %></td>
-  <td><%= issue.main_category %></td>
+  <td><%= l(issue.created_at, format: :no_seconds) %></td>
   <td><%= issue.sub_category %></td>
-  <td><%= image_tag issue.list_icon, title: t("enums.issue.status.#{issue.status}") %></td>
+  <td>
+    <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                   title: Issue.human_enum_name(:status, issue.status) %>
+    <%= tag.i class: 'fa fa-archive', title: Issue.human_attribute_name(:archived) if issue.archived %>
+  </td>
   <td>
     <span class="fa fa-flag<%= job.status_color %>" title="<%= t "enums.job.status.#{job.status}" %>"></span>
   </td>
-  <td><%= l job.updated_at %></td>
+  <td><%= l(job.updated_at, format: :no_seconds) %></td>
   <td>
     <%= link_to tag.i('', class: 'fa fa-trash'), job_path(job, date: @date),
           class: 'btn btn-sm btn-outline-danger', method: :delete, remote: true %>

@@ -48,7 +48,6 @@ de:
       instance:
         url: URL
       issue:
-        id: Nummer
         address: Adresse
         archived: archiviert
         archived_at: Archivierungszeitpunkt
@@ -62,6 +61,7 @@ de:
         field_service_team: Team
         group: Zuständigkeit
         id: Nummer
+        job: Außendienst
         new_photo: Foto hinzufügen
         parcel: Flurstück
         photo: Foto
@@ -234,7 +234,7 @@ de:
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützer
-    updated_at: zuletzt geändert
+    updated_at: letzte Änderung
     user: Benutzer
   back: Zurück
   city_view: Karte
@@ -361,7 +361,7 @@ de:
         redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
   issues:
     issues_buttons:
-      assign_jobs: Zuordnung für den Außendienst
+      assign_jobs: Zuordnung für Außendienst
       map: Kartenansicht
       new_issue: Neue Meldung
     extended_filter:
@@ -423,7 +423,7 @@ de:
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   send_email: als E-Mail versenden
   search: Suchen
-  show_map: Auf Karte anzeigen
+  show_map: Kartenansicht
   simple_search: Einfache Suche
   statuses:
     abuse_report:

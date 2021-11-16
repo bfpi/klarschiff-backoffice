@@ -12,7 +12,7 @@
   <tbody>
     <% @log_entries.each do |log_entry| %>
       <tr>
-        <td><%= log_entry.id %> <%= l log_entry.created_at %></td>
+        <td><%= l(log_entry.created_at, format: :no_seconds) %></td>
         <td><%= log_entry.user || log_entry.auth_code %></td>
         <td><%= log_entry.subject_name %></td>
         <td><%= log_entry.action %></td>

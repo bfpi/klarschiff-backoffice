@@ -10,8 +10,11 @@
     <%= image_tag image_path('klarschiff.png') %>
     <%= t(:pagetitle) %>
   </h1>
+  <h1>
+    <%= Issue.model_name.human %> #<%= @issue.id %>
+  </h1>
   <h2>
-    Meldungsdaten
+    Stammdaten
   </h2>
 
   <table>
@@ -63,7 +66,7 @@
         <%= Issue.human_attribute_name(:created_at) %>
       </td>
       <td>
-        <%= l @issue.created_at %>
+        <%= l(@issue.created_at, format: :no_seconds) %>
       </td>
       <td class="label">
         <%= Issue.human_attribute_name(:author) %>
@@ -94,7 +97,7 @@
         <%= Issue.human_attribute_name(:group) %>
       </td>
       <td>
-        <%= @issue.group %>
+        <%= @issue.group.name %>
         <% if @issue.responsibility_accepted -%>
           <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
         <% end -%>
@@ -103,7 +106,7 @@
         <%= Issue.human_attribute_name(:delegation) %>
       </td>
       <td>
-        <%= @issue.delegation %>
+        <%= @issue.delegation.name %>
       </td>
     </tr>
 
@@ -157,7 +160,7 @@
       <tr>
         <td colspan="4">
           <h2>
-            interne Kommentare
+            Kommentare
           </h2>
         </td>
       </tr>

@@ -19,9 +19,9 @@
   <table class="table">
     <thead>
       <tr>
-        <% %w[id status created_at category address].each do |col| %>
+        <% %w[id created_at category status address updated_at].each do |col| %>
           <th scope="col">
-            <%= order_link Issue.human_attribute_name(col), :delegations, col %>
+            <%= order_link Issue.human_attribute_name(col), :issues, col %>
           </th>
         <% end -%>
         <th scope="col"><%= t('actions') %></th>
@@ -31,13 +31,15 @@
       <% @issues.each do |issue| -%>
         <tr>
           <td><%= issue.id %></td>
+          <td><%= l(issue.created_at, format: :no_seconds) %></td>
+          <td><%= issue.sub_category %></td>
           <td>
             <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                           title: issue.human_enum_name(:status) %>
+                                           title: Issue.human_enum_name(:status, issue.status) %>
+            <%= tag.i class: 'fa fa-archive', title: Issue.human_attribute_name(:archived) if issue.archived %>
           </td>
-          <td><%= l(issue.created_at) %></td>
-          <td><%= issue.category %></td>
           <td><%= issue.address %></td>
+          <td><%= l(issue.updated_at, format: :no_seconds) %></td>
           <td>
             <%= link_to tag.i('', class: 'fa fa-pencil'), edit_delegation_path(issue, filter_status: @status),
                   remote: true, class: 'btn btn-sm btn-outline-primary' %>
@@ -58,9 +60,9 @@
 <% content_for :footer do -%>
   <% if @issues.any? -%>
     <div class="float-end">
-      <%= link_to t(:export_xlsx), delegations_path(filter: { status: @status }, format: :xlsx),
-            class: 'btn btn-primary' %>
       <%= link_to t(:show_map), delegations_path(filter: { status: @status }, show_map: true),
+            class: 'btn btn-primary' %>
+      <%= link_to t(:export_xlsx), delegations_path(filter: { status: @status }, format: :xlsx),
             class: 'btn btn-primary' %>
     </div>
   <% end -%>

@@ -1,13 +1,16 @@
 <table id="group-<%= group_id %>-table" class="table">
   <thead>
     <tr>
-      <th><%= Issue.human_attribute_name :id %></th>
+      <th colspan="5"><%= Issue.model_name.human %></th>
+      <th colspan="3"><%= Job.model_name.human %></th>
+    </tr>
+    <tr>
       <th><input type="checkbox" class="select-all"></th>
-      <th><%= Issue.human_attribute_name :kind %></th>
+      <th><%= Issue.human_attribute_name :id %></th>
       <th><%= Issue.human_attribute_name :created_at %></th>
-      <th colspan="2">Haupt- und Unterkategorie</th>
+      <th><%= Issue.human_attribute_name :category %></th>
       <th><%= Issue.human_attribute_name :status %></th>
-      <th><%= Job.human_attribute_name :status %></th>
+      <th><%= Issue.human_attribute_name :status %></th>
       <th><%= Job.human_attribute_name :updated_at %></th>
       <th><%= t 'actions' %></th>
     </tr>

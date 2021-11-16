@@ -44,7 +44,7 @@ class IssuesController
 
     def header_properties(worksheet)
       Issue::EXPORT_ATTRIBUTES.count.times do |col|
-        (cell = worksheet.sheet_data[0][col]).change_fill '0000ff'
+        (cell = worksheet.sheet_data[0][col]).change_fill 'bfbfbf'
         cell.change_font_bold true
         cell.change_horizontal_alignment 'center'
       end
@@ -79,6 +79,7 @@ class IssuesController
       when :kind then issue.kind_name
       when :supporters then issue.supporters.count
       when :district then nil
+      when :group then issue.group.for_export
       else
         issue.send(attr).to_s
       end
