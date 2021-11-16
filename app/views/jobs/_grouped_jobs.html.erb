@@ -6,7 +6,7 @@
           <div class="card-header" id="header-group-<%= (group_id = group.id) %>">
             <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-group-<%= group_id %>"
               aria-controls="collapse-group-<%= group_id %>">
-              <%= group %>
+              <%= group.name %>
             </a>
           </div>
           <div id="collapse-group-<%= group_id %>" class="collapse <%= 'show' if group_id == @active_group_id.to_i %>"

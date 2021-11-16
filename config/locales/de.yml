@@ -377,7 +377,7 @@ de:
         abuse_report: Missbrauchsmeldungen
         comment: Kommentare
         feedback: Lobe/Hinweise/Kritiken
-        job: Außendienst-Auftrag
+        job: Außendienstauftrag
         log_entry: Verlauf
         map: Karte
         master_data: Stammdaten
@@ -403,7 +403,7 @@ de:
     tab_rejection:
       reject: "Meldung an %{group} zurückweisen"
   jobs:
-    title: Außendienst-Aufträge
+    title: Außendienstaufträge
     grouped_jobs:
       change_date: Ausführungsdatum ändern
       map: Kartenansicht

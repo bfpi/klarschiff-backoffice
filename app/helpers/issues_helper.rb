@@ -45,7 +45,7 @@ module IssuesHelper
   def field_service_teams(issue = nil)
     groups = Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
-    groups.order(:name).map { |gr| [gr.to_s, gr.id] }
+    groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def kinds

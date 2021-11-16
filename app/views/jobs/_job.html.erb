@@ -10,6 +10,7 @@
   <td>
     <span class="fa fa-flag<%= job.status_color %>" title="<%= t "enums.job.status.#{job.status}" %>"></span>
   </td>
+  <td><%= l job.updated_at %></td>
   <td>
     <%= link_to tag.i('', class: 'fa fa-trash'), job_path(job, date: @date),
           class: 'btn btn-sm btn-outline-danger', method: :delete, remote: true %>
