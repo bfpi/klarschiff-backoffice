@@ -16,11 +16,13 @@
   <div class="row">
     <%= form.label :status_note, class: 'col-2 col-form-label' %>
     <div class="col-10">
-      <%= form.text_area(:status_note,
-          class: 'form-control',
-          maxlength: Settings::Issue.status_note_max_length,
-          rows: 5,
-          readonly: restricted || form.object.closed?) %>
+      <%= form.text_area(
+            :status_note,
+            class: 'form-control',
+            maxlength: Settings::Issue.status_note_max_length,
+            rows: 5,
+            readonly: restricted || form.object.closed?
+          ) %>
       <%= select_tag :status_note_template,
             options_for_select(status_note_templates),
             class: 'form-select',
