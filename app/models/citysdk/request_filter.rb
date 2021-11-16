@@ -24,7 +24,7 @@ module Citysdk
         send("filter_#{key}", params) if respond_to?("filter_#{key}", true) && value.present?
       end
       @collection = @collection.not_status_deleted
-      @collection = @collection.not_archived if params[:also_archived].blank?
+      @collection = @collection.not_archived if params[:also_archived].blank? || params[:also_archived] == 'false'
       limit_requests(params)
     end
 
@@ -102,12 +102,12 @@ module Citysdk
     def filter_area_code(params)
       @collection = @collection.where(<<~SQL.squish)
         ST_Within(#{Issue.quoted_table_name}."position",
-          (#{Authority.where(id: params[:area_code].to_i).select(:area).to_sql}))
+          (#{District.where(id: params[:area_code].to_i).select(:area).to_sql}))
       SQL
     end
 
     def filter_with_picture(_params)
-      @collection = @collection.where(photo: { status: Photo.statuses[:external] })
+      @collection = @collection.where(photo: { status: Photo.statuses[:external] }).order(created_at: :desc)
     end
   end
 end
