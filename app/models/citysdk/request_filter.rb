@@ -107,7 +107,7 @@ module Citysdk
     end
 
     def filter_with_picture(_params)
-      @collection = @collection.where(photo: { status: Photo.statuses[:external] }).order(created_at: :desc)
+      @collection = @collection.where(photo: { status: :external }).order(created_at: :desc)
     end
   end
 end
