@@ -66,9 +66,14 @@ KS.initializePhotoActions = ->
     event.preventDefault()
     return if (row = $(event.target).parents('tr')).length == 0
 
-    picture = row.find('img')
-    t = picture[0].y
-    l = picture[0].x
+    picture = row.find('img.imagezoom')
+    modal = $(picture).parents('.modal-body')
+
+    bodyRect = picture[0].getBoundingClientRect()
+    modalRect = modal[0].getBoundingClientRect()
+
+    t = bodyRect.top - modalRect.top
+    l = bodyRect.left - modalRect.left
     w = picture.width()
     h = picture.height()
     rectCoords = ''
@@ -127,7 +132,7 @@ KS.initializePhotoActions = ->
     KS.photoX1 = event.pageX - modal.offset().left
     KS.photoY1 = event.pageY - modal.offset().top
     # save reference to the new box
-    KS.photoCurrStackItem = new KS.photoUndoStackItem(KS.photoX1, KS.photoX1, 1, 1, box)
+    KS.photoCurrStackItem = new KS.photoUndoStackItem(KS.photoY1, KS.photoX1, 1, 1, box)
     KS.photoUndoStack.push KS.photoCurrStackItem
 
   # Adjust size of the censoring box while dragging the mouse
