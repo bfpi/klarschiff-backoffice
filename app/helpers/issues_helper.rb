@@ -2,10 +2,10 @@
 
 module IssuesHelper
   def comment_headline(comment)
-    "#{comment.to_s skip_seconds: true}#{if comment.created_at.to_i != comment.updated_at.to_i
-                                           "; bearbeitet #{I18n.l(comment.updated_at,
-                                             format: :no_seconds)}"
-                                         end}"
+    [comment.to_s(skip_seconds: true)].tap do |a|
+      suffix = "bearbeitet #{I18n.l(comment.updated_at, format: :no_seconds)}"
+      a << suffix if comment.created_at.to_i != comment.updated_at.to_i
+    end.join '; '
   end
 
   def description_status_external_title
