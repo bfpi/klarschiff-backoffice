@@ -55,10 +55,6 @@ class Group < ApplicationRecord
     v
   end
 
-  def for_export
-    name
-  end
-
   def as_json(_options = {})
     { value: id, label: to_s }
   end

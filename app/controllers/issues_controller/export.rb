@@ -79,7 +79,7 @@ class IssuesController
       when :kind then issue.kind_name
       when :supporters then issue.supporters.count
       when :district then nil
-      when :group then issue.group.for_export
+      when :group then issue.group.name
       else
         issue.send(attr).to_s
       end
