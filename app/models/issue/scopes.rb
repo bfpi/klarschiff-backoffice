@@ -26,7 +26,9 @@ class Issue
       end
 
       def not_approved
-        where(description_status: %i[internal deleted]).or(
+        where(status: %w[received reviewed in_process]).or(
+          where(status: %w[duplicate not_solvable closed])
+        ).where(description_status: %i[internal deleted]).or(
           where(id: Photo.select(:issue_id).where(status: %i[internal deleted]))
         )
       end

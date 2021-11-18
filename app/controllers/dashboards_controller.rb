@@ -36,7 +36,7 @@ class DashboardsController < ApplicationController
 
   def own_issues
     Issue.authorized.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
-      status: %w[pending received reviewed in_process not_solvable closed],
+      status: %w[received reviewed in_process not_solvable closed],
       log_entry: { attr: [nil] + %w[address status description kind] }
     ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
   end

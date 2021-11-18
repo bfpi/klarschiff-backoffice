@@ -1,7 +1,7 @@
 <% unless form.object.new_record? -%>
   <div class="row">
     <%= form.label :status, class: 'col-2 col-form-label' %>
-    <div class="col-4">
+    <div class="col-10 col-form-label">
       <% Issue.statuses.each do |status, ix| -%>
         <% next if ix < Issue.statuses[:reviewed] -%>
         <div>
@@ -12,9 +12,17 @@
         </div>
       <% end -%>
     </div>
+  </div>
+  <div class="row">
     <%= form.label :status_note, class: 'col-2 col-form-label' %>
-    <div class="col-4">
-      <%= form.text_area(:status_note, class: 'form-control', rows: 3, readonly: restricted || form.object.closed?) %>
+    <div class="col-10">
+      <%= form.text_area(
+            :status_note,
+            class: 'form-control',
+            maxlength: Settings::Issue.status_note_max_length,
+            rows: 5,
+            readonly: restricted || form.object.closed?
+          ) %>
       <%= select_tag :status_note_template,
             options_for_select(status_note_templates),
             class: 'form-select',

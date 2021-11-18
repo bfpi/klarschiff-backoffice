@@ -257,7 +257,7 @@ de:
     no_doc_id: >-
       Die d.3-Akte ist zwar vorhanden, jedoch liefert die d.3-API nicht deren Aktennummer zurück,
       sodass die Akte nicht geöffnet werden kann.
-  edit: Bearbeiten
+  edit: bearbeiten
   edit_issue: Meldung bearbeiten
   editorial_notifications:
     index:
@@ -416,7 +416,7 @@ de:
     logout: Logout
     administration: Administration
   no_result: Die Suche ergab kein Resultat.
-  pagetitle: Backoffice
+  pagetitle: Klarschiff.HRO
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit
