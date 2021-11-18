@@ -8,7 +8,7 @@
     <%= issue.id %>
   </div>
   <div class="col-auto" title="<%= Issue.human_attribute_name(:created_at) %>">
-    <%= l(issue.created_at.to_date) %>
+    <%= l(issue.created_at, format: :no_seconds) %>
   </div>
   <div class="col-auto" title="<%= Category.human_attribute_name(:main_category) %>">
     <%= issue.main_category %>

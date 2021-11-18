@@ -2,7 +2,10 @@
 
 module IssuesHelper
   def comment_headline(comment)
-    "#{comment}#{"; bearbeitet #{I18n.l(comment.updated_at)}" if comment.created_at.to_i != comment.updated_at.to_i}"
+    [comment.to_s(skip_seconds: true)].tap do |a|
+      suffix = "bearbeitet #{I18n.l(comment.updated_at, format: :no_seconds)}"
+      a << suffix if comment.created_at.to_i != comment.updated_at.to_i
+    end.join '; '
   end
 
   def description_status_external_title
@@ -45,7 +48,7 @@ module IssuesHelper
   def field_service_teams(issue = nil)
     groups = Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
-    groups.order(:name).map { |gr| [gr.to_s, gr.id] }
+    groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def kinds

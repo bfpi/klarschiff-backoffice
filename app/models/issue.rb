@@ -18,9 +18,10 @@ class Issue < ApplicationRecord
   end
 
   CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
-  DELEGATION_EXPORT_ATTRIBUTES = %i[id kind created_at main_category sub_category status address priority].freeze
-  EXPORT_ATTRIBUTES = %i[id kind created_at updated_at main_category sub_category status address district
-                         supporters group delegation priority].freeze
+  DELEGATION_EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category
+                                    status address updated_at priority].freeze
+  EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category status address
+                         supporters group delegation updated_at priority].freeze
 
   mattr_reader :delegation_statuses do
     statuses.slice('in_process', 'closed')

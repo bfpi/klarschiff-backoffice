@@ -7,7 +7,7 @@
         <% if authorized?(:jobs) -%>
           <th><input type="checkbox" class="select-all"></th>
         <% end -%>
-        <% %w[id created_at category status address supporter group].each do |col| %>
+        <% %w[id created_at category status address supporter group updated_at].each do |col| %>
           <th scope="col">
             <%= order_link Issue.human_attribute_name(col), :issues, col %>
           </th>
@@ -16,6 +16,11 @@
         <th scope="col">
           <%= order_link Issue.human_attribute_name(:priority), :issues, :priority %>
         </th>
+        <% if authorized?(:jobs) -%>
+          <th scope="col">
+            <%= order_link Issue.human_attribute_name(:job), :issues, :job %>
+          </th>
+        <% end -%>
         <th scope="col"><%= t 'actions' %></th>
       </tr>
     </thead>
@@ -26,7 +31,7 @@
             <td><%= check_box_tag :issue_id, issue.id, false, class: 'selectable' %></td>
           <% end -%>
           <td><%= issue.id %></td>
-          <td><%= l issue.created_at %></td>
+          <td><%= l(issue.created_at, format: :no_seconds) %></td>
           <td><%= issue.sub_category %></td>
           <td>
             <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
@@ -36,7 +41,7 @@
           <td><%= issue.address %></td>
           <td><%= issue.supporters.count %></td>
           <td>
-            <%= issue.group %>
+            <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group.name}" %>"><%= issue.group %></span>
             <% if issue.responsibility_accepted -%>
               <i class="fa fa-check-square-o text-success"
                  title="<%= Issue.human_attribute_name(:responsibility_accepted) %>"
@@ -47,11 +52,22 @@
                  aria-hidden="true"></i>
             <% end -%>
             <% if issue.delegation.present? -%>
-              (<i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>)
+              (<span title="<%= delegation_tooltip(issue) %>">
+                 <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>
+               </span>)
             <% end -%>
           </td>
+          <td><%= l(issue.updated_at, format: :no_seconds) %></td>
           <td><%= issue.last_entry&.user %></td>
           <td><%= Issue.human_enum_name :priority, issue.priority %></td>
+          <% if authorized?(:jobs) -%>
+            <td>
+              <% if issue.job.present? -%>
+                <span title="<%= "#{Job.human_attribute_name(:group)}: #{issue.job.group.name}" %>"><%= issue.job.group %></span>
+                (<span title="<%= Job.human_attribute_name(:date) %>"><%= l(issue.job_date.to_date) %></span>)
+              <% end -%>
+            </td>
+          <% end -%>
           <td>
             <%= link_to tag.i('', class: 'fa fa-pencil'), edit_issue_path(issue),
                   remote: true, class: 'btn btn-sm btn-outline-primary' %>

@@ -15,7 +15,7 @@ class Comment < ApplicationRecord
   def to_s(skip_seconds: false)
     options = {}
     options[:format] = :no_seconds if skip_seconds
-    "#{auth_code&.group || user} - #{I18n.l created_at, **options}"
+    "#{auth_code&.group || user}; erstellt #{I18n.l created_at, **options}"
   end
 
   private

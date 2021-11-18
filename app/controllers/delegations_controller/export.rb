@@ -28,7 +28,7 @@ class DelegationsController
       case attr
       when :address then 80
       when :main_category, :sub_category then 50
-      when :created_at, :status then 30
+      when :created_at, :status, :updated_at then 30
       when :kind, :priority then 20
       else
         10
@@ -44,7 +44,7 @@ class DelegationsController
 
     def header_properties(worksheet)
       Issue::DELEGATION_EXPORT_ATTRIBUTES.count.times do |col|
-        (cell = worksheet.sheet_data[0][col]).change_fill '0000ff'
+        (cell = worksheet.sheet_data[0][col]).change_fill 'bfbfbf'
         cell.change_font_bold true
         cell.change_horizontal_alignment 'center'
       end
@@ -73,7 +73,7 @@ class DelegationsController
 
     def cell_value(issue, attr)
       case attr
-      when :created_at then I18n.l issue[attr]
+      when :created_at, :updated_at then I18n.l issue[attr]
       when :kind then MainCategory.human_enum_name attr, issue.kind
       when :status, :priority then Issue.human_enum_name attr, issue[attr]
       else

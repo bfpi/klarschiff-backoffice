@@ -17,7 +17,7 @@
 <div class="row">
   <%= form.label :created_at, class: 'col-2 col-form-label' %>
   <div class="col-4 col-form-label">
-    <%= l form.object.created_at %>
+    <%= l(form.object.created_at, format: :no_seconds) %>
   </div>
   <%= form.label :author, class: 'col-2 col-form-label' %>
   <div class="col-4 col-form-label">
