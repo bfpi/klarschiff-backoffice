@@ -52,7 +52,7 @@
           <td colspan="3">
             <%= @issue.description %>
             <span class="right">
-              <%= tag.span class: "fa fa-#{status_symbol(@issue.description_status)} fa-2x" %>
+              <i class="fa fa-<%= status_symbol(@issue.description_status) %> fa-lg" aria-hidden="true"></i>
               <%= t "enums.issue.description_status.#{@issue.description_status}" %>
             </span>
           </td>
@@ -79,7 +79,7 @@
           </td>
           <td>
             <%= image_tag image_path(@issue.list_icon), class: "status-icon #{@issue.status}" %>
-            <span class="img-text"><%= t "enums.issue.status.#{@issue.status}" %></span>
+            <%= t "enums.issue.status.#{@issue.status}" %>
           </td>
           <td class="label">
             <%= Issue.human_attribute_name(:status_note) %>
@@ -103,7 +103,7 @@
             <%= Issue.human_attribute_name(:delegation) %>
           </td>
           <td>
-            <%= @issue.delegation %>
+            <%= @issue.delegation.name %>
           </td>
         </tr>
 
@@ -144,7 +144,7 @@
                   <% blob = photo.file.download -%>
                   <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %>
                   <div>
-                    <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
+                    <i class="fa fa-<%= status_symbol(photo.status) %> fa-lg" aria-hidden="true"></i>
                     <%= t "enums.photo.status.#{photo.status}" %>
                   </div>
                 </div>
