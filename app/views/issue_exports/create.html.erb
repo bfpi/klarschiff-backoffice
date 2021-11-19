@@ -5,202 +5,199 @@
   </head>
   <body class="print-pdf">
 
-<div class="container">
-  <h1>
-    <%= image_tag image_path('klarschiff.png') %>
-    <%= t(:pagetitle) %>
-  </h1>
-  <h1>
-    <%= Issue.model_name.human %> #<%= @issue.id %>
-  </h1>
-  <h2>
-    Stammdaten
-  </h2>
+    <div class="container">
+      <h1>
+        <%= image_tag image_path('klarschiff.png') %>
+        <%= Settings::Instance.name %> – <%= Issue.model_name.human %> #<%= @issue.id %>
+      </h1>
+      <h2>
+        Stammdaten
+      </h2>
 
-  <table>
-    <tr>
-      <td class="col-2 label">
-        <%= MainCategory.human_attribute_name(:kind) %>
-      </td>
-      <td class="col-4">
-        <%= MainCategory.human_enum_name :kind, @issue.kind %>
-      </td>
-      <td class="col-2 label">
-        <%= Issue.human_attribute_name(:id) %>
-      </td>
-      <td class="col-4">
-        <%= @issue.id %>
-      </td>
-    </tr>
+      <table>
+        <tr>
+          <td class="col-2 label">
+            <%= MainCategory.human_attribute_name(:kind) %>
+          </td>
+          <td class="col-4">
+            <%= MainCategory.human_enum_name :kind, @issue.kind %>
+          </td>
+          <td class="col-2 label">
+            <%= Issue.human_attribute_name(:id) %>
+          </td>
+          <td class="col-4">
+            <%= @issue.id %>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Category.human_attribute_name(:main_category) %>
-      </td>
-      <td>
-        <%= @issue.main_category %>
-      </td>
-      <td class="label">
-        <%= Category.human_attribute_name(:sub_category) %>
-      </td>
-      <td>
-        <%= @issue.sub_category %>
-      </td>
-    </tr>
+        <tr>
+          <td class="label">
+            <%= Category.human_attribute_name(:main_category) %>
+          </td>
+          <td>
+            <%= @issue.main_category %>
+          </td>
+          <td class="label">
+            <%= Category.human_attribute_name(:sub_category) %>
+          </td>
+          <td>
+            <%= @issue.sub_category %>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Issue.human_attribute_name(:description) %>
-      </td>
-      <td colspan="3">
-        <%= @issue.description %>
-        <span class="right">
-          <%= tag.span class: "fa fa-#{status_symbol(@issue.description_status)} fa-2x" %>
-          <%= t "enums.issue.description_status.#{@issue.description_status}" %>
-        </span>
-      </td>
-    </tr>
+        <tr>
+          <td class="label">
+            <%= Issue.human_attribute_name(:description) %>
+          </td>
+          <td colspan="3">
+            <%= @issue.description %>
+            <span class="right">
+              <%= tag.span class: "fa fa-#{status_symbol(@issue.description_status)} fa-2x" %>
+              <%= t "enums.issue.description_status.#{@issue.description_status}" %>
+            </span>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Issue.human_attribute_name(:created_at) %>
-      </td>
-      <td>
-        <%= l(@issue.created_at, format: :no_seconds) %>
-      </td>
-      <td class="label">
-        <%= Issue.human_attribute_name(:author) %>
-      </td>
-      <td>
-        <%= @issue.author %>
-      </td>
-    </tr>
+        <tr>
+          <td class="label">
+            <%= Issue.human_attribute_name(:created_at) %>
+          </td>
+          <td>
+            <%= l(@issue.created_at, format: :no_seconds) %>
+          </td>
+          <td class="label">
+            <%= Issue.human_attribute_name(:author) %>
+          </td>
+          <td>
+            <%= @issue.author %>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Issue.human_attribute_name(:status) %>
-      </td>
-      <td>
-        <%= image_tag image_path(@issue.list_icon), class: "status-icon #{@issue.status}" %>
-        <%= t "enums.issue.status.#{@issue.status}" %>
-      </td>
-      <td class="label">
-        <%= Issue.human_attribute_name(:status_note) %>
-      </td>
-      <td>
-        <%= @issue.status_note %>
-      </td>
-    </tr>
+        <tr>
+          <td class="label">
+            <%= Issue.human_attribute_name(:status) %>
+          </td>
+          <td>
+            <%= image_tag image_path(@issue.list_icon), class: "status-icon #{@issue.status}" %>
+            <span class="img-text"><%= t "enums.issue.status.#{@issue.status}" %></span>
+          </td>
+          <td class="label">
+            <%= Issue.human_attribute_name(:status_note) %>
+          </td>
+          <td>
+            <%= @issue.status_note %>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Issue.human_attribute_name(:group) %>
-      </td>
-      <td>
-        <%= @issue.group.name %>
-        <% if @issue.responsibility_accepted -%>
-          <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+        <tr>
+          <td class="label">
+            <%= Issue.human_attribute_name(:group) %>
+          </td>
+          <td>
+            <%= @issue.group.name %>
+            <% if @issue.responsibility_accepted -%>
+              <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
+            <% end -%>
+          </td>
+          <td class="label">
+            <%= Issue.human_attribute_name(:delegation) %>
+          </td>
+          <td>
+            <%= @issue.delegation %>
+          </td>
+        </tr>
+
+        <% if @map_image.present? -%>
+          <tr>
+            <td class="label">
+              <%= Issue.human_attribute_name(:position) %>
+            </td>
+            <td colspan="3">
+              <%= image_tag @map_image %>
+            </td>
+          </tr>
         <% end -%>
-      </td>
-      <td class="label">
-        <%= Issue.human_attribute_name(:delegation) %>
-      </td>
-      <td>
-        <%= @issue.delegation %>
-      </td>
-    </tr>
 
-    <% if @map_image.present? -%>
-      <tr>
-        <td class="label">
-          <%= Issue.human_attribute_name(:position) %>
-        </td>
-        <td colspan="3">
-          <%= image_tag @map_image %>
-        </td>
-      </tr>
-    <% end -%>
+        <tr>
+          <td class="label">
+            <%= Issue.human_attribute_name(:address) %>
+          </td>
+          <td>
+            <%= @issue.address %>
+          </td>
+          <td class="label">
+            <%= Issue.human_attribute_name(:property_owner_short) %>
+          </td>
+          <td>
+            <%= @issue.property_owner %>
+          </td>
+        </tr>
 
-    <tr>
-      <td class="label">
-        <%= Issue.human_attribute_name(:address) %>
-      </td>
-      <td>
-        <%= @issue.address %>
-      </td>
-      <td class="label">
-        <%= Issue.human_attribute_name(:property_owner_short) %>
-      </td>
-      <td>
-        <%= @issue.property_owner %>
-      </td>
-    </tr>
+        <% if @issue.photos.present? -%>
+          <tr>
+            <td class="label">
+              <%= Issue.human_attribute_name(:photo) %>
+            </td>
+            <td colspan="3">
+              <% @issue.photos.each do |photo| -%>
+                <div class="photo">
+                  <% blob = photo.file.download -%>
+                  <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %>
+                  <div>
+                    <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
+                    <%= t "enums.photo.status.#{photo.status}" %>
+                  </div>
+                </div>
+              <% end -%>
+            </td>
+          </tr>
+        <% end %>
 
-    <% if @issue.photos.present? -%>
-      <tr>
-        <td class="label">
-          <%= Issue.human_attribute_name(:photo) %>
-        </td>
-        <td colspan="3">
-          <% @issue.photos.each do |photo| -%>
-            <div class="photo">
-              <% blob = photo.file.download -%>
-              <%= tag.img src: "data:#{photo.file.content_type};base64,#{Base64.encode64 blob}", width: 270 %>
-              <div>
-                <%= tag.span class: "fa fa-#{status_symbol(photo.status)} fa-2x" %>
-                <%= t "enums.photo.status.#{photo.status}" %>
-              </div>
-            </div>
+        <% if @issue.comments.present? -%>
+          <tr>
+            <td colspan="4">
+              <h2>
+                Kommentare
+              </h2>
+            </td>
+          </tr>
+          <% @issue.comments.each do |comment| -%>
+            <tr>
+              <td colspan="4">
+                <span class="title">
+                  <%= comment.to_s skip_seconds: true %>
+                </span>
+                <blockquote>
+                  <p><%= comment.message %></p>
+                </blockquote>
+              </td>
+            </tr>
           <% end -%>
-        </td>
-      </tr>
-    <% end %>
+        <% end -%>
 
-    <% if @issue.comments.present? -%>
-      <tr>
-        <td colspan="4">
-          <h2>
-            Kommentare
-          </h2>
-        </td>
-      </tr>
-      <% @issue.comments.each do |comment| -%>
-        <tr>
-          <td colspan="4">
-            <span class="title">
-              <%= comment.to_s %>
-            </span>
-            <blockquote>
-              <p><%= comment.message %></p>
-            </blockquote>
-          </td>
-        </tr>
-      <% end -%>
-    <% end -%>
+        <% if @issue.abuse_reports.present? -%>
+          <tr>
+            <td colspan="4">
+              <h2>
+                Missbrauchsmeldungen
+              </h2>
+            </td>
+          </tr>
+          <% @issue.abuse_reports.each do |abuse_report| -%>
+            <tr>
+              <td colspan="4">
+                <span class="title">
+                  <%= abuse_report.to_s %>
+                </span>
+                <blockquote>
+                  <p><%= abuse_report.message %></p>
+                </blockquote>
+              </td>
+            </tr>
+          <% end -%>
+        <% end -%>
+      </table>
+    </div>
 
-    <% if @issue.abuse_reports.present? -%>
-      <tr>
-        <td colspan="4">
-          <h2>
-            Missbrauchsmeldungen
-          </h2>
-        </td>
-      </tr>
-      <% @issue.abuse_reports.each do |abuse_report| -%>
-        <tr>
-          <td colspan="4">
-            <span class="title">
-              <%= abuse_report.to_s %>
-            </span>
-            <blockquote>
-              <p><%= abuse_report.message %></p>
-            </blockquote>
-          </td>
-        </tr>
-      <% end -%>
-    <% end -%>
-  </table>
-</div>
-
-</body>
+  </body>
 </html>

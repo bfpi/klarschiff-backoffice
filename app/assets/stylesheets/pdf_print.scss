@@ -64,7 +64,10 @@ tr .col-9 {
 td.label {
   font-weight: bold;
   padding-left: 0;
-  vertical-align: top;
+}
+
+td h2 {
+  font-size: 150% !important;
 }
 
 div.photo {
@@ -80,6 +83,15 @@ div.photo > * {
 div.photo > div {
   height: 200px;
   margin-left: 0.5em;
+}
+
+img {
+  margin-right: 3px;
+  vertical-align: middle;
+}
+
+span.img-text {
+  padding-top: 2px;
 }
 
 span.title {
