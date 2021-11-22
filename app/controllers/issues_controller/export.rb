@@ -80,6 +80,7 @@ class IssuesController
       when :supporters then issue.supporters.count
       when :district then nil
       when :group then issue.group.name
+      when :delegation then issue.delegation&.name
       else
         issue.send(attr).to_s
       end

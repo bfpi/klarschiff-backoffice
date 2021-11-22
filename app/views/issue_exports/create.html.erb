@@ -103,7 +103,7 @@
             <%= Issue.human_attribute_name(:delegation) %>
           </td>
           <td>
-            <%= @issue.delegation %>
+            <%= @issue.delegation&.name %>
           </td>
         </tr>
 
