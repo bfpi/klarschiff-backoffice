@@ -7,7 +7,7 @@ class IssueEmailsController < ApplicationController
     @issue_email.enable_all
     subject = ApplicationMailer.mailer_config.dig(:issue_mailer, :forward, :subject)
     str = render_to_string(template: 'issue_mailer/issue')
-    render plain: "mailto:?subject=#{subject}&body=#{ERB::Util.url_encode(str)}"
+    render plain: "mailto:?subject=#{format(subject, number: @issue_email.issue_id)}&body=#{ERB::Util.url_encode(str)}"
   end
 
   def new
