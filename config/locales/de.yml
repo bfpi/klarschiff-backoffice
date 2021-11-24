@@ -73,7 +73,7 @@ de:
         responsibility: Zuständigkeit
         responsibility_accepted: Zuständigkeit akzeptiert
         responsibility_not_accepted: Zuständigkeit noch nicht akzeptiert
-        reviewed_at: Erstsichtungszeitpunkt
+        reviewed_at: (Erst-)Sichtungszeitpunkt
         status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
         trust_level: Vertrauensstufe
@@ -301,7 +301,7 @@ de:
         open: offen
         pending: gemeldet
         received: offen
-        reviewed: gesichtet
+        reviewed: (erst-)gesichtet
       trust_level:
         internal: intern
         external: extern
@@ -350,7 +350,7 @@ de:
   issue_mailer:
     open_ideas_without_minimum_supporters:
       problem: >-
-        Folgende Ideen mit dem Status "%{status}" haben ihre Erstsichtung seit mindestens %{days} Tagen hinter sich,
+        Folgende Ideen mit dem Status "%{status}" haben ihre (Erst-)Sichtung seit mindestens %{days} Tagen hinter sich,
         weisen aber bisher noch nicht die notwendige Anzahl von %{votes} Unterstützungen auf.
       hint: >-
         Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status "%{status}" und

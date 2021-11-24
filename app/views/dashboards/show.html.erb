@@ -1,4 +1,4 @@
-<h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
+  <h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
 
 <div class="row">
   <div class="col-4">
@@ -97,7 +97,7 @@
 
         <div class="row">
           <div class="col-12">
-            <b><%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %> mit Erstsichtung vor 60 Tagen ohne ausreichende Unterstützung</b>
+            <b><%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %> mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung</b>
           </div>
           <div class="col-12">
             <% @open_ideas_without_min_supporters.each do |issue| -%>

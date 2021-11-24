@@ -18,6 +18,7 @@ class Issue < ApplicationRecord
   end
 
   CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
+  DELEGABLE_STATUSES = %i[in_process not_solvable duplicate closed].freeze
   DELEGATION_EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category
                                     status address updated_at priority].freeze
   EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category status address
