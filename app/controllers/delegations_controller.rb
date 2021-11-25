@@ -32,7 +32,7 @@ class DelegationsController < ApplicationController
     check_auth :edit_delegation, @issue
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
-      redirect_to delegations_url(filter: { status: @status })
+      render inline: 'location.reload();'
     else
       render :edit
     end
@@ -59,7 +59,7 @@ class DelegationsController < ApplicationController
 
   def reject
     @issue.update(delegation_id: nil)
-    redirect_to action: :index
+    render inline: 'location.reload();'
   end
 
   def set_status
