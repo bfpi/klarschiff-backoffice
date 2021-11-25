@@ -1,4 +1,4 @@
-<%= form_tag(issues_path, method: :get, remote: true, id: 'issues-filter',
+<%= form_tag(issues_path, method: :get, id: 'issues-filter',
                           data: { dependencies: data_dependencies_path }) do %>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
@@ -28,8 +28,9 @@
     </div>
     <%= label_tag :filter_main_category, 'Hauptkategorie', class: 'col-2 col-form-label' %>
     <div class="col-4">
-      <%= select_tag 'filter[main_category]', options_for_select(main_categories, @filter[:main_category]),
-            class: 'form-select', disabled: true %>
+      <%= select_tag 'filter[main_category]',
+            options_for_select(main_categories(@filter[:kind]), @filter[:main_category]),
+            class: 'form-select', disabled: @filter[:kind].blank? %>
     </div>
   </div>
   <div class="row">
@@ -49,8 +50,9 @@
       <div class="row">
         <%= label_tag :filter_sub_category, 'Unterkategorie', class: 'col-4 col-form-label' %>
         <div class="col-8">
-          <%= select_tag 'filter[sub_category]', options_for_select(sub_categories, @filter[:sub_category]),
-                class: 'form-select', disabled: true %>
+          <%= select_tag 'filter[sub_category]',
+                options_for_select(sub_categories(@filter[:main_category]), @filter[:sub_category]),
+                class: 'form-select', disabled: @filter[:main_category].blank? %>
         </div>
       </div>
       <div class="row">
