@@ -79,6 +79,9 @@ Rails/HasAndBelongsToMany:
 Rails/PluckId:
   Enabled: true
 
+Rails/RenderInline:
+  Enabled: false
+
 Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/20210824111006_add_service_name_to_active_storage_blobs.active_storage.rb'

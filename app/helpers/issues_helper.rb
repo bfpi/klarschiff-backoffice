@@ -58,13 +58,13 @@ module IssuesHelper
 
   def main_categories(kind = nil)
     [[t('issues.extended_filter.all_main_categories'), nil]] +
-      MainCategory.where(kind: kind).order(:name).map { |c| [c.name, c.id] }
+      MainCategory.where(kind: kind.to_i).order(:name).map { |c| [c.name, c.id] }
   end
 
   def sub_categories(main_id = nil)
     [[t('issues.extended_filter.all_sub_categories'), nil]] +
       SubCategory.includes(categories: :main_category)
-        .where(main_category: { id: main_id }).order(:name).map { |c| [c.name, c.id] }
+        .where(main_category: { id: main_id.to_i }).order(:name).map { |c| [c.name, c.id] }
   end
 
   def priorities

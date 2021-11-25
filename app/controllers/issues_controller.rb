@@ -27,7 +27,7 @@ class IssuesController < ApplicationController
   def update
     @issue = Issue.find(params[:id])
     check_auth(:edit_issue, @issue)
-    return redirect_to action: :index if @issue.update(issue_params) && params[:save_and_close].present?
+    return render inline: 'location.reload();' if @issue.update(issue_params) && params[:save_and_close].present?
     prepare_tabs
     render :edit
   end
