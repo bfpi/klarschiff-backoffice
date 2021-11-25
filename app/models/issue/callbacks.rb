@@ -64,6 +64,7 @@ class Issue
 
     def set_responsibility
       return if group.present? && responsibility_action.blank?
+      orig_group = group
       case responsibility_action&.to_sym
       when :accept
         self.responsibility_accepted = true
@@ -71,7 +72,7 @@ class Issue
       when :recalculation, nil
         recalculate_responsibility
       end
-      self.responsibility_accepted = false
+      self.responsibility_accepted = false if group != orig_group
     end
 
     def recalculate_responsibility

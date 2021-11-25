@@ -1,154 +1,173 @@
   <h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
 
 <div class="row">
-  <div class="col-4">
-    <div class="card">
-      <div class="card-header" id="latest-issues">
-        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
-          Neueste Meldungen
-        </a>
-      </div>
-      <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
-        <div class="card-body">
-          <%= render partial: 'issue', collection: @latest_issues %>
+  <% if authorized?(:issues) -%>
+    <div class="col-4">
+  <% elsif authorized?(:delegations) -%>
+    <div class="col-6">
+  <% end -%>
+      <div class="card">
+        <div class="card-header" id="latest-issues">
+          <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
+            Neueste Meldungen
+          </a>
+        </div>
+        <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
+          <div class="card-body">
+            <%= render partial: 'issue', collection: @latest_issues %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-4">
-    <div class="card">
-      <div class="card-header" id="own-issues">
-        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
-          Aktivitäten an eigenen Meldungen
-        </a>
-      </div>
-      <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
-        <div class="card-body">
-          <%= render partial: 'issue', collection: @own_issues %>
+  <% if authorized?(:issues) -%>
+    <div class="col-4">
+  <% elsif authorized?(:delegations) -%>
+    <div class="col-6">
+  <% end -%>
+      <div class="card">
+        <div class="card-header" id="own-issues">
+          <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
+            Aktivitäten an eigenen Meldungen
+          </a>
+        </div>
+        <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
+          <div class="card-body">
+            <%= render partial: 'issue', collection: @own_issues %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-4">
-    <div class="card">
-      <div class="card-header" id="former-issues">
-        <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
-          Ehemalige Meldungen
-        </a>
-      </div>
-      <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
-        <div class="card-body">
-          <% @former_issues.each do |issue| -%>
-            <div class="row">
-              <div class="col-12">
-                <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                               title: Issue.human_enum_name(:status, issue.status) %>
-                #<%= issue.id %><br>
-                <%= issue.address %>
+  <% if authorized?(:issues) -%>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header" id="former-issues">
+          <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
+            Ehemalige Meldungen
+          </a>
+        </div>
+        <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
+          <div class="card-body">
+            <% @former_issues.each do |issue| -%>
+              <div class="row">
+                <div class="col-12">
+                  <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
+                                                 title: Issue.human_enum_name(:status, issue.status) %>
+                  #<%= issue.id %><br>
+                  <%= issue.address %>
+                </div>
               </div>
+            <% end -%>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end -%>
+</div>
+
+<% if authorized?(:issues) -%>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <b><%= @notices_count %></b> redaktionelle Hinweise
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <b>
+                <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
+                und seit 3 Tagen zugewiesen, aber
+                <i class="fa fa-times-circle-o text-warning"
+                   title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                   aria-hidden="true"></i>
+              </b>
             </div>
-          <% end -%>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <div class="card-header">
-        <b><%= @notices_count %></b> redaktionelle Hinweise
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-12">
-            <b>
-              <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
-              und seit 3 Tagen zugewiesen, aber
-              <i class="fa fa-times-circle-o text-warning"
-                 title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-                 aria-hidden="true"></i>
-            </b>
+            <div class="col-12">
+              <% @open_not_accepted.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
           </div>
-          <div class="col-12">
-            <% @open_not_accepted.each do |issue| -%>
-              <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-            <% end -%>
-          </div>
-        </div>
 
-        <div class="row divider">
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <b><%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %> und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation</b>
+          <div class="row divider">
           </div>
-          <div class="col-12">
-            <% @in_process.each do |issue| -%>
-              <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-            <% end -%>
-          </div>
-        </div>
 
-        <div class="row divider">
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <b><%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %> mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung</b>
+          <div class="row">
+            <div class="col-12">
+              <b>
+                <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
+                und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
+              </b>
+            </div>
+            <div class="col-12">
+              <% @in_process.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
           </div>
-          <div class="col-12">
-            <% @open_ideas_without_min_supporters.each do |issue| -%>
-              <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-            <% end -%>
-          </div>
-        </div>
 
-        <div class="row divider">
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <b>
-              Zwar schon
-              <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
-              , aber
-              <i class="fa fa-times-circle-o text-warning"
-                 title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-                 aria-hidden="true"></i>
-            </b>
+          <div class="row divider">
           </div>
-          <div class="col-12">
-            <% @in_process_not_accepted.each do |issue| -%>
-              <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-            <% end -%>
-          </div>
-        </div>
 
-        <div class="row divider">
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <b>
-              Beschreibung und/oder Foto nicht freigegeben für
-              <i class="fa fa-globe"
-                 title="<%= Issue.human_enum_name(:description_status, :external) %>"
-                 aria-hidden="true"></i>
-            </b>
+          <div class="row">
+            <div class="col-12">
+              <b>
+                <%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %>
+                mit Erstsichtung vor 60 Tagen ohne ausreichende Unterstützung
+              </b>
+            </div>
+            <div class="col-12">
+              <% @open_ideas_without_min_supporters.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
           </div>
-          <div class="col-12">
-            <% @not_approved_issues.each do |issue| -%>
-              <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-            <% end -%>
+
+          <div class="row divider">
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <b>
+                Zwar schon
+                <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
+                , aber
+                <i class="fa fa-times-circle-o text-warning"
+                   title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                   aria-hidden="true"></i>
+              </b>
+            </div>
+            <div class="col-12">
+              <% @in_process_not_accepted.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
+          </div>
+
+          <div class="row divider">
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <b>
+                Beschreibung und/oder Foto nicht freigegeben für
+                <i class="fa fa-globe"
+                   title="<%= Issue.human_enum_name(:description_status, :external) %>"
+                   aria-hidden="true"></i>
+              </b>
+            </div>
+            <div class="col-12">
+              <% @not_approved_issues.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end -%>
+
 <div class="row">
   <div class="col-12"><b><%= t(:statistics) %></b></div>
   <% total_count = @issues_count.values.sum -%>

@@ -392,7 +392,7 @@ de:
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
-      responsibility_action_recalculation_review: "Zuständigkeit neu zuweisen auf:"
+      responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit übernehmen:"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
@@ -416,7 +416,6 @@ de:
     logout: Logout
     administration: Administration
   no_result: Die Suche ergab kein Resultat.
-  pagetitle: Klarschiff.HRO
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit

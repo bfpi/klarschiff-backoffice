@@ -51,7 +51,7 @@ class IssuesController
     end
 
     def xlsx_content(worksheet)
-      @issues.each_with_index do |issue, idx|
+      @issues.find_each.with_index do |issue, idx|
         write_content_row(worksheet, issue, idx + 1)
       end
     end
@@ -73,16 +73,30 @@ class IssuesController
     end
 
     def cell_value(issue, attr)
+      return send(:"cell_value_#{attr}", issue) if respond_to? :"cell_value_#{attr}", true
       case attr
       when :created_at, :updated_at then I18n.l(issue[attr])
       when :status, :priority then Issue.human_enum_name(attr, issue[attr])
-      when :kind then issue.kind_name
-      when :supporters then issue.supporters.count
       when :district then nil
-      when :group then issue.group.name
       else
         issue.send(attr).to_s
       end
+    end
+
+    def cell_value_kind(issue)
+      issue.kind_name
+    end
+
+    def cell_value_supporters(issue)
+      issue.supporters.count
+    end
+
+    def cell_value_group(issue)
+      issue.group.name
+    end
+
+    def cell_value_delegation(issue)
+      issue.delegation&.name
     end
   end
 end
