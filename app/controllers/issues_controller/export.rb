@@ -51,7 +51,7 @@ class IssuesController
     end
 
     def xlsx_content(worksheet)
-      @issues.each_with_index do |issue, idx|
+      @issues.find_each.with_index do |issue, idx|
         write_content_row(worksheet, issue, idx + 1)
       end
     end
