@@ -5,6 +5,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1><%= Issue.model_name.human %> <%= t 'edit' %></h1>
+        <% unless @issue.new_record? -%>
+          <div class="col text-end">
+            <%= link_to tag.i(class: 'fa fa-envelope btn btn-outline-secondary'),
+                  new_issue_issue_email_path(@issue), remote: true, title: 'Daten der Meldung als E-Mail versenden' %>
+            <%= link_to tag.i(class: 'fa fa-share btn btn-outline-secondary'),
+                  issue_issue_email_path(@issue),
+                  id: :issue_email_direct, title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
+            <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
+                  issue_issue_exports_path(@issue),
+                  target: :_blank, id: :issue_export, title: 'Daten der Meldung ausdrucken', rel: :noopener %>
+            <% if authorized?(:resend_responsibility, @issue) -%>
+              <%= link_to tag.i(class: 'fa fa-paper-plane btn btn-primary'),
+                    issue_resend_responsibility_path(@issue),
+                    remote: true,
+                    title: 'Erneuter Versand der E-Mail an Standardzuständigkeit',
+                    data: { confirm: 'Soll die E-Mail wirklich erneut versendet werden?' } %>
+            <% end -%>
+          </div>
+          <div id="print-map" class="print-map"
+            data-lat="<%= @issue.position&.y %>"
+            data-lon="<%= @issue.position&.x %>"
+            data-icon="<%= asset_path(@issue.map_icon) %>">
+          </div>
+        <% end -%>
       </div>
       <div class="modal-body no-padding">
         <%= render(partial: 'form', locals: { form: f, issue: @issue }) %>
