@@ -16,12 +16,12 @@
           <% if Current.user&.auth_code -%>
             <div class="navbar-brand mb-0 h1">
               <%= image_tag 'klarschiff.png' %>
-              <%= t :pagetitle %>
+              <%= Settings::Instance.name %>
             </div>
           <% else -%>
             <%= link_to root_url, class: 'navbar-brand mb-0 h1' do %>
               <%= image_tag 'klarschiff.png' %>
-              <%= t :pagetitle %>
+              <%= Settings::Instance.name %>
             <% end %>
           <% end -%>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">

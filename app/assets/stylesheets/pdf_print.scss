@@ -12,15 +12,16 @@
  *
  */
 
+@import 'bootstrap';
 @import 'font-awesome';
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 120% !important;
 }
 
 h1 {
   font-size: 150% !important;
+  font-weight: bold;
 }
 
 h2 {
@@ -64,7 +65,14 @@ tr .col-9 {
 td.label {
   font-weight: bold;
   padding-left: 0;
-  vertical-align: top;
+}
+
+td h2 {
+  font-size: 150% !important;
+}
+
+td i {
+  margin-left: 5px;
 }
 
 div.photo {
@@ -80,6 +88,11 @@ div.photo > * {
 div.photo > div {
   height: 200px;
   margin-left: 0.5em;
+}
+
+img {
+  margin-right: 3px;
+  vertical-align: middle;
 }
 
 span.title {
