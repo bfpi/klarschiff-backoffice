@@ -147,8 +147,15 @@
                 <%= label_tag 'search-issue', t(:edit_issue), class: 'col-form-label' %>
               </div>
               <div class="col-2">
-                <%= text_field_tag 'search-issue', nil,
-                      class: 'form-control', placeholder: Issue.human_attribute_name(:id), maxlength: 6 %>
+                  <% if authorized?(:issues) -%>
+                    <%= text_field_tag 'search-issue', nil, class: 'form-control',
+                                       placeholder: Issue.human_attribute_name(:id), maxlength: 6,
+                                       data: { controller: 'issues' } %>
+                  <% elsif authorized?(:delegations) -%>
+                    <%= text_field_tag 'search-issue', nil, class: 'form-control',
+                                       placeholder: Issue.human_attribute_name(:id), maxlength: 6,
+                                       data: { controller: 'delegations' } %>
+                  <% end -%>
               </div>
               <div class="col-7 offset-md-1">
                 <%= yield :footer %>
