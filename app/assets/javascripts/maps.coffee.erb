@@ -134,6 +134,7 @@ KS.initializeMaps = (with_wms = true) ->
             features = feature.get('features')
             if features.length == 1
               controller = 'issues' if controller == 'jobs'
+              KS.addMapSettingsToParam()
               $.ajax(url: "#{KS.controllerUrl(controller)}/#{features[0].get('id')}/edit", dataType: 'script')
             else if map.getView().getZoom() == KS.Map.getView().getMaxZoom()
               id_params = Array()
@@ -207,9 +208,15 @@ KS.styles =
           fill: new ol.style.Fill
             color: '#000000'
 
-KS.zoomToFeaturesExtent = ->
-  KS.Map.getView().fit KS.findLayerById('features_unclustered').getSource().getExtent(), KS.Map.getSize()
-  KS.Map.getView().setZoom KS.Map.getView().getZoom() - 0.15
+KS.zoomToParamsOrFeaturesExtent = ->
+  paramCenter = new URL(location.href).searchParams.get("center")
+  paramZoom = new URL(location.href).searchParams.get("zoom")
+  if paramCenter && paramCenter.length > 0 && paramZoom && paramZoom.length > 0
+    KS.Map.getView().setCenter [parseFloat(paramCenter.split(',')[0]), parseFloat(paramCenter.split(',')[1])]
+    KS.Map.getView().setZoom paramZoom
+  else
+    KS.Map.getView().fit KS.findLayerById('features_unclustered').getSource().getExtent(), KS.Map.getSize()
+    KS.Map.getView().setZoom KS.Map.getView().getZoom() - 0.15
 
 class KS.FeatureVector
   constructor: (filter, extended_filter, controller) ->
@@ -217,7 +224,7 @@ class KS.FeatureVector
       format: new ol.format.TopoJSON
       loader: (extent, resolution, projection) ->
         new KS.FeatureData(filter, extended_filter, controller, vector)
-    vector.on 'change', (event) -> KS.zoomToFeaturesExtent()
+    vector.on 'change', (event) -> KS.zoomToParamsOrFeaturesExtent()
     return vector
 
 class KS.FeatureData
@@ -257,6 +264,12 @@ KS.controllerUrl = (controller) ->
     when 'delegations' then '<%= Rails.application.routes.url_helpers.delegations_path %>'
     when 'issues' then '<%= Rails.application.routes.url_helpers.issues_path %>'
     when 'jobs' then '<%= Rails.application.routes.url_helpers.jobs_path %>'
+
+KS.addMapSettingsToParam = ->
+  newUrl = new URL(window.location.href)
+  newUrl.searchParams.set 'center', KS.Map.getView().getCenter()
+  newUrl.searchParams.set 'zoom', KS.Map.getView().getZoom()
+  history.pushState {}, null, newUrl
 
 $ ->
   $(document).on 'click', '.toggle-map', ->
