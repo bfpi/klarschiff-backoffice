@@ -266,11 +266,10 @@ KS.controllerUrl = (controller) ->
     when 'jobs' then '<%= Rails.application.routes.url_helpers.jobs_path %>'
 
 KS.addMapSettingsToParam = ->
-  newUrl = window.location.href.replace(new RegExp('&center=[\\d\\.,]*', 'g'), '')
-    .replace(new RegExp('&zoom=[\\d\\.]*', 'g'), '')
-  newUrl = newUrl + '&center=' + KS.Map.getView().getCenter()
-  newUrl = newUrl + '&zoom=' + KS.Map.getView().getZoom()
-  history.pushState({}, null, newUrl);
+  newUrl = new URL(window.location.href)
+  newUrl.searchParams.set 'center', KS.Map.getView().getCenter()
+  newUrl.searchParams.set 'zoom', KS.Map.getView().getZoom()
+  history.pushState {}, null, newUrl
 
 $ ->
   $(document).on 'click', '.toggle-map', ->
