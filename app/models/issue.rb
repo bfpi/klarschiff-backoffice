@@ -64,12 +64,12 @@ class Issue < ApplicationRecord
     position&.x
   end
 
-  def lat_external(round: false)
-    round ? external_position.y.round : external_position.y
+  def lat_external
+    external_position.y
   end
 
-  def lon_external(round: false)
-    round ? external_position.x.round : external_position.x
+  def lon_external
+    external_position.x
   end
 
   def as_json(options = {})
