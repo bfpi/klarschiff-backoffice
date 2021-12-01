@@ -7,7 +7,7 @@ class Issue
     included do
       scope :not_archived, -> { where(archived_at: nil) }
       scope :status_open, -> { where(status: %w[received reviewed in_process]) }
-      scope :status_solved, -> { where(status: %w[duplicate not_solvable closed]) }
+      scope :status_solved, -> { where(status: %w[not_solvable duplicate closed]) }
     end
 
     class_methods do # rubocop:disable Metrics/BlockLength
@@ -26,10 +26,12 @@ class Issue
       end
 
       def not_approved
-        where(status: %w[received reviewed in_process]).or(
-          where(status: %w[duplicate not_solvable closed])
-        ).where(description_status: %i[internal deleted]).or(
-          where(id: Photo.select(:issue_id).where(status: %i[internal deleted]))
+        where(status: %w[reviewed in_process not_solvable duplicate closed]).and(
+          where(description_status: %i[internal deleted]).or(
+            where(id: Photo.select(:issue_id).where(status: %i[internal deleted])).and(
+              where.not(id: Photo.select(:issue_id).where(status: :external))
+            )
+          )
         )
       end
 
