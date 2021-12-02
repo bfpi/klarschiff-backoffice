@@ -35,7 +35,7 @@ class Dms
       ks_str: "#{address['strasse_name']} (#{address['strasse_schluessel']} - #{address['gemeindeteil_name']})",
       ks_hnr: address['hausnummer'],
       ks_hnr_z: address['hausnummer_zusatz'],
-      ks_eigentuemer: @issue.property_owner
+      ks_eigentuemer: @issue.property_owner.truncate(254, omission: '…')
   end
 
   private
