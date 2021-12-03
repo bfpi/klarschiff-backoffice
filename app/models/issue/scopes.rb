@@ -25,14 +25,17 @@ class Issue
         includes(category: :main_category).where(main_category: { kind: kind })
       end
 
-      def not_approved
-        where(status: %w[reviewed in_process not_solvable duplicate closed]).and(
-          where(description_status: %i[internal deleted]).or(
-            where(id: Photo.select(:issue_id).where(status: %i[internal deleted])).and(
-              where.not(id: Photo.select(:issue_id).where(status: :external))
-            )
-          )
-        )
+      def description_not_approved
+        where(status: %w[reviewed in_process not_solvable duplicate closed])
+          .where(description_status: %i[internal deleted])
+          .order(id: :asc)
+      end
+
+      def photos_not_approved
+        where(status: %w[reviewed in_process not_solvable duplicate closed])
+          .where(id: Photo.select(:issue_id).where(status: %i[internal deleted]))
+          .where.not(id: Photo.select(:issue_id).where(status: :external))
+          .order(id: :asc)
       end
 
       def ideas_without_min_supporters

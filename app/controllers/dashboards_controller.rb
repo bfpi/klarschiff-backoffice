@@ -6,7 +6,8 @@ class DashboardsController < ApplicationController
     issues
     notices
     @notices_count = @in_process_not_accepted.count + @open_ideas_without_min_supporters.count +
-                     @not_approved_issues.count + @in_process.count + @open_not_accepted.count
+                     @description_not_approved_issues.count + @photos_not_approved_issues.count +
+                     @in_process.count + @open_not_accepted.count
   end
 
   private
@@ -23,7 +24,8 @@ class DashboardsController < ApplicationController
   def notices
     @in_process_not_accepted = in_process_not_accepted
     @open_ideas_without_min_supporters = open_ideas_without_min_supporters(Time.current - 60.days)
-    @not_approved_issues = Issue.authorized.not_archived.not_approved
+    @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved
+    @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved
     @in_process = in_process(Time.current - 30.days)
     @open_not_accepted = open_not_accepted(Time.current - 3.days)
   end
