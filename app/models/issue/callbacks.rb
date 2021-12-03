@@ -69,6 +69,9 @@ class Issue
       when :accept
         self.responsibility_accepted = true
         return
+      when :reject
+        self.responsibility_accepted = false
+        return
       when :recalculation, nil
         recalculate_responsibility
       end
