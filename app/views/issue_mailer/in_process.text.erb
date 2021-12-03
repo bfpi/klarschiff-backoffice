@@ -1,6 +1,6 @@
 Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
 
-hiermit teilen wir Ihnen mit, dass Ihre Meldung vom <%= l(@issue.created_at) %> nun in Bearbeitung ist.
+hiermit teilen wir Ihnen mit, dass Ihre Meldung vom <%= l(@issue.created_at, format: :no_seconds) %> nun in Bearbeitung ist.
 
 Nachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:
 

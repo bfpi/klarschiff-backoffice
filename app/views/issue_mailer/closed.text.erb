@@ -1,6 +1,6 @@
 Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
 
-hiermit teilen wir Ihnen mit, dass die Bearbeitung Ihrer Meldung vom <%= l(@issue.created_at) %> abgeschlossen ist, und zwar mit folgendem Status:
+hiermit teilen wir Ihnen mit, dass die Bearbeitung Ihrer Meldung vom <%= l(@issue.created_at, format: :no_seconds) %> abgeschlossen ist, und zwar mit folgendem Status:
 
 <%= status_with_optional_status_note @issue %>
 
