@@ -7,8 +7,6 @@
   <div class="col-10 col-form-label">
     <%= form.object.category %>
   </div>
-</div>
-<div class="row">
   <%= form.label :description, class: 'col-2 col-form-label' %>
   <div class="col-10 col-form-label">
     <%= form.object.description %>
@@ -24,27 +22,13 @@
     <%= form.object.author %>
   </div>
 </div>
-<% if form.object.photos.length > 0 %>
-  <div class="row">
-    <%= form.label :photo, class: 'col-2 col-form-label' %>
-    <div class="col-10">
-      <div class="row">
-        <% form.object.photos.each do |photo| %>
-          <div class="col">
-            <%= image_tag photo.file.variant(resize_to_limit: [200, 200]), class: 'img-thumbnail' %>
-          </div>
-        <% end -%>
-      </div>
-    </div>
-  </div>
-<% end -%>
 <div class="row">
   <%= form.label :position, class: 'col-2 col-form-label' %>
-  <div class="col-10 col-form-label">
+  <div class="col-<%= form.object.photos.length.positive? ? '4' : '10' %> col-form-label">
     <%= render partial: 'external_map', locals: { issue: form.object } %>
     <div class="row">
       <div class="col-12">
-        <div id="map" class="map"
+        <div id="map" class="map review-map"
           data-lat="<%= form.object&.position&.y %>"
           data-lon="<%= form.object&.position&.x %>"
           data-icon="<%= asset_path form.object&.map_icon %>"
@@ -54,11 +38,25 @@
       </div>
     </div>
   </div>
+  <% if form.object.photos.length > 0 %>
+    <%= form.label :photo, class: 'col-2 col-form-label' %>
+    <div class="col-4 col-form-label">
+      <% form.object.photos.each do |photo| %>
+        <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
+              photo.file,
+              target: '_blank', rel: :noopener %>
+      <% end -%>
+    </div>
+  <% end -%>
 </div>
 <div class="row">
   <%= form.label :address, class: 'col-2 col-form-label' %>
   <div class="col-4 col-form-label">
     <%= form.object.address %>
+  </div>
+  <%= form.label :parcel, class: 'col-2 col-form-label' %>
+  <div class="col-4 col-form-label">
+    <%= form.object.parcel %>
   </div>
 </div>
 <%= render partial: 'responsibility_actions', locals: { form: form } %>

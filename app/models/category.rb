@@ -15,7 +15,7 @@ class Category < ApplicationRecord
   delegate :dms_link, :name, to: :sub_category, prefix: true
 
   def to_s
-    [main_category, sub_category].join(' - ')
+    [main_category, sub_category].join(' – ')
   end
 
   def group(lat:, lon:)
