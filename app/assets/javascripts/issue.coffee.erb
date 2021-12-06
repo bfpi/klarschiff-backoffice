@@ -88,3 +88,11 @@ $ ->
     tr = $(e.target).parents('tr')
     $('#' + tr.attr('id').replace('_big', '')).show()
     $('#' + tr.attr('id')).hide()
+
+  $(document).on 'focus', '#comment_message', (e) ->
+    $('input[type="submit"][name="commit"]').addClass('disabled')
+    $('input[type="submit"][name="save_and_close"]').addClass('disabled')
+
+  $(document).on 'focusout', '#comment_message', (e) ->
+    $('input[type="submit"][name="commit"]').removeClass('disabled')
+    $('input[type="submit"][name="save_and_close"]').removeClass('disabled')
