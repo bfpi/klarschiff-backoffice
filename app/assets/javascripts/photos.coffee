@@ -40,6 +40,10 @@ KS.initializePhotoActions = ->
     row.find('a.stop-edit').show()
     row.find('a.stop-edit ~ a').show(300)
 
+    imagelink = row.find('img.image').parent('a')
+    imagelink.data('link', imagelink.attr('href'))
+    imagelink.removeAttr('href')
+
   $('table#photos tr a.stop-edit').click (event) ->
     event.preventDefault()
     return if (row = $(event.target).parents('tr')).length == 0
@@ -50,6 +54,10 @@ KS.initializePhotoActions = ->
 
     row.find('div.record').children().remove()
     KS.resetPhotoVariables()
+
+    imagelink = row.find('img.image').parent('a')
+    imagelink.attr('href', imagelink.data('link'))
+    imagelink.removeData('link')
 
   $('table#photos tr a.undo').click (event) ->
     event.preventDefault()
@@ -66,7 +74,7 @@ KS.initializePhotoActions = ->
     event.preventDefault()
     return if (row = $(event.target).parents('tr')).length == 0
 
-    picture = row.find('img.imagezoom')
+    picture = row.find('img.image')
     modal = $(picture).parents('.modal-body')
 
     bodyRect = picture[0].getBoundingClientRect()
@@ -92,6 +100,10 @@ KS.initializePhotoActions = ->
     row.find('input.modification').val('censor')
     KS.resetPhotoVariables()
     Rails.fire(row.parents('form')[0], 'submit')
+
+    imagelink = row.find('img.image').parent('a')
+    imagelink.attr('href', imagelink.data('link'))
+    imagelink.removeData('link')
 
   $('table#photos tr a.redo').click (event) ->
     event.preventDefault()
