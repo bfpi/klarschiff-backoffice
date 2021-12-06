@@ -4,7 +4,7 @@
       <%= link_to tag.i('', class: 'fa fa-globe'), external_map_url(issue),
             class: 'btn btn-sm btn-outline-primary', title: Settings::Geoportal.name,
             target: '_blank', rel: :noopener %>
-      <%= t('.coordinates', x: issue.lon_external, y: issue.lat_external) %>
+      <%= t('.coordinates', x: issue.lon_external&.round, y: issue.lat_external&.round) %>
     </div>
   </div>
 <% end -%>

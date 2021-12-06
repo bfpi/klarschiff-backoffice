@@ -371,11 +371,11 @@ de:
       all_sub_categories: alle Unterkategorien
       my_responsibility: meiner/meinen Gruppe(n) zugewiesen
     external_map:
-      coordinates: "Koordinaten der Meldung: %{x} %{y}"
+      coordinates: "Koordinaten: %{x} %{y}"
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
-        comment: Kommentare
+        comment: interne Kommentare
         feedback: Lobe/Hinweise/Kritiken
         job: Außendienstauftrag
         log_entry: Verlauf

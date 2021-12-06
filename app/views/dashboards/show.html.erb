@@ -150,14 +150,33 @@
           <div class="row">
             <div class="col-12">
               <b>
-                Beschreibung und/oder Foto nicht freigegeben für
+                Beschreibung nicht freigegeben für
                 <i class="fa fa-globe"
                    title="<%= Issue.human_enum_name(:description_status, :external) %>"
                    aria-hidden="true"></i>
               </b>
             </div>
             <div class="col-12">
-              <% @not_approved_issues.each do |issue| -%>
+              <% @description_not_approved_issues.each do |issue| -%>
+                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+              <% end -%>
+            </div>
+          </div>
+
+          <div class="row divider">
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <b>
+                Foto(s) vorhanden, aber (alle) nicht freigegeben für
+                <i class="fa fa-globe"
+                   title="<%= Issue.human_enum_name(:description_status, :external) %>"
+                   aria-hidden="true"></i>
+              </b>
+            </div>
+            <div class="col-12">
+              <% @photos_not_approved_issues.each do |issue| -%>
                 <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
               <% end -%>
             </div>

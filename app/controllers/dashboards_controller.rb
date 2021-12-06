@@ -1,29 +1,33 @@
 # frozen_string_literal: true
 
 class DashboardsController < ApplicationController
+  before_action { check_auth :view_dashboard }
+  before_action :collect_issues, :collect_notices, :calculate_issues_counts
+
   def show
-    check_auth(:view_dashboard)
-    issues
-    notices
-    @notices_count = @in_process_not_accepted.count + @open_ideas_without_min_supporters.count +
-                     @not_approved_issues.count + @in_process.count + @open_not_accepted.count
+    @notices_count = [@in_process_not_accepted, @open_ideas_without_min_supporters, @description_not_approved_issues,
+                      @photos_not_approved_issues, @in_process, @open_not_accepted].sum(&:count)
   end
 
   private
 
-  def issues
+  def collect_issues
     @latest_issues = latest_issues
     @own_issues = own_issues
     @former_issues = former_issues(Current.user.groups)
-    scoped = Issue.not_archived.authorized
-    @issues_count = { open: scoped.status_open.not_status_in_process.count, in_process: scoped.status_in_process.count,
-                      closed: scoped.status_closed.count }
+    @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved
+    @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved
   end
 
-  def notices
+  def calculate_issues_counts
+    base = Issue.not_archived.authorized
+    @issues_count = { open: base.status_open.not_status_in_process.count, in_process: base.status_in_process.count,
+                      closed: base.status_closed.count }
+  end
+
+  def collect_notices
     @in_process_not_accepted = in_process_not_accepted
     @open_ideas_without_min_supporters = open_ideas_without_min_supporters(Time.current - 60.days)
-    @not_approved_issues = Issue.authorized.not_archived.not_approved
     @in_process = in_process(Time.current - 30.days)
     @open_not_accepted = open_not_accepted(Time.current - 3.days)
   end
@@ -43,10 +47,8 @@ class DashboardsController < ApplicationController
 
   def former_issues(groups)
     return [] if groups.blank?
-    group_names = groups.map { |g| "'#{g}'" }.join(', ')
-    group_ids = groups.ids.join(', ')
     Issue.authorized.not_archived.includes(category: :main_category).where(
-      changed_responsibilities(group_names, group_ids)
+      changed_responsibilities(groups.map { |g| "'#{g}'" }.join(', '), groups.ids.join(', '))
     ).limit(10)
   end
 

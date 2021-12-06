@@ -40,13 +40,13 @@ module IssuesHelper
   end
 
   def delegations(issue = nil)
-    groups = Group.kind_external
+    groups = Group.active.kind_external
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
     groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def field_service_teams(issue = nil)
-    groups = Group.kind_field_service_team.where(id: Current.user.field_service_team_ids)
+    groups = Group.active.kind_field_service_team.where(id: Current.user.field_service_team_ids)
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
     groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
