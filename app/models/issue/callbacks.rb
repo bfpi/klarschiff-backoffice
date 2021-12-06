@@ -64,22 +64,30 @@ class Issue
 
     def set_responsibility
       return if group.present? && responsibility_action.blank?
-      orig_group = group
-      case responsibility_action&.to_sym
-      when :accept
-        self.responsibility_accepted = true
-        return
-      when :reject
-        self.responsibility_accepted = false
-        return
-      when :recalculation, nil
-        recalculate_responsibility
-      end
-      self.responsibility_accepted = false if group != orig_group
+      return self.responsibility_accepted = true if responsibility_action_accept?
+      return self.responsibility_accepted = false if responsibility_action_reject?
+      recalculate_responsibility if recalculate_responsibility?
+      self.responsibility_accepted = false if group_id != group_id_was
+    end
+
+    def recalculate_responsibility?
+      responsibility_action_recalculate? || responsibility_action.nil?
     end
 
     def recalculate_responsibility
       self.group = category&.group(lat: lat, lon: lon) || group
+    end
+
+    def responsibility_action_accept?
+      responsibility_action&.to_sym == :accept
+    end
+
+    def responsibility_action_recalculate?
+      responsibility_action&.to_sym == :recalculate
+    end
+
+    def responsibility_action_reject?
+      responsibility_action&.to_sym == :reject
     end
 
     def set_reviewed
