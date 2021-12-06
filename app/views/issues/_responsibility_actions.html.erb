@@ -10,6 +10,16 @@
   <div class="row">
     <div class="col-4 offset-2">
       <div class="form-check form-check-inline">
+        <%= form.label :responsibility_action_reject, '', class: 'form-check-label' do %>
+          <%= form.radio_button :responsibility_action, :reject, disabled: form.object.closed? %>
+          <%= t '.responsibility_action_reject' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 offset-2">
+      <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_accept, '', class: 'form-check-label' do %>
           <%= form.radio_button :responsibility_action, :accept, disabled: form.object.closed? %>
           <%= t '.responsibility_action_accept' %>
@@ -39,8 +49,8 @@
 <div class="row">
   <div class="col-4 offset-2">
     <div class="form-check form-check-inline">
-      <%= form.label :responsibility_action_recalculation, '', class: 'form-check-label' do %>
-        <%= form.radio_button :responsibility_action, :recalculation, disabled: form.object.closed? %>
+      <%= form.label :responsibility_action_recalculate, '', class: 'form-check-label' do %>
+        <%= form.radio_button :responsibility_action, :recalculate, disabled: form.object.closed? %>
         <%= t ".responsibility_action_recalculation#{'_review' if form.object.reviewed_at.blank?}" %>
         <%= form.object.group.name if form.object.reviewed_at.blank? %>
       <% end %>

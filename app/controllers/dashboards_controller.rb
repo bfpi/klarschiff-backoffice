@@ -70,11 +70,12 @@ class DashboardsController < ApplicationController
   end
 
   def in_process_not_accepted
-    Issue.authorized.not_archived.status_in_process.where(responsibility_accepted: false)
+    Issue.authorized.not_archived.status_in_process.where(responsibility_accepted: false).order(id: :asc)
   end
 
   def open_ideas_without_min_supporters(date)
-    open_issues.ideas_without_min_supporters.where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date))).to_a
+    open_issues.ideas_without_min_supporters
+      .where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date))).order(id: :asc).to_a
   end
 
   def open_issues
@@ -97,12 +98,12 @@ class DashboardsController < ApplicationController
   def in_process(date)
     Issue.authorized.not_archived.status_in_process.where(
       iat[:status_note].eq(nil).and(iat[:created_at].lteq(date))
-    )
+    ).order(id: :asc)
   end
 
   def open_not_accepted(date)
     Issue.authorized.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
-      .where(id: responsibility_entries(date))
+      .where(id: responsibility_entries(date)).order(id: :asc)
   end
 
   def responsibility_entries(date)

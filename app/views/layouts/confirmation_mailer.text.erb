@@ -1,8 +1,7 @@
 Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
 
 <%= yield %>
-Diese URL funktioniert für <%= yield :deletion_deadline %> Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Meldung automatisch hinfällig.
-
+Diese URL funktioniert für <%= yield :deletion_deadline %> Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig.
 <%= yield :additional_infos %>
 
 Vielen Dank und mit freundlichen Grüßen
