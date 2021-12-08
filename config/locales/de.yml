@@ -392,7 +392,7 @@ de:
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
-      responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit übernehmen:"
+      responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
     tab_photo:
       edit: Foto bearbeiten

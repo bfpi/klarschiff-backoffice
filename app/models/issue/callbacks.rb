@@ -67,7 +67,7 @@ class Issue
       return self.responsibility_accepted = true if responsibility_action_accept?
       return self.responsibility_accepted = false if responsibility_action_reject?
       recalculate_responsibility if recalculate_responsibility?
-      self.responsibility_accepted = false if group_id != group_id_was
+      self.responsibility_accepted = group_id == group_id_was
     end
 
     def recalculate_responsibility?
