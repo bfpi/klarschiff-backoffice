@@ -4,7 +4,7 @@
       <tr>
         <th scope="col"><%= Photo.human_attribute_name :file %></th>
         <th scope="col"><%= Photo.human_attribute_name :author %></th>
-        <th scope="col"><%= Photo.human_attribute_name :status %></th>
+        <th scope="col"><%= Photo.human_attribute_name :approval_status %></th>
         <th scope="col"><%= Photo.human_attribute_name :created_at %></th>
         <% unless restricted || form.object.closed? -%><th scope="col"><%= Photo.human_attribute_name :action %></th><% end -%>
       </tr>
@@ -41,13 +41,13 @@
             <td><%= photo_form.object.author %></td>
             <td>
               <%= photo_form.label 'status_internal', '',
-                    title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :internal}",
+                    title: Photo.human_enum_name(:status, :internal),
                     class: 'form-check-label' do %>
                 <%= photo_form.radio_button :status, :internal, disabled: restricted || form.object.closed? %>
                 <%= tag.span class: 'fa fa-home fa-2x' %>
               <% end %>
               <%= photo_form.label 'status_external', '',
-                    title: "#{Photo.human_attribute_name :status}: #{Photo.human_enum_name :status, :external}",
+                    title: Photo.human_enum_name(:status, :external),
                     class: 'form-check-label' do %>
                 <%= photo_form.radio_button :status, :external, disabled: restricted || form.object.closed? %>
                 <%= tag.span class: 'fa fa-globe fa-2x' %>
