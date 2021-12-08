@@ -54,10 +54,9 @@
   <% if form.object.photos.length > 0 %>
     <%= form.label :photo, class: 'col-2 col-form-label' %>
     <div class="col-4 col-form-label">
-      <% @photo = form.object.photos.first %>
-      <%= link_to image_tag(@photo.file.variant(resize_to_limit: [300, 300])),
-            @photo.file,
-            target: '_blank', rel: :noopener %>
+      <% photo = form.object.photos.first %>
+      <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
+            photo.file, target: '_blank', rel: :noopener %>
     </div>
   <% end -%>
 </div>
