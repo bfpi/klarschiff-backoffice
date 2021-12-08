@@ -13,7 +13,9 @@ class NotifyOnClosedIssuesJob < ApplicationJob
 
   def issues_with_status_changes(time)
     Issue.where(status: %w[closed not_solvable duplicate]).where(
-      id: status_since_deadline(time, %w[closed not_solvable duplicate])
+      id: status_since_deadline(time, [Issue.human_enum_name(:status, :closed),
+                                       Issue.human_enum_name(:status, :not_solvable),
+                                       Issue.human_enum_name(:status, :duplicate)])
     )
   end
 end
