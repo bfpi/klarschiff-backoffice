@@ -11,6 +11,19 @@
   <div class="col-10 col-form-label">
     <%= form.object.description %>
   </div>
+  <%= form.label :description_status, class: 'col-2 col-form-label' %>
+  <div class="col-10 col-form-label">
+    <%= form.label :description_status_internal, '',
+          class: 'form-check-label', title: Issue.human_enum_name(:description_status, :internal) do %>
+      <%= form.radio_button :description_status, :internal %>
+      <%= tag.span class: 'fa fa-home fa-2x' %>
+    <% end -%>
+    <%= form.label :description_status_external, '',
+          class: 'form-check-label', title: Issue.human_enum_name(:description_status, :external) do %>
+      <%= form.radio_button :description_status, :external %>
+      <%= tag.span class: 'fa fa-globe fa-2x' %>
+    <% end %>
+  </div>
 </div>
 <div class="row">
   <%= form.label :created_at, class: 'col-2 col-form-label' %>
@@ -41,11 +54,9 @@
   <% if form.object.photos.length > 0 %>
     <%= form.label :photo, class: 'col-2 col-form-label' %>
     <div class="col-4 col-form-label">
-      <% form.object.photos.each do |photo| %>
-        <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
-              photo.file,
-              target: '_blank', rel: :noopener %>
-      <% end -%>
+      <% photo = form.object.photos.first %>
+      <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
+            photo.file, target: '_blank', rel: :noopener %>
     </div>
   <% end -%>
 </div>

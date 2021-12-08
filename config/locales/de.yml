@@ -55,7 +55,7 @@ de:
         created_at: Erstellung
         delegation: Delegation
         description: Beschreibung
-        description_status: Beschreibungsstatus
+        description_status: Freigabestatus der Beschreibung
         expected_closure: voraussichtlicher Abschluss
         field_service_date: Datum
         field_service_team: Team
@@ -215,6 +215,7 @@ de:
     no_permision: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
   attributes:
     active: aktiv
+    approval_status: Freigabestatus
     area: Fläche
     author: Autor
     authority: Amt
@@ -286,7 +287,7 @@ de:
     issue:
       description_status:
         internal: intern
-        external: extern
+        external: öffentlich
         deleted: gelöscht
       priority:
         low: niedrig
@@ -319,7 +320,7 @@ de:
     photo:
       status:
         internal: intern
-        external: extern
+        external: öffentlich
         deleted: gelöscht
     user:
       role:
@@ -392,7 +393,7 @@ de:
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
-      responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit übernehmen:"
+      responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
     tab_photo:
       edit: Foto bearbeiten

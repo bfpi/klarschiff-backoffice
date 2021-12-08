@@ -70,7 +70,8 @@ class DashboardsController < ApplicationController
   end
 
   def in_process_not_accepted
-    Issue.authorized.not_archived.status_in_process.where(responsibility_accepted: false).order(id: :asc)
+    Issue.authorized.not_archived.where(status: %w[in_process not_solvable duplicate closed])
+      .where(responsibility_accepted: false).order(id: :asc)
   end
 
   def open_ideas_without_min_supporters(date)
