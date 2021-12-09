@@ -8,7 +8,7 @@ class DeleteUnconfirmedPhotosJob < ApplicationJob
   private
 
   def unconfirmed_photos(time)
-    Photo.where(pat[:confirmed_at].eq(nil).and(pat[:created_at].lt(time)))
+    Photo.unscoped.where(pat[:confirmed_at].eq(nil).and(pat[:created_at].lt(time)))
   end
 
   def pat

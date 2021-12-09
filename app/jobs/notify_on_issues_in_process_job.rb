@@ -12,6 +12,6 @@ class NotifyOnIssuesInProcessJob < ApplicationJob
   private
 
   def issues_with_status_changes(time)
-    Issue.status_in_process.where(id: status_since_deadline(time, %w[in_process]))
+    Issue.status_in_process.where(id: status_since_deadline(time, [Issue.human_enum_name(:status, :in_process)]))
   end
 end
