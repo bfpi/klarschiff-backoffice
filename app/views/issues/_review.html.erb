@@ -20,7 +20,7 @@
     <% end -%>
     <%= form.label :description_status_external, '',
           class: 'form-check-label', title: Issue.human_enum_name(:description_status, :external) do %>
-      <%= form.radio_button :description_status, :external %>
+      <%= form.radio_button :description_status, :external, checked: true %>
       <%= tag.span class: 'fa fa-globe fa-2x' %>
     <% end %>
   </div>
