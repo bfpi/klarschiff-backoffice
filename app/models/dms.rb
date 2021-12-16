@@ -14,7 +14,7 @@ class Dms
     return false if @dms.blank?
     res = request(:start_search)
     request :close_search
-    res.code.to_i == 200
+    Nokogiri::XML(res.body).root.text.to_i == 1
   end
 
   def document_id
@@ -29,13 +29,13 @@ class Dms
   def link
     return if @dms.blank?
     address = Geocodr.address_dms(@issue)
-    I18n.interpolate @dms[:create_link][@ddc],
-      ks_id: @issue.id,
-      ks_user: Current.user.login,
-      ks_str: "#{address['strasse_name']} (#{address['strasse_schluessel']} - #{address['gemeindeteil_name']})",
-      ks_hnr: address['hausnummer'],
-      ks_hnr_z: address['hausnummer_zusatz'],
-      ks_eigentuemer: @issue.property_owner.truncate(254, omission: '…')
+    @dms[:create_link][@ddc].gsub('{ks_id}', @issue.id.to_s).gsub('{ks_user}', Current.user.login)
+      .gsub('{ks_str}',
+        "#{address['strasse_name']} (#{address['strasse_schluessel']} - #{address['gemeindeteil_name']})")
+      .gsub('{ks_hnr}', address['hausnummer'])
+      .gsub('{ks_hnr_z}', address['hausnummer_zusatz'].presence || '')
+      .gsub('{ks_eigentuemer}',
+        @issue.property_owner.present? ? @issue.property_owner.truncate(254, omission: '…') : '')
   end
 
   private

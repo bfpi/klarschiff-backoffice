@@ -1,13 +1,13 @@
 development: &default
   d3:
     api: http://musterstadt-d3-host.org/codiaDMSService/codiaDMSService.asmx
-    close_search: /CloseSearch?strDDC=%{ddc}&strFieldsAndValues=Klarschiff-ID=%{issue_id}
+    close_search: /CloseSearch?strDDC=%{ddc}&strFieldsAndValues=Klarschiff.HRO-ID=%{issue_id}
     create_link:
-      AAUTO: http://musterstadt-d3-host.org/create-link/?ks_id=%{ks_id}&ks_user=%{ks_user}&ks_str=%{ks_str}&ks_hnr=%{ks_hnr}&ks_hnr_z=%{ks_hnr_z}&ks_eigentuemer=%{ks_eigentuemer}
-    get_doc: /GetNthDOKID?strDDC=%{ddc}&strFieldsAndValues=Klarschiff-ID=%{issue_id}&iIndex=1
+      AAUTO: http://musterstadt-d3-host.org/create-link/?ks_id={ks_id}&ks_user={ks_user}&ks_str={ks_str}&ks_hnr={ks_hnr}&ks_hnr_z={ks_hnr_z}&ks_eigentuemer={ks_eigentuemer}
+    get_doc: /GetNthDOKID?strDDC=%{ddc}&strFieldsAndValues=Klarschiff.HRO-ID=%{issue_id}&iIndex=1
     proxy_host:
     proxy_port:
-    start_search: /StartSearch?strDDC=%{ddc}&strFieldsAndValues=Klarschiff-ID=%{issue_id}
+    start_search: /StartSearch?strDDC=%{ddc}&strFieldsAndValues=Klarschiff.HRO-ID=%{issue_id}
 
 alpha: *default
 
