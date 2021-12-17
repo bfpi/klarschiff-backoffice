@@ -57,6 +57,20 @@
       <% photo = form.object.photos.first %>
       <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
             photo.file, target: '_blank', rel: :noopener %>
+      <%= form.fields_for :photos do |photo_form| %>
+        <%= photo_form.label 'status_internal', '',
+              title: Photo.human_enum_name(:status, :internal),
+              class: 'form-check-label' do %>
+          <%= photo_form.radio_button :status, :internal %>
+          <%= tag.span class: 'fa fa-home fa-2x' %>
+        <% end %>
+        <%= photo_form.label 'status_external', '',
+              title: Photo.human_enum_name(:status, :external),
+              class: 'form-check-label' do %>
+          <%= photo_form.radio_button :status, :external %>
+          <%= tag.span class: 'fa fa-globe fa-2x' %>
+        <% end %>
+      <% end %>
     </div>
   <% end -%>
 </div>
