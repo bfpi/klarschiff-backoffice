@@ -4,7 +4,7 @@
 #  create_comments          - Lob/Hinweis/Kritik - lesen /requests/comments/create
 #  create_notes             - interne Kommentare anlegen /requests/notes/create
 #  create_requests          - Vorgang anlegen /requests/create
-#  d3_document_url          - Kategorie-Daten (D.3-Akten-Formular)
+#  d3_document_url          - d.3-Vorgangsformular
 #  destroy_requests         - Vorgang löschen /requests/destroy
 #  read_comments            - Lob/Hinweis/Kritik - lesen /requests/comments/index
 #  read_notes               - interne Kommentare lesen /requests/notes/index

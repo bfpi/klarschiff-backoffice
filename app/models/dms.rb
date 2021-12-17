@@ -14,7 +14,7 @@ class Dms
     return false if @dms.blank?
     res = request(:start_search)
     request :close_search
-    res.code.to_i == 200
+    res.code.to_i == 200 && Nokogiri::XML(res.body).root.text.to_i == 1
   end
 
   def document_id
