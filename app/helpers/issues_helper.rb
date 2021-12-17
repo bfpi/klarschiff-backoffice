@@ -16,6 +16,14 @@ module IssuesHelper
     "#{Issue.human_attribute_name :description_status}: #{Issue.human_enum_name :description_status, :internal}"
   end
 
+  def photo_status_external_title
+    "#{Issue.human_attribute_name :photo_approval_status}: #{Photo.human_enum_name :status, :external}"
+  end
+
+  def photo_status_internal_title
+    "#{Issue.human_attribute_name :photo_approval_status}: #{Photo.human_enum_name :status, :internal}"
+  end
+
   def status_symbol(status)
     status.to_sym == :external ? 'globe' : 'home'
   end
