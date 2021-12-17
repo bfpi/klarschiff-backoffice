@@ -11,15 +11,14 @@
   <div class="col-10 col-form-label">
     <%= form.object.description %>
   </div>
-  <%= form.label :description_status, class: 'col-2 col-form-label' %>
-  <div class="col-10 col-form-label">
+  <div class="col-10 offset-2 col-form-label">
     <%= form.label :description_status_internal, '',
-          class: 'form-check-label', title: Issue.human_enum_name(:description_status, :internal) do %>
+          class: 'form-check-label', title: description_status_internal_title do %>
       <%= form.radio_button :description_status, :internal %>
       <%= tag.span class: 'fa fa-home fa-2x' %>
     <% end -%>
     <%= form.label :description_status_external, '',
-          class: 'form-check-label', title: Issue.human_enum_name(:description_status, :external) do %>
+          class: 'form-check-label', title: description_status_external_title do %>
       <%= form.radio_button :description_status, :external, checked: true %>
       <%= tag.span class: 'fa fa-globe fa-2x' %>
     <% end %>
@@ -55,22 +54,30 @@
     <%= form.label :photo, class: 'col-2 col-form-label' %>
     <div class="col-4 col-form-label">
       <% photo = form.object.photos.first %>
-      <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
-            photo.file, target: '_blank', rel: :noopener %>
-      <%= form.fields_for :photos do |photo_form| %>
-        <%= photo_form.label 'status_internal', '',
-              title: Photo.human_enum_name(:status, :internal),
-              class: 'form-check-label' do %>
-          <%= photo_form.radio_button :status, :internal %>
-          <%= tag.span class: 'fa fa-home fa-2x' %>
-        <% end %>
-        <%= photo_form.label 'status_external', '',
-              title: Photo.human_enum_name(:status, :external),
-              class: 'form-check-label' do %>
-          <%= photo_form.radio_button :status, :external %>
-          <%= tag.span class: 'fa fa-globe fa-2x' %>
-        <% end %>
-      <% end %>
+      <div class="row">
+        <div class="col-12">
+          <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
+                photo.file, target: '_blank', rel: :noopener %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <%= form.fields_for :photos do |photo_form| %>
+            <%= photo_form.label 'status_internal', '',
+                  title: photo_status_internal_title,
+                  class: 'form-check-label' do %>
+              <%= photo_form.radio_button :status, :internal %>
+              <%= tag.span class: 'fa fa-home fa-2x' %>
+            <% end %>
+            <%= photo_form.label 'status_external', '',
+                  title: photo_status_external_title,
+                  class: 'form-check-label' do %>
+              <%= photo_form.radio_button :status, :external, checked: true %>
+              <%= tag.span class: 'fa fa-globe fa-2x' %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
   <% end -%>
 </div>
