@@ -14,14 +14,14 @@
              aria-hidden="true"></i>
         <% end -%>
         #<%= issue.id %><br>
-        (<%= issue.address %>)
+        <%= issue.address %>
       <% end -%>
     <% elsif authorized?(:delegations) -%>
       <%= link_to edit_delegation_path(issue.id), remote: true do %>
         <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
                                        title: Issue.human_enum_name(:status, issue.status) %>
         #<%= issue.id %><br>
-        (<%= issue.address %>)
+        <%= issue.address %>
       <% end -%>
     <% end -%>
     <% if issue.priority_high? -%>
