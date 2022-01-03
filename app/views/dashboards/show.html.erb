@@ -64,12 +64,12 @@
   <% end -%>
 </div>
 
-<% if authorized?(:issues) -%>
+<% if authorized?(:issues) and @notices_count > 0 -%>
   <div class="row">
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <b><%= @notices_count %></b> redaktionelle Hinweise
+          <b><%= @notices_count %></b> <%= @notices_count > 1 ? t('.notices') : t('.notice') %>
         </div>
         <div class="card-body">
           <div class="row">

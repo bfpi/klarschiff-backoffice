@@ -34,7 +34,8 @@
     <% end -%>
   </div>
   <% if issue.abuse_reports.present? -%>
-    <div class="col-auto" title="<%= t('.abuse_reports', count: issue.abuse_reports.count) %>">
+    <div class="col-auto"
+      title="<%= issue.abuse_reports.count > 1 ? t('.abuse_reports', n: issue.abuse_reports.count) : t('.abuse_report') %>">
       <%= tag.span class: 'fa fa-exclamation-circle' %>
     </div>
   <% end -%>

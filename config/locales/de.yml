@@ -247,6 +247,9 @@ de:
   create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
+    show:
+      notice: redaktioneller Hinweis
+      notices: redaktionelle Hinweise
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
@@ -388,7 +391,8 @@ de:
         responsibility: Zuständigkeit
         status: Status
     head:
-      abuse_reports: "Es liegt/liegen %{count} Missbrauchsmeldung(en) vor."
+      abuse_report: Achtung, es liegt eine Missbrauchsmeldung vor!
+      abuse_reports: "Achtung, es liegen %{n} Missbrauchsmeldungen vor!"
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
