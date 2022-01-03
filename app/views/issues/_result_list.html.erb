@@ -26,7 +26,8 @@
     </thead>
     <tbody>
       <% @issues.each do |issue| %>
-        <tr class="<%= 'text-muted' if issue.archived_at.present? %> <%= 'highlight' if issue.abuse_reports.present? %>">
+        <tr class="<%= 'text-muted' if issue.archived_at.present? %>
+          <%= 'bg-warning text-white' if open_abuse_reports(issue).any? %>">
           <% if authorized?(:jobs) -%>
             <td><%= check_box_tag :issue_id, issue.id, false, class: 'selectable' %></td>
           <% end -%>

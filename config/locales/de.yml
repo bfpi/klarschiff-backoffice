@@ -250,6 +250,10 @@ de:
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
+    show:
+      abuse_reports:
+        one: "%{count} offene Missbrauchsmeldunge"
+        other: "%{count} offene Missbrauchsmeldungen"
   date:
     formats:
       short: "%d.%m.%y"

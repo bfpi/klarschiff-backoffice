@@ -17,6 +17,7 @@ class DashboardsController < ApplicationController
     @former_issues = former_issues(Current.user.groups)
     @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved
     @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved
+    @open_abuse_report_issues = Issue.authorized.open_abuse_reports
   end
 
   def calculate_issues_counts

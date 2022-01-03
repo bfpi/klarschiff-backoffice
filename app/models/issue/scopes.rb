@@ -57,6 +57,10 @@ class Issue
         SQL
       end
 
+      def open_abuse_reports
+        joins(:abuse_reports).where(abuse_reports: { resolved_at: nil })
+      end
+
       private
 
       def auth_code_issues(auth_code)

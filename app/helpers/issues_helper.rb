@@ -40,6 +40,10 @@ module IssuesHelper
     tag.li link_to(t("issues.form.tab.#{tab}"), path, remote: true, class: css_class), class: 'nav-item'
   end
 
+  def open_abuse_reports(issue)
+    issue.abuse_reports.reject(&:resolved_at?)
+  end
+
   def responsibilities(issue = nil)
     groups = Group.active.kind_internal
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
