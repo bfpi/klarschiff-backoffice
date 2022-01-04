@@ -404,7 +404,7 @@ de:
       stop_edit: Bearbeitungsmodus für das Foto verlassen und Änderungen verwerfen
       undo: zurück
     tab_rejection:
-      reject: "zurückweisen"
+      reject: zurückweisen
   jobs:
     title: Außendienstaufträge
     grouped_jobs:
