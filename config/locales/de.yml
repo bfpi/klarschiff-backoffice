@@ -256,7 +256,7 @@ de:
       trust: vertrauenswürdig
     show:
       abuse_reports:
-        one: "%{count} offene Missbrauchsmeldunge"
+        one: "%{count} offene Missbrauchsmeldung"
         other: "%{count} offene Missbrauchsmeldungen"
   date:
     formats:
