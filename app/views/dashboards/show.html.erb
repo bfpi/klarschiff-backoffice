@@ -117,7 +117,8 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
+                  <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                        title: Issue.human_enum_name(:status, :in_process) %>
                   und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
                 </b>
               </div>
@@ -152,7 +153,8 @@
               <div class="col-12">
                 <b>
                   zwar schon mindestens
-                  <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
+                  <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                        title: Issue.human_enum_name(:status, :in_process) %>
                   , aber
                   <i class="fa fa-times-circle-o text-warning"
                      title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
