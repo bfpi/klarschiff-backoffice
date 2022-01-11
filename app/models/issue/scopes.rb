@@ -58,7 +58,7 @@ class Issue
       end
 
       def open_abuse_reports
-        joins(:abuse_reports).where(abuse_reports: { resolved_at: nil })
+        joins(:abuse_reports).where(abuse_reports: { resolved_at: nil }).order(id: :asc)
       end
 
       private
