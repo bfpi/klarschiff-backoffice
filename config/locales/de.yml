@@ -248,16 +248,15 @@ de:
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     show:
+      abuse_reports:
+        one: offene Missbrauchsmeldung
+        other: offene Missbrauchsmeldungen
       notices:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
-    show:
-      abuse_reports:
-        one: "%{count} offene Missbrauchsmeldung"
-        other: "%{count} offene Missbrauchsmeldungen"
   date:
     formats:
       short: "%d.%m.%y"
@@ -397,8 +396,8 @@ de:
         status: Status
     head:
       abuse_reports:
-        one: Achtung, es liegt eine Missbrauchsmeldung vor!
-        other: Achtung, es liegen %{count} Missbrauchsmeldungen vor!
+        one: Achtung, es liegt eine offene Missbrauchsmeldung vor!
+        other: Achtung, es liegen %{count} offene Missbrauchsmeldungen vor!
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
