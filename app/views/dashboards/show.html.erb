@@ -64,127 +64,152 @@
   <% end -%>
 </div>
 
-<% if authorized?(:issues) && @notices_count.positive? -%>
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          <b><%= @notices_count %></b> <%= t '.notices', count: @notices_count %>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <b>
-                <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
-                und (erst-)gesichtet und seit 3 Tagen zugewiesen, aber
-                <i class="fa fa-times-circle-o text-warning"
-                   title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-                   aria-hidden="true"></i>
-              </b>
-            </div>
-            <div class="col-12">
-              <% @open_not_accepted.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
-            </div>
+<% if authorized?(:issues) -%>
+  <% if @open_abuse_report_issues.count.positive? -%>
+    <div class="row">
+      <div class="col">
+        <div class="card bg-warning text-white">
+          <div class="card-header">
+            <%= t('.abuse_reports', count: @open_abuse_report_issues.count) %>
           </div>
-
-          <div class="row divider">
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <b>
-                <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
-                und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
-              </b>
-            </div>
-            <div class="col-12">
-              <% @in_process.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
-            </div>
-          </div>
-
-          <div class="row divider">
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <b>
-                <%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %>
-                mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung
-              </b>
-            </div>
-            <div class="col-12">
-              <% @open_ideas_without_min_supporters.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
-            </div>
-          </div>
-
-          <div class="row divider">
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <b>
-                zwar schon mindestens
-                <%= image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process) %>
-                , aber
-                <i class="fa fa-times-circle-o text-warning"
-                   title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
-                   aria-hidden="true"></i>
-              </b>
-            </div>
-            <div class="col-12">
-              <% @in_process_not_accepted.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
-            </div>
-          </div>
-
-          <div class="row divider">
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <b>
-                Beschreibung nicht freigegeben für
-                <i class="fa fa-globe"
-                   title="<%= Issue.human_enum_name(:description_status, :external) %>"
-                   aria-hidden="true"></i>
-              </b>
-            </div>
-            <div class="col-12">
-              <% @description_not_approved_issues.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
-            </div>
-          </div>
-
-          <div class="row divider">
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <b>
-                Foto(s) vorhanden, aber (alle) nicht freigegeben für
-                <i class="fa fa-globe"
-                   title="<%= Issue.human_enum_name(:description_status, :external) %>"
-                   aria-hidden="true"></i>
-              </b>
-            </div>
-            <div class="col-12">
-              <% @photos_not_approved_issues.each do |issue| -%>
-                <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
-              <% end -%>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <% @open_abuse_report_issues.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end -%>
+
+  <% if @notices_count.positive? -%>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <b><%= @notices_count %></b> <%= t '.notices', count: @notices_count %>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
+                  und (erst-)gesichtet und seit 3 Tagen zugewiesen, aber
+                  <i class="fa fa-times-circle-o text-warning"
+                     title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                     aria-hidden="true"></i>
+                </b>
+              </div>
+              <div class="col-12">
+                <% @open_not_accepted.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+
+            <div class="row divider">
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                        title: Issue.human_enum_name(:status, :in_process) %>
+                  und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
+                </b>
+              </div>
+              <div class="col-12">
+                <% @in_process.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+
+            <div class="row divider">
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  <%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %>
+                  mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung
+                </b>
+              </div>
+              <div class="col-12">
+                <% @open_ideas_without_min_supporters.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+
+            <div class="row divider">
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  zwar schon mindestens
+                  <%= image_tag 'icons/list/png/blank-yellow-22px.png',
+                        title: Issue.human_enum_name(:status, :in_process) %>
+                  , aber
+                  <i class="fa fa-times-circle-o text-warning"
+                     title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
+                     aria-hidden="true"></i>
+                </b>
+              </div>
+              <div class="col-12">
+                <% @in_process_not_accepted.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+
+            <div class="row divider">
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  Beschreibung nicht freigegeben für
+                  <i class="fa fa-globe"
+                     title="<%= Issue.human_enum_name(:description_status, :external) %>"
+                     aria-hidden="true"></i>
+                </b>
+              </div>
+              <div class="col-12">
+                <% @description_not_approved_issues.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+
+            <div class="row divider">
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <b>
+                  Foto(s) vorhanden, aber (alle) nicht freigegeben für
+                  <i class="fa fa-globe"
+                     title="<%= Issue.human_enum_name(:description_status, :external) %>"
+                     aria-hidden="true"></i>
+                </b>
+              </div>
+              <div class="col-12">
+                <% @photos_not_approved_issues.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end -%>
 <% end -%>
 
 <div class="row">
