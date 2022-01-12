@@ -18,11 +18,11 @@ class IssuesController < ApplicationController
     check_auth(:edit_issue, @issue)
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     respond_to do |format|
+      format.js { prepare_tabs }
       format.html do
         index
         render action: 'index'
       end
-      format.js { prepare_tabs }
     end
   end
 
