@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class IssueMailer < ApplicationMailer
-  helper :application, :issues
+  helper :application, :issues, :issue_emails
 
   def issue(issue_email:)
     @issue_email = issue_email
     image_attachments issue_email: issue_email if issue_email.send_photos?
-    mail to: issue_email.to_email, bcc: issue_email.from_email
+    mail to: issue_email.to_email, bcc: issue_email.from_email, reply_to: issue_email.from_email
   end
 
   def in_process(to:, issue:)
