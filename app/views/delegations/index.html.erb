@@ -67,6 +67,9 @@
     </div>
   <% end -%>
 <% end -%>
+ <% if @issue -%>
+  <div id="open-delegation" data-issue="<%= @issue.id %>" />
+<% end -%>
 <% if @edit_delegation_url -%>
   <script defer="true">
     $(function() {

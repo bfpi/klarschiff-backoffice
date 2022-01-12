@@ -25,6 +25,13 @@ class DelegationsController < ApplicationController
   def edit
     @issue = Issue.find(params[:id])
     check_auth :edit_delegation, @issue
+    respond_to do |format|
+      format.js
+      format.html do
+        html_response
+        render :index
+      end
+    end
   end
 
   def update

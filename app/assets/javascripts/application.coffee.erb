@@ -47,6 +47,12 @@ $ ->
     new_url += window.location.search
     window.history.replaceState(null, null, new_url)
 
+  if $('#open-delegation').length > 0
+    KS.editIssue 'delegations', $('#open-delegation').data('issue')
+    new_url = '<%= Rails.application.routes.url_helpers.issues_path %>'
+    new_url += window.location.search
+    window.history.replaceState(null, null, new_url)
+
   $(document).on 'ajax:complete', 'form', (data) ->
     return if @.id == 'issues-filter'
     $('#notice-success').hide()
