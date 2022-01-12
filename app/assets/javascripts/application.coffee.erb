@@ -43,7 +43,9 @@ $ ->
 
   if $('#open-issue').length > 0
     KS.editIssue 'issues', $('#open-issue').data('issue')
-    window.history.replaceState(null, null, '<%= Rails.application.routes.url_helpers.issues_path %>')
+    new_url = '<%= Rails.application.routes.url_helpers.issues_path %>'
+    new_url += window.location.search
+    window.history.replaceState(null, null, new_url)
 
   $(document).on 'ajax:complete', 'form', (data) ->
     return if @.id == 'issues-filter'
