@@ -56,7 +56,25 @@ class IssuesController < ApplicationController
     issue.send :notify_group
   end
 
+  def update_address
+    issue = Issue.find(params[:id])
+    issue.assign_attributes(issue_params)
+    issue.send(:update_address_parcel_property_owner)
+    respond_to do |format|
+      format.json { address_response(issue) }
+    end
+  end
+
   private
+
+  def address_response(issue)
+    external_coords = I18n.t(
+      'issues.external_map.coordinates', x: issue.lon_external&.round, y: issue.lat_external&.round
+    )
+    json_response = { address: issue.address, parcel: issue.parcel, property_owner: issue.property_owner,
+                      external_coords: external_coords }
+    render json: json_response, status: :ok
+  end
 
   def prepare_tabs
     @tabs = issue_tabs
