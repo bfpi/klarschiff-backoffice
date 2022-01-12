@@ -333,6 +333,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
     uniform_notifier (1.14.2)
+    user_agent (1.1.1)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -385,6 +386,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   turbolinks (~> 5)
+  user_agent
   web-console (>= 3.3.0)
   webdrivers
 

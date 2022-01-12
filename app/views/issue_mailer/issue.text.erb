@@ -18,7 +18,7 @@ Daten der weitergeleiteten Meldung
 öffentliche Statusinformation: <%= @issue_email.issue.status_note %>
 <% end -%>
 <% if @issue_email.issue.description.present? -%>
-<%= Issue.human_attribute_name(:description) %>: <%= @issue_email.issue.description %>
+<%= Issue.human_attribute_name(:description) %>: <%= truncate_text(@issue_email.issue.description) %>
 Freigabestatus der Beschreibung: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
 <% end -%>
 <% if @issue_email.issue.address.present? -%>
