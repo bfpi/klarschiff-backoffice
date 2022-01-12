@@ -20,8 +20,8 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.js { prepare_tabs }
       format.html do
-        index
-        render action: 'index'
+        html_response
+        render :index
       end
     end
   end
