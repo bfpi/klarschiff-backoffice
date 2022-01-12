@@ -17,7 +17,13 @@ class IssuesController < ApplicationController
     @issue = Issue.authorized.find(params[:id])
     check_auth(:edit_issue, @issue)
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
-    prepare_tabs
+    respond_to do |format|
+      format.html do
+        index
+        render action: 'index'
+      end
+      format.js { prepare_tabs }
+    end
   end
 
   def new

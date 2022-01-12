@@ -16,6 +16,9 @@
 <% content_for :footer do %>
   <%= render partial: 'issues_buttons' %>
 <% end %>
+<% if @issue -%>
+  <div id="open-issue" data-issue="<%= @issue.id %>" />
+<% end -%>
 <% if @edit_issue_url -%>
   <script defer="true">
     $(function() {

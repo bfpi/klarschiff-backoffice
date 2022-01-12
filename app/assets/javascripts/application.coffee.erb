@@ -37,17 +37,15 @@ $ ->
 
   $(document).on 'keypress', '#search-issue', (e) ->
     if (e.key == 'Enter' || e.keyCode == 13)
-      url = ''
-      if $(this).data('controller') == 'issues'
-        url = "<%= Rails.application.routes.url_helpers.issues_path %>/#{@.value}/edit"
-      else
-        url = "<%= Rails.application.routes.url_helpers.delegations_path %>/#{@.value}/edit"
-      $.get
-        url: url
-        method: 'GET'
-        dataType: 'script'
+      KS.editIssue $(this).data('controller'), @.value
     else
       e.preventDefault() unless e.key.match(/[0-9]/)
+
+  if $('#open-issue').length > 0
+    KS.editIssue 'issues', $('#open-issue').data('issue')
+    new_url = '<%= Rails.application.routes.url_helpers.issues_path %>'
+    new_url += window.location.search
+    window.history.replaceState(null, null, new_url)
 
   $(document).on 'ajax:complete', 'form', (data) ->
     return if @.id == 'issues-filter'
@@ -71,6 +69,17 @@ $ ->
 
   $(document).on 'click', '.alert .close', (e) ->
     $(e.target).parents('.alert').hide()
+
+KS.editIssue = (controller, id) ->
+  url = ''
+  if controller == 'issues'
+    url = "<%= Rails.application.routes.url_helpers.issues_path %>/#{id}/edit"
+  else
+    url = "<%= Rails.application.routes.url_helpers.delegations_path %>/#{id}/edit"
+  $.get
+    url: url
+    method: 'GET'
+    dataType: 'script'
 
 KS.authenticityToken = { authenticity_token: $("meta[name='csrf-token']").attr('content') }
 
