@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IssueMailer < ApplicationMailer
-  helper :application, :issues, :issue_emails
+  helper :application, :issues
 
   def issue(issue_email:)
     @issue_email = issue_email
