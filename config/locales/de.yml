@@ -115,6 +115,8 @@ de:
         ldap: LDAP-DN
         login: Login
         password_digest: Passwort
+        password: Passwort
+        password_confirmation: Passwortbestätigung
         role: Rolle
       supporter:
         confirmation_hash: ''
@@ -144,6 +146,8 @@ de:
               taken: Sie können dieselbe Meldung nicht mehrmals unterstützen.
         user:
           attributes:
+            password:
+              invalid: muss mindestens 8 Zeichen lang sein und mindestens 1 Groß- und Kleinbuchstaben und 1 Ziffer beinhalten.
             role:
               invalid_permissions: darf nicht mehr Berechtigungen als die eigene haben.
       record_not_found: Der Datensatz konnte nicht gefunden werden.

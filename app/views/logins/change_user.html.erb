@@ -6,6 +6,11 @@
       </div>
       <div class="card-body">
         <%= form_for :login, url: logins_path, method: :put do |form| -%>
+          <% if @errors.present? -%>
+            <div class="alert alert-danger" role="alert">
+              <%= @errors.join('<br>') %>
+            </div>
+          <% end -%>
           <div class="row">
             <%= form.label :user, User.model_name.human(count: 2), class: 'col-2 col-form-label' %>
             <div class="col-4">
