@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 class IssueMailerPreview < ActionMailer::Preview
-  def issue
+  def issue_forward_by_system_all_options_enabled
     issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
     issue_email.enable_all
+    IssueMailer.issue issue_email: issue_email
+  end
+
+  def issue_forward_by_user_mail_client
+    issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
+    issue_email.send_map = 1
     IssueMailer.issue issue_email: issue_email
   end
 
