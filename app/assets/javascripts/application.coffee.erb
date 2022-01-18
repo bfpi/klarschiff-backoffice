@@ -41,6 +41,10 @@ $ ->
     else
       e.preventDefault() unless e.key.match(/[0-9]/)
 
+  $(document).on 'keydown', (e) ->
+    if (e.key == 'Escape' || e.keyCode == 27)
+      $('.modal.show').modal('hide')
+
   if $('#open-issue').length > 0
     KS.editIssue 'issues', $('#open-issue').data('issue')
     new_url = '<%= Rails.application.routes.url_helpers.issues_path %>'
