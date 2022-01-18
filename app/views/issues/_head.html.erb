@@ -17,7 +17,7 @@
     <%= issue.sub_category %>
   </div>
   <div class="col-auto">
-    <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group.name}" %>"><%= issue.group %></span>
+    <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group&.name}" %>"><%= issue.group %></span>
     <% if issue.responsibility_accepted -%>
       <i class="fa fa-check-square-o text-success"
          title="<%= Issue.human_attribute_name(:responsibility_accepted) %>"
