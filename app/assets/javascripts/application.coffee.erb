@@ -57,19 +57,6 @@ $ ->
     new_url += window.location.search
     window.history.replaceState(null, null, new_url)
 
-  $(document).on 'ajax:complete', 'form', (data) ->
-    return if @.id == 'issues-filter'
-    $('#notice-success').hide()
-    $('#notice-error').hide()
-    detail = data.detail[0]
-    if detail.response.length > 0
-      if detail.status == 200
-        $('#notice-success .text').html(detail.response)
-        $('#notice-success').show()
-      else
-        $('#notice-error .text').html(detail.response)
-        $('#notice-error').show()
-
   $(document).on 'click', '#assign-jobs', ->
     ids = $('.selectable').toArray().filter((e) -> e.checked).map((e) -> e.value)
     return false if ids.length == 0

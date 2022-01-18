@@ -17,7 +17,7 @@
               Ausführung täglich um *:32 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedIssuesJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -31,7 +31,7 @@
               Ausführung täglich um *:37 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedSupportersJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -45,7 +45,7 @@
               Ausführung täglich um *:42 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedAbuseReportsJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -59,7 +59,7 @@
               Ausführung täglich um *:47 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedPhotosJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -73,7 +73,7 @@
               Ausführung täglich um *:52 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteAuthorsAfterDeadlineJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -87,7 +87,7 @@
               Ausführung täglich um 00:40 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :ArchiveClosedIssuesJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -101,7 +101,7 @@
               Ausführung täglich um 01:40 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :InformEditorialStaffOnIssuesJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -115,7 +115,7 @@
               Ausführung täglich um 2:00 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :CalculateAverageTurnaroundTimeJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -130,7 +130,7 @@
               Ausführung täglich um 07:00 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :InformOnDelegatedIssuesJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -145,7 +145,7 @@
               Ausführung täglich um 10:05 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :NotifyOnIssuesInProcessJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -160,7 +160,7 @@
               Ausführung täglich um 10:10 Uhr.
             </small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :NotifyOnClosedIssuesJob %>
             <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
@@ -185,7 +185,7 @@
             E-Mail-Versand
             <span class="text-muted"><small>Sendet eine Test-E-Mail an den angegebenen Empfänger.</small></span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :protocol_email %>
             <div class="row">
               <%= label_tag :recipient, 'Empfänger', class: 'label-control col-2' %>
@@ -207,7 +207,7 @@
               <small>Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortüberprüfung durchzuführen.</small>
             </span>
           </p>
-          <%= form_tag tests_path, method: :post, remote: true do %>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :protocol_ldap %>
             <div class="row">
               <%= label_tag :host, 'Host', class: 'label-control col-2' %>
