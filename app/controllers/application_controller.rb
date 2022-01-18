@@ -8,7 +8,13 @@ class ApplicationController < ActionController::Base
 
   prepend_view_path 'overlay/views'
 
+  before_action :set_success
+
   private
+
+  def set_success
+    @success = session.delete(:success)
+  end
 
   def respond_with_error(error)
     raise if Rails.env.test?

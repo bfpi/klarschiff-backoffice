@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   def update_password
     check_auth :change_password
     @user = User.find(params[:id])
+    session[:success] = 'Ihr Passwort wurde erfolgreich geändert.'
     return redirect_to root_url if @user.update(user_params(password_only: true))
     render :change_password
   end

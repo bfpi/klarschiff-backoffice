@@ -1,5 +1,6 @@
-  <h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
+<h1><%= t(:dashboard, instance_name: Settings::Instance.name) %></h1>
 
+<%= render partial: 'success' %>
 <div class="row">
   <% if authorized?(:issues) -%>
     <div class="col-4">
