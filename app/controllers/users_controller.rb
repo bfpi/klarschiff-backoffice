@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   include Filter
   include Sorting
 
-  before_action { check_auth :manage_users }
+  before_action(except: %i[change_password update_password]) { check_auth :manage_users }
 
   def index
     users = filter(User.authorized).unscope(:order).order(order_attr)
@@ -16,6 +16,18 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.authorized.find(params[:id])
+  end
+
+  def change_password
+    check_auth :change_password
+    @user = Current.user
+  end
+
+  def update_password
+    check_auth :change_password
+    @user = User.find(params[:id])
+    @success = 'Ihr Passwort wurde erfolgreich geändert.' if @user.update(user_params(password_only: true))
+    render :change_password
   end
 
   def new
@@ -46,7 +58,8 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
+  def user_params(password_only: false)
+    return params.require(:user).permit(:password, :password_confirmation) if password_only
     params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email, :password,
       :group_feedback_recipient, district_ids: [], group_ids: [])
   end

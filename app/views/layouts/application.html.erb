@@ -110,6 +110,9 @@
                     <% if Current.user&.authorized?(:change_user) -%>
                       <%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %>
                     <% end -%>
+                    <% if Current.user&.authorized?(:change_password) -%>
+                      <%= link_to 'Passwort ändern', change_password_users_url, class: 'dropdown-item' %>
+                    <% end -%>
                     <%= link_to 'Info', infos_url, class: 'dropdown-item' %>
                   </div>
                 </li>

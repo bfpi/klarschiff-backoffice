@@ -11,6 +11,7 @@ module UserAuthorization
     return false unless active?
     case action
     when :administration then administration_permitted?
+    when :change_password then ldap.blank?
     when :delegations, :issues, :jobs then index_permitted?(action)
     when :create_issue, :edit_delegation, :edit_issue then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)

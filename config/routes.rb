@@ -28,7 +28,10 @@ Rails.application.routes.draw do
     resources :mail_blacklists
     resources :places, only: %i[index]
     resources :user_ldaps, only: %i[index]
-    resources :users
+    resources :users do
+      get :change_password, on: :collection
+      put :update_password, on: :member
+    end
     resources :tests, only: %i[index create]
   end
   resources :abuse_reports, only: %i[create update]
