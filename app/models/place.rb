@@ -17,11 +17,13 @@ class Place
   private
 
   def format_label(properties)
-    if properties['objektgruppe'] == Settings::Geocodr.places_object_group || properties['abkuerzung'].blank?
-      properties['_title_'].split(', ')[-1]
-    else
-      "#{properties['_title_'].split(', ')[-1]} (#{properties['abkuerzung']})"
-    end
+    addr = if properties['objektgruppe'] == Settings::Geocodr.places_object_group || properties['abkuerzung'].blank?
+             properties['_title_'].split(', ')[-1]
+           else
+             "#{properties['_title_'].split(', ')[-1]} (#{properties['abkuerzung']})"
+           end
+    addr << " (#{properties['gemeindeteil_name']})" if properties['gemeindeteil_name'].present?
+    addr
   end
 
   def format_bbox(geometry)

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get :resend_responsibility
       resource :issue_email, only: %i[new create show]
       resources :issue_exports, only: %i[create], defaults: { format: :pdf }
+      put :update_address, on: :member
     end
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
