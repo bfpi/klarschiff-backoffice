@@ -39,9 +39,11 @@ lib/assets/stylesheets
 yarn-debug.log*
 .yarn-integrity
 
+# DB Dumps and Overlay
 db/dumps
 !db/dumps.keep
 overlay/*
 
+tags
 *.pgc
 *.swp
