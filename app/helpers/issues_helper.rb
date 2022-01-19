@@ -47,8 +47,7 @@ module IssuesHelper
   def responsibilities(issue = nil)
     groups = Group.active.kind_internal
     groups = groups.where(id: possible_group_ids(issue)) if issue.present?
-    [[t('issues.extended_filter.my_responsibility'), 0]] +
-      groups.order(:name).map { |gr| [gr.name, gr.id] }
+    groups.order(:name).map { |gr| [gr.name, gr.id] }
   end
 
   def delegations(issue = nil)

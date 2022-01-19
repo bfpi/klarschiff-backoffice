@@ -43,7 +43,7 @@
   <div class="col-4" id="manual-responsibility"
        style="display: <%= form.object.responsibility_action&.to_sym == :manual ? 'inline' : 'none' %>;">
     <%= form.select :group_id, options_for_select(responsibilities(form.object), form.object.group_id),
-          { include_blank: true }, class: 'form-select' %>
+          {}, class: 'form-select' %>
   </div>
 </div>
 <div class="row">
