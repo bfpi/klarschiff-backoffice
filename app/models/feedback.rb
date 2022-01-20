@@ -26,9 +26,8 @@ class Feedback < ApplicationRecord
 
   def identify_recipients
     group = issue.delegation || issue.group
-    entry = issue.latest_entry
-    return identify_recipients_from_user(entry.user, group) if entry&.user
-    return entry.auth_code.group.feedback_recipient if entry&.auth_code
+    return identify_recipients_from_user(issue.updated_by_user, group) if issue.updated_by_user
+    return issue.updated_by_auth_code.group.feedback_recipient if issue.updated_by_auth_code
     group.feedback_recipient
   end
 
