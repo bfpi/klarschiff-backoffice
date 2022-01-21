@@ -57,7 +57,7 @@ class IssuesController < ApplicationController
   end
 
   def update_address
-    issue = Issue.find(params[:id])
+    issue = Issue.new
     issue.assign_attributes(issue_params)
     issue.send(:update_address_parcel_property_owner)
     respond_to do |format|

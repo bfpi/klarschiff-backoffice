@@ -255,12 +255,12 @@ KS.setFeatureCoordinatesToInput = (feature) ->
   coordinates = feature.getGeometry().getCoordinates()
   position = 'POINT(' + ol.proj.transform(coordinates, KS.projection, 'EPSG:4326').toString().replace(',', ' ') + ')'
   $(map.data('position-input')).val(position)
-  return unless map.data('url')?
+  return unless map.data('update-address-url')?
   $.ajax(
-    url: map.data('url')
+    url: map.data('update-address-url')
     data: Object.assign({ issue: { position: position } }, KS.authenticityToken)
     dataType: 'json'
-    method: 'PUT'
+    method: 'GET'
   ).done (response) ->
     for key, value of response
       if key == 'external_coords'
