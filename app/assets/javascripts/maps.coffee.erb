@@ -260,7 +260,7 @@ KS.setFeatureCoordinatesToInput = (feature) ->
     url: map.data('update-address-url')
     data: Object.assign({ issue: { position: position } }, KS.authenticityToken)
     dataType: 'json'
-    method: 'GET'
+    method: 'PUT'
   ).done (response) ->
     for key, value of response
       if key == 'external_coords'

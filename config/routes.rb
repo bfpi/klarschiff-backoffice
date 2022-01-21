@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :issue_exports, only: %i[create], defaults: { format: :pdf }
     end
     resource :issue do
-      get :update_address, on: :member
+      put :update_address, on: :member
     end
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
