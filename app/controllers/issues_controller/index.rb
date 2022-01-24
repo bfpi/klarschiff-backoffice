@@ -58,7 +58,7 @@ class IssuesController
     def permitted_filter_attributes
       [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
        :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text,
-       { only_number: [] }]
+       :updated_by_user, { only_number: [] }]
     end
 
     def custom_order(col, dir)

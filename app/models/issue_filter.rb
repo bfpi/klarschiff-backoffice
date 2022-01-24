@@ -89,6 +89,10 @@ class IssueFilter
     @collection = @collection.where(priority: params[:priority])
   end
 
+  def filter_updated_by_user(params)
+    @collection = @collection.where(updated_by_user: params[:updated_by_user])
+  end
+
   def filter_archived(params)
     return @collection = @collection.where.not(archived_at: nil) if params[:archived] == 'true'
     @collection = @collection.where(archived_at: nil)
