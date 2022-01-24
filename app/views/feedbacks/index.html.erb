@@ -12,7 +12,6 @@
         </th>
       <% end -%>
       <th scope="col"><%= Feedback.human_attribute_name(:message) %></th>
-      <th scope="col"><%= t('actions') %></th>
     </tr>
   </thead>
   <tbody>
@@ -20,10 +19,15 @@
       <tr>
         <th scope="row"><%= feedback.id %></th>
         <td><%= l(feedback.created_at) %></td>
-        <td><%= link_to feedback.issue, edit_issue_path(feedback.issue), remote: true %></td>
+        <td>
+          <%= link_to edit_issue_path(feedback.issue.id), remote: true do %>
+            <%= image_tag feedback.issue.list_icon, class: "status-icon #{feedback.issue.status}",
+                                         title: Issue.human_enum_name(:status, feedback.issue.status) %>
+            #<%= feedback.issue.id %>
+          <% end -%>
+        </td>
         <td><%= feedback.author %></td>
         <td><%= feedback.message %></td>
-        <td></td>
       </tr>
     <% end -%>
   </tbody>
