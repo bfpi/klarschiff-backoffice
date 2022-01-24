@@ -25,5 +25,4 @@ class PlacesController < ApplicationController
                       external_coords: external_coords }
     render json: json_response, status: :ok
   end
-
 end
