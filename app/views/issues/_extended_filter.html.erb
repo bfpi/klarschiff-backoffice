@@ -38,7 +38,7 @@
     <div class="col-4">
       <div class="row">
         <% Issue.statuses.each do |name, id| -%>
-          <%= label_tag "filter_statuses_#{name}", class: 'col-12 col-form-label' do %>
+          <%= label_tag "statuses_#{name}", class: 'col-12 col-form-label' do %>
             <%= check_box_tag 'filter[statuses][]', id, id.in?(@filter[:statuses].map(&:to_i)),
                   id: "statuses_#{name}" %>
             <%= t("enums.issue.status.#{name}") %>
