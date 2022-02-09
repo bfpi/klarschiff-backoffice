@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_08_074840) do
+ActiveRecord::Schema.define(version: 2022_01_20_133941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -212,6 +212,8 @@ ActiveRecord::Schema.define(version: 2021_11_08_074840) do
     t.bigint "delegation_id"
     t.bigint "group_id"
     t.bigint "job_id"
+    t.bigint "updated_by_user_id"
+    t.bigint "updated_by_auth_code_id"
     t.index ["archived_at"], name: "index_issue_on_archived_at"
     t.index ["category_id"], name: "index_issue_on_category_id"
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
@@ -220,6 +222,8 @@ ActiveRecord::Schema.define(version: 2021_11_08_074840) do
     t.index ["position"], name: "index_issue_on_position", using: :gist
     t.index ["responsibility_accepted"], name: "index_issue_on_responsibility_accepted"
     t.index ["status"], name: "index_issue_on_status"
+    t.index ["updated_by_auth_code_id"], name: "index_issue_on_updated_by_auth_code_id"
+    t.index ["updated_by_user_id"], name: "index_issue_on_updated_by_user_id"
   end
 
   create_table "job", force: :cascade do |t|
@@ -343,6 +347,8 @@ ActiveRecord::Schema.define(version: 2021_11_08_074840) do
   add_foreign_key "feedback", "issue"
   add_foreign_key "issue", "\"group\"", column: "delegation_id"
   add_foreign_key "issue", "\"group\"", column: "group_id"
+  add_foreign_key "issue", "\"user\"", column: "updated_by_user_id"
+  add_foreign_key "issue", "auth_code", column: "updated_by_auth_code_id"
   add_foreign_key "issue", "category"
   add_foreign_key "job", "\"group\"", column: "group_id"
   add_foreign_key "log_entry", "\"user\"", column: "user_id"

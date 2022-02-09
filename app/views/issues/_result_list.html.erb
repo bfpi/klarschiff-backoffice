@@ -12,7 +12,9 @@
             <%= order_link Issue.human_attribute_name(col), :issues, col %>
           </th>
         <% end -%>
-        <th scope="col"><%= Issue.human_attribute_name :last_editor %></th>
+        <th scope="col">
+          <%= order_link Issue.human_attribute_name(:last_editor), :issues, :last_editor %>
+        </th>
         <th scope="col">
           <%= order_link Issue.human_attribute_name(:priority), :issues, :priority %>
         </th>
@@ -59,7 +61,7 @@
             <% end -%>
           </td>
           <td><%= l(issue.updated_at, format: :no_seconds) %></td>
-          <td><%= issue.last_entry&.user %></td>
+          <td><%= issue.last_editor %></td>
           <td><%= Issue.human_enum_name :priority, issue.priority %></td>
           <% if authorized?(:jobs) -%>
             <td>

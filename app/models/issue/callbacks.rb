@@ -18,6 +18,7 @@ class Issue
 
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
+      before_save :set_updated_by
 
       after_save :notify_group,
         if: lambda {
@@ -102,6 +103,11 @@ class Issue
 
     def set_trust_level
       self.trust_level = calculate_trust_level
+    end
+
+    def set_updated_by
+      self.updated_by_user = Current.user
+      self.updated_by_auth_code = Current.user&.auth_code
     end
 
     def calculate_trust_level

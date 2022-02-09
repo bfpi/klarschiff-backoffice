@@ -86,6 +86,10 @@ module IssuesHelper
     [[t('issues.extended_filter.all_districts'), nil]] + District.order(:name).map { |d| [d.name, d.id] }
   end
 
+  def users
+    Group.by_user_region.map(&:users).flatten.uniq.sort_by(&:last_name)
+  end
+
   def archived_options
     [true, false].map { |val| [t(val), val] }
   end

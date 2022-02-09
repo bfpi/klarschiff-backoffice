@@ -47,6 +47,12 @@ class Group < ApplicationRecord
         ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "i"."area")
       SQL
     end
+
+    def by_user_region(user = Current.user)
+      return all if user&.role_admin?
+      user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
+        .inject :or
+    end
   end
 
   def to_s

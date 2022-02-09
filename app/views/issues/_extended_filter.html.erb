@@ -79,6 +79,15 @@
                 include_blank: true, class: 'form-select' %>
         </div>
       </div>
+      <div class="row">
+        <%= label_tag :filter_updated_by_user, Issue.human_attribute_name(:updated_by_user),
+              class: 'col-4 col-form-label' %>
+        <div class="col-8">
+          <%= select_tag 'filter[updated_by_user]',
+                options_for_select(users.map { |u| [u.to_s, u.id] }, @filter[:updated_by_user]),
+                include_blank: true, class: 'form-select' %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
