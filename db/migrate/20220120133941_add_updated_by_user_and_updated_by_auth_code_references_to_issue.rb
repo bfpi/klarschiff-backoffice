@@ -7,9 +7,11 @@ class AddUpdatedByUserAndUpdatedByAuthCodeReferencesToIssue < ActiveRecord::Migr
       t.references :updated_by_auth_code, foreign_key: { to_table: :auth_code }
     end
 
-    Issue.unscoped.each do |issue|
-      le = last_entry(issue)
-      issue.update(updated_by_user: le.user, updated_by_auth_code: le.auth_code) if le
+    Issue.unscoped.find_in_batches.each do |issues|
+      issues.each do |issue|
+        le = last_entry(issue)
+        issue.update_columns(updated_by_user_id: le.user_id, updated_by_auth_code_id: le.auth_code_id) if le
+      end
     end
   end
 
