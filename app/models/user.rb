@@ -22,12 +22,17 @@ class User < ApplicationRecord
                                                   association_foreign_key: :field_service_team_id
   end
 
+  store_accessor :password_history, :next_password_id, :passwords
+
+  before_save :maintain_password_history
+
   validates :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
   validates :groups, presence: true, unless: :role_admin?
   validates :password, confirmation: true, allow_blank: true
   validates :password, password: true, allow_blank: true
+  validate :password_rotation
   validate :role_permissions
 
   default_scope -> { order :last_name, :first_name }
@@ -48,6 +53,40 @@ class User < ApplicationRecord
   end
 
   private
+
+  def password_digest_changed_from
+    changes.dig(:password_digest, 0)
+  end
+
+  def old_password_digests
+    (passwords || []).map { |set| set['password_digest'] }
+  end
+
+  def password_rotation
+    return if @password.blank? || @password != @password_confirmation
+    [*old_password_digests, password_digest_changed_from].each do |hash|
+      next unless ::BCrypt::Password.valid_hash?(hash)
+      pw = ::BCrypt::Password.new(hash)
+      next unless pw == @password
+      errors.add(:password, 'wurde bereits verwendet!')
+      break
+    end
+  end
+
+  def maintain_password_history
+    return if password_digest_changed_from.blank? || !password_digest_changed?
+    change_time = Time.current
+    id = (next_password_id || 0).to_i
+    add_to_password_history(id, change_time)
+    self.next_password_id = (id + 1) % 10
+    self.password_updated_at = change_time
+  end
+
+  def add_to_password_history(password_id, change_time)
+    self.passwords ||= []
+    self.passwords[password_id] = { password_digest: password_digest_changed_from, valid_from: password_updated_at,
+                                    valid_until: change_time }
+  end
 
   def role_permissions
     return true unless Current.user && !Current.user.auth_code
