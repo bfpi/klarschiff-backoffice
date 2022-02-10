@@ -74,6 +74,12 @@ development: &default
     user_identifier: dn
     user_last_name: sn
     username:
+  password:
+    min_length: 10
+    include_lowercase: true
+    include_capital: true
+    include_number: true
+    include_special_character: true
   vote:
     min_requirement: 20
 
