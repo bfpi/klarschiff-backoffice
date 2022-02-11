@@ -114,6 +114,7 @@ de:
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
+        level: Stufe
         login: Login
         password_digest: Passwort
         password: Passwort
@@ -282,7 +283,6 @@ de:
       days_open_but_not_accepted: n Tage offen, aber nicht akzeptiert
       editorial: Redaktion
       days_open_ideas_without_minimum_supporters: Idee n Tage offen, aber ohne notwendige Zahl an Unterstützungen
-      level: Stufe
       new_editorial_notification: neue redaktionelle Benachrichtigung
       reviewed_but_not_accepted: nicht mehr offen, aber noch nicht akzeptiert
       unsolvable_without_status_note: nicht lösbar, aber ohne öffentlichen Statuskommentar
