@@ -347,6 +347,7 @@ de:
     title: Außendienst-Teams
     edit:
       title: Außendienst-Team bearbeiten
+  filter: Filtern
   from: von
   geocodr:
     no_match: nicht zuordenbar
