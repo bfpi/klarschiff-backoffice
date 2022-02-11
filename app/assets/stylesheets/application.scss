@@ -152,3 +152,11 @@ a {
 .row + .row {
   margin-top: 1rem;
 }
+
+label[for=filter_text] {
+  --bs-gutter-x: 0;
+}
+
+input#filter_text {
+  margin-left: 9px;
+}
