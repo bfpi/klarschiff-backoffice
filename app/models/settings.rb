@@ -16,4 +16,9 @@ class Settings
   def self.main_instance?
     Settings::Instance.parent_instance_url.blank?
   end
+
+  def self.required_password_characters
+    %i[number lowercase capital special_character]
+      .select { |c| Settings::Password.send(:"include_#{c}") }
+  end
 end

@@ -75,11 +75,12 @@ development: &default
     user_last_name: sn
     username:
   password:
-    min_length: 10
+    min_length: 8
     include_lowercase: true
     include_capital: true
     include_number: true
-    include_special_character: true
+    include_special_character: false
+    password_history_active: false
   vote:
     min_requirement: 20
 
