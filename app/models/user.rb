@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   store_accessor :password_history, :next_password_id, :passwords
 
-  before_save :maintain_password_history
+  before_save :maintain_password_history, if: :password_history_active?
 
   validates :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
@@ -32,7 +32,7 @@ class User < ApplicationRecord
   validates :groups, presence: true, unless: :role_admin?
   validates :password, confirmation: true, allow_blank: true
   validates :password, password: true, allow_blank: true
-  validate :password_rotation
+  validate :password_rotation, if: :password_history_active?
   validate :role_permissions
 
   default_scope -> { order :last_name, :first_name }
@@ -54,6 +54,10 @@ class User < ApplicationRecord
 
   private
 
+  def password_history_active?
+    Settings::Password.password_history_active
+  end
+
   def password_digest_changed_from
     changes.dig(:password_digest, 0)
   end
@@ -68,7 +72,7 @@ class User < ApplicationRecord
       next unless ::BCrypt::Password.valid_hash?(hash)
       pw = ::BCrypt::Password.new(hash)
       next unless pw == @password
-      errors.add(:password, 'wurde bereits verwendet!')
+      errors.add(:password, :taken)
       break
     end
   end

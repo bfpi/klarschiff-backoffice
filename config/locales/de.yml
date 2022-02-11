@@ -149,6 +149,7 @@ de:
           attributes:
             password:
               invalid: "muss mindestens %{length} Zeichen lang sein und folgende Zeichen beinhalten: %{required_characters}"
+              taken: wurde bereits verwendet!
             role:
               invalid_permissions: darf nicht mehr Berechtigungen als die eigene haben.
       record_not_found: Der Datensatz konnte nicht gefunden werden.

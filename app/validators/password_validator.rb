@@ -8,21 +8,19 @@ class PasswordValidator < ActiveModel::EachValidator
 
   private
 
+  def required_characters
+    Settings.required_password_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
+  end
+
   def password_valid?(password)
     password.length >= pw_settings.min_length && characters_included(password)
   end
 
   def characters_included(password)
-    %i[number lowercase capital special_character].each do |char_type|
-      next unless pw_settings.send(:"include_#{char_type}")
+    Settings.required_password_characters.each do |char_type|
       return false unless password.match?(send(:"#{char_type}_format"))
     end
     true
-  end
-
-  def required_characters
-    %i[number lowercase capital special_character]
-      .select { |c| pw_settings.send(:"include_#{c}") }.map { |c| I18n.t("password.#{c}") }.join(', ')
   end
 
   def number_format
@@ -42,6 +40,6 @@ class PasswordValidator < ActiveModel::EachValidator
   end
 
   def pw_settings
-    @settings ||= Settings::Password
+    Settings::Password
   end
 end
