@@ -14,6 +14,11 @@ module Filter
     collection.where.not(id: params[:exclude_ids].split(',').map(&:to_i))
   end
 
+  def filter_include_inactive(collection)
+    return collection.active unless @filter[:include_inactive]
+    collection
+  end
+
   def filter_name(collection)
     return collection if params[:term].blank?
     collection.where name_conditions(params[:term])
