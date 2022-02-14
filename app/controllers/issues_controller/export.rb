@@ -77,7 +77,6 @@ class IssuesController
       case attr
       when :created_at, :updated_at then I18n.l(issue[attr])
       when :status, :priority then Issue.human_enum_name(attr, issue[attr])
-      when :district then nil
       else
         issue.send(attr).to_s
       end
