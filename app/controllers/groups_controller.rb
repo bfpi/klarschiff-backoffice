@@ -46,6 +46,11 @@ class GroupsController < ApplicationController
 
   private
 
+  def filter(collection)
+    collection = super(collection)
+    filter_include_inactive(collection)
+  end
+
   def group_params
     params.require(:group).permit(:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_default,
       :reference_id, user_ids: [])
