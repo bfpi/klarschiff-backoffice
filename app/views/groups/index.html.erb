@@ -6,7 +6,7 @@
      <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
     </div>
     <%= label_tag :filter_include_inactive, class: 'col col-form-label' do %>
-      <%= check_box_tag 'filter[include_inactive]', true, @filter[:include_inactive] == 'true' %> inaktive Gruppen anzeigen 
+      <%= check_box_tag 'filter[include_inactive]', true, @filter[:include_inactive] == 'true' %> inaktive Gruppen anzeigen
     <% end -%>
     <div class="col-1">
       <%= submit_tag t(:filter), class: 'btn btn-primary float-end' %>
