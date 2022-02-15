@@ -37,7 +37,6 @@ module ActionView
 
       def body(method, options)
         options[:object].find(object.send(method)).map do |entry|
-          class_name = object.class.name.downcase
           tag.tr(tag.td(hidden_input(method, class_name, entry)) + tag.td(trash_button))
         end
       end
@@ -48,6 +47,10 @@ module ActionView
 
       def trash_button
         link_to(tag.i('', class: 'fa fa-trash'), '#', class: 'btn btn-sm btn-outline-primary')
+      end
+
+      def class_name
+        object.class.name.downcase
       end
 
       def autocomplete_field(method, options = {})
