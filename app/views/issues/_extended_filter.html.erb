@@ -1,5 +1,5 @@
-<%= form_tag(issues_path, method: :get, id: 'issues-filter',
-                          data: { dependencies: data_dependencies_path }) do %>
+<%= form_with(url: issues_path, method: :get, id: 'issues-filter',
+                          data: { dependencies: data_dependencies_path }) do |form| %>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
   <div class="row">
@@ -96,9 +96,9 @@
       <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
             include_blank: true, class: 'form-select' %>
     </div>
-    <%= label_tag :filter_district, District.model_name.human, class: 'col-2 col-form-label' %>
+    <%= label_tag :filter_districts, District.model_name.human, class: 'col-2 col-form-label' %>
     <div class="col-4">
-      <%= select_tag 'filter[district]', options_for_select(districts, @filter[:district]), class: 'form-select' %>
+      <%= form.multiselect_filter_field 'districts', filter_ids: @filter[:districts], class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name', object: District %> 
     </div>
   </div>
   <div class="row">

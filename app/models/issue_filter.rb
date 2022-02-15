@@ -77,9 +77,19 @@ class IssueFilter
     @collection = @collection.where(delegation_id: params[:delegation])
   end
 
-  def filter_district(params)
-    district = District.find(params[:district])
-    @collection = @collection.where('ST_Contains(?, position)', district.area)
+  def filter_districts(params)
+    return if (districts = (params[:districts] || []).select(&:present?)).blank?
+    @collection = @collection.where(districts_sql, districts) 
+  end
+
+  def districts_sql
+    <<-SQL.squish
+      ST_Within("position", (
+        SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+        FROM #{District.quoted_table_name}
+        WHERE "id" IN (?)
+      ))
+    SQL
   end
 
   def filter_statuses(params)
