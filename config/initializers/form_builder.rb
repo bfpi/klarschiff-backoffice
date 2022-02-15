@@ -7,6 +7,13 @@ module ActionView
       include ActionView::Helpers::UrlHelper
       include ActionView::Helpers::TranslationHelper
 
+      def multiselect_filter_field(method, options = {})
+        options[:value] = ''
+        tr = [safe_join(head(options)), filter_body(method, options)].flatten
+        table = tag.table(safe_join(tr), class: 'table')
+        tag.div(table + autocomplete_field("filter[#{method}][]", options), class: 'select-many')
+      end
+
       def select_many_field(method, options = {})
         options[:value] = ''
 
@@ -22,15 +29,21 @@ module ActionView
         end << tag.th(t('actions'))
       end
 
-      def body(method, options)
-        options[:object].find(object.send(method)).map do |entry|
-          tag.tr(tag.td(hidden_input(method, object, entry)) + tag.td(trash_button))
+      def filter_body(method, options)
+        options[:object].where(id: options[:filter_ids]).map do |entry|
+          tag.tr(tag.td(hidden_input(method, 'filter', entry)) + tag.td(trash_button))
         end
       end
 
-      def hidden_input(method, object, entry)
-        tag.input('', type: :hidden, value: entry.id,
-                      name: "#{object.class.name.downcase}[#{method}][]") + entry.to_s
+      def body(method, options)
+        options[:object].find(object.send(method)).map do |entry|
+          class_name = object.class.name.downcase
+          tag.tr(tag.td(hidden_input(method, class_name, entry)) + tag.td(trash_button))
+        end
+      end
+
+      def hidden_input(method, name, entry)
+        tag.input('', type: :hidden, value: entry.id, name: "#{name}[#{method}][]") + entry.to_s
       end
 
       def trash_button
