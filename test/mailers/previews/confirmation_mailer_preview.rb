@@ -5,6 +5,13 @@ class ConfirmationMailerPreview < ActionMailer::Preview
     ConfirmationMailer.issue(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
   end
 
+  def issue_with_photo
+    ConfirmationMailer.issue(
+      to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f',
+      photo_confirmation_hash: 'hdts-19hd-d98s'
+    )
+  end
+
   def supporter
     ConfirmationMailer.supporter(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
   end
