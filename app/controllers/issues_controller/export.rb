@@ -34,8 +34,8 @@ class IssuesController
     def column_width(attr)
       case attr
       when :address then 80
-      when :main_category, :sub_category then 50
-      when :created_at, :status, :district, :delegation, :group, :updated_at then 30
+      when :main_category, :sub_category, :group, :delegation, :updated_by_user then 50
+      when :created_at, :status, :district, :updated_at then 30
       when :kind, :priority, :supporters then 20
       else
         10
