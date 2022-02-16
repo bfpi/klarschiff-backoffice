@@ -53,6 +53,13 @@ class Issue
       status_received!
     end
 
+    # overwrite ConfirmationWithHash#send_confirmation
+    def send_confirmation
+      options = { to: author, issue_id: id, confirmation_hash: confirmation_hash }
+      options[:photo_confirmation_hash] = photos.first.confirmation_hash if photos.any?
+      ConfirmationMailer.issue(**options).deliver_later
+    end
+
     def update_address_parcel_property_owner
       self.address = Geocodr.address(self)
       self.parcel = Geocodr.parcel(self)
