@@ -14,6 +14,12 @@ class Feedback < ApplicationRecord
 
   default_scope -> { order created_at: :desc }
 
+  def self.authorized(user = Current.user)
+    return all if user&.role_admin?
+    return none unless user&.role_regional_admin?
+    where(issue_id: Issue.authorized.select(:id))
+  end
+
   def to_s
     "##{id}"
   end
