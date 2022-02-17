@@ -355,6 +355,9 @@ de:
       new_group: Neue Gruppe
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
+  issue_create_success: >-
+    Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+    für die Sie nicht die notwendige Berechtigung besitzen.
   issue_emails:
     create:
       success: Eine E-Mail mit den Daten der aktuellen Meldung wurde erfolgreich versandt.
@@ -374,6 +377,9 @@ de:
       hint: >-
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
         redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
+  issue_update_success: >-
+    Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+    für die Sie nicht die notwendige Berechtigung besitzen.
   issues:
     issues_buttons:
       assign_jobs: Zuordnung für Außendienst

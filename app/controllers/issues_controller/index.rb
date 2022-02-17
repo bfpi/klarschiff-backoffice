@@ -7,6 +7,7 @@ class IssuesController
 
     def index
       check_auth(:issues)
+      @success = session.delete(:success)
       respond_to do |format|
         format.json { render json: results.to_json }
         format.js { @issues = paginate(results) }

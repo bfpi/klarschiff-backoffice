@@ -33,7 +33,10 @@ class IssuesController < ApplicationController
   def update
     @issue = Issue.find(params[:id])
     check_auth(:edit_issue, @issue)
-    return render inline: 'location.reload();' if @issue.update(issue_params) && params[:save_and_close].present?
+    if @issue.update(issue_params) && close_modal?
+      session[:success] = I18n.t('issue_update_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      return render inline: 'location.reload();'
+    end
     prepare_tabs
     render :edit
   end
@@ -41,13 +44,13 @@ class IssuesController < ApplicationController
   def create
     check_auth(:create_issue)
     @issue = Issue.new(issue_params.merge(status: :received))
-    if @issue.save
-      return redirect_to action: :index if params[:save_and_close].present?
-      prepare_tabs
-      render :edit
-    else
-      render :new
+    return render :new unless @issue.save
+    if close_modal?
+      session[:success] = I18n.t('issue_create_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      return redirect_to action: :index
     end
+    prepare_tabs
+    render :edit
   end
 
   def resend_responsibility
@@ -57,6 +60,10 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def close_modal?
+    params[:save_and_close].present? || !authorized?(:edit_issue, @issue)
+  end
 
   def prepare_tabs
     @tabs = issue_tabs
