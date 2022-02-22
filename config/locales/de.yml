@@ -115,6 +115,7 @@ de:
         last_name: Nachname
         ldap: LDAP-DN
         login: Login
+        notification_recipient: Empfänger Benachrichtigungen
         password_digest: Passwort
         password: Passwort
         password_confirmation: Passwortbestätigung

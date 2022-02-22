@@ -11,6 +11,7 @@ DEFAULTS: &DEFAULTS
   ldap:
   group_feedback_recipient: false
   role: 0
+  notification_recipient: false
 
 one:
   <<: *DEFAULTS
@@ -18,3 +19,7 @@ one:
 two:
   <<: *DEFAULTS
   role: 1
+
+three:
+  <<: *DEFAULTS
+  notification_recipient: true

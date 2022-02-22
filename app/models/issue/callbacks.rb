@@ -117,10 +117,10 @@ class Issue
     end
 
     def notify_group
-      return if group.user_ids.present?
+      return if group.notification_recipients.blank?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
-      email = group.email.presence || group.main_user.email
-      IssueMailer.responsibility(to: email, issue: self, auth_code: auth_code).deliver_now
+      update!(last_notification: Time.current)
+      IssueMailer.responsibility(to: group.notification_recipients, issue: self, auth_code: auth_code).deliver_now
     end
   end
 end

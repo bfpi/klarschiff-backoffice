@@ -69,6 +69,10 @@ class Group < ApplicationRecord
     main_user&.email || email
   end
 
+  def notification_recipients
+    Array.wrap(email.presence || main_user&.email || users.where(notification_recipient: true).pluck(:email))
+  end
+
   private
 
   def reference_name

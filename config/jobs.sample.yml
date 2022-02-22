@@ -2,6 +2,7 @@ development: &default
   abuse:
     deletion_deadline_days: 1
   issue:
+    group_notification_days: 7
     delegation_deadline_days: 1
     deletion_deadline_days: 1
     archival_deadline_days: 30

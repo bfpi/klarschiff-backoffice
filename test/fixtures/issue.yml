@@ -19,6 +19,7 @@ DEFAULTS: &DEFAULTS
   status: received
   status_note: status note $LABEL
   trust_level: internal
+  last_notification: <%= Time.current - 1.hours %>
 
 received:
   <<: *DEFAULTS
@@ -32,6 +33,15 @@ received_not_accepted:
   responsibility_accepted: false
   reviewed_at: <%= Time.current - 1.day - 1.hour %>
   status: received
+
+received_not_accepted_two:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 7.days - 2.hours %>
+  responsibility_accepted: false
+  reviewed_at: <%= Time.current - 7.days - 1.hour %>
+  status: received
+  group: internal_2
+  last_notification: <%= Time.current - 7.days - 1.hour %>
 
 received_not_released:
   <<: *DEFAULTS
