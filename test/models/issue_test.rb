@@ -13,7 +13,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.valid?
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
-      args: [{ to: issue.author, confirmation_hash: issue.confirmation_hash, issue_id: issue.id }]
+      args: [{ to: issue.author, confirmation_hash: issue.confirmation_hash, issue_id: issue.id, with_photo: false }]
     )
   end
 
