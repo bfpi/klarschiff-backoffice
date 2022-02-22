@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ConfirmationMailer < ApplicationMailer
-  def issue(to:, issue_id:, confirmation_hash:, photo_confirmation_hash: nil)
-    @confirmation_url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/issue"
-    @photo_url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/photo" if photo_confirmation_hash
+  def issue(to:, issue_id:, confirmation_hash:, with_photo: false)
+    @with_photo = with_photo
+    action = with_photo ? :issue_with_photo : :issue
+    @url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/#{action}"
     @delete_url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/revoke_issue"
     @issue_url = Settings::Instance.frontend_issue_url % issue_id
     mail(to: to, interpolation: { subject: { number: issue_id } })

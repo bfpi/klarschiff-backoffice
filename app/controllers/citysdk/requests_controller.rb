@@ -77,9 +77,13 @@ module Citysdk
 
     def confirm
       request = Request.find_by(status: :pending, confirmation_hash: params[:confirmation_hash])
-      raise ActiveRecord::RecordNotFound if request.blank?
-      issue = request.becomes(Issue)
-      issue.status_received!
+      confirm_request(request)
+      citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
+    end
+
+    def confirm_with_photo
+      request = Request.find_by(status: :pending, confirmation_hash: params[:confirmation_hash])
+      confirm_request(request, with_photo: true)
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
     end
 
@@ -95,6 +99,13 @@ module Citysdk
     end
 
     private
+
+    def confirm_request(request, with_photo: false)
+      raise ActiveRecord::RecordNotFound if request.blank?
+      issue = request.becomes(Issue)
+      issue.status_received!
+      issue.photos.first.update!(confirmed_at: Time.current) if with_photo && issue.photos.any?
+    end
 
     def encode_params
       params.each do |k, v|
