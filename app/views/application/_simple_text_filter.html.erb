@@ -3,6 +3,12 @@
     <div class="col">
      <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
     </div>
+    <% if defined?(include_inactive) %>
+      <%= label_tag :filter_include_inactive, class: 'col-3 col-form-label' do %>
+        <%= check_box_tag 'filter[include_inactive]', true, @filter[:include_inactive] == 'true' %>
+        inaktive <%= class_name.model_name.human(count: 2) %> anzeigen
+      <% end -%>
+    <% end -%>
     <div class="col-1">
       <%= submit_tag t(:filter), class: 'btn btn-primary float-end' %>
     </div>
