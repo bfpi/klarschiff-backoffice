@@ -8,7 +8,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col"><%= t '.level' %></th>
+          <th scope="col"><% EditorialNotification.human_attribute_name(:level) %></th>
           <th scope="col"><%= t '.days_created_not_in_work' %></th>
           <th scope="col"><%= t '.days_in_work_without_status_note' %></th>
           <th scope="col"><%= t '.days_open_ideas_without_minimum_supporters' %></th>
@@ -52,7 +52,7 @@
             </th>
           <% end -%>
           <th scope="col">
-            <%= order_link User.human_attribute_name(:level), :editorial_notifications, :level %>
+            <%= order_link EditorialNotification.human_attribute_name(:level), :editorial_notifications, :level %>
           </th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :repetition %></th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :notified_at %></th>
