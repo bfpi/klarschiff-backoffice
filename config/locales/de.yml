@@ -78,6 +78,7 @@ de:
         status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
         trust_level: Vertrauensstufe
+        updated_by_user: letzter Bearbeiter
       job:
         date: Ausführungsdatum
         group: Außendienst-Team

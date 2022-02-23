@@ -3,11 +3,14 @@
 class Issue < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Callbacks
+  include Issue::Getters
   include Issue::Icons
   include Issue::Scopes
   include Logging
 
   attr_accessor :responsibility_action, :new_photo
+
+  self.omit_field_log += %w[updated_by_auth_code_id updated_by_user_id]
 
   with_options _prefix: true do
     enum description_status: { internal: 0, external: 1, deleted: 2 }
@@ -32,6 +35,8 @@ class Issue < ApplicationRecord
   belongs_to :delegation, optional: true, class_name: 'Group'
   belongs_to :group
   belongs_to :job, optional: true
+  belongs_to :updated_by_auth_code, optional: true, class_name: 'AuthCode'
+  belongs_to :updated_by_user, optional: true, class_name: 'User'
 
   with_options dependent: :destroy do
     has_many :abuse_reports
@@ -50,43 +55,14 @@ class Issue < ApplicationRecord
   delegate :main_category, :sub_category, to: :category, allow_nil: true
   delegate :dms, to: :sub_category, allow_nil: true
 
-  def to_s
-    "#{kind_name} ##{id}"
-  end
-
   alias logging_subject_name to_s
-
-  def lat
-    position&.y
-  end
-
-  def lon
-    position&.x
-  end
-
-  def lat_external
-    external_position.y
-  end
-
-  def lon_external
-    external_position.x
-  end
 
   def as_json(options = {})
     super options.reverse_merge(only: :id, methods: %i[lat lon map_icon])
   end
 
-  def archived
-    archived_at?
-  end
-
   def archived=(value)
     self.archived_at = value.to_i.positive? ? Time.current : 0
-  end
-
-  def closed?
-    return false unless status
-    CLOSED_STATUSES.include? status.to_sym
   end
 
   def job_date=(date)
@@ -110,10 +86,6 @@ class Issue < ApplicationRecord
     )
     factory = RGeo::Cartesian.preferred_factory(srid: 25_833)
     @external_position = factory.parse_wkt(point)
-  end
-
-  def latest_entry
-    all_log_entries.order(created_at: :desc).find_by table: 'issue'
   end
 
   def responsibility_since

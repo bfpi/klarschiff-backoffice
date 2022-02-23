@@ -58,18 +58,30 @@ class IssuesController
     def permitted_filter_attributes
       [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
        :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text,
-       { only_number: [] }]
+       :updated_by_user, { only_number: [] }]
     end
 
     def custom_order(col, dir)
       case col.to_sym
       when :category
         [SubCategory.arel_table[:name].send(dir)]
-      when :supporter
-        ["COUNT(\"supporter\".\"id\") #{dir}"]
       when :group
         [Group.arel_table[:name].send(dir)]
+      when :last_editor
+        custom_order_last_editor(dir)
+      when :supporter
+        ["COUNT(\"supporter\".\"id\") #{dir}"]
       end
+    end
+
+    def custom_order_last_editor(dir)
+      [Arel.sql("CASE
+          WHEN updated_by_user_id is not null then
+            (select concat(last_name, ', ', first_name) from \"#{User.arel_table.name}\" u
+              where u.id = updated_by_user_id)
+          WHEN updated_by_auth_code_id is not null then
+            (select short_name from \"#{Group.arel_table.name}\" g
+              where g.id in (select group_id from auth_code where id = updated_by_auth_code_id)) END #{dir}")]
     end
 
     def default_order

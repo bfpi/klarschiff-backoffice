@@ -38,10 +38,6 @@ module Logging
     end
   end
 
-  def last_entry
-    LogEntry.where(table: model_name.element, subject_id: id).order(created_at: :desc).first
-  end
-
   def log_create
     log_entries.create table: model_name.element, action: Logging.action_text(:create), user: Current.user,
       auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
