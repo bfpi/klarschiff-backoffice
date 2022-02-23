@@ -13,12 +13,14 @@ class Settings
     const_set context.classify, m
   end
 
-  def self.main_instance?
-    Settings::Instance.parent_instance_url.blank?
-  end
+  class << self
+    def main_instance?
+      Instance.parent_instance_url.blank?
+    end
 
-  def self.required_password_characters
-    %i[number lowercase capital special_character]
-      .select { |c| Settings::Password.send(:"include_#{c}") }
+    def required_password_characters
+      %i[number lowercase capital special_character]
+        .select { |c| Password.send(:"include_#{c}") }
+    end
   end
 end

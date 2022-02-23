@@ -1,26 +1,25 @@
 # frozen_string_literal: true
 
 class PasswordValidator < ActiveModel::EachValidator
+  mattr_accessor :min_length, default: Settings::Password.min_length
+  mattr_accessor :required_characters,
+    default: Settings.required_password_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
+
   def validate_each(record, attribute, value)
     return if password_valid?(value)
-    record.errors.add(attribute, :invalid, length: pw_settings.min_length, required_characters: required_characters)
+    record.errors.add attribute, :invalid, length: min_length, required_characters: required_characters
   end
 
   private
 
-  def required_characters
-    Settings.required_password_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
-  end
-
   def password_valid?(password)
-    password.length >= pw_settings.min_length && characters_included(password)
+    password.length >= min_length && characters_included?(password)
   end
 
-  def characters_included(password)
-    Settings.required_password_characters.each do |char_type|
-      return false unless password.match?(send(:"#{char_type}_format"))
+  def characters_included?(password)
+    Settings.required_password_characters.all? do |char_type|
+      password.match? send(:"#{char_type}_format")
     end
-    true
   end
 
   def number_format
@@ -37,9 +36,5 @@ class PasswordValidator < ActiveModel::EachValidator
 
   def special_character_format
     /[^\w\s]/
-  end
-
-  def pw_settings
-    Settings::Password
   end
 end

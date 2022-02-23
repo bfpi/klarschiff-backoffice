@@ -14,18 +14,21 @@ class UserTest < ActiveSupport::TestCase
     configure_password_settings(length: 8)
     pw = 'Bfpi2022**Test'
     user = user(:one)
+    assert_not user.update(password: pw, password_confirmation: nil)
+    assert_equal [{ error: :blank }], user.errors.details[:password_confirmation]
     assert_not user.update(password: pw, password_confirmation: '')
-    assert_includes user.errors.details[:password_confirmation], { error: :confirmation, attribute: 'Passwort' }
+    assert_equal [{ error: :blank }, { error: :confirmation, attribute: 'Passwort' }],
+      user.errors.details[:password_confirmation]
     assert_not user.update(password: pw, password_confirmation: 'test')
-    assert_includes user.errors.details[:password_confirmation], { error: :confirmation, attribute: 'Passwort' }
+    assert_equal [{ error: :confirmation, attribute: 'Passwort' }], user.errors.details[:password_confirmation]
   end
 
   test 'validate password length' do
     configure_password_settings(length: 8)
     user = user(:one)
     assert_not user.update(password: 'test')
-    assert_includes user.errors.details[:password], { error: :invalid, length: 8, required_characters: '' }
-    assert user.update(password: 'testtest')
+    assert_equal [{ error: :invalid, length: 8, required_characters: '' }], user.errors.details[:password]
+    assert user.update(password: 'testtest', password_confirmation: 'testtest')
   end
 
   test 'validate password lowercase presence' do
@@ -33,8 +36,8 @@ class UserTest < ActiveSupport::TestCase
     user = user(:one)
     assert_not user.update(password: 'TEST')
     char_name = I18n.t('password.lowercase')
-    assert_includes user.errors.details[:password], { error: :invalid, length: 4, required_characters: char_name }
-    assert user.update(password: 'TESt')
+    assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
+    assert user.update(password: 'TESt', password_confirmation: 'TESt')
   end
 
   test 'validate password capital presence' do
@@ -42,8 +45,8 @@ class UserTest < ActiveSupport::TestCase
     user = user(:one)
     assert_not user.update(password: 'test')
     char_name = I18n.t('password.capital')
-    assert_includes user.errors.details[:password], { error: :invalid, length: 4, required_characters: char_name }
-    assert user.update(password: 'Test')
+    assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
+    assert user.update(password: 'Test', password_confirmation: 'Test')
   end
 
   test 'validate password number presence' do
@@ -51,8 +54,8 @@ class UserTest < ActiveSupport::TestCase
     user = user(:one)
     assert_not user.update(password: 'test')
     char_name = I18n.t('password.number')
-    assert_includes user.errors.details[:password], { error: :invalid, length: 4, required_characters: char_name }
-    assert user.update(password: 'test0')
+    assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
+    assert user.update(password: 'test0', password_confirmation: 'test0')
   end
 
   test 'validate password special_character presence' do
@@ -60,39 +63,36 @@ class UserTest < ActiveSupport::TestCase
     user = user(:one)
     assert_not user.update(password: 'test')
     char_name = I18n.t('password.special_character')
-    assert_includes user.errors.details[:password], { error: :invalid, length: 4, required_characters: char_name }
-    assert user.update(password: 'test*')
+    assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
+    assert user.update(password: 'test*', password_confirmation: 'test*')
   end
 
-  test 'no password history' do
+  test 'ensure no password history by default config' do
     configure_password_settings(length: 4)
     user = user(:one)
     assert_nil user.passwords
-    assert user.update(password: 'test')
+    assert user.update(password: 'test', password_confirmation: 'test')
     assert_nil user.reload.passwords
   end
 
   test 'validate password rotation' do
-    configure_password_settings(length: 4, history_active: true)
+    configure_password_settings(length: 4, history: 5)
     user = user(:one)
     assert_nil user.passwords
     assert user.update(password: 'test', password_confirmation: 'test')
     assert_not_empty user.reload.passwords
     assert_not user.update(password: 'test', password_confirmation: 'test')
-    assert_includes user.errors.details[:password], error: :taken
+    assert_equal [{ error: :taken }], user.errors.details[:password]
   end
 
   private
 
-  def pw_settings
-    Settings::Password
-  end
-
-  def configure_password_settings(length: nil, included_characters: [], history_active: false)
-    pw_settings.redefine_singleton_method(:min_length) { length } if length
-    pw_settings.redefine_singleton_method(:password_history_active) { history_active }
+  def configure_password_settings(length: nil, included_characters: [], history: 0)
+    PasswordValidator.min_length = length if length
+    Settings::Password.redefine_singleton_method(:password_history) { history }
     %i[number lowercase capital special_character].each do |c|
-      pw_settings.redefine_singleton_method(:"include_#{c}") { c.in?(included_characters) }
+      Settings::Password.redefine_singleton_method(:"include_#{c}") { c.in?(included_characters) }
     end
+    PasswordValidator.required_characters = included_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
   end
 end

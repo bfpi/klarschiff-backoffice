@@ -24,16 +24,16 @@ class User < ApplicationRecord
 
   store_accessor :password_history, :next_password_id, :passwords
 
-  before_save :maintain_password_history, if: :password_history_active?
-
   validates :last_name, :email, :role, presence: true
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
   validates :groups, presence: true, unless: :role_admin?
-  validates :password, confirmation: true, allow_blank: true
-  validates :password, password: true, allow_blank: true
+  validates :password_confirmation, presence: true, if: :password_digest_changed?
+  validates :password, password: true, confirmation: true, allow_blank: true
   validate :password_rotation, if: :password_history_active?
   validate :role_permissions
+
+  before_save :maintain_password_history, if: :password_history_active?
 
   default_scope -> { order :last_name, :first_name }
   scope :active, -> { where(active: true) }
@@ -55,7 +55,7 @@ class User < ApplicationRecord
   private
 
   def password_history_active?
-    Settings::Password.password_history_active
+    Settings::Password.password_history.positive?
   end
 
   def password_digest_changed_from
@@ -68,13 +68,10 @@ class User < ApplicationRecord
 
   def password_rotation
     return if @password.blank? || @password != @password_confirmation
-    [*old_password_digests, password_digest_changed_from].each do |hash|
-      next unless ::BCrypt::Password.valid_hash?(hash)
-      pw = ::BCrypt::Password.new(hash)
-      next unless pw == @password
-      errors.add(:password, :taken)
-      break
+    taken = [*old_password_digests, password_digest_changed_from].any? do |hash|
+      ::BCrypt::Password.valid_hash?(hash) && ::BCrypt::Password.new(hash) == @password
     end
+    errors.add :password, :taken if taken
   end
 
   def maintain_password_history
@@ -82,14 +79,15 @@ class User < ApplicationRecord
     change_time = Time.current
     id = (next_password_id || 0).to_i
     add_to_password_history(id, change_time)
-    self.next_password_id = (id + 1) % 10
+    self.next_password_id = (id + 1) % Settings::Password.password_history
     self.password_updated_at = change_time
   end
 
   def add_to_password_history(password_id, change_time)
     self.passwords ||= []
-    self.passwords[password_id] = { password_digest: password_digest_changed_from, valid_from: password_updated_at,
-                                    valid_until: change_time }
+    self.passwords[password_id] = {
+      password_digest: password_digest_changed_from, valid_from: password_updated_at, valid_until: change_time
+    }
   end
 
   def role_permissions

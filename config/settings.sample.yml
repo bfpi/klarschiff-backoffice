@@ -80,7 +80,7 @@ development: &default
     include_capital: true
     include_number: true
     include_special_character: false
-    password_history_active: false
+    password_history: 0 # set 0 to disable password_history
   vote:
     min_requirement: 20
 
