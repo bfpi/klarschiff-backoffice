@@ -114,7 +114,6 @@ de:
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
-        level: Stufe
         login: Login
         password_digest: Passwort
         password: Passwort
