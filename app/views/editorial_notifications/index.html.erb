@@ -51,7 +51,9 @@
               <%= order_link User.human_attribute_name(col), :editorial_notifications, col %>
             </th>
           <% end -%>
-          <th scope="col"><%= EditorialNotification.human_attribute_name :level %></th>
+          <th scope="col">
+            <%= order_link EditorialNotification.human_attribute_name(:level), :editorial_notifications, :level %>
+          </th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :repetition %></th>
           <th scope="col"><%= EditorialNotification.human_attribute_name :notified_at %></th>
           <th scope="col"><%= User.human_attribute_name :group_feedback_recipient %></th>
