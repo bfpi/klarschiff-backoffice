@@ -148,7 +148,8 @@ de:
         user:
           attributes:
             password:
-              invalid: muss mindestens 8 Zeichen lang sein und mindestens 1 Groß- und Kleinbuchstaben und 1 Ziffer beinhalten.
+              invalid: "muss mindestens %{length} Zeichen lang sein und folgende Zeichen beinhalten: %{required_characters}"
+              taken: wurde bereits verwendet!
             role:
               invalid_permissions: darf nicht mehr Berechtigungen als die eigene haben.
       record_not_found: Der Datensatz konnte nicht gefunden werden.
@@ -433,6 +434,11 @@ de:
     logout: Logout
     administration: Administration
   no_result: Die Suche ergab kein Resultat.
+  password:
+    capital: Großbuchstaben
+    lowercase: Kleinbuchstaben
+    number: Ziffern
+    special_character: Sonderzeichen
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit
