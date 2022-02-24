@@ -58,6 +58,10 @@ class UsersController < ApplicationController
 
   private
 
+  def filter(collection)
+    filter_include_inactive super(collection)
+  end
+
   def user_params(password_only: false)
     return params.require(:user).permit(:password, :password_confirmation) if password_only
     params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email, :password,

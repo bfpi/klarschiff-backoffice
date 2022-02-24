@@ -3,6 +3,8 @@
 module Filter
   extend ActiveSupport::Concern
 
+  private
+
   def filter(collection)
     @filter = params[:filter] || {}
     collection = collection.filter_by_full_text_search(@filter[:text]) if @filter[:text].present?
@@ -12,6 +14,11 @@ module Filter
   def filter_excludes(collection)
     return collection unless params[:exclude_ids]
     collection.where.not(id: params[:exclude_ids].split(',').map(&:to_i))
+  end
+
+  def filter_include_inactive(collection)
+    return collection.active unless @filter[:include_inactive]
+    collection
   end
 
   def filter_name(collection)

@@ -26,7 +26,7 @@ class Group < ApplicationRecord
 
   class << self
     def authorized(user = Current.user)
-      return active if user&.role_admin?
+      return all if user&.role_admin?
       return none unless user&.role_regional_admin?
       user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
         .inject :or
