@@ -24,8 +24,8 @@ class Issue < ApplicationRecord
   DELEGABLE_STATUSES = %i[in_process not_solvable duplicate closed].freeze
   DELEGATION_EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category
                                     status address updated_at priority].freeze
-  EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category status address
-                         supporters group delegation updated_at priority].freeze
+  EXPORT_ATTRIBUTES = %i[id created_at kind main_category sub_category status address district
+                         supporters group delegation updated_at updated_by_user priority].freeze
 
   mattr_reader :delegation_statuses do
     statuses.slice('in_process', 'closed')
@@ -96,5 +96,9 @@ class Issue < ApplicationRecord
   def status_since
     return created_at if all_log_entries.where(attr: 'status').blank?
     all_log_entries.order(created_at: :desc).find_by(attr: 'status', new_value: status)&.created_at
+  end
+
+  def district
+    District.find_by('ST_Contains(area, ?)', position)
   end
 end
