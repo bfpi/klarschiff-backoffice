@@ -34,7 +34,8 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
     check_auth(:edit_issue, @issue)
     if @issue.update(issue_params) && close_modal?
-      session[:success] = I18n.t('issue_update_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      session[:success] =
+        I18n.t('issues.foreign_update_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
       return render inline: 'location.reload();'
     end
     prepare_tabs
@@ -46,7 +47,8 @@ class IssuesController < ApplicationController
     @issue = Issue.new(issue_params.merge(status: :received))
     return render :new unless @issue.save
     if close_modal?
-      session[:success] = I18n.t('issue_create_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      session[:success] =
+        I18n.t('issues.foreign_create_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
       return redirect_to action: :index
     end
     prepare_tabs
