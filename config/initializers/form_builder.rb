@@ -9,35 +9,33 @@ module ActionView
 
       def multiselect_filter_field(method, options = {})
         options[:value] = ''
-        tr = [safe_join(head(options)), filter_body(method, options)].flatten
-        table = tag.table(safe_join(tr), class: 'table')
+        rows = safe_join([head(options), filter_body(method, options)].flatten)
+        table = tag.table(rows, class: :table)
         tag.div(table + autocomplete_field("filter[#{method}][]", options), class: 'select-many')
       end
 
       def select_many_field(method, options = {})
         options[:value] = ''
-
-        tr = [safe_join(head(options)), body(method, options)].flatten
-        table = tag.table(safe_join(tr), class: 'table')
-
+        rows = safe_join([head(options), body(method, options)].flatten)
+        table = tag.table(rows, class: :table)
         tag.div(table + autocomplete_field("#{method}][", options), class: 'select-many')
       end
 
       def head(options)
         options[:columns].split(',').map do |col|
           tag.th(options[:object].human_attribute_name(col.strip))
-        end << tag.th(t('actions'))
+        end << tag.th(t('actions'), class: :action)
       end
 
       def filter_body(method, options)
         options[:object].where(id: options[:filter_ids]).map do |entry|
-          tag.tr(tag.td(hidden_input(method, 'filter', entry)) + tag.td(trash_button))
+          tag.tr(tag.td(hidden_input(method, 'filter', entry)) + tag.td(trash_button, class: 'action text-center'))
         end
       end
 
       def body(method, options)
         options[:object].find(object.send(method)).map do |entry|
-          tag.tr(tag.td(hidden_input(method, class_name, entry)) + tag.td(trash_button))
+          tag.tr(tag.td(hidden_input(method, class_name, entry)) + tag.td(trash_button, class: 'action text-center'))
         end
       end
 
