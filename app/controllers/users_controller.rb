@@ -59,8 +59,7 @@ class UsersController < ApplicationController
   private
 
   def filter(collection)
-    collection = super(collection)
-    filter_include_inactive(collection)
+    filter_include_inactive super(collection)
   end
 
   def user_params(password_only: false)
