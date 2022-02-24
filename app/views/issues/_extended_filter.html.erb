@@ -42,7 +42,7 @@
             <% Issue.statuses.each do |name, id| -%>
               <%= label_tag "statuses_#{name}", class: 'col-12 col-form-label' do %>
                 <%= check_box_tag 'filter[statuses][]', id, id.in?(@filter[:statuses].map(&:to_i)),
-                  id: "statuses_#{name}" %>
+                      id: "statuses_#{name}" %>
                 <%= t("enums.issue.status.#{name}") %>
               <% end -%>
             <% end -%>
@@ -52,7 +52,7 @@
           <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-4 col-form-label' %>
           <div class="col-8">
             <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
-              include_blank: true, class: 'form-select' %>
+                  include_blank: true, class: 'form-select' %>
           </div>
         </div>
         <div class="row">
