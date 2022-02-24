@@ -387,6 +387,12 @@ de:
       my_responsibility: meiner/meinen Gruppe(n) zugewiesen
     external_map:
       coordinates: "Koordinaten: %{x} %{y}"
+    foreign_create_success: >-
+      Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+      für die Sie nicht die notwendige Berechtigung besitzen.
+    foreign_update_success: >-
+      Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+      für die Sie nicht die notwendige Berechtigung besitzen.
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
