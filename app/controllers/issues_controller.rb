@@ -5,6 +5,7 @@ class IssuesController < ApplicationController
   include Index
 
   before_action :set_tab
+  before_action(only: :create) { check_auth :create_issue }
 
   def show
     check_auth(:edit_issue, Issue.find(params[:id]))
@@ -34,8 +35,9 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
     check_auth(:edit_issue, @issue)
     if @issue.update(issue_params) && close_modal?
-      session[:success] =
-        I18n.t('issues.foreign_update_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      unless authorized?(:edit_issue, @issue)
+        session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id)
+      end
       return render inline: 'location.reload();'
     end
     prepare_tabs
@@ -43,12 +45,12 @@ class IssuesController < ApplicationController
   end
 
   def create
-    check_auth(:create_issue)
     @issue = Issue.new(issue_params.merge(status: :received))
     return render :new unless @issue.save
     if close_modal?
-      session[:success] =
-        I18n.t('issues.foreign_create_success', issue_id: @issue.id) unless authorized?(:edit_issue, @issue)
+      unless authorized?(:edit_issue, @issue)
+        session[:success] = I18n.t('issues.foreign_create_success', issue_id: @issue.id)
+      end
       return redirect_to action: :index
     end
     prepare_tabs
