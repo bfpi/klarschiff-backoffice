@@ -81,12 +81,6 @@ module Citysdk
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
     end
 
-    def confirm_with_photo
-      request = Request.find_by(status: :pending, confirmation_hash: params[:confirmation_hash])
-      confirm_request(request, with_photo: true)
-      citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
-    end
-
     def destroy
       issue = Issue.includes(:abuse_reports, :supporters).where(status: %i[pending received])
         .where(abuse_report: { issue_id: nil }).where(supporter: { issue_id: nil })
@@ -100,11 +94,17 @@ module Citysdk
 
     private
 
-    def confirm_request(request, with_photo: false)
+    def confirm_request(request)
       raise ActiveRecord::RecordNotFound if request.blank?
       issue = request.becomes(Issue)
       issue.status_received!
-      issue.photos.first.update!(confirmed_at: Time.current) if with_photo && issue.photos.any?
+      confirm_photo(issue.confirmation_hash)
+    end
+
+    def confirm_photo(confirmation_hash)
+      return unless (photo = Citysdk::Photo.unscoped.find_by(confirmation_hash: confirmation_hash))
+      pho = photo.becomes(::Photo)
+      pho.update!(confirmed_at: Time.current)
     end
 
     def encode_params
