@@ -42,7 +42,9 @@ KS.initializeSelectManyAutocomplete = ->
         button = $('<a>').attr('href', '#')
         button.attr 'class', 'btn btn-sm btn-outline-primary'
         button.html '<i class="fa fa-trash"></i>'
-        tr.after "<tr><td>#{hidden.prop('outerHTML')}#{ui.item.label}</td><td>#{button.prop('outerHTML')}</td></tr>"
+        label = "<td>#{hidden.prop('outerHTML')}#{ui.item.label}</td>"
+        trash = "<td class='action text-center'>#{button.prop('outerHTML')}</td>"
+        tr.after "<tr>#{label}#{trash}</tr>"
         ui.item.value = ''
     ).on 'blur', (event) ->
       $(this).val ''

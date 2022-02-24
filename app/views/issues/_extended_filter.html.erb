@@ -1,5 +1,5 @@
-<%= form_tag(issues_path, method: :get, id: 'issues-filter',
-                          data: { dependencies: data_dependencies_path }) do %>
+<%= form_with(url: issues_path,
+      method: :get, id: 'issues-filter', data: { dependencies: data_dependencies_path }) do |form| %>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
   <div class="row">
@@ -34,16 +34,39 @@
     </div>
   </div>
   <div class="row">
-    <%= label_tag :filter_statuses, Issue.human_attribute_name(:status), class: 'col-2 col-form-label' %>
-    <div class="col-4">
+    <div class="col-6">
       <div class="row">
-        <% Issue.statuses.each do |name, id| -%>
-          <%= label_tag "statuses_#{name}", class: 'col-12 col-form-label' do %>
-            <%= check_box_tag 'filter[statuses][]', id, id.in?(@filter[:statuses].map(&:to_i)),
-                  id: "statuses_#{name}" %>
-            <%= t("enums.issue.status.#{name}") %>
-          <% end -%>
-        <% end -%>
+        <%= label_tag :filter_statuses, Issue.human_attribute_name(:status), class: 'col-4 col-form-label' %>
+        <div class="col-8">
+          <div class="row mb-2">
+            <% Issue.statuses.each do |name, id| -%>
+              <%= label_tag "statuses_#{name}", class: 'col-12 col-form-label' do %>
+                <%= check_box_tag 'filter[statuses][]', id, id.in?(@filter[:statuses].map(&:to_i)),
+                      id: "statuses_#{name}" %>
+                <%= t("enums.issue.status.#{name}") %>
+              <% end -%>
+            <% end -%>
+          </div>
+        </div>
+        <div class="row">
+          <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-4 col-form-label' %>
+          <div class="col-8">
+            <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
+                  include_blank: true, class: 'form-select' %>
+          </div>
+        </div>
+        <div class="row">
+          <%= label_tag :filter_number, Issue.human_attribute_name(:id), class: 'col-4 col-form-label' %>
+          <div class="col-8">
+            <%= text_field_tag 'filter[number]', @filter[:number], class: 'form-control' %>
+          </div>
+        </div>
+        <div class="row">
+          <%= label_tag :filter_author, Issue.human_attribute_name(:author), class: 'col-4 col-form-label' %>
+          <div class="col-8">
+            <%= text_field_tag 'filter[author]', @filter[:author], class: 'form-control' %>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-6">
@@ -88,27 +111,14 @@
                 include_blank: true, class: 'form-select' %>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-2 col-form-label' %>
-    <div class="col-4">
-      <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
-            include_blank: true, class: 'form-select' %>
-    </div>
-    <%= label_tag :filter_district, District.model_name.human, class: 'col-2 col-form-label' %>
-    <div class="col-4">
-      <%= select_tag 'filter[district]', options_for_select(districts, @filter[:district]), class: 'form-select' %>
-    </div>
-  </div>
-  <div class="row">
-    <%= label_tag :filter_number, Issue.human_attribute_name(:id), class: 'col-2 col-form-label' %>
-    <div class="col-4">
-      <%= text_field_tag 'filter[number]', @filter[:number], class: 'form-control' %>
-    </div>
-    <%= label_tag :filter_author, Issue.human_attribute_name(:author), class: 'col-2 col-form-label' %>
-    <div class="col-4">
-      <%= text_field_tag 'filter[author]', @filter[:author], class: 'form-control' %>
+      <div class="row">
+        <%= label_tag :filter_districts, District.model_name.human, class: 'col-4 col-form-label' %>
+        <div class="col-8">
+          <%= form.multiselect_filter_field 'districts', filter_ids: @filter[:districts],
+                                                         class: 'form-control', 'data-autocomplete-url': districts_path,
+                                                         columns: 'name', object: District %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
