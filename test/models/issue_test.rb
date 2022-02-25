@@ -5,7 +5,7 @@ require 'test_helper'
 class IssueTest < ActiveSupport::TestCase
   include ActionMailer::TestHelper
 
-  test 'send mail after create' do
+  test 'send confirmation mail after create' do
     issue = Issue.create(
       author: 'test@rostock.de', description: 'Test', category: category(:one), status: 0,
       position: 'POINT(12.104630572065371 54.07595060029302)', group: group(:internal)
