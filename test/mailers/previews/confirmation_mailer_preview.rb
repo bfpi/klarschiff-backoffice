@@ -7,8 +7,7 @@ class ConfirmationMailerPreview < ActionMailer::Preview
 
   def issue_with_photo
     ConfirmationMailer.issue(
-      to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f',
-      photo_confirmation_hash: 'hdts-19hd-d98s'
+      to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f', with_photo: true
     )
   end
 
