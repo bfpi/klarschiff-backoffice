@@ -43,7 +43,13 @@ class Issue
 
     def add_photo
       return if new_photo.blank?
-      photos.new file: new_photo, author: Current.email, status: :internal
+      set_confirmation_hash unless confirmation_hash
+      photo = { file: new_photo, author: Current.email, status: :internal }
+      if new_record?
+        photo[:confirmation_hash] = confirmation_hash
+        photo[:skip_email_notification] = true
+      end
+      photos.new photo
       self.new_photo = nil
     end
 
@@ -51,6 +57,12 @@ class Issue
     def confirm
       return send_confirmation if Current.user.blank?
       status_received!
+    end
+
+    # overwrite ConfirmationWithHash#send_confirmation
+    def send_confirmation
+      options = { to: author, issue_id: id, confirmation_hash: confirmation_hash, with_photo: photos.any? }
+      ConfirmationMailer.issue(**options).deliver_later
     end
 
     def update_address_parcel_property_owner

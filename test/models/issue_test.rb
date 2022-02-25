@@ -5,7 +5,7 @@ require 'test_helper'
 class IssueTest < ActiveSupport::TestCase
   include ActionMailer::TestHelper
 
-  test 'send mail after create' do
+  test 'send confirmation mail after create' do
     issue = Issue.create(
       author: 'test@rostock.de', description: 'Test', category: category(:one), status: 0,
       position: 'POINT(12.104630572065371 54.07595060029302)', group: group(:internal)
@@ -13,7 +13,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.valid?
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
-      args: [{ to: issue.author, confirmation_hash: issue.confirmation_hash, issue_id: issue.id }]
+      args: [{ to: issue.author, confirmation_hash: issue.confirmation_hash, issue_id: issue.id, with_photo: false }]
     )
   end
 
