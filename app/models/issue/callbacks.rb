@@ -44,7 +44,12 @@ class Issue
     def add_photo
       return if new_photo.blank?
       set_confirmation_hash unless confirmation_hash
-      photos.new file: new_photo, author: Current.email, status: :internal, confirmation_hash: confirmation_hash
+      photo = { file: new_photo, author: Current.email, status: :internal }
+      if new_record?
+        photo[:confirmation_hash] = confirmation_hash
+        photo[:skip_email_notification] = true
+      end
+      photos.new photo
       self.new_photo = nil
     end
 

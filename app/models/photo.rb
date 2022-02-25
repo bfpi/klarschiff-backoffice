@@ -92,9 +92,4 @@ class Photo < ApplicationRecord
     new_image = new_image.rotate 90
     save_modified_image(new_image)
   end
-
-  def send_confirmation
-    return if issue.status_pending?
-    super
-  end
 end
