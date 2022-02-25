@@ -26,6 +26,7 @@ $yellow: #f80;
 @import 'bootstrap-datepicker';
 @import 'font-awesome';
 @import 'jquery-ui/core';
+@import 'jquery-ui/dialog';
 @import 'jquery-ui/theme';
 @import 'jquery-ui/menu';
 @import 'jquery-ui/autocomplete';
@@ -164,4 +165,16 @@ label[for=filter_text] {
 
 input#filter_text {
   margin-left: 9px;
+}
+
+.ui-dialog {
+  z-index: 2000;
+}
+
+.ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: right;
+}
+
+.ui-dialog-buttonpane button {
+  margin: 0.5em 0.4em 0.5em 0;
 }
