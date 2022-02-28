@@ -117,7 +117,7 @@ class Issue
     end
 
     def notify_group
-      return if group.notification_recipients.blank?
+      return if (recipients = group.notification_recipients).blank?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
       update!(last_notification: Time.current)
       IssueMailer.responsibility(to: group.notification_recipients, issue: self, auth_code: auth_code).deliver_now
