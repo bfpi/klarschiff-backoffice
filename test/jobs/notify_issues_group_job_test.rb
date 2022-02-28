@@ -8,12 +8,15 @@ class NotifyIssuesGroupJobTest < ActiveJob::TestCase
   setup { ActionMailer::Base.deliveries.clear }
 
   test 'performable and mails get sent' do
-    assert_emails 0
-    assert_nothing_raised { NotifyIssuesGroupJob.perform_now }
-    assert_emails 1
-    mail = ActionMailer::Base.deliveries.first
     issue = issue(:received_not_accepted_two)
-    assert_includes mail.to, user(:three).email
-    assert_equal "Neue Meldung ##{issue.id} in Ihrer Zuständigkeit", mail.subject
+    recipients = issue.group.notification_recipients
+    assert_emails 1 do
+      assert_nothing_raised { NotifyIssuesGroupJob.perform_now }
+    end
+    assert_performed_with(
+      job: ActionMailer::MailDeliveryJob,
+      args: ['IssueMailer', 'responsibility', 'deliver_now',
+             { args: [{ to: recipients, issue: issue, auth_code: auth_code(:three) }] }]
+    )
   end
 end

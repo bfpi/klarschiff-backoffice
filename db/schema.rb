@@ -334,7 +334,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_122924) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "password_history"
     t.datetime "password_updated_at"
-    t.boolean "notification_recipient", default: false
+    t.boolean "notification_recipient", default: false, null: false
   end
 
   add_foreign_key "abuse_report", "issue"

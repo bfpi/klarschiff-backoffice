@@ -120,7 +120,7 @@ class Issue
       return if (recipients = group.notification_recipients).blank?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
       update!(last_notification: Time.current)
-      IssueMailer.responsibility(to: recipients, issue: self, auth_code: auth_code).deliver_now
+      IssueMailer.responsibility(to: recipients, issue: self, auth_code: auth_code).deliver_later
     end
   end
 end
