@@ -58,3 +58,13 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-7 offset-2">
+    <div class="form-check form-check-inline">
+      <%= form.label :responsibility_action_close_as_not_solvable, '', class: 'form-check-label' do %>
+        <%= form.radio_button :responsibility_action, :close_as_not_solvable, disabled: form.object.closed? %>
+        <%= t '.responsibility_action_close_as_not_solvable' %>
+      <% end %>
+    </div>
+  </div>
+</div>
