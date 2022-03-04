@@ -84,15 +84,4 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.update(password: 'test', password_confirmation: 'test')
     assert_equal [{ error: :taken }], user.errors.details[:password]
   end
-
-  private
-
-  def configure_password_settings(length: nil, included_characters: [], history: 0)
-    PasswordValidator.min_length = length if length
-    Settings::Password.redefine_singleton_method(:password_history) { history }
-    %i[number lowercase capital special_character].each do |c|
-      Settings::Password.redefine_singleton_method(:"include_#{c}") { c.in?(included_characters) }
-    end
-    PasswordValidator.required_characters = included_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
-  end
 end

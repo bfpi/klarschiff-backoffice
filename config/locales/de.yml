@@ -466,6 +466,8 @@ de:
   users:
     index:
       new_user: Neuer Benutzer
+    change_password:
+      title: Neues Passwort festlegen
   view:
     info:
       built: erstellt
