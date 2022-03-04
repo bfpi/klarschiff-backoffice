@@ -8,6 +8,7 @@ class IssueEmail
 
   validates :to_email, :text, presence: true
   validates :to_email, email: { if: -> { to_email.present? } }
+  validates :from_email, email: { if: -> { from_email.present? } }
 
   def issue
     @issue ||= Issue.find(issue_id)
