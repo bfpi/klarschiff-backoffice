@@ -356,8 +356,7 @@ de:
   helpers:
     label:
       user:
-        password: Neues Passwort *
-        password_confirmation: Passwortbestätigung *
+        password: Neues Passwort
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
