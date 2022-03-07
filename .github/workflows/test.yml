@@ -28,6 +28,8 @@ jobs:
           cp config/secrets.sample.yml config/secrets.yml
           rm config/storage.yml
           cp config/storage.sample.yml config/storage.yml
+      - name: Prepare asset libs
+        run: bundle exec rails assets:libs
       - name: Run Rails Tests
         run: bundle exec rails test -b -d
 
