@@ -353,6 +353,11 @@ de:
   groups:
     index:
       new_group: Neue Gruppe
+  helpers:
+    label:
+      login:
+        login: Login oder E-Mail *
+        password: Passwort *
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
