@@ -10,7 +10,7 @@ class IssueTest < ActiveSupport::TestCase
       author: 'test@rostock.de', description: 'Test', category: category(:one), status: 0,
       position: 'POINT(12.104630572065371 54.07595060029302)', group: group(:internal)
     )
-    assert issue.valid?
+    assert_valid issue
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
       args: [{ to: issue.author, confirmation_hash: issue.confirmation_hash, issue_id: issue.id, with_photo: false }]

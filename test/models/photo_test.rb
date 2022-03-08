@@ -7,7 +7,7 @@ class PhotoTest < ActiveSupport::TestCase
 
   test 'send mail after create' do
     photo = Photo.create(issue: issue(:one), author: 'test@rostock.de', status: 0, file: test_file)
-    assert photo.valid?
+    assert_valid photo
     assert_enqueued_email_with(
       ConfirmationMailer, :photo,
       args: [{ to: photo.author, confirmation_hash: photo.confirmation_hash, issue_id: photo.issue_id }]

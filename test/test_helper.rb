@@ -44,6 +44,11 @@ module ActiveSupport
       assert_match description, error_message.css('description/text()').first.to_s
     end
 
+    def assert_valid(object)
+      puts "\nUnexpected error(s) on #{object.class}: #{object.errors.full_messages.inspect}" unless object.valid?
+      assert object.valid?
+    end
+
     def configure_password_settings(length: nil, included_characters: [], history: 0)
       PasswordValidator.min_length = length if length
       Settings::Password.redefine_singleton_method(:password_history) { history }
