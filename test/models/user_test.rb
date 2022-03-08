@@ -84,4 +84,16 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.update(password: 'test', password_confirmation: 'test')
     assert_equal [{ error: :taken }], user.errors.details[:password]
   end
+
+  test 'validate password presence' do
+    configure_password_settings(length: 4)
+    user = user(:one)
+    assert_nil user.ldap
+    assert_valid user
+    user.password_digest = nil
+    assert_not user.valid?
+    assert_equal [{ error: :blank }], user.errors.details[:password_digest]
+    user.ldap = 'CN=test,DC=klarschiff,DC=de'
+    assert_valid user
+  end
 end
