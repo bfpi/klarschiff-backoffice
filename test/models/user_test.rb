@@ -85,14 +85,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [{ error: :taken }], user.errors.details[:password]
   end
 
-  private
-
-  def configure_password_settings(length: nil, included_characters: [], history: 0)
-    PasswordValidator.min_length = length if length
-    Settings::Password.redefine_singleton_method(:password_history) { history }
-    %i[number lowercase capital special_character].each do |c|
-      Settings::Password.redefine_singleton_method(:"include_#{c}") { c.in?(included_characters) }
-    end
-    PasswordValidator.required_characters = included_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
+  test 'validate password presence' do
+    configure_password_settings(length: 4)
+    user = user(:one)
+    assert_nil user.ldap
+    assert_valid user
+    user.password_digest = nil
+    assert_not user.valid?
+    assert_equal [{ error: :blank }], user.errors.details[:password_digest]
+    user.ldap = 'CN=test,DC=klarschiff,DC=de'
+    assert_valid user
   end
 end
