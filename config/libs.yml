@@ -1,6 +1,6 @@
 versions:
-  ol: 6.5.0
-  proj4: 2.6.2
+  ol: 6.13.0
+  proj4: 2.7.5
   tablednd: 1.0.3
 
 javascripts:

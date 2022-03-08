@@ -355,6 +355,9 @@ de:
       new_group: Neue Gruppe
   helpers:
     label:
+      login:
+        login: Login oder E-Mail *
+        password: Passwort *
       user:
         password: Neues Passwort
   imprint: Impressum
