@@ -63,9 +63,9 @@
   </div>
 </div>
 <div class="row">
-  <%= form.label 'group_feedback_recipient', class: 'col-2 col-form-label' %>
+  <%= form.label :group_feedback_recipient, class: 'col-2 form-check-label lh-1' %>
   <div class="col-4">
-    <%= form.check_box :group_feedback_recipient, class: 'form-check-input' %>
+    <%= form.check_box :group_feedback_recipient, class: 'form-check-input align-bottom' %>
   </div>
   <%= form.label :password_confirmation, class: 'col-2 col-form-label' %>
   <div class="col-4">
@@ -75,12 +75,14 @@
 <div class="row">
   <%= form.label :groups, class: 'col-2 col-form-label' %>
   <div class="col-4">
-    <%= form.select_many_field 'group_ids',
-          class: 'form-control', 'data-autocomplete-url': groups_path, columns: 'name', object: Group %>
+    <%= form.select_many_field :group_ids,
+          id: :user_groups, class: 'form-control', 'data-autocomplete-url': groups_path, columns: 'name',
+          object: Group %>
   </div>
   <%= form.label :districts, class: 'col-2 col-form-label' %>
   <div class="col-4">
-    <%= form.select_many_field 'district_ids',
-          class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name', object: District %>
+    <%= form.select_many_field :district_ids,
+          id: :user_districts, class: 'form-control', 'data-autocomplete-url': districts_path, columns: 'name',
+          object: District %>
   </div>
 </div>
