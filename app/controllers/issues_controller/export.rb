@@ -34,8 +34,8 @@ class IssuesController
     def column_width(attr)
       case attr
       when :address then 80
-      when :main_category, :sub_category then 50
-      when :created_at, :status, :district, :delegation, :group, :updated_at then 30
+      when :main_category, :sub_category, :group, :delegation, :updated_by_user then 50
+      when :created_at, :status, :district, :updated_at then 30
       when :kind, :priority, :supporters then 20
       else
         10
@@ -77,7 +77,6 @@ class IssuesController
       case attr
       when :created_at, :updated_at then I18n.l(issue[attr])
       when :status, :priority then Issue.human_enum_name(attr, issue[attr])
-      when :district then nil
       else
         issue.send(attr).to_s
       end

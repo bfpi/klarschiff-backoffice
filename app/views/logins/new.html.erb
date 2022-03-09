@@ -12,11 +12,11 @@
       <div class="card-body">
         <%= form_for :login, url: logins_path do |f| -%>
           <div class="mb-3">
-            <%= f.label :login, 'Login *' %>
+            <%= f.label :login %>
             <%= f.text_field :login, class: 'form-control' %>
           </div>
           <div class="mb-3">
-            <%= f.label :password, 'Passwort *' %>
+            <%= f.label :password %>
             <%= f.password_field :password, class: 'form-control' %>
           </div>
           <%= f.submit 'Anmelden', class: 'btn btn-primary' %>

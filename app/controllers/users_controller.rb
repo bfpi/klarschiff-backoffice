@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   def update_password
     check_auth :change_password
-    @user = User.find(params[:id])
+    @user = Current.user
     @success = 'Ihr Passwort wurde erfolgreich geändert.' if @user.update(user_params(password_only: true))
     render :change_password
   end
@@ -58,10 +58,18 @@ class UsersController < ApplicationController
 
   private
 
+  def filter(collection)
+    filter_include_inactive super(collection)
+  end
+
   def user_params(password_only: false)
     return params.require(:user).permit(:password, :password_confirmation) if password_only
-    params.require(:user).permit(:active, :role, :first_name, :last_name, :login, :ldap, :email, :password,
-      :group_feedback_recipient, :notification_recipient, district_ids: [], group_ids: [])
+    params.require(:user).permit(*permitted_attributes)
+  end
+
+  def permitted_attributes
+    [:active, :role, :first_name, :last_name, :login, :ldap, :email, :password, :password_confirmation,
+     :group_feedback_recipient, :notification_recipient, { district_ids: [] }, { group_ids: [] }]
   end
 
   def filter_name_columns

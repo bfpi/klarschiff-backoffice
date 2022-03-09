@@ -16,6 +16,8 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -28,6 +30,8 @@ jobs:
           cp config/secrets.sample.yml config/secrets.yml
           rm config/storage.yml
           cp config/storage.sample.yml config/storage.yml
+      - name: Prepare Assets Libs
+        run: bundle exec rails assets:libs
       - name: Run Rails Tests
         run: bundle exec rails test -b -d
 

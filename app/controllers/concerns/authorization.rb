@@ -127,14 +127,6 @@ module Authorization
     Client[key]
   end
 
-  def respond_with_forbidden(layout: 'application')
-    raise if Rails.env.test?
-    respond_to do |format|
-      format.any(:csv, :json, :xlsx, :pdf) { head :forbidden }
-      format.html { render template: 'application/denied', layout: layout, status: :forbidden }
-    end
-  end
-
   def trust_email_for_user_identification?
     params['api_key'].present? && current_citysdk_client[:trust_email_for_user_identification].present?
   end

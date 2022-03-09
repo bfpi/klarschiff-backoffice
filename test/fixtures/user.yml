@@ -5,7 +5,7 @@ DEFAULTS: &DEFAULTS
   last_name: last_name_$LABEL
   email: $LABEL@example.com
   login: $LABEL
-  password_digest: $LABEL
+  password_digest: $2a$12$zfVYh.cvLCE28V.s2m2J/OOSRHZ9I2NF.WLEBfV26FKvUuKMFWtQG
   password_history:
   password_updated_at:
   ldap:
@@ -23,3 +23,17 @@ two:
 three:
   <<: *DEFAULTS
   notification_recipient: true
+
+admin:
+  <<: *DEFAULTS
+  groups: one
+
+ldap_user:
+  <<: *DEFAULTS
+  role: 2
+  groups: internal
+
+editor:
+  <<: *DEFAULTS
+  role: 2
+  groups: internal

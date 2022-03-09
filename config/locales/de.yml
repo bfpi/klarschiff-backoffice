@@ -110,7 +110,7 @@ de:
         districts: Gemeinden/Gemeindeteile
         email: E-Mail
         first_name: Vorname
-        group_feedback_recipient: Empfänger Lob/Hinweis/Kritik
+        group_feedback_recipient: Lob/Hinweis/Kritik Empfänger
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
@@ -242,7 +242,7 @@ de:
     name: Name
     regional_key: Regionalschlüssel
     status: Status
-    supporter: Unterstützer
+    supporter: Unterstützungen
     updated_at: letzte Änderung
     user: Benutzer
   back: Zurück
@@ -347,12 +347,20 @@ de:
     title: Außendienst-Teams
     edit:
       title: Außendienst-Team bearbeiten
+  filter: Filtern
   from: von
   geocodr:
     no_match: nicht zuordenbar
   groups:
     index:
       new_group: Neue Gruppe
+  helpers:
+    label:
+      login:
+        login: Login oder E-Mail *
+        password: Passwort *
+      user:
+        password: Neues Passwort
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
@@ -387,6 +395,12 @@ de:
       my_responsibility: meiner/meinen Gruppe(n) zugewiesen
     external_map:
       coordinates: "Koordinaten: %{x} %{y}"
+    foreign_create_success: >-
+      Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+      für die Sie nicht die notwendige Berechtigung besitzen.
+    foreign_update_success: >-
+      Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
+      für die Sie nicht die notwendige Berechtigung besitzen.
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
@@ -460,6 +474,8 @@ de:
   users:
     index:
       new_user: Neuer Benutzer
+    change_password:
+      title: Neues Passwort festlegen
   view:
     info:
       built: erstellt

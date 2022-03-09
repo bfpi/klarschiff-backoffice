@@ -100,7 +100,7 @@ module IssuesHelper
   end
 
   def kind_and_status_tooltip(issue)
-    ["#{MainCategory.human_attribute_name(:kind)}: #{issue.main_category.human_enum_name(:kind)}",
+    ["#{MainCategory.human_attribute_name(:kind)}: #{issue.main_category&.human_enum_name(:kind)}",
      "#{Issue.human_attribute_name(:status)}: #{issue.human_enum_name(:status)}"].join(', ')
   end
 

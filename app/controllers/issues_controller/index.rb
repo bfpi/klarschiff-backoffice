@@ -7,6 +7,7 @@ class IssuesController
 
     def index
       check_auth(:issues)
+      @success = session.delete(:success)
       respond_to do |format|
         format.json { render json: results.to_json }
         format.js { @issues = paginate(results) }
@@ -56,7 +57,7 @@ class IssuesController
     end
 
     def permitted_filter_attributes
-      [:archived, :author, :begin_at, :delegation, :district, :end_at, :kind, :main_category,
+      [:archived, :author, :begin_at, :delegation, { districts: [] }, :end_at, :kind, :main_category,
        :number, :priority, :responsibility, :status, { statuses: [] }, :sub_category, :supported, :text,
        :updated_by_user, { only_number: [] }]
     end

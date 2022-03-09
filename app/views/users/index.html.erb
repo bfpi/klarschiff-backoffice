@@ -1,6 +1,6 @@
 <h1><%= User.model_name.human count: 2 %></h1>
 
-<%= render partial: 'simple_text_filter' %>
+<%= render partial: 'simple_text_filter', locals: { include_inactive: true, class_name: User } %>
 <%= paginate @users %>
 
 <table class="table">

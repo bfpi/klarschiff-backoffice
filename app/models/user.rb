@@ -28,7 +28,8 @@ class User < ApplicationRecord
   validates :email, :login, uniqueness: true
   validates :email, email: { if: -> { email.present? } }
   validates :groups, presence: true, unless: :role_admin?
-  validates :password_confirmation, presence: true, if: :password_digest_changed?
+  validates :password_digest, presence: true, if: -> { ldap.blank? }
+  validates :password_confirmation, presence: true, if: -> { ldap.blank? && password_digest_changed? }
   validates :password, password: true, confirmation: true, allow_blank: true
   validate :password_rotation, if: :password_history_active?
   validate :role_permissions

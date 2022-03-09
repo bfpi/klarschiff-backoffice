@@ -7,8 +7,9 @@ module UserLogin
 
   def login(group_kind: nil)
     user = login_user(@credentials[:login], group_kind: group_kind)
-    if user&.ldap.present? && Ldap.login(user.ldap, @credentials[:password]) ||
-       user&.authenticate(@credentials[:password])
+    if user&.ldap.present?
+      return login_success(user) if Ldap.login(user.ldap, @credentials[:password])
+    elsif user&.authenticate(@credentials[:password])
       return login_success(user)
     end
     login_error 'Login oder Passwort sind nicht korrekt'

@@ -30,7 +30,6 @@ Rails.application.routes.draw do
     resources :user_ldaps, only: %i[index]
     resources :users do
       get :change_password, on: :collection
-      put :update_password, on: :member
     end
     resources :tests, only: %i[index create]
   end
@@ -78,5 +77,6 @@ Rails.application.routes.draw do
   end
 
   get 'logout', to: 'logins#destroy', as: :logout
+  put 'update_password', to: 'users#update_password', as: :update_password
   root 'dashboards#show'
 end
