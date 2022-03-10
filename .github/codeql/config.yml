@@ -1,0 +1,13 @@
+name: "CodeQL config"
+
+debug: false
+
+paths:
+  - app
+  - bin
+  - config
+  - test
+
+# paths-ignore:
+#   - src/node_modules
+#   - '**/*.test.js'
