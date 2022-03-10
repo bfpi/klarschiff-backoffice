@@ -226,7 +226,7 @@ GEM
       pronto (~> 0.11.0)
       rubocop (>= 0.63.1, < 2.0)
     public_suffix (4.0.6)
-    puma (5.4.0)
+    puma (5.6.2)
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
@@ -376,7 +376,7 @@ DEPENDENCIES
   pdfkit
   pg (~> 1.2)
   pronto-rubocop
-  puma (~> 5.4)
+  puma (~> 5.6)
   rails (~> 6.1)
   rails-i18n
   rubocop-performance
