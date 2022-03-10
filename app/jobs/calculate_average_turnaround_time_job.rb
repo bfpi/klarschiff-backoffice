@@ -13,7 +13,7 @@ class CalculateAverageTurnaroundTimeJob < ApplicationJob
   private
 
   def average_turnaround_days(category_id)
-    status  = Issue.human_enum_name(:status, :in_process)
+    status = Issue.human_enum_name(:status, :in_process)
     LogEntry.connection.select_value <<~SQL.squish
       SELECT EXTRACT(DAY FROM AVG("diff"))::INTEGER
       FROM (
