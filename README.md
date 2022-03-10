@@ -1,5 +1,6 @@
-![Build Status](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yml/badge.svg)
-![RuboCop](https://github.com/bfpi/klarschiff-backoffice/workflows/RuboCop/badge.svg)
+[![Build Status](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yml/badge.svg)](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/test.yml)
+[![RuboCop](https://github.com/bfpi/klarschiff-backoffice/workflows/RuboCop/badge.svg)](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/rubocop.yml)
+[![CodeQL](https://github.com/bfpi/klarschiff-backoffice/workflows/CodeQL/badge.svg)](https://github.com/bfpi/klarschiff-backoffice/actions/workflows/codeql.yml)
 [![License](https://img.shields.io/github/license/bfpi/klarschiff-backoffice)](LICENSE)
 
 # Klarschiff-Backoffice
