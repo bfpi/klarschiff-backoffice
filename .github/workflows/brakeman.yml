@@ -6,7 +6,7 @@
 # This workflow integrates Brakeman with GitHub's Code Scanning feature
 # Brakeman is a static analysis security vulnerability scanner for Ruby on Rails applications
 
-name: "Brakeman Scan"
+name: Brakeman Scan
 
 on:
   push:
@@ -35,8 +35,8 @@ jobs:
     # Customize the ruby version depending on your needs
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
     - name: Setup Brakeman
       env:
