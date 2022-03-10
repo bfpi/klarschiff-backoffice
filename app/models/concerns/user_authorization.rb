@@ -13,7 +13,7 @@ module UserAuthorization
     when :administration then administration_permitted?
     when :change_password then ldap.blank?
     when :delegations, :issues, :jobs then index_permitted?(action)
-    when :create_issue, :edit_delegation, :edit_issue then edit_permitted?(action, object)
+    when :create_issue, :edit_delegation, :edit_issue, :change_issue_status then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
@@ -35,6 +35,7 @@ module UserAuthorization
 
   def edit_permitted?(action, object)
     case action
+    when :change_issue_status then change_issue_status_permitted?(object)
     when :create_issue then create_issue_permitted?
     when :edit_delegation then edit_delegation_permitted?(object)
     when :edit_issue then edit_issue_permitted?(object)
@@ -47,6 +48,11 @@ module UserAuthorization
 
   def issues_permitted?
     static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) || auth_code&.group&.kind_internal?
+  end
+
+  def change_issue_status_permitted?(issue)
+    Settings::Instance.auth_code_gui_access_for_external_participants && Current.user&.auth_code &&
+      Current.user.auth_code.group_id == issue.group_id && issue.group.reference_default
   end
 
   def create_issue_permitted?

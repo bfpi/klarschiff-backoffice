@@ -57,6 +57,13 @@ class IssuesController < ApplicationController
     render :edit
   end
 
+  def set_status
+    auth_code = AuthCode.find_by(uuid: params[:auth_code])
+    @issue = auth_code.issue
+    check_auth(:change_issue_status, @issue)
+    @issue.update!(status: params[:status])
+  end
+
   def resend_responsibility
     issue = Issue.find(params[:issue_id])
     check_auth :resend_responsibility, issue

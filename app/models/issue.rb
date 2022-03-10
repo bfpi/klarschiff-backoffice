@@ -101,4 +101,8 @@ class Issue < ApplicationRecord
   def district
     District.find_by('ST_Contains(area, ?)', position)
   end
+
+  def default_group?
+    Settings::Instance.auth_code_gui_access_for_external_participants && group.reference_default
+  end
 end

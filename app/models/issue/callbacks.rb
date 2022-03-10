@@ -23,7 +23,7 @@ class Issue
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
-      after_save :notify_group,
+      after_commit :notify_group,
         if: lambda {
               (saved_change_to_status? && status_received? && group_id.present?) ||
                 (saved_change_to_group_id? && !status_pending?)
@@ -82,11 +82,12 @@ class Issue
 
     def notify_group
       update group_responsibility_notified_at: Time.current
+      return notify_default_group if default_group?
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
-      ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
+      ResponsibilityMailer.issue(self, **notify_group_options(users: users)).deliver_later
     end
 
-    def notify_group_options(users)
+    def notify_group_options(users: users)
       if group.reference_default?
         {
           auth_code: AuthCode.find_or_create_by(issue: self, group:),
@@ -99,6 +100,10 @@ class Issue
 
     def clear_group_responsibility_notified_at
       self.group_responsibility_notified_at = nil
+    end
+
+    def notify_default_group
+      ResponsibilityMailer.default_group(self, **notify_group_options).deliver_later
     end
 
     def issue_in_authorized_areas

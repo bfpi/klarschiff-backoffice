@@ -1,0 +1,17 @@
+Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+
+es wurde eine Meldung an Sie zugewiesen. Klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
+
+Daten der zugewiesenen Meldung
+***
+<%= render partial: 'issue', object: @issue -%>
+
+Links zu Statusänderungen:
+
+<% %i[in_process closed not_solvable duplicate].each do |status| %>
+  <%= t("enums.issue.status.#{status}") %>: <%= set_issue_status_url(auth_code: @auth_code.uuid, status: status) %>
+<% end -%>
+
+Vielen Dank und mit freundlichen Grüßen
+
+Ihr <%= Settings::Instance.name %>-Team

@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   end
 
   get 'logout', to: 'logins#destroy', as: :logout
+  get 'issues/:auth_code/set_status', to: 'issues#set_status', as: :set_issue_status
   put 'update_password', to: 'users#update_password', as: :update_password
   root 'dashboards#show'
 end

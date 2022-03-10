@@ -11,11 +11,12 @@ module Citysdk
 
     attr_writer :lat, :long, :address_string
 
-    self.serialization_attributes = %i[service_request_id]
+    self.serialization_attributes = %i[service_request_id request_default_group]
     alias_attribute :service_request_id, :id
     alias_attribute :status_notes, :status_note
     alias_attribute :requested_datetime, :created_at
     alias_attribute :updated_datetime, :updated_at
+    alias_attribute :request_default_group, :default_group?
     alias_attribute :description_public, :description_status_external?
     alias_attribute :photo_required, :photo_requested
     alias_attribute :detailed_status_datetime, :status_date
@@ -77,7 +78,8 @@ module Citysdk
     def status_date; end
 
     def description
-      return 'redaktionelle Prüfung ausstehend' if description_status_internal?
+      return I18n.t('request.description.default_group') if default_group?
+      return I18n.t('request.description.internal') if description_status_internal?
       super
     end
 
