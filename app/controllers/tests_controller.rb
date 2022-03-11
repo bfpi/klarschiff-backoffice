@@ -4,18 +4,36 @@ class TestsController < ApplicationController
   include Filter
   before_action { check_auth :test }
 
+  PERMITTED_JOBS = %w[
+    ArchiveClosedIssuesJob
+    CalculateAverageTurnaroundTimeJob
+    DeleteAuthorsAfterDeadlineJob
+    DeleteUnconfirmedAbuseReportsJob
+    DeleteUnconfirmedIssuesJob
+    DeleteUnconfirmedPhotosJob
+    DeleteUnconfirmedSupportersJob
+    InformEditorialStaffOnIssuesJob
+    InformOnDelegatedIssuesJob
+    NotifyOnClosedIssuesJob
+    NotifyOnIssuesInProcessJob
+  ].freeze
+  PERMITTED_TESTS = %i[protocol_email protocol_ldap run_job].freeze
+
   def index; end
 
   def create
-    return send(params[:test].to_sym) if respond_to?(params[:test].to_sym, true)
+    test = params[:test].to_sym
+    return send(test) if PERMITTED_TESTS.include?(test) && respond_to?(test, true)
     render plain: 'Test unbekannt', status: :bad_request
   end
 
   private
 
   def run_job
-    params[:job].constantize.perform_now
-    render plain: "#{params[:job]} erfolgreich ausgeführt", status: :ok
+    job = params[:job]
+    return render plain: 'Job unbekannt', status: :bad_request unless PERMITTED_JOBS.include?(job)
+    job.constantize.perform_now
+    render plain: "#{job} erfolgreich ausgeführt", status: :ok
   rescue StandardError => e
     render plain: e.message, status: :bad_request
   end
