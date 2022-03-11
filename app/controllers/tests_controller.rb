@@ -22,16 +22,16 @@ class TestsController < ApplicationController
   def index; end
 
   def create
-    test = params[:test].to_sym
-    return send(test) if PERMITTED_TESTS.include?(test) && respond_to?(test, true)
-    render plain: 'Test unbekannt', status: :bad_request
+    test = PERMITTED_TESTS.find { |t| t == params[:test].to_sym }
+    return render plain: 'Test unbekannt', status: :bad_request unless test
+    send test
   end
 
   private
 
   def run_job
-    job = params[:job]
-    return render plain: 'Job unbekannt', status: :bad_request unless PERMITTED_JOBS.include?(job)
+    job = PERMITTED_JOBS.find { |j| j == params[:job] }
+    return render plain: 'Job unbekannt', status: :bad_request unless job
     job.constantize.perform_now
     render plain: "#{job} erfolgreich ausgeführt", status: :ok
   rescue StandardError => e
