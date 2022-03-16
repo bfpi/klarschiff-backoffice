@@ -11,7 +11,7 @@ DEFAULTS: &DEFAULTS
   ldap:
   group_feedback_recipient: false
   role: 0
-  notification_recipient: false
+  group_responsibility_recipient: false
 
 one:
   <<: *DEFAULTS
@@ -22,7 +22,7 @@ two:
 
 three:
   <<: *DEFAULTS
-  notification_recipient: true
+  group_responsibility_recipient: true
 
 admin:
   <<: *DEFAULTS

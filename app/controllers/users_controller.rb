@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 
   def permitted_attributes
     [:active, :role, :first_name, :last_name, :login, :ldap, :email, :password, :password_confirmation,
-     :group_feedback_recipient, :notification_recipient, { district_ids: [] }, { group_ids: [] }]
+     :group_feedback_recipient, :group_responsibility_recipient, { district_ids: [] }, { group_ids: [] }]
   end
 
   def filter_name_columns

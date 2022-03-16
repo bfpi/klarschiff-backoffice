@@ -2,16 +2,16 @@
 
 require 'test_helper'
 
-class NotifyIssuesGroupJobTest < ActiveJob::TestCase
+class NotifyOnGroupAssignedResponsibilityJobTest < ActiveJob::TestCase
   include ActionMailer::TestHelper
 
   setup { ActionMailer::Base.deliveries.clear }
 
   test 'performable and mails get sent' do
     issue = issue(:received_not_accepted_two)
-    recipients = issue.group.notification_recipients
+    recipients = issue.group.responsibility_notification_recipients
     assert_emails 1 do
-      assert_nothing_raised { NotifyIssuesGroupJob.perform_now }
+      assert_nothing_raised { NotifyOnGroupAssignedResponsibilityJob.perform_now }
     end
     assert_performed_with(
       job: ActionMailer::MailDeliveryJob,
