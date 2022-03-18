@@ -63,9 +63,18 @@
   </div>
 </div>
 <div class="row">
-  <%= form.label :group_feedback_recipient, class: 'col-2 form-check-label lh-1' %>
+  <%= form.label :recipient, class: 'col-2 col-form-label' %>
   <div class="col-4">
-    <%= form.check_box :group_feedback_recipient, class: 'form-check-input align-bottom' %>
+    <div class="form-check form-check-inline">
+      <div class="form-switch">
+        <%= form.check_box :group_feedback_recipient, class: 'form-check-input' %>
+        <%= form.label :group_feedback_recipient, class: 'form-check-label' %>
+      </div>
+      <div class="form-switch">
+        <%= form.check_box :group_responsibility_recipient, role: :switch, class: 'form-check-input' %>
+        <%= form.label :group_responsibility_recipient, class: 'form-check-label' %>
+      </div>
+    </div>
   </div>
   <%= form.label :password_confirmation, class: 'col-2 col-form-label' %>
   <div class="col-4">

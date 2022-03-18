@@ -1,11 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  uuid: 
+  uuid: '1234-5678-999'
   issue: one
   group: one
 
 two:
-  uuid: 
+  uuid: '1235-5678-888'
   issue: two
   group: two
+
+three:
+  uuid: '4321-1234-111'
+  issue: received_not_accepted_two
+  group: internal2

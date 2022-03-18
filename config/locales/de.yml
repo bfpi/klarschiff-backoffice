@@ -110,7 +110,8 @@ de:
         districts: Gemeinden/Gemeindeteile
         email: E-Mail
         first_name: Vorname
-        group_feedback_recipient: Lob/Hinweis/Kritik Empfänger
+        group_feedback_recipient: Lob/Hinweis/Kritik Benachrichtigung
+        group_responsibility_recipient: Gruppenzuständigkeitsbenachrichtigung
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
@@ -360,6 +361,7 @@ de:
         password: Passwort *
       user:
         password: Neues Passwort
+        recipient: Empfänger von
   imprint: Impressum
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:

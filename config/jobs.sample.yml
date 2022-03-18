@@ -2,11 +2,12 @@ development: &default
   abuse:
     deletion_deadline_days: 1
   issue:
-    delegation_deadline_days: 1
-    deletion_deadline_days: 1
     archival_deadline_days: 30
     author_deletion_deadline_days: 1
     author_deletion_replacement: '- bei Archivierung entfernt -'
+    delegation_deadline_days: 1
+    deletion_deadline_days: 1
+    group_responsibility_notification_deadline_days: 7
     status_change_days: 1
   photo:
     deletion_deadline_days: 1

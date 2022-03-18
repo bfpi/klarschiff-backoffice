@@ -26,3 +26,14 @@ field_service:
 internal:
   <<: *DEFAULTS
   users: one
+
+internal2:
+  <<: *DEFAULTS
+  email:
+  main_user:
+  users: three
+
+no_users_and_email:
+  <<: *DEFAULTS
+  email:
+  main_user:

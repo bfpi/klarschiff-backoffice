@@ -28,4 +28,21 @@ class IssueTest < ActiveSupport::TestCase
   test 'respond_to reviewed_at?' do
     assert_respond_to issue(:one), :reviewed_at?
   end
+
+  test 'group_responsibility_notified_at' do
+    issue = issue(:one)
+    assert_not_nil issue.group_responsibility_notified_at
+    issue.group = group(:two)
+    assert issue.group_id_changed?
+    assert_not_empty issue.group.responsibility_notification_recipients
+    assert_changes 'issue.group_responsibility_notified_at' do
+      assert issue.save
+    end
+    issue.responsibility_action = :reject
+    issue.group = group(:no_users_and_email)
+    assert_empty issue.group.responsibility_notification_recipients
+    assert_changes 'issue.group_responsibility_notified_at', to: nil do
+      assert issue.save
+    end
+  end
 end

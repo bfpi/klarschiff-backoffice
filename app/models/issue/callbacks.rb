@@ -16,6 +16,7 @@ class Issue
       before_validation :set_responsibility
       before_validation :set_reviewed, on: :update, unless: :status_changed?
 
+      before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by
@@ -29,9 +30,8 @@ class Issue
       validates :description, :position, :status, presence: true
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
-      validates :status_note, presence: true, if: lambda {
-                                                    status_changed? && status.to_i > Issue.statuses[:reviewed]
-                                                  }, on: :update
+      validates :status_note, presence: true, on: :update,
+                              if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
     end
 
     private
@@ -129,10 +129,14 @@ class Issue
     end
 
     def notify_group
-      return if group.user_ids.present?
+      return if (recipients = group.responsibility_notification_recipients).blank?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
-      email = group.email.presence || group.main_user.email
-      IssueMailer.responsibility(to: email, issue: self, auth_code: auth_code).deliver_now
+      ResponsibilityMailer.issue(self, to: recipients, auth_code: auth_code).deliver_later
+      update! group_responsibility_notified_at: Time.current
+    end
+
+    def clear_group_responsibility_notified_at
+      self.group_responsibility_notified_at = nil
     end
   end
 end

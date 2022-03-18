@@ -1,0 +1,9 @@
+Nachfolgende Meldungen wurden in Ihre Zuständigkeit übergeben und sind seit mindestens <%= @days %> Tagen noch nicht akzeptiert.
+
+Bitte prüfen Sie die Sachverhalte, akzeptieren die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation oder schließen Sie die Meldung ab, falls dies bislang einfach vergessen wurde:
+
+Nummer<%= "\t" %>Typ<%= "\t" %>zugewiesen seit
+******<%= "\t" %>***<%= "\t" %>***************
+<% @issues.each do |issue| -%>
+<%= [issue.id, MainCategory.human_enum_name(:kind, issue.kind), l(issue.responsibility_since)].join("\t") %>
+<% end -%>

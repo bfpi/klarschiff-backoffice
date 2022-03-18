@@ -3,7 +3,7 @@
 class IssueMailer < ApplicationMailer
   helper :application, :issues
 
-  def issue(issue_email:)
+  def forward(issue_email:)
     @issue_email = issue_email
     image_attachments issue_email: issue_email if issue_email.send_photos?
     mail to: issue_email.to_email, bcc: issue_email.from_email, reply_to: issue_email.from_email
@@ -29,12 +29,6 @@ class IssueMailer < ApplicationMailer
     @days = days
     @issues = issues
     mail(to: to, interpolation: { subject: { title: Settings::Instance.name } })
-  end
-
-  def responsibility(to:, issue:, auth_code:)
-    @issue = issue
-    @auth_code = auth_code
-    mail(to: to, interpolation: { subject: { number: @issue.id } })
   end
 
   private
