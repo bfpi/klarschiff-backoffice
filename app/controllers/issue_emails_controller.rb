@@ -5,8 +5,8 @@ class IssueEmailsController < ApplicationController
     @issue_email = IssueEmail.new
     @issue_email.issue_id = params[:issue_id]
     @issue_email.send_map = 1
-    subject = ApplicationMailer.mailer_config.dig(:issue_mailer, :forward, :subject)
-    str = render_to_string(template: 'issue_mailer/issue')
+    subject = ApplicationMailer.mailer_config.dig(:issue_mailer, :forward_by_user_mail_client, :subject)
+    str = render_to_string(template: 'issue_mailer/forward')
     render plain: "mailto:?subject=#{format(subject, number: @issue_email.issue_id)}&body=#{ERB::Util.url_encode(str)}"
   end
 
@@ -24,8 +24,7 @@ class IssueEmailsController < ApplicationController
     @issue_email.issue_id = params[:issue_id]
     @issue_email.validate
     return render action: :new if @issue_email.errors.present?
-
-    IssueMailer.issue(issue_email: @issue_email).deliver_now
+    IssueMailer.forward(issue_email: @issue_email).deliver_now
   end
 
   private

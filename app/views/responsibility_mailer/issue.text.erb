@@ -4,7 +4,7 @@ es wurde eine Meldung an Sie zugewiesen. Klicken Sie auf den folgenden Link, um 
 
 Daten der zugewiesenen Meldung
 ***
-<%= render partial: 'issue', object: @issue, locals: { issue_link: issues_url(auth_code: @auth_code.uuid) } -%>
+<%= render partial: 'issue_mailer/issue', object: @issue, locals: { issue_link: issues_url(auth_code: @auth_code.uuid) } -%>
 
 Vielen Dank und mit freundlichen Grüßen
 

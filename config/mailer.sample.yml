@@ -23,15 +23,18 @@ development: &default
     delegation:
       subject: "Neue delegierte Meldungen"
     forward:
+      subject: Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV
+    forward_by_user_mail_client:
       subject: Weitergeleitete Meldung
     in_process:
       subject: "#%{number}: in Bearbeitung"
     inform_editorial_staff:
       subject: "%{title}: wichtige redaktionelle Hinweise"
+  responsibility_mailer:
     issue:
-      subject: Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV
-    responsibility:
       subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
+    remind_group:
+      subject: "Erinnerung an Meldungen mit noch nicht akzeptierter Zuständigkeit für: %{group}"
   test_mailer:
     test:
       subject: Test-Mail

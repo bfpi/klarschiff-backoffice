@@ -27,7 +27,7 @@ internal:
   <<: *DEFAULTS
   users: one
 
-internal_2:
+internal2:
   <<: *DEFAULTS
   email:
   main_user:

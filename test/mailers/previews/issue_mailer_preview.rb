@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class IssueMailerPreview < ActionMailer::Preview
-  def issue_forward_by_system_all_options_enabled
+  def forward_issue_by_system_all_options_enabled
     issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
     issue_email.enable_all
-    IssueMailer.issue issue_email: issue_email
+    IssueMailer.forward issue_email: issue_email
   end
 
-  def issue_forward_by_user_mail_client
+  def forward_issue_by_user_mail_client
     issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
     issue_email.send_map = 1
-    IssueMailer.issue issue_email: issue_email
+    IssueMailer.forward issue_email: issue_email
   end
 
   def in_process
@@ -23,10 +23,6 @@ class IssueMailerPreview < ActionMailer::Preview
 
   def delegation
     IssueMailer.delegation to: 'test@bfpi.de', issues: Issue.limit(5)
-  end
-
-  def responsibility
-    IssueMailer.responsibility to: 'test@bfpi.de', issue: Issue.first, auth_code: AuthCode.new(uuid: SecureRandom.uuid)
   end
 
   def delegation_with_auth_code

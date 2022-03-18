@@ -131,8 +131,8 @@ class Issue
     def notify_group
       return if (recipients = group.responsibility_notification_recipients).blank?
       auth_code = AuthCode.find_or_create_by(issue: self, group: group)
+      ResponsibilityMailer.issue(self, to: recipients, auth_code: auth_code).deliver_later
       update! group_responsibility_notified_at: Time.current
-      IssueMailer.responsibility(to: recipients, issue: self, auth_code: auth_code).deliver_later
     end
 
     def clear_group_responsibility_notified_at

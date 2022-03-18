@@ -13,4 +13,4 @@ two:
 three:
   uuid: '4321-1234-111'
   issue: received_not_accepted_two
-  group: internal_2
+  group: internal2

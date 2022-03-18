@@ -40,7 +40,7 @@ received_not_accepted_two:
   responsibility_accepted: false
   reviewed_at: <%= Time.current - 7.days - 1.hour %>
   status: received
-  group: internal_2
+  group: internal2
   group_responsibility_notified_at: <%= Time.current - 7.days - 1.hour %>
 
 received_not_released:
