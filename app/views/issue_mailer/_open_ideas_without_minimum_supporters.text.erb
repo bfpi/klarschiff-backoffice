@@ -1,8 +1,8 @@
 <%= t '.problem', status: Issue.human_enum_name(:status, :received), days: days, votes: Settings::Vote.min_requirement %>
 <%= t '.hint', status: Issue.human_enum_name(:status, :not_solvable) %>
 
-Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Unterstützungen<%= "\t" %>(Erst-)Sichtungszeitpunkt
-******<%= "\t" %>**********************<%= "\t" %>***************<%= "\t" %>*************************
+Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Unterstützungen<%= "\t" %>(Erst-)Sichtungszeitpunkt
+******<%= "\t" %>*************<%= "\t" %>***************<%= "\t" %>*************************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.group, issue.supporters.count, "\t", l(issue.status_since)].join("\t") %>
+<%= [issue.id, issue.group, issue.supporters.count, "\t", l(issue.status_since, format: :elaborate)].join("\t") %>
 <% end -%>
