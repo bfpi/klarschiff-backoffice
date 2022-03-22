@@ -9,7 +9,7 @@ Anmerkungen der/des Absenderin/Absenders
 Daten der weitergeleiteten Meldung
 ***
 <%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>
-<%= Issue.human_attribute_name(:created_at) %>: <%= l(@issue_email.issue.created_at, format: :no_seconds) %>
+<%= Issue.human_attribute_name(:created_at) %>: <%= l(@issue_email.issue.created_at, format: :elaborate) %>
 <%= MainCategory.human_attribute_name(:kind) %>: <%= MainCategory.human_enum_name(:kind, @issue_email.issue.kind) %>
 <%= Category.human_attribute_name(:main_category) %>: <%= @issue_email.issue.main_category %>
 <%= Category.human_attribute_name(:sub_category) %>: <%= @issue_email.issue.sub_category %>
@@ -35,7 +35,7 @@ Freigabestatus der Beschreibung: <%= Issue.human_enum_name(:description_status, 
 <% if @issue_email.issue.delegation.present? -%>
 Delegation: <%= @issue_email.issue.delegation.name %>
 <% end -%>
-<%= Issue.human_attribute_name(:updated_at) %>: <%= l(@issue_email.issue.updated_at, format: :no_seconds) %>
+<%= Issue.human_attribute_name(:updated_at) %>: <%= l(@issue_email.issue.updated_at, format: :elaborate) %>
 
 <% if @issue_email.send_map? -%>
 Karte

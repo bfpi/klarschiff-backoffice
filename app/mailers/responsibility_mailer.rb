@@ -12,6 +12,6 @@ class ResponsibilityMailer < ApplicationMailer
   def remind_group(group, to:, issues:)
     @issues = issues
     @days = JobSettings::Issue.group_responsibility_notification_deadline_days
-    mail to: to, interpolation: { subject: { group: group.name } }
+    mail to: to, interpolation: { subject: { group: group.short_name } }
   end
 end

@@ -1,5 +1,5 @@
 <%= Issue.human_attribute_name :id %>: <%= issue.id %>
-<%= Issue.human_attribute_name :created_at %>: <%= l(issue.created_at, format: :no_seconds) %>
+<%= Issue.human_attribute_name :created_at %>: <%= l(issue.created_at, format: :elaborate) %>
 <%= MainCategory.human_attribute_name :kind %>: <%= MainCategory.human_enum_name :kind, issue.kind %>
 <%= Category.human_attribute_name :main_category %>: <%= issue.main_category %>
 <%= Category.human_attribute_name :sub_category %>: <%= issue.sub_category %>

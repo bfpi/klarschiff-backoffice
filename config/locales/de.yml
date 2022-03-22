@@ -374,15 +374,15 @@ de:
   issue_mailer:
     open_ideas_without_minimum_supporters:
       problem: >-
-        Folgende Ideen mit dem Status "%{status}" haben ihre (Erst-)Sichtung seit mindestens %{days} Tagen hinter sich,
+        Folgende Ideen mit dem Status „%{status}“ haben ihre (Erst-)Sichtung seit mindestens %{days} Tag(en) hinter sich,
         weisen aber bisher noch nicht die notwendige Anzahl von %{votes} Unterstützungen auf.
       hint: >-
-        Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status "%{status}" und
+        Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status „%{status}“ und
         geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels des öffentlichen Statuskommentars:
     without_editorial_approval:
       hint: >-
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
-        redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus "%{status}":
+        redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus „%{status}“:
   issues:
     issues_buttons:
       assign_jobs: Zuordnung für Außendienst
@@ -469,6 +469,7 @@ de:
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"
+      elaborate: "%d.%m.%Y, %H:%M Uhr"
       no_seconds: "%d.%m.%Y %H:%M"
       short: "%H:%M"
   to: bis

@@ -1,7 +1,8 @@
-Folgende Meldungen sind älter als <%= days %> Tage und noch im Status "<%= Issue.human_enum_name :status, :in_process %>":
+Folgende Meldungen sind älter als <%= days %> Tag(e) und noch im Status „<%= Issue.human_enum_name :status, :in_process %>“:
 
-Nummer<%= "\t" %>aktuelle Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Erstellungszeitpunkt
-******<%= "\t" %>**********************<%= "\t" %>***<%= "\t" %>********************
+Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Erstellungszeitpunkt
+******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>********************
 <% issues.each do |issue| -%>
-<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind), l(issue.created_at)].join("\t") %>
+<%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
+     l(issue.created_at, format: :elaborate)].join("\t") %>
 <% end -%>
