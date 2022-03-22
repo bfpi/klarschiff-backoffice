@@ -37,3 +37,13 @@ editor:
   <<: *DEFAULTS
   role: 2
   groups: internal
+
+editor2:
+  <<: *DEFAULTS
+  role: 2
+  groups: internal3
+
+regional_admin:
+  <<: *DEFAULTS
+  role: 1
+  groups: internal2

@@ -118,4 +118,9 @@ class IssueTest < ActiveSupport::TestCase
       issue.update! description: '4, 5, 6, ... other test'
     end
   end
+
+  test 'authorized scope' do
+    Current.user = user(:admin)
+    assert_equal Issue.count, Issue.authorized.count
+  end
 end

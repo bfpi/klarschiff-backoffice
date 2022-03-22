@@ -7,4 +7,10 @@ class EditorialNotification < ApplicationRecord
   validates :level, uniqueness: { scope: :user_id }
 
   delegate :first_name, :last_name, :email, :group_feedback_recipient, to: :user, prefix: true
+
+  def self.authorized(user = Current.user)
+    return all if user&.role_admin?
+    return none unless user&.role_regional_admin?
+    where(user_id: User.includes(:groups).where(group: { id: user.group_ids }).select(:id))
+  end
 end

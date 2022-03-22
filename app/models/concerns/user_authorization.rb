@@ -88,7 +88,7 @@ module UserAuthorization
     manage_feedbacks: %i[admin regional_admin],
     manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
-    manage_mail_blacklist: %i[admin regional_admin],
+    manage_mail_blacklist: %i[admin],
     manage_mail_templates: %i[admin],
     manage_responsibilities: %i[admin regional_admin],
     manage_users: %i[admin regional_admin],

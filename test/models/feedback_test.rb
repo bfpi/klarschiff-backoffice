@@ -14,4 +14,13 @@ class FeedbackTest < ActiveSupport::TestCase
     feedback.valid?
     assert_empty feedback.errors.details[:author]
   end
+
+  test 'authorized scope' do
+    Current.user = user(:admin)
+    assert_equal Feedback.count, Feedback.authorized.count
+    Current.user = user(:regional_admin)
+    assert_equal Feedback.where(issue_id: Issue.authorized.select(:id)).count, Feedback.authorized.count
+    Current.user = user(:editor)
+    assert_empty Feedback.authorized
+  end
 end
