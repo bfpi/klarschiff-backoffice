@@ -2,7 +2,7 @@ Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
 
 es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
 
-<%= render partial: 'issue_mailer/issue', object: @issue, locals: { issue_link: issues_url(auth_code: @auth_code.uuid) } -%>
+<%= render partial: 'issue_mailer/issue', object: @issue, locals: { issue_link: @issue_url } -%>
 
 Vielen Dank und mit freundlichen Grüßen
 

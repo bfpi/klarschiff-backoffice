@@ -41,8 +41,5 @@ class IssueTest < ActiveSupport::TestCase
     issue.responsibility_action = :reject
     issue.group = group(:no_users_and_email)
     assert_empty issue.group.responsibility_notification_recipients
-    assert_changes 'issue.group_responsibility_notified_at', to: nil do
-      assert issue.save
-    end
   end
 end

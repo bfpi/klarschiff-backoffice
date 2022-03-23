@@ -3,8 +3,9 @@
 class ResponsibilityMailer < ApplicationMailer
   helper :application
 
-  def issue(issue, to:, auth_code:)
+  def issue(issue, to:, auth_code: nil)
     @issue = issue
+    @issue_url = auth_code ? issues_url(auth_code: auth_code.uuid) : edit_issue_url(issue)
     @auth_code = auth_code
     mail to: to, interpolation: { subject: { number: @issue.id } }
   end
