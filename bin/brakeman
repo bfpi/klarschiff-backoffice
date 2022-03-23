@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+# vim: set ft=sh:
+echo "Checking Brakeman rules ..."
+bundle exec brakeman --quiet --format text $@
+echo "Rerun with option -I to handle ignores"
