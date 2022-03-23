@@ -1,4 +1,0 @@
----
-:output_format: :to_sarif
-:output_files:
-- tmp/output.sarif.json

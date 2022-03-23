@@ -40,7 +40,7 @@ jobs:
 
     - name: Setup Brakeman
       env:
-        BRAKEMAN_VERSION: '~> 5.1.2' # SARIF support is provided in Brakeman version 4.10+
+        BRAKEMAN_VERSION: '~> 5.2.1' # SARIF support is provided in Brakeman version 4.10+
       run: |
         gem install brakeman --version "$BRAKEMAN_VERSION"
 
@@ -48,7 +48,7 @@ jobs:
     - name: Scan
       continue-on-error: true
       run: |
-        brakeman
+        brakeman --format sarif --output tmp/output.sarif.json
 
     # Upload the SARIF file generated in the previous step
     - name: Upload SARIF

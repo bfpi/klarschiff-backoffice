@@ -38,6 +38,7 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
 
+  gem 'brakeman'
   gem 'bullet'
   gem 'pronto-rubocop', require: false
   gem 'rubocop-performance'

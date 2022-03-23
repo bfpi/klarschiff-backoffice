@@ -5,3 +5,4 @@ bin/eslint
 bin/coffeelint
 bin/stylelint
 bin/erblint
+bin/brakeman
