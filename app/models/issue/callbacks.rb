@@ -131,7 +131,7 @@ class Issue
     def notify_group
       touch :group_responsibility_notified_at # rubocop:disable Rails/SkipsModelValidations
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
-      ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_now
+      ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
     end
 
     def notify_group_options(users)
