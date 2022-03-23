@@ -9,6 +9,8 @@ class GroupTest < ActiveSupport::TestCase
     Current.user = user(:editor)
     assert_empty Group.authorized
     Current.user = user(:regional_admin)
-    assert_equal Current.user.groups.count, Group.authorized.count
+    groups = Current.user.groups.active.distinct.pluck(:type, :reference_id)
+      .map { |(t, r)| Group.where type: t, reference_id: r }.inject :or
+    assert_equal groups.count, Group.authorized.count
   end
 end

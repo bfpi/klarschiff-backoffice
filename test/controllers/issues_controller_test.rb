@@ -10,10 +10,4 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
   end
-
-  test 'not authorized index for editor without assigned issues' do
-    login username: :editor2
-    get '/issues'
-    assert_response :forbidden
-  end
 end

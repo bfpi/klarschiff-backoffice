@@ -8,7 +8,7 @@ class EditorialNotificationTest < ActiveSupport::TestCase
     assert_equal EditorialNotification.count, EditorialNotification.authorized.count
     Current.user = user(:regional_admin)
     notifications = EditorialNotification.where(
-      user_id: User.includes(:groups).where(group: { id: user.group_ids }).select(:id)
+      user_id: User.includes(:groups).where(group: { id: Current.user.group_ids }).select(:id)
     )
     assert_equal notifications.count, EditorialNotification.authorized.count
     Current.user = user(:editor)
