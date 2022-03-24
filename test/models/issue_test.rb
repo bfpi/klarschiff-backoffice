@@ -38,11 +38,44 @@ class IssueTest < ActiveSupport::TestCase
     assert_changes 'issue.group_responsibility_notified_at' do
       assert issue.save
     end
-    issue.responsibility_action = :reject
-    issue.group = group(:no_users_and_email)
-    assert_empty issue.group.responsibility_notification_recipients
-    assert_changes 'issue.group_responsibility_notified_at', to: nil do
-      assert issue.save
+    assert_in_delta issue.reload.group_responsibility_notified_at, Time.current, 2
+    travel_to(time = Time.current + 2.weeks) do
+      issue.responsibility_action = :reject
+      issue.group = group(:no_users_and_email)
+      assert_empty issue.group.responsibility_notification_recipients
+      assert_changes 'issue.group_responsibility_notified_at' do
+        assert issue.save
+      end
+      assert_in_delta issue.reload.group_responsibility_notified_at, time, 2
     end
+  end
+
+  test 'send mail for group responsibility notification for groups with enabled recipients users' do
+    issue = issue(:one)
+    issue.group = group(:internal2)
+    assert issue.group_id_changed?
+    assert_not_empty issue.group.responsibility_notification_recipients
+    assert issue.save
+    assert_enqueued_email_with ResponsibilityMailer, :issue, args: [
+      issue, { to: issue.group.responsibility_notification_recipients }
+    ]
+  end
+
+  test 'send no for group responsibility notification for groups without enabled recipients users' do
+    issue = issue(:two)
+    issue.group = group(:internal)
+    assert issue.group_id_changed?
+    assert_not_empty issue.group.responsibility_notification_recipients
+    assert_no_enqueued_emails { assert issue.save }
+  end
+
+  test 'send mail with auth_code for group responsibility notification for external groups as reference default' do
+    issue = issue(:one)
+    issue.group = group(:reference_default)
+    assert issue.group_id_changed?
+    assert issue.save
+    assert_enqueued_email_with ResponsibilityMailer, :issue, args: [
+      issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
+    ]
   end
 end

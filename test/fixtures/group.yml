@@ -37,3 +37,7 @@ no_users_and_email:
   <<: *DEFAULTS
   email:
   main_user:
+
+reference_default:
+  <<: *DEFAULTS
+  reference_default: true

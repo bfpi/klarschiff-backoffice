@@ -129,10 +129,20 @@ class Issue
     end
 
     def notify_group
-      return if (recipients = group.responsibility_notification_recipients).blank?
-      auth_code = AuthCode.find_or_create_by(issue: self, group: group)
-      ResponsibilityMailer.issue(self, to: recipients, auth_code: auth_code).deliver_later
-      update! group_responsibility_notified_at: Time.current
+      touch :group_responsibility_notified_at # rubocop:disable Rails/SkipsModelValidations
+      return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
+      ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
+    end
+
+    def notify_group_options(users)
+      if group.reference_default?
+        {
+          auth_code: AuthCode.find_or_create_by(issue: self, group: group),
+          to: group.email.presence || group.main_user.email
+        }
+      else
+        { to: users.map(&:email) }
+      end
     end
 
     def clear_group_responsibility_notified_at
