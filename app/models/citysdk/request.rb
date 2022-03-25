@@ -5,6 +5,7 @@ module Citysdk
     include Citysdk::Serialization
     include Citysdk::RequestSetter
     include Citysdk::Request::Media
+    include Citysdk::PrivacyPolicy
 
     attr_writer :lat, :long, :address_string
 
