@@ -42,7 +42,7 @@ class User < ApplicationRecord
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
     return none unless user&.role_regional_admin?
-    not_role_admin.eager_load(:groups).where(group: { id: Group.authorized(user) })
+    not_role_admin.eager_load(:groups).where(group: { id: Group.active.authorized(user) })
   end
 
   def to_s
