@@ -3,6 +3,8 @@
 require 'test_helper'
 
 class VotesControllerTest < ActionDispatch::IntegrationTest
+  setup { configure_privacy_settings }
+
   test 'create without attributes' do
     post "/citysdk/requests/votes/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
@@ -13,6 +15,13 @@ class VotesControllerTest < ActionDispatch::IntegrationTest
     post "/citysdk/requests/votes/#{issue(:one).id}.xml", params: { author: 'test@example.com' }
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/votes/vote/id').count
+  end
+
+  test 'create without privacy_policy_accepted' do
+    configure_privacy_settings(active: true)
+    post "/citysdk/requests/votes/#{issue(:one).id}.xml", params: { author: 'test@example.com' }
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'confirm' do

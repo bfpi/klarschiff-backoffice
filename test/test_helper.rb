@@ -49,6 +49,10 @@ module ActiveSupport
       assert object.valid?
     end
 
+    def configure_privacy_settings(active: false)
+      Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { active }
+    end
+
     def configure_password_settings(length: nil, included_characters: [], history: 0)
       PasswordValidator.min_length = length if length
       Settings::Password.redefine_singleton_method(:password_history) { history }

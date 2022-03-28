@@ -20,7 +20,7 @@ module Citysdk
       def create
         note = Citysdk::Note.new
         note.assign_attributes(params.permit(:service_request_id, :author, :comment, :privacy_policy_accepted))
-
+        note.privacy_policy_accepted ||= false
         comment = note.becomes(::Comment)
         comment.save!
 

@@ -11,7 +11,7 @@ module Citysdk
       def create
         vote = Citysdk::Vote.new
         vote.assign_attributes(params.permit(:service_request_id, :author, :privacy_policy_accepted))
-
+        vote.privacy_policy_accepted ||= false
         supporter = vote.becomes(Supporter)
         supporter.author = vote.author
         supporter.save!

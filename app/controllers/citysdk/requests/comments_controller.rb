@@ -21,7 +21,7 @@ module Citysdk
       def create
         comment = Citysdk::Comment.new
         comment.assign_attributes(params.permit(:service_request_id, :author, :comment, :privacy_policy_accepted))
-
+        comment.privacy_policy_accepted ||= false
         comment_report = comment.becomes(Feedback)
         comment_report.save!
 
