@@ -63,6 +63,7 @@
       <div class="row">
         <div class="col-12">
           <%= form.fields_for :photos do |photo_form| %>
+            <% next if photo_form.index >= 1 -%>
             <%= photo_form.label 'status_internal', '',
                   title: photo_status_internal_title,
                   class: 'form-check-label' do %>
