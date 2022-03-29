@@ -14,7 +14,7 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed, on: :update, unless: :status_changed?
+      before_validation :set_reviewed_at, on: :update, if: -> { status_changed? && status_reviewed? }
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
@@ -103,10 +103,9 @@ class Issue
       responsibility_action&.to_sym == :reject
     end
 
-    def set_reviewed
+    def set_reviewed_at
       return if reviewed_at.present?
       self.reviewed_at = Time.current
-      status_reviewed!
     end
 
     def set_expected_closure

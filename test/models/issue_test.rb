@@ -78,4 +78,12 @@ class IssueTest < ActiveSupport::TestCase
       issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
     ]
   end
+
+  test 'set_reviewed_at callback' do
+    issue = issue(:received)
+    assert issue.valid?
+    assert_not issue.reviewed_at
+    issue.update(status: 'reviewed')
+    assert issue.reviewed_at
+  end
 end

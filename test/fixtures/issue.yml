@@ -24,7 +24,7 @@ DEFAULTS: &DEFAULTS
 received:
   <<: *DEFAULTS
   created_at: <%= Time.current - 1.day - 2.hours %>
-  reviewed_at: <%= Time.current - 1.day - 1.hour %>
+  reviewed_at:
   status: received
 
 received_not_accepted:
