@@ -117,6 +117,7 @@ class Issue
     end
 
     def set_updated_by
+      return if Current.user.blank?
       self.updated_by_user = Current.user
       self.updated_by_auth_code = Current.user&.auth_code
     end
@@ -128,7 +129,7 @@ class Issue
     end
 
     def notify_group
-      touch :group_responsibility_notified_at # rubocop:disable Rails/SkipsModelValidations
+      update_attribute :group_responsibility_notified_at, Time.current # rubocop:disable Rails/SkipsModelValidations
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
       ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
     end
