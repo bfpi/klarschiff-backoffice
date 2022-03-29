@@ -19,6 +19,7 @@ class Group < ApplicationRecord
     has_and_belongs_to_many :users
   end
 
+  validate :no_associated_categories, if: -> { !active && active_changed? }
   validates :name, presence: true
   validates :email, presence: true, if: -> { main_user_id.blank? && !kind_field_service_team? }
 
@@ -82,5 +83,10 @@ class Group < ApplicationRecord
 
   def full_text_content
     [name, short_name, human_enum_name(:type), human_enum_name(:kind), email].join(' ')
+  end
+
+  def no_associated_categories
+    return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id })
+    errors.add :base, :associated_categories
   end
 end

@@ -128,6 +128,10 @@ de:
         blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
         email: ist keine gültige E-Mail-Adresse.
       models:
+        group:
+          attributes:
+            base:
+              associated_categories: Gruppen mit Zuständigkeiten können nicht deaktiviert werden. 
         issue:
           attributes:
             category:
