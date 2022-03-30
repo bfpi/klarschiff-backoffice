@@ -129,7 +129,7 @@ class Issue
     end
 
     def notify_group
-      self.group_responsibility_notified_at = Time.current
+      update group_responsibility_notified_at: Time.current
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
       ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
     end
