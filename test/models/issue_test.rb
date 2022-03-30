@@ -82,8 +82,9 @@ class IssueTest < ActiveSupport::TestCase
   test 'set_reviewed_at callback' do
     issue = issue(:received)
     assert issue.valid?
-    assert_not issue.reviewed_at
-    issue.update(status: 'reviewed')
-    assert issue.reviewed_at
+    assert_nil issue.reviewed_at
+    issue.status_reviewed!
+    assert_in_delta issue.reload.reviewed_at, Time.current, 2
+    assert issue.status_reviewed?
   end
 end
