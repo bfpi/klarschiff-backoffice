@@ -445,9 +445,11 @@ de:
     index:
       new_mail_blacklist: Neuer Eintrag
   nav:
-    dashboard: Startseite
-    logout: Logout
     administration: Administration
+    dashboard: Startseite
+    help: Hilfe
+    info: Info
+    logout: Logout
   no_result: Die Suche ergab kein Resultat.
   password:
     capital: Großbuchstaben
