@@ -51,6 +51,9 @@
       <% end -%>
     </div>
   <% end -%>
+  <div class="col-auto">
+    <%= issue.supporters.count %> <%= Issue.human_attribute_name(:supporters) %>
+  </div>
   <% if issue.priority.to_sym == :high %>
     <div class="col-auto">
       <%= Issue.human_attribute_name(:priority) %>
