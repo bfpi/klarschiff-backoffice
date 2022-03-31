@@ -25,6 +25,7 @@ development: &default
     city_short: Rostock
     frontend_issue_url: https://www.klarschiff-hro.de/map?request=%d
     parent_instance_url: https://www.klarschiff-mv.de/
+    show_help: false
   issue:
     status_note_max_length: 500
   job:
