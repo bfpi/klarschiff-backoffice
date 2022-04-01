@@ -3,8 +3,6 @@
 require 'test_helper'
 
 class RequestsControllerTest < ActionDispatch::IntegrationTest
-  setup { configure_privacy_settings }
-
   test 'index without api-key' do
     get '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)
