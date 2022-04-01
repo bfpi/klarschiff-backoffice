@@ -2,6 +2,7 @@
 
 module Citysdk
   class Note < ::Comment
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
     include Citysdk::PrivacyPolicy
 

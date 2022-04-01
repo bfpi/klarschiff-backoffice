@@ -2,6 +2,7 @@
 
 module Citysdk
   class Vote < ::Supporter
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
     include Citysdk::PrivacyPolicy
 

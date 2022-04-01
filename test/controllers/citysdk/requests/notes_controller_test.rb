@@ -77,7 +77,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
-  test 'create without privacy_policy_accepted' do
+  test 'reject create without privacy_policy_accepted if required' do
     configure_privacy_settings(active: true)
     post "/citysdk/requests/notes/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
       params: { author: 'one@example.com', comment: 'abcde' }

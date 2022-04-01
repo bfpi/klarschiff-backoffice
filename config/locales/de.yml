@@ -128,20 +128,6 @@ de:
         blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
         email: ist keine gültige E-Mail-Adresse.
       models:
-        application: &privacy_policy_errors
-          attributes:
-            base:
-              privacy_policy_not_accepted: Die Datenschutzerklärung muss bestätigt werden.
-        citysdk/abuse:
-          <<: *privacy_policy_errors
-        citysdk/comment:
-          <<: *privacy_policy_errors
-        citysdk/note:
-          <<: *privacy_policy_errors
-        citysdk/request:
-          <<: *privacy_policy_errors
-        citysdk/vote:
-          <<: *privacy_policy_errors
         issue:
           attributes:
             category:
@@ -254,6 +240,7 @@ de:
     last_editor: letzter Bearbeiter
     message: Nachricht
     name: Name
+    privacy_policy_accepted: Datenschutzbestimmung
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen

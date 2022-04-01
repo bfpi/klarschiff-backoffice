@@ -2,6 +2,7 @@
 
 module Citysdk
   class Comment < ::Feedback
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
     include Citysdk::PrivacyPolicy
 

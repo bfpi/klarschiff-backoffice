@@ -41,7 +41,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, doc.xpath('/comments/comment/id').count
   end
 
-  test 'create without privacy_policy_accepted' do
+  test 'reject create without privacy_policy_accepted if required' do
     configure_privacy_settings(active: true)
     post "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}",
       params: { author: 'test@example.com', comment: 'abcde' }

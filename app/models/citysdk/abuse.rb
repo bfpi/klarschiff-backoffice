@@ -2,6 +2,7 @@
 
 module Citysdk
   class Abuse < ::AbuseReport
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
     include Citysdk::PrivacyPolicy
 

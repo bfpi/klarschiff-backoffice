@@ -163,7 +163,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
-  test 'create without privacy_policy_accepted' do
+  test 'reject create without privacy_policy_accepted if required' do
     configure_privacy_settings(active: true)
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
     doc = Nokogiri::XML(response.parsed_body)

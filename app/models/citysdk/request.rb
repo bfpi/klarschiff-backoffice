@@ -2,6 +2,7 @@
 
 module Citysdk
   class Request < ::Issue
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
     include Citysdk::RequestSetter
     include Citysdk::Request::Media

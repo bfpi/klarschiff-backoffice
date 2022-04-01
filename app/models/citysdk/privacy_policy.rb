@@ -4,16 +4,12 @@ module Citysdk
   module PrivacyPolicy
     extend ActiveSupport::Concern
 
-    def privacy_policy_accepted
-      @privacy_policy_accepted
-    end
+    included do
+      include ActiveModel::Validations
 
-    def privacy_policy_accepted=(value)
-      if Settings::Instance.validate_privacy_policy && !value
-        errors.add :base, :privacy_policy_not_accepted
-        raise ActiveRecord::RecordInvalid, self
-      end
-      @privacy_policy_accepted = value
+      attr_accessor :privacy_policy_accepted
+
+      validates :privacy_policy_accepted, acceptance: true, if: -> { Settings::Instance.validate_privacy_policy }
     end
   end
 end
