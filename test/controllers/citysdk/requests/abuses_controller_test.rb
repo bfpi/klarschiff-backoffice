@@ -3,8 +3,6 @@
 require 'test_helper'
 
 class AbusesControllerTest < ActionDispatch::IntegrationTest
-  setup { configure_privacy_settings }
-
   test 'create without attributes' do
     post "/citysdk/requests/abuses/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
