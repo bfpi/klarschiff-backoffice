@@ -15,7 +15,7 @@ class AbusesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, doc.xpath('/abuses/abuse/id').count
   end
 
-  test 'create without privacy_policy_accepted' do
+  test 'reject create without privacy_policy_accepted if required' do
     configure_privacy_settings(active: true)
     post "/citysdk/requests/abuses/#{issue(:one).id}.xml", params: { author: 'test@example.com', comment: 'abcde' }
     doc = Nokogiri::XML(response.parsed_body)
