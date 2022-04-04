@@ -3,6 +3,8 @@
 require 'test_helper'
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
+  setup { configure_privacy_settings }
+
   test 'index without api-key' do
     get "/citysdk/requests/comments/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)

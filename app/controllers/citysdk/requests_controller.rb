@@ -36,8 +36,7 @@ module Citysdk
       request = Request.new
       request.assign_attributes params.permit(:email, :service_code, :description, :lat, :long,
         :address_string, :photo_required, :media, :privacy_policy_accepted).merge(status: :pending)
-      request.privacy_policy_accepted ||= false
-      issue = request.becomes(Issue)
+      issue = request.becomes_if_valid!(Issue)
       issue.new_photo = request.new_photo if request.new_photo.present?
       issue.save!
 
