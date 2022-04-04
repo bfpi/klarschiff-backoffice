@@ -21,6 +21,10 @@ module Citysdk
     alias_attribute :email, :author
     alias_attribute :service_code, :category_id
 
+    %i[add_photo update_address_parcel_property_owner reset_archived set_reviewed].each do |filter|
+      skip_callback :validation, :before, filter
+    end
+
     def self.authorized(tips:)
       return all if tips
       includes(category: :main_category).where.not main_category: { kind: :tip }

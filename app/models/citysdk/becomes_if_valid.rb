@@ -5,8 +5,8 @@ module Citysdk
     extend ActiveSupport::Concern
 
     def becomes_if_valid!(target)
-      return becomes(target) if valid?
-      raise ActiveRecord::RecordInvalid, self
+      raise ActiveRecord::RecordInvalid, self unless valid?
+      becomes(target)
     end
   end
 end
