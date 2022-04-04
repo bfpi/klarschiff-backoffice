@@ -8,6 +8,7 @@ DEFAULTS: &DEFAULTS
   description: MyText $LABEL
   description_status: external
   group: internal
+  group_responsibility_notified_at: <%= Time.current - 1.hours %>
   job: $LABEL
   parcel: MyText
   photo_requested: false
@@ -19,13 +20,15 @@ DEFAULTS: &DEFAULTS
   status: received
   status_note: status note $LABEL
   trust_level: internal
-  group_responsibility_notified_at: <%= Time.current - 1.hours %>
+  updated_by_user: one
+  updated_by_auth_code:
 
 received:
   <<: *DEFAULTS
   created_at: <%= Time.current - 1.day - 2.hours %>
   reviewed_at:
   status: received
+  updated_by_user:
 
 received_not_accepted:
   <<: *DEFAULTS
@@ -113,6 +116,7 @@ unconfirmed:
   <<: *DEFAULTS
   confirmation_hash: 5487366c-2894-48e6-9d52-965185f052a3
   status: pending
+  updated_by_user:
 
 in_process:
   <<: *DEFAULTS

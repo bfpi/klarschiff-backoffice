@@ -14,12 +14,13 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed_at, on: :update, if: -> { status_changed? && status_reviewed? }
+      before_validation :set_reviewed_at, on: :update,
+        if: -> { status_changed? && status_reviewed? }, unless: :reviewed_at?
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
-      before_save :set_updated_by
+      before_save :set_updated_by, if: -> { Current.user }
 
       after_save :notify_group,
         if: lambda {
@@ -104,7 +105,6 @@ class Issue
     end
 
     def set_reviewed_at
-      return if reviewed_at.present?
       self.reviewed_at = Time.current
     end
 
@@ -117,7 +117,6 @@ class Issue
     end
 
     def set_updated_by
-      return if Current.user.blank?
       self.updated_by_user = Current.user
       self.updated_by_auth_code = Current.user&.auth_code
     end

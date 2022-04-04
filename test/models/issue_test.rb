@@ -87,4 +87,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_in_delta issue.reload.reviewed_at, Time.current, 2
     assert issue.status_reviewed?
   end
+
+  test 'set_updated_by callback' do
+    issue = issue(:reviewed)
+    assert_no_changes 'issue.updated_by_user' do
+      issue.update! description: '1, 2, 3, ... test'
+    end
+    Current.user = user(:two)
+    assert_changes 'issue.updated_by_user', to: Current.user do
+      issue.update! description: '4, 5, 6, ... other test'
+    end
+  end
 end
