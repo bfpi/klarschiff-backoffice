@@ -218,7 +218,6 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: valid_update_params
     doc = Nokogiri::XML(response.parsed_body)
-    p doc
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_equal 1, service_request_id.count
   end

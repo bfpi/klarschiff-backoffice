@@ -20,8 +20,7 @@ class VotesControllerTest < ActionDispatch::IntegrationTest
   test 'reject create without privacy_policy_accepted if required' do
     configure_privacy_settings(active: true)
     post "/citysdk/requests/votes/#{issue(:one).id}.xml", params: { author: 'test@example.com' }
-    doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
   end
 
   test 'confirm' do

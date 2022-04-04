@@ -38,6 +38,12 @@ module ActiveSupport
       user(username).update!(ldap: 'cn=test,ou=klarschiff,ou=HRO,o=EDITOR')
     end
 
+    def assert_privacy_acceptence_validation(doc)
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+      msg = doc.xpath('//description').children[0].content
+      assert_equal 'Gültigkeitsprüfung ist fehlgeschlagen: Datenschutzbestimmung muss akzeptiert werden', msg
+    end
+
     def assert_error_messages(doc, code, description)
       error_message = doc.xpath('/error_messages/error_message')
       assert_equal code, error_message.css('code/text()').first.to_s
