@@ -14,12 +14,13 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed, on: :update, unless: :status_changed?
+      before_validation :set_reviewed_at, on: :update,
+        if: -> { status_changed? && status_reviewed? }, unless: :reviewed_at?
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
-      before_save :set_updated_by
+      before_save :set_updated_by, if: -> { Current.user }
 
       after_save :notify_group,
         if: lambda {
@@ -103,10 +104,8 @@ class Issue
       responsibility_action&.to_sym == :reject
     end
 
-    def set_reviewed
-      return if reviewed_at.present?
+    def set_reviewed_at
       self.reviewed_at = Time.current
-      status_reviewed!
     end
 
     def set_expected_closure
@@ -129,7 +128,7 @@ class Issue
     end
 
     def notify_group
-      touch :group_responsibility_notified_at # rubocop:disable Rails/SkipsModelValidations
+      update group_responsibility_notified_at: Time.current
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
       ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
     end
