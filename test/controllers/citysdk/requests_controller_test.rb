@@ -3,8 +3,6 @@
 require 'test_helper'
 
 class RequestsControllerTest < ActionDispatch::IntegrationTest
-  setup { configure_privacy_settings }
-
   test 'index without api-key' do
     get '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)
@@ -166,10 +164,11 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'reject create without privacy_policy_accepted if required' do
-    configure_privacy_settings(active: true)
-    post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
-    doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      doc = Nokogiri::XML(response.parsed_body)
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    end
   end
 
   test 'create with frontend api-key and photo' do

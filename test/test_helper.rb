@@ -55,8 +55,11 @@ module ActiveSupport
       assert object.valid?
     end
 
-    def configure_privacy_settings(active: false)
+    def with_privacy_settings(active: false, &block)
+      old = Settings::Instance.validate_privacy_policy
       Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { active }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { old }
     end
 
     def configure_password_settings(length: nil, included_characters: [], history: 0)

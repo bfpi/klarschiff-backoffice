@@ -3,8 +3,6 @@
 require 'test_helper'
 
 class AbusesControllerTest < ActionDispatch::IntegrationTest
-  setup { configure_privacy_settings }
-
   test 'create without attributes' do
     post "/citysdk/requests/abuses/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
@@ -18,9 +16,10 @@ class AbusesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'reject create without privacy_policy_accepted if required' do
-    configure_privacy_settings(active: true)
-    post "/citysdk/requests/abuses/#{issue(:one).id}.xml", params: { author: 'test@example.com', comment: 'abcde' }
-    assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests/abuses/#{issue(:one).id}.xml", params: { author: 'test@example.com', comment: 'abcde' }
+      assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    end
   end
 
   test 'confirm' do

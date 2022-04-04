@@ -3,8 +3,6 @@
 require 'test_helper'
 
 class NotesControllerTest < ActionDispatch::IntegrationTest
-  setup { configure_privacy_settings }
-
   test 'index without api-key' do
     get "/citysdk/requests/notes/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
@@ -80,9 +78,10 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'reject create without privacy_policy_accepted if required' do
-    configure_privacy_settings(active: true)
-    post "/citysdk/requests/notes/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
-      params: { author: 'one@example.com', comment: 'abcde' }
-    assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests/notes/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
+        params: { author: 'one@example.com', comment: 'abcde' }
+      assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    end
   end
 end
