@@ -3,6 +3,7 @@
 module Citysdk
   class Request < ::Issue
     include Citysdk::BecomesIfValid
+    include Citysdk::CallbackSkips
     include Citysdk::Serialization
     include Citysdk::RequestSetter
     include Citysdk::Request::Media
@@ -20,10 +21,6 @@ module Citysdk
     alias_attribute :detailed_status_datetime, :status_date
     alias_attribute :email, :author
     alias_attribute :service_code, :category_id
-
-    %i[add_photo update_address_parcel_property_owner reset_archived set_reviewed].each do |filter|
-      skip_callback :validation, :before, filter
-    end
 
     def self.authorized(tips:)
       return all if tips
