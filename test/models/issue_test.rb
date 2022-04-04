@@ -32,21 +32,29 @@ class IssueTest < ActiveSupport::TestCase
   test 'group_responsibility_notified_at' do
     issue = issue(:one)
     assert_not_nil issue.group_responsibility_notified_at
-    issue.group = group(:two)
-    assert issue.group_id_changed?
-    assert_not_empty issue.group.responsibility_notification_recipients
-    assert_changes 'issue.group_responsibility_notified_at' do
-      assert issue.save
-    end
-    assert_in_delta issue.reload.group_responsibility_notified_at, Time.current, 2
-    travel_to(time = Time.current + 2.weeks) do
-      issue.responsibility_action = :reject
-      issue.group = group(:no_users_and_email)
-      assert_empty issue.group.responsibility_notification_recipients
-      assert_changes 'issue.group_responsibility_notified_at' do
-        assert issue.save
+    assert_no_changes 'issue.updated_by_user' do
+      assert_no_changes 'issue.status' do
+        issue.group = group(:two)
+        assert issue.group_id_changed?
+        assert_not_empty issue.group.responsibility_notification_recipients
+        assert_changes 'issue.group_responsibility_notified_at' do
+          assert issue.save
+        end
+        assert_in_delta issue.reload.group_responsibility_notified_at, Time.current, 2
       end
-      assert_in_delta issue.reload.group_responsibility_notified_at, time, 2
+    end
+    travel_to(time = Time.current + 2.weeks) do
+      assert_no_changes 'issue.updated_by_user' do
+        assert_no_changes 'issue.status' do
+          issue.responsibility_action = :reject
+          issue.group = group(:no_users_and_email)
+          assert_empty issue.group.responsibility_notification_recipients
+          assert_changes 'issue.group_responsibility_notified_at' do
+            assert issue.save
+          end
+          assert_in_delta issue.reload.group_responsibility_notified_at, time, 2
+        end
+      end
     end
   end
 
