@@ -101,7 +101,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_no_changes 'issue.updated_by_user' do
       issue.update! description: '1, 2, 3, ... test'
     end
-    Current.user = user(:two)
+    Current.user = user(:admin)
     assert_changes 'issue.updated_by_user', to: Current.user do
       issue.update! description: '4, 5, 6, ... other test'
     end

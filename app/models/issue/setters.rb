@@ -50,10 +50,8 @@ class Issue
       responsibility_action&.to_sym == :close_as_not_solvable
     end
 
-    def set_reviewed
-      return if reviewed_at.present?
+    def set_reviewed_at
       self.reviewed_at = Time.current
-      status_reviewed!
     end
 
     def set_expected_closure

@@ -19,6 +19,7 @@ one:
 two:
   <<: *DEFAULTS
   role: 1
+  groups: internal
 
 three:
   <<: *DEFAULTS
