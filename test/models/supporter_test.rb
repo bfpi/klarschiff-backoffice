@@ -13,4 +13,16 @@ class SupporterTest < ActiveSupport::TestCase
       args: [{ to: supporter.author, confirmation_hash: supporter.confirmation_hash, issue_id: supporter.issue_id }]
     )
   end
+
+  test 'validate author as email' do
+    supporter = Supporter.new(issue: issue(:one))
+    assert_not supporter.valid?
+    assert_equal [{ error: :blank }], supporter.errors.details[:author]
+    supporter.author = 'abc'
+    assert_not supporter.valid?
+    assert_equal [{ error: :email, value: 'abc' }], supporter.errors.details[:author]
+    supporter.author = 'abc@example.com'
+    supporter.valid?
+    assert_empty supporter.errors.details[:author]
+  end
 end

@@ -78,4 +78,16 @@ class IssueTest < ActiveSupport::TestCase
       issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
     ]
   end
+
+  test 'validate author as email' do
+    issue = Issue.new
+    assert_not issue.valid?
+    assert_equal [{ error: :blank }], issue.errors.details[:author]
+    issue.author = 'abc'
+    assert_not issue.valid?
+    assert_equal [{ error: :email, value: 'abc' }], issue.errors.details[:author]
+    issue.author = 'abc@example.com'
+    issue.valid?
+    assert_empty issue.errors.details[:author]
+  end
 end
