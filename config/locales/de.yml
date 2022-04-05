@@ -60,6 +60,7 @@ de:
         field_service_date: Datum
         field_service_team: Team
         group: Zuständigkeit
+        group_responsibility_notified_at: Benachrichtigungszeitpunkt
         id: Nummer
         job: Außendienst
         new_photo: Foto hinzufügen
