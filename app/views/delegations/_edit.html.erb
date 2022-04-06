@@ -8,7 +8,7 @@
         <div class="col text-end">
           <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
                 issue_issue_exports_path(@issue),
-                target: :_blank, id: :issue_export, title: 'Daten der Meldung ausdrucken', rel: :noopener %>
+                target: :_blank, id: :issue_export, title: 'PDF-Übersichtsblatt mit Daten der Meldung erzeugen', rel: :noopener %>
         </div>
         <div id="print-map" class="print-map"
           data-lat="<%= @issue.position&.y %>"

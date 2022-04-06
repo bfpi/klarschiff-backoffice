@@ -80,7 +80,7 @@ KS.initializeMaps = (with_wms = true) ->
           matrixSet: '<%= layer[:matrix_set] %>'
           format: 'image/png'
           requestEncoding: 'REST'
-          crossOrigin: 'anonymous' # crossOrigin-Key ist für die Karte beim  Druck von Meldungen relevant
+          crossOrigin: 'anonymous' # relevant für Karte bei PDF-Erzeugung
           projection: KS.projection
           tileGrid: new (ol.tilegrid.WMTS)
             origin: ol.extent.getTopLeft(KS.projection.getExtent())
