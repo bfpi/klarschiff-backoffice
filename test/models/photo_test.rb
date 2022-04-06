@@ -14,6 +14,18 @@ class PhotoTest < ActiveSupport::TestCase
     )
   end
 
+  test 'validate author as email' do
+    photo = Photo.new
+    assert_not photo.valid?
+    assert_equal [{ error: :blank }], photo.errors.details[:author]
+    photo.author = 'abc'
+    assert_not photo.valid?
+    assert_equal [{ error: :email, value: 'abc' }], photo.errors.details[:author]
+    photo.author = 'abc@example.com'
+    photo.valid?
+    assert_empty photo.errors.details[:author]
+  end
+
   private
 
   def test_file

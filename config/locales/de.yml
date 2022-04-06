@@ -60,6 +60,7 @@ de:
         field_service_date: Datum
         field_service_team: Team
         group: Zuständigkeit
+        group_responsibility_notified_at: Benachrichtigungszeitpunkt
         id: Nummer
         job: Außendienst
         new_photo: Foto hinzufügen
@@ -240,6 +241,7 @@ de:
     last_editor: letzter Bearbeiter
     message: Nachricht
     name: Name
+    privacy_policy_accepted: Datenschutzbestimmung
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen
