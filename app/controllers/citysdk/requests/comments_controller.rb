@@ -21,8 +21,7 @@ module Citysdk
       def create
         comment = Citysdk::Comment.new
         comment.assign_attributes(params.permit(:service_request_id, :author, :comment, :privacy_policy_accepted))
-
-        comment_report = comment.becomes(Feedback)
+        comment_report = comment.becomes_if_valid!(Feedback)
         comment_report.save!
 
         citysdk_response comment, root: :comments, element_name: :comment, show_only_id: true, status: :created

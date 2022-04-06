@@ -12,8 +12,7 @@ module Citysdk
       def create
         abuse = Citysdk::Abuse.new
         abuse.assign_attributes(params.permit(:service_request_id, :author, :comment, :privacy_policy_accepted))
-
-        abuse_report = abuse.becomes(AbuseReport)
+        abuse_report = abuse.becomes_if_valid!(AbuseReport)
         abuse_report.save!
 
         citysdk_response abuse, root: :abuses, element_name: :abuse, show_only_id: true, status: :created
