@@ -17,7 +17,7 @@ class Feedback < ApplicationRecord
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
     return none unless user&.role_regional_admin?
-    where(issue_id: Issue.authorized.select(:id))
+    where issue_id: Issue.authorized(user)
   end
 
   def to_s
