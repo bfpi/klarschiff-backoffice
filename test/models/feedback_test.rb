@@ -16,11 +16,9 @@ class FeedbackTest < ActiveSupport::TestCase
   end
 
   test 'authorized scope' do
-    Current.user = user(:admin)
-    assert_equal Feedback.count, Feedback.authorized.count
-    Current.user = user(:regional_admin)
-    assert_equal Feedback.where(issue_id: Issue.authorized.select(:id)).count, Feedback.authorized.count
-    Current.user = user(:editor)
-    assert_empty Feedback.authorized
+    assert_equal Feedback.ids, Feedback.authorized(user(:admin)).ids
+    user = user(:regional_admin)
+    assert_equal Issue.authorized(user).flat_map(&:feedback_ids).sort, Feedback.authorized(user).ids.sort
+    assert_empty Feedback.authorized(user(:editor)).ids
   end
 end

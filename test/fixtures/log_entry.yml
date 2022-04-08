@@ -36,3 +36,14 @@ status_in_process_entry:
   table: issue
   user: one
 
+description_updated:
+  action: Beschreibung geändert
+  attr: description
+  created_at: <%= Time.current - 7.days - 2.hours + 5.minutes %>
+  issue: received_not_accepted
+  new_value: abc d
+  old_value: abc
+  subject_id: <%= ActiveRecord::FixtureSet.identify :received_not_accepted %>
+  subject_name: Test $LABEL
+  table: issue
+  user: one

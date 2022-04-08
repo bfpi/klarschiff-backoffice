@@ -4,11 +4,10 @@ require 'test_helper'
 
 class LogEntryTest < ActiveSupport::TestCase
   test 'authorized scope' do
-    Current.user = user(:admin)
-    assert_equal LogEntry.all, LogEntry.authorized
-    Current.user = user(:regional_admin)
-    assert LogEntry.authorized.any?
-    Current.user = user(:editor)
-    assert_empty LogEntry.authorized
+    assert_equal LogEntry.ids, LogEntry.authorized(user(:admin)).ids
+    user = user(:regional_admin2)
+    assert LogEntry.authorized(user).any?
+    assert_not_equal LogEntry.ids, LogEntry.authorized(user).ids
+    assert_empty LogEntry.authorized(user(:editor))
   end
 end

@@ -120,9 +120,10 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test 'authorized scope' do
-    Current.user = user(:admin)
-    assert_equal Issue.count, Issue.authorized.count
-    Current.user = user(:editor2)
-    assert_empty Issue.authorized
+    assert_equal Issue.ids, Issue.authorized(user(:admin)).ids
+    user = user(:regional_admin)
+    assert Issue.authorized(user).any?
+    assert_not_equal Issue.ids, Issue.authorized(user).ids
+    assert_empty Issue.authorized(user(:editor2))
   end
 end

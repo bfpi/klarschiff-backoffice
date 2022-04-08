@@ -88,7 +88,7 @@ class Issue
 
       def authorized_group_ids(user = Current.user)
         return user.groups.active.ids unless user&.role_regional_admin?
-        Group.authorized(user).ids
+        Group.authorized(user).ids # allow issues of inactive groups for regio admin
       end
     end
   end

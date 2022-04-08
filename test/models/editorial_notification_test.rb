@@ -4,14 +4,12 @@ require 'test_helper'
 
 class EditorialNotificationTest < ActiveSupport::TestCase
   test 'authorized scope' do
-    Current.user = user(:admin)
-    assert_equal EditorialNotification.count, EditorialNotification.authorized.count
-    Current.user = user(:regional_admin)
+    assert_equal EditorialNotification.ids, EditorialNotification.authorized(user(:admin)).ids
+    user = user(:regional_admin)
     notifications = EditorialNotification.where(
-      user_id: User.includes(:groups).where(group: { id: Current.user.group_ids }).select(:id)
+      user_id: User.joins(:groups).where(group: { id: user.group_ids })
     )
-    assert_equal notifications.count, EditorialNotification.authorized.count
-    Current.user = user(:editor)
-    assert_empty EditorialNotification.authorized
+    assert_equal notifications.ids, EditorialNotification.authorized(user).ids
+    assert_empty EditorialNotification.authorized(user(:editor)).ids
   end
 end
