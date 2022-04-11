@@ -31,6 +31,7 @@ internal2:
   <<: *DEFAULTS
   email:
   main_user:
+  reference_id: <%= ActiveRecord::FixtureSet.identify :two %>
   users: three
 
 internal3:
