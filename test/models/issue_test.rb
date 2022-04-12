@@ -118,4 +118,12 @@ class IssueTest < ActiveSupport::TestCase
       issue.update! description: '4, 5, 6, ... other test'
     end
   end
+
+  test 'authorized scope' do
+    assert_equal Issue.ids, Issue.authorized(user(:admin)).ids
+    user = user(:regional_admin)
+    assert Issue.authorized(user).any?
+    assert_not_equal Issue.ids, Issue.authorized(user).ids
+    assert_empty Issue.authorized(user(:editor2))
+  end
 end

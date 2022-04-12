@@ -88,8 +88,7 @@ class Issue
 
       def authorized_group_ids(user = Current.user)
         return user.groups.active.ids unless user&.role_regional_admin?
-        user.groups.active.map { |gr| Group.active.where(type: gr.type, reference_id: gr.reference_id) }
-          .flatten.map(&:id)
+        Group.authorized(user).ids # allow issues of inactive groups for regio admin
       end
     end
   end

@@ -3,7 +3,11 @@
 require 'test_helper'
 
 class IssuesControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  %i[admin regional_admin editor].each do |role|
+    test "authorized index for #{role}" do
+      login username: role
+      get '/issues'
+      assert_response :success
+    end
+  end
 end

@@ -3,7 +3,13 @@
 require 'test_helper'
 
 class EditorialNotificationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'authorized scope' do
+    assert_equal EditorialNotification.ids, EditorialNotification.authorized(user(:admin)).ids
+    user = user(:regional_admin)
+    notifications = EditorialNotification.where(
+      user_id: User.joins(:groups).where(group: { id: user.group_ids })
+    )
+    assert_equal notifications.ids, EditorialNotification.authorized(user).ids
+    assert_empty EditorialNotification.authorized(user(:editor)).ids
+  end
 end
