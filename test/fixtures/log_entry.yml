@@ -36,3 +36,26 @@ status_in_process_entry:
   table: issue
   user: one
 
+description_updated:
+  action: Beschreibung geändert
+  attr: description
+  created_at: <%= Time.current - 7.days - 2.hours + 5.minutes %>
+  issue: received_not_accepted_two
+  new_value: abc d
+  old_value: abc
+  subject_id: <%= ActiveRecord::FixtureSet.identify :received_not_accepted_two %>
+  subject_name: Test $LABEL
+  table: issue
+  user: one
+
+mail_blacklist_changed:
+  action: Muster geändert
+  attr: description
+  created_at: <%= Time.current - 7.days - 2.hours + 5.minutes %>
+  issue:
+  new_value: abc d
+  old_value: abc
+  subject_id: <%= ActiveRecord::FixtureSet.identify :one %>
+  subject_name: Test $LABEL
+  table: mail_blacklist
+  user: one

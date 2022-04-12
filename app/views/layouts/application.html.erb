@@ -106,20 +106,31 @@
               <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><%= Current.user %></a>
-                  <div class="dropdown-menu dropdown-menu-right">
+                  <ul class="dropdown-menu dropdown-menu-right">
                     <% if Current.user&.authorized?(:change_user) -%>
-                      <%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %>
+                      <li><%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <% if Current.user&.authorized?(:change_password) -%>
-                      <%= link_to 'Passwort ändern', change_password_users_url, class: 'dropdown-item' %>
+                      <li><%= link_to 'Passwort ändern', change_password_users_url, class: 'dropdown-item' %></li>
                     <% end -%>
-                    <%= link_to 'Info', infos_url, class: 'dropdown-item' %>
-                  </div>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                      <%= link_to logins_url, class: 'dropdown-item', method: :delete do %>
+                        <i class="fa fa-sign-out"></i> <%= t('nav.logout') %>
+                      <% end -%>
+                    </li>
+                  </ul>
                 </li>
                 <li class="nav-item">
-                  <%= link_to tag.i('', class: 'fa fa-sign-out'), logins_url,
-                        class: 'nav-link', method: :delete, title: t('nav.logout') %>
+                  <%= link_to tag.i('', class: 'fa fa-info-circle'), infos_url,
+                        class: 'nav-link', title: t('nav.info') %>
                 </li>
+                <% if Settings::Instance.show_help -%>
+                  <li class="nav-item">
+                    <%= link_to tag.i('', class: 'fa fa-question-circle'), help_url,
+                          class: 'nav-link', title: t('nav.help') %>
+                  </li>
+                <% end -%>
               </ul>
             <% end -%>
           </div>

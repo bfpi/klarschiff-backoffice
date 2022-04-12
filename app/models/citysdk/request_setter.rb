@@ -21,8 +21,6 @@ module Citysdk
       super(value.to_i)
     end
 
-    def privacy_policy_accepted=(value); end
-
     def delegation=(value)
       if (new_delegation = Group.kind_external.find_by(short_name: value)).blank?
         errors.add :delegation, :invalid

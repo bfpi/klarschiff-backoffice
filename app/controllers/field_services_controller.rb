@@ -30,7 +30,7 @@ class FieldServicesController < ApplicationController
   private
 
   def groups
-    Group.active.where(kind: :field_service_team)
+    Group.active.authorized.where(kind: :field_service_team)
   end
 
   def field_service_params

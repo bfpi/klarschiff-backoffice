@@ -60,6 +60,7 @@ de:
         field_service_date: Datum
         field_service_team: Team
         group: Zuständigkeit
+        group_responsibility_notified_at: Benachrichtigungszeitpunkt
         id: Nummer
         job: Außendienst
         new_photo: Foto hinzufügen
@@ -218,7 +219,9 @@ de:
       responsibility:
         one: Zuständigkeit
         other: Zuständigkeiten
-      supporter: Unterstützer
+      supporter:
+        one: Unterstützung
+        other: Unterstützungen
       user: Benutzer
   aerial_view: Luftbild
   api_key:
@@ -244,6 +247,7 @@ de:
     last_editor: letzter Bearbeiter
     message: Nachricht
     name: Name
+    privacy_policy_accepted: Datenschutzbestimmung
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen
@@ -449,9 +453,11 @@ de:
     index:
       new_mail_blacklist: Neuer Eintrag
   nav:
-    dashboard: Startseite
-    logout: Logout
     administration: Administration
+    dashboard: Startseite
+    help: Hilfe
+    info: Info
+    logout: Logout
   no_result: Die Suche ergab kein Resultat.
   password:
     capital: Großbuchstaben

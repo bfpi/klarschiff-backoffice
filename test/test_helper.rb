@@ -38,6 +38,12 @@ module ActiveSupport
       user(username).update!(ldap: 'cn=test,ou=klarschiff,ou=HRO,o=EDITOR')
     end
 
+    def assert_privacy_acceptence_validation(doc)
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+      msg = doc.xpath('//description').children[0].content
+      assert_equal 'Gültigkeitsprüfung ist fehlgeschlagen: Datenschutzbestimmung muss akzeptiert werden', msg
+    end
+
     def assert_error_messages(doc, code, description)
       error_message = doc.xpath('/error_messages/error_message')
       assert_equal code, error_message.css('code/text()').first.to_s
@@ -47,6 +53,13 @@ module ActiveSupport
     def assert_valid(object)
       puts "\nUnexpected error(s) on #{object.class}: #{object.errors.full_messages.inspect}" unless object.valid?
       assert object.valid?
+    end
+
+    def with_privacy_settings(active: false, &block)
+      old = Settings::Instance.validate_privacy_policy
+      Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { active }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { old }
     end
 
     def configure_password_settings(length: nil, included_characters: [], history: 0)

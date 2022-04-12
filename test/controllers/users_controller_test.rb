@@ -5,6 +5,20 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup { configure_password_settings(length: 4, included_characters: %i[lowercase capital]) }
 
+  %i[admin regional_admin].each do |role|
+    test "authorized index for #{role}" do
+      login username: role
+      get '/users'
+      assert_response :success
+    end
+  end
+
+  test 'not authorized index for editor' do
+    login username: :editor
+    get '/users'
+    assert_response :forbidden
+  end
+
   test 'authorized to change password' do
     login(username: :editor)
     put '/update_password', params: { user: { password: 'Bfpi2', password_confirmation: 'Bfpi2' } }

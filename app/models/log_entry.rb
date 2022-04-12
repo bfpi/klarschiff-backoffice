@@ -13,7 +13,6 @@ class LogEntry < ApplicationRecord
         .or(authorized_users(user))
         .or(authorized_groups(user))
         .or(authorized_responsibilities(user))
-        .or(authorized_mail_blacklists)
     end
 
     def authorized_issues(user = Current.user)

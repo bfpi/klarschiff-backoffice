@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resource :data_dependencies, only: %i[update]
     resource :imprints, only: %i[show]
     resource :infos, only: %i[show]
+    resource :help, only: %i[show]
 
     resources :delegations, only: %i[index edit show update]
     resources :dms, only: %i[index show]

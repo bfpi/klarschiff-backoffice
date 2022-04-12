@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "Niels Bennke <bennke@bfpi.de> (https://bfpi.de)",
   "devDependencies": {
-    "coffeelint": "^2.1.0",
+    "@coffeelint/cli": "^5.2.5",
     "eslint": "^7.13.0",
     "eslint-config-standard": "^16.0.1",
     "eslint-plugin-html-erb": "^1.0.0",

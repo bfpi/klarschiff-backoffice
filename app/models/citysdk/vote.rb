@@ -2,13 +2,13 @@
 
 module Citysdk
   class Vote < ::Supporter
+    include Citysdk::BecomesIfValid
     include Citysdk::Serialization
+    include Citysdk::PrivacyPolicy
 
     attr_accessor :author
 
     self.serialization_attributes = %i[id]
     alias_attribute :service_request_id, :issue_id
-
-    def privacy_policy_accepted=(value); end
   end
 end
