@@ -52,7 +52,7 @@
     </div>
   <% end -%>
   <div class="col-auto">
-    <%= issue.supporters.count %> <%= Issue.human_attribute_name(:supporters) %>
+    <%= c = issue.supporters.count %> <%= Supporter.model_name.human count: c %>
   </div>
   <% if issue.priority.to_sym == :high %>
     <div class="col-auto">
