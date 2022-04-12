@@ -316,6 +316,15 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
+  test 'update attribute detailed_status as rejected with ppc api-key' do
+    issue = issue(:in_process)
+    new_value = 'REJECTED'
+    reloaded_request = update_request_and_reload(issue.id, :detailed_status, new_value)
+    assert_equal 'not_solvable', issue.reload.status
+    assert_equal new_value,
+      reloaded_request.xpath('/service_requests/request/extended_attributes/detailed_status/text()').first.to_s
+  end
+
   test 'update attribute job_priority with ppc api-key' do
     new_value = '4'
     reloaded_request = update_request_and_reload(issue(:one).id, :job_priority, new_value)
