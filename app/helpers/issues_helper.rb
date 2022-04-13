@@ -35,9 +35,9 @@ module IssuesHelper
   end
 
   def nav_item(tab, issue, current_tab, issue_or_delegation = :issue)
-    css_class = "nav-link #{:active if tab == current_tab}"
+    css_class = "nav-link switch-tab #{:active if tab == current_tab}"
     path = send("edit_#{issue_or_delegation}_path", issue, tab: tab)
-    tag.li link_to(t("issues.form.tab.#{tab}"), path, remote: true, class: css_class), class: 'nav-item'
+    tag.li link_to(t("issues.form.tab.#{tab}"), '#', data: { url: path }, class: css_class), class: 'nav-item'
   end
 
   def open_abuse_reports(issue)
