@@ -7,7 +7,7 @@ class FeedbacksController < ApplicationController
   before_action { check_auth :manage_feedbacks }
 
   def index
-    @feedbacks = filter(Feedback.all).unscope(:order).order(order_attr).page(params[:page] || 1)
+    @feedbacks = filter(Feedback.authorized).unscope(:order).order(order_attr).page(params[:page] || 1)
       .per(params[:per_page] || 20)
   end
 
