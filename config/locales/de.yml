@@ -252,6 +252,8 @@ de:
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
+  confirm_changes_html:
+    Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
   contact: Kontakt
   create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
@@ -466,6 +468,7 @@ de:
   search: Suchen
   show_map: Kartenansicht
   simple_search: Einfache Suche
+  submit_changes: Änderungen speichern?
   statuses:
     abuse_report:
       open: " (offen)"
