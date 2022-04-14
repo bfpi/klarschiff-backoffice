@@ -33,14 +33,6 @@ module Citysdk
       set_position_from_attributes
     end
 
-    def set_position_from_attributes
-      return if @address_string.blank? && @lat.blank? && @long.blank?
-      if ::Geocodr.valid?(@address_string)
-        @long, @lat = ::Geocodr.find(@address_string).first['geometry']['coordinates']
-      end
-      self.position = "POINT(#{@long} #{@lat})"
-    end
-
     def agency_responsible
       group.name.dup.tap { |v| v << " [delegiert an: #{delegation.name}]" if delegation }
     end

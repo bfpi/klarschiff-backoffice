@@ -82,7 +82,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.group = group(:reference_default)
     assert issue.group_id_changed?
     assert issue.save
-    assert_enqueued_email_with ResponsibilityMailer, :issue, args: [
+    assert_enqueued_email_with ResponsibilityMailer, :default_group, args: [
       issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
     ]
   end

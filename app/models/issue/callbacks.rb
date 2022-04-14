@@ -87,7 +87,7 @@ class Issue
       ResponsibilityMailer.issue(self, **notify_group_options(users: users)).deliver_later
     end
 
-    def notify_group_options(users: users)
+    def notify_group_options(users: [])
       if group.reference_default?
         {
           auth_code: AuthCode.find_or_create_by(issue: self, group:),

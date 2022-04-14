@@ -4,6 +4,14 @@ module Citysdk
   module RequestSetter
     extend ActiveSupport::Concern
 
+    def set_position_from_attributes
+      return if @address_string.blank? && @lat.blank? && @long.blank?
+      if ::Geocodr.valid?(@address_string)
+        @long, @lat = ::Geocodr.find(@address_string).first['geometry']['coordinates']
+      end
+      self.position = "POINT(#{@long} #{@lat})"
+    end
+
     def detailed_status=(value)
       unless value.in?(Citysdk::Status::PERMISSABLE_CITYSDK_KEYS | [detailed_status])
         errors.add :status, :invalid
