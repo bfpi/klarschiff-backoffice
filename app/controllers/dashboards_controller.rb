@@ -48,7 +48,7 @@ class DashboardsController < ApplicationController
 
   def former_issues(groups)
     return [] if groups.blank?
-    Issue.not_archived.authorized.includes(category: :main_category).where(
+    Issue.not_archived.includes(category: :main_category).where(
       changed_responsibilities(groups.map { |g| "'#{g}'" }.join(', '), groups.ids.join(', '))
     ).limit(10)
   end
