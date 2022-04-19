@@ -3,7 +3,24 @@
 require 'test_helper'
 
 class DashboardsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'show former issues for editor' do
+    login username: :editor
+    get '/dashboards'
+    assert_response :success
+    assert_equal [issue(:former_issue_one).id], @controller.view_assigns['former_issues'].ids
+  end
+
+  test 'show no former issues for admin' do
+    login username: :admin
+    get '/dashboards'
+    assert_response :success
+    assert_empty @controller.view_assigns['former_issues']
+  end
+
+  test 'show former issues for regional admin' do
+    login username: :regional_admin
+    get '/dashboards'
+    assert_response :success
+    assert_equal [issue(:former_issue_two).id], @controller.view_assigns['former_issues'].ids
+  end
 end
