@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_122924) do
+ActiveRecord::Schema.define(version: 2022_04_20_114233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_122924) do
     t.bigint "job_id"
     t.bigint "updated_by_user_id"
     t.bigint "updated_by_auth_code_id"
+    t.datetime "last_notification"
     t.datetime "group_responsibility_notified_at"
     t.index ["archived_at"], name: "index_issue_on_archived_at"
     t.index ["category_id"], name: "index_issue_on_category_id"
@@ -250,6 +251,8 @@ ActiveRecord::Schema.define(version: 2022_02_22_122924) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.bigint "auth_code_id"
+    t.bigint "old_value_id"
+    t.bigint "new_value_id"
     t.index ["attr"], name: "index_log_entry_on_attr"
     t.index ["auth_code_id"], name: "index_log_entry_on_auth_code_id"
     t.index ["issue_id"], name: "index_log_entry_on_issue_id"
@@ -334,6 +337,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_122924) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "password_history"
     t.datetime "password_updated_at"
+    t.boolean "notification_recipient", default: false, null: false
     t.boolean "group_responsibility_recipient", default: false, null: false
   end
 
