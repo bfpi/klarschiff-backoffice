@@ -19,7 +19,7 @@ module Logging
 
     has_many :log_entries, ->(c) { where(table: c.class.table_name) }, # rubocop:disable Rails/InverseOf, Rails/HasManyOrHasOneDependent
       foreign_key: :subject_id do
-      def generate(attr, _action_key, old_value, new_value)
+      def generate(attr, _action_key, old_value, new_value, old_id: nil, new_id: nil)
         subject = proxy_association.owner
         old, new = converted_changes(attr, subject, old_value, new_value)
         return if old.blank? && new.blank?
@@ -27,7 +27,7 @@ module Logging
           subject_id: subject.id, subject_name: subject.logging_subject_name,
           action: Logging.generate_action(subject.class, attr, :update, old, new),
           user: Current.user, auth_code: Current.user&.auth_code,
-          old_value: old, new_value: new
+          old_value: old, new_value: new, old_value_id: old_id, new_value_id: new_id
       end
 
       private
@@ -61,7 +61,8 @@ module Logging
 
   def log_update_for_reflection(attr, reflection, old, new)
     klass = reflection.klass
-    log_entries.generate attr, :update, klass.find_by(id: old).to_s, klass.find_by(id: new).to_s
+    log_entries.generate attr, :update, klass.find_by(id: old).to_s, klass.find_by(id: new).to_s,
+      old_id: old, new_id: new
   end
 
   def log_update_for_non_reflection(attr, old, new)

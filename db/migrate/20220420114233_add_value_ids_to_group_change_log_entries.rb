@@ -13,8 +13,8 @@ class AddValueIdsToGroupChangeLogEntries < ActiveRecord::Migration[6.1]
   private
 
   def add_group_ids!(entry, groups)
-    old_group = find_group(entry.old_value, groups) 
-    new_group = find_group(entry.new_value, groups) 
+    old_group = find_group(entry.old_value, groups)
+    new_group = find_group(entry.new_value, groups)
     entry.update!(old_value_id: old_group&.id, new_value_id: new_group&.id)
     error_logs(entry, old_group, new_group)
   end
@@ -30,14 +30,14 @@ class AddValueIdsToGroupChangeLogEntries < ActiveRecord::Migration[6.1]
 
   def find_group(value, groups)
     return if value.blank?
-    group = Group.find_by(gat[:short_name].eq(value).or(gat[:name].eq(value)))
+    group = groups.find_by(gat[:short_name].eq(value).or(gat[:name].eq(value)))
     return group if group
     value = cut_group_name(value)
-    Group.find_by(gat[:short_name].eq(value).or(gat[:name].eq(value)))
+    groups.find_by(gat[:short_name].eq(value).or(gat[:name].eq(value)))
   end
 
   def cut_group_name(name)
-    name.remove(/\([^\(\)]+\)$/).strip
+    name.remove(/\([^()]+\)$/).strip
   end
 
   def gat
