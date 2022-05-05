@@ -43,7 +43,7 @@ class IssueTest < ActiveSupport::TestCase
         assert_in_delta issue.reload.group_responsibility_notified_at, Time.current, 2
       end
     end
-    travel_to(time = Time.current + 2.weeks) do
+    travel_to(time = 2.weeks.from_now) do
       assert_no_changes 'issue.updated_by_user' do
         assert_no_changes 'issue.status' do
           issue.responsibility_action = :reject

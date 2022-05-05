@@ -10,7 +10,7 @@ module Citysdk
     def show
       service_definition = Citysdk::ServiceDefinition.where(id: params[:id])
       citysdk_response(service_definition, root: :service_definition, element_name: :service,
-                                           document_url: authorized?(:citysdk_d3_document_url))
+        document_url: authorized?(:citysdk_d3_document_url))
     end
 
     private

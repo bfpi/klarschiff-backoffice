@@ -17,7 +17,7 @@ module Logging
     before_update :log_update
     after_destroy :log_destroy
 
-    has_many :log_entries, ->(c) { where(table: c.class.table_name) }, # rubocop:disable Rails/InverseOf
+    has_many :log_entries, ->(c) { where(table: c.class.table_name) }, # rubocop:disable Rails/InverseOf, Rails/HasManyOrHasOneDependent
       foreign_key: :subject_id do
       def generate(attr, _action_key, old_value, new_value)
         subject = proxy_association.owner

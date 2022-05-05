@@ -17,9 +17,9 @@ class User < ApplicationRecord
     has_and_belongs_to_many :groups
     has_and_belongs_to_many :districts
     has_and_belongs_to_many :field_service_teams, class_name: 'Group',
-                                                  join_table: :field_service_team_operator,
-                                                  foreign_key: :operator_id,
-                                                  association_foreign_key: :field_service_team_id
+      join_table: :field_service_team_operator,
+      foreign_key: :operator_id,
+      association_foreign_key: :field_service_team_id
   end
 
   store_accessor :password_history, :next_password_id, :passwords

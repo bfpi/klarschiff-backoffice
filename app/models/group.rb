@@ -13,9 +13,9 @@ class Group < ApplicationRecord
 
   with_options after_add: :log_habtm_add, after_remove: :log_habtm_remove do
     has_and_belongs_to_many :field_service_operators, class_name: 'User',
-                                                      join_table: :field_service_team_operator,
-                                                      association_foreign_key: :operator_id,
-                                                      foreign_key: :field_service_team_id
+      join_table: :field_service_team_operator,
+      association_foreign_key: :operator_id,
+      foreign_key: :field_service_team_id
     has_and_belongs_to_many :users
   end
 

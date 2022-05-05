@@ -15,9 +15,9 @@ module Citysdk
     def show
       @request = Citysdk::Request.authorized(tips: authorized?(:read_tips)).where(id: params[:id])
       citysdk_response @request, root: :service_requests, element_name: :request,
-                                 extensions: params[:extensions].try(:to_boolean),
-                                 property_details: authorized?(:request_property_details),
-                                 job_details: authorized?(:request_job_details)
+        extensions: params[:extensions].try(:to_boolean),
+        property_details: authorized?(:request_property_details),
+        job_details: authorized?(:request_job_details)
     end
 
     # Neuen Vorgang anlegen
