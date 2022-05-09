@@ -22,6 +22,11 @@ module Citysdk
         end
       end
 
+      def validate_keyword
+        return unless (keyword = params[:keyword]).present? && %w[problem idea].exclude?(keyword)
+        raise 'keyword invalid'
+      end
+
       def validate_status
         return unless params[:status].present? && !Citysdk::Status.valid_filter_values(params[:status])
         raise 'status invalid'

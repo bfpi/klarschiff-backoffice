@@ -10,6 +10,7 @@ module Citysdk
       #   api_key             optional - API-Key
       #   service_request_id  optional - Filter: Vorgangs-IDs(Kommaliste)
       #   service_code        optional - Filter: Kategorie-ID
+      #   keyword             optional - Filter: Meldungsart (Options: problem, idea)
       #   status              optional - Filter: Vorgangsstatus (Options: default=open, closed)
       #   detailed_status     optional - Filter: Vorgangsstatus (Options: PENDING, RECEIVED, IN_PROCESS, PROCESSED,
       #                                                                   REJECTED)

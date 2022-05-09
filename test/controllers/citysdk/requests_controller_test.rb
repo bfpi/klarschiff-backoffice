@@ -88,6 +88,12 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'index with invalid keyword filter' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=test"
+    assert_response :error
+    assert_equal 'keyword invalid', response.parsed_body.first['description']
+  end
+
   test 'show without api-key' do
     get "/citysdk/requests/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
