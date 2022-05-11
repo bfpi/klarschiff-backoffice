@@ -29,7 +29,7 @@ class Issue
                 saved_change_to_group_id? && !status_pending?
             }
 
-      validate :issue_in_districts, on: :update
+      validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
@@ -101,14 +101,14 @@ class Issue
       self.group_responsibility_notified_at = nil
     end
 
-    def issue_in_districts
+    def issue_in_authorized_areas
       return if Current.user.blank? || Current.user.role_admin?
-      errors.add(:position, :outside_of_designated_districts) unless position_within_districts?
+      errors.add(:position, :outside_of_designated_districts) unless position_within_authorized_areas?
     end
 
-    def position_within_districts?
+    def position_within_authorized_areas?
       return false unless Current.user
-      Current.user.districts.find_by('ST_Within(?, area)', position).present?
+      Current.user.groups.regional(lat: lat, lon: lon).present?
     end
   end
 end
