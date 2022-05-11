@@ -10,7 +10,7 @@ module Citysdk
       #   api_key             optional - API-Key
       #   service_request_id  optional - Filter: Vorgangs-IDs(Kommaliste)
       #   service_code        optional - Filter: Kategorie-ID
-      #   keyword             optional - Filter: Meldungsart (Options: problem, idea)
+      #   keyword             optional - Filter: Meldungsart (Options: problem, idea, tip)
       #   status              optional - Filter: Vorgangsstatus (Options: default=open, closed)
       #   detailed_status     optional - Filter: Vorgangsstatus (Options: PENDING, RECEIVED, IN_PROCESS, PROCESSED,
       #                                                                   REJECTED)
@@ -23,7 +23,6 @@ module Citysdk
       #   lat                 optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
       #   long                optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
       #   radius              optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
-      #   keyword             optional - Filter: Meldungstyp (Problem|Idee|Tipp)
       #   max_requests        optional - Anzahl der neuesten Meldungen
       #   also_archived       optional - Filter: Auch Archivierte Meldungen beruecksichtigen
       #   just_count          optional - es soll nur die Anzahl der Meldungen zurueckgegeben werden
