@@ -20,7 +20,8 @@ class ImportIssueImagesJob < ApplicationJob
   def import_image(issue, row, images_path)
     photo = issue.photos.new(status: row[2], author: row[5], confirmation_hash: row[6], confirmed_at: row[7],
       created_at: row[8])
-    def photo.confirm; end # override method to skip confirmation mail
+    # override method to skip confirmation mail
+    def photo.confirm; end
     photo.file.attach io: File.open(Pathname.new(images_path).join(row[1])), filename: row[1], content_type: 'image/jpg'
     photo.save!
   end
