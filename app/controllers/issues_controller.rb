@@ -36,7 +36,7 @@ class IssuesController < ApplicationController
     check_auth(:edit_issue, @issue)
     if @issue.update(issue_params) && close_modal?
       unless authorized?(:edit_issue, @issue)
-        session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id)
+        session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id, group: @issue.group)
       end
       return render inline: 'location.reload();'
     end
