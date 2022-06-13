@@ -4,23 +4,66 @@ module Citysdk
   class JobsController < CitysdkController
     skip_before_action :validate_status
 
-    # Neuen Auftrag anlegen
-    # params:
-    #   api_key             pflicht - API-Key
-    #   date                pflicht - Datum
-    #   status              optional - Status
+    # :apidoc: ### Get jobs list
+    # :apidoc: <code>http://[API endpoint]/jobs.[format]</code>
+    # :apidoc:
+    # :apidoc: HTTP Method: GET
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | date | X | Date | Filter jobs that are the equal or lower than the given date |
+    # :apidoc: | status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <jobs>
+    # :apidoc:   <job>
+    # :apidoc:     <id>job.id</id>
+    # :apidoc:     <service-request-id>job.service_request_id</service-request-id>
+    # :apidoc:     <date>job.date</date>
+    # :apidoc:     <agency-responsible>job.agency_responsible</agency-responsible>
+    # :apidoc:     <status>job.status</status>
+    # :apidoc:   </job>
+    # :apidoc:   ...
+    # :apidoc: </jobs>
+    # :apidoc: ```
     def index
       return citysdk_respond_with_unprocessable_entity(t(:date_missing)) if params[:date].blank?
 
       citysdk_response(jobs, root: :jobs, element_name: :job)
     end
 
-    # Neuen Auftrag anlegen
-    # params:
-    #   api_key             pflicht - API-Key
-    #   service_request_id  pflicht - Vorgang-ID
-    #   agency_responsible  pflicht - Aussendienst-Team
-    #   date                pflicht - Datum
+    # :apidoc: ### Create new job
+    # :apidoc: <code>http://[API endpoint]/jobs.[format]</code>
+    # :apidoc:
+    # :apidoc: HTTP Method: POST
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | service_request_id | X | Integer | Affected issue ID |
+    # :apidoc: | agency_responsible | X | String | Name of team |
+    # :apidoc: | date | X | Date | Date for job |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <jobs>
+    # :apidoc:   <job>
+    # :apidoc:     <id>job.id</id>
+    # :apidoc:     <service-request-id>job.service_request_id</service-request-id>
+    # :apidoc:     <date>job.date</date>
+    # :apidoc:     <agency-responsible>job.agency_responsible</agency-responsible>
+    # :apidoc:     <status>job.status</status>
+    # :apidoc:   </job>
+    # :apidoc: </jobs>
+    # :apidoc: ```
     def create
       job = Citysdk::Job.new
       job.status = :unchecked
@@ -35,12 +78,33 @@ module Citysdk
       citysdk_response issue.job.becomes(Citysdk::Job), root: :jobs, element_name: :job, status: :created
     end
 
-    # Auftrag aktualisieren
-    # params:
-    #   api_key             pflicht - API-Key
-    #   service_request_id  pflicht - Vorgang-ID
-    #   status              pflicht - Status (CHECKED, UNCHECKED, NOT_CHECKABLE)
-    #   date                pflicht - Datum
+    # :apidoc: ### Update job
+    # :apidoc: <code>http://[API endpoint]/jobs/[service_request_id].[format]</code>
+    # :apidoc:
+    # :apidoc: HTTP Method: PUT / PATCH
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | service_request_id | X | Integer | Affected issue ID |
+    # :apidoc: | status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+    # :apidoc: | date | X | Date | Date of job |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <jobs>
+    # :apidoc:   <job>
+    # :apidoc:     <id>job.id</id>
+    # :apidoc:     <service-request-id>job.service_request_id</service-request-id>
+    # :apidoc:     <date>job.date</date>
+    # :apidoc:     <agency-responsible>job.agency_responsible</agency-responsible>
+    # :apidoc:     <status>job.status</status>
+    # :apidoc:   </job>
+    # :apidoc: </jobs>
+    # :apidoc: ```
     def update
       issue = Issue.find(params[:id])
       raise ActiveRecord::RecordNotFound unless issue.job

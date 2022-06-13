@@ -2,20 +2,38 @@
 
 module Citysdk
   class ObservationsController < CitysdkController
-    # Neue Beobachtungsflaeche anlegen
-    # params:
-    #   area_code             optional - IDs der Stadtteilgrenze (-1 fuer Stadtgrenze)
-    #   geometry              optional - Geometrie einer erstellten Flaeche als WKT
-    #   problems              optional - Probleme ueberwachen
-    #   problem_service       optional - IDs ausgewaehlter Hauptkategorien fuer Probleme
-    #   problem_service_sub   optional - IDs ausgewaehlter Unterkategorien fuer Probleme
-    #   ideas                 optional - Ideen ueberwachen
-    #   idea_service          optional - IDs ausgwaehlte Hauptkategorien fuer Ideen
-    #   idea_service_sub      optional - IDs ausgwaehlte Unterkategorien fuer Ideen
+    # :apidoc: ### Create new observation
+    # :apidoc: <code>http://[API endpoint]/observations.[format]</code>
+    # :apidoc:
+    # :apidoc: HTTP Method: POST
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | geometry | * | String | WKT gemoemetry for observing area |
+    # :apidoc: | area_code | * | String | IDs of districts, -1 for instance |
+    # :apidoc: | problems | - | Boolean | Include problems |
+    # :apidoc: | problem_service | - | String | Filter problems by main category IDs |
+    # :apidoc: | problem_service_sub | - | String | Filter problems by sub category IDs |
+    # :apidoc: | ideas | - | Boolean | Include problems |
+    # :apidoc: | idea_service | | String | Filter ideas by main category IDs |
+    # :apidoc: | idea_service_sub | | String | Filter ideas by sub category IDs |
+    # :apidoc:
+    # :apidoc: *: Either geometry or area_code is required
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <observation>
+    # :apidoc:   <rss-id>39a855f0a4924af3217a217c8dc78ece</rss-id>
+    # :apidoc: </observatio>
+    # :apidoc: ```
     def create
       observation = Citysdk::Observation.new
       observation.assign_attributes(params.permit(:area_code, :geometry, :problems, :problem_service,
-        :problem_service_sub, :ideas, :idea_service, :idea_service_sub))
+                                                  :problem_service_sub, :ideas, :idea_service, :idea_service_sub))
 
       obs = observation.becomes(::Observation)
       obs.save!

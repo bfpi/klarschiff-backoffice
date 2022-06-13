@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
+# require 'citysdk/requests_controller/index'
 module Citysdk
   class RequestsController < CitysdkController
-    include Index
+    include RequestsController::Index
 
-    #  skip_before_action :validate_service_request_id, only: :index
     before_action :encode_params, only: %i[create update]
 
-    # Einzelner Vorgang nach ID
-    # params:
-    #   service_request_id  pflicht  - Vorgang-ID
-    #   api_key             optional - API-Key
-    #   extensions          optional - Response mit erweitereten Attributsausgaben
+    # :apidoc: Einzelner Vorgang nach ID
+    # :apidoc: params:
+    # :apidoc:   service_request_id  pflicht  - Vorgang-ID
+    # :apidoc:   api_key             optional - API-Key
+    # :apidoc:   extensions          optional - Response mit erweitereten Attributsausgaben
     def show
       @request = Citysdk::Request.authorized(tips: authorized?(:read_tips)).where(id: params[:id])
       citysdk_response @request, root: :service_requests, element_name: :request,
@@ -42,6 +42,31 @@ module Citysdk
 
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true, status: :created
     end
+
+    # ### Update Service Request
+    # <code>http://[API endpoint]/requests/[service_request_id].[format]</code>
+    #
+    # HTTP Method: PUT / PATCH
+    #
+    # Parameters:
+    #
+    # | Name | Required | Type | Notes |
+    # |:--|:-:|:-:|:-:|
+    # | api_key | X | String | API-Key |
+    # | email | X | String | Author-Email |
+    # | service_code | - | Integer | Category-ID |
+    # | description | - | String | Description |
+    # | lat | - | Float | either lat & long or address_string |
+    # | long | - | Float | either lat & long or address_string |
+    # | address_string | - | String | either address_string or lat & long |
+    # | photo_required | - | Boolean | Photo required |
+    # | detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
+    # | status_notes | - | String | Status note |
+    # | priority | - | Integer | Priority |
+    # | delegation | - | String | Delegation to external role |
+    # | job_status | - | Integer | Job status |
+    # | job_priority | - | Integer | Job priority |
+    # | media | - | String | Photo (Base64-Encoded-String) |
 
     # Vorgang aktualisieren
     # params:
