@@ -14,14 +14,19 @@ To support some special functions there are also some additional enhancements to
 
 ### Get observable areas
 <code>http://[API endpoint]/areas.[format]</code>
+
 HTTP Method: GET
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | area_code | - | Integer[] | IDs to filter districts |
 | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+
 Sample Response:
+
 ```xml
 <areas>
 <area>
@@ -35,14 +40,19 @@ Sample Response:
 
 ### Get position coverage
 <code>http://[API endpoint]/coverage.[format]</code>
+
 HTTP Method: GET
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | lat | X | Float | latitude value |
 | long | X | Float | longitude value |
+
 Sample Response:
+
 ```xml
 <hash>
 <result type="boolean">false</result>
@@ -51,18 +61,24 @@ Sample Response:
 
 ### Get discovery
 <code>http://[API endpoint]/discovery.[format]</code>
+
 HTTP Method: GET
 
 ### Get jobs list
 <code>http://[API endpoint]/jobs.[format]</code>
+
 HTTP Method: GET
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | date | X | Date | Filter jobs that are the equal or lower than the given date |
 | status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+
 Sample Response:
+
 ```xml
 <jobs>
 <job>
@@ -77,15 +93,20 @@ Sample Response:
 ```
 ### Create new job
 <code>http://[API endpoint]/jobs.[format]</code>
+
 HTTP Method: POST
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | service_request_id | X | Integer | Affected issue ID |
 | agency_responsible | X | String | Name of team |
 | date | X | Date | Date for job |
+
 Sample Response:
+
 ```xml
 <jobs>
 <job>
@@ -99,15 +120,20 @@ Sample Response:
 ```
 ### Update job
 <code>http://[API endpoint]/jobs/[service_request_id].[format]</code>
+
 HTTP Method: PUT / PATCH
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | service_request_id | X | Integer | Affected issue ID |
 | status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
 | date | X | Date | Date of job |
+
 Sample Response:
+
 ```xml
 <jobs>
 <job>
@@ -122,8 +148,11 @@ Sample Response:
 
 ### Create new observation
 <code>http://[API endpoint]/observations.[format]</code>
+
 HTTP Method: POST
+
 Parameters:
+
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
@@ -135,8 +164,11 @@ Parameters:
 | ideas | - | Boolean | Include problems |
 | idea_service | | String | Filter ideas by main category IDs |
 | idea_service_sub | | String | Filter ideas by sub category IDs |
+
 *: Either geometry or area_code is required
+
 Sample Response:
+
 ```xml
 <observation>
 <rss-id>39a855f0a4924af3217a217c8dc78ece</rss-id>

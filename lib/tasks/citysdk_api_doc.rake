@@ -24,7 +24,7 @@ namespace :citysdk do
   end
 
   def extract_documentation(file)
-    pattern = /^ *# :apidoc: /
+    pattern = /^ *# :apidoc: ?/
     lines = File.readlines(file).select { |line| line.match? pattern }
     lines.map! { |line| line.remove pattern }
     lines.map! &:strip
