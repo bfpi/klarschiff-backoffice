@@ -33,7 +33,7 @@ module Citysdk
     def create
       observation = Citysdk::Observation.new
       observation.assign_attributes(params.permit(:area_code, :geometry, :problems, :problem_service,
-                                                  :problem_service_sub, :ideas, :idea_service, :idea_service_sub))
+        :problem_service_sub, :ideas, :idea_service, :idea_service_sub))
 
       obs = observation.becomes(::Observation)
       obs.save!
