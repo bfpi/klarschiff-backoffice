@@ -27,7 +27,7 @@ namespace :citysdk do
     pattern = /^ *# :apidoc: ?/
     lines = File.readlines(file).select { |line| line.match? pattern }
     lines.map! { |line| line.remove pattern }
-    lines.map! &:strip
+    lines.map!(&:strip)
     lines << '' unless lines.length.zero?
     lines
   end
