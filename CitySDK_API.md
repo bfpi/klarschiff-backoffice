@@ -13,9 +13,7 @@ To support some special functions there are also some additional enhancements to
 ## API methods
 
 ### Get observable areas
-<code>http://[API endpoint]/areas.[format]</code>
-
-HTTP Method: GET
+<code>GET http://[API endpoint]/areas.[format]</code>
 
 Parameters:
 
@@ -39,9 +37,7 @@ Sample Response:
 ```
 
 ### Get position coverage
-<code>http://[API endpoint]/coverage.[format]</code>
-
-HTTP Method: GET
+<code>GET http://[API endpoint]/coverage.[format]</code>
 
 Parameters:
 
@@ -60,14 +56,10 @@ Sample Response:
 ```
 
 ### Get discovery
-<code>http://[API endpoint]/discovery.[format]</code>
-
-HTTP Method: GET
+<code>GET http://[API endpoint]/discovery.[format]</code>
 
 ### Get jobs list
-<code>http://[API endpoint]/jobs.[format]</code>
-
-HTTP Method: GET
+<code>GET http://[API endpoint]/jobs.[format]</code>
 
 Parameters:
 
@@ -92,9 +84,7 @@ Sample Response:
 </jobs>
 ```
 ### Create new job
-<code>http://[API endpoint]/jobs.[format]</code>
-
-HTTP Method: POST
+<code>POST http://[API endpoint]/jobs.[format]</code>
 
 Parameters:
 
@@ -119,9 +109,8 @@ Sample Response:
 </jobs>
 ```
 ### Update job
-<code>http://[API endpoint]/jobs/[service_request_id].[format]</code>
-
-HTTP Method: PUT / PATCH
+<code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
+<code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
 
 Parameters:
 
@@ -147,16 +136,14 @@ Sample Response:
 ```
 
 ### Create new observation
-<code>http://[API endpoint]/observations.[format]</code>
-
-HTTP Method: POST
+<code>POST http://[API endpoint]/observations.[format]</code>
 
 Parameters:
 
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
-| geometry | * | String | WKT gemoemetry for observing area |
+| geometry | * | String | WKT geoemetry for observing area |
 | area_code | * | String | IDs of districts, -1 for instance |
 | problems | - | Boolean | Include problems |
 | problem_service | - | String | Filter problems by main category IDs |
@@ -175,9 +162,234 @@ Sample Response:
 </observatio>
 ```
 
-Einzelner Vorgang nach ID
-params:
-service_request_id  pflicht  - Vorgang-ID
-api_key             optional - API-Key
-extensions          optional - Response mit erweitereten Attributsausgaben
+### Get service requests list
+<code>GET http://[API endpoint]/requests.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | - | String | API key |
+| service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
+| service_code | - | Integer | ID of category |
+| status | - | String | Filter issues by Open311 status, default = `open` |
+| detailed_status |  - | String | Filter issues by CitySDK status |
+| start_date | - | Date | Filter for issue date >= value, e.g 2011-01-01T00:00:00Z |
+| end_date | - | Date | Filter for isse date <= value, e.g 2011-01-01T00:00:00Z |
+| updated_after | - | Date | Filter for issue version >= value, e.g 2011-01-01T00:00:00Z |
+| updated_before | - | Date | Filter for issue version <= value, e.g 2011-01-01T00:00:00Z |
+| agency_responsible | - | String | Filter for issues by job team |
+| extensions | - | Boolean | Include extended attributs in response |
+| lat | - | Double | Filter restriction area (lat, long and radius required) |
+| long | - | Double | Filter restriction area (lat, long and radius required) |
+| radius | - | Double | Meter to filter restriction area (lat, long and radius required) |
+| keyword | - | String | Filter issues by kind, options: problem, idea, tip |
+| with_picture | - | Boolean | Filter issues with released photos |
+| also_archived | - | Boolean | Include already archived issues |
+| just_count | - | Boolean | Switch response to only return amount of affected issues |
+| max_requests | - | Integer | Maximum number of requests to return |
+| observation_key | - | String | MD5 hash of observed area to use as filter |
+| area_code | - | Integer | Filter issues by affected area ID |
+
+Available Open311 states: `open`, `closed`
+Available CitySDK states: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+
+Sample Response:
+
+```xml
+<service_requests type="array">
+<request>
+<service_request_id>request.id</service_request_id>
+<status_notes/>
+<status>request.status</status>
+<service_code>request.service.code</service_code>
+<service_name>request.service.name</service_name>
+<description>request.description</description>
+<agency_responsible>request.agency_responsible</agency_responsible>
+<service_notice/>
+<requested_datetime>request.requested_datetime</requested_datetime>
+<updated_datetime>request.updated_datetime</updated_datetime>
+<expected_datetime/>
+<address>request.address</address>
+<adress_id/>
+<lat>request.position.lat</lat>
+<long>request.position.lat</long>
+<media_url/>
+<zipcode/>
+</request>
+</service_requests>
+```
+
+### Get service request
+<code>GET http://[API endpoint]/requests/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | - | String | API key |
+| service_request_id | X | Integer | Issue ID |
+| extensions | - | Boolean | Include extended attributes in response |
+
+Sample Response:
+
+```xml
+<service_requests type="array">
+<request>
+<service_request_id>request.id</service_request_id>
+<status_notes/>
+<status>request.status</status>
+<service_code>request.service.code</service_code>
+<service_name>request.service.name</service_name>
+<description>request.description</description>
+<agency_responsible>request.agency_responsible</agency_responsible>
+<service_notice/>
+<requested_datetime>request.requested_datetime</requested_datetime>
+<updated_datetime>request.updated_datetime</updated_datetime>
+<expected_datetime/>
+<address>request.address</address>
+<adress_id/>
+<lat>request.position.lat</lat>
+<long>request.position.lat</long>
+<media_url/>
+<zipcode/>
+<extended_attributes>
+<detailed_status>request.detailed_status</detailed_status>
+<media_urls>
+<media_url>request.media.url</media_url>
+</media_urls>
+<photo_required>request.photo_required</photo_required>
+<trust>request.trust</trust>
+<votes>request.votes</votes>
+</extended_attributes>
+</request>
+</service_requests>
+```
+### Create service request
+<code>POST http://[API endpoint]/requests.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| email | X | String | Author email |
+| service_code | X | Integer | Category ID |
+| description | X | String | Description |
+| lat | * | Float | Latitude value of position |
+| long | * | Float | Longitude value of position |
+| address_string | * | String | Address for position |
+| photo_required | - | Boolean | Photo required |
+| media | - | String | Photo as Base64 encoded string |
+| privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+
+*: Either `lat` and `long` or `address_string` are required
+
+Sample Response:
+
+```xml
+<service_requests>
+<request>
+<service_request_id>request.id</service_request_id>
+</request>
+</service_requests>
+```
+### Update Service request
+<code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
+<code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| email | X | String | Author email |
+| service_code | X | Integer | Category ID |
+| description | - | String | Description |
+| lat | * | Float | Latitude value of position |
+| long | * | Float | Longitude value of position |
+| address_string | * | String | Address for position |
+| photo_required | - | Boolean | Photo required |
+| media | - | String | Photo as Base64 encoded string |
+| detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
+| status_notes | - | String | Status note |
+| priority | - | Integer | Priority |
+| delegation | - | String | Delegation to external role |
+| job_status | - | Integer | Job status |
+| job_priority | - | Integer | Job priority |
+
+*: Either `lat` and `long` or `address_string` are required
+
+Sample Response:
+
+```xml
+<service_requests type="array">
+<request>
+<service_request_id>request.id</service_request_id>
+<status_notes/>
+<status>request.status</status>
+<service_code>request.service.code</service_code>
+<service_name>request.service.name</service_name>
+<description>request.description</description>
+<agency_responsible>request.agency_responsible</agency_responsible>
+<service_notice/>
+<requested_datetime>request.requested_datetime</requested_datetime>
+<updated_datetime>request.updated_datetime</updated_datetime>
+<expected_datetime/>
+<address>request.address</address>
+<adress_id/>
+<lat>request.position.lat</lat>
+<long>request.position.lat</long>
+<media_url/>
+<zipcode/>
+</request>
+</service_requests>
+```
+
+### GET services list
+<code>GET http://[API endpoint]/services.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | - | String | API key |
+
+Sample Response:
+
+```xml
+<services type="array">
+<service>
+<service_code>category.id</service_code>
+<service_name>category.name</service_name>
+<description/>
+<metadata>false</metadata>
+<type>realtime</type>
+<keywords>category.parent.typ [problem|idee|tipp]</keywords>
+<group>category.parent.name</group>
+</service>
+</services>
+```
+### Get service definition
+<code>GET http://[API endpoint]/services/[id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | - | String | API key |
+| id | X | Integer | ID of service|
+
+Sample Response:
+
+```xml
+<service_definition type="array">
+<service>
+<service_code>category.id</service_code>
+<service_name>category.name</service_name>
+<keywords>category.parent.typ [problem|idee|tipp]</keywords>
+<group>category.parent.name</group>
+</service>
+</service_definition>
+```
 

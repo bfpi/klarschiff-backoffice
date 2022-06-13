@@ -3,9 +3,7 @@
 module Citysdk
   class CoverageController < CitysdkController
     # :apidoc: ### Get position coverage
-    # :apidoc: <code>http://[API endpoint]/coverage.[format]</code>
-    # :apidoc:
-    # :apidoc: HTTP Method: GET
+    # :apidoc: <code>GET http://[API endpoint]/coverage.[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:

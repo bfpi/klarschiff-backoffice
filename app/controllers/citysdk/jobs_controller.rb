@@ -5,9 +5,7 @@ module Citysdk
     skip_before_action :validate_status
 
     # :apidoc: ### Get jobs list
-    # :apidoc: <code>http://[API endpoint]/jobs.[format]</code>
-    # :apidoc:
-    # :apidoc: HTTP Method: GET
+    # :apidoc: <code>GET http://[API endpoint]/jobs.[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -38,9 +36,7 @@ module Citysdk
     end
 
     # :apidoc: ### Create new job
-    # :apidoc: <code>http://[API endpoint]/jobs.[format]</code>
-    # :apidoc:
-    # :apidoc: HTTP Method: POST
+    # :apidoc: <code>POST http://[API endpoint]/jobs.[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -79,9 +75,8 @@ module Citysdk
     end
 
     # :apidoc: ### Update job
-    # :apidoc: <code>http://[API endpoint]/jobs/[service_request_id].[format]</code>
-    # :apidoc:
-    # :apidoc: HTTP Method: PUT / PATCH
+    # :apidoc: <code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
+    # :apidoc: <code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:

@@ -1,17 +1,56 @@
 # frozen_string_literal: true
 
-# require 'citysdk/requests_controller/index'
 module Citysdk
   class RequestsController < CitysdkController
     include RequestsController::Index
 
     before_action :encode_params, only: %i[create update]
 
-    # :apidoc: Einzelner Vorgang nach ID
-    # :apidoc: params:
-    # :apidoc:   service_request_id  pflicht  - Vorgang-ID
-    # :apidoc:   api_key             optional - API-Key
-    # :apidoc:   extensions          optional - Response mit erweitereten Attributsausgaben
+    # :apidoc: ### Get service request
+    # :apidoc: <code>GET http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | - | String | API key |
+    # :apidoc: | service_request_id | X | Integer | Issue ID |
+    # :apidoc: | extensions | - | Boolean | Include extended attributes in response |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <service_requests type="array">
+    # :apidoc:   <request>
+    # :apidoc:     <service_request_id>request.id</service_request_id>
+    # :apidoc:     <status_notes/>
+    # :apidoc:     <status>request.status</status>
+    # :apidoc:     <service_code>request.service.code</service_code>
+    # :apidoc:     <service_name>request.service.name</service_name>
+    # :apidoc:     <description>request.description</description>
+    # :apidoc:     <agency_responsible>request.agency_responsible</agency_responsible>
+    # :apidoc:     <service_notice/>
+    # :apidoc:     <requested_datetime>request.requested_datetime</requested_datetime>
+    # :apidoc:     <updated_datetime>request.updated_datetime</updated_datetime>
+    # :apidoc:     <expected_datetime/>
+    # :apidoc:     <address>request.address</address>
+    # :apidoc:     <adress_id/>
+    # :apidoc:     <lat>request.position.lat</lat>
+    # :apidoc:     <long>request.position.lat</long>
+    # :apidoc:     <media_url/>
+    # :apidoc:     <zipcode/>
+    # :apidoc:     <extended_attributes>
+    # :apidoc:       <detailed_status>request.detailed_status</detailed_status>
+    # :apidoc:       <media_urls>
+    # :apidoc:         <media_url>request.media.url</media_url>
+    # :apidoc:       </media_urls>
+    # :apidoc:       <photo_required>request.photo_required</photo_required>
+    # :apidoc:       <trust>request.trust</trust>
+    # :apidoc:       <votes>request.votes</votes>
+    # :apidoc:     </extended_attributes>
+    # :apidoc:   </request>
+    # :apidoc: </service_requests>
+    # :apidoc: ```
     def show
       @request = Citysdk::Request.authorized(tips: authorized?(:read_tips)).where(id: params[:id])
       citysdk_response @request, root: :service_requests, element_name: :request,
@@ -20,18 +59,35 @@ module Citysdk
                                  job_details: authorized?(:request_job_details)
     end
 
-    # Neuen Vorgang anlegen
-    # params:
-    #   api_key                   pflicht - API-Key
-    #   service_code              pflicht - Kategorie
-    #   email                     pflicht - Autor-Email
-    #   description               pflicht - Beschreibung
-    #   lat                       optional - Latitude & Longitude ODER Address-String
-    #   long                      optional - Latitude & Longitude ODER Address-String
-    #   address_string            optional - Latitude & Longitude ODER Address-String
-    #   photo_required            optional - Fotowunsch
-    #   media                     optional - Foto (Base64-Encoded-String)
-    #   privacy_policy_accepted   optional - Bestaetigung Datenschutz
+    # :apidoc: ### Create service request
+    # :apidoc: <code>POST http://[API endpoint]/requests.[format]</code>
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | email | X | String | Author email |
+    # :apidoc: | service_code | X | Integer | Category ID |
+    # :apidoc: | description | X | String | Description |
+    # :apidoc: | lat | * | Float | Latitude value of position |
+    # :apidoc: | long | * | Float | Longitude value of position |
+    # :apidoc: | address_string | * | String | Address for position |
+    # :apidoc: | photo_required | - | Boolean | Photo required |
+    # :apidoc: | media | - | String | Photo as Base64 encoded string |
+    # :apidoc: | privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+    # :apidoc:
+    # :apidoc: *: Either `lat` and `long` or `address_string` are required
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <service_requests>
+    # :apidoc:   <request>
+    # :apidoc:     <service_request_id>request.id</service_request_id>
+    # :apidoc:   </request>
+    # :apidoc: </service_requests>
+    # :apidoc: ```
     def create
       request = Request.new
       request.assign_attributes params.permit(:email, :service_code, :description, :lat, :long,
@@ -43,49 +99,57 @@ module Citysdk
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true, status: :created
     end
 
-    # ### Update Service Request
-    # <code>http://[API endpoint]/requests/[service_request_id].[format]</code>
-    #
-    # HTTP Method: PUT / PATCH
-    #
-    # Parameters:
-    #
-    # | Name | Required | Type | Notes |
-    # |:--|:-:|:-:|:-:|
-    # | api_key | X | String | API-Key |
-    # | email | X | String | Author-Email |
-    # | service_code | - | Integer | Category-ID |
-    # | description | - | String | Description |
-    # | lat | - | Float | either lat & long or address_string |
-    # | long | - | Float | either lat & long or address_string |
-    # | address_string | - | String | either address_string or lat & long |
-    # | photo_required | - | Boolean | Photo required |
-    # | detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
-    # | status_notes | - | String | Status note |
-    # | priority | - | Integer | Priority |
-    # | delegation | - | String | Delegation to external role |
-    # | job_status | - | Integer | Job status |
-    # | job_priority | - | Integer | Job priority |
-    # | media | - | String | Photo (Base64-Encoded-String) |
-
-    # Vorgang aktualisieren
-    # params:
-    #   api_key             pflicht  - API-Key
-    #   service_request_id  pflicht  - Vorgang-ID
-    #   email               pflicht  - Autor-Email
-    #   service_code        optional - Kategorie
-    #   description         optional - Beschreibung
-    #   lat                 optional - Latitude & Longitude ODER Address-String
-    #   long                optional - Latitude & Longitude ODER Address-String
-    #   address_string      optional - Latitude & Longitude ODER Address-String
-    #   photo_required      optional - Fotowunsch
-    #   media               optional - Foto (Base64-Encoded-String)
-    #   detailed_status     optional - Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED)
-    #   status_notes        optional - Statuskommentar
-    #   priority            optional - Prioritaet
-    #   delegation          optional - Delegation
-    #   job_status          optional - Auftrag-Status
-    #   job_priority        optional - Auftrag-Prioritaet
+    # :apidoc: ### Update Service request
+    # :apidoc: <code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc: <code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | email | X | String | Author email |
+    # :apidoc: | service_code | X | Integer | Category ID |
+    # :apidoc: | description | - | String | Description |
+    # :apidoc: | lat | * | Float | Latitude value of position |
+    # :apidoc: | long | * | Float | Longitude value of position |
+    # :apidoc: | address_string | * | String | Address for position |
+    # :apidoc: | photo_required | - | Boolean | Photo required |
+    # :apidoc: | media | - | String | Photo as Base64 encoded string |
+    # :apidoc: | detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
+    # :apidoc: | status_notes | - | String | Status note |
+    # :apidoc: | priority | - | Integer | Priority |
+    # :apidoc: | delegation | - | String | Delegation to external role |
+    # :apidoc: | job_status | - | Integer | Job status |
+    # :apidoc: | job_priority | - | Integer | Job priority |
+    # :apidoc:
+    # :apidoc: *: Either `lat` and `long` or `address_string` are required
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <service_requests type="array">
+    # :apidoc:   <request>
+    # :apidoc:     <service_request_id>request.id</service_request_id>
+    # :apidoc:     <status_notes/>
+    # :apidoc:     <status>request.status</status>
+    # :apidoc:     <service_code>request.service.code</service_code>
+    # :apidoc:     <service_name>request.service.name</service_name>
+    # :apidoc:     <description>request.description</description>
+    # :apidoc:     <agency_responsible>request.agency_responsible</agency_responsible>
+    # :apidoc:     <service_notice/>
+    # :apidoc:     <requested_datetime>request.requested_datetime</requested_datetime>
+    # :apidoc:     <updated_datetime>request.updated_datetime</updated_datetime>
+    # :apidoc:     <expected_datetime/>
+    # :apidoc:     <address>request.address</address>
+    # :apidoc:     <adress_id/>
+    # :apidoc:     <lat>request.position.lat</lat>
+    # :apidoc:     <long>request.position.lat</long>
+    # :apidoc:     <media_url/>
+    # :apidoc:     <zipcode/>
+    # :apidoc:   </request>
+    # :apidoc: </service_requests>
+    # :apidoc: ```
     def update
       request = Request.find(params[:id])
       request.assign_attributes params.permit(:service_code, :description, :lat, :long,

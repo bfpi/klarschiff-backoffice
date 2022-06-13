@@ -3,16 +3,14 @@
 module Citysdk
   class ObservationsController < CitysdkController
     # :apidoc: ### Create new observation
-    # :apidoc: <code>http://[API endpoint]/observations.[format]</code>
-    # :apidoc:
-    # :apidoc: HTTP Method: POST
+    # :apidoc: <code>POST http://[API endpoint]/observations.[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
     # :apidoc: | Name | Required | Type | Notes |
     # :apidoc: |:--|:-:|:--|:--|
     # :apidoc: | api_key | X | String | API key |
-    # :apidoc: | geometry | * | String | WKT gemoemetry for observing area |
+    # :apidoc: | geometry | * | String | WKT geoemetry for observing area |
     # :apidoc: | area_code | * | String | IDs of districts, -1 for instance |
     # :apidoc: | problems | - | Boolean | Include problems |
     # :apidoc: | problem_service | - | String | Filter problems by main category IDs |
