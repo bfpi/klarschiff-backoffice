@@ -12,154 +12,54 @@ To support some special functions there are also some additional enhancements to
 
 ## API methods
 
-### Get observable areas
-<code>GET http://[API endpoint]/areas.[format]</code>
-
-Parameters:
-
-| Name | Required | Type | Notes |
-|:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| area_code | - | Integer[] | IDs to filter districts |
-| with_districts | - | Boolean | return all existing districts, not available if using area_code |
-
-Sample Response:
-
-```xml
-<areas>
-<area>
-<id>30</id>
-<name>Biestow</name>
-<grenze>MULTIPOLYGON (((...)))</grenze>
-</area>
-...
-</areas>
-```
-
-### Get position coverage
-<code>GET http://[API endpoint]/coverage.[format]</code>
-
-Parameters:
-
-| Name | Required | Type | Notes |
-|:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| lat | X | Float | latitude value |
-| long | X | Float | longitude value |
-
-Sample Response:
-
-```xml
-<hash>
-<result type="boolean">false</result>
-</hash>
-```
-
 ### Get discovery
 <code>GET http://[API endpoint]/discovery.[format]</code>
 
-### Get jobs list
-<code>GET http://[API endpoint]/jobs.[format]</code>
+### GET services list
+<code>GET http://[API endpoint]/services.[format]</code>
 
 Parameters:
 
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| date | X | Date | Filter jobs that are the equal or lower than the given date |
-| status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+| api_key | - | String | API key |
 
 Sample Response:
 
 ```xml
-<jobs>
-<job>
-<id>job.id</id>
-<service-request-id>job.service_request_id</service-request-id>
-<date>job.date</date>
-<agency-responsible>job.agency_responsible</agency-responsible>
-<status>job.status</status>
-</job>
-...
-</jobs>
+<services type="array">
+  <service>
+    <service_code>category.id</service_code>
+    <service_name>category.name</service_name>
+    <description/>
+    <metadata>false</metadata>
+    <type>realtime</type>
+    <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    <group>category.parent.name</group>
+  </service>
+</services>
 ```
-### Create new job
-<code>POST http://[API endpoint]/jobs.[format]</code>
+### Get service definition
+<code>GET http://[API endpoint]/services/[id].[format]</code>
 
 Parameters:
 
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| service_request_id | X | Integer | Affected issue ID |
-| agency_responsible | X | String | Name of team |
-| date | X | Date | Date for job |
+| api_key | - | String | API key |
+| id | X | Integer | ID of service|
 
 Sample Response:
 
 ```xml
-<jobs>
-<job>
-<id>job.id</id>
-<service-request-id>job.service_request_id</service-request-id>
-<date>job.date</date>
-<agency-responsible>job.agency_responsible</agency-responsible>
-<status>job.status</status>
-</job>
-</jobs>
-```
-### Update job
-<code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
-<code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
-
-Parameters:
-
-| Name | Required | Type | Notes |
-|:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| service_request_id | X | Integer | Affected issue ID |
-| status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
-| date | X | Date | Date of job |
-
-Sample Response:
-
-```xml
-<jobs>
-<job>
-<id>job.id</id>
-<service-request-id>job.service_request_id</service-request-id>
-<date>job.date</date>
-<agency-responsible>job.agency_responsible</agency-responsible>
-<status>job.status</status>
-</job>
-</jobs>
-```
-
-### Create new observation
-<code>POST http://[API endpoint]/observations.[format]</code>
-
-Parameters:
-
-| Name | Required | Type | Notes |
-|:--|:-:|:--|:--|
-| api_key | X | String | API key |
-| geometry | * | String | WKT geoemetry for observing area |
-| area_code | * | String | IDs of districts, -1 for instance |
-| problems | - | Boolean | Include problems |
-| problem_service | - | String | Filter problems by main category IDs |
-| problem_service_sub | - | String | Filter problems by sub category IDs |
-| ideas | - | Boolean | Include problems |
-| idea_service | | String | Filter ideas by main category IDs |
-| idea_service_sub | | String | Filter ideas by sub category IDs |
-
-*: Either geometry or area_code is required
-
-Sample Response:
-
-```xml
-<observation>
-<rss-id>39a855f0a4924af3217a217c8dc78ece</rss-id>
-</observatio>
+<service_definition type="array">
+  <service>
+    <service_code>category.id</service_code>
+    <service_name>category.name</service_name>
+    <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    <group>category.parent.name</group>
+  </service>
+</service_definition>
 ```
 
 ### Get service requests list
@@ -198,25 +98,25 @@ Sample Response:
 
 ```xml
 <service_requests type="array">
-<request>
-<service_request_id>request.id</service_request_id>
-<status_notes/>
-<status>request.status</status>
-<service_code>request.service.code</service_code>
-<service_name>request.service.name</service_name>
-<description>request.description</description>
-<agency_responsible>request.agency_responsible</agency_responsible>
-<service_notice/>
-<requested_datetime>request.requested_datetime</requested_datetime>
-<updated_datetime>request.updated_datetime</updated_datetime>
-<expected_datetime/>
-<address>request.address</address>
-<adress_id/>
-<lat>request.position.lat</lat>
-<long>request.position.lat</long>
-<media_url/>
-<zipcode/>
-</request>
+  <request>
+    <service_request_id>request.id</service_request_id>
+    <status_notes/>
+    <status>request.status</status>
+    <service_code>request.service.code</service_code>
+    <service_name>request.service.name</service_name>
+    <description>request.description</description>
+    <agency_responsible>request.agency_responsible</agency_responsible>
+    <service_notice/>
+    <requested_datetime>request.requested_datetime</requested_datetime>
+    <updated_datetime>request.updated_datetime</updated_datetime>
+    <expected_datetime/>
+    <address>request.address</address>
+    <adress_id/>
+    <lat>request.position.lat</lat>
+    <long>request.position.lat</long>
+    <media_url/>
+    <zipcode/>
+  </request>
 </service_requests>
 ```
 
@@ -235,34 +135,34 @@ Sample Response:
 
 ```xml
 <service_requests type="array">
-<request>
-<service_request_id>request.id</service_request_id>
-<status_notes/>
-<status>request.status</status>
-<service_code>request.service.code</service_code>
-<service_name>request.service.name</service_name>
-<description>request.description</description>
-<agency_responsible>request.agency_responsible</agency_responsible>
-<service_notice/>
-<requested_datetime>request.requested_datetime</requested_datetime>
-<updated_datetime>request.updated_datetime</updated_datetime>
-<expected_datetime/>
-<address>request.address</address>
-<adress_id/>
-<lat>request.position.lat</lat>
-<long>request.position.lat</long>
-<media_url/>
-<zipcode/>
-<extended_attributes>
-<detailed_status>request.detailed_status</detailed_status>
-<media_urls>
-<media_url>request.media.url</media_url>
-</media_urls>
-<photo_required>request.photo_required</photo_required>
-<trust>request.trust</trust>
-<votes>request.votes</votes>
-</extended_attributes>
-</request>
+  <request>
+    <service_request_id>request.id</service_request_id>
+    <status_notes/>
+    <status>request.status</status>
+    <service_code>request.service.code</service_code>
+    <service_name>request.service.name</service_name>
+    <description>request.description</description>
+    <agency_responsible>request.agency_responsible</agency_responsible>
+    <service_notice/>
+    <requested_datetime>request.requested_datetime</requested_datetime>
+    <updated_datetime>request.updated_datetime</updated_datetime>
+    <expected_datetime/>
+    <address>request.address</address>
+    <adress_id/>
+    <lat>request.position.lat</lat>
+    <long>request.position.lat</long>
+    <media_url/>
+    <zipcode/>
+    <extended_attributes>
+      <detailed_status>request.detailed_status</detailed_status>
+      <media_urls>
+        <media_url>request.media.url</media_url>
+      </media_urls>
+      <photo_required>request.photo_required</photo_required>
+      <trust>request.trust</trust>
+      <votes>request.votes</votes>
+    </extended_attributes>
+  </request>
 </service_requests>
 ```
 ### Create service request
@@ -289,9 +189,9 @@ Sample Response:
 
 ```xml
 <service_requests>
-<request>
-<service_request_id>request.id</service_request_id>
-</request>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
 </service_requests>
 ```
 ### Update Service request
@@ -324,72 +224,172 @@ Sample Response:
 
 ```xml
 <service_requests type="array">
-<request>
-<service_request_id>request.id</service_request_id>
-<status_notes/>
-<status>request.status</status>
-<service_code>request.service.code</service_code>
-<service_name>request.service.name</service_name>
-<description>request.description</description>
-<agency_responsible>request.agency_responsible</agency_responsible>
-<service_notice/>
-<requested_datetime>request.requested_datetime</requested_datetime>
-<updated_datetime>request.updated_datetime</updated_datetime>
-<expected_datetime/>
-<address>request.address</address>
-<adress_id/>
-<lat>request.position.lat</lat>
-<long>request.position.lat</long>
-<media_url/>
-<zipcode/>
-</request>
+  <request>
+    <service_request_id>request.id</service_request_id>
+    <status_notes/>
+    <status>request.status</status>
+    <service_code>request.service.code</service_code>
+    <service_name>request.service.name</service_name>
+    <description>request.description</description>
+    <agency_responsible>request.agency_responsible</agency_responsible>
+    <service_notice/>
+    <requested_datetime>request.requested_datetime</requested_datetime>
+    <updated_datetime>request.updated_datetime</updated_datetime>
+    <expected_datetime/>
+    <address>request.address</address>
+    <adress_id/>
+    <lat>request.position.lat</lat>
+    <long>request.position.lat</long>
+    <media_url/>
+    <zipcode/>
+  </request>
 </service_requests>
 ```
 
-### GET services list
-<code>GET http://[API endpoint]/services.[format]</code>
+### Get observable areas
+<code>GET http://[API endpoint]/areas.[format]</code>
 
 Parameters:
 
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
-| api_key | - | String | API key |
+| api_key | X | String | API key |
+| area_code | - | Integer[] | IDs to filter districts |
+| with_districts | - | Boolean | return all existing districts, not available if using area_code |
 
 Sample Response:
 
 ```xml
-<services type="array">
-<service>
-<service_code>category.id</service_code>
-<service_name>category.name</service_name>
-<description/>
-<metadata>false</metadata>
-<type>realtime</type>
-<keywords>category.parent.typ [problem|idee|tipp]</keywords>
-<group>category.parent.name</group>
-</service>
-</services>
+<areas>
+  <area>
+    <id>30</id>
+    <name>Biestow</name>
+    <grenze>MULTIPOLYGON (((...)))</grenze>
+  </area>
+  ...
+</areas>
 ```
-### Get service definition
-<code>GET http://[API endpoint]/services/[id].[format]</code>
+
+### Get position coverage
+<code>GET http://[API endpoint]/coverage.[format]</code>
 
 Parameters:
 
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
-| api_key | - | String | API key |
-| id | X | Integer | ID of service|
+| api_key | X | String | API key |
+| lat | X | Float | latitude value |
+| long | X | Float | longitude value |
 
 Sample Response:
 
 ```xml
-<service_definition type="array">
-<service>
-<service_code>category.id</service_code>
-<service_name>category.name</service_name>
-<keywords>category.parent.typ [problem|idee|tipp]</keywords>
-<group>category.parent.name</group>
-</service>
-</service_definition>
+<hash>
+  <result type="boolean">false</result>
+</hash>
+```
+
+### Get jobs list
+<code>GET http://[API endpoint]/jobs.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| date | X | Date | Filter jobs that are the equal or lower than the given date |
+| status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+
+Sample Response:
+
+```xml
+<jobs>
+  <job>
+    <id>job.id</id>
+    <service-request-id>job.service_request_id</service-request-id>
+    <date>job.date</date>
+    <agency-responsible>job.agency_responsible</agency-responsible>
+    <status>job.status</status>
+  </job>
+  ...
+</jobs>
+```
+### Create new job
+<code>POST http://[API endpoint]/jobs.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| service_request_id | X | Integer | Affected issue ID |
+| agency_responsible | X | String | Name of team |
+| date | X | Date | Date for job |
+
+Sample Response:
+
+```xml
+<jobs>
+  <job>
+    <id>job.id</id>
+    <service-request-id>job.service_request_id</service-request-id>
+    <date>job.date</date>
+    <agency-responsible>job.agency_responsible</agency-responsible>
+    <status>job.status</status>
+  </job>
+</jobs>
+```
+### Update job
+<code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
+<code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| service_request_id | X | Integer | Affected issue ID |
+| status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+| date | X | Date | Date of job |
+
+Sample Response:
+
+```xml
+<jobs>
+  <job>
+    <id>job.id</id>
+    <service-request-id>job.service_request_id</service-request-id>
+    <date>job.date</date>
+    <agency-responsible>job.agency_responsible</agency-responsible>
+    <status>job.status</status>
+  </job>
+</jobs>
+```
+
+### Create new observation
+<code>POST http://[API endpoint]/observations.[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| geometry | * | String | WKT geoemetry for observing area |
+| area_code | * | String | IDs of districts, -1 for instance |
+| problems | - | Boolean | Include problems |
+| problem_service | - | String | Filter problems by main category IDs |
+| problem_service_sub | - | String | Filter problems by sub category IDs |
+| ideas | - | Boolean | Include problems |
+| idea_service | | String | Filter ideas by main category IDs |
+| idea_service_sub | | String | Filter ideas by sub category IDs |
+
+*: Either geometry or area_code is required
+
+Sample Response:
+
+```xml
+<observation>
+  <rss-id>39a855f0a4924af3217a217c8dc78ece</rss-id>
+</observatio>
 ```
 

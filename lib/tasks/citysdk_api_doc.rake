@@ -18,17 +18,29 @@ namespace :citysdk do
 
       ## API methods
     API
-    Dir.glob('app/controllers/citysdk/**/*.rb').each { |f| api += extract_documentation(f) }
+    input_files.each { |f| api += extract_documentation(f) }
     api[-1] = "#{api.last}\n"
     File.write Rails.root.join('CitySDK_API.md'), api.join("\n")
   end
+end
 
-  def extract_documentation(file)
-    pattern = /^ *# :apidoc: ?/
-    lines = File.readlines(file).select { |line| line.match? pattern }
-    lines.map! { |line| line.remove pattern }
-    lines.map!(&:strip)
-    lines << '' unless lines.length.zero?
-    lines
-  end
+private
+
+def extract_documentation(file)
+  pattern = /^ *# :apidoc: ?/
+  lines = File.readlines(file).select { |line| line.match? pattern }
+  lines.map! { |line| line.remove pattern }
+  lines.map!(&:rstrip)
+  lines << '' unless lines.length.zero?
+  lines
+end
+
+def input_files
+  path_prefix = 'app/controllers/citysdk'
+  %w[
+    discovery_controller.rb
+    services_controller.rb
+    requests_controller/index.rb
+    requests_controller.rb
+  ].map { |f| "#{path_prefix}/#{f}" } | Dir.glob("#{path_prefix}/**/*.rb")
 end
