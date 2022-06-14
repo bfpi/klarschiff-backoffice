@@ -196,6 +196,7 @@ Sample Response:
 ```
 ### Update Service request
 <code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
+
 <code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
 
 Parameters:
