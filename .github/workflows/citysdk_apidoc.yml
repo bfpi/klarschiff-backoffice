@@ -16,6 +16,15 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - name: Prepare Config
+        run: |
+          rm config/database.yml
+          cp config/database.sample.yml config/database.yml
+          rm config/secrets.yml
+          cp config/secrets.sample.yml config/secrets.yml
+          rm config/storage.yml
+          cp config/storage.sample.yml config/storage.yml
+
       - name: Create CitySDK API documentation
         run: bundle exec rails citysdk:apidoc
 
