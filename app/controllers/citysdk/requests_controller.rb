@@ -101,6 +101,7 @@ module Citysdk
 
     # :apidoc: ### Update Service request
     # :apidoc: <code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc:
     # :apidoc: <code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
     # :apidoc:
     # :apidoc: Parameters:
