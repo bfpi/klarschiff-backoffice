@@ -3,11 +3,26 @@
 module Citysdk
   module Requests
     class PhotosController < CitysdkController
-      # Foto zur Meldung hinzufuegen
-      # params:
-      #   service_request_id        pflicht   - Vorgang-ID
-      #   author                    pflicht   - Autor-Email
-      #   media                     pflicht   - Foto (Base64)
+      # :apidoc: ### Create new photo for service request
+      # :apidoc: <code>POST http://[API endpoint]/requests/photos/[service_request_id].[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | service_request_id | X | Integer | Issue ID |
+      # :apidoc: | author | X | String | Author email |
+      # :apidoc: | media | X | String | Photo as Base64 encoded string |
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <photos>
+      # :apidoc:   <photo>
+      # :apidoc:     <id>photo.id</id>
+      # :apidoc:   </photo>
+      # :apidoc: </photos>
+      # :apidoc: ```
       def create
         photo = Citysdk::Photo.new
         photo.assign_attributes(params.permit(:service_request_id, :author, :media))

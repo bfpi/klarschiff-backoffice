@@ -10,7 +10,7 @@ module Citysdk
     # :apidoc: | Name | Required | Type | Notes |
     # :apidoc: |:--|:-:|:--|:--|
     # :apidoc: | api_key | X | String | API key |
-    # :apidoc: | area_code | - | Integer[] | IDs to filter districts |
+    # :apidoc: | area_code | - | Integer / String | ID to filter districts, separated by comma for multiple values |
     # :apidoc: | with_districts | - | Boolean | return all existing districts, not available if using area_code |
     # :apidoc:
     # :apidoc: Sample Response:

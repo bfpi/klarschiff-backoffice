@@ -3,12 +3,27 @@
 module Citysdk
   module Requests
     class AbusesController < CitysdkController
-      # Missbrauch melden
-      # params:
-      #   service_request_id        pflicht   - Vorgang-ID
-      #   author                    pflicht   - Autor-Email
-      #   comment                   pflicht   - Kommentar
-      #   privacy_policy_accepted   optional  - Bestaetigung Datenschutz
+      # :apidoc: ### Create new abuse for service request
+      # :apidoc: <code>POST http://[API endpoint]/requests/abuses/[service_request_id].[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | service_request_id | X | Integer | Issue ID |
+      # :apidoc: | author | X | String | Author email |
+      # :apidoc: | comment | X | String | |
+      # :apidoc: | privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <abuses>
+      # :apidoc:   <abuse>
+      # :apidoc:     <id>abuse.id</id>
+      # :apidoc:   </abuse>
+      # :apidoc: </abuses>
+      # :apidoc: ```
       def create
         abuse = Citysdk::Abuse.new
         abuse.assign_attributes(params.permit(:service_request_id, :author, :comment, :privacy_policy_accepted))
