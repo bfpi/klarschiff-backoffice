@@ -195,9 +195,10 @@ Sample Response:
 </service_requests>
 ```
 ### Update Service request
-<code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
-
-<code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
+```
+PATCH http://[API endpoint]/requests/[service_request_id].[format]
+PUT   http://[API endpoint]/requests/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -212,14 +213,15 @@ Parameters:
 | address_string | * | String | Address for position |
 | photo_required | - | Boolean | Photo required |
 | media | - | String | Photo as Base64 encoded string |
-| detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
+| detailed_status | - | String | CitySDK status |
 | status_notes | - | String | Status note |
 | priority | - | Integer | Priority |
 | delegation | - | String | Delegation to external role |
 | job_status | - | Integer | Job status |
 | job_priority | - | Integer | Job priority |
 
-*: Either `lat` and `long` or `address_string` are required
+*: Either `lat` and `long` or `address_string` are required\
+Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
 
 Sample Response:
 
