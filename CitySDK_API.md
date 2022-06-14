@@ -254,7 +254,7 @@ Parameters:
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
-| area_code | - | Integer[] | IDs to filter districts |
+| area_code | - | Integer / String | ID to filter districts, separated by comma for multiple values |
 | with_districts | - | Boolean | return all existing districts, not available if using area_code |
 
 Sample Response:
@@ -391,5 +391,172 @@ Sample Response:
 <observation>
   <rss-id>39a855f0a4924af3217a217c8dc78ece</rss-id>
 </observatio>
+```
+
+### Create new abuse for service request
+<code>POST http://[API endpoint]/requests/abuses/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| author | X | String | Author email |
+| comment | X | String | |
+| privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+
+Sample Response:
+
+```xml
+<abuses>
+  <abuse>
+    <id>abuse.id</id>
+  </abuse>
+</abuses>
+```
+
+### Get comments list for service request
+<code>GET http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| api_key | X | String | API key |
+
+Sample Response:
+
+```xml
+<comments type="array">
+  <comment>
+    <id>comment.id</id>
+    <jurisdiction_id></jurisdiction_id>
+    <comment>comment.text</comment>
+    <datetime>comment.datetime</datetime>
+    <service_request_id>comment.service_request_id</service_request_id>
+  </comment>
+</comments>
+```
+### Create new comment for service request
+<code>POST http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| api_key | X | String | API key |
+| author | X | String | Author email |
+| comment | X | String | |
+| privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+
+Sample Response:
+
+```xml
+<comments>
+  <comment>
+    <id>comment.id</id>
+    <jurisdiction_id></jurisdiction_id>
+    <comment>comment.text</comment>
+    <datetime>comment.datetime</datetime>
+    <service_request_id>comment.service_request_id</service_request_id>
+  </comment>
+</comments>
+```
+
+### Get notes list for service request
+<code>GET http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+
+Notes are internal comments on issues.
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| api_key | X | String | API key |
+
+Sample Response:
+
+```xml
+<notes type="array">
+  <note>
+    <jurisdiction_id></jurisdiction_id>
+    <comment>note.text</comment>
+    <datetime>note.datetime</datetime>
+    <service_request_id>note.service_request_id</service_request_id>
+    <author>note.author</author>
+  </note>
+</notes>
+```
+### Create new note for service request
+<code>POST http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+
+Notes are internal comments on issues.
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| api_key | X | String | API key |
+| author | X | String | Author email |
+| note | X | String | Internal comment for issue |
+
+Sample Response:
+
+```xml
+<notes>
+  <note>
+    <jurisdiction_id></jurisdiction_id>
+    <comment>note.text</comment>
+    <datetime>note.datetime</datetime>
+    <service_request_id>note.service_request_id</service_request_id>
+    <author>note.author</author>
+  </note>
+</notes>
+```
+
+### Create new photo for service request
+<code>POST http://[API endpoint]/requests/photos/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| author | X | String | Author email |
+| media | X | String | Photo as Base64 encoded string |
+
+Sample Response:
+
+```xml
+<photos>
+  <photo>
+    <id>photo.id</id>
+  </photo>
+</photos>
+```
+
+### Create new vote for service request
+<code>POST http://[API endpoint]/requests/votes/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| author | X | String | Author email |
+| privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+
+Sample Response:
+
+```xml
+<votes>
+  <vote>
+    <id>vote.id</id>
+  </vote>
+</votes>
 ```
 
