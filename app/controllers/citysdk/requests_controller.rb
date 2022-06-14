@@ -100,9 +100,10 @@ module Citysdk
     end
 
     # :apidoc: ### Update Service request
-    # :apidoc: <code>PATCH http://[API endpoint]/requests/[service_request_id].[format]</code>
-    # :apidoc:
-    # :apidoc: <code>PUT   http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc: ```
+    # :apidoc: PATCH http://[API endpoint]/requests/[service_request_id].[format]
+    # :apidoc: PUT   http://[API endpoint]/requests/[service_request_id].[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -117,14 +118,15 @@ module Citysdk
     # :apidoc: | address_string | * | String | Address for position |
     # :apidoc: | photo_required | - | Boolean | Photo required |
     # :apidoc: | media | - | String | Photo as Base64 encoded string |
-    # :apidoc: | detailed_status | - | String | Status (RECEIVED, IN_PROCESS, PROCESSED, REJECTED) |
+    # :apidoc: | detailed_status | - | String | CitySDK status |
     # :apidoc: | status_notes | - | String | Status note |
     # :apidoc: | priority | - | Integer | Priority |
     # :apidoc: | delegation | - | String | Delegation to external role |
     # :apidoc: | job_status | - | Integer | Job status |
     # :apidoc: | job_priority | - | Integer | Job priority |
     # :apidoc:
-    # :apidoc: *: Either `lat` and `long` or `address_string` are required
+    # :apidoc: *: Either `lat` and `long` or `address_string` are required\
+    # :apidoc: Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
