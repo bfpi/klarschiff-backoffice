@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  api!
   def show
     @comment = Comment.find(params[:id])
   end
