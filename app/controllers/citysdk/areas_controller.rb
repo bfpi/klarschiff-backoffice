@@ -2,15 +2,31 @@
 
 module Citysdk
   class AreasController < CitysdkController
-    # Liste von Gebietsgrenzen
-    # params:
-    #   api_key         optional - API-Key
-    #   area_code       optional - IDs der selektierten Stadtteile
-    #   with_districts  optional - Response mit allen verfuegbaren Stadtteilgrenzen
+    # :apidoc: ### Get observable areas
+    # :apidoc: <code>GET http://[API endpoint]/areas.[format]</code>
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | api_key | X | String | API key |
+    # :apidoc: | area_code | - | Integer / String | ID to filter districts, separated by comma for multiple values |
+    # :apidoc: | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <areas>
+    # :apidoc:   <area>
+    # :apidoc:     <id>30</id>
+    # :apidoc:     <name>Biestow</name>
+    # :apidoc:     <grenze>MULTIPOLYGON (((...)))</grenze>
+    # :apidoc:   </area>
+    # :apidoc:   ...
+    # :apidoc: </areas>
+    # :apidoc: ```
     def index
-      @response = limit_response(order_response(search_areas))
-      citysdk_response(@response,
-        { root: :areas, element_name: :area })
+      citysdk_response limit_response(order_response(search_areas)), { root: :areas, element_name: :area }
     end
 
     private

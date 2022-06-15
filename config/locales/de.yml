@@ -408,10 +408,10 @@ de:
       coordinates: "Koordinaten: %{x} %{y}"
     foreign_create_success: >-
       Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     foreign_update_success: >-
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
