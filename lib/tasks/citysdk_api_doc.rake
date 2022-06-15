@@ -28,7 +28,7 @@ private
 
 def extract_documentation(file)
   pattern = /^ *# :apidoc: ?/
-  lines = File.readlines(file).select { |line| line.match? pattern }
+  lines = File.readlines(file).grep(pattern)
   lines.map! { |line| line.remove pattern }
   lines.map!(&:rstrip)
   lines << '' unless lines.length.zero?
