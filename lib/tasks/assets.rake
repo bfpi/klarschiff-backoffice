@@ -5,7 +5,7 @@ namespace :assets do
   task libs: :environment do
     puts 'Importing external libs configured in config/libs.yml as assets to lib/assets ...'
     require 'open-uri'
-    proxy = ENV['HTTP_PROXY'] || ENV['http_proxy'] # Workaround for open-uri https-proxy problem
+    proxy = ENV.fetch('HTTP_PROXY', nil) || ENV.fetch('http_proxy', nil) # Workaround for open-uri https-proxy problem
     proxy = "http://#{proxy}" if proxy.present? && !proxy.match(%r{^https?://})
     config = YAML.safe_load(File.new(Rails.root.join('config/libs.yml'))).with_indifferent_access
     versions = config[:versions]

@@ -66,9 +66,9 @@ module Citysdk
         return index_just_counts if params[:just_count].present?
 
         citysdk_response filtered_requests, root: :service_requests, element_name: :request,
-                                            extensions: params[:extensions].try(:to_boolean),
-                                            property_details: authorized?(:request_property_details),
-                                            job_details: authorized?(:request_job_details)
+          extensions: params[:extensions].try(:to_boolean),
+          property_details: authorized?(:request_property_details),
+          job_details: authorized?(:request_job_details)
       end
 
       private

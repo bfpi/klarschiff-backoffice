@@ -22,7 +22,7 @@
         <td>
           <%= link_to edit_issue_path(feedback.issue.id), remote: true do %>
             <%= image_tag feedback.issue.list_icon, class: "status-icon #{feedback.issue.status}",
-                                         title: Issue.human_enum_name(:status, feedback.issue.status) %>
+                  title: Issue.human_enum_name(:status, feedback.issue.status) %>
             #<%= feedback.issue.id %>
           <% end -%>
         </td>

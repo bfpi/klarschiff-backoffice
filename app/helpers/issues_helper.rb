@@ -96,7 +96,7 @@ module IssuesHelper
 
   def external_map_url(issue)
     I18n.interpolate Settings::Geoportal.url, lon: issue.lon_external, lat: issue.lat_external,
-                                              scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
+      scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
   def kind_and_status_tooltip(issue)
