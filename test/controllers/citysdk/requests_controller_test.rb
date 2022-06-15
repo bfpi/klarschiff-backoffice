@@ -120,6 +120,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert requests.count.positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
     assert extended_attributes.blank?
+    assert_empty doc.xpath('/service_requests/request/create_message')
   end
 
   test 'show with api-key frontend' do
@@ -189,6 +190,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
+    assert_not_empty doc.xpath('/service_requests/request/create_message')
     assert_equal 1, service_request_id.count
     assert issue = Issue.find(service_request_id.first.text)
     assert_enqueued_emails 1
