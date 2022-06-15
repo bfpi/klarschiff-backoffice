@@ -1,14 +1,14 @@
 <% if form.object.reviewed_at.present? -%>
   <div class="row">
     <%= form.label :group, for: :issue_group_id, class: 'col-2 col-form-label' %>
-    <div class="col-4">
+    <div class="col">
       <label class="col-form-label">
         <%= t '.current_responsibility' %> <%= form.object.group.name %>
       </label>
     </div>
   </div>
   <div class="row">
-    <div class="col-4 offset-2">
+    <div class="col offset-2">
       <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_reject, '', class: 'form-check-label' do %>
           <%= form.radio_button :responsibility_action, :reject, disabled: form.object.closed? %>
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-4 offset-2">
+    <div class="col offset-2">
       <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_accept, '', class: 'form-check-label' do %>
           <%= form.radio_button :responsibility_action, :accept, disabled: form.object.closed? %>
@@ -47,13 +47,23 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-4 offset-2">
+  <div class="col offset-2">
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_recalculate, '', class: 'form-check-label' do %>
         <%= form.radio_button :responsibility_action, :recalculate,
               checked: form.object.reviewed_at.blank?, disabled: form.object.closed? %>
         <%= t ".responsibility_action_recalculation#{'_review' if form.object.reviewed_at.blank?}" %>
         <%= form.object.group.name if form.object.reviewed_at.blank? %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col offset-2">
+    <div class="form-check form-check-inline">
+      <%= form.label :responsibility_action_close_as_not_solvable, '', class: 'form-check-label' do %>
+        <%= form.radio_button :responsibility_action, :close_as_not_solvable, disabled: form.object.closed? %>
+        <%= t '.responsibility_action_close_as_not_solvable' %>
       <% end %>
     </div>
   </div>

@@ -113,7 +113,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_no_changes 'issue.updated_by_user' do
       issue.update! description: '1, 2, 3, ... test'
     end
-    Current.user = user(:two)
+    Current.user = user(:admin)
     assert_changes 'issue.updated_by_user', to: Current.user do
       issue.update! description: '4, 5, 6, ... other test'
     end
@@ -125,5 +125,11 @@ class IssueTest < ActiveSupport::TestCase
     assert Issue.authorized(user).any?
     assert_not_equal Issue.ids, Issue.authorized(user).ids
     assert_empty Issue.authorized(user(:editor2))
+  end
+
+  test 'ensure status not template value for responibility' do
+    value = Config.for(:status_note_template, env: nil)['Zuständigkeit']
+    assert_not_nil value
+    assert_not_empty value
   end
 end
