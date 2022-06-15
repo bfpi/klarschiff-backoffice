@@ -91,8 +91,8 @@ Parameters:
 | observation_key | - | String | MD5 hash of observed area to use as filter |
 | area_code | - | Integer | Filter issues by affected area ID |
 
-Available Open311 states: `open`, `closed`
-Available CitySDK states: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+Available Open311 states for this action: `open`, `closed`\
+Available CitySDK states for this action: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
 
 Sample Response:
 
@@ -301,7 +301,9 @@ Parameters:
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | date | X | Date | Filter jobs that are the equal or lower than the given date |
-| status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+| status | - | String | Job status |
+
+Available job states for this action: `CHECKED`, `UNCHECKED`, `NOT_CHECKABLE`
 
 Sample Response:
 
@@ -343,8 +345,10 @@ Sample Response:
 </jobs>
 ```
 ### Update job
-<code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
-<code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
+```
+PATCH http://[API endpoint]/jobs/[service_request_id].[format]
+PUT   http://[API endpoint]/jobs/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -352,8 +356,10 @@ Parameters:
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | service_request_id | X | Integer | Affected issue ID |
-| status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+| status | X | String | Job status |
 | date | X | Date | Date of job |
+
+Available job states for this action: `CHECKED`, `UNCHECKED`, `NOT_CHECKABLE`
 
 Sample Response:
 
@@ -386,7 +392,7 @@ Parameters:
 | idea_service | | String | Filter ideas by main category IDs |
 | idea_service_sub | | String | Filter ideas by sub category IDs |
 
-*: Either geometry or area_code is required
+*: Either `geometry` or `area_code` is required
 
 Sample Response:
 

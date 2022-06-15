@@ -19,7 +19,7 @@ module Citysdk
     # :apidoc: | idea_service | | String | Filter ideas by main category IDs |
     # :apidoc: | idea_service_sub | | String | Filter ideas by sub category IDs |
     # :apidoc:
-    # :apidoc: *: Either geometry or area_code is required
+    # :apidoc: *: Either `geometry` or `area_code` is required
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:

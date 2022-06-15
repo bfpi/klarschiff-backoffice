@@ -34,8 +34,8 @@ module Citysdk
       # :apidoc: | observation_key | - | String | MD5 hash of observed area to use as filter |
       # :apidoc: | area_code | - | Integer | Filter issues by affected area ID |
       # :apidoc:
-      # :apidoc: Available Open311 states: `open`, `closed`
-      # :apidoc: Available CitySDK states: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+      # :apidoc: Available Open311 states for this action: `open`, `closed`\
+      # :apidoc: Available CitySDK states for this action: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
       # :apidoc:
       # :apidoc: Sample Response:
       # :apidoc:

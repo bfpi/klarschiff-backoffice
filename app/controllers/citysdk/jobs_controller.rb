@@ -13,7 +13,9 @@ module Citysdk
     # :apidoc: |:--|:-:|:--|:--|
     # :apidoc: | api_key | X | String | API key |
     # :apidoc: | date | X | Date | Filter jobs that are the equal or lower than the given date |
-    # :apidoc: | status | - | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+    # :apidoc: | status | - | String | Job status |
+    # :apidoc:
+    # :apidoc: Available job states for this action: `CHECKED`, `UNCHECKED`, `NOT_CHECKABLE`
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
@@ -75,8 +77,10 @@ module Citysdk
     end
 
     # :apidoc: ### Update job
-    # :apidoc: <code>PATCH http://[API endpoint]/jobs/[service_request_id].[format]</code>
-    # :apidoc: <code>PUT   http://[API endpoint]/jobs/[service_request_id].[format]</code>
+    # :apidoc: ```
+    # :apidoc: PATCH http://[API endpoint]/jobs/[service_request_id].[format]
+    # :apidoc: PUT   http://[API endpoint]/jobs/[service_request_id].[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -84,8 +88,10 @@ module Citysdk
     # :apidoc: |:--|:-:|:--|:--|
     # :apidoc: | api_key | X | String | API key |
     # :apidoc: | service_request_id | X | Integer | Affected issue ID |
-    # :apidoc: | status | X | String | Status (CHECKED, UNCHECKED, NOT_CHECKABLE) |
+    # :apidoc: | status | X | String | Job status |
     # :apidoc: | date | X | Date | Date of job |
+    # :apidoc:
+    # :apidoc: Available job states for this action: `CHECKED`, `UNCHECKED`, `NOT_CHECKABLE`
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
