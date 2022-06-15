@@ -11,12 +11,11 @@ module Citysdk
 
     attr_writer :lat, :long, :address_string
 
-    self.serialization_attributes = %i[service_request_id request_default_group]
+    self.serialization_attributes = %i[service_request_id]
     alias_attribute :service_request_id, :id
     alias_attribute :status_notes, :status_note
     alias_attribute :requested_datetime, :created_at
     alias_attribute :updated_datetime, :updated_at
-    alias_attribute :request_default_group, :default_group?
     alias_attribute :description_public, :description_status_external?
     alias_attribute :photo_required, :photo_requested
     alias_attribute :detailed_status_datetime, :status_date
@@ -94,6 +93,12 @@ module Citysdk
       delegation.short_name
     end
 
+    def create_message
+      message = [I18n.t('request.create_message.success')]
+      message << I18n.t('request.description.default_group') if default_group?
+      message.join
+    end
+
     private
 
     def extended_attributes
@@ -110,6 +115,7 @@ module Citysdk
 
       ret = []
       ret << :extended_attributes if options[:extensions]
+      ret << :create_message if options[:status] == 201
       unless options[:show_only_id]
         ret |= %i[status_notes status service_code service_name description agency_responsible service_notice
                   requested_datetime updated_datetime expected_datetime address adress_id lat long media_url zipcode]

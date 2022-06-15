@@ -474,9 +474,17 @@ de:
       new_responsibility: Neue Zuständigkeit
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   request:
+    create_message:
+      success: >
+        Die Meldung wurde erfolgreich erstellt.
+        Sie haben eine E-Mail erhalten, in der Sie Ihre Meldung noch einmal bestätigen müssen.
+        Wenn Sie nicht innerhalb von 24 Stunden bestätigen, wird Ihre Meldung automatisch wieder gelöscht.
     description:
       internal: redaktionelle Prüfung ausstehend
-      default_group: Die Meldung wurde in einem Amtsgebiet abgesetzt, das noch nicht an Klarschiff-MV teilnimmt. Die Daten sind somit nicht öffentlich einsehbar.
+      default_group: >
+        Die Meldung wurde in einem Amtsgebiet angelegt, das noch nicht an Klarschiff-MV teilnimmt.
+        Die Daten der Meldung wurden an das zuständige Amt weitergeleitet.
+        Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
   send_email: als E-Mail versenden
   search: Suchen
   show_map: Kartenansicht
