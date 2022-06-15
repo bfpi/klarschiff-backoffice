@@ -129,6 +129,10 @@ de:
         blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
         email: ist keine gültige E-Mail-Adresse.
       models:
+        group:
+          attributes:
+            base:
+              associated_categories: Gruppen mit zugewiesenen Zuständigkeiten können nicht deaktiviert werden.
         issue:
           attributes:
             category:
@@ -216,7 +220,9 @@ de:
       responsibility:
         one: Zuständigkeit
         other: Zuständigkeiten
-      supporter: Unterstützer
+      supporter:
+        one: Unterstützung
+        other: Unterstützungen
       user: Benutzer
   aerial_view: Luftbild
   api_key:
@@ -242,6 +248,7 @@ de:
     last_editor: letzter Bearbeiter
     message: Nachricht
     name: Name
+    privacy_policy_accepted: Datenschutzbestimmung
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen
@@ -252,6 +259,8 @@ de:
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
+  confirm_changes_html:
+    Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
   contact: Kontakt
   create: anlegen
   dashboard: "Willkommen bei %{instance_name}"
@@ -400,10 +409,10 @@ de:
       coordinates: "Koordinaten: %{x} %{y}"
     foreign_create_success: >-
       Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     foreign_update_success: >-
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
@@ -449,9 +458,11 @@ de:
     index:
       new_mail_blacklist: Neuer Eintrag
   nav:
-    dashboard: Startseite
-    logout: Logout
     administration: Administration
+    dashboard: Startseite
+    help: Hilfe
+    info: Info
+    logout: Logout
   no_result: Die Suche ergab kein Resultat.
   password:
     capital: Großbuchstaben
@@ -466,6 +477,7 @@ de:
   search: Suchen
   show_map: Kartenansicht
   simple_search: Einfache Suche
+  submit_changes: Änderungen speichern?
   statuses:
     abuse_report:
       open: " (offen)"

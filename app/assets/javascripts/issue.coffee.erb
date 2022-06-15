@@ -1,9 +1,44 @@
 $ ->
+  initialize = ->
+    initializeConfirmationDialog()
+    initializeExtendedFilter()
+
+  initializeConfirmationDialog = ->
+    $('#dialog-confirm').dialog
+      autoOpen: false
+      resizable: false
+      height: 'auto'
+      width: 'auto'
+      modal: true
+      title: '<%= I18n.t('submit_changes') %>'
+      buttons:
+        'confirm':
+          text: '<%= I18n.t(true) %>'
+          click: ->
+            form = $('.edit_issue')
+            tabData = $(@).data('url').split('?')[1].split('=')
+            form.append($('<input>').attr('type', 'hidden').attr('name', tabData[0]).val(tabData[1]))
+            Rails.fire(form[0], 'submit')
+            $(@).dialog('close')
+          class: 'btn btn-sm btn-primary'
+        'reject':
+          text: '<%= I18n.t(false) %>'
+          click: ->
+            $.ajax(url: $(@).data('url'), type: 'GET')
+            $(@).dialog('close')
+          class: 'btn btn-sm btn-secondary'
+        'abort':
+          text: '<%= I18n.t('action.abort') %>'
+          click: ->
+            $(@).dialog('close')
+          class: 'btn btn-sm btn-secondary'
+
+
   initializeExtendedFilter = ->
     if $('form#issues-filter').length == 1
       KS.initializeFormActions()
 
-  $(document).on 'turbolinks:load', initializeExtendedFilter
+  $(document).on 'turbolinks:load', initialize
 
   $(document).on 'change', '#status_note_template', ->
     $('#issue_status_note').val($('#status_note_template')[0]['value'])
@@ -16,6 +51,15 @@ $ ->
       type: 'GET'
       success: (data) ->
         location.href = data
+
+  $(document).on 'change', '.edit_issue :input', ->
+    $('.edit_issue').data('changed', true)
+  
+  $(document).on 'click', '.switch-tab', (e) ->
+    e.preventDefault()
+    return $.ajax(url: $(@).data('url'), type: 'GET') if !$('.edit_issue').data('changed')
+    $('#dialog-confirm').data('url', $(@).data('url'))
+    $('#dialog-confirm').dialog('open')
 
   $(document).on 'click', '#issue_export', (e) ->
     reopen = false
@@ -47,7 +91,7 @@ $ ->
 
       $('#map').html('')
       KS.initializeMaps(true)
-    ), 3000
+    ), 1000
 
   $(document).on 'click', '.card .btn-create', (e) ->
     e.preventDefault()

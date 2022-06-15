@@ -35,9 +35,9 @@ module IssuesHelper
   end
 
   def nav_item(tab, issue, current_tab, issue_or_delegation = :issue)
-    css_class = "nav-link #{:active if tab == current_tab}"
+    css_class = "nav-link switch-tab #{:active if tab == current_tab}"
     path = send("edit_#{issue_or_delegation}_path", issue, tab: tab)
-    tag.li link_to(t("issues.form.tab.#{tab}"), path, remote: true, class: css_class), class: 'nav-item'
+    tag.li link_to(t("issues.form.tab.#{tab}"), '#', data: { url: path }, class: css_class), class: 'nav-item'
   end
 
   def open_abuse_reports(issue)
@@ -96,7 +96,7 @@ module IssuesHelper
 
   def external_map_url(issue)
     I18n.interpolate Settings::Geoportal.url, lon: issue.lon_external, lat: issue.lat_external,
-                                              scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
+      scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
   def kind_and_status_tooltip(issue)

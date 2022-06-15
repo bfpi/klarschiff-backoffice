@@ -138,3 +138,11 @@ undeleteable_abuse_report:
 undeleteable_status:
   <<: *DEFAULTS
   status: reviewed
+
+former_issue_one:
+  <<: *DEFAULTS
+  group: two
+
+former_issue_two:
+  <<: *DEFAULTS
+  group: one

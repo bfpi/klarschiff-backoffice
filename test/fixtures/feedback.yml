@@ -11,3 +11,7 @@ one:
 
 two:
   <<: *DEFAULTS
+
+three:
+  <<: *DEFAULTS
+  issue: received_not_accepted_two

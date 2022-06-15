@@ -12,6 +12,12 @@ module Citysdk
                                 %w[duplicate not_solvable]
                               end }.freeze
 
+    CITYSDK_WRITE = {
+      'IN_PROCESS' => defined?(STATUS_CITYSDK_IN_PROCESS) ? STATUS_CITYSDK_IN_PROCESS : 'in_process',
+      'PROCESSED' => defined?(STATUS_CITYSDK_PROCESSED) ? STATUS_CITYSDK_PROCESSED : 'closed',
+      'REJECTED' => defined?(STATUS_CITYSDK_REJECTED) ? STATUS_CITYSDK_REJECTED : 'not_solvable'
+    }.freeze
+
     PERMISSABLE_CITYSDK_KEYS = %w[IN_PROCESS PROCESSED REJECTED].freeze
 
     OPEN311 = { 'open' => (if defined?(STATUS_OPEN311_OPEN)

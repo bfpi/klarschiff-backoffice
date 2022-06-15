@@ -28,9 +28,9 @@ class DashboardsController < ApplicationController
 
   def collect_notices
     @in_process_not_accepted = in_process_not_accepted
-    @open_ideas_without_min_supporters = open_ideas_without_min_supporters(Time.current - 60.days)
-    @in_process = in_process(Time.current - 30.days)
-    @open_not_accepted = open_not_accepted(Time.current - 3.days)
+    @open_ideas_without_min_supporters = open_ideas_without_min_supporters(60.days.ago)
+    @in_process = in_process(30.days.ago)
+    @open_not_accepted = open_not_accepted(3.days.ago)
   end
 
   def latest_issues

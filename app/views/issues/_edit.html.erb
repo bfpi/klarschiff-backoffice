@@ -1,5 +1,6 @@
 <div class="modal-dialog modal-xl">
-  <% opts = { url: issue_path(@issue), remote: true, html: { 'data-dependencies': data_dependencies_path } } %>
+  <% opts = { url: issue_path(@issue), remote: true,
+              html: { data: { dependencies: data_dependencies_path, changed: false } } } %>
   <%= form_for @issue, opts do |f| %>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="modal-content">
@@ -14,7 +15,7 @@
                   id: :issue_email_direct, title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
             <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
                   issue_issue_exports_path(@issue),
-                  target: :_blank, id: :issue_export, title: 'Daten der Meldung ausdrucken', rel: :noopener %>
+                  target: :_blank, id: :issue_export, title: 'PDF mit Daten der Meldung erzeugen', rel: :noopener %>
             <% if authorized?(:resend_responsibility, @issue) -%>
               <%= link_to tag.i(class: 'fa fa-paper-plane btn btn-primary'),
                     issue_resend_responsibility_path(@issue),

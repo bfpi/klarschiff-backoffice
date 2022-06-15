@@ -76,4 +76,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
+
+  test 'reject create without privacy_policy_accepted if required' do
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests/notes/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
+        params: { author: 'one@example.com', comment: 'abcde' }
+      assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    end
+  end
 end

@@ -9,7 +9,7 @@ module Citysdk
         errors.add :status, :invalid
         raise ActiveRecord::RecordInvalid, self
       end
-      return if (new_status = Citysdk::Status::CITYSDK[value]).blank?
+      return if (new_status = Citysdk::Status::CITYSDK_WRITE[value]).blank?
       self.status = new_status
     end
 
@@ -20,8 +20,6 @@ module Citysdk
       end
       super(value.to_i)
     end
-
-    def privacy_policy_accepted=(value); end
 
     def delegation=(value)
       if (new_delegation = Group.kind_external.find_by(short_name: value)).blank?

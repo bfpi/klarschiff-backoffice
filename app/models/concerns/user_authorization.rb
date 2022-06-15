@@ -55,7 +55,7 @@ module UserAuthorization
 
   def edit_issue_permitted?(issue)
     static_permitted_to?(:issues) || groups.active.ids.include?(issue.group_id) ||
-      auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id
+      (auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id)
   end
 
   def delegations_permitted?
@@ -66,7 +66,7 @@ module UserAuthorization
   def edit_delegation_permitted?(issue)
     edit_issue_permitted?(issue) ||
       static_permitted_to?(:delegations) || groups.active.ids.include?(issue.delegation_id) ||
-      auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id
+      (auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id)
   end
 
   def static_permitted_to?(action)
@@ -83,10 +83,10 @@ module UserAuthorization
     change_user: %i[admin],
     delegations: %i[admin regional_admin],
     issues: %i[admin regional_admin],
-    list_log_entries: %i[admin],
-    manage_editorial_notifications: %i[admin],
-    manage_feedbacks: %i[admin],
-    manage_field_service: %i[admin],
+    list_log_entries: %i[admin regional_admin],
+    manage_editorial_notifications: %i[admin regional_admin],
+    manage_feedbacks: %i[admin regional_admin],
+    manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
     manage_mail_blacklist: %i[admin],
     manage_mail_templates: %i[admin],

@@ -40,4 +40,12 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/comments/comment/id').count
   end
+
+  test 'reject create without privacy_policy_accepted if required' do
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}",
+        params: { author: 'test@example.com', comment: 'abcde' }
+      assert_privacy_acceptence_validation Nokogiri::XML(response.parsed_body)
+    end
+  end
 end

@@ -25,8 +25,8 @@ class Issue
 
       after_save :notify_group,
         if: lambda {
-              saved_change_to_status? && status_received? && group_id.present? ||
-                saved_change_to_group_id? && !status_pending?
+              (saved_change_to_status? && status_received? && group_id.present?) ||
+                (saved_change_to_group_id? && !status_pending?)
             }
 
       validate :issue_in_authorized_areas, on: :update
@@ -34,7 +34,7 @@ class Issue
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
       validates :status_note, presence: true, on: :update,
-                              if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
+        if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
     end
 
     private

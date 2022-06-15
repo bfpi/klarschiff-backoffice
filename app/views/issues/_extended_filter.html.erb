@@ -115,8 +115,8 @@
         <%= label_tag :filter_districts, District.model_name.human, class: 'col-4 col-form-label' %>
         <div class="col-8">
           <%= form.multiselect_filter_field 'districts', filter_ids: @filter[:districts],
-                                                         class: 'form-control', 'data-autocomplete-url': districts_path,
-                                                         columns: 'name', object: District %>
+                class: 'form-control', 'data-autocomplete-url': districts_path,
+                columns: 'name', object: District %>
         </div>
       </div>
     </div>

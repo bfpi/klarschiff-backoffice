@@ -8,6 +8,11 @@ class MailBlacklist < ApplicationRecord
 
   scope :active, -> { where active: true }
 
+  def self.authorized(user = Current.user)
+    return all if user&.role_admin?
+    none
+  end
+
   def to_s
     pattern
   end

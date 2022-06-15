@@ -163,6 +163,14 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test 'reject create without privacy_policy_accepted if required' do
+    with_privacy_settings(active: true) do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      doc = Nokogiri::XML(response.parsed_body)
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    end
+  end
+
   test 'create with frontend api-key and photo' do
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
       media: Base64.encode64(File.read(Rails.root.join('test/fixtures/files/test.jpg')))
@@ -306,6 +314,15 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { job_status: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+  end
+
+  test 'update attribute detailed_status as rejected with ppc api-key' do
+    issue = issue(:in_process)
+    new_value = 'REJECTED'
+    reloaded_request = update_request_and_reload(issue.id, :detailed_status, new_value)
+    assert_equal 'not_solvable', issue.reload.status
+    assert_equal new_value,
+      reloaded_request.xpath('/service_requests/request/extended_attributes/detailed_status/text()').first.to_s
   end
 
   test 'update attribute job_priority with ppc api-key' do

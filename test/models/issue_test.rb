@@ -43,7 +43,7 @@ class IssueTest < ActiveSupport::TestCase
         assert_in_delta issue.reload.group_responsibility_notified_at, Time.current, 2
       end
     end
-    travel_to(time = Time.current + 2.weeks) do
+    travel_to(time = 2.weeks.from_now) do
       assert_no_changes 'issue.updated_by_user' do
         assert_no_changes 'issue.status' do
           issue.responsibility_action = :reject
@@ -87,6 +87,18 @@ class IssueTest < ActiveSupport::TestCase
     ]
   end
 
+  test 'validate author as email' do
+    issue = Issue.new
+    assert_not issue.valid?
+    assert_equal [{ error: :blank }], issue.errors.details[:author]
+    issue.author = 'abc'
+    assert_not issue.valid?
+    assert_equal [{ error: :email, value: 'abc' }], issue.errors.details[:author]
+    issue.author = 'abc@example.com'
+    issue.valid?
+    assert_empty issue.errors.details[:author]
+  end
+
   test 'set_reviewed_at callback' do
     issue = issue(:received)
     assert issue.valid?
@@ -105,5 +117,13 @@ class IssueTest < ActiveSupport::TestCase
     assert_changes 'issue.updated_by_user', to: Current.user do
       issue.update! description: '4, 5, 6, ... other test'
     end
+  end
+
+  test 'authorized scope' do
+    assert_equal Issue.ids, Issue.authorized(user(:admin)).ids
+    user = user(:regional_admin)
+    assert Issue.authorized(user).any?
+    assert_not_equal Issue.ids, Issue.authorized(user).ids
+    assert_empty Issue.authorized(user(:editor2))
   end
 end

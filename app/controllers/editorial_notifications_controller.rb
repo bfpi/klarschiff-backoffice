@@ -7,7 +7,7 @@ class EditorialNotificationsController < ApplicationController
   def index
     @editorial_criteria = EditorialSettings::Config.levels
     @editorial_notifications = EditorialNotification.includes(user: %i[groups_users groups])
-      .references(user: %i[groups_users groups]).order(order_attr)
+      .references(user: %i[groups_users groups]).authorized.order(order_attr)
       .page(params[:page] || 1).per(params[:per_page] || 10)
   end
 

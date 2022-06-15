@@ -2,9 +2,12 @@
 
 module Citysdk
   class Request < ::Issue
-    include Citysdk::Serialization
-    include Citysdk::RequestSetter
+    include Citysdk::BecomesIfValid
+    include Citysdk::PrivacyPolicy
+    include Citysdk::Request::CallbackSkips
     include Citysdk::Request::Media
+    include Citysdk::RequestSetter
+    include Citysdk::Serialization
 
     attr_writer :lat, :long, :address_string
 
