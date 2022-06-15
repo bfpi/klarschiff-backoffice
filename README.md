@@ -4,7 +4,8 @@
 [![License](https://img.shields.io/github/license/bfpi/klarschiff-backoffice)](LICENSE)
 
 # Klarschiff-Backoffice
-
+## CitySDK API
+Die Anwendung stellt eine [CitySDK API](CitySDK_API.md) inkl. zusätzlicher Erweiterungen bereit.
 ## Installation
 ### Voraussetzungen
 - RVM / oder andere Rubyversionsverwaltung
