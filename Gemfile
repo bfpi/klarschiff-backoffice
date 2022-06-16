@@ -53,8 +53,8 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'activerecord-postgis-adapter'
 gem 'active_storage_validations'
+gem 'activerecord-postgis-adapter'
 gem 'bootstrap'
 gem 'bootstrap-datepicker-rails'
 gem 'coffee-rails'
