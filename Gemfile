@@ -53,8 +53,8 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'activerecord-postgis-adapter'
 gem 'active_storage_validations'
+gem 'activerecord-postgis-adapter'
 gem 'bootstrap'
 gem 'bootstrap-datepicker-rails'
 gem 'coffee-rails'
@@ -64,6 +64,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'net-ldap'
+gem 'net-smtp', require: false # drop after gem mail >= v2.8.0
 gem 'pdfkit'
 gem 'rails-i18n'
 gem 'rubyXL'
