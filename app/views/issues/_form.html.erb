@@ -1,12 +1,12 @@
 <%= render partial: 'errors', locals: { object: issue } %>
 
 <% if issue.new_record? -%>
-  <%= render partial: 'tab_master_data', locals: { form: form, restricted: false } %>
-  <%= render partial: 'tab_map', locals: { form: form, restricted: false } %>
-  <%= render partial: 'tab_photo', locals: { form: form, restricted: false } %>
+  <%= render partial: 'tab_master_data', locals: { form:, restricted: false } %>
+  <%= render partial: 'tab_map', locals: { form:, restricted: false } %>
+  <%= render partial: 'tab_photo', locals: { form:, restricted: false } %>
 <% else -%>
   <div class="card-header">
-    <%= render partial: 'head', locals: { issue: issue } %>
+    <%= render partial: 'head', locals: { issue: } %>
     <ul class="nav nav-tabs card-header-tabs mt-2">
       <% if issue.reviewed_at? -%>
         <% @tabs.each do |tab| -%>
@@ -17,9 +17,9 @@
   </div>
   <div class="card-body">
     <% unless issue.reviewed_at? -%>
-      <%= render partial: 'review', locals: { form: form } %>
+      <%= render partial: 'review', locals: { form: } %>
     <% else -%>
-      <%= render partial: "tab_#{@tab}", locals: { form: form, restricted: false } %>
+      <%= render partial: "tab_#{@tab}", locals: { form:, restricted: false } %>
     <% end -%>
   </div>
 <% end -%>
