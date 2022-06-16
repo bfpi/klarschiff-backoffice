@@ -20,7 +20,7 @@ module ConfirmationWithHash
 
   def send_confirmation
     return if respond_to?(:skip_email_notification) && skip_email_notification
-    options = { to: author, issue_id: respond_to?(:issue_id) ? issue_id : id, confirmation_hash: confirmation_hash }
+    options = { to: author, issue_id: respond_to?(:issue_id) ? issue_id : id, confirmation_hash: }
     ConfirmationMailer.send(self.class.model_name.singular, **options).deliver_later
   end
 

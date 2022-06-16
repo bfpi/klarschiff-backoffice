@@ -7,7 +7,7 @@ class Ldap
     end
 
     def login(username, password)
-      conn(username: username, password: password).bind
+      conn(username:, password:).bind
     end
 
     def search(pattern)
@@ -20,7 +20,7 @@ class Ldap
 
     def conn(host: config.host, port: config.port, encryption: config.encryption,
       username: config.username, password: config.password)
-      @conn ||= Net::LDAP.new(host: host, port: port, encryption: encryption)
+      @conn ||= Net::LDAP.new(host:, port:, encryption:)
       @conn.auth username, password if username.present? && password.present?
       @conn
     end

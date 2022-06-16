@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def order_link(label, controller, col)
-    url = url_for(request_params.merge({ controller: controller,
+    url = url_for(request_params.merge({ controller:,
       order_by: { column: col, dir: order_link_dir(col) } }))
     tag.a((label + order_dir_icon(col)).html_safe, href: url) # rubocop:disable Rails/OutputSafety
   end

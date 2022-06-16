@@ -7,7 +7,7 @@ class PasswordValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     return if password_valid?(value)
-    record.errors.add attribute, :invalid, length: min_length, required_characters: required_characters
+    record.errors.add attribute, :invalid, length: min_length, required_characters:
   end
 
   private
