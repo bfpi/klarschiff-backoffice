@@ -19,7 +19,7 @@ class Category < ApplicationRecord
   end
 
   def group(lat:, lon:)
-    responsibilities.regional(lat: lat, lon: lon).first&.group ||
-      Group.regional(lat: lat, lon: lon).find_by(reference_default: true)
+    responsibilities.regional(lat:, lon:).first&.group ||
+      Group.regional(lat:, lon:).find_by(reference_default: true)
   end
 end

@@ -33,6 +33,6 @@ class Job < ApplicationRecord
   private
 
   def set_order
-    self.order = Job.where(group: group, date: date).order(:order).pluck(:order).last.to_i + 1
+    self.order = Job.where(group:, date:).order(:order).pluck(:order).last.to_i + 1
   end
 end

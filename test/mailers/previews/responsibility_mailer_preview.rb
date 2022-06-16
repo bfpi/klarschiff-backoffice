@@ -7,6 +7,6 @@ class ResponsibilityMailerPreview < ActionMailer::Preview
 
   def remind_group
     issues = Issue.where(responsibility_accepted: false).where.not(group_id: nil).limit(5)
-    ResponsibilityMailer.remind_group Group.first, to: %w[test1@bfpi.de test2@bfpi.de], issues: issues
+    ResponsibilityMailer.remind_group Group.first, to: %w[test1@bfpi.de test2@bfpi.de], issues:
   end
 end

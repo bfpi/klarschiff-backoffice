@@ -64,7 +64,7 @@ class Issue
 
     # overwrite ConfirmationWithHash#send_confirmation
     def send_confirmation
-      options = { to: author, issue_id: id, confirmation_hash: confirmation_hash, with_photo: photos.any? }
+      options = { to: author, issue_id: id, confirmation_hash:, with_photo: photos.any? }
       ConfirmationMailer.issue(**options).deliver_later
     end
 
@@ -89,7 +89,7 @@ class Issue
     def notify_group_options(users)
       if group.reference_default?
         {
-          auth_code: AuthCode.find_or_create_by(issue: self, group: group),
+          auth_code: AuthCode.find_or_create_by(issue: self, group:),
           to: group.email.presence || group.main_user.email
         }
       else
@@ -108,7 +108,7 @@ class Issue
 
     def position_within_authorized_areas?
       return false unless Current.user
-      Current.user.groups.regional(lat: lat, lon: lon).present?
+      Current.user.groups.regional(lat:, lon:).present?
     end
   end
 end
