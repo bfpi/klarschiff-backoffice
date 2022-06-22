@@ -80,7 +80,7 @@ class Geocodr
     end
 
     def request_feature_params(query, type, search_class, shape, out_epsg)
-      uri_params = { key: config.api_key, query:, type:, class: search_class, in_epsg: 4326, limit: 5 }
+      uri_params = { key: config.api_key, query: query, type: type, class: search_class, in_epsg: 4326, limit: 5 }
       uri_params[:shape] = shape if shape.present?
       uri_params[:out_epsg] = out_epsg if out_epsg.present?
       uri_params

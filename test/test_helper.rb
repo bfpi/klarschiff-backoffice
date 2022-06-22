@@ -28,13 +28,13 @@ module ActiveSupport
 
     def login(username: :one, password: 'Bfpi')
       assert user(username)
-      post logins_url, params: { login: { login: username, password: } }
+      post logins_url, params: { login: { login: username, password: password } }
       assert_response :redirect
       assert_equal username.to_s, session[:user_login]
     end
 
     def login_as_ldap_user(username: :one, password: 'Bfpi')
-      login(username:, password:)
+      login(username: username, password: password)
       user(username).update!(ldap: 'cn=test,ou=klarschiff,ou=HRO,o=EDITOR')
     end
 

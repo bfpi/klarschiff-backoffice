@@ -3,6 +3,6 @@
 class TestMailer < ApplicationMailer
   def test(to:)
     headers['X-Override-Consolidation'] = true
-    mail to:
+    mail to: to
   end
 end

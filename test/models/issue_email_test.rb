@@ -21,7 +21,7 @@ class IssueEmailTest < ActiveSupport::TestCase
       value = 'trwes.sdfsdf.de'
       issue_email = IssueEmail.new(attr => value)
       assert_not issue_email.valid?
-      assert_equal [{ error: :email, value: }], issue_email.errors.details[attr]
+      assert_equal [{ error: :email, value: value }], issue_email.errors.details[attr]
       issue_email = IssueEmail.new(attr => 'test@abc.de')
       issue_email.valid?
       assert_empty issue_email.errors.details[attr]

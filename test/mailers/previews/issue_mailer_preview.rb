@@ -4,13 +4,13 @@ class IssueMailerPreview < ActionMailer::Preview
   def forward_issue_by_system_all_options_enabled
     issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
     issue_email.enable_all
-    IssueMailer.forward issue_email:
+    IssueMailer.forward issue_email: issue_email
   end
 
   def forward_issue_by_user_mail_client
     issue_email = IssueEmail.new(issue_id: Issue.first.id, from: User.first.to_s, from_email: User.first.email)
     issue_email.send_map = 1
-    IssueMailer.forward issue_email:
+    IssueMailer.forward issue_email: issue_email
   end
 
   def in_process
@@ -28,7 +28,7 @@ class IssueMailerPreview < ActionMailer::Preview
   def delegation_with_auth_code
     issues = Issue.limit(2)
     auth_codes = issues.map { |i| AuthCode.new group: Group.first, issue: i, uuid: SecureRandom.uuid }
-    IssueMailer.delegation to: 'test@bfpi.de', issues:, auth_codes:
+    IssueMailer.delegation to: 'test@bfpi.de', issues: issues, auth_codes: auth_codes
   end
 
   def inform_editorial_staff
@@ -39,6 +39,6 @@ class IssueMailerPreview < ActionMailer::Preview
       issues[key] = Issue.limit(3)
       days[key] = 1
     end
-    IssueMailer.inform_editorial_staff to: 'test@bfpi.de', issues:, days:
+    IssueMailer.inform_editorial_staff to: 'test@bfpi.de', issues: issues, days: days
   end
 end

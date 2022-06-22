@@ -17,7 +17,7 @@
   </thead>
   <tbody class="table-draggable">
     <% jobs.each do |job| -%>
-      <%= render partial: 'job', locals: { job: } %>
+      <%= render partial: 'job', locals: { job: job } %>
     <% end -%>
   </tbody>
 </table>

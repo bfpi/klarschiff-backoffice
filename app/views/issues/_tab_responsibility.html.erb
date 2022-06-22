@@ -1,4 +1,4 @@
-<%= render partial: 'responsibility_actions', locals: { form: } %>
+<%= render partial: 'responsibility_actions', locals: { form: form } %>
 
 <% if (Issue::DELEGABLE_STATUSES.include? form.object.status.to_sym) && (form.object.responsibility_accepted) -%>
   <div class="row">

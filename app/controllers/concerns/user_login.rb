@@ -6,7 +6,7 @@ module UserLogin
   private
 
   def login(group_kind: nil)
-    user = login_user(@credentials[:login], group_kind:)
+    user = login_user(@credentials[:login], group_kind: group_kind)
     if user&.ldap.present?
       return login_success(user) if Ldap.login(user.ldap, @credentials[:password])
     elsif user&.authenticate(@credentials[:password])
@@ -27,11 +27,11 @@ module UserLogin
   end
 
   def find_users(login, group_kind: nil)
-    user_condition(Citysdk::User.active, login:, group_kind:)
+    user_condition(Citysdk::User.active, login: login, group_kind: group_kind)
   end
 
   def login_user(login, group_kind: nil)
-    user_condition(User.active, login:, group_kind:).first
+    user_condition(User.active, login: login, group_kind: group_kind).first
   end
 
   def user_condition(users, login:, group_kind:)

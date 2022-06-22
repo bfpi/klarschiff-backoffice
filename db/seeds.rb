@@ -18,7 +18,7 @@ require 'csv'
   'regional_admin' => { first_name: 'Regional', last_name: 'Admin', email: 'regio_admin@bfpi.de', password: 'bfpi',
                         role: User.roles[:regional_admin] }
 }.each do |login, hsh|
-  User.find_or_create_by!(login:) do |user|
+  User.find_or_create_by!(login: login) do |user|
     user.first_name = hsh[:first_name]
     user.last_name = hsh[:last_name]
     user.email = hsh[:email]
@@ -31,7 +31,7 @@ end
 unless MailBlacklist.exists?
   50.times do
     pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
-    MailBlacklist.find_or_create_by! pattern:, source: 'Erstinstallation'
+    MailBlacklist.find_or_create_by! pattern: pattern, source: 'Erstinstallation'
   end
 end
 
@@ -56,7 +56,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
       "((#{tmp.join[0...-1]}))"
     end
 
-    obj = object_class.find_or_create_by!(regional_key:, name:) do |c|
+    obj = object_class.find_or_create_by!(regional_key: regional_key, name: name) do |c|
       options = { regional_key: feature.xpath("dvg:#{xml_key}/dvg:zugehoerig/text()").to_s.strip }
       c.county = County.find_by(options) if xml_key == :aemter
       c.authority = Authority.find_by(options) if xml_key == :gemeinden
@@ -74,7 +74,7 @@ rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assert
           "innen_#{ix + 1}": { name: "Intern #{ix + 1} #{name}", kind: :internal },
           "extern_#{ix + 1}": { name: "Extern #{ix + 1} #{name}", kind: :external }
         }.each do |short_name, values|
-          group_model.find_or_create_by! values.merge(short_name:, reference_id: obj.id,
+          group_model.find_or_create_by! values.merge(short_name: short_name, reference_id: obj.id,
             main_user: User.find_by(login: :regional_admin))
         end
       end
@@ -104,7 +104,7 @@ if Rails.env.development?
       "innen_#{ix + 1}": { name: "Intern #{ix + 1} MV", kind: :internal },
       "extern_#{ix + 1}": { name: "Extern #{ix + 1} MV", kind: :external }
     }.each do |short_name, values|
-      InstanceGroup.find_or_create_by! values.merge(short_name:, reference_id: 1,
+      InstanceGroup.find_or_create_by! values.merge(short_name: short_name, reference_id: 1,
         main_user: User.find_by(login: :regional_admin))
     end
   end
@@ -116,7 +116,7 @@ CSV.table('db/seeds/categories.csv').each do |row|
     current_main_category = MainCategory.find_or_create_by!(kind: row[1], name: name.strip)
   elsif (name = row[2]).present?
     sub_category = SubCategory.find_or_create_by!(name: name.strip)
-    Category.find_or_create_by! main_category: current_main_category, sub_category:
+    Category.find_or_create_by! main_category: current_main_category, sub_category: sub_category
   end
 end
 
@@ -124,16 +124,16 @@ current_main_category = nil
 Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
   class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
   model = class_name.classify.constantize
-  target = model.find_by!(name:)
+  target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
     if (name = row[0]&.strip).present?
-      current_main_category = MainCategory.find_by!(kind: row[1], name:)
+      current_main_category = MainCategory.find_by!(kind: row[1], name: name)
     elsif (name = row[2]&.strip).present? && (group_name = row[3]&.strip).present?
       target.groups.where(short_name: "SZ #{target}").update(active: false)
-      sub_category = SubCategory.find_by!(name:)
-      category = Category.find_by!(main_category: current_main_category, sub_category:)
+      sub_category = SubCategory.find_by!(name: name)
+      category = Category.find_by!(main_category: current_main_category, sub_category: sub_category)
       group = target.groups.find_or_create_by!(name: group_name, main_user: User.find_by(login: :regional_admin))
-      Responsibility.find_or_create_by! category:, group:
+      Responsibility.find_or_create_by! category: category, group: group
     end
   end
 end
@@ -143,7 +143,7 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
   class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
   model = class_name.classify.constantize
   puts "Amt: #{name}"
-  target = model.find_by!(name:)
+  target = model.find_by!(name: name)
   CSV.table(file_name).each do |row|
     next if row[0].blank?
     user = User.find_or_create_by!(email: row[1].strip,

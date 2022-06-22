@@ -1,4 +1,4 @@
-<%= t '.problem', status: Issue.human_enum_name(:status, :received), days:, votes: Settings::Vote.min_requirement %>
+<%= t '.problem', status: Issue.human_enum_name(:status, :received), days: days, votes: Settings::Vote.min_requirement %>
 <%= t '.hint', status: Issue.human_enum_name(:status, :not_solvable) %>
 
 Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Unterstützungen<%= "\t" %>(Erst-)Sichtungszeitpunkt

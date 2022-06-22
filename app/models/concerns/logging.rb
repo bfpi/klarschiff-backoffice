@@ -23,7 +23,7 @@ module Logging
         subject = proxy_association.owner
         old, new = converted_changes(attr, subject, old_value, new_value)
         return if old.blank? && new.blank?
-        create table: subject.model_name.element, attr:, issue_id: Logging.issue_id(subject),
+        create table: subject.model_name.element, attr: attr, issue_id: Logging.issue_id(subject),
           subject_id: subject.id, subject_name: subject.logging_subject_name,
           action: Logging.generate_action(subject.class, attr, :update, old, new),
           user: Current.user, auth_code: Current.user&.auth_code,
@@ -85,7 +85,7 @@ module Logging
 
   def log_assoc(action)
     return unless id
-    log_entries.create table: model_name.element, action:, user: Current.user,
+    log_entries.create table: model_name.element, action: action, user: Current.user,
       auth_code: Current.user&.auth_code, subject_id: id, subject_name: logging_subject_name,
       issue_id: Logging.issue_id(self)
   end

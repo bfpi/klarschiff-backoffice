@@ -13,7 +13,7 @@
                aria-labelledby="header-group-<%= group_id %>" data-parent="#accordion"
                aria-expanded="<%= group_id == @active_group_id.to_i %>">
             <div class="card-body">
-              <%= render partial: 'jobs_table', locals: { jobs:, group_id: } %>
+              <%= render partial: 'jobs_table', locals: { jobs: jobs, group_id: group_id } %>
               <div class="row">
                 <div class="col-2">
                   <div class="btn-group" role="group">
@@ -40,7 +40,7 @@
                     <%= button_tag t('.change_date'),
                           type: 'button', class: 'btn btn-sm btn-outline-primary change-date',
                           data: { table: "#group-#{group_id}-table", field: "#group-#{group_id}-date-field" } %>
-                    <%= link_to t('.map'), jobs_path(group_id:, job_date: jobs.first.date, show_map: true),
+                    <%= link_to t('.map'), jobs_path(group_id: group_id, job_date: jobs.first.date, show_map: true),
                           class: 'btn btn-sm btn-outline-primary' %>
                     <%= link_to t('.sort_jobs'), jobs_path(job_ids: jobs.map(&:id)),
                           remote: true, class: 'btn btn-sm btn-outline-primary' %>

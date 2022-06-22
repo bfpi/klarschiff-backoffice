@@ -22,7 +22,7 @@ class Issue
       end
 
       def by_kind(kind)
-        includes(category: :main_category).where(main_category: { kind: })
+        includes(category: :main_category).where(main_category: { kind: kind })
       end
 
       def description_not_approved

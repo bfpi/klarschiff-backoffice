@@ -53,7 +53,7 @@ module Citysdk
 
       filename = 'filename.jpg'
       mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
-      self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
+      self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: filename, type: mime_type)
       self.photo_requested = false
     end
   end

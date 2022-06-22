@@ -6,7 +6,7 @@ class NotifyOnGroupAssignedResponsibilityJob < ApplicationJob
   def perform
     unaccepted_issues.group_by(&:group).each do |group, issues|
       next if (recipients = group.responsibility_notification_recipients).blank?
-      ResponsibilityMailer.remind_group(group, to: recipients, issues:).deliver_later
+      ResponsibilityMailer.remind_group(group, to: recipients, issues: issues).deliver_later
       Issue.where(id: issues).update_all group_responsibility_notified_at: Time.current # rubocop:disable Rails/SkipsModelValidations
     end
   end

@@ -25,7 +25,7 @@ class Responsibility < ApplicationRecord
     end
 
     def regional(lat:, lon:)
-      where group_id: Group.regional(lat:, lon:)
+      where group_id: Group.regional(lat: lat, lon: lon)
     end
   end
 
@@ -40,7 +40,7 @@ class Responsibility < ApplicationRecord
   private
 
   def only_one_group_for_group_type
-    filter = { category:, group: filter_group }
+    filter = { category: category, group: filter_group }
     return unless self.class.active.joins(:group).where.not(group: { id: group_id_was }).exists?(filter)
     errors.add :base, :group_type_taken, type: group.type.constantize.model_name.human
   end
