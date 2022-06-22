@@ -5,7 +5,7 @@ module Citysdk
     attr_reader :collection
 
     def initialize(params = {}, tips:)
-      @collection = Citysdk::Request.authorized(tips: tips).includes(includes).references(includes).eager_load(
+      @collection = Citysdk::Request.authorized(tips:).includes(includes).references(includes).eager_load(
         :external_photos, :supporters
       )
       filter_collection(params)
@@ -45,7 +45,7 @@ module Citysdk
 
     def default_filter_area(params)
       return if (lat = params[:lat]).blank? || (long = params[:long]).blank? || (radius = params[:radius]).blank?
-      @collection = @collection.where(<<~SQL.squish, lat: lat, long: long, radius: radius.to_f / 100_000)
+      @collection = @collection.where(<<~SQL.squish, lat:, long:, radius: radius.to_f / 100_000)
         ST_Within(#{Issue.quoted_table_name}."position",
           ST_Buffer(ST_SetSRID(ST_MakePoint(:lat, :long), 4326), :radius))
       SQL

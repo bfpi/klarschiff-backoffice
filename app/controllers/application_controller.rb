@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   def respond_with_forbidden(layout: 'application')
     respond_to do |format|
       format.any(:csv, :json, :xlsx, :pdf) { head :forbidden }
-      format.html { render template: 'application/denied', layout: layout, status: :forbidden }
+      format.html { render template: 'application/denied', layout:, status: :forbidden }
     end
   end
 end
