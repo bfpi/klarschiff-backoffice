@@ -49,7 +49,7 @@ class IssuesController < ApplicationController
     return render :new unless @issue.save
     if close_modal?
       unless authorized?(:edit_issue, @issue)
-        session[:success] = I18n.t('issues.foreign_create_success', issue_id: @issue.id)
+        session[:success] = I18n.t('issues.foreign_create_success', issue_id: @issue.id, group: @issue.group)
       end
       return redirect_to action: :index
     end
