@@ -14,7 +14,7 @@ namespace :assets do
       FileUtils.mkdir_p path_name unless Dir.exist?(path_name)
       targets.each do |name, src|
         File.open(path_name.join(name), 'wb') do |file|
-          file << URI.parse(ERB.new(src).result(binding)).open(proxy: proxy).read
+          file << URI.parse(ERB.new(src).result(binding)).open(proxy:).read
         end
       end
     end

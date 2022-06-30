@@ -10,7 +10,7 @@ class JobsController < ApplicationController
     date = jobs.first.date
     group = jobs.first.group
     jobs.update params.require(:job).permit(:status)
-    @jobs = Job.includes({ issue: :category }, %i[group]).where(group: group, date: date).by_order
+    @jobs = Job.includes({ issue: :category }, %i[group]).where(group:, date:).by_order
     render :reload
   end
 

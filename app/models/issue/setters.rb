@@ -31,7 +31,7 @@ class Issue
     end
 
     def recalculate_responsibility
-      self.group = category&.group(lat: lat, lon: lon) || group
+      self.group = category&.group(lat:, lon:) || group
     end
 
     def responsibility_action_accept?

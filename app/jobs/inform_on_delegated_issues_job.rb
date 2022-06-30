@@ -9,7 +9,7 @@ class InformOnDelegatedIssuesJob < ApplicationJob
       .group_by(&:delegation).each do |delegation, issues|
       recipients, auth_codes = recipients_and_auth_codes(delegation, issues)
       IssueMailer.delegation(
-        to: recipients, issues: issues, auth_codes: auth_codes
+        to: recipients, issues:, auth_codes:
       ).deliver_now
     end
   end
@@ -19,7 +19,7 @@ class InformOnDelegatedIssuesJob < ApplicationJob
   def recipients_and_auth_codes(group, issues)
     return [group.users.pluck(:email)] if group.users.exists?
     return [group.main_user.email] if group.main_user
-    [group.email, issues.map { |issue| AuthCode.find_or_create_by(group: group, issue: issue) }]
+    [group.email, issues.map { |issue| AuthCode.find_or_create_by(group:, issue:) }]
   end
 
   def delegated_issues(time)

@@ -14,9 +14,9 @@ module Config
     end
 
     def load_for_env(key, env)
-      default = Rails.application.config_for(file_for_key(key, sample: true), env: env).with_indifferent_access
+      default = Rails.application.config_for(file_for_key(key, sample: true), env:).with_indifferent_access
       return default unless (yaml = file_for_key(key)).exist?
-      local = Rails.application.config_for(yaml, env: env)
+      local = Rails.application.config_for(yaml, env:)
       return default unless local
       default.deep_merge local.with_indifferent_access
     end

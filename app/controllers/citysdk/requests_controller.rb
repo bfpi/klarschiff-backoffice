@@ -193,7 +193,7 @@ module Citysdk
     end
 
     def confirm_photo(confirmation_hash)
-      return unless (photo = Citysdk::Photo.unscoped.find_by(confirmation_hash: confirmation_hash))
+      return unless (photo = Citysdk::Photo.unscoped.find_by(confirmation_hash:))
       pho = photo.becomes(::Photo)
       pho.update!(confirmed_at: Time.current)
     end
