@@ -192,6 +192,10 @@ GEM
     minitest (5.16.0)
     msgpack (1.5.2)
     multi_xml (0.6.0)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
     net-ldap (0.17.1)
     net-pop (0.1.1)
       digest
@@ -327,6 +331,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    strscan (3.0.1)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
     thor (1.2.1)
@@ -380,6 +385,7 @@ DEPENDENCIES
   jquery-ui-rails
   kaminari
   listen (~> 3.2)
+  net-imap
   net-ldap
   net-pop
   net-smtp
