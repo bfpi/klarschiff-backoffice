@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                   title: kind_and_status_tooltip(issue) %>
+          title: kind_and_status_tooltip(issue) %>
     <%= tag.i class: 'fa fa-archive', title: Issue.human_attribute_name(:archived) if issue.archived %>
   </div>
   <div class="col-auto" title="<%= Issue.human_attribute_name(:id) %>">

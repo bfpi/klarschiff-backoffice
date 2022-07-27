@@ -3,11 +3,26 @@
 module Citysdk
   module Requests
     class VotesController < CitysdkController
-      # Unterstuetzung melden
-      # params:
-      #   service_request_id        pflicht   - Vorgang-ID
-      #   author                    pflicht   - Autor-Email
-      #   privacy_policy_accepted   optional  - Bestaetigung Datenschutz
+      # :apidoc: ### Create new vote for service request
+      # :apidoc: <code>POST http://[API endpoint]/requests/votes/[service_request_id].[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | service_request_id | X | Integer | Issue ID |
+      # :apidoc: | author | X | String | Author email |
+      # :apidoc: | privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <votes>
+      # :apidoc:   <vote>
+      # :apidoc:     <id>vote.id</id>
+      # :apidoc:   </vote>
+      # :apidoc: </votes>
+      # :apidoc: ```
       def create
         vote = Citysdk::Vote.new
         vote.assign_attributes(params.permit(:service_request_id, :author, :privacy_policy_accepted))

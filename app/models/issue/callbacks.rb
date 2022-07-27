@@ -6,6 +6,7 @@ class Issue
 
     include AuthorBlacklist
     include ConfirmationWithHash
+    include Setters
 
     included do
       before_destroy :destroy_dangling_associations
@@ -24,15 +25,16 @@ class Issue
 
       after_save :notify_group,
         if: lambda {
-              saved_change_to_status? && status_received? && group_id.present? ||
-                saved_change_to_group_id? && !status_pending?
+              (saved_change_to_status? && status_received? && group_id.present?) ||
+                (saved_change_to_group_id? && !status_pending?)
             }
 
+      validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
       validates :status_note, presence: true, on: :update,
-                              if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
+        if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
     end
 
     private
@@ -62,7 +64,7 @@ class Issue
 
     # overwrite ConfirmationWithHash#send_confirmation
     def send_confirmation
-      options = { to: author, issue_id: id, confirmation_hash: confirmation_hash, with_photo: photos.any? }
+      options = { to: author, issue_id: id, confirmation_hash:, with_photo: photos.any? }
       ConfirmationMailer.issue(**options).deliver_later
     end
 
@@ -70,55 +72,6 @@ class Issue
       self.address = Geocodr.address(self)
       self.parcel = Geocodr.parcel(self)
       self.property_owner = Geocodr.property_owner(self)
-    end
-
-    def reset_archived
-      self.archived_at = nil
-    end
-
-    def set_responsibility
-      return if group.present? && responsibility_action.blank?
-      return self.responsibility_accepted = true if responsibility_action_accept?
-      return self.responsibility_accepted = false if responsibility_action_reject?
-      recalculate_responsibility if recalculate_responsibility?
-      self.responsibility_accepted = group_id == group_id_was
-    end
-
-    def recalculate_responsibility?
-      responsibility_action_recalculate? || responsibility_action.nil?
-    end
-
-    def recalculate_responsibility
-      self.group = category&.group(lat: lat, lon: lon) || group
-    end
-
-    def responsibility_action_accept?
-      responsibility_action&.to_sym == :accept
-    end
-
-    def responsibility_action_recalculate?
-      responsibility_action&.to_sym == :recalculate
-    end
-
-    def responsibility_action_reject?
-      responsibility_action&.to_sym == :reject
-    end
-
-    def set_reviewed_at
-      self.reviewed_at = Time.current
-    end
-
-    def set_expected_closure
-      self.expected_closure = status_in_process? ? Time.zone.today + category.average_turnaround_time.days : nil
-    end
-
-    def set_trust_level
-      self.trust_level = calculate_trust_level
-    end
-
-    def set_updated_by
-      self.updated_by_user = Current.user
-      self.updated_by_auth_code = Current.user&.auth_code
     end
 
     def calculate_trust_level
@@ -136,7 +89,7 @@ class Issue
     def notify_group_options(users)
       if group.reference_default?
         {
-          auth_code: AuthCode.find_or_create_by(issue: self, group: group),
+          auth_code: AuthCode.find_or_create_by(issue: self, group:),
           to: group.email.presence || group.main_user.email
         }
       else
@@ -146,6 +99,16 @@ class Issue
 
     def clear_group_responsibility_notified_at
       self.group_responsibility_notified_at = nil
+    end
+
+    def issue_in_authorized_areas
+      return if Current.user.blank? || Current.user.role_admin?
+      errors.add(:position, :outside_of_designated_districts) unless position_within_authorized_areas?
+    end
+
+    def position_within_authorized_areas?
+      return false unless Current.user
+      Current.user.groups.regional(lat:, lon:).present?
     end
   end
 end

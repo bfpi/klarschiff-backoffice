@@ -5,36 +5,70 @@ module Citysdk
     module Index
       extend ActiveSupport::Concern
 
-      # Liste von Vorgaengen
-      # params:
-      #   api_key             optional - API-Key
-      #   service_request_id  optional - Filter: Vorgangs-IDs(Kommaliste)
-      #   service_code        optional - Filter: Kategorie-ID
-      #   keyword             optional - Filter: Meldungsart (Options: problem, idea, tip)
-      #   status              optional - Filter: Vorgangsstatus (Options: default=open, closed)
-      #   detailed_status     optional - Filter: Vorgangsstatus (Options: PENDING, RECEIVED, IN_PROCESS, PROCESSED,
-      #                                                                   REJECTED)
-      #   start_date          optional - Filter: Meldungsdatum >= date
-      #   end_date            optional - Filter: Meldungsdatum <= date
-      #   updated_after       optional - Filter vorgang.version >= date
-      #   updated_before      optional - Filter vorgang.version <= date
-      #   agency_responsible  optional - Filter vorgang.auftrag.team
-      #   extensions          optional - Response mit erweitereten Attributsausgaben
-      #   lat                 optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
-      #   long                optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
-      #   radius              optional - Schraenkt den Bereich ein, in dem gesucht wird (benoetigt: lat, long & radius)
-      #   max_requests        optional - Anzahl der neuesten Meldungen
-      #   also_archived       optional - Filter: Auch Archivierte Meldungen beruecksichtigen
-      #   just_count          optional - es soll nur die Anzahl der Meldungen zurueckgegeben werden
-      #   observation_key     optional - MD5-Hash der zugehoerigen Beobachtungsflaeche
-      #   with_picture        optional - Filter: Meldungen mit freigegebenen Fotos
+      # :apidoc: ### Get service requests list
+      # :apidoc: <code>GET http://[API endpoint]/requests.[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | api_key | - | String | API key |
+      # :apidoc: | service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
+      # :apidoc: | service_code | - | Integer | ID of category |
+      # :apidoc: | status | - | String | Filter issues by Open311 status, default = `open` |
+      # :apidoc: | detailed_status |  - | String | Filter issues by CitySDK status |
+      # :apidoc: | start_date | - | Date | Filter for issue date >= value, e.g 2011-01-01T00:00:00Z |
+      # :apidoc: | end_date | - | Date | Filter for isse date <= value, e.g 2011-01-01T00:00:00Z |
+      # :apidoc: | updated_after | - | Date | Filter for issue version >= value, e.g 2011-01-01T00:00:00Z |
+      # :apidoc: | updated_before | - | Date | Filter for issue version <= value, e.g 2011-01-01T00:00:00Z |
+      # :apidoc: | agency_responsible | - | String | Filter for issues by job team |
+      # :apidoc: | extensions | - | Boolean | Include extended attributs in response |
+      # :apidoc: | lat | - | Double | Filter restriction area (lat, long and radius required) |
+      # :apidoc: | long | - | Double | Filter restriction area (lat, long and radius required) |
+      # :apidoc: | radius | - | Double | Meter to filter restriction area (lat, long and radius required) |
+      # :apidoc: | keyword | - | String | Filter issues by kind, options: problem, idea, tip |
+      # :apidoc: | with_picture | - | Boolean | Filter issues with released photos |
+      # :apidoc: | also_archived | - | Boolean | Include already archived issues |
+      # :apidoc: | just_count | - | Boolean | Switch response to only return amount of affected issues |
+      # :apidoc: | max_requests | - | Integer | Maximum number of requests to return |
+      # :apidoc: | observation_key | - | String | MD5 hash of observed area to use as filter |
+      # :apidoc: | area_code | - | Integer | Filter issues by affected area ID |
+      # :apidoc:
+      # :apidoc: Available Open311 states for this action: `open`, `closed`\
+      # :apidoc: Available CitySDK states for this action: `PENDING`, `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <service_requests type="array">
+      # :apidoc:   <request>
+      # :apidoc:     <service_request_id>request.id</service_request_id>
+      # :apidoc:     <status_notes/>
+      # :apidoc:     <status>request.status</status>
+      # :apidoc:     <service_code>request.service.code</service_code>
+      # :apidoc:     <service_name>request.service.name</service_name>
+      # :apidoc:     <description>request.description</description>
+      # :apidoc:     <agency_responsible>request.agency_responsible</agency_responsible>
+      # :apidoc:     <service_notice/>
+      # :apidoc:     <requested_datetime>request.requested_datetime</requested_datetime>
+      # :apidoc:     <updated_datetime>request.updated_datetime</updated_datetime>
+      # :apidoc:     <expected_datetime/>
+      # :apidoc:     <address>request.address</address>
+      # :apidoc:     <adress_id/>
+      # :apidoc:     <lat>request.position.lat</lat>
+      # :apidoc:     <long>request.position.lat</long>
+      # :apidoc:     <media_url/>
+      # :apidoc:     <zipcode/>
+      # :apidoc:   </request>
+      # :apidoc: </service_requests>
+      # :apidoc: ```
       def index
         return index_just_counts if params[:just_count].present?
 
         citysdk_response filtered_requests, root: :service_requests, element_name: :request,
-                                            extensions: params[:extensions].try(:to_boolean),
-                                            property_details: authorized?(:request_property_details),
-                                            job_details: authorized?(:request_job_details)
+          extensions: params[:extensions].try(:to_boolean),
+          property_details: authorized?(:request_property_details),
+          job_details: authorized?(:request_job_details)
       end
 
       private

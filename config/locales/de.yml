@@ -141,6 +141,7 @@ de:
               blank: Die ausgewählte Kategorie wird derzeit an dieser Position nicht unterstützt.
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
+              outside_of_designated_districts: befindet sich außerhalb Ihres Zuständigkeitsbereichs.
         responsibility:
           attributes:
             base:
@@ -408,10 +409,10 @@ de:
       coordinates: "Koordinaten: %{x} %{y}"
     foreign_create_success: >-
       Die neue Meldung #%{issue_id} wurde erfolgreich angelegt. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     foreign_update_success: >-
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
-      für die Sie nicht die notwendige Berechtigung besitzen.
+      für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
       tab:
         abuse_report: Missbrauchsmeldungen
@@ -432,6 +433,8 @@ de:
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
+      responsibility_action_close_as_not_solvable:
+        Meldung befindet sich außerhalb des Zuständigkeitsbereichs (als nicht lösbar schließen)
       responsibility_action_manual: Zuständigkeit manuell setzen
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"

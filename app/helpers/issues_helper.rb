@@ -36,7 +36,7 @@ module IssuesHelper
 
   def nav_item(tab, issue, current_tab, issue_or_delegation = :issue)
     css_class = "nav-link switch-tab #{:active if tab == current_tab}"
-    path = send("edit_#{issue_or_delegation}_path", issue, tab: tab)
+    path = send("edit_#{issue_or_delegation}_path", issue, tab:)
     tag.li link_to(t("issues.form.tab.#{tab}"), '#', data: { url: path }, class: css_class), class: 'nav-item'
   end
 
@@ -96,7 +96,7 @@ module IssuesHelper
 
   def external_map_url(issue)
     I18n.interpolate Settings::Geoportal.url, lon: issue.lon_external, lat: issue.lat_external,
-                                              scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
+      scale: Settings::Geoportal.scale, title: "Vorgang+#{issue.id}"
   end
 
   def kind_and_status_tooltip(issue)
@@ -111,7 +111,7 @@ module IssuesHelper
   private
 
   def grouped_categories_for_kind(kind)
-    Category.includes(:main_category, :sub_category).where(main_category: { kind: kind })
+    Category.includes(:main_category, :sub_category).where(main_category: { kind: })
       .order(MainCategory.arel_table[:name], SubCategory.arel_table[:name])
       .to_a.group_by(&:main_category_name).map do |mc, categories|
       [mc, categories.map { |c| [c.sub_category_name, c.id] }]

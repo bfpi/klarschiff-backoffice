@@ -22,7 +22,7 @@ class PlacesController < ApplicationController
       'issues.external_map.coordinates', x: issue.lon_external&.round, y: issue.lat_external&.round
     )
     json_response = { address: issue.address, parcel: issue.parcel, property_owner: issue.property_owner,
-                      external_coords: external_coords }
+                      external_coords: }
     render json: json_response, status: :ok
   end
 end

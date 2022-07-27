@@ -18,4 +18,4 @@
 <%= Issue.human_attribute_name :expected_closure %>: <%= l(issue.expected_closure) %>
 <% end -%>
 <% url = local_assigns[:issue_link] ? issue_link : nil -%>
-Link: <%= url || Settings::Instance.frontend_issue_url % issue.id %>
+Link: <%= url || (Settings::Instance.frontend_issue_url % issue.id) %>

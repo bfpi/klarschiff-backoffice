@@ -43,7 +43,7 @@
               <div class="row">
                 <div class="col-12">
                   <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
-                                                 title: Issue.human_enum_name(:status, issue.status) %>
+                        title: Issue.human_enum_name(:status, issue.status) %>
                   #<%= issue.id %><br>
                   <%= issue.address %>
                 </div>

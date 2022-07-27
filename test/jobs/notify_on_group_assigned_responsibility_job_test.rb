@@ -18,7 +18,7 @@ class NotifyOnGroupAssignedResponsibilityJobTest < ActiveJob::TestCase
     assert_performed_with(
       job: ActionMailer::MailDeliveryJob,
       args: ['ResponsibilityMailer', 'remind_group', 'deliver_now',
-             { args: [group, { to: recipients, issues: issues }] }]
+             { args: [group, { to: recipients, issues: }] }]
     )
   end
 end

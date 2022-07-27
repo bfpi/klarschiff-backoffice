@@ -24,7 +24,7 @@
   <%= form.label :address, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.autocomplete_field :address, class: 'form-control', 'data-autocomplete-url': places_path,
-                                          disabled: restricted || form.object.closed? %>
+          disabled: restricted || form.object.closed? %>
   </div>
   <% unless form.object.new_record? -%>
     <%= form.label :parcel, class: 'col-2 col-form-label' %>
