@@ -55,7 +55,7 @@ end
 
 gem 'activerecord-postgis-adapter'
 gem 'active_storage_validations'
-gem 'bootstrap'
+gem 'bootstrap', '~> 5.1.3' # CSS variable usage in v5.2.x is incomplete until Bootstrap 6
 gem 'bootstrap-datepicker-rails'
 gem 'coffee-rails'
 gem 'exception_notification'
