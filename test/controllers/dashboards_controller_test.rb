@@ -10,8 +10,12 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal [issue(:former_issue_one).id], @controller.view_assigns['former_issues'].ids
   end
 
-  test 'show no former issues for admin' do
+  test 'show no former issues for admin without groups' do
     login username: :admin
+    get '/dashboards'
+    assert_response :success
+    assert_equal [issue(:former_issue_one).id], @controller.view_assigns['former_issues'].ids
+    user(:admin).update! groups: []
     get '/dashboards'
     assert_response :success
     assert_empty @controller.view_assigns['former_issues']
