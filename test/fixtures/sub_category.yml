@@ -9,6 +9,9 @@ one:
 two:
   <<: *DEFAULTS
 
+three:
+  <<: *DEFAULTS
+
 dms:
   <<: *DEFAULTS
   dms: d3:AAUTO

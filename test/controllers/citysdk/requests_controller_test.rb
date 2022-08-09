@@ -77,6 +77,34 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert extended_attributes.count.positive?
   end
 
+  %i[idea problem].each do |kind|
+    test "index with keyword filter #{kind}" do
+      get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=#{kind}"
+      assert_response :success
+      assert_not_empty(list = response.parsed_body)
+      assert(list.all? { |issue| Issue.find(issue['service_request_id']).kind == kind.to_s })
+    end
+  end
+
+  test 'reject index with keyword tip for unpermitted clients' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=tip"
+    assert_response :error
+    assert_equal 'keyword invalid', response.parsed_body.first['description']
+  end
+
+  test 'index with keyword tip for permitted clients' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_ppc}&keyword=tip"
+    assert_response :success
+    assert_not_empty(list = response.parsed_body)
+    assert(list.all? { |issue| Issue.find(issue['service_request_id']).kind == 'tip' })
+  end
+
+  test 'index with invalid keyword filter' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=test"
+    assert_response :error
+    assert_equal 'keyword invalid', response.parsed_body.first['description']
+  end
+
   test 'show without api-key' do
     get "/citysdk/requests/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)

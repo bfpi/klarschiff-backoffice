@@ -64,6 +64,10 @@ module Citysdk
         Citysdk::Status.citysdk_for_backoffice(params[:detailed_status].split(/, ?/)).presence || '')
     end
 
+    def filter_keyword(params)
+      @collection = @collection.where(main_category: { kind: (params[:keyword] || '').split(/, ?/) })
+    end
+
     def filter_start_date(params)
       @collection = @collection.where(Issue.arel_table[:created_at].gteq(DateTime.parse(params[:start_date])))
     end
