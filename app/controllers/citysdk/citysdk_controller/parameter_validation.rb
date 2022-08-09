@@ -23,7 +23,9 @@ module Citysdk
       end
 
       def validate_keyword
-        return unless (keyword = params[:keyword]).present? && %w[problem idea tip].exclude?(keyword)
+        keywords = %w[problem idea]
+        keywords << 'tip' if authorized?(:read_tips)
+        return if (keyword = params[:keyword]).blank? || keyword.in?(keywords)
         raise 'keyword invalid'
       end
 
