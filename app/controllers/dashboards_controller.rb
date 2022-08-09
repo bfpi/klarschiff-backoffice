@@ -48,12 +48,11 @@ class DashboardsController < ApplicationController
 
   def former_issues(groups)
     return [] if groups.blank?
-    Issue.not_archived.includes(category: :main_category).where(
-      changed_responsibilities(groups.map { |g| "'#{g}'" }.join(', '), groups.ids.join(', '))
-    ).limit(10)
+    Issue.not_archived.includes(category: :main_category).where(changed_responsibilities(groups.ids)).limit 10
   end
 
-  def changed_responsibilities(group_names, group_ids)
+  def changed_responsibilities(group_ids)
+    ids = group_ids.join(', ')
     Arel.sql(<<~SQL.squish)
       #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
         INNER JOIN (
@@ -64,9 +63,9 @@ class DashboardsController < ApplicationController
            WHERE "le3"."issue_id" = "le"."issue_id" AND "le3"."attr" = 'group'
            AND "le3"."created_at" > "le"."created_at" AND "le3"."created_at" <= "le2"."created_at"
         ) = 0
-        WHERE "attr" = 'group' AND "new_value" IN (#{group_names})
+        WHERE "attr" = 'group' AND "new_value_id" IN (#{ids})
           AND "le"."issue_id" IS NOT NULL AND "le"."issue_id" NOT IN (
-            SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id" IN (#{group_ids})))
+            SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id" IN (#{ids})))
     SQL
   end
 
