@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 2022_04_20_114233) do
     t.index ["attr"], name: "index_log_entry_on_attr"
     t.index ["auth_code_id"], name: "index_log_entry_on_auth_code_id"
     t.index ["issue_id"], name: "index_log_entry_on_issue_id"
+    t.index ["new_value_id"], name: "index_log_entry_on_new_value_id"
     t.index ["table", "subject_id"], name: "index_log_entry_on_table_and_subject_id"
     t.index ["user_id"], name: "index_log_entry_on_user_id"
   end
