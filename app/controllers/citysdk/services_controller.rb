@@ -21,7 +21,7 @@ module Citysdk
     # :apidoc:     <description/>
     # :apidoc:     <metadata>false</metadata>
     # :apidoc:     <type>realtime</type>
-    # :apidoc:     <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    # :apidoc:     <keywords>category.parent.typ [problem|idea|tip]</keywords>
     # :apidoc:     <group>category.parent.name</group>
     # :apidoc:   </service>
     # :apidoc: </services>
@@ -48,7 +48,7 @@ module Citysdk
     # :apidoc:   <service>
     # :apidoc:     <service_code>category.id</service_code>
     # :apidoc:     <service_name>category.name</service_name>
-    # :apidoc:     <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    # :apidoc:     <keywords>category.parent.typ [problem|idea|tip]</keywords>
     # :apidoc:     <group>category.parent.name</group>
     # :apidoc:   </service>
     # :apidoc: </service_definition>
