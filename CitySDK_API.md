@@ -34,7 +34,7 @@ Sample Response:
     <description/>
     <metadata>false</metadata>
     <type>realtime</type>
-    <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    <keywords>category.parent.typ [problem|idea|tip]</keywords>
     <group>category.parent.name</group>
   </service>
 </services>
@@ -56,7 +56,7 @@ Sample Response:
   <service>
     <service_code>category.id</service_code>
     <service_name>category.name</service_name>
-    <keywords>category.parent.typ [problem|idee|tipp]</keywords>
+    <keywords>category.parent.typ [problem|idea|tip]</keywords>
     <group>category.parent.name</group>
   </service>
 </service_definition>
