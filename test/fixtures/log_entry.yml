@@ -66,7 +66,9 @@ group_changed_one:
   created_at: <%= Time.current - 12.hours %>
   issue: former_issue_one
   new_value: two
+  new_value_id: <%= ActiveRecord::FixtureSet.identify :two %>
   old_value: internal
+  old_value_id: <%= ActiveRecord::FixtureSet.identify :internal %>
   subject_id: <%= ActiveRecord::FixtureSet.identify :former_issue_one %>
   subject_name: Test
   table: issue
@@ -78,7 +80,9 @@ group_changed_two:
   created_at: <%= Time.current - 14.hours %>
   issue: former_issue_one
   new_value: internal
+  new_value_id: <%= ActiveRecord::FixtureSet.identify :internal %>
   old_value:
+  old_value_id:
   subject_id: <%= ActiveRecord::FixtureSet.identify :former_issue_one %>
   subject_name: Test
   table: issue
@@ -90,7 +94,9 @@ group_changed_three:
   created_at: <%= Time.current - 12.hours %>
   issue: former_issue_two
   new_value: one
+  new_value_id: <%= ActiveRecord::FixtureSet.identify :one %>
   old_value: internal2
+  old_value_id: <%= ActiveRecord::FixtureSet.identify :internal2 %>
   subject_id: <%= ActiveRecord::FixtureSet.identify :former_issue_one %>
   subject_name: Test
   table: issue
@@ -102,7 +108,9 @@ group_changed_four:
   created_at: <%= Time.current - 14.hours %>
   issue: former_issue_two
   new_value: internal2
+  new_value_id: <%= ActiveRecord::FixtureSet.identify :internal2 %>
   old_value:
+  old_value_id:
   subject_id: <%= ActiveRecord::FixtureSet.identify :former_issue_two %>
   subject_name: Test
   table: issue
