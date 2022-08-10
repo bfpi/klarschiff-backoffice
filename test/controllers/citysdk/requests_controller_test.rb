@@ -86,6 +86,14 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'index with keyword filter list' do
+    keywords = %w[idea problem]
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=#{keywords.join ','}"
+    assert_response :success
+    assert_not_empty(list = response.parsed_body)
+    assert(list.all? { |issue| Issue.find(issue['service_request_id']).kind.in? keywords })
+  end
+
   test 'reject index with keyword tip for unpermitted clients' do
     get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}&keyword=tip"
     assert_response :error
