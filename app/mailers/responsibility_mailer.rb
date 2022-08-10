@@ -15,7 +15,7 @@ class ResponsibilityMailer < ApplicationMailer
     @issue = issue
     @auth_code = auth_code
     image_attachments(issue: @issue)
-    mail(to: to, interpolation: { subject: { number: @issue.id } })
+    mail(to:, interpolation: { subject: { number: @issue.id } })
   end
 
   def remind_group(group, to:, issues:)

@@ -9,7 +9,7 @@ Daten der zugewiesenen Meldung
 Links zu Statusänderungen:
 
 <% %i[in_process closed not_solvable duplicate].each do |status| %>
-  <%= t("enums.issue.status.#{status}") %>: <%= set_issue_status_url(auth_code: @auth_code.uuid, status: status) %>
+  <%= t "enums.issue.status.#{status}" %>: <%= set_issue_status_url auth_code: @auth_code.uuid, status: %>
 <% end -%>
 
 Vielen Dank und mit freundlichen Grüßen
