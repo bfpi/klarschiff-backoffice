@@ -71,7 +71,7 @@ class Issue
       end
 
       def authorized_by_areas_for(group_ids)
-        reference_ids = Group.active.where(id: group_ids).pluck(:reference_id)
+        reference_ids = Group.active.where(id: group_ids).distinct.pluck(:reference_id)
         return none if reference_ids.blank?
         where <<~SQL.squish, reference_ids, reference_ids
           ST_Within("position", (
