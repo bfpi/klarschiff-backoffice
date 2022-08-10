@@ -25,7 +25,7 @@ module Citysdk
       def validate_keyword
         keywords = %w[problem idea]
         keywords << 'tip' if authorized?(:read_tips)
-        return if (keyword = params[:keyword]).blank? || keyword.in?(keywords)
+        return if (keyword = params[:keyword]).blank? || keyword.split(/, ?/).all? { |kw| kw.in?(keywords) }
         raise 'keyword invalid'
       end
 
