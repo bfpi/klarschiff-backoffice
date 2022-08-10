@@ -32,14 +32,6 @@ module Citysdk
       set_position_from_attributes
     end
 
-    def set_position_from_attributes
-      return if @address_string.blank? && @lat.blank? && @long.blank?
-      if ::Geocodr.valid?(@address_string)
-        @long, @lat = ::Geocodr.find(@address_string).first['geometry']['coordinates']
-      end
-      self.position = "POINT(#{@long} #{@lat})"
-    end
-
     def agency_responsible
       group.name.dup.tap { |v| v << " [delegiert an: #{delegation.name}]" if delegation }
     end
@@ -77,7 +69,8 @@ module Citysdk
     def status_date; end
 
     def description
-      return 'redaktionelle Prüfung ausstehend' if description_status_internal?
+      return I18n.t('request.description.default_group') if default_group_without_gui_access?
+      return I18n.t('request.description.internal') if description_status_internal?
       super
     end
 
@@ -100,6 +93,12 @@ module Citysdk
       delegation.short_name
     end
 
+    def create_message
+      message = [I18n.t('request.create_message.success')]
+      message << I18n.t('request.description.default_group') if default_group_without_gui_access?
+      message.join
+    end
+
     private
 
     def extended_attributes
@@ -116,6 +115,7 @@ module Citysdk
 
       ret = []
       ret << :extended_attributes if options[:extensions]
+      ret << :create_message if options[:status] == 201
       unless options[:show_only_id]
         ret |= %i[status_notes status service_code service_name description agency_responsible service_notice
                   requested_datetime updated_datetime expected_datetime address adress_id lat long media_url zipcode]

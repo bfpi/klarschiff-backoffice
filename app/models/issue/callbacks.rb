@@ -15,15 +15,14 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed_at, on: :update,
-        if: -> { status_changed? && status_reviewed? }, unless: :reviewed_at?
+      before_validation :set_reviewed_at, on: :update, if: :status_changed?
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
-      after_save :notify_group,
+      after_commit :notify_group,
         if: lambda {
               (saved_change_to_status? && status_received? && group_id.present?) ||
                 (saved_change_to_group_id? && !status_pending?)
@@ -82,11 +81,12 @@ class Issue
 
     def notify_group
       update group_responsibility_notified_at: Time.current
+      return notify_default_group_without_gui_access if default_group_without_gui_access?
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
-      ResponsibilityMailer.issue(self, **notify_group_options(users)).deliver_later
+      ResponsibilityMailer.issue(self, **notify_group_options(users:)).deliver_later
     end
 
-    def notify_group_options(users)
+    def notify_group_options(users: [])
       if group.reference_default?
         {
           auth_code: AuthCode.find_or_create_by(issue: self, group:),
@@ -101,6 +101,10 @@ class Issue
       self.group_responsibility_notified_at = nil
     end
 
+    def notify_default_group_without_gui_access
+      ResponsibilityMailer.default_group_without_gui_access(self, **notify_group_options).deliver_later
+    end
+
     def issue_in_authorized_areas
       return if Current.user.blank? || Current.user.role_admin?
       errors.add(:position, :outside_of_designated_districts) unless position_within_authorized_areas?
@@ -108,7 +112,8 @@ class Issue
 
     def position_within_authorized_areas?
       return false unless Current.user
-      Current.user.groups.regional(lat:, lon:).present?
+      # Current.user.groups.regional(lat:, lon:) skips on non persisted group relation (identified by auth_code)
+      Group.where(id: Current.user.group_ids).regional(lat:, lon:).exists?
     end
   end
 end

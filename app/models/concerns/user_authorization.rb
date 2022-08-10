@@ -13,7 +13,7 @@ module UserAuthorization
     when :administration then administration_permitted?
     when :change_password then ldap.blank?
     when :delegations, :issues, :jobs then index_permitted?(action)
-    when :create_issue, :edit_delegation, :edit_issue then edit_permitted?(action, object)
+    when :create_issue, :edit_delegation, :edit_issue, :change_issue_status then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
@@ -35,6 +35,7 @@ module UserAuthorization
 
   def edit_permitted?(action, object)
     case action
+    when :change_issue_status then change_issue_status_permitted?(object)
     when :create_issue then create_issue_permitted?
     when :edit_delegation then edit_delegation_permitted?(object)
     when :edit_issue then edit_issue_permitted?(object)
@@ -46,7 +47,12 @@ module UserAuthorization
   end
 
   def issues_permitted?
-    static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) || auth_code&.group&.kind_internal?
+    static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) ||
+      auth_code_gui_access? && auth_code&.group&.kind_internal?
+  end
+
+  def change_issue_status_permitted?(issue)
+    auth_code&.group_id == issue.group_id && issue.group.reference_default
   end
 
   def create_issue_permitted?
@@ -55,18 +61,18 @@ module UserAuthorization
 
   def edit_issue_permitted?(issue)
     static_permitted_to?(:issues) || groups.active.ids.include?(issue.group_id) ||
-      (auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id)
+      auth_code_gui_access? && auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id
   end
 
   def delegations_permitted?
     static_permitted_to?(:delegations) || groups.active.where(kind: %i[internal external]).any? ||
-      auth_code&.group&.kind_external?
+      auth_code_gui_access? && auth_code&.group&.kind_external?
   end
 
   def edit_delegation_permitted?(issue)
     edit_issue_permitted?(issue) ||
       static_permitted_to?(:delegations) || groups.active.ids.include?(issue.delegation_id) ||
-      (auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id)
+      auth_code_gui_access? && auth_code&.issue_id == issue.id && auth_code.group_id == issue.delegation_id
   end
 
   def static_permitted_to?(action)
@@ -77,6 +83,10 @@ module UserAuthorization
     return [] if role_editor?
     return %w[CountyGroup AuthorityGroup] & Group.authorized(self).distinct.pluck(:type) if role_regional_admin?
     %w[InstanceGroup CountyGroup AuthorityGroup]
+  end
+
+  def auth_code_gui_access?
+    Settings::Instance.auth_code_gui_access_for_external_participants
   end
 
   STATIC_PERMISSIONS = {

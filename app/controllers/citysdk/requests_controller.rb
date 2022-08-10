@@ -187,9 +187,11 @@ module Citysdk
 
     def confirm_request(request)
       raise ActiveRecord::RecordNotFound if request.blank?
-      issue = request.becomes(Issue)
-      issue.status_received!
-      confirm_photo(issue.confirmation_hash)
+      Issue.transaction do
+        issue = request.becomes(Issue)
+        issue.status_received!
+        confirm_photo(issue.confirmation_hash)
+      end
     end
 
     def confirm_photo(confirmation_hash)

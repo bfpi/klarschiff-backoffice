@@ -35,6 +35,9 @@ Layout/MultilineMethodCallIndentation:
 Layout/SpaceInsideArrayLiteralBrackets:
   Exclude: ['config/environments/production.rb']
 
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
+
 Metrics/AbcSize:
   Exclude: ['db/migrate/*']
 

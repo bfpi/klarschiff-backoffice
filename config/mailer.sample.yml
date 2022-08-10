@@ -35,6 +35,8 @@ development: &default
       subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
     remind_group:
       subject: "Erinnerung an Meldungen mit noch nicht akzeptierter Zuständigkeit für: %{group}"
+    default_group_without_gui_access:
+      subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
   test_mailer:
     test:
       subject: Test-Mail

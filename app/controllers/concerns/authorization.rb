@@ -54,7 +54,8 @@ module Authorization
   def init_current_user_with_auth_code
     Current.login = session[:auth_code]
     Current.user = User.new(login: Current.login)
-    Current.user.auth_code = AuthCode.find_by(uuid: Current.login)
+    Current.user.auth_code = (ac = AuthCode.find_by(uuid: Current.login))
+    Current.user.group_ids << ac.group_id if ac
   end
 
   def reset_session_user

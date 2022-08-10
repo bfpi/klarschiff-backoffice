@@ -27,6 +27,7 @@ development: &default
     parent_instance_url: https://www.klarschiff-mv.de/
     show_help: false
     validate_privacy_policy: false
+    auth_code_gui_access_for_external_participants: true
   issue:
     status_note_max_length: 500
   job:

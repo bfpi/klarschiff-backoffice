@@ -87,6 +87,18 @@ class IssueTest < ActiveSupport::TestCase
     ]
   end
 
+  test 'send mail with auth_code without gui for group resp. notification for ext. groups as reference default' do
+    issue = issue(:one)
+    issue.stub :default_group_without_gui_access?, true do
+      issue.group = group(:reference_default)
+      assert issue.group_id_changed?
+      assert issue.save
+      assert_enqueued_email_with ResponsibilityMailer, :default_group_without_gui_access, args: [
+        issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
+      ]
+    end
+  end
+
   test 'validate author as email' do
     issue = Issue.new
     assert_not issue.valid?
