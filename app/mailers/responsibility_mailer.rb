@@ -11,7 +11,7 @@ class ResponsibilityMailer < ApplicationMailer
     mail to:, interpolation: { subject: { number: @issue.id } }
   end
 
-  def default_group(issue, to:, auth_code: nil)
+  def default_group_without_gui_access(issue, to:, auth_code: nil)
     @issue = issue
     @auth_code = auth_code
     image_attachments(issue: @issue)

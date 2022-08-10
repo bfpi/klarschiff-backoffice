@@ -5,8 +5,9 @@ class ResponsibilityMailerPreview < ActionMailer::Preview
     ResponsibilityMailer.issue Issue.first, to: 'test@bfpi.de', auth_code: AuthCode.new(uuid: SecureRandom.uuid)
   end
 
-  def default_group
-    ResponsibilityMailer.default_group Issue.first, to: 'test@bfpi.de', auth_code: AuthCode.new(uuid: SecureRandom.uuid)
+  def default_group_without_gui_access
+    ResponsibilityMailer.default_group_without_gui_access Issue.first, to: 'test@bfpi.de',
+      auth_code: AuthCode.new(uuid: SecureRandom.uuid)
   end
 
   def remind_group

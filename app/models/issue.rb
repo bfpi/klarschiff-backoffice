@@ -102,7 +102,7 @@ class Issue < ApplicationRecord
     District.find_by('ST_Contains(area, ?)', position)
   end
 
-  def default_group?
-    Settings::Instance.auth_code_gui_access_for_external_participants && group&.reference_default
+  def default_group_without_gui_access?
+    !Settings::Instance.auth_code_gui_access_for_external_participants && group&.reference_default
   end
 end

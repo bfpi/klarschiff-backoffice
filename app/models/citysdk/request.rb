@@ -69,7 +69,7 @@ module Citysdk
     def status_date; end
 
     def description
-      return I18n.t('request.description.default_group') if default_group?
+      return I18n.t('request.description.default_group') if default_group_without_gui_access?
       return I18n.t('request.description.internal') if description_status_internal?
       super
     end
@@ -95,7 +95,7 @@ module Citysdk
 
     def create_message
       message = [I18n.t('request.create_message.success')]
-      message << I18n.t('request.description.default_group') if default_group?
+      message << I18n.t('request.description.default_group') if default_group_without_gui_access?
       message.join
     end
 

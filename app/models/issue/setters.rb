@@ -51,7 +51,8 @@ class Issue
     end
 
     def set_reviewed_at
-      self.reviewed_at = Time.current
+      return if status.in? %w[pending received]
+      self.reviewed_at ||= Time.current
     end
 
     def set_expected_closure

@@ -15,8 +15,7 @@ class Issue
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility
-      before_validation :set_reviewed_at, on: :update,
-        if: -> { status_changed? && status_reviewed? }, unless: :reviewed_at?
+      before_validation :set_reviewed_at, on: :update, if: :status_changed?
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
@@ -82,7 +81,7 @@ class Issue
 
     def notify_group
       update group_responsibility_notified_at: Time.current
-      return notify_default_group if default_group?
+      return notify_default_group_without_gui_access if default_group_without_gui_access?
       return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
       ResponsibilityMailer.issue(self, **notify_group_options(users:)).deliver_later
     end
@@ -102,8 +101,8 @@ class Issue
       self.group_responsibility_notified_at = nil
     end
 
-    def notify_default_group
-      ResponsibilityMailer.default_group(self, **notify_group_options).deliver_later
+    def notify_default_group_without_gui_access
+      ResponsibilityMailer.default_group_without_gui_access(self, **notify_group_options).deliver_later
     end
 
     def issue_in_authorized_areas
@@ -113,7 +112,8 @@ class Issue
 
     def position_within_authorized_areas?
       return false unless Current.user
-      Current.user.groups.regional(lat:, lon:).present?
+      # Current.user.groups.regional(lat:, lon:) skips on non persisted group relation (identified by auth_code)
+      Group.where(id: Current.user.group_ids).regional(lat:, lon:).exists?
     end
   end
 end
