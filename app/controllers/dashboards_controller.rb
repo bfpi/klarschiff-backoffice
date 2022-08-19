@@ -36,14 +36,15 @@ class DashboardsController < ApplicationController
   def latest_issues
     Issue.authorized.includes({ category: :main_category }).not_archived
       .where(status: %w[received reviewed in_process not_solvable closed])
-      .order(iat[:priority].desc, iat[:created_at].desc, iat[:id].desc).limit(10)
+      .order(iat[:priority].desc, iat[:updated_at].desc, iat[:id].desc).limit(10)
   end
 
   def own_issues
     Issue.authorized.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
       status: %w[received reviewed in_process not_solvable closed],
       log_entry: { attr: [nil] + %w[address status description kind] }
-    ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
+    ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days))
+      .order(iat[:updated_at].desc, iat[:id].desc).limit(10).distinct
   end
 
   def former_issues(groups)
