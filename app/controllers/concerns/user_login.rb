@@ -36,7 +36,7 @@ module UserLogin
 
   def user_condition(users, login:, group_kind:)
     users = users.joins(:groups).where(group: { kind: group_kind }) if group_kind
-    users.where(User.arel_table[:login].matches(login).or(User.arel_table[:email].matches(login)))
+    users.where(user_at[:login].matches(login).or(user_at[:email].matches(login)))
   end
 
   def check_credentials

@@ -12,7 +12,7 @@ class LogEntriesController < ApplicationController
   def custom_order(col, dir)
     case col.to_sym
     when :user
-      [User.arel_table[:last_name].send(dir), User.arel_table[:first_name].send(dir)]
+      [user_at[:last_name].send(dir), user_at[:first_name].send(dir)]
     end
   end
 

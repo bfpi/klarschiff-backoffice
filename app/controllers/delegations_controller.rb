@@ -89,7 +89,7 @@ class DelegationsController < ApplicationController
   def custom_order(col, dir)
     case col.to_sym
     when :category
-      [MainCategory.arel_table[:name].send(dir), SubCategory.arel_table[:name].send(dir)]
+      [main_category_at[:name].send(dir), sub_category_at[:name].send(dir)]
     end
   end
 

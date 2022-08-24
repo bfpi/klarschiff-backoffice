@@ -16,7 +16,7 @@ class FeedbacksController < ApplicationController
   def custom_order(col, dir)
     case col.to_sym
     when :issue
-      Feedback.arel_table[:issue_id].send(dir)
+      feedback_at[:issue_id].send(dir)
     end
   end
 
