@@ -52,7 +52,7 @@ $ ->
       success: (data) ->
         location.href = data
 
-  $(document).on 'change', '.edit_issue :input', ->
+  $(document).on 'change', '.edit_issue :input:not([name="map_view"])', ->
     $('.edit_issue').data('changed', true)
   
   $(document).on 'click', '.switch-tab', (e) ->
