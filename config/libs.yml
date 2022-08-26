@@ -4,9 +4,9 @@ versions:
   tablednd: 1.0.3
 
 javascripts:
-  ol.js: https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v<%= versions[:ol] %>/build/ol.js
+  ol.js: https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v<%= versions[:ol] %>/build/ol.js
   proj4js.js: https://cdnjs.cloudflare.com/ajax/libs/proj4js/<%= versions[:proj4] %>/proj4.js
   tablednd.js: https://cdnjs.cloudflare.com/ajax/libs/TableDnD/<%= versions[:tablednd] %>/jquery.tablednd.min.js
 
 stylesheets:
-  ol.css: https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v<%= versions[:ol] %>/css/ol.css
+  ol.css: https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v<%= versions[:ol] %>/css/ol.css
