@@ -6,7 +6,7 @@ module ArelTable
   private
 
   ActiveRecord::Base.connection.tables.each do |table|
-    define_method "#{table}_at" do
+    define_method "#{table}_arel_table" do
       table.camelize.constantize.arel_table
     end
   end

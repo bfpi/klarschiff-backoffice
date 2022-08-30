@@ -65,9 +65,9 @@ class IssuesController
     def custom_order(col, dir)
       case col.to_sym
       when :category
-        [sub_category_at[:name].send(dir)]
+        [sub_category_arel_table[:name].send(dir)]
       when :group
-        [group_at[:name].send(dir)]
+        [group_arel_table[:name].send(dir)]
       when :last_editor
         custom_order_last_editor(dir)
       when :supporter
@@ -78,10 +78,10 @@ class IssuesController
     def custom_order_last_editor(dir)
       [Arel.sql("CASE
           WHEN updated_by_user_id is not null then
-            (select concat(last_name, ', ', first_name) from \"#{user_at.name}\" u
+            (select concat(last_name, ', ', first_name) from \"#{user_arel_table.name}\" u
               where u.id = updated_by_user_id)
           WHEN updated_by_auth_code_id is not null then
-            (select short_name from \"#{group_at.name}\" g
+            (select short_name from \"#{group_arel_table.name}\" g
               where g.id in (select group_id from auth_code where id = updated_by_auth_code_id)) END #{dir}")]
     end
 

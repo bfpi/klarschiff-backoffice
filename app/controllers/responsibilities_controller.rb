@@ -53,15 +53,15 @@ class ResponsibilitiesController < ApplicationController
   def custom_order(col, dir)
     case col.to_sym
     when :kind
-      main_category_at[:kind].send(dir)
+      main_category_arel_table[:kind].send(dir)
     when :category
-      [main_category_at[:name].send(dir), sub_category_at[:name].send(dir)]
+      [main_category_arel_table[:name].send(dir), sub_category_arel_table[:name].send(dir)]
     when :group
-      group_at[:name].send(dir)
+      group_arel_table[:name].send(dir)
     end
   end
 
   def default_order
-    [main_category_at[:kind], main_category_at[:name], sub_category_at[:name]]
+    [main_category_arel_table[:kind], main_category_arel_table[:name], sub_category_arel_table[:name]]
   end
 end

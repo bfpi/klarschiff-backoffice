@@ -56,15 +56,15 @@ class EditorialNotificationsController < ApplicationController
   def custom_order(col, dir)
     case col.to_sym
     when :groups
-      group_at[:name].send(dir)
+      group_arel_table[:name].send(dir)
     when :first_name, :last_name, :email
-      user_at[col.to_sym].send(dir)
+      user_arel_table[col.to_sym].send(dir)
     when :level
-      editorial_notification_at[col.to_sym].send(dir)
+      editorial_notification_arel_table[col.to_sym].send(dir)
     end
   end
 
   def default_order
-    [user_at[:last_name], user_at[:first_name], editorial_notification_at[:level]]
+    [user_arel_table[:last_name], user_arel_table[:first_name], editorial_notification_arel_table[:level]]
   end
 end
