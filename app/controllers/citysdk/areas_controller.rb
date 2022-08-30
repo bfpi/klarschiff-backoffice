@@ -12,7 +12,7 @@ module Citysdk
     # :apidoc: | api_key | X | String | API key |
     # :apidoc: | area_code | - | Integer / String | ID to filter districts, separated by comma for multiple values |
     # :apidoc: | search_class | - | String | specifies which data to search for |
-    # :apidoc: | regional_key | - | Integer / String | RegionalKey to filter authorities and districts (based on search_class), separated by comma for multiple values |
+    # :apidoc: | regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
     # :apidoc: | with_districts | - | Boolean | return all existing districts, not available if using area_code |
     # :apidoc:
     # :apidoc: Available SeachClasses for this action: `authority`, `district`
@@ -36,15 +36,36 @@ module Citysdk
     private
 
     def search_areas
-      search_class = Settings.main_instance? ? Citysdk::Authority : Citysdk::District
-      if params[:search_class]
-        search_class = ('Citysdk::' + params[:search_class].camelcase).constantize
+      if (response = search_areas_by_params).present?
+        return response
       end
-      response = Instance.first
-      response = search_class.all if params[:with_districts].present? && params[:area_code].blank?
-      response = search_class.where(id: params[:area_code].split(',')) if params[:area_code].present?
-      response = search_class.where(regional_key: params[:regional_key].split(',')) if params[:regional_key].present?
-      response
+      return search_class.all if params[:with_districts].present? && params[:area_code].blank?
+      Instance.first
+    end
+
+    def search_areas_by_params
+      return search_areas_by_area_code if params[:area_code].present?
+      return search_areas_by_regional_key if params[:regional_key].present?
+    end
+
+    def search_areas_by_area_code
+      search_class.where(id: params[:area_code].split(','))
+    end
+
+    def search_areas_by_regional_key
+      search_class.where(regional_key: params[:regional_key])
+    end
+
+    def search_class
+      if params[:search_class]
+        return case params[:search_class].to_sym
+               when :authority
+                 return Citysdk::Authority
+               else
+                 return Citysdk::District
+               end
+      end
+      Settings.main_instance? ? Citysdk::Authority : Citysdk::District
     end
 
     def order_response(response)

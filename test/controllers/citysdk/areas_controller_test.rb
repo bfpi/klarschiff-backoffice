@@ -18,14 +18,14 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'index with valid search_class' do
-    get "/citysdk/areas.xml", params: { regional_key: :one, search_class: 'authority' }
+    get '/citysdk/areas.xml', params: { regional_key: :one, search_class: 'authority' }
     doc = Nokogiri::XML(response.parsed_body)
     areas = doc.xpath('/areas/area')
     assert areas.count.positive?
   end
 
   test 'index with invalid search_class' do
-    get "/citysdk/areas.xml", params: { search_class: 'ABCDE' }
+    get '/citysdk/areas.xml', params: { search_class: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '500', 'search_class invalid'
   end
