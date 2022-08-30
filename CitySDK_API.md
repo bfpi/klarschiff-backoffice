@@ -258,7 +258,11 @@ Parameters:
 |:--|:-:|:--|:--|
 | api_key | X | String | API key |
 | area_code | - | Integer / String | ID to filter districts, separated by comma for multiple values |
+| search_class | - | String | specifies which data to search for |
+| regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
 | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+
+Available SeachClasses for this action: `authority`, `district`
 
 Sample Response:
 
