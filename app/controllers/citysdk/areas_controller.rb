@@ -15,6 +15,9 @@ module Citysdk
     # :apidoc: | regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
     # :apidoc: | with_districts | - | Boolean | return all existing districts, not available if using area_code |
     # :apidoc:
+    # :apidoc: The parameter `regional_key` is ignored if parameter `area_code` is given with the request, so you have
+    # :apidoc: to omit the `area_code` parameter to get the response for `regional_key` filter.
+    # :apidoc:
     # :apidoc: Available SeachClasses for this action: `authority`, `district`
     # :apidoc:
     # :apidoc: Sample Response:
@@ -36,24 +39,22 @@ module Citysdk
     private
 
     def search_areas
-      if (response = search_areas_by_params).present?
-        return response
-      end
-      return search_class.all if params[:with_districts].present? && params[:area_code].blank?
-      Instance.first
-    end
-
-    def search_areas_by_params
-      return search_areas_by_area_code if params[:area_code].present?
-      return search_areas_by_regional_key if params[:regional_key].present?
+      search_areas_by_area_code || search_areas_by_regional_key || list_areas_with_districts || Instance.first
     end
 
     def search_areas_by_area_code
-      search_class.where(id: params[:area_code].split(','))
+      return if (code = params[:area_code]).blank?
+      search_class.where(id: code.split(','))
     end
 
     def search_areas_by_regional_key
-      search_class.where(regional_key: params[:regional_key])
+      return if (key = params[:regional_key]).blank?
+      search_class.where(regional_key: key)
+    end
+
+    def list_areas_with_districts
+      return if params[:with_districts].blank?
+      search_class.all
     end
 
     def search_class
