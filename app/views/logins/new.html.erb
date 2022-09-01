@@ -14,13 +14,12 @@
           <div class="form-floating mb-3">
             <%= f.text_field :login, class: 'form-control',
                   placeholder: :login, autocapitalize: 'off',
-                  autocomplete: 'off', autofocus: 'off' %>
+                  autocomplete: 'off' %>
             <%= f.label :login %>
           </div>
           <div class="form-floating mb-3">
             <%= f.password_field :password, class: 'form-control',
-                  placeholder: :password, autocomplete: 'off',
-                  autofocus: 'off' %>
+                  placeholder: :password, autocomplete: 'off' %>
             <%= f.label :password %>
           </div>
           <%= f.submit 'Anmelden', class: 'btn btn-primary' %>
