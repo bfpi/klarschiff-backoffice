@@ -41,6 +41,12 @@ module Citysdk
         raise 'status invalid'
       end
 
+      def validate_search_class
+        classes = %w[authority district]
+        return if (sclass = params[:search_class]).blank? || sclass.split(/, ?/).all? { |sc| sc.in?(classes) }
+        raise 'search_class invalid'
+      end
+
       def validate_service_request_id
         return unless (ids = params[:service_request_id]).present? && !ids.i?
         return if ids.present? && ids.include?(',') && ids.split(',').all? do |e|
