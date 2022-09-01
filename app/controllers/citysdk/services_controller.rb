@@ -63,7 +63,7 @@ module Citysdk
 
     def sorted
       Service.eager_load(:main_category, :sub_category)
-        .order(MainCategory.arel_table[:name], SubCategory.arel_table[:name])
+        .order(main_category_arel_table[:name], sub_category_arel_table[:name])
     end
   end
 end

@@ -36,14 +36,20 @@ class DashboardsController < ApplicationController
   def latest_issues
     Issue.authorized.includes({ category: :main_category }).not_archived
       .where(status: %w[received reviewed in_process not_solvable closed])
-      .order(iat[:priority].desc, iat[:created_at].desc, iat[:id].desc).limit(10)
+      .order(issue_arel_table[:priority].desc, issue_arel_table[:updated_at].desc, issue_arel_table[:id].desc)
+      .limit(10)
   end
 
   def own_issues
+    own_issues_with_log_entries.order(issue_arel_table[:updated_at].desc, issue_arel_table[:id].desc).limit(10)
+      .distinct
+  end
+
+  def own_issues_with_log_entries
     Issue.authorized.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
       status: %w[received reviewed in_process not_solvable closed],
       log_entry: { attr: [nil] + %w[address status description kind] }
-    ).where(LogEntry.arel_table[:created_at].gteq(Date.current - 7.days)).limit(10).distinct
+    ).where(log_entry_arel_table[:created_at].gteq(Date.current - 7.days))
   end
 
   def former_issues(groups)
@@ -76,7 +82,8 @@ class DashboardsController < ApplicationController
 
   def open_ideas_without_min_supporters(date)
     open_issues.ideas_without_min_supporters
-      .where(iat[:reviewed_at].not_eq(nil).and(iat[:reviewed_at].lteq(date))).order(id: :asc).to_a
+      .where(issue_arel_table[:reviewed_at].not_eq(nil).and(issue_arel_table[:reviewed_at].lteq(date)))
+      .order(id: :asc).to_a
   end
 
   def open_issues
@@ -90,15 +97,15 @@ class DashboardsController < ApplicationController
 
   def group_by
     [
-      Category.arel_table[:id], 'delegation_issue.id', Group.arel_table[:id],
-      Issue.arel_table[:id], Job.arel_table[:id], MainCategory.arel_table[:id],
-      Photo.arel_table[:id], SubCategory.arel_table[:id], AbuseReport.arel_table[:id]
+      category_arel_table[:id], 'delegation_issue.id', group_arel_table[:id],
+      issue_arel_table[:id], job_arel_table[:id], main_category_arel_table[:id],
+      photo_arel_table[:id], sub_category_arel_table[:id], abuse_report_arel_table[:id]
     ]
   end
 
   def in_process(date)
     Issue.authorized.not_archived.status_in_process.where(
-      iat[:status_note].eq(nil).and(iat[:created_at].lteq(date))
+      issue_arel_table[:status_note].eq(nil).and(issue_arel_table[:created_at].lteq(date))
     ).order(id: :asc)
   end
 
@@ -109,15 +116,8 @@ class DashboardsController < ApplicationController
 
   def responsibility_entries(date)
     LogEntry.select('DISTINCT ON ("issue_id") "issue_id"').where(
-      leat[:issue_id].not_eq(nil).and(leat[:attr].eq('group')).and(leat[:created_at].lteq(date))
+      log_entry_arel_table[:issue_id].not_eq(nil).and(log_entry_arel_table[:attr].eq('group'))
+      .and(log_entry_arel_table[:created_at].lteq(date))
     ).order(:issue_id, created_at: :desc)
-  end
-
-  def leat
-    LogEntry.arel_table
-  end
-
-  def iat
-    Issue.arel_table
   end
 end

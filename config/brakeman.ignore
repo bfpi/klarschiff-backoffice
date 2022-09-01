@@ -1,51 +1,11 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "031f22283a65471da3cd56e94c14c8298b54c5697843d234d5481e6cc7ee5c92",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/controllers/dashboards_controller.rb",
-      "line": 61,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\nINNER JOIN (\\n  SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n    WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n  SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n   WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n   AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n) = 0\\nWHERE \\\"attr\\\" = 'group' AND \\\"new_value\\\" IN (#{group_names})\\n  AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n    SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids})))\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "DashboardsController",
-        "method": "changed_responsibilities"
-      },
-      "user_input": "I18n.t(true).downcase",
-      "confidence": "Medium",
-      "note": "Translation of value \"true\" is aspected to be save for us. Ignore as false positive."
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "066a33cbaadfe9be97e2737e30d588fe25b48d9edae66b023a8264836a74cd41",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/controllers/issues_controller/index.rb",
-      "line": 85,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Arel.sql(\"CASE\\n          WHEN updated_by_user_id is not null then\\n            (select concat(last_name, ', ', first_name) from \\\"#{User.arel_table.name}\\\" u\\n              where u.id = updated_by_user_id)\\n          WHEN updated_by_auth_code_id is not null then\\n            (select short_name from \\\"#{Group.arel_table.name}\\\" g\\n              where g.id in (select group_id from auth_code where id = updated_by_auth_code_id)) END #{dir}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "IssuesController",
-        "method": "custom_order_last_editor"
-      },
-      "user_input": "dir",
-      "confidence": "Medium",
-      "note": "Won't fix. Value of \"dir\" is checked before and aspected to be save for us."
-    },
-    {
       "warning_type": "Remote Code Execution",
       "warning_code": 24,
       "fingerprint": "23192264d65d9a34b0101b9e120ef72098d265b2787c64f49619ebaff097a37b",
       "check_name": "UnsafeReflection",
-      "message": "Unsafe reflection method `constantize` called with model attribute",
+      "message": "Unsafe reflection method `constantize` called on model attribute",
       "file": "app/controllers/groups_controller.rb",
       "line": 22,
       "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
@@ -83,6 +43,46 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "b4f64158b1912ed6c06839144740c6860502204c246a5c402772cdb9b8ef6d05",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/dashboards_controller.rb",
+      "line": 66,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\nINNER JOIN (\\n  SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n    WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n  SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n   WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n   AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n) = 0\\nWHERE \\\"attr\\\" = 'group' AND \\\"new_value_id\\\" IN (#{group_ids.join(\", \")})\\n  AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n    SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids.join(\", \")})))\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DashboardsController",
+        "method": "changed_responsibilities"
+      },
+      "user_input": "I18n.t(true).downcase",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "b64baf9750e6457f3f618f2c18c05eb0dcf25000849d9d0197f7d4388598acc3",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/issues_controller/index.rb",
+      "line": 81,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"CASE\\n          WHEN updated_by_user_id is not null then\\n            (select concat(last_name, ', ', first_name) from \\\"#{user_arel_table.name}\\\" u\\n              where u.id = updated_by_user_id)\\n          WHEN updated_by_auth_code_id is not null then\\n            (select short_name from \\\"#{group_arel_table.name}\\\" g\\n              where g.id in (select group_id from auth_code where id = updated_by_auth_code_id)) END #{dir}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "IssuesController",
+        "method": "custom_order_last_editor"
+      },
+      "user_input": "user_arel_table.name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dfa8add7e9a6a0052055fee62589ad3258836c7d758eccaa91b53c33998e1cdb",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -99,8 +99,24 @@
       "user_input": "Issue.human_enum_name(:status, :in_process)",
       "confidence": "High",
       "note": "Won't fix. Value of status is translation of enum and comes from config/locale."
+    },
+    {
+      "warning_type": "Session Setting",
+      "warning_code": 29,
+      "fingerprint": "f0ee1cc1980474c82a013645508f002dcc801e00db5592f7dd8cd6bdb93c73fe",
+      "check_name": "SessionSettings",
+      "message": "Session secret should not be included in version control",
+      "file": "config/secrets.yml",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/session_setting/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
     }
   ],
-  "updated": "2022-03-22 20:38:42 +0100",
-  "brakeman_version": "5.1.2"
+  "updated": "2022-08-30 09:53:02 +0200",
+  "brakeman_version": "5.2.3"
 }

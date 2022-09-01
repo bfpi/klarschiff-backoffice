@@ -36,7 +36,7 @@ module Authorization
   end
 
   def authenticate_user(login)
-    if (Current.user = User.active.find_by(uat[:login].matches(login)))
+    if (Current.user = User.active.find_by(user_arel_table[:login].matches(login)))
       logger_current_user login
     else
       redirect_to new_logins_path
@@ -116,7 +116,7 @@ module Authorization
   def current_user
     Current.email = params[:email].presence
     return if !trust_email_for_user_identification? || Current.email.blank?
-    Current.user = User.active.find_by(uat[:email].matches(params[:email]))
+    Current.user = User.active.find_by(user_arel_table[:email].matches(params[:email]))
   end
 
   def current_citysdk_client(skip_raise: false)
@@ -130,9 +130,5 @@ module Authorization
 
   def trust_email_for_user_identification?
     params['api_key'].present? && current_citysdk_client[:trust_email_for_user_identification].present?
-  end
-
-  def uat
-    User.arel_table
   end
 end

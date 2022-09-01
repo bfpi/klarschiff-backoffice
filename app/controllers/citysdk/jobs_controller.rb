@@ -121,7 +121,7 @@ module Citysdk
     private
 
     def jobs
-      jo = Citysdk::Job.where(Job.arel_table[:date].gteq(params[:date]))
+      jo = Citysdk::Job.where(job_arel_table[:date].gteq(params[:date]))
       jo = jo.where(status: params[:status]) if params[:status].present?
       jo
     end

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   rescue_from StandardError, with: :respond_with_error
   rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
 
+  include ArelTable
   include Authorization
 
   prepend_view_path 'overlay/views'
