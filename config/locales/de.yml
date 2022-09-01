@@ -116,7 +116,7 @@ de:
         groups: Gruppen
         last_name: Nachname
         ldap: LDAP-DN
-        login: Login
+        login: Benutzername
         password_digest: Passwort
         password: Passwort
         password_confirmation: Passwortbestätigung
@@ -368,8 +368,8 @@ de:
   helpers:
     label:
       login:
-        login: Login oder E-Mail *
-        password: Passwort *
+        login: Benutzername oder E-Mail-Adresse
+        password: Passwort
       user:
         password: Neues Passwort
         recipient: Empfänger von
