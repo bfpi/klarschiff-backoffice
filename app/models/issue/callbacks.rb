@@ -14,7 +14,7 @@ class Issue
       before_validation :add_photo
       before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
-      before_validation :set_responsibility
+      before_validation :set_responsibility, if: :set_responsibility?, unless: :responsibility_already_set
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }

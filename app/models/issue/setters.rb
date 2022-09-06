@@ -10,13 +10,19 @@ class Issue
       self.archived_at = nil
     end
 
+    def set_responsibility?
+      !(group.present? && responsibility_action.blank?)
+    end
+
     def set_responsibility
-      return if group.present? && responsibility_action.blank?
       return close_as_not_solvable if responsibility_action_close?
       return self.responsibility_accepted = true if responsibility_action_accept?
       return self.responsibility_accepted = false if responsibility_action_reject?
       recalculate_responsibility if recalculate_responsibility?
       self.responsibility_accepted = group_id == group_id_was
+    ensure
+      self.responsibility_already_set = true
+      self.responsibility_action = :accept
     end
 
     def close_as_not_solvable
