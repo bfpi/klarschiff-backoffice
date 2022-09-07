@@ -15,45 +15,36 @@ class Issue
     end
 
     def set_responsibility
-      return close_as_not_solvable if responsibility_action_close?
-      return self.responsibility_accepted = true if responsibility_action_accept?
-      return self.responsibility_accepted = false if responsibility_action_reject?
-      recalculate_responsibility if recalculate_responsibility?
-      self.responsibility_accepted = group_id == group_id_was
+      return responsibility_recalculate! if group.blank?
+      send :"responsibility_#{responsibility_action}!" if respond_to?(:"responsibility_#{responsibility_action}!", true)
     ensure
       self.responsibility_already_set = true
       self.responsibility_action = :accept
     end
 
-    def close_as_not_solvable
+    def responsibility_recalculate!
+      self.group = category&.group(lat:, lon:) || group
+      self.responsibility_accepted = group_id == group_id_was
+    end
+
+    def responsibility_accept!
+      self.responsibility_accepted = true
+    end
+
+    def responsibility_reject!
+      self.responsibility_accepted = false
+    end
+
+    def responsibility_close_as_not_solvable!
       assign_attributes(
         responsibility_accepted: false, status: 'not_solvable',
         status_note: Config.for(:status_note_template, env: nil)['Zuständigkeit']
       )
     end
 
-    def recalculate_responsibility?
-      responsibility_action_recalculate? || responsibility_action.nil?
-    end
-
-    def recalculate_responsibility
-      self.group = category&.group(lat:, lon:) || group
-    end
-
-    def responsibility_action_accept?
-      responsibility_action&.to_sym == :accept
-    end
-
-    def responsibility_action_recalculate?
-      responsibility_action&.to_sym == :recalculate
-    end
-
-    def responsibility_action_reject?
-      responsibility_action&.to_sym == :reject
-    end
-
-    def responsibility_action_close?
-      responsibility_action&.to_sym == :close_as_not_solvable
+    def responsibility_manual!
+      return if group_id == group_id_was
+      self.responsibility_accepted = false
     end
 
     def set_reviewed_at
