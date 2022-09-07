@@ -8,7 +8,7 @@ class Issue < ApplicationRecord
   include Issue::Scopes
   include Logging
 
-  attr_accessor :responsibility_action, :new_photo
+  attr_accessor :new_photo, :responsibility_action, :responsibility_already_set
 
   self.omit_field_log += %w[updated_by_auth_code_id updated_by_user_id]
 
