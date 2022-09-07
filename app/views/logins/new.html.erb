@@ -11,13 +11,16 @@
       </div>
       <div class="card-body">
         <%= form_for :login, url: logins_path do |f| -%>
-          <div class="mb-3">
+          <div class="form-floating mb-3">
+            <%= f.text_field :login, class: 'form-control',
+                  placeholder: :login, autocapitalize: 'off',
+                  autocomplete: 'off' %>
             <%= f.label :login %>
-            <%= f.text_field :login, class: 'form-control' %>
           </div>
-          <div class="mb-3">
+          <div class="form-floating mb-3">
+            <%= f.password_field :password, class: 'form-control',
+                  placeholder: :password, autocomplete: 'off' %>
             <%= f.label :password %>
-            <%= f.password_field :password, class: 'form-control' %>
           </div>
           <%= f.submit 'Anmelden', class: 'btn btn-primary' %>
         <% end -%>

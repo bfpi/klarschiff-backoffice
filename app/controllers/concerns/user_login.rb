@@ -12,7 +12,7 @@ module UserLogin
     elsif user&.authenticate(@credentials[:password])
       return login_success(user)
     end
-    login_error 'Login oder Passwort sind nicht korrekt'
+    login_error 'Benutzername oder Passwort sind nicht korrekt'
   end
 
   def login_error(error)
@@ -43,6 +43,6 @@ module UserLogin
     @credentials = params.permit(:login, :password)
     @credentials = params.require(:login).permit(:login, :password) if @credentials[:password].blank?
     return if @credentials.values.all?(&:present?)
-    login_error 'Login und Passwort müssen angegeben werden'
+    login_error 'Benutzername und Passwort müssen angegeben werden'
   end
 end
