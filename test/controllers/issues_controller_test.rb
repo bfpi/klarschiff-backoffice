@@ -15,12 +15,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     login username: :admin
     issue = issue(:received_not_accepted)
     assert_not issue.responsibility_accepted
-    patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :accept } }
-    assert_response :success
-    assert_predicate issue.reload, :responsibility_accepted
-    entry = LogEntry.find_by(issue_id: issue.id, attr: 'responsibility_accepted', new_value: 'Ja')
-    assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 60
+    assert_difference -> { LogEntry.where(issue_id: issue.id, attr: :responsibility_accepted, new_value: :Ja).count }, 1 do
+      patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :accept } }
+      assert_response :success
+      assert_predicate issue.reload, :responsibility_accepted
+    end
   end
 
   test 'reject responsibility' do

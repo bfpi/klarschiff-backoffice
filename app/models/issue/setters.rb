@@ -11,12 +11,13 @@ class Issue
     end
 
     def set_responsibility?
-      !(group.present? && responsibility_action.blank?)
+      group.blank? || responsibility_action.present?
     end
 
     def set_responsibility
       return responsibility_recalculate! if group.blank?
-      send :"responsibility_#{responsibility_action}!" if respond_to?(:"responsibility_#{responsibility_action}!", true)
+      target_method = :"responsibility_#{responsibility_action}!"
+      send target_method if respond_to?(target_method, true)
     ensure
       self.responsibility_already_set = true
       self.responsibility_action = :accept
