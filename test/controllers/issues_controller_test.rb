@@ -20,7 +20,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_predicate issue.reload, :responsibility_accepted
     entry = LogEntry.find_by(issue_id: issue.id, attr: 'responsibility_accepted', new_value: 'Ja')
     assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 5
+    assert_in_delta Time.current, entry.created_at, 60
   end
 
   test 'reject responsibility' do
@@ -32,7 +32,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_not issue.reload.responsibility_accepted
     entry = LogEntry.find_by(issue_id: issue.id, attr: 'responsibility_accepted', new_value: 'Nein')
     assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 5
+    assert_in_delta Time.current, entry.created_at, 60
   end
 
   test 'close_as_not_solvable' do
@@ -47,7 +47,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
       issue_id: issue.id, attr: 'status', new_value: Issue.human_enum_name(:status, :not_solvable)
     )
     assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 5
+    assert_in_delta Time.current, entry.created_at, 60
   end
 
   test 'manual responsibility change' do
@@ -63,7 +63,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_equal group, issue.group
     entry = LogEntry.find_by(issue_id: issue.id, attr: 'group', new_value_id: group.id)
     assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 5
+    assert_in_delta Time.current, entry.created_at, 60
   end
 
   test 'recalculate responsibility' do
@@ -76,7 +76,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_equal group, issue.reload.group
     entry = LogEntry.find_by(issue_id: issue.id, attr: 'group', new_value_id: group.id)
     assert_predicate entry, :present?
-    assert_in_delta Time.current, entry.created_at, 5
+    assert_in_delta Time.current, entry.created_at, 60
   end
 
   test 'unknown responsibility_action' do
