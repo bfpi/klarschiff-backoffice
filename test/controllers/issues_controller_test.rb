@@ -20,6 +20,14 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
         get "/issues?order_by[column]=#{column}&order_by[dir]=#{dir}"
         assert_response :success
       end
+
+      TEST_ROLES.each do |role|
+        test "should sort by #{column} #{dir} as #{role}" do
+          login username: role
+          get "/issues?order_by[column]=#{column}&order_by[dir]=#{dir}"
+          assert_response :success
+        end
+      end
     end
   end
 

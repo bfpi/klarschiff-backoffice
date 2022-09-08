@@ -7,6 +7,8 @@ require 'minitest/autorun'
 
 module ActiveSupport
   class TestCase
+    TEST_ROLES = %i[admin regional_admin editor].freeze
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
