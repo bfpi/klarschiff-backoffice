@@ -5,6 +5,7 @@ if Rails.application.config.action_mailer.show_previews
 
   module Rails
     class MailersController
+      include ArelTable
       include Authorization
 
       before_action { check_auth :manage_mail_templates }
