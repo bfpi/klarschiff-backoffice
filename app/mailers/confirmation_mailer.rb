@@ -19,6 +19,11 @@ class ConfirmationMailer < ApplicationMailer
     mail(to:, interpolation: { subject: { number: issue_id } })
   end
 
+  def completion(to:, issue_id:, confirmation_hash:)
+    @url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/completion"
+    mail(to:, interpolation: { subject: { number: issue_id } })
+  end
+
   def photo(to:, issue_id:, confirmation_hash:)
     @url = "#{mailer_config[:confirmation_base_url]}/#{confirmation_hash}/photo"
     mail(to:, interpolation: { subject: { number: issue_id } })

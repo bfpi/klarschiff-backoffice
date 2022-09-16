@@ -18,6 +18,7 @@ class DashboardsController < ApplicationController
     @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved
     @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved
     @open_abuse_report_issues = Issue.authorized.open_abuse_reports
+    @open_completion_issues = Issue.authorized.open_completions
   end
 
   def calculate_issues_counts

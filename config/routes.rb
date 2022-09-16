@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :tests, only: %i[index create]
   end
   resources :abuse_reports, only: %i[create update]
+  resources :completions, only: :update
   resources :comments, only: %i[create edit update show destroy]
   resources :editorial_notifications, only: %i[index new create edit update destroy]
   resources :jobs, only: %i[index update destroy] do
@@ -65,6 +66,9 @@ Rails.application.routes.draw do
 
       get   'comments/:service_request_id' => 'comments#index'
       post  'comments/:service_request_id' => 'comments#create', as: :comments
+
+      put 'completions/:confirmation_hash/confirm' => 'completions#confirm'
+      post  'completions/:service_request_id' => 'completions#create', as: :completions
 
       put 'photos/:confirmation_hash/confirm' => 'photos#confirm'
       post 'photos/:service_request_id' => 'photos#create', as: :photos

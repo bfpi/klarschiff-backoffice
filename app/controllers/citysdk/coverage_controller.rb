@@ -27,7 +27,6 @@ module Citysdk
     private
 
     def response_data
-      return { result: true }
       if instances.blank? || (instance_url = instances.filter_map do |fm|
                                 fm.instance_url.presence
                               end).present?

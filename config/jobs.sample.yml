@@ -1,6 +1,8 @@
 development: &default
   abuse:
     deletion_deadline_days: 1
+  completion:
+    deletion_deadline_days: 1
   issue:
     archival_deadline_days: 30
     author_deletion_deadline_days: 1

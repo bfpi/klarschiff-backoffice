@@ -176,6 +176,9 @@ de:
       comment:
         one: Kommentar
         other: Kommentare
+      completion:
+        one: Abschlussmeldung
+        other: Abschlussmeldungen
       county:
         one: Landkreis/kreisfreie Stadt
         other: Landkreise/kreisfreie Städte
@@ -269,6 +272,9 @@ de:
       abuse_reports:
         one: offene Missbrauchsmeldung
         other: offene Missbrauchsmeldungen
+      completions:
+        one: offene Abschlussmeldung
+        other: offene Abschlussmeldungen
       notices:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
@@ -300,6 +306,11 @@ de:
       unsolvable_without_status_note: nicht lösbar, aber ohne öffentlichen Statuskommentar
       without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
+    completion:
+      status:
+        open: offen
+        closed: quittiert
+        rejected: verworfen
     group:
       kind:
         internal: intern
@@ -417,6 +428,7 @@ de:
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: interne Kommentare
+        completion: Abschlussmeldungen
         feedback: Lobe/Hinweise/Kritiken
         job: Außendienstauftrag
         log_entry: Verlauf

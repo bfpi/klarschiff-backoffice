@@ -78,6 +78,27 @@
     </div>
   <% end -%>
 
+  <% if @open_completion_issues.count.positive? -%>
+    <div class="row">
+      <div class="col">
+        <div class="card bg-info">
+          <div class="card-header">
+            <b><%= @open_completion_issues.count %></b> <%= t '.completions', count: @open_completion_issues.count %>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <% @open_completion_issues.each do |issue| -%>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                <% end -%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end -%>
+
   <% if @notices_count.positive? -%>
     <div class="row">
       <div class="col">

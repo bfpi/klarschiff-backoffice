@@ -61,6 +61,10 @@ class Issue
         joins(:abuse_reports).where(abuse_reports: { resolved_at: nil }).order(id: :asc)
       end
 
+      def open_completions
+        joins(:completions).where(completions: { status: 'open' }).order(id: :asc)
+      end
+
       private
 
       def auth_code_issues(auth_code)
