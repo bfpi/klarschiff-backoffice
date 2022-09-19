@@ -31,6 +31,8 @@ de:
         dms: DMS
         main_category: Hauptkategorie
         sub_category: Unterkategorie
+      completion:
+        notice: Hinweis
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung

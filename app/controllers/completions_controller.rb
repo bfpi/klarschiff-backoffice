@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class CompletionsController < ApplicationController
+  def edit
+    @completion = Completion.find(params[:id])
+  end
+
   def update
     @completion = Completion.find(params[:id])
     @completion.update(permitted_params)

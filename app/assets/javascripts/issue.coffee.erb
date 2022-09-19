@@ -1,6 +1,7 @@
 $ ->
   initialize = ->
     initializeConfirmationDialog()
+    initializeCompletionDialog()
     initializeExtendedFilter()
 
   initializeConfirmationDialog = ->
@@ -33,6 +34,28 @@ $ ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
 
+  initializeCompletionDialog = ->
+    $('#dialog-completion').dialog
+      autoOpen: false
+      draggable: false
+      resizable: false
+      height: 'auto'
+      width: 'auto'
+      modal: true
+      title: '<%= Completion.model_name.human %>'
+      buttons:
+        'confirm':
+          text: '<%= I18n.t('action.save') %>'
+          click: ->
+            form = $('.edit_completion')
+            Rails.fire(form[0], 'submit')
+            $(@).dialog('close')
+          class: 'btn btn-sm btn-primary'
+        'abort':
+          text: '<%= I18n.t('action.abort') %>'
+          click: ->
+            $(@).dialog('close')
+          class: 'btn btn-sm btn-secondary'
 
   initializeExtendedFilter = ->
     if $('form#issues-filter').length == 1
