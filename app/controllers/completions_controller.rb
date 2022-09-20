@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class CompletionsController < ApplicationController
-  def edit
-    @completion = Completion.find(params[:id])
-  end
-
   def update
     @completion = Completion.find(params[:id])
+    @completion.reject_with_status_reset = params[:completion][:status] == 'rejected'
     @completion.update(permitted_params)
   end
 

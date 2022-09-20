@@ -261,6 +261,7 @@ de:
     user: Benutzer
   back: Zurück
   city_view: Karte
+  close_completion: Meldung quittieren
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
@@ -483,6 +484,8 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
+  reject_completion: Meldung verwerfen
+  rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit

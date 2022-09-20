@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     resources :tests, only: %i[index create]
   end
   resources :abuse_reports, only: %i[create update]
-  resources :completions, only: %i[edit update]
+  resources :completions, only: :update
   resources :comments, only: %i[create edit update show destroy]
   resources :editorial_notifications, only: %i[index new create edit update destroy]
   resources :jobs, only: %i[index update destroy] do

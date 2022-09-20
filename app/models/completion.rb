@@ -13,22 +13,33 @@ class Completion < ApplicationRecord
 
   scope :confirmed, -> { where.not(confirmed_at: nil) }
 
+  validates :notice, presence: :status_rejected?
+
   after_commit :close_issue, if: -> { confirmed_at && saved_change_to_confirmed_at? }
-  after_commit :reset_issue_status, if: -> { status_rejected? && saved_change_to_status? && reject_with_status_reset }
+  after_commit :reject_completion, if: -> { status_rejected? && saved_change_to_status? }
+  after_commit :set_closed_at, if: -> { status_closed? && saved_change_to_status? }
 
   private
 
-  def close_issue
-    if (completion = issue.completions.confirmed.status_open.first).present?
-      update(prev_issue_status: completion.prev_issue_status)
-    else
-      return if issue.status_closed?
-      update(prev_issue_status: issue.status)
-      issue.status_closed!
-    end
+  def set_closed_at
+    update(closed_at: Time.current)
   end
 
-  def reset_issue_status
-    issue.update(status: prev_issue_status)
+  def close_issue
+    completion = issue.completions.confirmed.status_open.first
+    return update(prev_issue_status: completion.prev_issue_status) if completion.present?
+    return reject_with_notice if issue.status_closed?
+    update(prev_issue_status: issue.status)
+    issue.status_closed!
+  end
+
+  def reject_with_notice
+    update(status: 'rejected', notice: I18n.t('rejection_notice', number: issue.id))
+  end
+
+  def reject_completion
+    issue.update(status: prev_issue_status) if reject_with_satus_reset
+    CompletionMailer.rejection(completion: self, to: completion.email).deliver_now
+    update(email: nil, rejected_at: Time.current)
   end
 end

@@ -1,7 +1,6 @@
 $ ->
   initialize = ->
     initializeConfirmationDialog()
-    initializeCompletionDialog()
     initializeExtendedFilter()
 
   initializeConfirmationDialog = ->
@@ -28,29 +27,6 @@ $ ->
             $.ajax(url: $(@).data('url'), type: 'GET')
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
-        'abort':
-          text: '<%= I18n.t('action.abort') %>'
-          click: ->
-            $(@).dialog('close')
-          class: 'btn btn-sm btn-secondary'
-
-  initializeCompletionDialog = ->
-    $('#dialog-completion').dialog
-      autoOpen: false
-      draggable: false
-      resizable: false
-      height: 'auto'
-      width: 'auto'
-      modal: true
-      title: '<%= Completion.model_name.human %>'
-      buttons:
-        'confirm':
-          text: '<%= I18n.t('action.save') %>'
-          click: ->
-            form = $('.edit_completion')
-            Rails.fire(form[0], 'submit')
-            $(@).dialog('close')
-          class: 'btn btn-sm btn-primary'
         'abort':
           text: '<%= I18n.t('action.abort') %>'
           click: ->
@@ -127,6 +103,7 @@ $ ->
   $(document).on 'click', '.card .btn-update', (e) ->
     e.preventDefault()
     link = $(e.target).parents('.card').find('.btn-update')
+    console.log($(e.target), link)
     $.ajax
       url: link.attr('href')
       type: 'PUT'
@@ -151,3 +128,7 @@ $ ->
   $(document).on 'focusout', '#comment_message', (e) ->
     $('input[type="submit"][name="commit"]').removeClass('disabled')
     $('input[type="submit"][name="save_and_close"]').removeClass('disabled')
+
+  $(document).on 'click', '#rejection-link', (e) ->
+    e.preventDefault()
+    $('#completion-rejection').toggleClass('d-none')

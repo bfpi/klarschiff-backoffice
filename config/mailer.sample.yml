@@ -4,6 +4,9 @@ development: &default
     from: from@example.com
     exceptions_recipient: support-klarschiff@bfpi.de
     interceptions_recipient: support-klarschiff@bfpi.de
+  completion_mailer:
+    rejection:
+      subject: "#%{number}: Abschlussmeldung zurückgewiesen"
   confirmation_mailer:
     abuse_report:
       subject: "#%{number}: Bestätigung einer Missbrauchsmeldung"

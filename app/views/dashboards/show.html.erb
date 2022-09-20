@@ -89,7 +89,7 @@
             <div class="row">
               <div class="col-12">
                 <% @open_completion_issues.each do |issue| -%>
-                  <%= link_to "##{issue.id}", edit_issue_path(issue), remote: true %>
+                  <%= link_to "##{issue.id}", edit_issue_path(issue, tab: 'completion'), remote: true %>
                 <% end -%>
               </div>
             </div>

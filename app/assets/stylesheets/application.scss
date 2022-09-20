@@ -168,8 +168,3 @@ input#filter_text {
 .ui-dialog-titlebar-close {
   display: none;
 }
-
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  position: relative;
-  z-index: 2001;
-}
