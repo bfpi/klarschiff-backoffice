@@ -1,5 +1,5 @@
 <div class="card-header">
-  <%= l(completion.created_at) %> (<%= completion.human_enum_name(:status) %>)
+  <%= completion %>
 </div>
 <% if !completion.status_closed? -%>
   <div class="card-body">
@@ -8,8 +8,9 @@
       <div class="row">
         <div class="col">
           <%= link_to tag.i('', class: 'fa fa-check'), completion_path(completion, completion: { status: 'closed' }),
-                      method: :put, remote: true, title: t('close_completion'), class: 'btn btn-sm btn-outline-primary' %>
-          <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('reject_completion'), id: 'rejection-link', class: 'btn btn-sm btn-outline-primary' %>
+                method: :put, remote: true, title: t('close_completion'), class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('reject_completion'),
+                id: 'rejection-link', class: 'btn btn-sm btn-outline-primary' %>
         </div>
       </div>
     <% end -%>
@@ -18,10 +19,10 @@
       <%= hidden_field_tag 'completion[status]', 'rejected' %>
       <div class="row mb-2">
         <%= label_tag :completion_notice, Completion.human_attribute_name(:notice) << ' *',
-          for: "completion_notice_#{completion.id}", class: 'col-12 col-form-label' %> 
+              for: "completion_notice_#{completion.id}", class: 'col-12 col-form-label' %>
         <div class="col-12">
           <%= text_area_tag 'completion[notice]', completion.notice,
-            id: "completion_notice_#{completion.id}", class: 'form-control', rows: 5 %>
+                id: "completion_notice_#{completion.id}", class: 'form-control', rows: 5 %>
         </div>
       </div>
       <div class="row mb-2">

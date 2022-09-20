@@ -19,6 +19,10 @@ class Completion < ApplicationRecord
   after_commit :reject_completion, if: -> { status_rejected? && saved_change_to_status? }
   after_commit :set_closed_at, if: -> { status_closed? && saved_change_to_status? }
 
+  def to_s
+    "#{I18n.l(created_at, format: :no_seconds)} (#{human_enum_name(:status)})"
+  end
+
   private
 
   def set_closed_at
@@ -38,8 +42,8 @@ class Completion < ApplicationRecord
   end
 
   def reject_completion
-    issue.update(status: prev_issue_status) if reject_with_satus_reset
-    CompletionMailer.rejection(completion: self, to: completion.email).deliver_now
-    update(email: nil, rejected_at: Time.current)
+    issue.update(status: prev_issue_status) if reject_with_status_reset
+    CompletionMailer.rejection(completion: self, to: author).deliver_now
+    update(author: nil, rejected_at: Time.current)
   end
 end

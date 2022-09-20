@@ -68,7 +68,7 @@ Rails.application.routes.draw do
       post  'comments/:service_request_id' => 'comments#create', as: :comments
 
       put 'completions/:confirmation_hash/confirm' => 'completions#confirm'
-      post  'completions/:service_request_id' => 'completions#create', as: :completions
+      post 'completions/:service_request_id' => 'completions#create', as: :completions
 
       put 'photos/:confirmation_hash/confirm' => 'photos#confirm'
       post 'photos/:service_request_id' => 'photos#create', as: :photos

@@ -34,7 +34,9 @@ module Citysdk
       end
 
       def confirm
-        completion = Citysdk::Completion.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
+        completion = Citysdk::Completion.unscoped.find_by(
+          confirmation_hash: params[:confirmation_hash], confirmed_at: nil
+        )
         raise ActiveRecord::RecordNotFound if completion.blank?
         completion = completion.becomes(::Completion)
         completion.update! confirmed_at: Time.current
