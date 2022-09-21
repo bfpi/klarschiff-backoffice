@@ -481,6 +481,27 @@ Sample Response:
 </comments>
 ```
 
+### Create new completion for service request
+<code>POST http://[API endpoint]/requests/completions/[service_request_id].[format]</code>
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| service_request_id | X | Integer | Issue ID |
+| author | X | String | Author email |
+| privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
+
+Sample Response:
+
+```xml
+<completions>
+  <completion>
+    <id>completion.id</id>
+  </completion>
+</completions>
+```
+
 ### Get notes list for service request
 <code>GET http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
 
