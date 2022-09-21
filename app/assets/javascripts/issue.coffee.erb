@@ -131,4 +131,4 @@ $ ->
 
   $(document).on 'click', '#rejection-link', (e) ->
     e.preventDefault()
-    $('#completion-rejection').toggleClass('d-none')
+    $($(@).data('target')).toggleClass('d-none')

@@ -10,11 +10,12 @@
           <%= link_to tag.i('', class: 'fa fa-check'), completion_path(completion, completion: { status: 'closed' }),
                 method: :put, remote: true, title: t('close_completion'), class: 'btn btn-sm btn-outline-primary' %>
           <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('reject_completion'),
-                id: 'rejection-link', class: 'btn btn-sm btn-outline-primary' %>
+                id: 'rejection-link', class: 'btn btn-sm btn-outline-primary',
+                data: { target: "#completion-rejection-#{completion.id}" } %>
         </div>
       </div>
     <% end -%>
-    <div id="completion-rejection" class="d-none">
+    <div id="completion-rejection-<%= completion.id %>" class="d-none">
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <%= hidden_field_tag 'completion[status]', 'rejected' %>
       <div class="row mb-2">

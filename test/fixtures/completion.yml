@@ -1,13 +1,33 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  issue: one
-  author: MyText
-  status: 1
-  confirmation_hash: MyText
+DEFAULTS: &DEFAULTS
+  issue: $LABEL
+  author: $LABEL@example.de
+  status: open
+  prev_issue_status:
+  confirmation_hash:
+  created_at: <%= 2.days.ago %>
 
-two:
-  issue: two
-  author: MyText
-  status: 1
-  confirmation_hash: MyText
+one:
+  <<: *DEFAULTS
+  confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db2
+
+confirmed:
+  <<: *DEFAULTS
+  issue: three
+  prev_issue_status: <%= Issue.statuses['reviewed'] %>
+  confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db3
+  confirmed_at: <%= Time.current %>
+
+closed: &closed
+  <<: *DEFAULTS
+  prev_issue_status: <%= Issue.statuses['reviewed'] %>
+  status: closed
+  confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db5
+  confirmed_at: <%= 1.day.ago %>
+  closed_at: <%= Time.current %>
+
+unconfirmed:
+  <<: *DEFAULTS
+  issue: closed
+  confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db9
