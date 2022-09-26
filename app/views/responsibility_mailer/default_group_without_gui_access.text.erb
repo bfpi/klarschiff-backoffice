@@ -1,17 +1,13 @@
-Guten Tag,
+<%= t :salutation_universal %>
 
-in <%= Settings::Instance.name %> wurde eine Meldung in Ihrem Zuständigkeitsbereich erfasst. Sie können die unten stehenden Links nutzen, um einen neuen Zustand für die Meldenden zu dokumentieren.
-
-Daten der zugewiesenen Meldung
+<%= t('.message', name: Settings::Instance.name) %>
 ***
 <%= render partial: 'issue', object: @issue -%>
 
-Links für Zustandsänderungen:
+<%= t('.link_status_changes') %>
 
 <% %i[in_process closed not_solvable duplicate].each do |status| %>
   <%= t "enums.issue.status.#{status}" %>: <%= set_issue_status_url auth_code: @auth_code.uuid, status: %>
 <% end -%>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

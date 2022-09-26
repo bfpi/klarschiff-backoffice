@@ -3,7 +3,7 @@
     <div class="modal-content">
       <%= form_tag(assign_jobs_path, method: :post, remote: true, id: 'job-assignment-form') do %>
         <div class="modal-header">
-          <h1>Außendienst-Team zuweisen</h1>
+          <h1><%= t('.assign_job') %></h1>
         </div>
         <div class="modal-body">
           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>

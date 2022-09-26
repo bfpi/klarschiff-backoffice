@@ -1,7 +1,6 @@
-Folgende Meldungen mit dem Status „<%= Issue.human_enum_name :status, :received %>“ sind seit mindestens <%= days %> Tag(en) zugewiesen.
-Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten die Meldung weiter. Falls Sie die Zuständigkeit akzeptieren, so führen Sie bitte außerdem die (Erst-)Sichtung durch, falls diese noch nicht erfolgt ist:
+<%= t('.message', status: (Issue.human_enum_name :status, :received), days: days) %>
 
-Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Typ<%= "\t" %>zugewiesen seit
+<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) %><%= "\t" %><%= t'attributes.kind' %><%= "\t" %><%= t'.assigned_since' %>
 ******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>***************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),

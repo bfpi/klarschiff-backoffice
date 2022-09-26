@@ -1,7 +1,7 @@
-Folgende Meldungen haben zwar ihre (Erst-)Sichtung bereits hinter sich, allerdings wurden Beschreibung und/oder Foto bisher noch nicht redaktionell freigegeben.
+<%= t '.message' %>
 <%= t '.hint', status: Issue.human_enum_name(:description_status, :external) %>
 
-Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Status<%= "\t" %>Freigabestatus Beschreibung<%= "\t" %>Freigabestatus Foto
+<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) %><%= "\t" %><%= t'attributes.kind' %><%= "\t" %><%= t'attributes.status' %><%= "\t" %><%= t'.description_status' %><%= "\t" %><%= t'.photo_approval_status' %>
 ******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>******<%= "\t" %>***************************<%= "\t" %>*******************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),

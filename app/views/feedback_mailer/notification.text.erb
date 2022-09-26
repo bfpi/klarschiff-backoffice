@@ -1,9 +1,5 @@
-Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+<%= t :salutation_editor, name: Settings::Instance.name %>,
 
-zu Meldung #<%= @issue.id %> wurde ein(e) Lob/Hinweis/Kritik erfasst.
+<%= t('.message', issue_id: @issue.id, link: @link) %>
 
-Link: <%= @link %>
-
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

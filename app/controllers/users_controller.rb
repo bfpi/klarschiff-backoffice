@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def update_password
     check_auth :change_password
     @user = Current.user
-    @success = 'Ihr Passwort wurde erfolgreich geändert.' if @user.update(user_params(password_only: true))
+    @success = t :update_password_success if @user.update(user_params(password_only: true))
     render :change_password
   end
 

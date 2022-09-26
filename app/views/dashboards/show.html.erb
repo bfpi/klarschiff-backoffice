@@ -5,7 +5,7 @@
     <div class="card">
       <div class="card-header" id="latest-issues">
         <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-latest-issues" aria-expanded="true" aria-controls="collapse-latest-issues">
-          Neueste Meldungen
+          <%= t('.latest_issues') %>
         </a>
       </div>
       <div id="collapse-latest-issues" class="collapse show" aria-labelledby="latest-issues">
@@ -19,7 +19,7 @@
     <div class="card">
       <div class="card-header" id="own-issues">
         <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-own-issues" aria-expanded="true" aria-controls="collapse-own-issues">
-          Aktivitäten an eigenen Meldungen
+          <%= t('.activities_own_issues') %>
         </a>
       </div>
       <div id="collapse-own-issues" class="collapse show" aria-labelledby="own-issues">
@@ -34,7 +34,7 @@
       <div class="card">
         <div class="card-header" id="former-issues">
           <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-former-issues" aria-expanded="true" aria-controls="collapse-former-issues">
-            Ehemalige Meldungen
+            <%= t('.former_issues') %>
           </a>
         </div>
         <div id="collapse-former-issues" class="collapse show" aria-labelledby="former-issues">
@@ -110,8 +110,8 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  <%= image_tag 'icons/list/png/blank-red-22px.png', title: 'offen' %>
-                  und (erst-)gesichtet und seit 3 Tagen zugewiesen, aber
+                  <%= image_tag 'icons/list/png/blank-red-22px.png', title: t('.open') %>
+                  <%= t('.sighted_and_assigned_since') %>
                   <i class="fa fa-times-circle-o text-warning"
                      title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
                      aria-hidden="true"></i>
@@ -132,7 +132,7 @@
                 <b>
                   <%= image_tag 'icons/list/png/blank-yellow-22px.png',
                         title: Issue.human_enum_name(:status, :in_process) %>
-                  und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
+                  <%= t('.unchanged_without_status_info') %>
                 </b>
               </div>
               <div class="col-12">
@@ -148,8 +148,8 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  <%= image_tag 'icons/list/png/idea-red-22px.png', title: 'offene Ideen' %>
-                  mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung
+                  <%= image_tag 'icons/list/png/idea-red-22px.png', title: t('.open_ideas') %>
+                  <%= t('.sighted_without_support') %>
                 </b>
               </div>
               <div class="col-12">
@@ -165,10 +165,7 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  zwar schon mindestens
-                  <%= image_tag 'icons/list/png/blank-yellow-22px.png',
-                        title: Issue.human_enum_name(:status, :in_process) %>
-                  , aber
+                  <%= raw t('.at_least_status_but', status: (image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process))) %>
                   <i class="fa fa-times-circle-o text-warning"
                      title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
                      aria-hidden="true"></i>
@@ -187,7 +184,7 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  Beschreibung nicht freigegeben für
+                  <%= t('.description_not_aproved_for') %>
                   <i class="fa fa-globe"
                      title="<%= Issue.human_enum_name(:description_status, :external) %>"
                      aria-hidden="true"></i>
@@ -206,7 +203,7 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  Foto(s) vorhanden, aber (alle) nicht freigegeben für
+                  <%= t('.photos_existing_but_not_aproved_for') %>
                   <i class="fa fa-globe"
                      title="<%= Issue.human_enum_name(:description_status, :external) %>"
                      aria-hidden="true"></i>

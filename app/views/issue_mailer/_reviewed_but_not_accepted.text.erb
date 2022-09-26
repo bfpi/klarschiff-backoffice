@@ -1,7 +1,6 @@
-Folgende Meldungen weisen zwar nicht mehr den Status „<%= Issue.human_enum_name :status, :received %>“ auf, wurden bisher aber dennoch nicht akzeptiert.
-Bitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten die Meldungen weiter:
+<%= t'.message', status: (Issue.human_enum_name :status, :received) %>
 
-Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Typ<%= "\t" %>Status<%= "\t" %>nicht akzeptiert seit
+<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) %><%= "\t" %><%= t'attributes.kind' %><%= "\t" %><%= t'attributes.status' %><%= "\t" %><%= t'.not_accepted_since' %>
 ******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>******<%= "\t" %>*********************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),

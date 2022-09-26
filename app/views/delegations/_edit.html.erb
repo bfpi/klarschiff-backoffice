@@ -7,8 +7,8 @@
         <h1><%= Issue.model_name.human %> <%= t 'edit' %></h1>
         <div class="col text-end">
           <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
-                delegation_export_path(@issue),
-                target: :_blank, id: :issue_export, title: 'PDF mit Daten der Meldung erzeugen', rel: :noopener %>
+                issue_issue_exports_path(@issue),
+                target: :_blank, id: :issue_export, title: t(:create_pdf_with_issue_data), rel: :noopener %>
         </div>
         <div id="print-map" class="print-map"
           data-lat="<%= @issue.position&.y %>"
