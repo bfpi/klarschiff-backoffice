@@ -306,7 +306,6 @@ de:
   confirmation_mailer:
     abuse_report:
       message: "um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
-    # /app/views/confirmation_mailer/completation.text.erb:1
     completion:
       confirm_final_report: 'um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}'
     issue:
@@ -593,7 +592,6 @@ de:
       sort_jobs: Aufträge nach Erstellung aufsteigend sortieren
     index: 
       show: Anzeigen
-      # /app/jobs/import_issue_images_job.rb:31
       message_not_found: "Meldung #%{issue_id} konnte zu '%{file_name}' nicht gefunden werden."
   layouts:
     confirmation_mailer:
@@ -622,7 +620,7 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
-  rejection_notice: 'Meldung #%{number} wurde bereits geschlossen.'
+  rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibility_mailer:
     default_group_without_gui_access:
       message: "in %{name} wurde eine Meldung in Ihrem Zuständigkeitsbereich erfasst. Sie können die unten stehenden Links nutzen, um einen neuen Zustand für die Meldenden zu dokumentieren."
