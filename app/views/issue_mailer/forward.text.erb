@@ -1,12 +1,12 @@
-Sehr geehrte Damen und Herren,
+<%= t :salutation_universal %>
 
-die folgende Meldung wurde durch die/den <%= Settings::Instance.name %>-Nutzer/-in <%= Current.user %> an Sie weitergeleitet:
+<%= t('.message', name: Settings::Instance.name, user: Current.user) %>
 
-Anmerkungen der/des Absenderin/Absenders
+<%= t('.annotation') %>
 ***
 <%= @issue_email.text %>
 
-Daten der weitergeleiteten Meldung
+<%= t('.data') %>
 ***
 <%= Issue.human_attribute_name(:id) %>: <%= @issue_email.issue.id %>
 <%= Issue.human_attribute_name(:created_at) %>: <%= l(@issue_email.issue.created_at, format: :elaborate) %>
@@ -15,11 +15,11 @@ Daten der weitergeleiteten Meldung
 <%= Category.human_attribute_name(:sub_category) %>: <%= @issue_email.issue.sub_category %>
 <%= Issue.human_attribute_name(:status) %>: <%= Issue.human_enum_name(:status, @issue_email.issue.status) %>
 <% if @issue_email.issue.status_note.present? -%>
-öffentliche Statusinformation: <%= @issue_email.issue.status_note %>
+<%= Issue.human_attribute_name(:status_information) -%>: <%= @issue_email.issue.status_note %>
 <% end -%>
 <% if @issue_email.issue.description.present? -%>
 <%= Issue.human_attribute_name(:description) %>: <%= truncate(@issue_email.issue.description, length: 1000) %>
-Freigabestatus der Beschreibung: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
+<%= Issue.human_attribute_name(:description_status) -%>: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
 <% end -%>
 <% if @issue_email.issue.address.present? -%>
 <%= Issue.human_attribute_name(:address) %>: <%= @issue_email.issue.address %>
@@ -33,21 +33,21 @@ Freigabestatus der Beschreibung: <%= Issue.human_enum_name(:description_status, 
 <%= Issue.human_attribute_name(:group) %>: <%= "#{@issue_email.issue.group.name} (#{
   @issue_email.issue.responsibility_accepted ? 'akzeptiert' : 'zugewiesen'})" %>
 <% if @issue_email.issue.delegation.present? -%>
-Delegation: <%= @issue_email.issue.delegation.name %>
+<%= Issue.human_attribute_name(:delegation) -%>: <%= @issue_email.issue.delegation.name %>
 <% end -%>
 <%= Issue.human_attribute_name(:updated_at) %>: <%= l(@issue_email.issue.updated_at, format: :elaborate) %>
 
 <% if @issue_email.send_map? -%>
-Karte
+<%= t :city_view %>
 ***
-Aufruf in <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url % @issue_email.issue.id %>
+<%= t('.open_in') %> <%= Settings::Instance.name %>: <%= Settings::Instance.frontend_issue_url % @issue_email.issue.id %>
 <% if Settings::Geoportal.enabled -%>
-Aufruf in <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.issue) %>
+<%= t('.open_in') %> <%= Settings::Geoportal.name %>: <%= external_map_url(@issue_email.issue) %>
 <% end -%>
 <% end -%>
 
 <% if @issue_email.send_comments? -%>
-interne Kommentare
+<%= t('activemodel.attributes.issue_email.send_comments') %>
 ***
 <% @issue_email.issue.comments.each do |comment| -%>
 - <%= comment.to_s skip_seconds: true %> -
@@ -56,7 +56,7 @@ interne Kommentare
 <% end -%>
 
 <% if @issue_email.send_feedbacks? -%>
-Lob, Hinweise oder Kritik von Bürger/-innen
+<%= Issue.human_attribute_name(:feedback) %>
 ***
 <% @issue_email.issue.feedbacks.each do |feedback| -%>
 - <%= feedback.author %> <%= l(feedback.created_at, format: :no_seconds) %> -
@@ -64,6 +64,4 @@ Lob, Hinweise oder Kritik von Bürger/-innen
 <% end -%>
 <% end -%>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

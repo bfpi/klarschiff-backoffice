@@ -9,19 +9,19 @@
         <% unless @issue.new_record? -%>
           <div class="col text-end">
             <%= link_to tag.i(class: 'fa fa-envelope btn btn-outline-secondary'),
-                  new_issue_issue_email_path(@issue), remote: true, title: 'Daten der Meldung als E-Mail versenden' %>
+                  new_issue_issue_email_path(@issue), remote: true, title: t('.send_as_email') %>
             <%= link_to tag.i(class: 'fa fa-share btn btn-outline-secondary'),
                   issue_issue_email_path(@issue),
-                  id: :issue_email_direct, title: 'Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden' %>
+                  id: :issue_email_direct, title: t('.send_email_from_own_client') %>
             <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
-                  issue_export_path(@issue),
-                  target: :_blank, id: :issue_export, title: 'PDF mit Daten der Meldung erzeugen', rel: :noopener %>
+                  issue_exports_path(@issue),
+                  target: :_blank, id: :issue_export, title: t(:create_pdf_with_issue_data), rel: :noopener %>
             <% if authorized?(:resend_responsibility, @issue) -%>
               <%= link_to tag.i(class: 'fa fa-paper-plane btn btn-primary'),
                     issue_resend_responsibility_path(@issue),
                     remote: true,
-                    title: 'Erneuter Versand der E-Mail an Standardzuständigkeit',
-                    data: { confirm: 'Soll die E-Mail wirklich erneut versendet werden?' } %>
+                    title: t('.send_email_again'),
+                    data: { confirm: t('.confirm_send_email_again') } %>
             <% end -%>
           </div>
           <div id="print-map" class="print-map"

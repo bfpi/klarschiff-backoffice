@@ -1,7 +1,6 @@
-Folgende Meldungen mit dem Status „<%= Issue.human_enum_name :status, :in_process %>“ sind seit mindestens <%= days %> Tag(en) unverändert.
-Bitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation oder schließen Sie die Meldung ab, falls dies bislang einfach vergessen wurde:
+<%= t'.message', status: (Issue.human_enum_name :status, :in_process), days: days %>
 
-Nummer<%= "\t" %>Zuständigkeit<%= "\t" %>Typ<%= "\t" %>unverändert seit
+<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) %><%= "\t" %><%= t'attributes.kind' %><%= "\t" %><%= t'.uncanged_since' %>
 ******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>****************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),

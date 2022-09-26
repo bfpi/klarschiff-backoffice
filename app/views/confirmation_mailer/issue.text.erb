@@ -1,12 +1,6 @@
-um Ihre Meldung<%= ' und Ihr Foto' if @with_photo %> zu bestätigen, rufen Sie bitte folgende URL auf:
-
-<%= @confirmation_url %>
+<%= t('.confirm_issue', with_photo: ('und Ihr Foto' if @with_photo), confirmation_url: @confirmation_url) %>
 
 <% content_for :deletion_deadline, (JobSettings::Issue.deletion_deadline_days * 24).to_s -%>
 <% content_for :additional_infos do -%>
-Mit Ihrer Bestätigung erklären Sie sich damit einverstanden, dass wir die von Ihnen im Rahmen der Meldung selbständig gemachten Angaben zur Beschreibung sowie insbesondere das Foto redaktionell bearbeiten dürfen.
-
-Meldung ansehen: <%= @issue_url %>
-
-Meldung löschen: <%= @delete_url %>
+<%= t('.message', issue_url: @issue_url, delete_url: @delete_url) %>
 <% end -%>

@@ -4,11 +4,11 @@
     <div class="col-12">
       <%= link_to delegations_path(filter: { status: 0 }),
             class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
-        <%= image_tag icon('yellow'), class: 'status_icon' %> offene Meldungen
+        <%= image_tag icon('yellow'), class: 'status_icon' %> <%= t(:open_issues) %>
       <% end -%>
       <%= link_to delegations_path(filter: { status: 1 }),
             class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
-        <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> abgeschlossene Meldungen
+        <%= image_tag icon('yellowgreen'), class: 'status_icon' %> <%= image_tag icon('green'), class: 'status_icon' %> <%= t(:finished_issues) %>
       <% end -%>
     </div>
   </div>

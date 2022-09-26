@@ -1,6 +1,6 @@
-Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+<%= t :salutation_editor, name: Settings::Instance.name %>
 
-innerhalb der letzten <%= JobSettings::Issue.delegation_deadline_days * 24 %> Stunden wurden Meldungen an Sie delegiert. Bitte bearbeiten Sie diese Meldungen:
+<%= t('.message', delegation_deadline: JobSettings::Issue.delegation_deadline_days * 24) %>
 
 <% @issues.each do |issue| -%>
 <% auth_code = @auth_codes.find { |ac| ac.issue_id == issue.id }.uuid if @auth_codes.present? -%>
@@ -9,6 +9,4 @@ innerhalb der letzten <%= JobSettings::Issue.delegation_deadline_days * 24 %> St
 ***
 <% end -%>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

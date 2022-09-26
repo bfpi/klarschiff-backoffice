@@ -4,18 +4,18 @@
           class: "btn btn-sm btn-outline-primary#{' disabled' if @status.zero?}" do %>
       <%= image_tag icon('red'), class: 'status_icon' %>
       <%= image_tag icon('yellow'), class: 'status_icon' %>
-      offene Meldungen
+      <%= t(:open_issues) %>
     <% end -%>
     <%= link_to issues_path(filter: { status: 1 }),
           class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 1}" do %>
       <%= image_tag icon('red', kind: 'idea'), class: 'status_icon' %>
       <%= image_tag icon('yellow', kind: 'idea'), class: 'status_icon' %>
-      offene Ideen ohne ausreichende Unterstützung
+      <%= t(:open_ideas_not_enough_support) %>
     <% end -%>
     <%= link_to issues_path(filter: { status: 2 }),
           class: "btn btn-sm btn-outline-primary#{' disabled' if @status == 2}" do %>
       <%= image_tag icon('green'), class: 'status_icon' %> <%= image_tag icon('yellowgreen'), class: 'status_icon' %>
-      abgeschlossene Meldungen
+      <%= t(:finished_issues) %>
     <% end -%>
   </div>
 </div>
