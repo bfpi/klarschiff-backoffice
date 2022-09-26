@@ -165,7 +165,9 @@
             <div class="row">
               <div class="col-12">
                 <b>
-                  <%= raw t('.at_least_status_but', status: (image_tag 'icons/list/png/blank-yellow-22px.png', title: Issue.human_enum_name(:status, :in_process))) %>
+                  <%= sanitize t('.at_least_status_but',
+                        status: (image_tag 'icons/list/png/blank-yellow-22px.png',
+                          title: Issue.human_enum_name(:status, :in_process))) %>
                   <i class="fa fa-times-circle-o text-warning"
                      title="<%= Issue.human_attribute_name(:responsibility_not_accepted) %>"
                      aria-hidden="true"></i>

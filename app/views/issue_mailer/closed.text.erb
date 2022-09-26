@@ -1,6 +1,7 @@
 <%= t :salutation_user, name: Settings::Instance.name %>
 
-<%= t('.message', issue_id: @issue.id, issue_created_at: l(@issue.created_at, format: :elaborate), status: (status_with_optional_status_note @issue)) %>
+<%= t('.message', issue_id: @issue.id, issue_created_at: l(@issue.created_at, format: :elaborate),
+      status: (status_with_optional_status_note @issue)) %>
 
 <%= render partial: 'issue', object: @issue %>
 

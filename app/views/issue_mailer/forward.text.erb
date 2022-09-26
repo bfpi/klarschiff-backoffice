@@ -18,8 +18,9 @@
 <%= Issue.human_attribute_name(:status_information) -%>: <%= @issue_email.issue.status_note %>
 <% end -%>
 <% if @issue_email.issue.description.present? -%>
-<%= Issue.human_attribute_name(:description) %>: <%= truncate(@issue_email.issue.description, length: 1000) %>
-<%= Issue.human_attribute_name(:description_status) -%>: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
+<%= Issue.human_attribute_name(:description) -%>: <%= truncate(@issue_email.issue.description, length: 1000) %>
+<%= Issue.human_attribute_name(:description_status) -%>
+: <%= Issue.human_enum_name(:description_status, @issue_email.issue.description_status) %>
 <% end -%>
 <% if @issue_email.issue.address.present? -%>
 <%= Issue.human_attribute_name(:address) %>: <%= @issue_email.issue.address %>

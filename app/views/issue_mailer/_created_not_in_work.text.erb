@@ -1,6 +1,7 @@
-<%= t'.message', days: days, status: (Issue.human_enum_name :status, :in_process) %>
+<%= t '.message', days:, status: (Issue.human_enum_name :status, :in_process) %>
 
-<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) %><%= "\t" %><%= t'attributes.kind' %><%= "\t" %><%= t'.create_time' %>
+<%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
+<%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t '.create_time' %>
 ******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>********************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
