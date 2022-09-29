@@ -32,7 +32,9 @@ de:
         main_category: Hauptkategorie
         sub_category: Unterkategorie
       completion:
-        notice: Hinweis
+        closed_at: Quittierungszeitpunkt
+        notice: Hinweisnachricht an den Abschlussmelder
+        rejected_at: Verwerfungszeitpunkt
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
@@ -261,10 +263,14 @@ de:
     user: Benutzer
   back: Zurück
   city_view: Karte
-  close_completion: Meldung quittieren
+  close_completion: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
+  completions:
+    show:
+      keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
+      reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
   confirm_changes_html:
     Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
   contact: Kontakt
@@ -309,11 +315,6 @@ de:
       unsolvable_without_status_note: nicht lösbar, aber ohne öffentlichen Statuskommentar
       without_editorial_approval: nicht mehr offen, aber ohne redaktionelle Freigaben
   enums:
-    completion:
-      status:
-        open: offen
-        closed: quittiert
-        rejected: verworfen
     group:
       kind:
         internal: intern
@@ -332,7 +333,7 @@ de:
         low: niedrig
         middle: mittel
         high: hoch
-      status:
+      status: &issue_status
         closed: gelöst
         deleted: gelöscht
         duplicate: Duplikat
@@ -346,6 +347,13 @@ de:
         internal: intern
         external: extern
         field_service_team: Außendienst
+    completion:
+      status:
+        open: offen
+        closed: quittiert
+        rejected: verworfen
+      prev_issue_status:
+        <<: *issue_status
     job:
       status:
         checked: abgehakt
@@ -484,7 +492,7 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
-  reject_completion: Meldung verwerfen
+  reject_completion: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
   rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:

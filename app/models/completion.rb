@@ -7,7 +7,10 @@ class Completion < ApplicationRecord
 
   attr_accessor :reject_with_status_reset
 
+  self.omit_field_log += %w[prev_issue_status author]
+
   enum status: { open: 0, closed: 1, rejected: 2 }, _prefix: true
+  enum prev_issue_status: Issue.statuses, _prefix: true
 
   belongs_to :issue
 
@@ -21,8 +24,10 @@ class Completion < ApplicationRecord
   after_commit :reject_completion, if: -> { status_rejected? && saved_change_to_status? }
   after_commit :set_closed_at_and_remove_author, if: -> { status_closed? && saved_change_to_status? }
 
-  def to_s
-    "#{I18n.l(created_at, format: :no_seconds)} (#{human_enum_name(:status)})"
+  def to_s(show_created_at: false)
+    str = ["##{id}"]
+    str << I18n.l(created_at, format: :no_seconds) if show_created_at
+    "#{str.join(' ')} (#{human_enum_name(:status)})"
   end
 
   private
@@ -51,6 +56,7 @@ class Completion < ApplicationRecord
   end
 
   def reject_completion
+    logger.info "TESTING #{reject_with_status_reset}"
     issue.update(status: prev_issue_status) if reject_with_status_reset
     CompletionMailer.rejection(completion: self, to: author).deliver_later
     update(author: nil, rejected_at: Time.current)
