@@ -5,7 +5,8 @@ module ArelTable
 
   private
 
-  ActiveRecord::Base.connection.tables.each do |table|
+  Dir['app/models/**/*.rb'].each do |table|
+    table.sub!('app/models/', '').sub!('.rb', '').tr!('/', '_')
     define_method "#{table}_arel_table" do
       table.camelize.constantize.arel_table
     end
