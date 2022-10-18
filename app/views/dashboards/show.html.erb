@@ -81,7 +81,7 @@
   <% if @open_completion_issues.count.positive? -%>
     <div class="row">
       <div class="col">
-        <div class="card bg-info">
+        <div class="card bg-info text-white">
           <div class="card-header">
             <b><%= @open_completion_issues.count %></b> <%= t '.completions', count: @open_completion_issues.count %>
           </div>
