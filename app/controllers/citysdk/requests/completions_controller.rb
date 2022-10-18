@@ -24,9 +24,10 @@ module Citysdk
       # :apidoc: </completions>
       # :apidoc: ```
       def create
-        citysdk_completion = Citysdk::Completion.new(status: :open)
+        citysdk_completion = Citysdk::Completion.new
         citysdk_completion.assign_attributes(params.permit(:service_request_id, :author, :privacy_policy_accepted))
         completion = citysdk_completion.becomes_if_valid!(::Completion)
+        completion.status = :open
         completion.save!
 
         citysdk_response citysdk_completion, root: :completions, element_name: :completion,

@@ -58,11 +58,11 @@ class Issue
       end
 
       def open_abuse_reports
-        joins(:abuse_reports).where(abuse_reports: { resolved_at: nil }).order(id: :asc)
+        joins(:abuse_reports).where(abuse_reports: { resolved_at: nil }).order(:id)
       end
 
       def open_completions
-        joins(:completions).where(completions: { status: 'open' }).order(id: :asc)
+        joins(:completions).merge(Completion.status_open).order(:id)
       end
 
       private

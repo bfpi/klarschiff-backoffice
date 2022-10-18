@@ -17,10 +17,10 @@ class DashboardsController < ApplicationController
     @latest_issues = latest_issues
     @own_issues = own_issues
     @former_issues = former_issues(Current.user.groups)
-    @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved
-    @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved
-    @open_abuse_report_issues = Issue.authorized.open_abuse_reports
-    @open_completion_issues = Issue.authorized.open_completions
+    @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved.uniq
+    @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved.uniq
+    @open_abuse_report_issues = Issue.authorized.open_abuse_reports.uniq
+    @open_completion_issues = Issue.authorized.open_completions.uniq
   end
 
   def calculate_issues_counts

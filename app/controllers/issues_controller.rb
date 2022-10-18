@@ -83,10 +83,11 @@ class IssuesController < ApplicationController
   end
 
   def issue_tabs
-    tabs = %i[master_data responsibility]
-    tabs << :job if Current.user.authorized?(:jobs)
-    tabs << :feedback if @issue.feedbacks.any?
-    tabs + %i[comment abuse_report completion map photo log_entry]
+    tabs = %i[master_data responsibility job feedback comment abuse_report completion map photo log_entry]
+    tabs -= [:job] unless Current.user.authorized?(:jobs)
+    tabs -= [:feedback] if @issue.feedbacks.blank?
+    tabs -= [:completion] if @issue.completions.blank?
+    tabs
   end
 
   def feedbacks(issue)

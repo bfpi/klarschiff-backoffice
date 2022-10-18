@@ -14,7 +14,7 @@ class Completion < ApplicationRecord
 
   belongs_to :issue
 
-  scope :confirmed, -> { where.not(confirmed_at: nil) }
+  default_scope -> { where.not(confirmed_at: nil).order(created_at: :desc) }
 
   validates :notice, presence: true, if: :status_rejected?
   validates :author, presence: true, on: :create
@@ -44,19 +44,18 @@ class Completion < ApplicationRecord
   end
 
   def open_completion
-    issue.completions.where.not(id:).confirmed.status_open.first
+    issue.completions.where.not(id:).status_open.first
   end
 
   def issue_closed?
-    issue.status_closed? && issue.completions.exists?(status: 'closed')
+    issue.status_closed? && issue.completions.exists?(status: :closed)
   end
 
   def reject_with_notice
-    update(status: 'rejected', notice: I18n.t('rejection_notice', number: issue.id))
+    update(status: :rejected, notice: I18n.t('rejection_notice', number: issue.id))
   end
 
   def reject_completion
-    logger.info "TESTING #{reject_with_status_reset}"
     issue.update(status: prev_issue_status) if reject_with_status_reset
     CompletionMailer.rejection(completion: self, to: author).deliver_later
     update(author: nil, rejected_at: Time.current)

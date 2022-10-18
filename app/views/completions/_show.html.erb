@@ -1,10 +1,8 @@
-<div class="card-header">
+<div class="card-header <%= 'bg-info text-white' if completion.status_open? %>">
   <%= completion.to_s(show_created_at: true) %>
 </div>
 <% if !completion.status_closed? -%>
   <div class="card-body">
-    <div id="completion-<%= completion.id %>-errors">
-    </div>
     <%= completion.notice %>
     <% if completion.status_open? -%>
       <div class="row mb-2">
@@ -20,6 +18,7 @@
     <div id="completion-rejection-<%= completion.id %>" class="d-none">
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <%= hidden_field_tag 'completion[status]', 'rejected' %>
+      <div id="completion-<%= completion.id %>-errors"></div>
       <div class="row mb-2">
         <div class="col-12">
           <div class="form-check form-check-inline">
@@ -47,9 +46,7 @@
         </div>
       </div>
       <div class="row mb-2">
-        <div class="col">
-          Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet.
-        </div>
+        <div class="col"><%= t '.notice' %></div>
       </div>
       <div class="row">
         <div class="col">

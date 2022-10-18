@@ -1,5 +1,5 @@
 <% @issue.completions.each do |completion| -%>
-  <div class="card mt-2 <%= 'bg-info' if completion.status_open? %>" id="<%= dom_id(completion) %>">
+  <div class="card mt-2 <%= 'border-info' if completion.status_open? %>" id="<%= dom_id(completion) %>">
     <%= render partial: 'completions/show', locals: { completion: } %>
   </div>
 <% end -%>
