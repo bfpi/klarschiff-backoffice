@@ -103,7 +103,6 @@ $ ->
   $(document).on 'click', '.card .btn-update', (e) ->
     e.preventDefault()
     link = $(e.target).parents('.card').find('.btn-update')
-    console.log($(e.target), link)
     $.ajax
       url: link.attr('href')
       type: 'PUT'
