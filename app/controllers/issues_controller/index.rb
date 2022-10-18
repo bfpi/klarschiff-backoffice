@@ -18,11 +18,6 @@ class IssuesController
 
     private
 
-    def base_collection
-      Issue.authorized.includes(:abuse_reports, :group, :delegation, category: %i[main_category sub_category])
-        .order(order_attr)
-    end
-
     def html_response
       return map_response if params[:show_map] == 'true'
       @edit_issue_url = edit_issue_url(Current.user.auth_code.issue_id) if params[:auth_code]
@@ -44,7 +39,6 @@ class IssuesController
       @extended_filter = params[:extended_filter] == 'true'
       @filter = filter_params.presence || { statuses: (1..6).to_a }
       @status = (params.fetch(:filter, {})[:status] || 0).to_i
-      return base_collection if Current.user.auth_code
       IssueFilter.new(@extended_filter, order_attr, @filter).collection
     end
 

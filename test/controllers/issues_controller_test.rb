@@ -11,6 +11,26 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  sort_dirs = %i[asc desc]
+  %i[id created_at category status address supporter group updated_at last_editor priority].each do |column|
+    sort_dirs.each do |dir|
+      test "should sort by #{column} #{dir} as auth_code user" do
+        get "/issues?auth_code=#{auth_code(:one).uuid}"
+        assert_response :success
+        get "/issues?order_by[column]=#{column}&order_by[dir]=#{dir}"
+        assert_response :success
+      end
+
+      TEST_ROLES.each do |role|
+        test "should sort by #{column} #{dir} as #{role}" do
+          login username: role
+          get "/issues?order_by[column]=#{column}&order_by[dir]=#{dir}"
+          assert_response :success
+        end
+      end
+    end
+  end
+
   test 'accept responsibility' do
     login username: :admin
     issue = issue(:received_not_accepted)
