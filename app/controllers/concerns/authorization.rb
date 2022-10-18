@@ -36,7 +36,7 @@ module Authorization
   end
 
   def authenticate_user(login)
-    if (Current.user = User.active.find_by(user_arel_table[:login].matches(login)))
+    if (Current.user = User.active.find_by(user_arel_table[:login].lower.eq(login.downcase)))
       logger_current_user login
     else
       redirect_to new_logins_path
