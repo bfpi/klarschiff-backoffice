@@ -1,5 +1,3 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 DEFAULTS: &DEFAULTS
   issue: $LABEL
   author: $LABEL@example.de
@@ -15,13 +13,13 @@ one:
 confirmed:
   <<: *DEFAULTS
   issue: three
-  prev_issue_status: <%= Issue.statuses['reviewed'] %>
+  prev_issue_status: reviewed
   confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db3
   confirmed_at: <%= Time.current %>
 
-closed: &closed
+closed:
   <<: *DEFAULTS
-  prev_issue_status: <%= Issue.statuses['reviewed'] %>
+  prev_issue_status: reviewed
   status: closed
   confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db5
   confirmed_at: <%= 1.day.ago %>
