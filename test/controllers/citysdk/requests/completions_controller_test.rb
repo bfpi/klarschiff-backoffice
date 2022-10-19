@@ -9,8 +9,11 @@ class CompletionsControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
-  test 'create' do
-    post "/citysdk/requests/completions/#{issue(:one).id}.xml", params: { author: 'test3@example.com' }
+  test 'successfully created' do
+    assert_difference 'Completion.unscoped.count', 1 do
+      post "/citysdk/requests/completions/#{issue(:one).id}.xml", params: { author: 'test3@example.com' }
+    end
+    assert_response :success
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/completions/completion/id').count
   end
@@ -22,8 +25,9 @@ class CompletionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'confirm' do
+  test 'successfully confirmed' do
     put "/citysdk/requests/completions/#{completion(:one).confirmation_hash}/confirm.xml"
+    assert_response :success
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/service_requests/request/service_request_id').count
   end

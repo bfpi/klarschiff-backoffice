@@ -33,4 +33,16 @@ class CompletionTest < ActiveSupport::TestCase
     assert_predicate completion.reload, :status_rejected?
     assert_predicate issue.reload, :status_closed?
   end
+
+  test 'validate author as email' do
+    completion = Completion.new
+    assert_not completion.valid?
+    assert_equal [{ error: :blank }], completion.errors.details[:author]
+    completion.author = 'abc'
+    assert_not completion.valid?
+    assert_equal [{ error: :email, value: 'abc' }], completion.errors.details[:author]
+    completion.author = 'abc@example.com'
+    completion.valid?
+    assert_empty completion.errors.details[:author]
+  end
 end
