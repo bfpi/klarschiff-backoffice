@@ -89,6 +89,9 @@ Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/20210824111006_add_service_name_to_active_storage_blobs.active_storage.rb'
 
+Rails/ToSWithArgument:
+  Enabled: false
+
 Rails/UniqBeforePluck:
   EnforcedStyle: aggressive
 

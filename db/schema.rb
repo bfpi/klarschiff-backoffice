@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_15_052442) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_10_19_101303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -21,10 +20,10 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "message"
     t.text "author"
     t.text "confirmation_hash"
-    t.datetime "confirmed_at"
-    t.datetime "resolved_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "resolved_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_abuse_report_on_issue_id"
   end
 
@@ -33,7 +32,7 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -44,8 +43,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -60,8 +59,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.uuid "uuid"
     t.bigint "issue_id", null: false
     t.bigint "group_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_auth_code_on_group_id"
     t.index ["issue_id"], name: "index_auth_code_on_issue_id"
   end
@@ -71,15 +70,15 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "name"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.bigint "county_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["county_id"], name: "index_authority_on_county_id"
   end
 
   create_table "category", force: :cascade do |t|
     t.integer "average_turnaround_time", default: 14, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "main_category_id"
     t.bigint "sub_category_id"
     t.index ["main_category_id", "sub_category_id"], name: "index_category_on_main_category_id_and_sub_category_id", unique: true
@@ -91,8 +90,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.bigint "issue_id", null: false
     t.text "message"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "auth_code_id"
     t.index ["auth_code_id"], name: "index_comment_on_auth_code_id"
@@ -119,15 +118,15 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "regional_key"
     t.text "name"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "district", force: :cascade do |t|
     t.text "name"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "regional_key"
     t.bigint "authority_id", default: 1, null: false
     t.index ["authority_id"], name: "index_district_on_authority_id"
@@ -143,9 +142,9 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.bigint "user_id", null: false
     t.integer "level"
     t.integer "repetition"
-    t.datetime "notified_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "notified_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_editorial_notification_on_user_id"
   end
 
@@ -154,8 +153,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "message"
     t.text "author"
     t.text "recipient"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_feedback_on_issue_id"
   end
 
@@ -169,8 +168,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "table"
     t.bigint "subject_id"
     t.text "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["table", "subject_id"], name: "index_full_text_content_on_table_and_subject_id", unique: true
   end
 
@@ -181,8 +180,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "email"
     t.integer "main_user_id"
     t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "type"
     t.integer "reference_id"
     t.boolean "reference_default", default: false, null: false
@@ -199,18 +198,18 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "name"
     t.text "instance_url"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "issue", force: :cascade do |t|
     t.geometry "position", limit: {:srid=>4326, :type=>"st_point"}
     t.text "address"
-    t.datetime "archived_at"
+    t.datetime "archived_at", precision: nil
     t.text "author"
     t.text "description"
     t.integer "description_status", default: 0, null: false
-    t.datetime "reviewed_at"
+    t.datetime "reviewed_at", precision: nil
     t.text "confirmation_hash"
     t.integer "priority", default: 1, null: false
     t.integer "status"
@@ -222,15 +221,14 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.integer "trust_level"
     t.date "expected_closure"
     t.boolean "responsibility_accepted", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "delegation_id"
     t.bigint "group_id"
     t.bigint "job_id"
     t.bigint "updated_by_user_id"
     t.bigint "updated_by_auth_code_id"
-    t.datetime "last_notification"
-    t.datetime "group_responsibility_notified_at"
+    t.datetime "group_responsibility_notified_at", precision: nil
     t.index ["archived_at"], name: "index_issue_on_archived_at"
     t.index ["category_id"], name: "index_issue_on_category_id"
     t.index ["delegation_id"], name: "index_issue_on_delegation_id"
@@ -248,8 +246,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.integer "status"
     t.integer "order"
     t.date "date"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_job_on_group_id"
   end
 
@@ -262,8 +260,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "action"
     t.text "old_value"
     t.text "new_value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "auth_code_id"
     t.bigint "old_value_id"
@@ -280,24 +278,24 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "pattern"
     t.text "source"
     t.text "reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "main_category", force: :cascade do |t|
     t.integer "kind"
     t.text "name"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "observation", force: :cascade do |t|
     t.text "key"
     t.text "category_ids"
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "photo", force: :cascade do |t|
@@ -305,18 +303,18 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.bigint "issue_id", null: false
     t.integer "status"
     t.text "confirmation_hash"
-    t.datetime "confirmed_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_photo_on_issue_id"
   end
 
   create_table "responsibility", force: :cascade do |t|
     t.bigint "category_id", null: false
     t.bigint "group_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.index ["category_id"], name: "index_responsibility_on_category_id"
     t.index ["group_id"], name: "index_responsibility_on_group_id"
   end
@@ -325,16 +323,16 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.text "name"
     t.text "dms"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "supporter", force: :cascade do |t|
     t.bigint "issue_id", null: false
     t.text "confirmation_hash"
-    t.datetime "confirmed_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_supporter_on_issue_id"
   end
 
@@ -348,11 +346,10 @@ ActiveRecord::Schema.define(version: 2022_09_15_052442) do
     t.boolean "group_feedback_recipient", default: false, null: false
     t.integer "role", default: 2, null: false
     t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.json "password_history"
-    t.datetime "password_updated_at"
-    t.boolean "notification_recipient", default: false, null: false
+    t.datetime "password_updated_at", precision: nil
     t.boolean "group_responsibility_recipient", default: false, null: false
   end
 

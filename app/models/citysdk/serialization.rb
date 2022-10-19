@@ -37,5 +37,10 @@ module Citysdk
         hsh[:methods] = serializable_methods(options) if respond_to? :serializable_methods, true
       end
     end
+
+    # https://github.com/rails/rails/pull/44770 -> we need the serialization method from ActiveModel
+    def attribute_names_for_serialization
+      attributes.keys
+    end
   end
 end

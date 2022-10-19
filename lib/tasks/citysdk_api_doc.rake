@@ -20,7 +20,7 @@ namespace :citysdk do
     API
     input_files.each { |f| api += extract_documentation(f) }
     api[-1] = "#{api.last}\n"
-    File.write Rails.root.join('CitySDK_API.md'), api.join("\n")
+    Rails.root.join('CitySDK_API.md').write(api.join("\n"))
   end
 end
 

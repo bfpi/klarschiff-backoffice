@@ -29,6 +29,6 @@ class PhotoTest < ActiveSupport::TestCase
   private
 
   def test_file
-    Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/test.jpg'), 'image/jpg')
+    Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/test.jpg'), 'image/jpeg')
   end
 end
