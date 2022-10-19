@@ -14,9 +14,19 @@ class LoginsControllerTest < ActionDispatch::IntegrationTest
 
   %w[abc01 abc_1].each do |login|
     test "login with username #{login} returns correct user" do
-      post logins_url params: { login: { login:, password: 'Bfpi' } }
-      assert_redirected_to root_url
-      assert_equal login, session[:user_login]
+      User.stub :active, User.active.order(:login) do
+        post logins_url params: { login: { login:, password: 'Bfpi' } }
+        assert_redirected_to root_url
+        assert_equal login, session[:user_login]
+      end
+    end
+
+    test "login with email for user #{login} returns correct user" do
+      User.stub :active, User.active.order(:email) do
+        post logins_url params: { login: { login: user(login).email, password: 'Bfpi' } }
+        assert_redirected_to root_url
+        assert_equal login, session[:user_login]
+      end
     end
   end
 end
