@@ -9,8 +9,8 @@
         <div class="row mb-2">
           <div class="col">
             <%= link_to tag.i('', class: 'fa fa-check'), completion_path(completion, completion: { status: 'closed' }),
-                  method: :put, remote: true, title: t('close_completion'), class: 'btn btn-sm btn-outline-primary' %>
-            <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('reject_completion'),
+                  method: :put, remote: true, title: t('.close'), class: 'btn btn-sm btn-outline-primary' %>
+            <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('.reject'),
                   id: 'rejection-link', class: 'btn btn-sm btn-outline-primary',
                   data: { target: "#completion-rejection-#{completion.id}" } %>
           </div>

@@ -263,14 +263,15 @@ de:
     user: Benutzer
   back: Zurück
   city_view: Karte
-  close_completion: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   completions:
     completion:
+      close: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
       keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
+      reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
       reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
   confirm_changes_html:
     Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
@@ -493,7 +494,6 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
-  reject_completion: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
   rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:
