@@ -520,6 +520,12 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
+  tests:
+    index:
+      delete_unconfirmed_completions_job:
+        name: DeleteUnconfirmedCompletionsJob
+        description: "Alle Abschlussmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:45 Uhr."
+      execute: Ausführen
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"

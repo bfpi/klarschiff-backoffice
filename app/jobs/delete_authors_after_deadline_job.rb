@@ -21,10 +21,7 @@ class DeleteAuthorsAfterDeadlineJob < ApplicationJob
   # rubocop:enable Rails/SkipsModelValidations
 
   def deletion_conds(time)
-    iat[:author].not_eq(JobSettings::Issue.author_deletion_replacement).and(iat[:archived_at].lt(time))
-  end
-
-  def iat
-    Issue.arel_table
+    issue_arel_table[:author].not_eq(JobSettings::Issue.author_deletion_replacement)
+      .and(issue_arel_table[:archived_at].lt(time))
   end
 end

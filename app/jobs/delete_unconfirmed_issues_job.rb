@@ -8,10 +8,6 @@ class DeleteUnconfirmedIssuesJob < ApplicationJob
   private
 
   def unconfirmed_issues(time)
-    Issue.where(iat[:status].eq('pending').and(iat[:created_at].lt(time)))
-  end
-
-  def iat
-    Issue.arel_table
+    Issue.where(issue_arel_table[:status].eq('pending').and(issue_arel_table[:created_at].lt(time)))
   end
 end
