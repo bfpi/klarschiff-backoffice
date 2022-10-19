@@ -116,7 +116,7 @@ module Authorization
   def current_user
     Current.email = params[:email].presence
     return if !trust_email_for_user_identification? || Current.email.blank?
-    Current.user = User.active.find_by(user_arel_table[:email].matches(params[:email]))
+    Current.user = User.active.find_by(user_arel_table[:email].lower.eq(params[:email].downcase))
   end
 
   def current_citysdk_client(skip_raise: false)

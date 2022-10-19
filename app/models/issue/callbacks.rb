@@ -77,7 +77,7 @@ class Issue
     end
 
     def calculate_trust_level
-      return 0 if (user = User.find_by(User.arel_table[:email].matches(author))).blank?
+      return 0 if (user = User.find_by(user_arel_table[:email].lower.eq(author.downcase))).blank?
       return 2 if user.groups.any?(&:kind_field_service_team?)
       1
     end

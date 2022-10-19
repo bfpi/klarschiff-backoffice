@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationRecord < ActiveRecord::Base
+  include ArelTable
+
   self.abstract_class = true
 
   before_validation :strip_input_fields
