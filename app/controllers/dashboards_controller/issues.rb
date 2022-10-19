@@ -6,8 +6,16 @@ class DashboardsController
 
     private
 
+    def base_issues
+      Issue.authorized
+    end
+
+    def not_archived_base_issues
+      base_issues.not_archived
+    end
+
     def latest_issues
-      Issue.authorized.includes({ category: :main_category }).not_archived
+      base_issues.includes({ category: :main_category }).not_archived
         .where(status: %w[received reviewed in_process not_solvable closed])
         .order(issue_arel_table[:priority].desc, issue_arel_table[:updated_at].desc, issue_arel_table[:id].desc)
         .limit(10)
@@ -19,7 +27,7 @@ class DashboardsController
     end
 
     def own_issues_with_log_entries
-      Issue.authorized.not_archived.includes(category: :main_category).joins(:all_log_entries).where(
+      not_archived_base_issues.includes(category: :main_category).joins(:all_log_entries).where(
         status: %w[received reviewed in_process not_solvable closed],
         log_entry: { attr: [nil] + %w[address status description kind] }
       ).where(log_entry_arel_table[:created_at].gteq(Date.current - 7.days))
@@ -49,7 +57,7 @@ class DashboardsController
     end
 
     def in_process_not_accepted
-      Issue.authorized.not_archived.where(status: %w[in_process not_solvable duplicate closed])
+      not_archived_base_issues.where(status: %w[in_process not_solvable duplicate closed])
         .where(responsibility_accepted: false).order(id: :asc)
     end
 
@@ -60,8 +68,8 @@ class DashboardsController
     end
 
     def open_issues
-      Issue.authorized.includes(includes).references(includes).left_joins(:supporters).group(group_by)
-        .not_archived.status_open
+      not_archived_base_issues.includes(includes).references(includes).left_joins(:supporters).group(group_by)
+        .status_open
     end
 
     def includes
@@ -77,13 +85,13 @@ class DashboardsController
     end
 
     def in_process(date)
-      Issue.authorized.not_archived.status_in_process.where(
+      not_archived_base_issues.status_in_process.where(
         issue_arel_table[:status_note].eq(nil).and(issue_arel_table[:created_at].lteq(date))
       ).order(id: :asc)
     end
 
     def open_not_accepted(date)
-      Issue.authorized.not_archived.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
+      not_archived_base_issues.status_open.where(responsibility_accepted: false).where.not(group_id: nil)
         .where(id: responsibility_entries(date)).order(id: :asc)
     end
 

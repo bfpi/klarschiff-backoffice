@@ -13,20 +13,20 @@ class DashboardsController < ApplicationController
 
   private
 
-  def collect_issues
+  def collect_issues(groups = Current.user.groups)
     @latest_issues = latest_issues
     @own_issues = own_issues
-    @former_issues = former_issues(Current.user.groups)
-    @description_not_approved_issues = Issue.authorized.not_archived.description_not_approved.uniq
-    @photos_not_approved_issues = Issue.authorized.not_archived.photos_not_approved.uniq
-    @open_abuse_report_issues = Issue.authorized.open_abuse_reports.uniq
-    @open_completion_issues = Issue.authorized.open_completions.uniq
+    @former_issues = former_issues(groups)
+    @description_not_approved_issues = not_archived_base_issues.description_not_approved.uniq
+    @photos_not_approved_issues = not_archived_base_issues.photos_not_approved.uniq
+    @open_abuse_report_issues = base_issues.open_abuse_reports.uniq
+    @open_completion_issues = base_issues.open_completions.uniq
   end
 
   def calculate_issues_counts
-    base = Issue.not_archived.authorized
-    @issues_count = { open: base.status_open.not_status_in_process.count, in_process: base.status_in_process.count,
-                      closed: base.status_closed.count }
+    @issues_count = { open: not_archived_base_issues.status_open.not_status_in_process.count,
+                      in_process: not_archived_base_issues.status_in_process.count,
+                      closed: not_archived_base_issues.status_closed.count }
   end
 
   def collect_notices

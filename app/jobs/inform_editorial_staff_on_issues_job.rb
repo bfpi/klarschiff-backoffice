@@ -12,7 +12,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
       find_issues(time, notification.level, notification.user.group_ids)
       next if @issues.blank?
       IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_now
-      notification.touch :notified_at
+      notification.touch :notified_at # rubocop:disable Rails/SkipsModelValidations
     end
   end
 

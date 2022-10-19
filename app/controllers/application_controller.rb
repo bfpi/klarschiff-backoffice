@@ -21,12 +21,12 @@ class ApplicationController < ActionController::Base
 
   def respond_with_unprocessable_entity(error_or_record)
     @record = if error_or_record.is_a?(ApplicationRecord)
-               error_or_record
-             elsif error_or_record.respond_to?(:record)
-               error_or_record.record
-             else
-               raise "Unknown object given for response: #{error_or_record.inspect}"
-             end
+                error_or_record
+              elsif error_or_record.respond_to?(:record)
+                error_or_record.record
+              else
+                raise "Unknown object given for response: #{error_or_record.inspect}"
+              end
     Rails.logger.info "Returned error messages: #{@record.errors.full_messages}\nfor object: #{@record.inspect}"
     render :error, status: :unprocessable_entity
   end
