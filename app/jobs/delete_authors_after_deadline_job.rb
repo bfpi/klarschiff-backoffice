@@ -2,29 +2,24 @@
 
 class DeleteAuthorsAfterDeadlineJob < ApplicationJob
   def perform
-    Issue.where(
-      deletion_conds(Time.current - JobSettings::Issue.author_deletion_deadline_days.days)
-    ).find_each do |issue|
+    Issue.where(deletion_conds(JobSettings::Issue.author_deletion_deadline_days.days.ago)).find_each do |issue|
       remove_author(issue)
     end
   end
 
   private
 
-  # rubocop:disable Rails/SkipsModelValidations
   def remove_author(issue)
     issue.update(author: JobSettings::Issue.author_deletion_replacement)
+    # rubocop:disable Rails/SkipsModelValidations
     issue.abuse_reports.update_all(author: JobSettings::Issue.author_deletion_replacement)
     issue.photos.update_all(author: JobSettings::Issue.author_deletion_replacement)
     issue.feedbacks.update_all(author: JobSettings::Issue.author_deletion_replacement)
+    # rubocop:enable Rails/SkipsModelValidations
   end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def deletion_conds(time)
-    iat[:author].not_eq(JobSettings::Issue.author_deletion_replacement).and(iat[:archived_at].lt(time))
-  end
-
-  def iat
-    Issue.arel_table
+    issue_arel_table[:author].not_eq(JobSettings::Issue.author_deletion_replacement)
+      .and(issue_arel_table[:archived_at].lt(time))
   end
 end

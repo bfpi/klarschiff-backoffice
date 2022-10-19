@@ -10,6 +10,7 @@ class AbuseReportsController < ApplicationController
   def update
     @abuse_report = AbuseReport.find(params[:id])
     @abuse_report.update(resolved_at: Time.current)
+    @issue = @abuse_report.issue.reload
   end
 
   private

@@ -22,4 +22,8 @@ class ConfirmationMailerPreview < ActionMailer::Preview
   def photo
     ConfirmationMailer.photo(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
   end
+
+  def completion
+    ConfirmationMailer.completion(to: 'test@bfpi.de', issue_id: 99_999_999, confirmation_hash: 'sdff-12sd-d43f')
+  end
 end

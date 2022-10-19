@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="<%= dom_id(issue, :head) %>">
   <div class="col-auto">
     <%= image_tag issue.list_icon, class: "status-icon #{issue.status}",
           title: kind_and_status_tooltip(issue) %>

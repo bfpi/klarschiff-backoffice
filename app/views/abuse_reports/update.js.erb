@@ -1,3 +1,3 @@
-
+$('#<%= dom_id(@issue, :head) %>').replaceWith('<%= j render partial: 'issues/head', locals: { issue: @issue } %>')
 $('#<%= dom_id(@abuse_report) %>').html('<%= j render partial: 'show', locals: { abuse_report: @abuse_report } %>')
 $('#<%= dom_id(@abuse_report) %>').removeClass('border-warning')

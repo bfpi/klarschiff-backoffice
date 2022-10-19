@@ -9,6 +9,7 @@ class TestsController < ApplicationController
     CalculateAverageTurnaroundTimeJob
     DeleteAuthorsAfterDeadlineJob
     DeleteUnconfirmedAbuseReportsJob
+    DeleteUnconfirmedCompletionsJob
     DeleteUnconfirmedIssuesJob
     DeleteUnconfirmedPhotosJob
     DeleteUnconfirmedSupportersJob

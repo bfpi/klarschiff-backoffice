@@ -1,0 +1,2 @@
+$('#<%= dom_id(@issue, :head) %>').replaceWith('<%= j render partial: 'issues/head', locals: { issue: @issue } %>')
+$('#<%= dom_id(@completion) %>').replaceWith('<%= j render partial: @completion %>')

@@ -53,6 +53,19 @@
         </li>
         <li class="list-group-item">
           <p>
+            <%= t('.delete_unconfirmed_completions_job.name') %>
+            <span class="text-muted"><small>
+              <%= t('.delete_unconfirmed_completions_job.description') %>
+            </small></span>
+          </p>
+          <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
+            <%= hidden_field_tag :test, :run_job %>
+            <%= hidden_field_tag :job, :DeleteUnconfirmedCompletionsJob %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
+          <% end -%>
+        </li>
+        <li class="list-group-item">
+          <p>
             DeleteUnconfirmedPhotosJob
             <span class="text-muted"><small>
               Alle Photos, die gesendet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.

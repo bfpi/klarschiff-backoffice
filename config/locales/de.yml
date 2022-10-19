@@ -31,6 +31,10 @@ de:
         dms: DMS
         main_category: Hauptkategorie
         sub_category: Unterkategorie
+      completion:
+        closed_at: Quittierungszeitpunkt
+        notice: Hinweisnachricht an den Abschlussmelder
+        rejected_at: Verwerfungszeitpunkt
       editorial_notification:
         level: Stufe
         notified_at: letzte Benachrichtigung
@@ -176,6 +180,9 @@ de:
       comment:
         one: Kommentar
         other: Kommentare
+      completion:
+        one: Abschlussmeldung
+        other: Abschlussmeldungen
       county:
         one: Landkreis/kreisfreie Stadt
         other: Landkreise/kreisfreie Städte
@@ -259,6 +266,13 @@ de:
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
+  completions:
+    completion:
+      close: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
+      keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
+      notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
+      reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
+      reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
   confirm_changes_html:
     Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
   contact: Kontakt
@@ -269,6 +283,9 @@ de:
       abuse_reports:
         one: offene Missbrauchsmeldung
         other: offene Missbrauchsmeldungen
+      completions:
+        one: offene Abschlussmeldung
+        other: offene Abschlussmeldungen
       notices:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
@@ -318,7 +335,7 @@ de:
         low: niedrig
         middle: mittel
         high: hoch
-      status:
+      status: &issue_status
         closed: gelöst
         deleted: gelöscht
         duplicate: Duplikat
@@ -332,6 +349,13 @@ de:
         internal: intern
         external: extern
         field_service_team: Außendienst
+    completion:
+      status:
+        open: offen
+        closed: quittiert
+        rejected: verworfen
+      prev_issue_status:
+        <<: *issue_status
     job:
       status:
         checked: abgehakt
@@ -417,6 +441,7 @@ de:
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: interne Kommentare
+        completion: Abschlussmeldungen
         feedback: Lobe/Hinweise/Kritiken
         job: Außendienstauftrag
         log_entry: Verlauf
@@ -469,6 +494,7 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
+  rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit
@@ -494,6 +520,12 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
+  tests:
+    index:
+      delete_unconfirmed_completions_job:
+        name: DeleteUnconfirmedCompletionsJob
+        description: "Alle Abschlussmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:45 Uhr."
+      execute: Ausführen
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"

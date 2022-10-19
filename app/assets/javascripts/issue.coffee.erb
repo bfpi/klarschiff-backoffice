@@ -33,7 +33,6 @@ $ ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
 
-
   initializeExtendedFilter = ->
     if $('form#issues-filter').length == 1
       KS.initializeFormActions()
@@ -128,3 +127,7 @@ $ ->
   $(document).on 'focusout', '#comment_message', (e) ->
     $('input[type="submit"][name="commit"]').removeClass('disabled')
     $('input[type="submit"][name="save_and_close"]').removeClass('disabled')
+
+  $(document).on 'click', '#rejection-link', (e) ->
+    e.preventDefault()
+    $($(@).data('target')).toggleClass('d-none')

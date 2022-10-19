@@ -2,16 +2,12 @@
 
 class DeleteUnconfirmedIssuesJob < ApplicationJob
   def perform
-    unconfirmed_issues(Time.current - JobSettings::Issue.deletion_deadline_days.days).destroy_all
+    unconfirmed_issues(JobSettings::Issue.deletion_deadline_days.days.ago).destroy_all
   end
 
   private
 
   def unconfirmed_issues(time)
-    Issue.where(iat[:status].eq('pending').and(iat[:created_at].lt(time)))
-  end
-
-  def iat
-    Issue.arel_table
+    Issue.where(issue_arel_table[:status].eq('pending').and(issue_arel_table[:created_at].lt(time)))
   end
 end

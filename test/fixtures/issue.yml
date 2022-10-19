@@ -108,6 +108,10 @@ two:
   category: two
   group: two
 
+three:
+  <<: *DEFAULTS
+  status: closed
+
 already_confirmed:
   <<: *DEFAULTS
   confirmation_hash: ff53da14-fc5f-403b-bda4-ea9b632d8d84

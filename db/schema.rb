@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_20_114233) do
+ActiveRecord::Schema.define(version: 2022_09_15_052442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,21 @@ ActiveRecord::Schema.define(version: 2022_04_20_114233) do
     t.index ["auth_code_id"], name: "index_comment_on_auth_code_id"
     t.index ["issue_id"], name: "index_comment_on_issue_id"
     t.index ["user_id"], name: "index_comment_on_user_id"
+  end
+
+  create_table "completion", force: :cascade do |t|
+    t.bigint "issue_id", null: false
+    t.text "author"
+    t.text "notice"
+    t.integer "status"
+    t.integer "prev_issue_status"
+    t.text "confirmation_hash"
+    t.datetime "confirmed_at"
+    t.datetime "closed_at"
+    t.datetime "rejected_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["issue_id"], name: "index_completion_on_issue_id"
   end
 
   create_table "county", force: :cascade do |t|
@@ -256,7 +271,6 @@ ActiveRecord::Schema.define(version: 2022_04_20_114233) do
     t.index ["attr"], name: "index_log_entry_on_attr"
     t.index ["auth_code_id"], name: "index_log_entry_on_auth_code_id"
     t.index ["issue_id"], name: "index_log_entry_on_issue_id"
-    t.index ["new_value_id"], name: "index_log_entry_on_new_value_id"
     t.index ["table", "subject_id"], name: "index_log_entry_on_table_and_subject_id"
     t.index ["user_id"], name: "index_log_entry_on_user_id"
   end
@@ -351,6 +365,7 @@ ActiveRecord::Schema.define(version: 2022_04_20_114233) do
   add_foreign_key "comment", "\"user\"", column: "user_id"
   add_foreign_key "comment", "auth_code"
   add_foreign_key "comment", "issue"
+  add_foreign_key "completion", "issue"
   add_foreign_key "district", "authority"
   add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
   add_foreign_key "feedback", "issue"

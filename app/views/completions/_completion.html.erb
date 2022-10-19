@@ -1,0 +1,64 @@
+<div class="card mt-2 <%= 'border-info' if completion.status_open? %>" id="<%= dom_id(completion) %>">
+  <div class="card-header <%= 'bg-info text-white' if completion.status_open? %>">
+    <%= completion.to_s(show_created_at: true) %>
+  </div>
+  <% if !completion.status_closed? -%>
+    <div class="card-body">
+      <%= completion.notice %>
+      <% if completion.status_open? -%>
+        <div class="row mb-2">
+          <div class="col">
+            <%= link_to tag.i('', class: 'fa fa-check'), completion_path(completion, completion: { status: 'closed' }),
+                  method: :put, remote: true, title: t('.close'), class: 'btn btn-sm btn-outline-primary' %>
+            <%= link_to tag.i('', class: 'fa fa-times'), '#', title: t('.reject'),
+                  id: 'rejection-link', class: 'btn btn-sm btn-outline-primary',
+                  data: { target: "#completion-rejection-#{completion.id}" } %>
+          </div>
+        </div>
+      <% end -%>
+      <div id="completion-rejection-<%= completion.id %>" class="d-none">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <%= hidden_field_tag 'completion[status]', 'rejected' %>
+        <div id="completion-<%= completion.id %>-errors"></div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <div class="form-check form-check-inline">
+              <%= label_tag :completion_reject_with_status_reset_false, class: 'form-check-label' do %>
+                <%= radio_button_tag 'completion[reject_with_status_reset]', false, true %>
+                <%= t '.keep_status', status: completion.issue.human_enum_name(:status) %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-check form-check-inline">
+              <%= label_tag :completion_reject_with_status_reset_true, class: 'form-check-label' do %>
+                <%= radio_button_tag 'completion[reject_with_status_reset]', true %>
+                <%= t '.reset_status', status: completion.human_enum_name(:prev_issue_status) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <%= label_tag :completion_notice, Completion.human_attribute_name(:notice),
+                for: "completion_notice_#{completion.id}", class: 'col-12 col-form-label' %>
+          <div class="col-12">
+            <%= text_area_tag 'completion[notice]', completion.notice,
+                  id: "completion_notice_#{completion.id}", class: 'form-control', rows: 5 %>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col"><%= t '.notice' %></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="float-right">
+              <%= link_to t('action.save'), completion_path(completion), class: 'btn btn-sm btn-primary btn-update' %>
+              <%= link_to t('action.abort'), '#', id: 'rejection-link', class: 'btn btn-sm btn-secondary',
+                    data: { target: "#completion-rejection-#{completion.id}" } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end -%>
+</div>

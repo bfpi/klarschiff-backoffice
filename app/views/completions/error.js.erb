@@ -1,0 +1,2 @@
+$("#completion-<%= @record.id %>-errors").html('<%= j render(partial: 'errors', locals: { object: @record }) %>')
+$("#completion_notice_<%= @record.id %>").addClass('is-invalid')
