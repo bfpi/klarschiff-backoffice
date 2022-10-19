@@ -2,7 +2,7 @@
 
 class DeleteUnconfirmedPhotosJob < ApplicationJob
   def perform
-    unconfirmed_photos(Time.current - JobSettings::Photo.deletion_deadline_days.days).destroy_all
+    unconfirmed_photos(JobSettings::Photo.deletion_deadline_days.days.ago).destroy_all
   end
 
   private

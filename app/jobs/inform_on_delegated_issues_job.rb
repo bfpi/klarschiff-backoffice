@@ -4,13 +4,10 @@ class InformOnDelegatedIssuesJob < ApplicationJob
   include QueryMethods
 
   def perform
-    time = Time.current
-    delegated_issues(time - JobSettings::Issue.delegation_deadline_days.days)
-      .group_by(&:delegation).each do |delegation, issues|
+    time = JobSettings::Issue.delegation_deadline_days.days.ago
+    delegated_issues(time).group_by(&:delegation).each do |delegation, issues|
       recipients, auth_codes = recipients_and_auth_codes(delegation, issues)
-      IssueMailer.delegation(
-        to: recipients, issues:, auth_codes:
-      ).deliver_now
+      IssueMailer.delegation(to: recipients, issues:, auth_codes:).deliver_now
     end
   end
 
@@ -23,6 +20,6 @@ class InformOnDelegatedIssuesJob < ApplicationJob
   end
 
   def delegated_issues(time)
-    Issue.where(iat[:delegation_id].not_eq(nil)).where(id: latest_attr_change(time, :delegation, :gteq))
+    Issue.where(issue_arel_table[:delegation_id].not_eq(nil)).where(id: latest_attr_change(time, :delegation, :gteq))
   end
 end

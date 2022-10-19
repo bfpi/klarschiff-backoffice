@@ -2,7 +2,7 @@
 
 class DeleteUnconfirmedIssuesJob < ApplicationJob
   def perform
-    unconfirmed_issues(Time.current - JobSettings::Issue.deletion_deadline_days.days).destroy_all
+    unconfirmed_issues(JobSettings::Issue.deletion_deadline_days.days.ago).destroy_all
   end
 
   private

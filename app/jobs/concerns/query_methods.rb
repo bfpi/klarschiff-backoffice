@@ -7,7 +7,8 @@ module QueryMethods
 
   def latest_attr_change(time, attr, comparison = :lt)
     LogEntry.select('DISTINCT ON ("issue_id") "issue_id"').where(
-      leat[:issue_id].not_eq(nil).and(leat[:attr].eq(attr).and(leat[:created_at].send(comparison, time)))
+      log_entry_arel_table[:issue_id].not_eq(nil)
+        .and(log_entry_arel_table[:attr].eq(attr).and(log_entry_arel_table[:created_at].send(comparison, time)))
     ).order(:issue_id, created_at: :desc)
   end
 
@@ -17,15 +18,7 @@ module QueryMethods
   end
 
   def status_conds(time, statuses)
-    leat[:issue_id].not_eq(nil).and(leat[:attr].eq('status')).and(leat[:new_value].in(statuses))
-      .and(leat[:created_at].gteq(time))
-  end
-
-  def iat
-    Issue.arel_table
-  end
-
-  def leat
-    LogEntry.arel_table
+    log_entry_arel_table[:issue_id].not_eq(nil).and(log_entry_arel_table[:attr].eq('status'))
+      .and(log_entry_arel_table[:new_value].in(statuses)).and(log_entry_arel_table[:created_at].gteq(time))
   end
 end

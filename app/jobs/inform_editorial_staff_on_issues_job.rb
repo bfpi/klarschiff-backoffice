@@ -11,8 +11,8 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
       @days = {}
       find_issues(time, notification.level, notification.user.group_ids)
       next if @issues.blank?
-      notification.update(notified_at: Time.current)
       IssueMailer.inform_editorial_staff(to: notification.user_email, issues: @issues, days: @days).deliver_now
+      notification.touch :notified_at
     end
   end
 
@@ -85,7 +85,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
   end
 
   def created_not_in_work(time, group_ids)
-    Issue.not_archived.status_in_process.where(iat[:created_at].lt(time)).where(group_id: group_ids)
+    Issue.not_archived.status_in_process.where(issue_arel_table[:created_at].lt(time)).where(group_id: group_ids)
   end
 
   def unsolvable_without_status_note(group_ids)

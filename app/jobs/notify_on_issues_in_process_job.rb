@@ -4,7 +4,7 @@ class NotifyOnIssuesInProcessJob < ApplicationJob
   include QueryMethods
 
   def perform
-    issues_with_status_changes(Time.current - JobSettings::Issue.status_change_days.days).find_each do |issue|
+    issues_with_status_changes(JobSettings::Issue.status_change_days.days.ago).find_each do |issue|
       IssueMailer.in_process(to: issue.author, issue:).deliver_now
     end
   end

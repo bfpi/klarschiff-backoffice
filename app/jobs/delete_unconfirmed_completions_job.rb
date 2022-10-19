@@ -2,7 +2,7 @@
 
 class DeleteUnconfirmedCompletionsJob < ApplicationJob
   def perform
-    unconfirmed_completions(Time.current - JobSettings::Completion.deletion_deadline_days.days).destroy_all
+    unconfirmed_completions(JobSettings::Completion.deletion_deadline_days.days.ago).destroy_all
   end
 
   private
