@@ -268,7 +268,7 @@ de:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   completions:
-    show:
+    completion:
       keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
       reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
