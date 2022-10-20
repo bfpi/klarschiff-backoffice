@@ -106,11 +106,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_101303) do
     t.integer "status"
     t.integer "prev_issue_status"
     t.text "confirmation_hash"
-    t.datetime "confirmed_at"
-    t.datetime "closed_at"
-    t.datetime "rejected_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "closed_at", precision: nil
+    t.datetime "rejected_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_completion_on_issue_id"
   end
 
@@ -269,6 +269,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_101303) do
     t.index ["attr"], name: "index_log_entry_on_attr"
     t.index ["auth_code_id"], name: "index_log_entry_on_auth_code_id"
     t.index ["issue_id"], name: "index_log_entry_on_issue_id"
+    t.index ["new_value_id"], name: "index_log_entry_on_new_value_id"
     t.index ["table", "subject_id"], name: "index_log_entry_on_table_and_subject_id"
     t.index ["user_id"], name: "index_log_entry_on_user_id"
   end
