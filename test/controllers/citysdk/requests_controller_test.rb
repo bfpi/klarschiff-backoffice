@@ -211,7 +211,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key and photo' do
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
-      media: Base64.encode64(File.read(Rails.root.join('test/fixtures/files/test.jpg')))
+      media: Base64.encode64(Rails.root.join('test/fixtures/files/test.jpg').read)
     )
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')

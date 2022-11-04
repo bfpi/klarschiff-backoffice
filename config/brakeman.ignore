@@ -18,6 +18,9 @@
       },
       "user_input": "Current.user.permitted_group_types",
       "confidence": "Medium",
+      "cwe_id": [
+        470
+      ],
       "note": "User.permitted_group_types is not a model attribute but a defined method in context auf authorization rules. It is save."
     },
     {
@@ -27,7 +30,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/issue.rb",
-      "line": 85,
+      "line": 86,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "self.class.connection.select_value(\"SELECT ST_AsText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833)) AS point\")",
       "render_path": null,
@@ -38,7 +41,33 @@
       },
       "user_input": "position",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": "Value of position comes from database and is aspected to be safe."
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "4499f9a10cd4c273ba7b1232082262a63d1b7480ec55b88501c305ae860a9c0e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/dashboards_controller/issues.rb",
+      "line": 47,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\nINNER JOIN (\\n  SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n    WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n  SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n   WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n   AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n) = 0\\nWHERE \\\"attr\\\" = 'group' AND \\\"new_value_id\\\" IN (#{group_ids.join(\", \")})\\n  AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n    SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids.join(\", \")})))\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DashboardsController",
+        "method": "changed_responsibilities"
+      },
+      "user_input": "I18n.t(true).downcase",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
     },
     {
       "warning_type": "SQL Injection",
@@ -67,7 +96,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/controllers/issues_controller/index.rb",
-      "line": 81,
+      "line": 75,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "Arel.sql(\"CASE\\n          WHEN updated_by_user_id is not null then\\n            (select concat(last_name, ', ', first_name) from \\\"#{user_arel_table.name}\\\" u\\n              where u.id = updated_by_user_id)\\n          WHEN updated_by_auth_code_id is not null then\\n            (select short_name from \\\"#{group_arel_table.name}\\\" g\\n              where g.id in (select group_id from auth_code where id = updated_by_auth_code_id)) END #{dir}\")",
       "render_path": null,
@@ -78,6 +107,9 @@
       },
       "user_input": "user_arel_table.name",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -98,6 +130,9 @@
       },
       "user_input": "Issue.human_enum_name(:status, :in_process)",
       "confidence": "High",
+      "cwe_id": [
+        89
+      ],
       "note": "Won't fix. Value of status is translation of enum and comes from config/locale."
     },
     {
@@ -114,9 +149,12 @@
       "location": null,
       "user_input": null,
       "confidence": "High",
+      "cwe_id": [
+        798
+      ],
       "note": ""
     }
   ],
-  "updated": "2022-08-30 09:53:02 +0200",
-  "brakeman_version": "5.2.3"
+  "updated": "2022-11-04 09:38:45 +0100",
+  "brakeman_version": "5.3.1"
 }

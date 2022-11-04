@@ -35,7 +35,6 @@ module Citysdk
 
       obs = observation.becomes(::Observation)
       obs.save!
-
       citysdk_response observation, element_name: :observation, status: :created
     end
   end
