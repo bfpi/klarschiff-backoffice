@@ -70,6 +70,24 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert extended_attributes.blank?
   end
 
+  test 'index with extensions and area_code for authorities with api-key frontend' do
+    with_parent_instance_settings do
+      get "/citysdk/requests.xml?extensions=true&area_code=#{authority(:one).id}&api_key=#{api_key_frontend}"
+      doc = Nokogiri::XML(response.parsed_body)
+      requests = doc.xpath('/service_requests/request')
+      assert requests.count.positive?
+    end
+  end
+
+  test 'index with extensions and area_code for idistricts with api-key frontend' do
+    with_parent_instance_settings(url: 'http://www.example.com') do
+      get "/citysdk/requests.xml?extensions=true&area_code=#{district(:one).id}&api_key=#{api_key_frontend}"
+      doc = Nokogiri::XML(response.parsed_body)
+      requests = doc.xpath('/service_requests/request')
+      assert requests.count.positive?
+    end
+  end
+
   test 'index with extensions with api-key ppc' do
     get "/citysdk/requests.xml?extensions=true&api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
