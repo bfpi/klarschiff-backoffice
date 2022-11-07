@@ -66,7 +66,7 @@ module Citysdk
                  return Citysdk::District
                end
       end
-      Settings.main_instance? ? Citysdk::Authority : Citysdk::District
+      Settings.area
     end
 
     def order_response(response)

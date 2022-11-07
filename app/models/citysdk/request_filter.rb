@@ -104,10 +104,9 @@ module Citysdk
     end
 
     def filter_area_code(params)
-      area_model = Settings.main_instance? ? Authority : District
       @collection = @collection.where(<<~SQL.squish)
         ST_Within(#{Issue.quoted_table_name}."position",
-          (#{area_model.where(id: params[:area_code].to_i).select(:area).to_sql}))
+          (#{area.where(id: params[:area_code].to_i).select(:area).to_sql}))
       SQL
     end
 

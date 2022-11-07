@@ -58,6 +58,13 @@ module ActiveSupport
       assert object.valid?
     end
 
+    def with_parent_instance_settings(url: nil, &block)
+      old = Settings::Instance.parent_instance_url
+      Settings::Instance.redefine_singleton_method(:parent_instance_url) { url }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:parent_instance_url) { old }
+    end
+
     def with_privacy_settings(active: false, &block)
       old = Settings::Instance.validate_privacy_policy
       Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { active }

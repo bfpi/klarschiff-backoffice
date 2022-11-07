@@ -18,6 +18,10 @@ class Settings
       Instance.parent_instance_url.blank?
     end
 
+    def area
+      main_instance? ? Citysdk::Authority : Citysdk::District
+    end
+
     def required_password_characters
       %i[number lowercase capital special_character]
         .select { |c| Password.send(:"include_#{c}") }
