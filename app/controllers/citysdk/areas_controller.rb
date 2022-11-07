@@ -66,7 +66,7 @@ module Citysdk
                  return Citysdk::District
                end
       end
-      Settings.area
+      Settings.area_level
     end
 
     def order_response(response)

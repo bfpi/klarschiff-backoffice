@@ -24,6 +24,24 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
     assert areas.count.positive?
   end
 
+  test 'index with default area-level' do
+    with_parent_instance_settings do
+      get '/citysdk/areas.xml', params: { with_districts: true }
+      doc = Nokogiri::XML(response.parsed_body)
+      areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'Authority' }
+      assert areas.count.positive?
+    end
+  end
+
+  test 'index with parent_instance area-level' do
+    with_parent_instance_settings(url: 'http://www.example.com') do
+      get '/citysdk/areas.xml', params: { with_districts: true }
+      doc = Nokogiri::XML(response.parsed_body)
+      areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'District' }
+      assert areas.count.positive?
+    end
+  end
+
   test 'index with invalid search_class' do
     get '/citysdk/areas.xml', params: { search_class: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)

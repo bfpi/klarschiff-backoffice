@@ -18,7 +18,7 @@ class Settings
       Instance.parent_instance_url.blank?
     end
 
-    def area
+    def area_level
       main_instance? ? Citysdk::Authority : Citysdk::District
     end
 
