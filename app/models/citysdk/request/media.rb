@@ -23,7 +23,7 @@ module Citysdk
 
       def resized_url(file)
         [config[:media_base_url], Rails.application.routes.url_helpers.rails_representation_url(
-          file.variant(resize: '360x'), only_path: true
+          file.variant(resize_to_limit: [360, 360]), only_path: true
         )].join
       end
     end
