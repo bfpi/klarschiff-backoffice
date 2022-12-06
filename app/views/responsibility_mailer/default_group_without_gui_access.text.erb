@@ -1,12 +1,12 @@
-Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+Guten Tag,
 
-es wurde eine Meldung an Sie zugewiesen. Klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
+in <%= Settings::Instance.name %> wurde eine Meldung in Ihrem Zuständigkeitsbereich erfasst. Sie können die unten stehenden Links nutzen, um einen neuen Zustand für die Meldenden zu dokumentieren.
 
 Daten der zugewiesenen Meldung
 ***
 <%= render partial: 'issue', object: @issue -%>
 
-Links zu Statusänderungen:
+Links für Zustandsänderungen:
 
 <% %i[in_process closed not_solvable duplicate].each do |status| %>
   <%= t "enums.issue.status.#{status}" %>: <%= set_issue_status_url auth_code: @auth_code.uuid, status: %>
