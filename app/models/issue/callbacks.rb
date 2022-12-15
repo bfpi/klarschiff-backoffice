@@ -33,7 +33,10 @@ class Issue
       validates :status_note, length: { maximum: Settings::Issue.status_note_max_length }
       validates :status_note, presence: true, if: :expected_closure_changed?
       validates :status_note, presence: true, on: :update,
-        if: -> { status_changed? && status.to_i > Issue.statuses[:reviewed] }
+        if: lambda {
+              status_changed? && !default_group_without_gui_access? &&
+                Issue.statuses[status] > Issue.statuses[:reviewed]
+            }
     end
 
     private

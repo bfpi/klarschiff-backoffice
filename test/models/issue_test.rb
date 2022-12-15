@@ -144,4 +144,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_nil value
     assert_not_empty value
   end
+
+  test 'ensure status not changed without status_note' do
+    issue = issue(:reviewed)
+    issue.update status: :not_solvable, status_note: ''
+    assert_not issue.valid?
+    assert_equal [{ error: :blank }], issue.errors.details[:status_note]
+  end
+
+  test 'ensure status can be changed without status_note with auth_code without gui' do
+    issue = issue(:reviewed)
+    issue.stub :default_group_without_gui_access?, true do
+      issue.update status: :not_solvable, status_note: ''
+      assert issue.valid?
+    end
+  end
 end
