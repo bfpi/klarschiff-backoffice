@@ -16,4 +16,8 @@ module ArelTable
       end
     end
   end
+
+  def case_insensitive_comparision(attr, value)
+    user_arel_table[attr].lower.eq(value.downcase)
+  end
 end

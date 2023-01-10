@@ -53,7 +53,7 @@ class Feedback < ApplicationRecord
 
   def notify_feedback_mailer_params(email)
     params = { to: email, issue: }
-    params[:auth_code] = auth_code(email) if User.find_by(user_arel_table[:email].lower.eq(email.downcase)).blank?
+    params[:auth_code] = auth_code(email) if User.find_by(case_insensitive_comparision(:email, email)).blank?
     params
   end
 

@@ -18,7 +18,7 @@ module Citysdk
     end
 
     def author=(value)
-      self.user = User.active.find_by(user_arel_table[:email].lower.eq(value.downcase))
+      self.user = User.active.find_by(case_insensitive_comparision(:email, value))
     end
   end
 end
