@@ -12,6 +12,14 @@ class CompletionTest < ActiveSupport::TestCase
     assert_predicate issue, :status_closed?
   end
 
+  test 'confirming rejected completion withoud closing issue' do
+    completion = completion(:rejected)
+    completion.update(confirmed_at: Time.current)
+    assert_not completion.valid?
+    assert_equal [{ error: :blank }], completion.errors.details[:notice]
+    assert_not_predicate completion, :status_closed?
+  end
+
   test 'rejection restores old issue status and triggers mailer' do
     completion = completion(:confirmed)
     assert_predicate completion, :status_open?
