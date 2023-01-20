@@ -71,7 +71,7 @@ $ ->
     e.preventDefault()
     href = $('#issue_export').attr('href')
 
-    window.setTimeout (->
+    KS.Map.on 'rendercomplete', (e) ->
       canvas = document.getElementsByTagName('canvas').item(0)
       img = canvas.toDataURL('image/png')
 
@@ -90,7 +90,6 @@ $ ->
 
       $('#map').html('')
       KS.initializeMaps(true)
-    ), 1000
 
   $(document).on 'click', '.card .btn-create', (e) ->
     e.preventDefault()

@@ -122,10 +122,6 @@ KS.initializeMaps = (with_wms = true) ->
         KS.setFeatureCoordinatesToInput(e.features.getArray()[0])
       KS.Map.addInteraction(interaction)
 
-    setTimeout (->
-      KS.Map.updateSize()
-    ), 500
-
     addControls = (map, controller) ->
       map.on 'click', (e) ->
         return unless controller?
