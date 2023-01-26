@@ -28,6 +28,7 @@ received:
   created_at: <%= Time.current - 1.day - 2.hours %>
   reviewed_at:
   status: received
+  status_note:
   updated_by_user:
 
 received_not_accepted:

@@ -36,7 +36,8 @@ class Issue
         if: lambda {
               status_changed? && !default_group_without_gui_access? &&
                 Issue.statuses[status] > Issue.statuses[:reviewed]
-            }
+            },
+        unless: -> { status_closed? && completions.status_open.exists? }
     end
 
     private
