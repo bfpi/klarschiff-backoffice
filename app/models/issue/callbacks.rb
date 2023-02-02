@@ -35,7 +35,7 @@ class Issue
       validates :status_note, presence: true, on: :update,
         if: lambda {
               status_changed? && !default_group_without_gui_access? &&
-                Issue.statuses[status] > Issue.statuses[:reviewed]
+                Issue.statuses[status].between?(Issue.statuses[:not_solvable], Issue.statuses[:duplicate])
             },
         unless: -> { status_closed? && completions.status_open.exists? }
     end
