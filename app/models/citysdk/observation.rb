@@ -12,7 +12,7 @@ module Citysdk
 
     def area_code=(value)
       self.area = Instance.current.first.area and return if value.to_i == -1
-      self.area = cast_areas_to_cartesian_multipolygon(Authority.where(id: ids_from(value)).pluck(:area))
+      self.area = cast_areas_to_cartesian_multipolygon(Settings.area_level.where(id: ids_from(value)).pluck(:area))
     end
 
     def geometry=(value)
