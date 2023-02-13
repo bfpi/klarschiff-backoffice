@@ -9,14 +9,23 @@ class IssuesController
       check_auth(:issues)
       @success = session.delete(:success)
       respond_to do |format|
-        format.json { render json: results.to_json }
-        format.js { @issues = paginate(results) }
+        format.json { json_response }
+        format.js { js_response }
         format.html { html_response }
         format.xlsx { xlsx_response }
+        format.xml { xml_response }
       end
     end
 
     private
+
+    def json_response
+      render json: results.to_json
+    end
+
+    def js_response
+      @issues = paginate(results)
+    end
 
     def html_response
       return map_response if params[:show_map] == 'true'
@@ -33,6 +42,10 @@ class IssuesController
     def xlsx_response
       @issues = results
       xlsx_export
+    end
+
+    def xml_response
+      @issues = results
     end
 
     def results

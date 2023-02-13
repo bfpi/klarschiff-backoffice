@@ -419,6 +419,11 @@ de:
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
         redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus „%{status}“:
   issues:
+    index:
+      feed_description: "Diese Daten umfassen alle Ihre Meldungen in %{name}."
+      link: "Meldung in %{name} ansehen"
+      no_supporters: bisher keine
+      status_note_not_available: nicht vorhanden
     issues_buttons:
       assign_jobs: Zuordnung für Außendienst
       map: Kartenansicht
