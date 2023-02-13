@@ -15,6 +15,10 @@ class EditorialNotificationsController < ApplicationController
     @editorial_notification = EditorialNotification.new
   end
 
+  def edit
+    @editorial_notification = EditorialNotification.find(params[:id])
+  end
+
   def create
     @editorial_notification = EditorialNotification.new editorial_notification_params
     if @editorial_notification.save
@@ -26,10 +30,6 @@ class EditorialNotificationsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    @editorial_notification = EditorialNotification.find(params[:id])
   end
 
   def update

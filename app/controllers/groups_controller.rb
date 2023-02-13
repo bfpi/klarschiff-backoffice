@@ -14,21 +14,12 @@ class GroupsController < ApplicationController
     end
   end
 
-  def edit
-    @group = Group.authorized.find(params[:id])
-  end
-
   def new
     @group = Current.user.permitted_group_types.first.constantize.new
   end
 
-  def update
+  def edit
     @group = Group.authorized.find(params[:id])
-    if @group.update(group_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      render :edit
-    end
   end
 
   def create
@@ -41,6 +32,15 @@ class GroupsController < ApplicationController
       end
     else
       render :new
+    end
+  end
+
+  def update
+    @group = Group.authorized.find(params[:id])
+    if @group.update(group_params) && params[:save_and_close].present?
+      redirect_to action: :index
+    else
+      render :edit
     end
   end
 

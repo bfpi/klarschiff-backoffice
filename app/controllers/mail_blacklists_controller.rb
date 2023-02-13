@@ -14,21 +14,12 @@ class MailBlacklistsController < ApplicationController
     end
   end
 
-  def edit
-    @mail_blacklist = MailBlacklist.find(params[:id])
-  end
-
   def new
     @mail_blacklist = MailBlacklist.new
   end
 
-  def update
+  def edit
     @mail_blacklist = MailBlacklist.find(params[:id])
-    if @mail_blacklist.update(mail_blacklist_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      render :edit
-    end
   end
 
   def create
@@ -41,6 +32,15 @@ class MailBlacklistsController < ApplicationController
       end
     else
       render :new
+    end
+  end
+
+  def update
+    @mail_blacklist = MailBlacklist.find(params[:id])
+    if @mail_blacklist.update(mail_blacklist_params) && params[:save_and_close].present?
+      redirect_to action: :index
+    else
+      render :edit
     end
   end
 

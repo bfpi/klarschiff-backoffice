@@ -31,7 +31,7 @@ def extract_documentation(file)
   lines = File.readlines(file).grep(pattern)
   lines.map! { |line| line.remove pattern }
   lines.map!(&:rstrip)
-  lines << '' unless lines.length.zero?
+  lines << '' unless lines.empty?
   lines
 end
 

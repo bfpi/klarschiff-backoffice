@@ -5,16 +5,16 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
   end
 
+  def edit
+    @comment = Comment.find(params[:id])
+  end
+
   def create
     return head(:unprocessable_entity) if permitted_params[:message].blank?
     @comment = Comment.create!(
       permitted_params.merge(user: Current.user, auth_code: Current.user&.auth_code)
     )
     @issue = @comment.issue
-  end
-
-  def edit
-    @comment = Comment.find(params[:id])
   end
 
   def update
