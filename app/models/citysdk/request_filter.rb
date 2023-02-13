@@ -96,7 +96,7 @@ module Citysdk
 
     def filter_observation_key(params)
       obs = Observation.find_by(key: params[:observation_key])
-      @collection = @collection.where(category_id: obs.category_ids.split(',').map(&:to_i))
+      @collection = @collection.where(category_id: obs&.category_ids&.split(',')&.map(&:to_i))
       @collection = @collection.where(<<~SQL.squish)
         ST_Within(#{Issue.quoted_table_name}."position",
           (#{Observation.where(key: params[:observation_key]).select(:area).to_sql}))
