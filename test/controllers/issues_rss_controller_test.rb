@@ -3,13 +3,13 @@
 require 'test_helper'
 
 class IssuesRssControllerTest < ActionDispatch::IntegrationTest
-  test "index for user with uuid" do
+  test 'index for user with uuid' do
     assert_not user(:one)[:uuid].blank?
     get "/issues_rss/#{user(:one).uuid}.xml"
     assert_response :success
   end
 
-  test "index for user without uuid" do
+  test 'index for user without uuid' do
     assert user(:two)[:uuid].blank?
     get "/issues_rss/#{user(:two).uuid}.xml"
     assert_response :success

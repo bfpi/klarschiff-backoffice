@@ -54,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def uuid
-    self.update! uuid: SecureRandom.uuid if self[:uuid].blank?
+    update! uuid: SecureRandom.uuid if self[:uuid].blank?
     self[:uuid]
   end
 
