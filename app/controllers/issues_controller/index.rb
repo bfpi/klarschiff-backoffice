@@ -13,7 +13,6 @@ class IssuesController
         format.js { js_response }
         format.html { html_response }
         format.xlsx { xlsx_response }
-        format.xml { xml_response }
       end
     end
 
@@ -42,10 +41,6 @@ class IssuesController
     def xlsx_response
       @issues = results
       xlsx_export
-    end
-
-    def xml_response
-      @issues = results
     end
 
     def results
