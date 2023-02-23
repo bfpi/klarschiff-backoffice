@@ -79,7 +79,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'index with extensions and area_code for idistricts with api-key frontend' do
+  test 'index with extensions and area_code for districts with api-key frontend' do
     with_parent_instance_settings(url: 'http://www.example.com') do
       get "/citysdk/requests.xml?extensions=true&area_code=#{district(:one).id}&api_key=#{api_key_frontend}"
       doc = Nokogiri::XML(response.parsed_body)
