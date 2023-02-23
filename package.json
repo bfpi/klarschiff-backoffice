@@ -11,7 +11,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "stylelint": "^13.7.2",
-    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-sass-guidelines": "^8.0.0",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.18.0"
   },
