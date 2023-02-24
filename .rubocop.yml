@@ -61,6 +61,12 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+
+Minitest/MultipleAssertions:
+  Max: 15
+
 Naming/FileName:
   Exclude: ['bin/onetime-jobs/*']
 
