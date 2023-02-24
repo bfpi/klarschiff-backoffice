@@ -25,7 +25,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test 'index with api-key ppc' do
     get "/citysdk/requests/notes/#{issue(:one).id}.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert doc.xpath('/notes/note/id').count.positive?
+    assert_predicate doc.xpath('/notes/note/id').count, :positive?
   end
 
   test 'create without api-key' do

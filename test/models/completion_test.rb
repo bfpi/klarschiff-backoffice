@@ -24,7 +24,7 @@ class CompletionTest < ActiveSupport::TestCase
     completion = completion(:confirmed)
     assert_predicate completion, :status_open?
     assert_predicate (issue = completion.issue), :status_closed?
-    assert issue.valid?
+    assert_predicate issue, :valid?
     assert_predicate (author = completion.author), :present?
     completion.reject_with_status_reset = true
     assert_enqueued_email_with(CompletionMailer, :rejection, args: [{ to: author, completion: }]) do

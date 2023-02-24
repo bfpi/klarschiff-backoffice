@@ -35,7 +35,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_no_changes 'issue.updated_by_user' do
       assert_no_changes 'issue.status' do
         issue.group = group(:two)
-        assert issue.group_id_changed?
+        assert_predicate issue, :group_id_changed?
         assert_not_empty issue.group.responsibility_notification_recipients
         assert_changes 'issue.group_responsibility_notified_at' do
           assert issue.save
@@ -61,7 +61,7 @@ class IssueTest < ActiveSupport::TestCase
   test 'send mail for group responsibility notification for groups with enabled recipients users' do
     issue = issue(:one)
     issue.group = group(:internal2)
-    assert issue.group_id_changed?
+    assert_predicate issue, :group_id_changed?
     assert_not_empty issue.group.responsibility_notification_recipients
     assert issue.save
     assert_enqueued_email_with ResponsibilityMailer, :issue, args: [
@@ -72,7 +72,7 @@ class IssueTest < ActiveSupport::TestCase
   test 'send no for group responsibility notification for groups without enabled recipients users' do
     issue = issue(:two)
     issue.group = group(:internal)
-    assert issue.group_id_changed?
+    assert_predicate issue, :group_id_changed?
     assert_not_empty issue.group.responsibility_notification_recipients
     assert_no_enqueued_emails { assert issue.save }
   end
@@ -80,7 +80,7 @@ class IssueTest < ActiveSupport::TestCase
   test 'send mail with auth_code for group responsibility notification for external groups as reference default' do
     issue = issue(:one)
     issue.group = group(:reference_default)
-    assert issue.group_id_changed?
+    assert_predicate issue, :group_id_changed?
     assert issue.save
     assert_enqueued_email_with ResponsibilityMailer, :issue, args: [
       issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
@@ -91,7 +91,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = issue(:one)
     issue.stub :default_group_without_gui_access?, true do
       issue.group = group(:reference_default)
-      assert issue.group_id_changed?
+      assert_predicate issue, :group_id_changed?
       assert issue.save
       assert_enqueued_email_with ResponsibilityMailer, :default_group_without_gui_access, args: [
         issue, { to: issue.group.email, auth_code: AuthCode.find_by(issue_id: issue, group_id: issue.group) }
@@ -113,11 +113,11 @@ class IssueTest < ActiveSupport::TestCase
 
   test 'set_reviewed_at callback' do
     issue = issue(:received)
-    assert issue.valid?
+    assert_predicate issue, :valid?
     assert_nil issue.reviewed_at
     issue.status_reviewed!
     assert_in_delta issue.reload.reviewed_at, Time.current, 2
-    assert issue.status_reviewed?
+    assert_predicate issue, :status_reviewed?
   end
 
   test 'set_updated_by callback' do
@@ -134,7 +134,7 @@ class IssueTest < ActiveSupport::TestCase
   test 'authorized scope' do
     assert_equal Issue.ids, Issue.authorized(user(:admin)).ids
     user = user(:regional_admin)
-    assert Issue.authorized(user).any?
+    assert_predicate Issue.authorized(user), :any?
     assert_not_equal Issue.ids, Issue.authorized(user).ids
     assert_empty Issue.authorized(user(:editor2))
   end
@@ -156,7 +156,7 @@ class IssueTest < ActiveSupport::TestCase
     issue = issue(:reviewed)
     issue.stub :default_group_without_gui_access?, true do
       issue.update status: :not_solvable, status_note: ''
-      assert issue.valid?
+      assert_predicate issue, :valid?
     end
   end
 end
