@@ -10,7 +10,7 @@ class IssuesRssControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'index for user without uuid' do
-    assert user(:two)[:uuid].blank?
+    assert_predicate user(:two)[:uuid], :blank?
     get "/issues_rss/#{user(:two).uuid}.xml"
     assert_response :success
     assert_not user(:two).reload[:uuid].blank?
