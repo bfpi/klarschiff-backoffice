@@ -21,7 +21,7 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
     get '/citysdk/areas.xml', params: { regional_key: :one, search_class: 'authority' }
     doc = Nokogiri::XML(response.parsed_body)
     areas = doc.xpath('/areas/area')
-    assert areas.count.positive?
+    assert_predicate areas.count, :positive?
   end
 
   test 'index with default area-level' do
@@ -29,7 +29,7 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
       get '/citysdk/areas.xml', params: { with_districts: true }
       doc = Nokogiri::XML(response.parsed_body)
       areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'Authority' }
-      assert areas.count.positive?
+      assert_predicate areas.count, :positive?
     end
   end
 
@@ -38,7 +38,7 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
       get '/citysdk/areas.xml', params: { with_districts: true }
       doc = Nokogiri::XML(response.parsed_body)
       areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'District' }
-      assert areas.count.positive?
+      assert_predicate areas.count, :positive?
     end
   end
 

@@ -21,7 +21,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                                                 problem_service: MainCategory.kind_problem.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with geometry and all categories' do
@@ -33,7 +33,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                                                 problem_service: MainCategory.kind_problem.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with area_code for all districts (-1) and all categories' do
@@ -42,7 +42,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                                                 problem_service: MainCategory.kind_problem.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with area_code and all idea main categories' do
@@ -50,7 +50,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                                                 idea_service: MainCategory.kind_idea.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with area_code and all problem main categories' do
@@ -58,7 +58,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                                                 problem_service: MainCategory.kind_problem.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with area_code and all idea sub categories' do
@@ -67,7 +67,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                 idea_service_sub: MainCategory.kind_idea.map(&:sub_categories).map(&:ids).flatten.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 
   test 'create with area_code and all problem sub categories' do
@@ -76,6 +76,6 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
                 problem_service_sub: MainCategory.kind_problem.map(&:sub_categories).map(&:ids).flatten.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 end

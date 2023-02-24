@@ -31,6 +31,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   gem 'erb_lint', require: false
+  gem 'minitest'
 end
 
 group :development do
@@ -41,6 +42,7 @@ group :development do
   gem 'brakeman'
   gem 'bullet'
   gem 'pronto-rubocop', require: false
+  gem 'rubocop-minitest', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
 end
