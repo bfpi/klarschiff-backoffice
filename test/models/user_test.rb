@@ -96,4 +96,11 @@ class UserTest < ActiveSupport::TestCase
     user.ldap = 'CN=test,DC=klarschiff,DC=de'
     assert_valid user
   end
+
+  test 'generate and save uuid if blank' do
+    user = user(:two)
+    assert_nil user[:uuid]
+    assert_predicate user.uuid, :present?
+    assert_not user.reload[:uuid].blank?
+  end
 end
