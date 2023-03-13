@@ -4,7 +4,7 @@
   "author": "Niels Bennke <bennke@bfpi.de> (https://bfpi.de)",
   "devDependencies": {
     "@coffeelint/cli": "^5.2.5",
-    "eslint": "^8.34.0",
+    "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-html-erb": "^1.0.0",
     "eslint-plugin-import": "^2.27.5",
