@@ -47,14 +47,18 @@ class Feedback < ApplicationRecord
   def notify
     return notify_responsible_group if recipient.blank?
     recipient.split(', ').each do |email|
-      params = { to: email, issue: }
-      params[:auth_code] = auth_code(email) if User.find_by(User.arel_table[:email].matches(email)).blank?
-      FeedbackMailer.notification(**params).deliver_later
+      FeedbackMailer.notification(**notify_feedback_mailer_params(email)).deliver_later
     end
   end
 
+  def notify_feedback_mailer_params(email)
+    params = { to: email, issue: }
+    params[:auth_code] = auth_code(email) if User.find_by(case_insensitive_comparision(:email, email)).blank?
+    params
+  end
+
   def auth_code(email)
-    AuthCode.find_or_create_by(issue:, group: Group.find_by(Group.arel_table[:email].matches(email)))
+    AuthCode.find_or_create_by(issue:, group: Group.find_by(group_arel_table[:email].lower.eq(email.downcase)))
   end
 
   def notify_responsible_group

@@ -53,3 +53,13 @@ regional_admin2:
   <<: *DEFAULTS
   role: 1
   groups: one
+
+abc01:
+  <<: *DEFAULTS
+  role: 2
+  groups: one
+
+abc_1:
+  <<: *DEFAULTS
+  role: 2
+  groups: one
