@@ -18,15 +18,6 @@ class ResponsibilitiesController < ApplicationController
     @responsibility = Responsibility.authorized.find(params[:id])
   end
 
-  def update
-    @responsibility = Responsibility.authorized.find(params[:id])
-    if @responsibility.update(responsibility_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      render :edit
-    end
-  end
-
   def create
     @responsibility = Responsibility.new(responsibility_params)
     if @responsibility.save
@@ -34,6 +25,15 @@ class ResponsibilitiesController < ApplicationController
       render :edit
     else
       render :new
+    end
+  end
+
+  def update
+    @responsibility = Responsibility.authorized.find(params[:id])
+    if @responsibility.update(responsibility_params) && params[:save_and_close].present?
+      redirect_to action: :index
+    else
+      render :edit
     end
   end
 

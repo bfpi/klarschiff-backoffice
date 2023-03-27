@@ -32,6 +32,13 @@ class CompletionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, doc.xpath('/service_requests/request/service_request_id').count
   end
 
+  test 'successfully confirmed without existing status_note' do
+    put "/citysdk/requests/completions/#{completion(:received).confirmation_hash}/confirm.xml"
+    assert_response :success
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_equal 1, doc.xpath('/service_requests/request/service_request_id').count
+  end
+
   test 'confirm already confirmed hash' do
     put "/citysdk/requests/completions/#{completion(:confirmed).confirmation_hash}/confirm.xml"
     doc = Nokogiri::XML(response.parsed_body)

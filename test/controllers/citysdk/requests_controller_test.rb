@@ -7,9 +7,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     get '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'index just_count without api-key' do
@@ -17,7 +17,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     request_counts = doc.xpath('/service_requests/service_request/count')
     assert_equal 1, request_counts.count
-    assert request_counts.text.to_i.positive?
+    assert_predicate request_counts.text.to_i, :positive?
   end
 
   test 'index with invalid api-key' do
@@ -30,27 +30,27 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/requests.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'index with api-key ppc' do
     get "/citysdk/requests.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'index with extensions without api-key' do
     get '/citysdk/requests.xml?extensions=true'
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'index with extensions with invalid api-key' do
@@ -63,11 +63,11 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/requests.xml?extensions=true&api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'index with extensions and area_code for authorities with api-key frontend' do
@@ -75,24 +75,38 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
       get "/citysdk/requests.xml?extensions=true&area_code=#{authority(:one).id}&api_key=#{api_key_frontend}"
       doc = Nokogiri::XML(response.parsed_body)
       requests = doc.xpath('/service_requests/request')
-      assert requests.count.positive?
+      assert_predicate requests.count, :positive?
     end
   end
 
-  test 'index with extensions and area_code for idistricts with api-key frontend' do
+  test 'index with extensions and area_code for districts with api-key frontend' do
     with_parent_instance_settings(url: 'http://www.example.com') do
       get "/citysdk/requests.xml?extensions=true&area_code=#{district(:one).id}&api_key=#{api_key_frontend}"
       doc = Nokogiri::XML(response.parsed_body)
       requests = doc.xpath('/service_requests/request')
-      assert requests.count.positive?
+      assert_predicate requests.count, :positive?
     end
+  end
+
+  test 'index with observation-key' do
+    get "/citysdk/requests.xml?observation_key=#{observation(:one).key}"
+    doc = Nokogiri::XML(response.parsed_body)
+    requests = doc.xpath('/service_requests/request')
+    assert_predicate requests.count, :positive?
+  end
+
+  test 'index with unknown observation-key' do
+    get '/citysdk/requests.xml?observation_key=1234'
+    doc = Nokogiri::XML(response.parsed_body)
+    requests = doc.xpath('/service_requests/request')
+    assert_predicate requests.count, :zero?
   end
 
   test 'index with extensions with api-key ppc' do
     get "/citysdk/requests.xml?extensions=true&api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
   end
 
   %i[idea problem].each do |kind|
@@ -135,9 +149,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/requests/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
     assert_empty doc.xpath('/service_requests/request/create_message')
   end
 
@@ -145,45 +159,45 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'show with api-key ppc' do
     get "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'show with extensions without api-key' do
     get "/citysdk/requests/#{issue(:one).id}.xml?extensions=true"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'show with extensions with api-key frontend' do
     get "/citysdk/requests/#{issue(:one).id}.xml?extensions=true&api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/service_requests/request')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.blank?
+    assert_predicate extended_attributes, :blank?
   end
 
   test 'show with extensions with api-key ppc' do
     get "/citysdk/requests/#{issue(:one).id}.xml?extensions=true&api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
     extended_attributes = doc.xpath('/service_requests/request/extended_attributes/property_owner')
-    assert extended_attributes.count.positive?
+    assert_predicate extended_attributes.count, :positive?
   end
 
   test 'create without api-key' do

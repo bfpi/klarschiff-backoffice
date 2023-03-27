@@ -55,7 +55,7 @@ module ActiveSupport
 
     def assert_valid(object)
       puts "\nUnexpected error(s) on #{object.class}: #{object.errors.full_messages.inspect}" unless object.valid?
-      assert object.valid?
+      assert_predicate object, :valid?
     end
 
     def with_parent_instance_settings(url: nil, &block)

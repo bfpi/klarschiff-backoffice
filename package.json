@@ -4,16 +4,17 @@
   "author": "Niels Bennke <bennke@bfpi.de> (https://bfpi.de)",
   "devDependencies": {
     "@coffeelint/cli": "^5.2.5",
-    "eslint": "^7.13.0",
-    "eslint-config-standard": "^16.0.1",
+    "eslint": "^8.36.0",
+    "eslint-config-standard": "^17.0.0",
     "eslint-plugin-html-erb": "^1.0.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "stylelint": "^13.7.2",
-    "stylelint-config-sass-guidelines": "^7.1.0",
-    "stylelint-order": "^4.1.0",
-    "stylelint-scss": "^3.18.0"
+    "eslint-plugin-promise": "^6.1.1",
+    "stylelint": "^15.2.0",
+    "stylelint-config-sass-guidelines": "^10.0.0",
+    "stylelint-order": "^6.0.2",
+    "stylelint-scss": "^4.6.0"
   },
   "dependencies": {}
 }

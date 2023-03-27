@@ -7,6 +7,6 @@ class DiscoveryControllerTest < ActionDispatch::IntegrationTest
     get '/citysdk/discovery.xml'
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/discovery')
-    assert requests.count.positive?
+    assert_predicate requests.count, :positive?
   end
 end

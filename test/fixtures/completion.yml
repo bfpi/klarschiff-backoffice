@@ -10,6 +10,16 @@ one:
   <<: *DEFAULTS
   confirmation_hash: 7ea27e10-a9c5-41e7-9b4f-07910b889db2
 
+received:
+  <<: *DEFAULTS
+  confirmation_hash: 4e114116-bf30-417a-b303-4ce79a5cf806
+
+rejected:
+  <<: *DEFAULTS
+  issue: received
+  status: rejected
+  confirmation_hash: 5ed79120-40e3-44ea-996a-9b24060e677b
+
 confirmed:
   <<: *DEFAULTS
   issue: three

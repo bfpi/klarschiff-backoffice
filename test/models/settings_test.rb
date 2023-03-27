@@ -11,7 +11,7 @@ class SettingsTest < ActiveSupport::TestCase
 
   test 'area for instance with parent_instance is district' do
     with_parent_instance_settings(url: 'http://www.example.com') do
-      assert Citysdk::District, Settings.area_level
+      assert_equal Citysdk::District, Settings.area_level
     end
   end
 end

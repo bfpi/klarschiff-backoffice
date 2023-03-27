@@ -14,6 +14,10 @@ class IssuesController < ApplicationController
     render :index
   end
 
+  def new
+    @issue = Issue.new
+  end
+
   def edit
     @issue = Issue.authorized.find(params[:id])
     check_auth(:edit_issue, @issue)
@@ -27,8 +31,17 @@ class IssuesController < ApplicationController
     end
   end
 
-  def new
-    @issue = Issue.new
+  def create
+    @issue = Issue.new(issue_params.merge(status: :received))
+    return render :new unless @issue.save
+    if close_modal?
+      unless authorized?(:edit_issue, @issue)
+        session[:success] = I18n.t('issues.foreign_create_success', issue_id: @issue.id, group: @issue.group)
+      end
+      return redirect_to action: :index
+    end
+    prepare_tabs
+    render :edit
   end
 
   def update
@@ -39,19 +52,6 @@ class IssuesController < ApplicationController
         session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id, group: @issue.group)
       end
       return render inline: 'location.reload();'
-    end
-    prepare_tabs
-    render :edit
-  end
-
-  def create
-    @issue = Issue.new(issue_params.merge(status: :received))
-    return render :new unless @issue.save
-    if close_modal?
-      unless authorized?(:edit_issue, @issue)
-        session[:success] = I18n.t('issues.foreign_create_success', issue_id: @issue.id, group: @issue.group)
-      end
-      return redirect_to action: :index
     end
     prepare_tabs
     render :edit

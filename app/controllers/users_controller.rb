@@ -14,6 +14,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def new
+    @user = User.new
+  end
+
   def edit
     @user = User.authorized.find(params[:id])
   end
@@ -30,19 +34,6 @@ class UsersController < ApplicationController
     render :change_password
   end
 
-  def new
-    @user = User.new
-  end
-
-  def update
-    @user = User.authorized.find(params[:id])
-    if @user.update(user_params) && params[:save_and_close].present?
-      redirect_to action: :index
-    else
-      render :edit
-    end
-  end
-
   def create
     @user = User.new user_params
     if @user.save
@@ -53,6 +44,15 @@ class UsersController < ApplicationController
       end
     else
       render :new
+    end
+  end
+
+  def update
+    @user = User.authorized.find(params[:id])
+    if @user.update(user_params) && params[:save_and_close].present?
+      redirect_to action: :index
+    else
+      render :edit
     end
   end
 

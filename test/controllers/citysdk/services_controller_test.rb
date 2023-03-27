@@ -20,7 +20,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/services.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service')
-    assert services.count.positive?
+    assert_predicate services.count, :positive?
     document_url = doc.xpath('/services/service/document_url')
     assert_empty document_url
   end
@@ -36,7 +36,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/services/#{category(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/service_definition/service')
-    assert services.count.positive?
+    assert_predicate services.count, :positive?
   end
 
   test 'show with invalid api-key' do
@@ -49,7 +49,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/services/#{category(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/service_definition/service')
-    assert services.count.positive?
+    assert_predicate services.count, :positive?
     document_url = doc.xpath('/service_definition/service/document_url')
     assert_empty document_url
   end

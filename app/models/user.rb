@@ -64,7 +64,7 @@ class User < ApplicationRecord
   end
 
   def old_password_digests
-    (passwords || []).map { |set| set['password_digest'] }
+    (passwords || []).pluck('password_digest')
   end
 
   def password_rotation
