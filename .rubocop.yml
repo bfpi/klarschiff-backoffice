@@ -76,6 +76,9 @@ Naming/InclusiveLanguage:
 Naming/MethodParameterName:
   MinNameLength: 2
 
+Performance/CollectionLiteralInLoop:
+  Exclude: ['test/**/*']
+
 Rails:
   Enabled: true
 
