@@ -11,3 +11,16 @@ two:
 
 three:
   <<: *DEFAULTS
+
+deleted:
+  <<: *DEFAULTS
+
+deleted_main_category:
+  <<: *DEFAULTS
+  main_category: deleted
+  sub_category: one
+
+deleted_sub_category:
+  <<: *DEFAULTS
+  main_category: one
+  sub_category: deleted

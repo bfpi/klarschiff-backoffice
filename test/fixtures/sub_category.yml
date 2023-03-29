@@ -15,3 +15,7 @@ three:
 dms:
   <<: *DEFAULTS
   dms: d3:AAUTO
+
+deleted:
+  <<: *DEFAULTS
+  deleted: true
