@@ -69,12 +69,12 @@ module IssuesHelper
 
   def main_categories(kind)
     [[t('issues.extended_filter.all_main_categories'), nil]] +
-      MainCategory.where(kind: kind.to_i).order(:name).map { |c| [c.name, c.id] }
+      MainCategory.active.where(kind: kind.to_i).order(:name).map { |c| [c.name, c.id] }
   end
 
   def sub_categories(main_id)
     [[t('issues.extended_filter.all_sub_categories'), nil]] +
-      SubCategory.includes(categories: :main_category)
+      SubCategory.active.includes(categories: :main_category)
         .where(main_category: { id: main_id.to_i }).order(:name).map { |c| [c.name, c.id] }
   end
 
@@ -111,7 +111,7 @@ module IssuesHelper
   private
 
   def grouped_categories_for_kind(kind)
-    Category.includes(:main_category, :sub_category).where(main_category: { kind: })
+    Category.active.where(main_category: { kind: })
       .order(MainCategory.arel_table[:name], SubCategory.arel_table[:name])
       .to_a.group_by(&:main_category_name).map do |mc, categories|
       [mc, categories.map { |c| [c.sub_category_name, c.id] }]
