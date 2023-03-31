@@ -53,6 +53,7 @@ module Authorization
   end
 
   def authenticate_with_user_uuid
+    return unless controller_path.eql?('issues_rss')
     Current.user = User.find_by(uuid: params[:user_uuid])
   end
 
