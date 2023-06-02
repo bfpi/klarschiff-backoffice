@@ -139,7 +139,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_empty Issue.authorized(user(:editor2))
   end
 
-  test 'ensure status not template value for responibility' do
+  test 'ensure status_note_template value for responibility' do
     value = Config.for(:status_note_template, env: nil)['Zuständigkeit']
     assert_not_nil value
     assert_not_empty value

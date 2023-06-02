@@ -58,20 +58,22 @@
           </td>
         </tr>
 
-        <tr>
-          <td class="label">
-            <%= Issue.human_attribute_name(:created_at) %>
-          </td>
-          <td>
-            <%= l(@issue.created_at, format: :no_seconds) %>
-          </td>
-          <td class="label">
-            <%= Issue.human_attribute_name(:author) %>
-          </td>
-          <td>
-            <%= @issue.author %>
-          </td>
-        </tr>
+        <% unless restricted -%>
+          <tr>
+            <td class="label">
+              <%= Issue.human_attribute_name(:created_at) %>
+            </td>
+            <td>
+              <%= l(@issue.created_at, format: :no_seconds) %>
+            </td>
+            <td class="label">
+              <%= Issue.human_attribute_name(:author) %>
+            </td>
+            <td>
+              <%= @issue.author %>
+            </td>
+          </tr>
+        <% end -%>
 
         <tr>
           <td class="label">

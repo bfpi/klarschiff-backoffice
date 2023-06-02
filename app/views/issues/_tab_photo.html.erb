@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th scope="col"><%= Photo.human_attribute_name :file %></th>
-        <th scope="col"><%= Photo.human_attribute_name :author %></th>
+        <% unless restricted -%><th scope="col"><%= Photo.human_attribute_name :author %></th><% end -%>
         <th scope="col"><%= Photo.human_attribute_name :approval_status %></th>
         <th scope="col"><%= Photo.human_attribute_name :created_at %></th>
         <% unless restricted || form.object.closed? -%><th scope="col"><%= Photo.human_attribute_name :action %></th><% end -%>
@@ -38,7 +38,11 @@
                       target: '_blank', rel: :noopener %>
               </div>
             </td>
-            <td><%= photo_form.object.author %></td>
+            <% unless restricted -%>
+              <td>
+                <%= photo_form.object.author %>
+              </td>
+            <% end -%>
             <td>
               <%= photo_form.label 'status_internal', '',
                     title: Photo.human_enum_name(:status, :internal),

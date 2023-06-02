@@ -54,13 +54,15 @@
           { include_blank: true }, class: 'form-select',
           disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
   </div>
-  <%= form.label :author, class: 'col-1 col-form-label' %>
-  <div class="col-5">
-    <%= form.text_field :author,
-          class: 'form-control',
-          value: form.object.new_record? ? Current.user.email : form.object.author,
-          readonly: !form.object.new_record? || restricted || (!form.object.status_changed? && form.object.closed?) %>
-  </div>
+  <% unless restricted -%>
+    <%= form.label :author, class: 'col-1 col-form-label' %>
+    <div class="col-5">
+      <%= form.text_field :author,
+            class: 'form-control',
+            value: form.object.new_record? ? Current.user.email : form.object.author,
+            readonly: !form.object.new_record? || restricted || (!form.object.status_changed? && form.object.closed?) %>
+    </div>
+  <% end -%>
 </div>
 <div class="row">
   <%= form.label :description, class: 'col-2 col-form-label' %>

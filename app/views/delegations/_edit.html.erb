@@ -1,5 +1,5 @@
 <div class="modal-dialog modal-xl">
-  <% opts = { url: delegation_path(@issue), remote: true, html: { 'data-dependencies': data_dependencies_path } } %>
+  <% opts = { url: delegation_path(@issue), remote: true, html: { 'data-dependencies': data_dependencies_path } } -%>
   <%= form_for @issue, opts do |f| %>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="modal-content">
@@ -7,7 +7,7 @@
         <h1><%= Issue.model_name.human %> <%= t 'edit' %></h1>
         <div class="col text-end">
           <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
-                issue_issue_exports_path(@issue),
+                delegation_export_path(@issue),
                 target: :_blank, id: :issue_export, title: 'PDF mit Daten der Meldung erzeugen', rel: :noopener %>
         </div>
         <div id="print-map" class="print-map"
