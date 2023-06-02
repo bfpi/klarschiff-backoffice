@@ -22,7 +22,6 @@ Rails.application.routes.draw do
     resources :issues do
       get :resend_responsibility
       resource :issue_email, only: %i[new create show]
-      resources :issue_exports, only: %i[create], defaults: { format: :pdf }
     end
     resources :log_entries, only: %i[index]
     resources :mail_blacklists
@@ -83,6 +82,10 @@ Rails.application.routes.draw do
 
   get 'logout', to: 'logins#destroy', as: :logout
   get 'issues/:auth_code/set_status', to: 'issues#set_status', as: :set_issue_status
+  post 'delegations/:issue_id/export.pdf', to: 'issue_exports#create',
+    defaults: { format: :pdf, restricted: 'true' }, as: :delegation_export
+  post 'issues/:issue_id/export.pdf', to: 'issue_exports#create',
+    defaults: { format: :pdf }, as: :issue_export
   put 'update_password', to: 'users#update_password', as: :update_password
   root 'dashboards#show'
 end
