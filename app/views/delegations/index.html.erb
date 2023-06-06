@@ -21,7 +21,7 @@
       <tr>
         <% %w[id created_at category status address updated_at].each do |col| %>
           <th scope="col">
-            <%= order_link Issue.human_attribute_name(col), :issues, col %>
+            <%= order_link Issue.human_attribute_name(col), :delegations, col %>
           </th>
         <% end -%>
         <th scope="col"><%= t('actions') %></th>
