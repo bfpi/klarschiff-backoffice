@@ -123,7 +123,7 @@ module IssuesHelper
   end
 
   def possible_group_ids(issue)
-    cond = 'ST_WITHIN(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), "area")'
+    cond = '(ST_SetSRID(ST_MakePoint(:long, :lat), 4326) && "area")'
     values = { long: issue.position.x, lat: issue.position.y }
     AuthorityGroup.joins(:authority).where(cond, values).ids | CountyGroup.joins(:county).where(cond, values).ids
   end

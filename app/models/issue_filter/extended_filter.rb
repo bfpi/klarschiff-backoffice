@@ -53,7 +53,7 @@ class IssueFilter
 
     def districts_sql
       <<-SQL.squish
-        ST_Within("position", (
+        ("position" && (
           SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
           FROM #{District.quoted_table_name}
           WHERE "id" IN (?)

@@ -49,7 +49,7 @@ class Issue
       def authorized_by_user_districts(user = Current.user)
         return all if user.blank? || user.districts.blank?
         where <<~SQL.squish, user.district_ids
-          ST_Within("position", (
+          ("position" && (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{District.quoted_table_name}
             WHERE "id" IN (?)
@@ -78,11 +78,11 @@ class Issue
         reference_ids = Group.active.where(id: group_ids).distinct.pluck(:reference_id)
         return none if reference_ids.blank?
         where <<~SQL.squish, reference_ids, reference_ids
-          ST_Within("position", (
+          ("position" && (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{County.quoted_table_name}
             WHERE "id" IN (?)
-          )) OR ST_Within("position", (
+          )) OR ("position" && (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{Authority.quoted_table_name}
             WHERE "id" IN (?)
