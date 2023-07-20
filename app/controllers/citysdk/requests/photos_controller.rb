@@ -35,6 +35,24 @@ module Citysdk
         citysdk_response photo, root: :photos, element_name: :photo, show_only_id: true, status: :created
       end
 
+      # :apidoc: ### Confirm photo for service request
+      # :apidoc: <code>PUT http://[API endpoint]/requests/photos/[confirmation_hash]/confirm.[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | confirmation_hash | X | String | A created UUID |
+      # :apidoc:
+      # :apidoc: Sample response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <service_requests>
+      # :apidoc:   <request>
+      # :apidoc:     <service_request_id>request.id</service_request_id>
+      # :apidoc:   </request>
+      # :apidoc: </service_requests>
+      # :apidoc: ```
       def confirm
         photo = Citysdk::Photo.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if photo.blank?

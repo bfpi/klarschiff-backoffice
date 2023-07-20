@@ -33,6 +33,24 @@ module Citysdk
         citysdk_response vote, root: :votes, element_name: :vote, show_only_id: true, status: :created
       end
 
+      # :apidoc: ### Confirm vote for service request
+      # :apidoc: <code>PUT http://[API endpoint]/requests/votes/[confirmation_hash]/confirm.[format]</code>
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | confirmation_hash | X | String | A created UUID |
+      # :apidoc:
+      # :apidoc: Sample response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <service_requests>
+      # :apidoc:   <request>
+      # :apidoc:     <service_request_id>request.id</service_request_id>
+      # :apidoc:   </request>
+      # :apidoc: </service_requests>
+      # :apidoc: ```
       def confirm
         vote = Citysdk::Vote.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if vote.blank?

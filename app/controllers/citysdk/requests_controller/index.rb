@@ -31,7 +31,7 @@ module Citysdk
       # :apidoc: | also_archived | - | Boolean | Include already archived issues |
       # :apidoc: | just_count | - | Boolean | Switch response to only return amount of affected issues |
       # :apidoc: | max_requests | - | Integer | Maximum number of requests to return |
-      # :apidoc: | observation_key | - | String | MD5 hash of observed area to use as filter |
+      # :apidoc: | observation_key | - | String | a created UUID |
       # :apidoc: | area_code | - | Integer | Filter issues by affected area ID |
       # :apidoc:
       # :apidoc: Available Open311 states for this action: `open`, `closed`\
