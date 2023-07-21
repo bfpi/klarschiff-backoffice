@@ -10,7 +10,8 @@ module Citysdk
     # :apidoc: <dicovery>
     # :apidoc:   <changeset>2015-11-05 08:43</changeset>
     # :apidoc:   <contact>
-    # :apidoc:     "Hanse- und Universitätsstadt Rostock, Kataster-, Vermessungs- und Liegenschaftsamt, Holbeinplatz 14, 18069 Rostock, klarschiff.hro@rostock.de"
+    # :apidoc:     "Hanse- und Universitätsstadt Rostock, Kataster-, Vermessungs- und Liegenschaftsamt,
+    # :apidoc:     Holbeinplatz 14, 18069 Rostock, klarschiff.hro@rostock.de"
     # :apidoc:   </contact>
     # :apidoc:   <key_service>klarschiff.hro@rostock.de</key_service>
     # :apidoc:   <endpoints>
