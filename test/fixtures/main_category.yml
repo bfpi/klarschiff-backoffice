@@ -13,3 +13,7 @@ two:
 three:
   <<: *DEFAULTS
   kind: tip
+
+deleted:
+  <<: *DEFAULTS
+  deleted: true

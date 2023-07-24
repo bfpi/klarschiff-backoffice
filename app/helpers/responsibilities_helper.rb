@@ -2,8 +2,7 @@
 
 module ResponsibilitiesHelper
   def grouped_categories_for_responsibility
-    Category.includes(:main_category, :sub_category).references(:main_category, :sub_category)
-      .order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name])
+    Category.active.order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name])
       .group_by(&:main_category_name_with_kind).map do |mc, categories|
       [mc, categories.sort_by(&:sub_category_name).map { |c| [c.sub_category_name, c.id] }]
     end

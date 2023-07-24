@@ -10,7 +10,7 @@ class Observation < ApplicationRecord
 
   def categories
     return [] if category_ids.blank?
-    Category.where(id: category_ids.split(',').map(&:to_i))
+    Category.active.where(id: category_ids.split(',').map(&:to_i))
   end
 
   private
