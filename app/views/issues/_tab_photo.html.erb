@@ -6,7 +6,7 @@
         <% unless restricted -%><th scope="col"><%= Photo.human_attribute_name :author %></th><% end -%>
         <th scope="col"><%= Photo.human_attribute_name :approval_status %></th>
         <th scope="col"><%= Photo.human_attribute_name :created_at %></th>
-        <% unless restricted || form.object.closed? -%><th scope="col"><%= Photo.human_attribute_name :action %></th><% end -%>
+        <% unless restricted || form.object.closed? -%><th scope="col"><%= t('actions') %></th><% end -%>
       </tr>
     </thead>
     <tbody>

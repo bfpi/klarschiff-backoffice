@@ -14,7 +14,7 @@
                   issue_issue_email_path(@issue),
                   id: :issue_email_direct, title: t('.send_email_from_own_client') %>
             <%= link_to tag.i(class: 'fa fa-print btn btn-outline-secondary'),
-                  issue_exports_path(@issue),
+                  issue_export_path(@issue),
                   target: :_blank, id: :issue_export, title: t(:create_pdf_with_issue_data), rel: :noopener %>
             <% if authorized?(:resend_responsibility, @issue) -%>
               <%= link_to tag.i(class: 'fa fa-paper-plane btn btn-primary'),
