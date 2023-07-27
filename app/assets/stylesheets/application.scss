@@ -137,6 +137,10 @@ th.action {
   width: 1em;
 }
 
+.inner-table tr:last-of-type td {
+  border-bottom: 0;
+}
+
 a {
   text-decoration: none;
 }

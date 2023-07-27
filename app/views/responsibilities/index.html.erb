@@ -14,7 +14,7 @@
       </th>
       <th>
         <%= order_link Group.model_name.human(count: 1), :responsibilities, :group %>
-        <span style="float:right; margin-right: 23px"><%= t :actions %></span>
+        <span class="float-end"><%= t :actions %></span>
       </th>
     </tr>
   </thead>
@@ -24,13 +24,13 @@
         <td><%= category.kind_name %></td>
         <td><%= category %></td>
         <td>
-          <table class="table">
+          <table class="table inner-table">
             <% category.responsibilities.authorized.active.each do |responsibility| %>
               <tr>
                 <td title="<%= responsibility.group.logging_subject_name %>">
                   <%= responsibility.group %>
                 </td>
-                <td style="text-align:right">
+                <td class="text-end">
                   <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
                         remote: true, class: 'btn btn-sm btn-outline-primary' %>
                   <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),

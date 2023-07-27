@@ -2,6 +2,7 @@
 
 class Responsibility < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
+  include FullTextFilter
   include Logging
 
   belongs_to :category
