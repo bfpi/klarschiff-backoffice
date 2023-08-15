@@ -69,7 +69,7 @@ module Citysdk
     def status_date; end
 
     def description
-      return I18n.t('request.description.default_group') if default_group_without_gui_access?
+      return default_group_message if default_group_without_gui_access?
       return I18n.t('request.description.internal') if description_status_internal?
       super
     end
@@ -95,11 +95,17 @@ module Citysdk
 
     def create_message
       message = [I18n.t('request.create_message.success')]
-      message << I18n.t('request.description.default_group') if default_group_without_gui_access?
+      message << default_group_message if default_group_without_gui_access?
       message.join
     end
 
     private
+
+    def default_group_message
+      key = "request.description.default_group_#{group.type.to_s.downcase}"
+      return I18n.t(key) if I18n.exists?(key)
+      I18n.t('request.description.default_group')
+    end
 
     def extended_attributes
       ea = { detailed_status:, detailed_status_datetime:, description_public:, expected_closure:, votes:,

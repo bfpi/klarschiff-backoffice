@@ -511,6 +511,10 @@ de:
         Die Meldung wurde in einem Amtsgebiet angelegt, das noch nicht an Klarschiff-MV teilnimmt.
         Die Daten der Meldung wurden an das zuständige Amt weitergeleitet.
         Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
+      default_group_countygroup: >
+        Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
+        Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.
+        Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
   send_email: als E-Mail versenden
   search: Suchen
   show_map: Kartenansicht

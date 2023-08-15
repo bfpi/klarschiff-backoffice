@@ -155,3 +155,11 @@ former_issue_two:
 tip:
   <<: *DEFAULTS
   category: three
+
+reference_default: &REFERENCE_DEFAULT
+  <<: *DEFAULTS
+  category: one
+  group: $LABEL
+
+reference_default_county:
+  <<: *REFERENCE_DEFAULT

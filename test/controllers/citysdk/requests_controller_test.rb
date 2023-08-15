@@ -504,6 +504,31 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '404', 'record_not_found'
   end
 
+  test 'description text for issues' do
+    request = issue(:one)
+    get "/citysdk/requests/#{request.id}.xml"
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_equal request.description, doc.xpath('/service_requests/request/description/text()').first.to_s
+  end
+
+  test 'description text for issues on authority default groups' do
+    with_gui_access_for_external_participants(value: false) do
+      get "/citysdk/requests/#{issue(:reference_default).id}.xml"
+      doc = Nokogiri::XML(response.parsed_body)
+      assert_equal I18n.t('request.description.default_group'),
+        doc.xpath('/service_requests/request/description/text()').first.to_s
+    end
+  end
+
+  test 'description text for issues on county default groups' do
+    with_gui_access_for_external_participants(value: false) do
+      get "/citysdk/requests/#{issue(:reference_default_county).id}.xml"
+      doc = Nokogiri::XML(response.parsed_body)
+      assert_equal I18n.t('request.description.default_group_countygroup'),
+        doc.xpath('/service_requests/request/description/text()').first.to_s
+    end
+  end
+
   private
 
   def valid_create_params

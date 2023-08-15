@@ -72,6 +72,13 @@ module ActiveSupport
       Settings::Instance.redefine_singleton_method(:validate_privacy_policy) { old }
     end
 
+    def with_gui_access_for_external_participants(value: true, &block)
+      old = Settings::Instance.auth_code_gui_access_for_external_participants
+      Settings::Instance.redefine_singleton_method(:auth_code_gui_access_for_external_participants) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:auth_code_gui_access_for_external_participants) { old }
+    end
+
     def configure_password_settings(length: nil, included_characters: [], history: 0)
       PasswordValidator.min_length = length if length
       Settings::Password.redefine_singleton_method(:password_history) { history }

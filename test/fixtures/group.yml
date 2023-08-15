@@ -49,3 +49,8 @@ no_users_and_email:
 reference_default:
   <<: *DEFAULTS
   reference_default: true
+
+reference_default_county:
+  <<: *DEFAULTS
+  type: CountyGroup
+  reference_default: true
