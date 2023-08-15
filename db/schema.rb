@@ -72,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.bigint "county_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["area"], name: "index_authority_on_area", using: :gist
     t.index ["county_id"], name: "index_authority_on_county_id"
   end
 
@@ -120,6 +121,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["area"], name: "index_county_on_area", using: :gist
   end
 
   create_table "district", force: :cascade do |t|
@@ -129,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.datetime "updated_at", null: false
     t.text "regional_key"
     t.bigint "authority_id", default: 1, null: false
+    t.index ["area"], name: "index_district_on_area", using: :gist
     t.index ["authority_id"], name: "index_district_on_authority_id"
   end
 
@@ -200,6 +203,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["area"], name: "index_instance_on_area", using: :gist
   end
 
   create_table "issue", force: :cascade do |t|
@@ -297,6 +301,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["area"], name: "index_observation_on_area", using: :gist
   end
 
   create_table "photo", force: :cascade do |t|

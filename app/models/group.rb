@@ -43,9 +43,9 @@ class Group < ApplicationRecord
         LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
         LEFT JOIN #{iqtn} "i" ON "i"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'InstanceGroup'
       JOIN
-        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "a"."area") OR
-        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "c"."area") OR
-        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "i"."area")
+        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "a"."area") OR
+        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "c"."area") OR
+        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "i"."area")
       SQL
     end
 

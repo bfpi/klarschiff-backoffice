@@ -46,7 +46,7 @@ module Citysdk
     def default_filter_area(params)
       return if (lat = params[:lat]).blank? || (long = params[:long]).blank? || (radius = params[:radius]).blank?
       @collection = @collection.where(<<~SQL.squish, lat:, long:, radius: radius.to_f / 100_000)
-        ST_Within(#{Issue.quoted_table_name}."position",
+        (#{Issue.quoted_table_name}."position" &&
           ST_Buffer(ST_SetSRID(ST_MakePoint(:lat, :long), 4326), :radius))
       SQL
     end
@@ -99,14 +99,14 @@ module Citysdk
       return @collection = @collection.none unless obs
       @collection = @collection.where(category_id: obs.category_ids.split(',').map(&:to_i))
       @collection = @collection.where(<<~SQL.squish)
-        ST_Within(#{Issue.quoted_table_name}."position",
+        (#{Issue.quoted_table_name}."position" &&
           (#{Observation.where(key: params[:observation_key]).select(:area).to_sql}))
       SQL
     end
 
     def filter_area_code(params)
       @collection = @collection.where(<<~SQL.squish)
-        ST_Within(#{Issue.quoted_table_name}."position",
+        (#{Issue.quoted_table_name}."position" &&
           (#{Settings.area_level.where(id: params[:area_code].to_i).select(:area).to_sql}))
       SQL
     end
