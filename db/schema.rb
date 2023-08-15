@@ -228,7 +228,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.bigint "job_id"
     t.bigint "updated_by_user_id"
     t.bigint "updated_by_auth_code_id"
-    t.datetime "last_notification", precision: nil
     t.datetime "group_responsibility_notified_at", precision: nil
     t.index ["archived_at"], name: "index_issue_on_archived_at"
     t.index ["category_id"], name: "index_issue_on_category_id"
@@ -352,7 +351,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.datetime "updated_at", null: false
     t.json "password_history"
     t.datetime "password_updated_at", precision: nil
-    t.boolean "notification_recipient", default: false, null: false
     t.boolean "group_responsibility_recipient", default: false, null: false
   end
 
