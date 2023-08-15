@@ -1,7 +1,7 @@
 <h1><%= Responsibility.model_name.human count: 2 %></h1>
 
 <%= render partial: 'simple_text_filter' %>
-<%= paginate @responsibilities %>
+<%= paginate @categories %>
 
 <table class="table">
   <thead>
@@ -13,31 +13,40 @@
         <%= order_link Category.model_name.human(count: 1), :responsibilities, :category %>
       </th>
       <th>
-        <%= order_link Group.model_name.human(count: 1), :responsibilities, :group %>
+        <%= Group.model_name.human(count: 1) %>
+        <span class="float-end"><%= t :actions %></span>
       </th>
-      <th><%= t :actions %></th>
     </tr>
   </thead>
   <tbody>
-    <% @responsibilities.each do |responsibility| -%>
+    <% @categories.each do |category| -%>
       <tr>
-        <td><%= responsibility.category.kind_name %></td>
-        <td><%= responsibility.category %></td>
-        <td title="<%= responsibility.group.logging_subject_name %>">
-          <%= responsibility.group %>
-        </td>
+        <td><%= category.kind_name %></td>
+        <td><%= category %></td>
         <td>
-          <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
-                remote: true, class: 'btn btn-sm btn-outline-primary' %>
-          <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
-                method: :delete, class: 'btn btn-sm btn-outline-danger', data: { confirm: t('.confirm_delete') } %>
+          <table class="table inner-table">
+            <% category.responsibilities.authorized.active.each do |responsibility| %>
+              <tr>
+                <td title="<%= responsibility.group.logging_subject_name %>">
+                  <%= responsibility.group %>
+                </td>
+                <td class="text-end">
+                  <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
+                        remote: true, class: 'btn btn-sm btn-outline-primary' %>
+                  <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
+                        method: :delete, class: 'btn btn-sm btn-outline-danger',
+                        data: { confirm: t('.confirm_delete') } %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
         </td>
       </tr>
     <% end -%>
   </tbody>
 </table>
 
-<%= paginate @responsibilities %>
+<%= paginate @categories %>
 
 <% content_for :footer do %>
   <div class="float-end">

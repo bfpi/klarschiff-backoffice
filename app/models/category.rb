@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
+  include FullTextFilter
+
   belongs_to :main_category
   belongs_to :sub_category
 
@@ -25,5 +27,11 @@ class Category < ApplicationRecord
   def group(lat:, lon:)
     responsibilities.regional(lat:, lon:).first&.group ||
       Group.regional(lat:, lon:).find_by(reference_default: true)
+  end
+
+  private
+
+  def full_text_content
+    [to_s, responsibilities.map(&:group).map(&:to_s)].join(' ')
   end
 end
