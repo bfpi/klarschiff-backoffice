@@ -19,7 +19,7 @@ GET http://[API endpoint]/discovery.[format]
 
 output values come from the config/citysdk.yml
 
-Sample response:
+Sample Response:
 
 ```xml
 <dicovery>
@@ -749,7 +749,7 @@ Parameters:
 |:--|:-:|:--|:--|
 | confirmation_hash | X | String | generated and transmitted UUID |
 
-Sample response:
+Sample Response:
 
 ```xml
 <service_requests>
@@ -792,7 +792,7 @@ Parameters:
 |:--|:-:|:--|:--|
 | confirmation_hash | X | String | generated and transmitted UUID |
 
-Sample response:
+Sample Response:
 
 ```xml
 <service_requests>
@@ -814,7 +814,7 @@ Parameters:
 | api_key | X | String | API key |
 | login | X | String | Username |
 
-Sample response:
+Sample Response:
 
 ```xml
 <users>
@@ -840,7 +840,7 @@ Parameters:
 | password | X | String |  |
 | field_service_team | X | Integer |  |
 
-Sample response:
+Sample Response:
 
 ```xml
 <users>
