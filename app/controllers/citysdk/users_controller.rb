@@ -17,7 +17,7 @@ module Citysdk
     # :apidoc: | api_key | X | String | API key |
     # :apidoc: | login | X | String | Username |
     # :apidoc:
-    # :apidoc: Sample response:
+    # :apidoc: Sample Response:
     # :apidoc:
     # :apidoc: ```xml
     # :apidoc: <users>
@@ -48,7 +48,7 @@ module Citysdk
     # :apidoc: | password | X | String |  |
     # :apidoc: | field_service_team | X | Integer |  |
     # :apidoc:
-    # :apidoc: Sample response:
+    # :apidoc: Sample Response:
     # :apidoc:
     # :apidoc: ```xml
     # :apidoc: <users>

@@ -46,7 +46,7 @@ module Citysdk
       # :apidoc: |:--|:-:|:--|:--|
       # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
       # :apidoc:
-      # :apidoc: Sample response:
+      # :apidoc: Sample Response:
       # :apidoc:
       # :apidoc: ```xml
       # :apidoc: <service_requests>

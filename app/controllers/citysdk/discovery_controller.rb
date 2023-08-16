@@ -9,7 +9,7 @@ module Citysdk
     # :apidoc:
     # :apidoc: output values come from the config/citysdk.yml
     # :apidoc:
-    # :apidoc: Sample response:
+    # :apidoc: Sample Response:
     # :apidoc:
     # :apidoc: ```xml
     # :apidoc: <dicovery>
