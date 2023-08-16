@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class PhotosController < CitysdkController
       # :apidoc: ### Create new photo for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/photos/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/photos/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -35,6 +37,26 @@ module Citysdk
         citysdk_response photo, root: :photos, element_name: :photo, show_only_id: true, status: :created
       end
 
+      # :apidoc: ### Confirm photo for service request
+      # :apidoc: ```
+      # :apidoc: PUT http://[API endpoint]/requests/photos/[confirmation_hash]/confirm.[format]
+      # :apidoc: ```
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <service_requests>
+      # :apidoc:   <request>
+      # :apidoc:     <service_request_id>request.id</service_request_id>
+      # :apidoc:   </request>
+      # :apidoc: </service_requests>
+      # :apidoc: ```
       def confirm
         photo = Citysdk::Photo.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if photo.blank?

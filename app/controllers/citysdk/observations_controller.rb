@@ -3,7 +3,9 @@
 module Citysdk
   class ObservationsController < CitysdkController
     # :apidoc: ### Create new observation
-    # :apidoc: <code>POST http://[API endpoint]/observations.[format]</code>
+    # :apidoc: ```
+    # :apidoc: POST http://[API endpoint]/observations.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:

@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class AbusesController < CitysdkController
       # :apidoc: ### Create new abuse for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/abuses/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/abuses/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -33,6 +35,26 @@ module Citysdk
         citysdk_response abuse, root: :abuses, element_name: :abuse, show_only_id: true, status: :created
       end
 
+      # :apidoc: ### Confirm abuse for service request
+      # :apidoc: ```
+      # :apidoc: PUT http://[API endpoint]/requests/abuses/[confirmation_hash]/confirm.[format]
+      # :apidoc: ```
+      # :apidoc:
+      # :apidoc: Parameters:
+      # :apidoc:
+      # :apidoc: | Name | Required | Type | Notes |
+      # :apidoc: |:--|:-:|:--|:--|
+      # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
+      # :apidoc:
+      # :apidoc: Sample Response:
+      # :apidoc:
+      # :apidoc: ```xml
+      # :apidoc: <service_requests>
+      # :apidoc:   <request>
+      # :apidoc:     <service_request_id>request.id</service_request_id>
+      # :apidoc:   </request>
+      # :apidoc: </service_requests>
+      # :apidoc: ```
       def confirm
         abuse = Citysdk::Abuse.unscoped.find_by(confirmation_hash: params[:confirmation_hash], confirmed_at: nil)
         raise ActiveRecord::RecordNotFound if abuse.blank?

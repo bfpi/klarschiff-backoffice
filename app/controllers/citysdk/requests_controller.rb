@@ -7,7 +7,9 @@ module Citysdk
     before_action :encode_params, only: %i[create update]
 
     # :apidoc: ### Get service request
-    # :apidoc: <code>GET http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/requests/[service_request_id].[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -60,7 +62,9 @@ module Citysdk
     end
 
     # :apidoc: ### Create service request
-    # :apidoc: <code>POST http://[API endpoint]/requests.[format]</code>
+    # :apidoc: ```
+    # :apidoc: POST http://[API endpoint]/requests.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -166,12 +170,52 @@ module Citysdk
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
     end
 
+    # :apidoc: ### Confirm Service request
+    # :apidoc: ```
+    # :apidoc: PUT http://[API endpoint]/requests/[confirmation_hash]/confirm.[format]
+    # :apidoc: ```
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <service_requests>
+    # :apidoc:   <request>
+    # :apidoc:     <service_request_id>request.id</service_request_id>
+    # :apidoc:   </request>
+    # :apidoc: </service_requests>
+    # :apidoc: ```
     def confirm
       request = Request.find_by(status: :pending, confirmation_hash: params[:confirmation_hash])
       confirm_request(request)
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true
     end
 
+    # :apidoc: ### Destroy Service request
+    # :apidoc: ```
+    # :apidoc: PUT http://[API endpoint]/requests/[confirmation_hash]/revoke.[format]
+    # :apidoc: ```
+    # :apidoc:
+    # :apidoc: Parameters:
+    # :apidoc:
+    # :apidoc: | Name | Required | Type | Notes |
+    # :apidoc: |:--|:-:|:--|:--|
+    # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
+    # :apidoc:
+    # :apidoc: Sample Response:
+    # :apidoc:
+    # :apidoc: ```xml
+    # :apidoc: <service_requests>
+    # :apidoc:   <request>
+    # :apidoc:     <service_request_id>request.id</service_request_id>
+    # :apidoc:   </request>
+    # :apidoc: </service_requests>
+    # :apidoc: ```
     def destroy
       issue = Issue.includes(:abuse_reports, :supporters).where(status: %i[pending received])
         .where(abuse_report: { issue_id: nil }).where(supporter: { issue_id: nil })

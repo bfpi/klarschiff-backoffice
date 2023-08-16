@@ -6,7 +6,9 @@ module Citysdk
       extend ActiveSupport::Concern
 
       # :apidoc: ### Get service requests list
-      # :apidoc: <code>GET http://[API endpoint]/requests.[format]</code>
+      # :apidoc: ```
+      # :apidoc: GET http://[API endpoint]/requests.[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -31,7 +33,7 @@ module Citysdk
       # :apidoc: | also_archived | - | Boolean | Include already archived issues |
       # :apidoc: | just_count | - | Boolean | Switch response to only return amount of affected issues |
       # :apidoc: | max_requests | - | Integer | Maximum number of requests to return |
-      # :apidoc: | observation_key | - | String | MD5 hash of observed area to use as filter |
+      # :apidoc: | observation_key | - | String | UUID of observed area to use as filter |
       # :apidoc: | area_code | - | Integer | Filter issues by affected area ID |
       # :apidoc:
       # :apidoc: Available Open311 states for this action: `open`, `closed`\

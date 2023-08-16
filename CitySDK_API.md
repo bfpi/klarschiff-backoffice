@@ -13,10 +13,61 @@ To support some special functions there are also some additional enhancements to
 ## API methods
 
 ### Get discovery
-<code>GET http://[API endpoint]/discovery.[format]</code>
+```
+GET http://[API endpoint]/discovery.[format]
+```
+
+output values come from the config/citysdk.yml
+
+Sample Response:
+
+```xml
+<dicovery>
+  <changeset>2015-11-05 08:43</changeset>
+  <contact>
+    "Hanse- und Universitätsstadt Rostock, Kataster-, Vermessungs- und Liegenschaftsamt,
+    Holbeinplatz 14, 18069 Rostock, klarschiff.hro@rostock.de"
+  </contact>
+  <key_service>klarschiff.hro@rostock.de</key_service>
+  <endpoints>
+    <endpoint>
+      <specification>http://wiki.open311.org/GeoReport_v2</specification>
+      <url>https://geo.sv.rostock.de/citysdk</url>
+      <changeset>2015-11-05 08:43</changeset>
+      <type>production</type>
+      <formats>
+        <format>application/json</format>
+        <format>text/xml</format>
+      </formats>
+    </endpoint>
+    <endpoint>
+      <specification>http://wiki.open311.org/GeoReport_v2</specification>
+      <url>https://support.klarschiff-hro.de/citysdk</url>
+      <changeset>2015-11-05 08:43</changeset>
+      <type>test</type>
+      <formats>
+        <format>application/json</format>
+        <format>text/xml</format>
+      </formats>
+    </endpoint>
+    <endpoint>
+      <specification>http://wiki.open311.org/GeoReport_v2</specification>
+      <url>https://demo.klarschiff-hro.de/citysdk</url>
+      <changeset>2015-11-05 08:43</changeset>
+      <type>test</type>
+      <formats>
+        <format>application/json</format>
+        <format>text/xml</format>
+      </formats>
+    </endpoint>
+  </endpoints>
+</discovery>
+```
 
 ### GET services list
-<code>GET http://[API endpoint]/services.[format]</code>
+```
+GET http://[API endpoint]/services.[format]
+```
 
 Parameters:
 
@@ -40,7 +91,9 @@ Sample Response:
 </services>
 ```
 ### Get service definition
-<code>GET http://[API endpoint]/services/[id].[format]</code>
+```
+GET http://[API endpoint]/services/[id].[format]
+```
 
 Parameters:
 
@@ -63,7 +116,9 @@ Sample Response:
 ```
 
 ### Get service requests list
-<code>GET http://[API endpoint]/requests.[format]</code>
+```
+GET http://[API endpoint]/requests.[format]
+```
 
 Parameters:
 
@@ -88,7 +143,7 @@ Parameters:
 | also_archived | - | Boolean | Include already archived issues |
 | just_count | - | Boolean | Switch response to only return amount of affected issues |
 | max_requests | - | Integer | Maximum number of requests to return |
-| observation_key | - | String | MD5 hash of observed area to use as filter |
+| observation_key | - | String | UUID of observed area to use as filter |
 | area_code | - | Integer | Filter issues by affected area ID |
 
 Available Open311 states for this action: `open`, `closed`\
@@ -121,7 +176,9 @@ Sample Response:
 ```
 
 ### Get service request
-<code>GET http://[API endpoint]/requests/[service_request_id].[format]</code>
+```
+GET http://[API endpoint]/requests/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -166,7 +223,9 @@ Sample Response:
 </service_requests>
 ```
 ### Create service request
-<code>POST http://[API endpoint]/requests.[format]</code>
+```
+POST http://[API endpoint]/requests.[format]
+```
 
 Parameters:
 
@@ -248,9 +307,51 @@ Sample Response:
   </request>
 </service_requests>
 ```
+### Confirm Service request
+```
+PUT http://[API endpoint]/requests/[confirmation_hash]/confirm.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
+### Destroy Service request
+```
+PUT http://[API endpoint]/requests/[confirmation_hash]/revoke.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
 
 ### Get observable areas
-<code>GET http://[API endpoint]/areas.[format]</code>
+```
+GET http://[API endpoint]/areas.[format]
+```
 
 Parameters:
 
@@ -281,7 +382,9 @@ Sample Response:
 ```
 
 ### Get position coverage
-<code>GET http://[API endpoint]/coverage.[format]</code>
+```
+GET http://[API endpoint]/coverage.[format]
+```
 
 Parameters:
 
@@ -300,7 +403,9 @@ Sample Response:
 ```
 
 ### Get jobs list
-<code>GET http://[API endpoint]/jobs.[format]</code>
+```
+GET http://[API endpoint]/jobs.[format]
+```
 
 Parameters:
 
@@ -327,7 +432,9 @@ Sample Response:
 </jobs>
 ```
 ### Create new job
-<code>POST http://[API endpoint]/jobs.[format]</code>
+```
+POST http://[API endpoint]/jobs.[format]
+```
 
 Parameters:
 
@@ -383,7 +490,9 @@ Sample Response:
 ```
 
 ### Create new observation
-<code>POST http://[API endpoint]/observations.[format]</code>
+```
+POST http://[API endpoint]/observations.[format]
+```
 
 Parameters:
 
@@ -410,7 +519,9 @@ Sample Response:
 ```
 
 ### Create new abuse for service request
-<code>POST http://[API endpoint]/requests/abuses/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/abuses/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -430,9 +541,31 @@ Sample Response:
   </abuse>
 </abuses>
 ```
+### Confirm abuse for service request
+```
+PUT http://[API endpoint]/requests/abuses/[confirmation_hash]/confirm.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
 
 ### Get comments list for service request
-<code>GET http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+```
+GET http://[API endpoint]/requests/comments/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -455,7 +588,9 @@ Sample Response:
 </comments>
 ```
 ### Create new comment for service request
-<code>POST http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/comments/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -482,7 +617,9 @@ Sample Response:
 ```
 
 ### Create new completion for service request
-<code>POST http://[API endpoint]/requests/completions/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/completions/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -501,9 +638,31 @@ Sample Response:
   </completion>
 </completions>
 ```
+### Confirm completion for service request
+```
+PUT [API endpoint]/requests/completions/[confirmation_hash]/confirm.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
 
 ### Get notes list for service request
-<code>GET http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+```
+GET http://[API endpoint]/requests/notes/[service_request_id].[format]
+```
 
 Notes are internal comments on issues.
 
@@ -528,7 +687,9 @@ Sample Response:
 </notes>
 ```
 ### Create new note for service request
-<code>POST http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/notes/[service_request_id].[format]
+```
 
 Notes are internal comments on issues.
 
@@ -556,7 +717,9 @@ Sample Response:
 ```
 
 ### Create new photo for service request
-<code>POST http://[API endpoint]/requests/photos/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/photos/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -575,9 +738,31 @@ Sample Response:
   </photo>
 </photos>
 ```
+### Confirm photo for service request
+```
+PUT http://[API endpoint]/requests/photos/[confirmation_hash]/confirm.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
 
 ### Create new vote for service request
-<code>POST http://[API endpoint]/requests/votes/[service_request_id].[format]</code>
+```
+POST http://[API endpoint]/requests/votes/[service_request_id].[format]
+```
 
 Parameters:
 
@@ -595,5 +780,76 @@ Sample Response:
     <id>vote.id</id>
   </vote>
 </votes>
+```
+### Confirm vote for service request
+```
+PUT http://[API endpoint]/requests/votes/[confirmation_hash]/confirm.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| confirmation_hash | X | String | generated and transmitted UUID |
+
+Sample Response:
+
+```xml
+<service_requests>
+  <request>
+    <service_request_id>request.id</service_request_id>
+  </request>
+</service_requests>
+```
+
+### Get users
+```
+GET http://[API endpoint]/users.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| login | X | String | Username |
+
+Sample Response:
+
+```xml
+<users>
+  <user>
+    <id>user.id</id>
+    <name>user.last_name, user.first_name</name>
+    <email>user.email</email>
+    <field_service_team/>
+  </user>
+</users>
+```
+### Create users
+```
+POST http://[API endpoint]/users.[format]
+```
+
+Parameters:
+
+| Name | Required | Type | Notes |
+|:--|:-:|:--|:--|
+| api_key | X | String | API key |
+| login | X | String | Username |
+| password | X | String |  |
+| field_service_team | X | Integer |  |
+
+Sample Response:
+
+```xml
+<users>
+  <user>
+    <id>user.id</id>
+    <name>user.last_name, user.first_name</name>
+    <email>user.email</email>
+    <field_service_team/>
+  </user>
+</users>
 ```
 

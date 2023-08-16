@@ -5,7 +5,9 @@ module Citysdk
     skip_before_action :validate_status
 
     # :apidoc: ### Get jobs list
-    # :apidoc: <code>GET http://[API endpoint]/jobs.[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/jobs.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -38,7 +40,9 @@ module Citysdk
     end
 
     # :apidoc: ### Create new job
-    # :apidoc: <code>POST http://[API endpoint]/jobs.[format]</code>
+    # :apidoc: ```
+    # :apidoc: POST http://[API endpoint]/jobs.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
