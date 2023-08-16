@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class CompletionsController < CitysdkController
       # :apidoc: ### Create new completion for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/completions/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/completions/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -35,13 +37,15 @@ module Citysdk
       end
 
       # :apidoc: ### Confirm completion for service request
-      # :apidoc: <code>PUT [API endpoint]/requests/completions/[confirmation_hash]/confirm.[format]</code>
+      # :apidoc: ```
+      # :apidoc: PUT [API endpoint]/requests/completions/[confirmation_hash]/confirm.[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
       # :apidoc: | Name | Required | Type | Notes |
       # :apidoc: |:--|:-:|:--|:--|
-      # :apidoc: | confirmation_hash | X | String | A created UUID |
+      # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
       # :apidoc:
       # :apidoc: Sample Response:
       # :apidoc:

@@ -3,7 +3,9 @@
 module Citysdk
   class AreasController < CitysdkController
     # :apidoc: ### Get observable areas
-    # :apidoc: <code>GET http://[API endpoint]/areas.[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/areas.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:

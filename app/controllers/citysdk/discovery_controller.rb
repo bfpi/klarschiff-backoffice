@@ -3,10 +3,15 @@
 module Citysdk
   class DiscoveryController < CitysdkController
     # :apidoc: ### Get discovery
-    # :apidoc: <code>GET http://[API endpoint]/discovery.[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/discovery.[format]
+    # :apidoc: ```
+    # :apidoc:
+    # :apidoc: output values come from the config/citysdk.yml
     # :apidoc:
     # :apidoc: Sample response:
     # :apidoc:
+    # :apidoc: ```xml
     # :apidoc: <dicovery>
     # :apidoc:   <changeset>2015-11-05 08:43</changeset>
     # :apidoc:   <contact>
@@ -47,6 +52,7 @@ module Citysdk
     # :apidoc:     </endpoint>
     # :apidoc:   </endpoints>
     # :apidoc: </discovery>
+    # :apidoc: ```
     def index
       citysdk_response(Citysdk::Discovery.new, { element_name: :discovery })
     end

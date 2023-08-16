@@ -3,7 +3,9 @@
 module Citysdk
   class ServicesController < CitysdkController
     # :apidoc: ### GET services list
-    # :apidoc: <code>GET http://[API endpoint]/services.[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/services.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -32,7 +34,9 @@ module Citysdk
     end
 
     # :apidoc: ### Get service definition
-    # :apidoc: <code>GET http://[API endpoint]/services/[id].[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/services/[id].[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:

@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class AbusesController < CitysdkController
       # :apidoc: ### Create new abuse for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/abuses/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/abuses/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -34,13 +36,15 @@ module Citysdk
       end
 
       # :apidoc: ### Confirm abuse for service request
-      # :apidoc: <code>PUT http://[API endpoint]/requests/abuses/[confirmation_hash]/confirm.[format]</code>
+      # :apidoc: ```
+      # :apidoc: PUT http://[API endpoint]/requests/abuses/[confirmation_hash]/confirm.[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
       # :apidoc: | Name | Required | Type | Notes |
       # :apidoc: |:--|:-:|:--|:--|
-      # :apidoc: | confirmation_hash | X | String | A created UUID |
+      # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
       # :apidoc:
       # :apidoc: Sample Response:
       # :apidoc:

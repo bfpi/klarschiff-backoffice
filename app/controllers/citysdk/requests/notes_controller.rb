@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class NotesController < CitysdkController
       # :apidoc: ### Get notes list for service request
-      # :apidoc: <code>GET http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: GET http://[API endpoint]/requests/notes/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Notes are internal comments on issues.
       # :apidoc:
@@ -34,7 +36,9 @@ module Citysdk
       end
 
       # :apidoc: ### Create new note for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/notes/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/notes/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Notes are internal comments on issues.
       # :apidoc:

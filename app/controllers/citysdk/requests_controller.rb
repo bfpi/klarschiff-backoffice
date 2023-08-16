@@ -7,7 +7,9 @@ module Citysdk
     before_action :encode_params, only: %i[create update]
 
     # :apidoc: ### Get service request
-    # :apidoc: <code>GET http://[API endpoint]/requests/[service_request_id].[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/requests/[service_request_id].[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -60,7 +62,9 @@ module Citysdk
     end
 
     # :apidoc: ### Create service request
-    # :apidoc: <code>POST http://[API endpoint]/requests.[format]</code>
+    # :apidoc: ```
+    # :apidoc: POST http://[API endpoint]/requests.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -167,13 +171,15 @@ module Citysdk
     end
 
     # :apidoc: ### Confirm Service request
-    # :apidoc: <code>PUT http://[API endpoint]/requests/[confirmation_hash]/confirm.[format]
+    # :apidoc: ```
+    # :apidoc: PUT http://[API endpoint]/requests/[confirmation_hash]/confirm.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
     # :apidoc: | Name | Required | Type | Notes |
     # :apidoc: |:--|:-:|:--|:--|
-    # :apidoc: | confirmation_hash | X | String | A created UUID |
+    # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
@@ -191,13 +197,15 @@ module Citysdk
     end
 
     # :apidoc: ### Destroy Service request
-    # :apidoc: <code>PUT http://[API endpoint]/requests/[confirmation_hash]/revoke.[format]</code>
+    # :apidoc: ```
+    # :apidoc: PUT http://[API endpoint]/requests/[confirmation_hash]/revoke.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
     # :apidoc: | Name | Required | Type | Notes |
     # :apidoc: |:--|:-:|:--|:--|
-    # :apidoc: | confirmation_hash | X | String | A created UUID |
+    # :apidoc: | confirmation_hash | X | String | generated and transmitted UUID |
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:

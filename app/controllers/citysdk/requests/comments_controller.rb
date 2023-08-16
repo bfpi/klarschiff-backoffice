@@ -4,7 +4,9 @@ module Citysdk
   module Requests
     class CommentsController < CitysdkController
       # :apidoc: ### Get comments list for service request
-      # :apidoc: <code>GET http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: GET http://[API endpoint]/requests/comments/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:
@@ -32,7 +34,9 @@ module Citysdk
       end
 
       # :apidoc: ### Create new comment for service request
-      # :apidoc: <code>POST http://[API endpoint]/requests/comments/[service_request_id].[format]</code>
+      # :apidoc: ```
+      # :apidoc: POST http://[API endpoint]/requests/comments/[service_request_id].[format]
+      # :apidoc: ```
       # :apidoc:
       # :apidoc: Parameters:
       # :apidoc:

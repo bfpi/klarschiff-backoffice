@@ -1,6 +1,5 @@
 development: &default
-
-  media_base_url: https://www.klarschiff-mv.de
+  media_base_url: https://www.klarschiff-hro.de
   discovery_changeset: 2015-11-05 08:43
   discovery_contact: "Hanse- und Universitätsstadt Rostock, Kataster-, Vermessungs- und Liegenschaftsamt, Holbeinplatz 14, 18069 Rostock, klarschiff.hro@rostock.de"
   discovery_key_service: klarschiff.hro@rostock.de

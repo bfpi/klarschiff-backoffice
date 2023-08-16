@@ -6,7 +6,9 @@ module Citysdk
     before_action :check_credentials, only: :create
 
     # :apidoc: ### Get users
-    # :apidoc: <code>GET http://[API endpoint]/users.[format]</code>
+    # :apidoc: ```
+    # :apidoc: GET http://[API endpoint]/users.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
@@ -33,7 +35,9 @@ module Citysdk
     end
 
     # :apidoc: ### Create users
-    # :apidoc: <code>POST http://[API endpoint]/users.[format]</code>
+    # :apidoc: ```
+    # :apidoc: POST http://[API endpoint]/users.[format]
+    # :apidoc: ```
     # :apidoc:
     # :apidoc: Parameters:
     # :apidoc:
