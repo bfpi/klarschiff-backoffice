@@ -87,17 +87,22 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
-      uri_options = { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }
-      uri_options[:proxy] = URI.parse(config.proxy) if config.respond_to?(:proxy) && config.proxy.present?
       begin
-        if (res = uri.open(uri_options)) && res.status.include?('OK')
+        if (res = uri.open(request_uri_options)) && res.status.include?('OK')
           return JSON.parse(res.read).try(:[], 'features')
         end
-      rescue OpenURI::HTTPError => error
-        Rails.logger.error "Geocodr Error: #{ $!.inspect }, #{ $!.message }\n  " << $!.backtrace.join("\n  ")
+      rescue OpenURI::HTTPError
+        Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
+        Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
       end
 
       nil
+    end
+
+    def request_uri_options
+      uri_options = { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }
+      uri_options[:proxy] = URI.parse(config.proxy) if config.respond_to?(:proxy) && config.proxy.present?
+      uri_options
     end
   end
 end
