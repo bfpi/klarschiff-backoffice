@@ -68,7 +68,8 @@ class Geocodr
     end
 
     def order_features(issue, search_class)
-      request_features(issue, search_class).pluck('properties').sort_by { |a| a['entfernung'] }
+      return [] if (features = request_features(issue, search_class)).blank?
+      features.pluck('properties').sort_by { |a| a['entfernung'] }
     end
 
     def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
