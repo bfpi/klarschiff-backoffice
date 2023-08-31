@@ -9,7 +9,7 @@
         "type": "Point"
       },
       "properties": {
-        "_title_": "Rostock, Hanse- und Universit\u00e4tsstadt, Reutershagen, Holbeinplatz 14",
+        "_title_": "Reutershagen, Holbeinplatz 14",
         "gemeinde_name": "Rostock, Hanse- und Universit\u00e4tsstadt",
         "gemeinde_name_suchzusatz": null,
         "gemeinde_schluessel": "130030000000",
@@ -25,11 +25,11 @@
         "id_alkis": null,
         "kreis_name": "Rostock",
         "kreis_schluessel": "13003",
-        "objektgruppe": "Adresse",
+        "objektgruppe": "Adresse HRO",
         "postleitzahl": "18069",
         "strasse_name": "Holbeinplatz",
         "strasse_schluessel": "03680",
-        "suchklasse": "Adresse",
+        "suchklasse": "Adresse HRO",
         "uuid": "e4c0d7fc-3f3c-11e5-9fc5-0050569b7e95"
       },
       "type": "Feature"
