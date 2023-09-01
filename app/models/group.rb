@@ -35,9 +35,9 @@ class Group < ApplicationRecord
 
     def regional(lat:, lon:)
       active.joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
-        LEFT JOIN #{aqtn} "a" ON "a"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'AuthorityGroup'
-        LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
-        LEFT JOIN #{iqtn} "i" ON "i"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'InstanceGroup'
+        LEFT JOIN #{athority_tn} "a" ON "a"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'AuthorityGroup'
+        LEFT JOIN #{county_tn} "c" ON "c"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'CountyGroup'
+        LEFT JOIN #{instance_tn} "i" ON "i"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'InstanceGroup'
       JOIN
         (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "a"."area") OR
         (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "c"."area") OR
@@ -51,19 +51,19 @@ class Group < ApplicationRecord
         .inject :or
     end
 
-    def aqtn
+    def athority_tn
       Authority.quoted_table_name
     end
 
-    def cqtn
+    def county_tn
       County.quoted_table_name
     end
 
-    def gqtn
+    def group_tn
       Group.quoted_table_name
     end
 
-    def iqtn
+    def instance_tn
       Instance.quoted_table_name
     end
   end
