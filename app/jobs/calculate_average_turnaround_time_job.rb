@@ -12,7 +12,7 @@ class CalculateAverageTurnaroundTimeJob < ApplicationJob
 
   private
 
-  def average_turnaround_days(category_id)
+  def average_turnaround_days(category_id) # rubocop:disable Metrics/MethodLength
     status = Issue.human_enum_name(:status, :in_process)
     LogEntry.connection.select_value <<~SQL.squish
       SELECT EXTRACT(DAY FROM AVG("diff"))::INTEGER

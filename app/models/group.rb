@@ -34,10 +34,6 @@ class Group < ApplicationRecord
     end
 
     def regional(lat:, lon:)
-      aqtn = Authority.quoted_table_name
-      cqtn = County.quoted_table_name
-      gqtn = Group.quoted_table_name
-      iqtn = Instance.quoted_table_name
       active.joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
         LEFT JOIN #{aqtn} "a" ON "a"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'AuthorityGroup'
         LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
@@ -53,6 +49,22 @@ class Group < ApplicationRecord
       return all if user&.role_admin?
       user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
         .inject :or
+    end
+
+    def aqtn
+      Authority.quoted_table_name
+    end
+
+    def cqtn
+      County.quoted_table_name
+    end
+
+    def gqtn
+      Group.quoted_table_name
+    end
+
+    def iqtn
+      Instance.quoted_table_name
     end
   end
 

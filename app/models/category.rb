@@ -32,6 +32,6 @@ class Category < ApplicationRecord
   private
 
   def full_text_content
-    [to_s, responsibilities.map(&:group).map(&:to_s)].join(' ')
+    [to_s, responsibilities.map { |x| x.group.to_s }].join(' ')
   end
 end

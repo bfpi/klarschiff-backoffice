@@ -50,10 +50,10 @@ class Geocodr
     end
 
     def valid?(address)
-      return unless address =~ /(\d{5})/
+      return false unless address =~ /(\d{5})/
       attr = { zip: Regexp.last_match(1) }
       address.delete! Regexp.last_match(1), ','
-      return unless address =~ /([a-zA-Zß .]*)\s(\d*)([a-zA-Z ]*)/
+      return false unless address =~ /([a-zA-Zß .]*)\s(\d*)([a-zA-Z ]*)/
       attr.merge street: Regexp.last_match(1), no: Regexp.last_match(2), no_addition: Regexp.last_match(3)
     end
 
