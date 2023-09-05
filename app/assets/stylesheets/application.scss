@@ -5,7 +5,7 @@ $table-cell-padding: 0.5rem;
 $spinner-width: 1rem;
 $yellow: #f80;
 
-@import 'ol';
+@import 'ol/ol';
 @import 'autocomplete';
 @import 'maps';
 @import 'bootstrap';
