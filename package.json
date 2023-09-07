@@ -17,7 +17,7 @@
     "stylelint-scss": "^5.2.1"
   },
   "dependencies": {
-    "ol": "^8.0.0",
+    "ol": "^8.1.0",
     "proj4": "^2.9.0",
     "tablednd": "^1.0.5"
   }

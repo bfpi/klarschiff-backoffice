@@ -20,12 +20,12 @@ jobs:
           submodules: true
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: latest
+      - run: yarn install
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - run: npm ci
       - name: Prepare Config
         run: |
           rm config/database.yml
