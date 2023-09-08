@@ -7,6 +7,8 @@ class ResponsibilitiesController < ApplicationController
 
   def index
     @categories = filter(Category.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
+    @responsibilities = filter(Responsibility.includes(:group, { category: %i[main_category sub_category] })
+      .authorized.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def new
@@ -55,6 +57,8 @@ class ResponsibilitiesController < ApplicationController
       main_category_arel_table[:kind].send(dir)
     when :category
       [main_category_arel_table[:name].send(dir), sub_category_arel_table[:name].send(dir)]
+    when :group
+      group_arel_table[:name].send(dir)
     end
   end
 
