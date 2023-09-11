@@ -88,15 +88,12 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
-      begin
-        if (res = uri.open(request_uri_options)) && res.status.include?('OK')
-          return JSON.parse(res.read).try(:[], 'features')
-        end
-      rescue OpenURI::HTTPError
-        Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
-        Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
+      if (res = uri.open(request_uri_options)) && res.status.include?('OK')
+        JSON.parse(res.read).try(:[], 'features')
       end
-
+    rescue OpenURI::HTTPError
+      Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
+      Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
       nil
     end
 

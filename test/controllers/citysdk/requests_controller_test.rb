@@ -233,6 +233,23 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test 'create with frontend api-key but geocodr returns forbidden' do
+    URI.stub :open, OpenURI::HTTPError.new(403, 'FORBIDDEN') do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      doc = Nokogiri::XML(response.parsed_body)
+      service_request_id = doc.xpath('/service_requests/request/service_request_id')
+      assert_not_empty doc.xpath('/service_requests/request/create_message')
+      assert_equal 1, service_request_id.count
+      assert issue = Issue.find(service_request_id.first.text)
+      assert_enqueued_emails 1
+      assert_enqueued_email_with(
+        ConfirmationMailer, :issue,
+        args: [{ to: 'test@example.com', confirmation_hash: issue.confirmation_hash, issue_id: issue.id,
+                 with_photo: false }]
+      )
+    end
+  end
+
   test 'create with frontend api-key but geocodr is not available' do
     URI.stub :open, OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
