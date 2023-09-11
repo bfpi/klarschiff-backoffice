@@ -1,0 +1,44 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          12.098038536588108,
+          54.09296279192458
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "_title_": "Reutershagen, Holbeinplatz 14",
+        "gemeinde_name": "Rostock, Hanse- und Universit\u00e4tsstadt",
+        "gemeinde_name_suchzusatz": null,
+        "gemeinde_schluessel": "130030000000",
+        "gemeindeteil_abkuerzung": "Rhg",
+        "gemeindeteil_name": "Reutershagen",
+        "gemeindeteil_schluessel": "0013",
+        "gemeindeverband_name": "Rostock, Hanse- und Universit\u00e4tsstadt",
+        "gemeindeverband_schluessel": "130030000",
+        "hausnummer": "14",
+        "hausnummer_zusatz": null,
+        "historisch": false,
+        "historisch_seit": null,
+        "id_alkis": null,
+        "kreis_name": "Rostock",
+        "kreis_schluessel": "13003",
+        "objektgruppe": "Adresse HRO",
+        "postleitzahl": "18069",
+        "strasse_name": "Holbeinplatz",
+        "strasse_schluessel": "03680",
+        "suchklasse": "Adresse HRO",
+        "uuid": "e4c0d7fc-3f3c-11e5-9fc5-0050569b7e95"
+      },
+      "type": "Feature"
+    }
+  ],
+  "properties": {
+    "features_offset": 0,
+    "features_returned": 1,
+    "features_total": 1
+  },
+  "type": "FeatureCollection"
+}

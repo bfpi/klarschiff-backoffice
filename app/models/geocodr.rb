@@ -68,13 +68,14 @@ class Geocodr
     end
 
     def order_features(issue, search_class)
-      request_features(issue, search_class).pluck('properties').sort_by { |a| a['entfernung'] }
+      return [] if (features = request_features(issue, search_class)).blank?
+      features.pluck('properties').sort_by { |a| a['entfernung'] }
     end
 
     def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
       uri = URI.parse(config.url)
       query = issue
-      query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position)
+      query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position) && issue.position.present?
       uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape, out_epsg))
       request_and_parse_features uri
     end
@@ -87,12 +88,19 @@ class Geocodr
     end
 
     def request_and_parse_features(uri)
+      if (res = uri.open(request_uri_options)) && res.status.include?('OK')
+        JSON.parse(res.read).try(:[], 'features')
+      end
+    rescue OpenURI::HTTPError
+      Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
+      Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
+      nil
+    end
+
+    def request_uri_options
       uri_options = { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }
       uri_options[:proxy] = URI.parse(config.proxy) if config.respond_to?(:proxy) && config.proxy.present?
-      if (res = uri.open(uri_options)) && res.status.include?('OK')
-        return JSON.parse(res.read).try(:[], 'features')
-      end
-      nil
+      uri_options
     end
   end
 end
