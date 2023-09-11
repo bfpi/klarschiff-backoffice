@@ -6,8 +6,8 @@ module Citysdk
 
     def set_position_from_attributes
       return if @address_string.blank? && @lat.blank? && @long.blank?
-      if ::Geocodr.valid?(@address_string)
-        @long, @lat = ::Geocodr.find(@address_string).first['geometry']['coordinates']
+      if ::Geocodr.valid?(@address_string) && (response = ::Geocodr.find(@address_string)).present?
+        @long, @lat = response.first['geometry']['coordinates']
       end
       self.position = "POINT(#{@long} #{@lat})"
     end

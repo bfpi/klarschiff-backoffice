@@ -75,7 +75,7 @@ class Geocodr
     def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
       uri = URI.parse(config.url)
       query = issue
-      query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position)
+      query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position) && issue.position.present?
       uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape, out_epsg))
       request_and_parse_features uri
     end
