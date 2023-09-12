@@ -67,7 +67,12 @@
   dependencies:
     eslint-visitor-keys "^3.3.0"
 
-"@eslint-community/regexpp@^4.5.0", "@eslint-community/regexpp@^4.6.1":
+"@eslint-community/regexpp@^4.6.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.8.0.tgz#11195513186f68d42fbf449f9a7136b2c0c92005"
+  integrity sha512-JylOEEzDiOryeUnFbQz+oViCXS0KsvR1mvHkoMiu5+UiBvy+RYX7tzlIIIEstF/gVa2tj9AQXk3dgnxv6KxhFg==
+
+"@eslint-community/regexpp@^4.6.1":
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.6.2.tgz#1816b5f6948029c5eaacb0703b850ee0cb37d8f8"
   integrity sha512-pPTNuaAG3QMH+buKyBIGJs3g/S5y0caxw0ygM3YyE6yJFySwiGGSzA+mM3KJ8QQvzeLh3blwgSonkFjgQdxzMw==
@@ -680,13 +685,13 @@ eslint-module-utils@^2.8.0:
   dependencies:
     debug "^3.2.7"
 
-eslint-plugin-es-x@^6.1.0:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-es-x/-/eslint-plugin-es-x-6.2.1.tgz#34c9abc22483d7d49ff9ca8b5db29d54442d2e6b"
-  integrity sha512-uR34zUhZ9EBoiSD2DdV5kHLpydVEvwWqjteUr9sXRgJknwbKZJZhdJ7uFnaTtd+Nr/2G3ceJHnHXrFhJ67n3Tw==
+eslint-plugin-es-x@^7.1.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-es-x/-/eslint-plugin-es-x-7.2.0.tgz#5779d742ad31f8fd780b9481331481e142b72311"
+  integrity sha512-9dvv5CcvNjSJPqnS5uZkqb3xmbeqRLnvXKK7iI5+oK/yTusyc46zbBZKENGsOfojm/mKfszyZb+wNqNPAPeGXA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.1.2"
-    "@eslint-community/regexpp" "^4.5.0"
+    "@eslint-community/regexpp" "^4.6.0"
 
 eslint-plugin-es@^3.0.0:
   version "3.0.1"
@@ -725,19 +730,20 @@ eslint-plugin-import@^2.28.0:
     semver "^6.3.1"
     tsconfig-paths "^3.14.2"
 
-eslint-plugin-n@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-n/-/eslint-plugin-n-16.0.0.tgz#de39e4dd6cf04fd78fd6f49cb39ecb20ea0167ff"
-  integrity sha512-akkZTE3hsHBrq6CwmGuYCzQREbVUrA855kzcHqe6i0FLBkeY7Y/6tThCVkjUnjhvRBAlc+8lILcSe5QvvDpeZQ==
+eslint-plugin-n@^16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-n/-/eslint-plugin-n-16.1.0.tgz#73d24fe3e37d04519c1f9230bdbd3aa567c66799"
+  integrity sha512-3wv/TooBst0N4ND+pnvffHuz9gNPmk/NkLwAxOt2JykTl/hcuECe6yhTtLJcZjIxtZwN+GX92ACp/QTLpHA3Hg==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
     builtins "^5.0.1"
-    eslint-plugin-es-x "^6.1.0"
-    ignore "^5.1.1"
-    is-core-module "^2.12.0"
+    eslint-plugin-es-x "^7.1.0"
+    get-tsconfig "^4.7.0"
+    ignore "^5.2.4"
+    is-core-module "^2.12.1"
     minimatch "^3.1.2"
     resolve "^1.22.2"
-    semver "^7.5.0"
+    semver "^7.5.3"
 
 eslint-plugin-node@^11.1.0:
   version "11.1.0"
@@ -993,6 +999,13 @@ get-symbol-description@^1.0.0:
   dependencies:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
+
+get-tsconfig@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.0.tgz#06ce112a1463e93196aa90320c35df5039147e34"
+  integrity sha512-pmjiZ7xtB8URYm74PlGJozDNyhvsVLUcpBa8DZBG3bWHwaHa9bPiRpiSfovw+fjhwONSCWKRyk+JQHEGZmMrzw==
+  dependencies:
+    resolve-pkg-maps "^1.0.0"
 
 glob-parent@^5.1.2:
   version "5.1.2"
@@ -1846,6 +1859,11 @@ resolve-from@^5.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
+resolve-pkg-maps@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/resolve-pkg-maps/-/resolve-pkg-maps-1.0.0.tgz#616b3dc2c57056b5588c31cdf4b3d64db133720f"
+  integrity sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==
+
 resolve@^1.10.1, resolve@^1.21.0, resolve@^1.22.1, resolve@^1.22.2, resolve@^1.22.3:
   version "1.22.3"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.3.tgz#4b4055349ffb962600972da1fdc33c46a4eb3283"
@@ -1898,7 +1916,7 @@ semver@^6.1.0, semver@^6.3.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.0.0, semver@^7.3.4, semver@^7.5.0:
+semver@^7.0.0, semver@^7.3.4, semver@^7.5.3:
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.4.tgz#483986ec4ed38e1c6c48c34894a9182dbff68a6e"
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
