@@ -34,14 +34,10 @@ class Group < ApplicationRecord
     end
 
     def regional(lat:, lon:)
-      aqtn = Authority.quoted_table_name
-      cqtn = County.quoted_table_name
-      gqtn = Group.quoted_table_name
-      iqtn = Instance.quoted_table_name
       active.joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
-        LEFT JOIN #{aqtn} "a" ON "a"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'AuthorityGroup'
-        LEFT JOIN #{cqtn} "c" ON "c"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'CountyGroup'
-        LEFT JOIN #{iqtn} "i" ON "i"."id" = #{gqtn}."reference_id" AND #{gqtn}."type" = 'InstanceGroup'
+        LEFT JOIN #{authority_tn} "a" ON "a"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'AuthorityGroup'
+        LEFT JOIN #{county_tn} "c" ON "c"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'CountyGroup'
+        LEFT JOIN #{instance_tn} "i" ON "i"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'InstanceGroup'
       JOIN
         (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "a"."area") OR
         (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "c"."area") OR
@@ -53,6 +49,22 @@ class Group < ApplicationRecord
       return all if user&.role_admin?
       user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
         .inject :or
+    end
+
+    def authority_tn
+      Authority.quoted_table_name
+    end
+
+    def county_tn
+      County.quoted_table_name
+    end
+
+    def group_tn
+      Group.quoted_table_name
+    end
+
+    def instance_tn
+      Instance.quoted_table_name
     end
   end
 

@@ -64,7 +64,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
   test 'create with area_code and all idea sub categories' do
     post '/citysdk/observations.xml',
       params: { area_code: Authority.ids.join(','),
-                idea_service_sub: MainCategory.kind_idea.map(&:sub_categories).map(&:ids).flatten.join(',') }
+                idea_service_sub: MainCategory.kind_idea.map { |x| x.sub_categories.ids }.flatten.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
     assert_predicate requests.count, :positive?
@@ -73,7 +73,7 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
   test 'create with area_code and all problem sub categories' do
     post '/citysdk/observations.xml',
       params: { area_code: Authority.ids.join(','),
-                problem_service_sub: MainCategory.kind_problem.map(&:sub_categories).map(&:ids).flatten.join(',') }
+                problem_service_sub: MainCategory.kind_problem.map { |x| x.sub_categories.ids }.flatten.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
     requests = doc.xpath('/observation/rss_id')
     assert_predicate requests.count, :positive?

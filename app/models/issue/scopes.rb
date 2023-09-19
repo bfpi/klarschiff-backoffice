@@ -77,15 +77,17 @@ class Issue
       def authorized_by_areas_for(group_ids)
         reference_ids = Group.active.where(id: group_ids).distinct.pluck(:reference_id)
         return none if reference_ids.blank?
+        authorized_by_references(reference_ids)
+      end
+
+      def authorized_by_references(reference_ids)
         where <<~SQL.squish, reference_ids, reference_ids
           ("position" && (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{County.quoted_table_name}
-            WHERE "id" IN (?)
+            FROM #{County.quoted_table_name} WHERE "id" IN (?)
           )) OR ("position" && (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{Authority.quoted_table_name}
-            WHERE "id" IN (?)
+            FROM #{Authority.quoted_table_name} WHERE "id" IN (?)
           ))
         SQL
       end

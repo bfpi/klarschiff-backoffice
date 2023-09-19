@@ -38,7 +38,7 @@ class DashboardsController
       Issue.not_archived.includes(category: :main_category).where(changed_responsibilities(groups.ids)).limit 10
     end
 
-    def changed_responsibilities(group_ids)
+    def changed_responsibilities(group_ids) # rubocop:disable Metrics/MethodLength
       ids = group_ids.join(', ')
       Arel.sql(<<~SQL.squish)
         #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
