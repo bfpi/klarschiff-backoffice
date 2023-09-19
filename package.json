@@ -16,5 +16,9 @@
     "stylelint-order": "^6.0.2",
     "stylelint-scss": "^5.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ol": "^8.1.0",
+    "proj4": "^2.9.0",
+    "tablednd": "^1.0.5"
+  }
 }
