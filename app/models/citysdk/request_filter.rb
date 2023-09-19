@@ -16,6 +16,7 @@ module Citysdk
     end
 
     def filter_collection(params)
+      default_filter_categories(params)
       default_filter_abuse_reports(params)
       default_filter_status(params)
       default_filter_area(params)
@@ -31,6 +32,10 @@ module Citysdk
     def limit_requests(params)
       return @collection if params[:max_requests].blank?
       @collection = @collection.limit(params[:max_requests].to_i)
+    end
+
+    def default_filter_categories(_params)
+      @collection = @collection.where(main_category: { deleted: false }).where(sub_category: { deleted: false })
     end
 
     def default_filter_abuse_reports(_params)
