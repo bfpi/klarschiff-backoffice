@@ -26,7 +26,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
     get "/citysdk/jobs.xml?api_key=#{api_key_ppc}&date=#{Time.zone.today}"
     doc = Nokogiri::XML(response.parsed_body)
     jobs = doc.xpath('/jobs/job/id')
-    assert_equal Job.all.count, jobs.count
+    assert_equal Job.count, jobs.count
   end
 
   test 'index with api-key ppci with given status' do
