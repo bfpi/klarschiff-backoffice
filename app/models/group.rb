@@ -35,7 +35,7 @@ class Group < ApplicationRecord
 
     def regional(lat:, lon:)
       active.joins(<<~JOIN.squish).where(<<~SQL.squish, lat: lat.to_f, lon: lon.to_f).order(:type)
-        LEFT JOIN #{athority_tn} "a" ON "a"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'AuthorityGroup'
+        LEFT JOIN #{authority_tn} "a" ON "a"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'AuthorityGroup'
         LEFT JOIN #{county_tn} "c" ON "c"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'CountyGroup'
         LEFT JOIN #{instance_tn} "i" ON "i"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'InstanceGroup'
       JOIN
@@ -51,7 +51,7 @@ class Group < ApplicationRecord
         .inject :or
     end
 
-    def athority_tn
+    def authority_tn
       Authority.quoted_table_name
     end
 
