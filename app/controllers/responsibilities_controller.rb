@@ -10,7 +10,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def new
-    @responsibility = Responsibility.new
+    @responsibility = Responsibility.new(category_id: params[:category].presence&.to_i)
   end
 
   def edit

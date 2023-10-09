@@ -45,7 +45,11 @@ Rails.application.routes.draw do
       put :update_statuses
     end
   end
-  resources :responsibilities
+  resources :responsibilities do
+    collection do
+      get 'new/:category' => 'responsibilities#new', as: :new
+    end
+  end
 
   namespace :citysdk do
     get 'coverage' => 'coverage#valid'
