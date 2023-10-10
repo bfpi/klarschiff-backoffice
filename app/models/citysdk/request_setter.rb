@@ -39,11 +39,11 @@ module Citysdk
 
     def job_status=(value)
       return unless job
-      unless value.in?(Job.citysdk_statuses.values)
+      unless value.in?(Job.citysdk_status.values)
         errors.add :job_status, :invalid
         raise ActiveRecord::RecordInvalid, self
       end
-      job.status = Job.citysdk_statuses.find { |k, v| k if v == value }.first
+      job.status = Job.citysdk_status.find { |k, v| k if v == value }.first
       job.save
     end
 

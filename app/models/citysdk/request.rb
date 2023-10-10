@@ -80,7 +80,7 @@ module Citysdk
 
     def job_status
       return nil unless job
-      Job.citysdk_statuses[job.status.to_sym]
+      Job.citysdk_status[job.status.to_sym]
     end
 
     def job_priority
