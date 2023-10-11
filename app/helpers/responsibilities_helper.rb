@@ -21,7 +21,7 @@ module ResponsibilitiesHelper
   def groups_options_with_selected(responsibility, groups)
     options = groups
     if (group = responsibility.group)
-      options << [[group.to_s, group.id]]
+      options |= [[group.to_s, group.id]]
     end
     options_for_select options, selected: group&.id
   end
