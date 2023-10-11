@@ -3,7 +3,7 @@
   <div class="col-4">
     <%= form.select :job_group_id,
           options_for_select(field_service_teams(form.object), form.object.job_group_id),
-          { include_blank: true }, class: 'form-select' %>
+          { include_blank: '' }, class: 'form-select' %>
   </div>
   <%= form.label :field_service_date, class: 'col-2 col-form-label' %>
   <div class="col-4">

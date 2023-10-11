@@ -11,7 +11,7 @@
             <%= label_tag :group_id, Job.human_attribute_name(:group), class: 'col-4 col-form-label' %>
             <div class="col-8">
               <%= select_tag :group_id, options_for_select(field_service_teams),
-                    include_blank: true, class: 'form-select' %>
+                    include_blank: '', class: 'form-select' %>
             </div>
           </div>
           <div class="row">

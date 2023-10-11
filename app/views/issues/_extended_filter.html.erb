@@ -13,7 +13,7 @@
           class: 'col-2 col-form-label' %>
     <div class="col-4">
       <%= select_tag 'filter[responsibility]', options_for_select(responsibilities, @filter[:responsibility]),
-            include_blank: true, class: 'form-select' %>
+            include_blank: '', class: 'form-select' %>
     </div>
     <%= label_tag :filter_kind, Issue.human_attribute_name(:kind), class: 'col-2 col-form-label' %>
     <div class="col-4">
@@ -24,7 +24,7 @@
     <%= label_tag :filter_delegation, Issue.human_attribute_name(:delegation), class: 'col-2 col-form-label' %>
     <div class="col-4">
       <%= select_tag 'filter[delegation]', options_for_select(delegations, @filter[:delegation]),
-            include_blank: true, class: 'form-select' %>
+            include_blank: '', class: 'form-select' %>
     </div>
     <%= label_tag :filter_main_category, 'Hauptkategorie', class: 'col-2 col-form-label' %>
     <div class="col-4">
@@ -52,7 +52,7 @@
           <%= label_tag :filter_archived, Issue.human_attribute_name(:archived), class: 'col-4 col-form-label' %>
           <div class="col-8">
             <%= select_tag 'filter[archived]', options_for_select(archived_options, @filter[:archived]),
-                  include_blank: true, class: 'form-select' %>
+                  include_blank: '', class: 'form-select' %>
           </div>
         </div>
         <div class="row">
@@ -99,7 +99,7 @@
         <%= label_tag :filter_priority, Issue.human_attribute_name(:priority), class: 'col-4 col-form-label' %>
         <div class="col-8">
           <%= select_tag 'filter[priority]', options_for_select(priorities, @filter[:priority]),
-                include_blank: true, class: 'form-select' %>
+                include_blank: '', class: 'form-select' %>
         </div>
       </div>
       <div class="row">
@@ -108,7 +108,7 @@
         <div class="col-8">
           <%= select_tag 'filter[updated_by_user]',
                 options_for_select(users.map { |u| [u.to_s, u.id] }, @filter[:updated_by_user]),
-                include_blank: true, class: 'form-select' %>
+                include_blank: '', class: 'form-select' %>
         </div>
       </div>
       <div class="row">

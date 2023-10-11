@@ -5,14 +5,13 @@
   <div class="col-8">
     <%= form.select :category_id,
           grouped_options_for_select(grouped_categories_for_responsibility, form.object.category_id),
-          { include_blank: true }, class: 'form-select' %>
+          { include_blank: '' }, class: 'form-select' %>
   </div>
 </div>
 
 <div class="row">
   <%= form.label :group, class: 'col-4 col-form-label' %>
   <div class="col-8">
-    <%= form.select :group_id, groups_options(form.object), { include_blank: true },
-          class: 'form-select' %>
+    <%= form.select :group_id, groups_options(form.object), { include_blank: '' }, class: 'form-select' %>
   </div>
 </div>
