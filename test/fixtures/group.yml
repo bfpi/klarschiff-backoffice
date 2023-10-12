@@ -38,7 +38,6 @@ internal3:
   <<: *DEFAULTS
   email:
   main_user:
-  reference_id:
   users: editor_two
 
 no_users_and_email:
