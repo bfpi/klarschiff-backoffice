@@ -38,6 +38,7 @@ internal3:
   <<: *DEFAULTS
   email:
   main_user:
+  reference_id: <%= ActiveRecord::FixtureSet.identify :three %>
   users: editor_two
 
 no_users_and_email:

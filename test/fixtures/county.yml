@@ -1,11 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+DEFAULTS: &DEFAULTS
+  regional_key: regional key $LABEL
+  name: $LABEL
+  area:
 
 one:
-  regional_key: MyText
-  name: MyText
-  area:
+  <<: *DEFAULTS
 
 two:
-  regional_key: MyText
-  name: MyText
-  area:
+  <<: *DEFAULTS
+
+three:
+  <<: *DEFAULTS
