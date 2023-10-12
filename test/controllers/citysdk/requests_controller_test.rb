@@ -234,7 +234,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key but geocodr returns forbidden' do
-    URI.stub :open, OpenURI::HTTPError.new(403, 'FORBIDDEN') do
+    OpenURI.stub :open_uri, -> (a, b) { raise OpenURI::HTTPError.new(403, 'FORBIDDEN') } do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
@@ -251,7 +251,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key but geocodr is not available' do
-    URI.stub :open, OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') do
+    OpenURI.stub :open_uri, -> (a, b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
@@ -350,7 +350,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute address_string but geocodr is not available' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
 
-    URI.stub :open, OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') do
+    OpenURI.stub :open_uri, -> (a, b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
       put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { address_string: new_value }
       doc = Nokogiri::XML(response.parsed_body)
       assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
