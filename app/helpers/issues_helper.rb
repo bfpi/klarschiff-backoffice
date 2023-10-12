@@ -123,6 +123,6 @@ module IssuesHelper
   end
 
   def possible_group_ids(issue)
-    Group.regional(lat: issue.position.y, lon: issue.position.x).map(&:id)
+    Group.regional(lat: issue.position.y, lon: issue.position.x).ids
   end
 end
