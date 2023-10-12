@@ -19,7 +19,10 @@ module ResponsibilitiesHelper
   private
 
   def groups_options_with_selected(responsibility, groups)
-    group = responsibility.group
-    options_for_select groups | [[group.to_s, group.id]], selected: group.id
+    options = groups
+    if (group = responsibility.group)
+      options |= [[group.to_s, group.id]]
+    end
+    options_for_select options, selected: group&.id
   end
 end

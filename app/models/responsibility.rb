@@ -46,7 +46,7 @@ class Responsibility < ApplicationRecord
   end
 
   def filter_group
-    { type: group.type, reference_id: group.reference_id }
+    { type: group&.type, reference_id: group&.reference_id }
   end
 
   def full_text_content

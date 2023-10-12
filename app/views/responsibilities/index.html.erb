@@ -39,6 +39,13 @@
                 </td>
               </tr>
             <% end %>
+            <tr>
+              <td></td>
+              <td class="float-end">
+                <%= link_to tag.i('', class: 'fa fa-plus'), new_category_responsibility_path(category),
+                      remote: true, class: 'btn btn-sm btn-outline-primary' %>
+              </td>
+            </tr>
           </table>
         </td>
       </tr>

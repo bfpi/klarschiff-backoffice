@@ -10,7 +10,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def new
-    @responsibility = Responsibility.new
+    @responsibility = Responsibility.new(params.permit(:category_id))
   end
 
   def edit
