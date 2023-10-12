@@ -2,12 +2,12 @@
 <div class="row">
   <%= form.label :user, for: :editorial_notification_user_id, class: 'col-2 col-form-label' %>
   <div class="col-4">
-    <%= form.collection_select :user_id, User.all, :id, :to_s, { include_blank: true }, { class: 'form-select' } %>
+    <%= form.collection_select :user_id, User.all, :id, :to_s, { include_blank: '' }, { class: 'form-select' } %>
   </div>
   <%= form.label :level, for: :editorial_level, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.select :level, options_for_select(levels, selected: form.object.level),
-          { include_blank: true }, { class: 'form-select' } %>
+          { include_blank: '' }, { class: 'form-select' } %>
   </div>
 </div>
 <div class="row">

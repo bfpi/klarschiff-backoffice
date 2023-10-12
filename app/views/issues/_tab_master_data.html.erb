@@ -51,7 +51,7 @@
   <%= form.label :category, for: :issue_main_user_id, class: 'col-2 col-form-label' %>
   <div class="col-4">
     <%= form.select :category_id, grouped_categories(form.object),
-          { include_blank: true }, class: 'form-select',
+          { include_blank: '' }, class: 'form-select',
           disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
   </div>
   <% unless restricted -%>
