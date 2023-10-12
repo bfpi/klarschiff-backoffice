@@ -73,7 +73,7 @@ class GroupTest < ActiveSupport::TestCase
     group = Group.new(active: true, type: 'InstanceGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:instance]
-    group.instance = instance(:one)
+    group.instance = instance(:mv)
     group.valid?
     assert_empty group.errors.details[:instance]
   end
