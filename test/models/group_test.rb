@@ -37,29 +37,44 @@ class GroupTest < ActiveSupport::TestCase
     group = Group.new(active: true, type: 'AuthorityGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:name]
+    group.name = 'abc'
+    group.valid?
+    assert_empty group.errors.details[:name]
   end
 
   test 'create with missing required email attribute' do
     group = Group.new(active: true, type: 'AuthorityGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:email]
+    group.email = 'abc@def.com'
+    group.valid?
+    assert_empty group.errors.details[:email]
   end
 
   test 'create with missing required authority attribute' do
     group = Group.new(active: true, type: 'AuthorityGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:authority]
+    group.authority = authority(:one)
+    group.valid?
+    assert_empty group.errors.details[:authority]
   end
 
   test 'create with missing required county attribute' do
     group = Group.new(active: true, type: 'CountyGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:county]
+    group.county = county(:one)
+    group.valid?
+    assert_empty group.errors.details[:county]
   end
 
   test 'create with missing required instance attribute' do
     group = Group.new(active: true, type: 'InstanceGroup', kind: :internal)
     assert_not group.valid?
     assert_equal [{ error: :blank }], group.errors.details[:instance]
+    group.instance = instance(:one)
+    group.valid?
+    assert_empty group.errors.details[:instance]
   end
 end
