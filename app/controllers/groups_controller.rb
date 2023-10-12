@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
         render :edit
       end
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

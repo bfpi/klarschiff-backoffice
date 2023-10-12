@@ -9,6 +9,12 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
       get '/groups'
       assert_response :success
     end
+
+    test "does not create with missing required params for #{role}" do
+      login username: role
+      post '/groups', params: { group: { active: true, type: 'AuthorityGroup', kind: :internal } }, xhr: true
+      assert_response :unprocessable_entity
+    end
   end
 
   test 'not authorized index for editor' do
