@@ -63,12 +63,9 @@ gem 'coffee-rails'
 gem 'exception_notification'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0'
 gem 'kaminari'
-gem 'net-imap', require: false # drop after gem mail >= v2.8.0
 gem 'net-ldap'
-gem 'net-pop', require: false # drop after gem mail >= v2.8.0
-gem 'net-smtp', require: false # drop after gem mail >= v2.8.0
 gem 'pdfkit'
 gem 'rails-i18n'
 gem 'rubyXL'
