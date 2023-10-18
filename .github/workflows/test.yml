@@ -9,7 +9,7 @@ on:
 
 env:
   RAILS_ENV: test
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -44,8 +44,6 @@ jobs:
           cp config/storage.sample.yml config/storage.yml
       - name: Run Rails Tests
         run: |
-          env | sort
-          bundle exec rails db:schema:load
           bundle exec rails assets:precompile
-          bundle exec rails test
+          bundle exec rails test -b -d
 
