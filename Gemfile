@@ -42,6 +42,7 @@ group :development do
   gem 'brakeman'
   gem 'bullet'
   gem 'pronto-rubocop', require: false
+  gem 'rubocop-capybara'
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
