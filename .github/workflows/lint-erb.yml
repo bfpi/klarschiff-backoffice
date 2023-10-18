@@ -3,7 +3,7 @@ name: ERB Templates
 on: [push]
 
 jobs:
-  build:
+  erblint:
     name: ERB files
     runs-on: ubuntu-latest
     steps:
