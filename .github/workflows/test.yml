@@ -44,6 +44,7 @@ jobs:
           cp config/storage.sample.yml config/storage.yml
       - name: Run Rails Tests
         run: |
+          bundle exec rails db:drop db:create db:schema:load
           bundle exec rails assets:precompile
           bundle exec rails test -b -d
 
