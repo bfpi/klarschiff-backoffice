@@ -7,11 +7,12 @@ on:
       - 'dependabot/**'
   workflow_call:
 
+env:
+  RAILS_ENV: test
+  
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
     services:
       postgres:
         image: postgis/postgis:12-3.1
