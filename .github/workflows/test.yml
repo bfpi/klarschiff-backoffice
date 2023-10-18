@@ -42,8 +42,8 @@ jobs:
           cp config/secrets.sample.yml config/secrets.yml
           rm config/storage.yml
           cp config/storage.sample.yml config/storage.yml
-      # - name: Prepare Database
-      #  run: bundle exec rails db:drop db:create db:schema:load
+      - name: Prepare Database
+        run: bundle exec rails db:drop db:create db:schema:load
       - name: Prepare Assets
         run: bundle exec rails assets:precompile
       - name: Run Rails Tests
