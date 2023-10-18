@@ -16,7 +16,7 @@ class Job < ApplicationRecord
 
   self.omit_field_log |= %w[order]
 
-  def self.citysdk_status
+  def self.citysdk_statuses
     { unchecked: 'UNCHECKED', checked: 'CHECKED', uncheckable: 'NOT_CHECKABLE' }
   end
 
