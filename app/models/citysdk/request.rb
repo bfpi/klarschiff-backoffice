@@ -12,15 +12,11 @@ module Citysdk
     attr_writer :lat, :long, :address_string
 
     self.serialization_attributes = %i[service_request_id]
+    alias_attribute :email, :author
+    alias_attribute :photo_required, :photo_requested
+    alias_attribute :service_code, :category_id
     alias_attribute :service_request_id, :id
     alias_attribute :status_notes, :status_note
-    alias_attribute :requested_datetime, :created_at
-    alias_attribute :updated_datetime, :updated_at
-    alias_attribute :description_public, :description_status_external?
-    alias_attribute :photo_required, :photo_requested
-    alias_attribute :detailed_status_datetime, :status_date
-    alias_attribute :email, :author
-    alias_attribute :service_code, :category_id
 
     def self.authorized(tips:)
       return all if tips
@@ -64,6 +60,22 @@ module Citysdk
 
     def detailed_status
       Citysdk::Status.new(status).to_citysdk
+    end
+
+    def description_public
+      description_status_external?
+    end
+
+    def detailed_status_datetime
+      status_date
+    end
+
+    def updated_datetime
+      updated_at
+    end
+
+    def requested_datetime
+      created_at
     end
 
     def status_date; end
