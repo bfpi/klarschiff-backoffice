@@ -1,4 +1,4 @@
-name: PullRequest Workflows: Update CitySDK API documentation, Dependabot auto-merge 
+name: PullRequest Workflows - Update CitySDK API documentation, Dependabot auto-merge 
 on: pull_request
 
 permissions:
