@@ -8,16 +8,12 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    needs:
-      - brakeman-scan
-      - coffeelint
-      - erblint
-      - eslint
-      - rubocop
-      - stylelint
-      - test
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
+      - name: Check
+        uses: arup-group/action-all-checks-passed@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v1
