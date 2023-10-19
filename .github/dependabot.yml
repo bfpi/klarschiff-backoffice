@@ -5,8 +5,11 @@ updates:
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
-      interval: "monthly"
-    
+      interval: "weekly"
+    ignore:
+      - dependency-name: "bootstrap"
+        versions: [">= 5.2", "< 6"]
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
