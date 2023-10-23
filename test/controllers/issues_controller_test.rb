@@ -134,7 +134,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
         auth_code = auth_code(:reference_default)
         get "/issues/#{auth_code.uuid}/set_status?status=#{status}"
         assert_response :success
-        assert_equals status, issue(:reference_default).status
+        assert_equal status, issue(:reference_default).status
       end
     end
   end
