@@ -1,7 +1,7 @@
 name: Rails Tests
 
 on:
-  - push:
+  push:
     branches-ignore:
       - master
       - 'dependabot/**'
