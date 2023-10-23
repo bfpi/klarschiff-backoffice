@@ -6,19 +6,23 @@ permissions:
   pull-requests: write
 
 jobs:
-  no-op-job:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo 'nothing to do here, just for fallback'
-  dependabot:
+  jslint:
+    uses: ./.github/workflows/lint-js.yml
+  erblint:
+    uses: ./.github/workflows/lint-erb.yml
+  stylelint:
+    uses: ./.github/workflows/lint-css.yml
+  rubocop:
+    uses: ./.github/workflows/rubocop.yml
+  test:
+    uses: ./.github/workflows/test.yml
+  dependabot-automerge:
     runs-on: ubuntu-latest
     needs:
-      - brakeman-scan
-      - coffeelint
+      - jslint
       - erblint
-      - eslint
-      - rubocop
       - stylelint
+      - rubocop
       - test
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
