@@ -121,8 +121,10 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
   test 'set_status from responsibility mail without status_parameter' do
     with_gui_access_for_external_participants(value: false) do
       auth_code = auth_code(:reference_default)
-      get "/issues/#{auth_code.uuid}/set_status"
-      assert_response :unprocessable_entity
+      assert_no_changes 'issue(:reference_default).reload' do
+        get "/issues/#{auth_code.uuid}/set_status"
+        assert_response :unprocessable_entity
+      end
     end
   end
 
@@ -132,6 +134,7 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
         auth_code = auth_code(:reference_default)
         get "/issues/#{auth_code.uuid}/set_status?status=#{status}"
         assert_response :success
+        assert_equals status, issue(:reference_default).status
       end
     end
   end
