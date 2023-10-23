@@ -1,6 +1,8 @@
 name: Stylesheets
 
-on: [push]
+on:
+  - push
+  - workflow_call
 
 jobs:
   stylelint:

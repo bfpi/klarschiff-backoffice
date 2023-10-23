@@ -1,6 +1,8 @@
 name: ERB Templates
 
-on: [push]
+on:
+  - push
+  - workflow_call
 
 jobs:
   erblint:
