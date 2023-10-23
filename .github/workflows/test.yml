@@ -1,7 +1,10 @@
 name: Rails Tests
 
 on:
-  - push
+  - push:
+    branches-ignore:
+      - master
+      - 'dependabot/**'
   - workflow_call
 
 jobs:
