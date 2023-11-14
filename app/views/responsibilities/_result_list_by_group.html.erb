@@ -1,0 +1,15 @@
+<% @responsibilities.each do |responsibility| %>
+  <tr>
+    <td><%= responsibility.category.kind_name %></td>
+    <td><%= responsibility.category %></td>
+    <td title="<%= responsibility.group.logging_subject_name %>">
+      <%= responsibility.group %>
+    </td>
+    <td><%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
+              remote: true, class: 'btn btn-sm btn-outline-primary' %>
+        <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
+              method: :delete, class: 'btn btn-sm btn-outline-danger',
+              data: { confirm: t('responsibilities.index.confirm_delete') } %>
+    </td>
+  </tr>
+<% end %>

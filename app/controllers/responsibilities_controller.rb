@@ -7,6 +7,7 @@ class ResponsibilitiesController < ApplicationController
 
   def index
     @categories = filter(Category.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
+    @responsibilities = result_list_responsibilities
   end
 
   def new
@@ -55,10 +56,17 @@ class ResponsibilitiesController < ApplicationController
       main_category_arel_table[:kind].send(dir)
     when :category
       [main_category_arel_table[:name].send(dir), sub_category_arel_table[:name].send(dir)]
+    when :group
+      group_arel_table[:name].send(dir)
     end
   end
 
   def default_order
     [main_category_arel_table[:kind], main_category_arel_table[:name], sub_category_arel_table[:name]]
+  end
+
+  def result_list_responsibilities
+    filter(Responsibility.includes(:group, { category: %i[main_category sub_category] })
+      .authorized.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
   end
 end

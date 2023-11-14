@@ -1,0 +1,32 @@
+<% @categories.each do |category| -%>
+  <tr>
+    <td><%= category.kind_name %></td>
+    <td><%= category %></td>
+    <td>
+      <table class="table inner-table">
+        <% category.responsibilities.authorized.active.each do |responsibility| %>
+          <tr>
+            <td title="<%= responsibility.group.logging_subject_name %>">
+              <%= responsibility.group %>
+            </td>
+            <td class="text-end">
+              <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
+                    remote: true, class: 'btn btn-sm btn-outline-primary' %>
+              <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
+                    method: :delete, class: 'btn btn-sm btn-outline-danger',
+                    data: { confirm: t('.confirm_delete') } %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td></td>
+          <td class="float-end">
+            <%= link_to tag.i('', class: 'fa fa-plus'), new_category_responsibility_path(category),
+                  remote: true, class: 'btn btn-sm btn-outline-primary' %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+<% end -%>
+

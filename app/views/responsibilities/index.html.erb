@@ -1,7 +1,7 @@
 <h1><%= Responsibility.model_name.human count: 2 %></h1>
 
 <%= render partial: 'simple_text_filter' %>
-<%= paginate @categories %>
+<%= order_by_group? ? (paginate @responsibilities) : (paginate @categories) %>
 
 <table class="table">
   <thead>
@@ -13,47 +13,22 @@
         <%= order_link Category.model_name.human(count: 1), :responsibilities, :category %>
       </th>
       <th>
-        <%= Group.model_name.human(count: 1) %>
-        <span class="float-end"><%= t :actions %></span>
+        <%= order_link Group.model_name.human(count: 1), :responsibilities, :group %>
+        <% unless order_by_group? %><span class="float-end"><%= t :actions %></span><% end %>
       </th>
+      <% if order_by_group? %><th><%= t :actions %></th><% end %>
     </tr>
   </thead>
   <tbody>
-    <% @categories.each do |category| -%>
-      <tr>
-        <td><%= category.kind_name %></td>
-        <td><%= category %></td>
-        <td>
-          <table class="table inner-table">
-            <% category.responsibilities.authorized.active.each do |responsibility| %>
-              <tr>
-                <td title="<%= responsibility.group.logging_subject_name %>">
-                  <%= responsibility.group %>
-                </td>
-                <td class="text-end">
-                  <%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility),
-                        remote: true, class: 'btn btn-sm btn-outline-primary' %>
-                  <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility),
-                        method: :delete, class: 'btn btn-sm btn-outline-danger',
-                        data: { confirm: t('.confirm_delete') } %>
-                </td>
-              </tr>
-            <% end %>
-            <tr>
-              <td></td>
-              <td class="float-end">
-                <%= link_to tag.i('', class: 'fa fa-plus'), new_category_responsibility_path(category),
-                      remote: true, class: 'btn btn-sm btn-outline-primary' %>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    <% end -%>
+    <% if order_by_group? %>
+      <%= render partial: 'result_list_by_group' %>
+    <% else %>
+      <%= render partial: 'result_list_by_category' %>
+    <% end %>
   </tbody>
 </table>
 
-<%= paginate @categories %>
+<%= order_by_group? ? (paginate @responsibilities) : (paginate @categories) %>
 
 <% content_for :footer do %>
   <div class="float-end">
