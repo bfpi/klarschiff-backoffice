@@ -27,7 +27,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
     %i[open_but_not_accepted in_work_without_status_note
        open_ideas_without_minimum_supporters created_not_in_work].each do |method|
       next if (issues = send(method, deadline(time, level, method), group_ids)).blank?
-      @days[method] = notification_config(level)["days_#{method}".to_sym]
+      @days[method] = notification_config(level)[:"days_#{method}"]
       @issues[method] = issues.to_a
     end
     optional_notifications(level, group_ids)
@@ -41,7 +41,7 @@ class InformEditorialStaffOnIssuesJob < ApplicationJob
   end
 
   def deadline(time, level, method)
-    time - notification_config(level)["days_#{method}".to_sym].days
+    time - notification_config(level)[:"days_#{method}"].days
   end
 
   def notification_enabled?(level, method)

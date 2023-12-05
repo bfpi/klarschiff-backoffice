@@ -111,7 +111,7 @@ module UserAuthorization
     def initialize(action, object = nil)
       msg = "#{Current.user} is not authorized to #{action}."
       msg += "\n  Context object: #{object.inspect}" if object
-      super msg
+      super(msg)
     end
   end
 end
