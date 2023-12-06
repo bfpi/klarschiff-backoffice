@@ -25,7 +25,7 @@ class Category < ApplicationRecord
   end
 
   def group(lat:, lon:)
-    responsibilities.regional(lat:, lon:).first&.group ||
+    responsibilities.active.regional(lat:, lon:).first&.group ||
       Group.regional(lat:, lon:).find_by(reference_default: true)
   end
 
