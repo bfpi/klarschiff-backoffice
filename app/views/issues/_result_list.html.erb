@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @issues.each do |issue| %>
+      <% @issues.each do |issue| -%>
         <tr class="<%= 'text-muted' if issue.archived_at.present? %>
           <%= 'bg-info text-white' if issue.completions.status_open.any? %>
           <%= 'bg-warning text-white' if open_abuse_reports(issue).any? %>">
