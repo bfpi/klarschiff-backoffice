@@ -14,3 +14,8 @@ three:
   uuid: '5bb7658a-3573-4e9f-8946-056a9e2f7917'
   issue: received_not_accepted_two
   group: internal2
+
+reference_default:
+  uuid: '0c29a0eb-22bd-4c80-80c0-8083f9bcdb30'
+  issue: reference_default
+  group: reference_default

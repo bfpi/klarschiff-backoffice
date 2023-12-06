@@ -33,17 +33,18 @@ class ApplicationController < ActionController::Base
 
   def respond_with_not_found
     raise if Rails.env.test?
-    respond_with_exception I18n.t('activerecord.errors.record_not_found'), skip_internal_error_prefix: true
+    respond_with_exception I18n.t('activerecord.errors.record_not_found'),
+      skip_internal_error_prefix: true, status: :not_found
   end
 
-  def respond_with_exception(message, skip_internal_error_prefix: false)
+  def respond_with_exception(message, skip_internal_error_prefix: false, status: :internal_server_error)
     msg = []
     msg << I18n.t(:internal_server_error) unless skip_internal_error_prefix
     msg << message.truncate(200)
     @message = msg.join(' ')
     respond_to do |format|
-      format.js { render :exception, formats: :js }
-      format.html { render :exception }
+      format.js { render :exception, formats: :js, status: }
+      format.html { render :exception, status: }
     end
   end
 
