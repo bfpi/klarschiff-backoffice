@@ -423,6 +423,7 @@ de:
       assign_jobs: Zuordnung für Außendienst
       map: Kartenansicht
       new_issue: Neue Meldung
+      rss: RSS
     extended_filter:
       all_districts: alle Gemeindeteile
       all_kinds: alle Typen
@@ -473,6 +474,12 @@ de:
       undo: zurück
     tab_rejection:
       reject: zurückweisen
+  issues_rss:
+    index:
+      feed_description: "Diese Daten umfassen alle Ihre Meldungen in %{name}."
+      link: "Meldung in %{name} ansehen"
+      no_supporters: bisher keine
+      status_note_not_available: nicht vorhanden
   jobs:
     title: Außendienstaufträge
     grouped_jobs:

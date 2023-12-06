@@ -53,6 +53,11 @@ class User < ApplicationRecord
     { value: id, label: to_s }
   end
 
+  def uuid
+    update uuid: SecureRandom.uuid if self[:uuid].blank?
+    self[:uuid]
+  end
+
   private
 
   def password_history_active?

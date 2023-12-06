@@ -15,6 +15,7 @@ DEFAULTS: &DEFAULTS
 
 one:
   <<: *DEFAULTS
+  uuid: 'f28a9ea5-a7e1-4883-b955-c040752242cd'
 
 two:
   <<: *DEFAULTS

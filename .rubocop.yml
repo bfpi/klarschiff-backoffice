@@ -48,6 +48,7 @@ Metrics/BlockLength:
     - 'config/environments/development.rb'
     - 'config/routes.rb'
     - 'test/**/*'
+    - '**/*.xml.builder'
 
 Metrics/ClassLength:
   Exclude: ['test/**/*']

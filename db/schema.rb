@@ -357,6 +357,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.json "password_history"
     t.datetime "password_updated_at", precision: nil
     t.boolean "group_responsibility_recipient", default: false, null: false
+    t.uuid "uuid"
   end
 
   add_foreign_key "abuse_report", "issue"

@@ -84,6 +84,7 @@ Rails.application.routes.draw do
   end
 
   get 'logout', to: 'logins#destroy', as: :logout
+  get 'issues_rss/:user_uuid' => 'issues_rss#index', as: :issues_rss
   get 'issues/:auth_code/set_status', to: 'issues#set_status', as: :set_issue_status
   post 'delegations/:issue_id/export.pdf', to: 'issue_exports#create',
     defaults: { format: :pdf, restricted: 'true' }, as: :delegation_export

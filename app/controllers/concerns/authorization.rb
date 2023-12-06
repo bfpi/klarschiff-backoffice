@@ -31,6 +31,7 @@ module Authorization
   def authenticate
     return check_citysdk_authentication if controller_path.starts_with?('citysdk')
     return authenticate_with_auth_code if (session[:auth_code] || params[:auth_code]).present?
+    return authenticate_with_user_uuid if params[:user_uuid].present?
     login = init_current_login or return
     authenticate_user login
   end
@@ -49,6 +50,11 @@ module Authorization
     init_current_user_with_auth_code
     return logger_current_user(Current.login) if Current.user.auth_code
     redirect_to new_logins_path
+  end
+
+  def authenticate_with_user_uuid
+    return unless controller_path.eql?('issues_rss')
+    Current.user = User.find_by(uuid: params[:user_uuid])
   end
 
   def init_current_user_with_auth_code
