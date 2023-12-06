@@ -4,18 +4,19 @@ require 'test_helper'
 
 class IssuesRssControllerTest < ActionDispatch::IntegrationTest
   test 'index for user with uuid' do
-    assert_not user(:one)[:uuid].blank?
-    get "/issues_rss/#{user(:one).uuid}.xml"
+    uuid = user(:one)[:uuid]
+    assert_predicate uuid, :present?
+    get "/issues_rss/#{uuid}.xml"
     assert_response :success
   end
 
-  %w[dashboards delegations districts editorial_notifications feedbacks field_services groups issues mail_blacklists
-     places responsibilities
-     users].each do |controller|
+  %w[delegations issues].each do |controller|
     test "not authorized for user with uuid at #{controller} controller" do
-      assert_not user(:one)[:uuid].blank?
-      get "/issues/#{user(:one).uuid}.xml"
+      uuid = user(:one)[:uuid]
+      assert_predicate uuid, :present?
+      get "/#{controller}/#{uuid}.xml"
       assert_response :redirect
+      assert_redirected_to new_logins_url
     end
   end
 end
