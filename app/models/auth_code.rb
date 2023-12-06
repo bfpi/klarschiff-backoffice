@@ -8,9 +8,7 @@ class AuthCode < ApplicationRecord
 
   before_validation :set_uuid, on: :create
 
-  def to_s
-    group
-  end
+  delegate :to_s, to: :group
 
   private
 
