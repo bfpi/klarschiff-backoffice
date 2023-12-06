@@ -13,6 +13,6 @@ class ApplicationMailer < ActionMailer::Base
     (options.delete(:interpolation) || {}).each do |target, values|
       options[target] = I18n.interpolate(options[target], values)
     end
-    super options
+    super(options)
   end
 end

@@ -508,9 +508,8 @@ de:
     description:
       internal: redaktionelle Prüfung ausstehend
       default_group: >
-        Die Meldung wurde in einem Amtsgebiet angelegt, das noch nicht an Klarschiff-MV teilnimmt.
-        Die Daten der Meldung wurden an das zuständige Amt weitergeleitet.
-        Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
+        Die Daten der Meldung wurden an die zuständige Verwaltung weitergeleitet und werden dort (noch) außerhalb von Klarschiff-MV bearbeitet.
+        Deshalb können die Meldungsdetails nicht vollständig im Portal angezeigt werden.
       default_group_countygroup: >
         Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
         Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.

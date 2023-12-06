@@ -79,14 +79,17 @@
           <td class="label">
             <%= Issue.human_attribute_name(:status) %>
           </td>
-          <td>
+          <td colspan="3">
             <%= image_tag image_path(@issue.list_icon), class: "status-icon #{@issue.status}" %>
             <%= t "enums.issue.status.#{@issue.status}" %>
           </td>
+        </tr>
+
+        <tr>
           <td class="label">
             <%= Issue.human_attribute_name(:status_note) %>
           </td>
-          <td>
+          <td colspan="3">
             <%= @issue.status_note %>
           </td>
         </tr>

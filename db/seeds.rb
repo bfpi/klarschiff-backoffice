@@ -42,7 +42,8 @@ end
 #
 rgeo_factory = RGeo::Cartesian.preferred_factory(srid: 4326, uses_lenient_assertions: true)
 { kreise: County, aemter: Authority, gemeinden: District }.each do |xml_key, object_class|
-  next unless File.exist?(file = "db/seeds/#{object_class.to_s.downcase.pluralize}.xml")
+  file = "db/seeds/#{object_class.to_s.downcase.pluralize}.xml"
+  next unless File.exist?(file)
   doc = Nokogiri::XML(File.read(file))
   doc.xpath('/wfs:FeatureCollection/gml:featureMember').each do |feature|
     regional_key = feature.xpath("dvg:#{xml_key}/dvg:schluessel/text()").to_s.strip
