@@ -25,7 +25,7 @@
         <td><%= category %></td>
         <td>
           <table class="table inner-table">
-            <% category.responsibilities.authorized.active.each do |responsibility| %>
+            <% category.responsibilities.authorized.active.each do |responsibility| -%>
               <tr>
                 <td title="<%= responsibility.group.logging_subject_name %>">
                   <%= responsibility.group %>
@@ -38,7 +38,7 @@
                         data: { confirm: t('.confirm_delete') } %>
                 </td>
               </tr>
-            <% end %>
+            <% end -%>
             <tr>
               <td></td>
               <td class="float-end">
