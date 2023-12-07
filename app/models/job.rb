@@ -4,7 +4,6 @@ class Job < ApplicationRecord
   include Logging
 
   enum status: { unchecked: 0, checked: 1, uncheckable: 2 }, _prefix: true
-  enum citysdk_status: { unchecked: 'UNCHECKED', checked: 'CHECKED', uncheckable: 'NOT_CHECKABLE' }
 
   has_one :issue, dependent: :nullify
   belongs_to :group, -> { where(kind: :field_service_team) }, inverse_of: :jobs
@@ -16,6 +15,10 @@ class Job < ApplicationRecord
   scope :by_order, -> { order(:order, :created_at) }
 
   self.omit_field_log |= %w[order]
+
+  def self.citysdk_statuses
+    { unchecked: 'UNCHECKED', checked: 'CHECKED', uncheckable: 'NOT_CHECKABLE' }
+  end
 
   def self.group_by_user_group(job_date)
     Job.where(group: Current.user&.field_service_teams, date: job_date).group_by(&:group)

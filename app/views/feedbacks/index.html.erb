@@ -6,7 +6,7 @@
 <table class="table">
   <thead>
     <tr>
-      <% %w[id created_at issue author].each do |col| %>
+      <% %w[id created_at issue author].each do |col| -%>
         <th scope="col">
           <%= order_link Feedback.human_attribute_name(col), :feedbacks, col %>
         </th>
@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @feedbacks.each do |feedback| %>
+    <% @feedbacks.each do |feedback| -%>
       <tr>
         <th scope="row"><%= feedback.id %></th>
         <td><%= l(feedback.created_at) %></td>

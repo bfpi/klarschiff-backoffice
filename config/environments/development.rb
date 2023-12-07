@@ -8,13 +8,16 @@ Rails.application.configure do
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.enable_reloading = true
 
   # Do not eager load code on boot.
   config.eager_load = false
 
   # Show full error reports.
   config.consider_all_requests_local = true
+
+  # Enable server timing
+  config.server_timing = true
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -66,6 +69,9 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Highlight code that enqueued background job in logs.
+  config.active_job.verbose_enqueue_logs = true
+
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
@@ -88,4 +94,7 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = false
   end
+
+  # Raise error when a before_action's only/except options reference missing actions
+  config.action_controller.raise_on_missing_callback_actions = true
 end
