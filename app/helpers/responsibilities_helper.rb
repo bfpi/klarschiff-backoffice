@@ -8,6 +8,10 @@ module ResponsibilitiesHelper
     end
   end
 
+  def active_responsibilities(category)
+    category.responsibilities.authorized.active.includes(:group)
+  end
+
   def groups_options(resp_or_category)
     category_id = resp_or_category.is_a?(Responsibility) ? resp_or_category.category_id : resp_or_category
     return [] if category_id.blank?
