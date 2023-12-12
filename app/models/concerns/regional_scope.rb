@@ -5,7 +5,7 @@ module RegionalScope
 
   class_methods do
     def regional(lat:, lon:)
-      where('(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "area")', lat: lat.to_f, lon: lon.to_f)
+      where('ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "area")', lat: lat.to_f, lon: lon.to_f)
     end
   end
 end
