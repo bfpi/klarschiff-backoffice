@@ -25,7 +25,7 @@
         <td><%= category %></td>
         <td>
           <table class="table inner-table">
-            <% category.responsibilities.authorized.active.includes(:group).find_each do |responsibility| -%>
+            <% active_responsibilities(category).find_each do |responsibility| -%>
               <tr>
                 <td title="<%= responsibility.group.logging_subject_name %>">
                   <%= responsibility.group %>
@@ -39,12 +39,14 @@
                 </td>
               </tr>
             <% end -%>
-            <tr>
-              <td colspan="2" class="text-end">
-                <%= link_to tag.i('', class: 'fa fa-plus'), new_category_responsibility_path(category),
-                      remote: true, class: 'btn btn-sm btn-outline-primary' %>
-              </td>
-            </tr>
+            <% if Current.user.role_admin? || active_responsibilities(category).blank? -%>
+              <tr>
+                <td colspan="2" class="text-end">
+                  <%= link_to tag.i('', class: 'fa fa-plus'), new_category_responsibility_path(category),
+                        remote: true, class: 'btn btn-sm btn-outline-primary' %>
+                </td>
+              </tr>
+            <% end -%>
           </table>
         </td>
       </tr>
