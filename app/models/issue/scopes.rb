@@ -49,7 +49,7 @@ class Issue
       def authorized_by_user_districts(user = Current.user)
         return all if user.blank? || user.districts.blank?
         where <<~SQL.squish, user.district_ids
-          ("position" && (
+          ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{District.quoted_table_name}
             WHERE "id" IN (?)
@@ -82,10 +82,11 @@ class Issue
 
       def authorized_by_references(reference_ids)
         where <<~SQL.squish, reference_ids, reference_ids
-          ("position" && (
+          ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{County.quoted_table_name} WHERE "id" IN (?)
-          )) OR ("position" && (
+            FROM #{County.quoted_table_name}
+            WHERE "id" IN (?)
+          )) OR ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{Authority.quoted_table_name} WHERE "id" IN (?)
           ))
