@@ -137,6 +137,7 @@ de:
           attributes:
             base:
               associated_categories: Gruppen mit zugewiesenen Zuständigkeiten können nicht deaktiviert werden.
+              must_be_internal: Gruppen mit zugewiesenen Zuständigkeiten müssen intern sein.
         issue:
           attributes:
             category:
@@ -150,6 +151,8 @@ de:
           attributes:
             base:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
+            group:
+              must_be_internal: muss intern sein.
             status:
               invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
         supporter:
