@@ -99,7 +99,7 @@ class Group < ApplicationRecord
 
   def no_associated_categories
     return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id })
-    errors.add :base, :associated_categories if !active && active_changed?
-    errors.add :base, :must_be_internal if !kind_internal?
+    errors.add(:base, :associated_categories) if !active && active_changed?
+    errors.add(:base, :must_be_internal) unless kind_internal?
   end
 end
