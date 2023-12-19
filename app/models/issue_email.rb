@@ -23,8 +23,8 @@ class IssueEmail
   end
 
   %i[map photos comments feedbacks abuse_reports].each do |data|
-    define_method "send_#{data}?" do
-      send("send_#{data}").to_i == 1
+    define_method :"send_#{data}?" do
+      send(:"send_#{data}").to_i == 1
     end
   end
 end

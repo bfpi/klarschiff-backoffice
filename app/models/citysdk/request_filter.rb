@@ -22,7 +22,7 @@ module Citysdk
       default_filter_area(params)
 
       params.each do |key, value|
-        send("filter_#{key}", params) if respond_to?("filter_#{key}", true) && value.present?
+        send(:"filter_#{key}", params) if respond_to?(:"filter_#{key}", true) && value.present?
       end
       @collection = @collection.not_status_deleted
       @collection = @collection.not_archived if params[:also_archived].blank? || params[:also_archived] == 'false'
