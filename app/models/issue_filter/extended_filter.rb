@@ -9,7 +9,7 @@ class IssueFilter
     def extended_filter(params)
       params[:statuses] = Issue.statuses.values if params[:statuses].blank?
       params.each do |key, value|
-        send("filter_#{key}", params) if respond_to?("filter_#{key}", true) && value.present?
+        send(:"filter_#{key}", params) if respond_to?(:"filter_#{key}", true) && value.present?
       end
     end
 
