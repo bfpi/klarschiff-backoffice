@@ -82,7 +82,7 @@
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_mail_templates) -%>
-                        <%= link_to 'E-Mail-Templates / Vorschau', root_path + '/rails/mailers',
+                        <%= link_to 'E-Mail-Templates / Vorschau', "#{root_path}/rails/mailers",
                               target: :_blank, rel: 'noopener', class: 'dropdown-item' %>
                       <% end -%>
                       <%= link_to 'Tests', tests_path, class: 'dropdown-item' if authorized?(:test) %>
