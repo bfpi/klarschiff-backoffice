@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_082321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -27,17 +27,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.index ["issue_id"], name: "index_abuse_report_on_issue_id"
   end
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachment", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["blob_id"], name: "index_active_storage_attachment_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blob", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -46,10 +46,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.string "checksum"
     t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+    t.index ["key"], name: "index_active_storage_blob_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
+  create_table "active_storage_variant_record", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
@@ -301,7 +301,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["area"], name: "index_observation_on_area", using: :gist
   end
 
   create_table "photo", force: :cascade do |t|
@@ -361,28 +360,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_113044) do
   end
 
   add_foreign_key "abuse_report", "issue"
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "auth_code", "\"group\"", column: "group_id"
+  add_foreign_key "active_storage_attachment", "active_storage_blob", column: "blob_id"
+  add_foreign_key "active_storage_variant_record", "active_storage_blob", column: "blob_id"
+  add_foreign_key "auth_code", "group"
   add_foreign_key "auth_code", "issue"
   add_foreign_key "authority", "county"
-  add_foreign_key "comment", "\"user\"", column: "user_id"
   add_foreign_key "comment", "auth_code"
   add_foreign_key "comment", "issue"
+  add_foreign_key "comment", "user"
   add_foreign_key "completion", "issue"
   add_foreign_key "district", "authority"
-  add_foreign_key "editorial_notification", "\"user\"", column: "user_id"
+  add_foreign_key "editorial_notification", "user"
   add_foreign_key "feedback", "issue"
-  add_foreign_key "issue", "\"group\"", column: "delegation_id"
-  add_foreign_key "issue", "\"group\"", column: "group_id"
-  add_foreign_key "issue", "\"user\"", column: "updated_by_user_id"
   add_foreign_key "issue", "auth_code", column: "updated_by_auth_code_id"
   add_foreign_key "issue", "category"
-  add_foreign_key "job", "\"group\"", column: "group_id"
-  add_foreign_key "log_entry", "\"user\"", column: "user_id"
+  add_foreign_key "issue", "group"
+  add_foreign_key "issue", "group", column: "delegation_id"
+  add_foreign_key "issue", "user", column: "updated_by_user_id"
+  add_foreign_key "job", "group"
   add_foreign_key "log_entry", "auth_code"
+  add_foreign_key "log_entry", "user"
   add_foreign_key "photo", "issue"
-  add_foreign_key "responsibility", "\"group\"", column: "group_id"
   add_foreign_key "responsibility", "category"
+  add_foreign_key "responsibility", "group"
   add_foreign_key "supporter", "issue"
 end
