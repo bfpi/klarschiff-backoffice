@@ -45,6 +45,11 @@ editor2:
   role: 2
   groups: internal3
 
+editor3:
+  <<: *DEFAULTS
+  role: 2
+  groups: internal4
+
 regional_admin:
   <<: *DEFAULTS
   role: 1

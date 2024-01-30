@@ -7,7 +7,7 @@ class EditorialNotificationTest < ActiveSupport::TestCase
     assert_equal EditorialNotification.ids, EditorialNotification.authorized(user(:admin)).ids
     user = user(:regional_admin)
     notifications = EditorialNotification.where(
-      user_id: User.joins(:groups).where(group: { id: user.group_ids })
+      user_id: User.authorized(user).map(&:id)
     )
     assert_equal notifications.ids, EditorialNotification.authorized(user).ids
     assert_empty EditorialNotification.authorized(user(:editor)).ids
