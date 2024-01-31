@@ -57,12 +57,11 @@ module KlarschiffBackoffice
     config.active_storage.variable_content_types << 'image/jpg'
 
     # Global settings from settings.yml
-    settings = File.open(Rails.root.join('config', 'settings.yml')) { |file|
-      YAML::load file, aliases: true
-    }.with_indifferent_access.dig(Rails.env)
+    settings = Rails.root.join('config/settings.yml').open do |file|
+      YAML.load file, aliases: true
+    end.with_indifferent_access[Rails.env]
 
     relative_url_root = settings.dig(:instance, :relative_url_root)
-    p relative_url_root
     config.relative_url_root = relative_url_root if relative_url_root.present?
   end
 end
