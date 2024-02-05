@@ -10,7 +10,7 @@ xml.rss version: '2.0', 'xmlns:atom': 'http://w3.org/2005/Atom', 'xmlns:georss':
     xml.language 'de-de'
     @issues.each do |i|
       xml.item do
-        issue_url = "#{root_url}#{edit_issue_path(i)}"
+        issue_url = edit_issue_url(i)
         xml.title "##{i.id} #{i.main_category.kind_name} (#{i.main_category} – #{i.sub_category})"
         xml.description do
           html_cont = <<-HTML
