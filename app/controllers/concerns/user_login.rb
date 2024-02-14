@@ -12,7 +12,7 @@ module UserLogin
     elsif user&.authenticate(@credentials[:password])
       return login_success(user)
     end
-    login_error t 'activerecord.errors.login.incorrect_username_or_password'
+    login_error t('activerecord.errors.login.incorrect_username_or_password')
   end
 
   def login_error(error)
@@ -43,6 +43,6 @@ module UserLogin
     @credentials = params.permit(:login, :password)
     @credentials = params.require(:login).permit(:login, :password) if @credentials[:password].blank?
     return if @credentials.values.all?(&:present?)
-    login_error t 'activerecord.errors.login.empty'
+    login_error t('activerecord.errors.login.empty')
   end
 end
