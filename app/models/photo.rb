@@ -17,7 +17,7 @@ class Photo < ApplicationRecord
   attr_accessor :censor_width, :censor_height, :skip_email_notification
 
   before_validation :set_author, on: :create
-  validates :file, attached: true, content_type: 'image/jpeg', on: :create
+  validates :file, attached: true, content_type: 'image/jpeg', size: { greater_than: 0 }, on: :create
 
   default_scope -> { where.not(confirmed_at: nil) }
 
