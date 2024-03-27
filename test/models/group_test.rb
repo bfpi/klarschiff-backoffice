@@ -21,15 +21,18 @@ class GroupTest < ActiveSupport::TestCase
   test 'do not deactivate group with active responsibilities' do
     group = group(:one)
     assert_valid group
-    assert_not group.update(active: false)
+    group.active = false
+    assert_not group.valid?
+    assert_equal [{ error: :associated_categories }], group.errors.details[:base]
   end
 
   test 'deactivate group with inactive responsibilities' do
     group = group(:one)
     assert_valid group
     assert responsibility(:one).update(deleted_at: Time.current)
+    assert group.active?
     assert group.update(active: false)
-    assert_not group.reload.active
+    assert_not group.reload.active?
   end
 
   test 'authorized scope' do
