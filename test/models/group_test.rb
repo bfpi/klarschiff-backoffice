@@ -30,7 +30,7 @@ class GroupTest < ActiveSupport::TestCase
     group = group(:one)
     assert_valid group
     assert responsibility(:one).update(deleted_at: Time.current)
-    assert group.active?
+    assert_predicate group, :active?
     assert group.update(active: false)
     assert_not group.reload.active?
   end
