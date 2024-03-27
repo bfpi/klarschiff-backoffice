@@ -149,7 +149,7 @@ de:
         photo:
           attributes:
             file:
-              file_size_not_greater_than: "muss größer als %{min_size} sein (aktuelle Dateigröße ist %{file_size})"
+              file_size_not_greater_than: "ist ungültig und kann nicht verarbeitet werden (ist leer / hat keinen Inhalt)"
         responsibility:
           attributes:
             base:
