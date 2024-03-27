@@ -146,6 +146,10 @@ de:
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
               outside_of_designated_districts: befindet sich außerhalb Ihres Zuständigkeitsbereichs.
+        photo:
+          attributes:
+            file:
+              file_size_not_greater_than: "ist ungültig und kann nicht verarbeitet werden (ist leer / hat keinen Inhalt)"
         responsibility:
           attributes:
             base:

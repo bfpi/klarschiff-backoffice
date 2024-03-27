@@ -301,6 +301,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_082321) do
     t.geometry "area", limit: {:srid=>4326, :type=>"multi_polygon"}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["area"], name: "index_observation_on_area", using: :gist
   end
 
   create_table "photo", force: :cascade do |t|

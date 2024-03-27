@@ -7,19 +7,21 @@ class Photo < ApplicationRecord
   include ConfirmationWithHash
   include Logging
 
-  enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
+  default_scope -> { where.not(confirmed_at: nil) }
+
+  attr_accessor :censor_width, :censor_height, :skip_email_notification
+
+  attr_reader :censor_rectangles
+
+  enum :status, { internal: 0, external: 1, deleted: 2 }, prefix: true
 
   belongs_to :issue
 
   has_one_attached :file
 
-  attr_reader :censor_rectangles
-  attr_accessor :censor_width, :censor_height, :skip_email_notification
+  validates :file, attached: true, content_type: 'image/jpeg', size: { greater_than: 0 }, on: :create
 
   before_validation :set_author, on: :create
-  validates :file, attached: true, content_type: 'image/jpeg', on: :create
-
-  default_scope -> { where.not(confirmed_at: nil) }
 
   def _modification
     nil
