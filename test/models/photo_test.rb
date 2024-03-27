@@ -26,9 +26,21 @@ class PhotoTest < ActiveSupport::TestCase
     assert_empty photo.errors.details[:author]
   end
 
+  test 'validate file size' do
+    photo = Photo.new(file: empty_file)
+    assert_not photo.valid?
+    assert_equal [{ error: :file_size_not_greater_than, greater_than: 0, validator_type: :size,
+                    filename: 'empty.jpg', min_size: '0 Bytes', file_size: '0 Bytes', max_size: nil }],
+      photo.errors.details[:file]
+  end
+
   private
 
   def test_file
     Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/test.jpg'), 'image/jpeg')
+  end
+
+  def empty_file
+    Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/empty.jpg'), 'image/jpeg')
   end
 end
