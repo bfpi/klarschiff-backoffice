@@ -251,6 +251,7 @@ de:
     county: Landkreis/kreisfreie Stadt
     created_at: Zeitstempel
     deleted: gelöscht
+    deleted_at: Löschzeit
     file: Datei
     id: '#'
     instance: Instanz

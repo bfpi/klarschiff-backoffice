@@ -98,7 +98,7 @@ class Group < ApplicationRecord
   end
 
   def no_associated_categories
-    return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id })
+    return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id, deleted_at: nil })
     errors.add :base, :associated_categories
   end
 end
