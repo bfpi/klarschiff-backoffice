@@ -13,7 +13,7 @@ class Photo < ApplicationRecord
 
   attr_reader :censor_rectangles
 
-  enum status: { internal: 0, external: 1, deleted: 2 }, _prefix: true
+  enum :status, { internal: 0, external: 1, deleted: 2 }, prefix: true
 
   belongs_to :issue
 
