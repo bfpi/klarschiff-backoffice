@@ -11,6 +11,16 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal [{ error: :associated_categories }], group.errors.details[:base]
   end
 
+  test 'validate no_associated_category on kind change' do
+    group = group(:one)
+    assert_valid group
+    %w[external field_service_team].each do |kind|
+      group.kind = kind
+      assert_not group.valid?
+      assert_equal [{ error: :must_be_internal }], group.errors.details[:base]
+    end
+  end
+
   test 'deactivate group without associated categories' do
     group = group(:external)
     assert_valid group
