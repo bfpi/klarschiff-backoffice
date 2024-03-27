@@ -11,6 +11,6 @@ class EditorialNotification < ApplicationRecord
   def self.authorized(user = Current.user)
     return all if user&.role_admin?
     return none unless user&.role_regional_admin?
-    where user_id: User.joins(:groups).where(group: { id: user.group_ids })
+    where user_id: User.authorized(user).map(&:id)
   end
 end
