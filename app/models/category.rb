@@ -25,8 +25,10 @@ class Category < ApplicationRecord
   end
 
   def group(lat:, lon:)
-    responsibilities.regional(lat:, lon:).first&.group ||
-      Group.regional(lat:, lon:).find_by(reference_default: true)
+    group_ids = responsibilities.regional(lat:, lon:).pluck(:group_id)
+    Group.regional(lat:, lon:).where(
+      Group.arel_table[:id].in(group_ids).or(Group.arel_table[:reference_default].eq(true))
+    ).order(:type, :reference_default).first
   end
 
   private

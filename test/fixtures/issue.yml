@@ -31,6 +31,13 @@ received:
   status_note:
   updated_by_user:
 
+received_two:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at:
+  status: received
+  category: three
+
 received_not_accepted:
   <<: *DEFAULTS
   created_at: <%= Time.current - 1.day - 2.hours %>
