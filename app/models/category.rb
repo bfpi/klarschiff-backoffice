@@ -25,11 +25,22 @@ class Category < ApplicationRecord
   end
 
   def group(lat:, lon:)
-    responsibilities.regional(lat:, lon:).first&.group ||
-      Group.regional(lat:, lon:).find_by(reference_default: true)
+    group_ids = responsibilities.regional(lat:, lon:).pluck(:group_id)
+    Group.regional(lat:, lon:).where(
+      group_arel_table[:id].in(group_ids).or(group_arel_table[:reference_default].eq(true))
+    ).order(group_order).first
   end
 
   private
+
+  def group_type_arel_table
+    group_arel_table[:type]
+  end
+
+  def group_order
+    [group_type_arel_table.eq('AuthorityGroup'), group_type_arel_table.eq('CountyGroup'),
+     group_type_arel_table.eq('InstanceGroup'), :reference_default]
+  end
 
   def full_text_content
     [to_s, responsibilities.map { |x| x.group.to_s }].join(' ')

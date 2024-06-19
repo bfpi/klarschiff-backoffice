@@ -159,4 +159,10 @@ class IssueTest < ActiveSupport::TestCase
       assert_predicate issue, :valid?
     end
   end
+
+  test 'ensure priority for responsibility' do
+    issue = issue(:received_two)
+    issue.send(:responsibility_recalculate!)
+    assert_equal 'AuthorityGroup', issue.group.type
+  end
 end
