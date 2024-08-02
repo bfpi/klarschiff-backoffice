@@ -312,7 +312,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.7)
       io-console (~> 0.5)
-    rexml (3.3.2)
+    rexml (3.3.3)
       strscan
     rgeo (3.0.1)
     rgeo-activerecord (7.0.1)
