@@ -47,7 +47,7 @@ class IssueFilter
     end
 
     def filter_districts(params)
-      return if (districts = (params[:districts] || []).select(&:present?)).blank?
+      return if (districts = (params[:districts] || []).compact_blank).blank?
       @collection = @collection.where(districts_sql, districts)
     end
 

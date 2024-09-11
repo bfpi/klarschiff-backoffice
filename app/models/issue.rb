@@ -13,11 +13,11 @@ class Issue < ApplicationRecord
   self.omit_field_log += %w[updated_by_auth_code_id updated_by_user_id]
 
   with_options _prefix: true do
-    enum description_status: { internal: 0, external: 1, deleted: 2 }
-    enum priority: { low: 0, middle: 1, high: 2 }
-    enum status: { pending: 0, received: 1, reviewed: 2, in_process: 3, not_solvable: 4, duplicate: 5, closed: 6,
+    enum :description_status, { internal: 0, external: 1, deleted: 2 }
+    enum :priority, { low: 0, middle: 1, high: 2 }
+    enum :status, { pending: 0, received: 1, reviewed: 2, in_process: 3, not_solvable: 4, duplicate: 5, closed: 6,
                    deleted: 7 }
-    enum trust_level: { external: 0, internal: 1, field_service_team: 2 }
+    enum :trust_level, { external: 0, internal: 1, field_service_team: 2 }
   end
 
   CLOSED_STATUSES = %i[not_solvable duplicate closed deleted].freeze
