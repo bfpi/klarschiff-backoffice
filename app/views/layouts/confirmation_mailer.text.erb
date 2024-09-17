@@ -1,9 +1,7 @@
-Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
+<%= t :salutation_user, name: Settings::Instance.name %>
 
 <%= yield %>
-Diese URL funktioniert für <%= yield :deletion_deadline %> Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig.
+<%= t('.message', deadline: (yield :deletion_deadline)) %>
 <%= yield :additional_infos %>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

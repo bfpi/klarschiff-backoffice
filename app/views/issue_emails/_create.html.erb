@@ -1,4 +1,4 @@
 <div class="mb-3">
   <%= t('.success') %>
 </div>
-<%= link_to 'zurück zur Meldung', edit_issue_path(@issue_email.issue_id), remote: true, class: 'btn btn-primary' %>
+<%= link_to t('.back_to_issue'), edit_issue_path(@issue_email.issue_id), remote: true, class: 'btn btn-primary' %>

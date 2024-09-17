@@ -3,7 +3,7 @@
     <div class="card-header" role="tab" id="headingJobs">
       <h5 class="mb-0">
         <a data-bs-toggle="collapse" href="#collapseJobs" aria-expanded="true" aria-controls="collapseJobs">
-          Jobs
+          <%= t('.jobs') %>
         </a>
       </h5>
     </div>
@@ -11,44 +11,41 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <p>
-            DeleteUnconfirmedIssuesJob
+            <%= t('.delete_unconfirmed_issues_job.name') %>
             <span class="text-muted"><small>
-              Alle Meldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
-              Ausführung täglich um *:32 Uhr.
+              <%= t('.delete_unconfirmed_issues_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedIssuesJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            DeleteUnconfirmedSupportersJob
+            <%= t('.delete_unconfirmed_supporters_job.name') %>
             <span class="text-muted"><small>
-              Alle Unterstützungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
-              Ausführung täglich um *:37 Uhr.
+              <%= t('.delete_unconfirmed_supporters_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedSupportersJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            DeleteUnconfirmedAbuseReportsJob
+            <%= t('.delete_unconfirmed_abuse_reports_job.name') %>
             <span class="text-muted"><small>
-              Alle Missbrauchsmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
-              Ausführung täglich um *:42 Uhr.
+              <%= t('.delete_unconfirmed_abuse_reports_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedAbuseReportsJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
@@ -66,117 +63,106 @@
         </li>
         <li class="list-group-item">
           <p>
-            DeleteUnconfirmedPhotosJob
+            <%= t('.delete_unconfirmed_photos_job.name') %>
             <span class="text-muted"><small>
-              Alle Photos, die gesendet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.
-              Ausführung täglich um *:47 Uhr.
+              <%= t('.delete_unconfirmed_photos_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteUnconfirmedPhotosJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            DeleteAuthorsAfterDeadlineJob
+            <%= t('.delete_authors_after_deadline_job.name') %>
             <span class="text-muted"><small>
-              Entfernt nach einem bestimmten Zeitraum von allen Meldungen und mit verbundenen Objekten den Autor / Absender.
-              Ausführung täglich um *:52 Uhr.
+              <%= t('.delete_authors_after_deadline_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :DeleteAuthorsAfterDeadlineJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            ArchiveClosedIssuesJob
+            <%= t('.archive_closed_issues_job.name') %>
             <span class="text-muted"><small>
-              Alle Meldungen, die abgeschlossen sind und seit einem bestimmten Zeitraum nicht mehr bearbeitet wurden, werden archiviert.
-              Ausführung täglich um 00:40 Uhr.
+              <%= t('.archive_closed_issues_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :ArchiveClosedIssuesJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            InformEditorialStaffOnIssuesJob
+            <%= t('.inform_editorial_staff_on_issues_job.name') %>
             <span class="text-muted"><small>
-              Die Empfänger redaktioneller E-Mails werden informiert.
-              Ausführung täglich um 01:40 Uhr.
+              <%= t('.inform_editorial_staff_on_issues_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :InformEditorialStaffOnIssuesJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            CalculateAverageTurnaroundTimeJob
+            <%= t('.calculate_average_turnaround_time_job.name') %>
             <span class="text-muted"><small>
-              Berechnet und aktualisiert die durchschnittliche Bearbeitungszeit pro Kategorie.
-              Ausführung täglich um 2:00 Uhr.
+              <%= t('.calculate_average_turnaround_time_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :CalculateAverageTurnaroundTimeJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            InformOnDelegatedIssuesJob
+            <%= t('.inform_on_delegated_issues_job.name') %>
             <span class="text-muted"><small>
-              Externe Nutzer werden mittels E-Mail über die Meldungen informiert, die innerhalb der letzten 24 Stunden an sie delegiert wurden.
-              Dabei werden immer alle Meldungen berücksichtigt, deren Delegierung innerhalb der letzten 24 Stunden stattfand.
-              Ausführung täglich um 07:00 Uhr.
+              <%= t('.inform_on_delegated_issues_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :InformOnDelegatedIssuesJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            NotifyOnIssuesInProcessJob
+            <%= t('.notify_on_issues_in_process_job.name') %>
             <span class="text-muted"><small>
-              Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.
-              Dabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.
-              Ausführung täglich um 10:05 Uhr.
+              <%= t('.notify_on_issues_in_process_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :NotifyOnIssuesInProcessJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            NotifyOnClosedIssuesJob
+            <%= t('.notify_on_closed_issues_job.name') %>
             <span class="text-muted"><small>
-              Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden abgeschlossen wurden.
-              Dabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden abgeschlossen wurden.
-              Ausführung täglich um 10:10 Uhr.
+              <%= t('.notify_on_closed_issues_job.description') %>
             </small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :run_job %>
             <%= hidden_field_tag :job, :NotifyOnClosedIssuesJob %>
-            <%= submit_tag 'Ausführen', class: 'btn btn-sm btn-primary' %>
+            <%= submit_tag t('.execute'), class: 'btn btn-sm btn-primary' %>
           <% end -%>
         </li>
       </ul>
@@ -187,7 +173,7 @@
     <div class="card-header" role="tab" id="headingProtocols">
       <h5 class="mb-0">
         <a class="collapsed" data-bs-toggle="collapse" href="#collapseProtocols" aria-controls="collapseProtocols">
-          Server: Protokolle und Verbindungen
+          <%= t('.server_protocols_connections') %>
         </a>
       </h5>
     </div>
@@ -195,63 +181,63 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <p>
-            E-Mail-Versand
-            <span class="text-muted"><small>Sendet eine Test-E-Mail an den angegebenen Empfänger.</small></span>
+            <%= t('.email_dispatch') %>
+            <span class="text-muted"><small><%= t('.send_email_to_recipient') %></small></span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :protocol_email %>
             <div class="row">
-              <%= label_tag :recipient, 'Empfänger', class: 'label-control col-2' %>
+              <%= label_tag :recipient, t('.recipient'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= text_field_tag :recipient, '', class: 'form-control' %>
               </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <%= submit_tag 'Test-E-Mail senden', class: 'btn btn-sm btn-primary' %>
+                <%= submit_tag t('.send_test_email'), class: 'btn btn-sm btn-primary' %>
               </div>
             </div>
           <% end -%>
         </li>
         <li class="list-group-item">
           <p>
-            LDAP-Login
+            <%= t('.ldap_login') %>
             <span class="text-muted">
-              <small>Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortüberprüfung durchzuführen.</small>
+              <small><%= t('.connect_to_ldap_server') %></small>
             </span>
           </p>
           <%= form_tag tests_path, method: :post, remote: true, class: :test do %>
             <%= hidden_field_tag :test, :protocol_ldap %>
             <div class="row">
-              <%= label_tag :host, 'Host', class: 'label-control col-2' %>
+              <%= label_tag :host, t('.host'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= text_field_tag :host, '', class: 'form-control' %>
               </div>
-              <%= label_tag :port, 'Port', class: 'label-control col-2' %>
+              <%= label_tag :port, t('.port'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= text_field_tag :port, '', class: 'form-control' %>
               </div>
             </div>
             <div class="row">
-              <%= label_tag :encryption, 'Encryption', class: 'label-control col-2' %>
+              <%= label_tag :encryption, t('.encryption'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= select_tag :encryption, options_for_select(['simple_tls']), include_blank: '',
                       class: 'form-select' %>
               </div>
             </div>
             <div class="row">
-              <%= label_tag :username, 'User-DN', class: 'label-control col-2' %>
+              <%= label_tag :username, t('.user_dn'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= text_field_tag :username, '', class: 'form-control' %>
               </div>
-              <%= label_tag :password, 'Passwort', class: 'label-control col-2' %>
+              <%= label_tag :password, t('.password'), class: 'label-control col-2' %>
               <div class="col-3">
                 <%= password_field_tag :password, '', class: 'form-control' %>
               </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <%= submit_tag 'LDAP-Login testen', class: 'btn btn-sm btn-primary' %>
+                <%= submit_tag t('.ldap_login_test'), class: 'btn btn-sm btn-primary' %>
               </div>
             </div>
           <% end -%>
