@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 # vim: set ft=sh:
 echo "Checking ERB Lint rules ..."
-yarn -s
+yarn install
 if [[ $# -gt 0 ]]; then
   bundle exec erb_lint $@
 else
