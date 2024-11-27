@@ -28,16 +28,18 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# External libs loaded via rake assets:libs
-lib/assets/javascripts
-lib/assets/stylesheets
-
 /public/packs
 /public/packs-test
+
+# Yarn an NPM related stuff
 /node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # DB Dumps and Overlay
 db/dumps
