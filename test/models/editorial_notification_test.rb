@@ -9,7 +9,7 @@ class EditorialNotificationTest < ActiveSupport::TestCase
     notification_ids = EditorialNotification.where(user_id: User.joins(:groups)
       .where(group: { id: Group.authorized(user) })).ids
     assert_not_empty notification_ids
-    assert_equal notification_ids, EditorialNotification.authorized(user).ids
+    assert_equal notification_ids.sort, EditorialNotification.authorized(user).ids.sort
     assert_empty EditorialNotification.authorized(user(:editor)).ids
   end
 end
