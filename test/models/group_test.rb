@@ -6,6 +6,7 @@ class GroupTest < ActiveSupport::TestCase
   test 'validate no_associated_categories' do
     group = group(:one)
     assert_valid group
+    assert_predicate group, :active?
     group.active = false
     assert_not group.valid?
     assert_equal [{ error: :associated_categories }], group.errors.details[:base]
@@ -14,6 +15,7 @@ class GroupTest < ActiveSupport::TestCase
   test 'validate no_associated_category on kind change' do
     group = group(:one)
     assert_valid group
+    assert_predicate group, :kind_internal?
     %w[external field_service_team].each do |kind|
       group.kind = kind
       assert_not group.valid?
