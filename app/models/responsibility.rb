@@ -42,7 +42,7 @@ class Responsibility < ApplicationRecord
   private
 
   def internal_group
-    errors.add(:group, :must_be_internal) unless group&.kind_internal?
+    errors.add(:group, :must_be_internal) unless group.kind_internal?
   end
 
   def only_one_group_for_group_type
