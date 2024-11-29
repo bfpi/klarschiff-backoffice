@@ -11,3 +11,9 @@ two:
   level: 1
   repetition: 1
   notified_at: 2020-10-19 14:42:05
+
+three:
+  user: editor3
+  level: 1
+  repetition: 1
+  notified_at: 2020-10-19 14:42:05
