@@ -1,19 +1,18 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails'
+require "rails"
 # Pick the frameworks you want:
-require 'active_model/railtie'
-require 'active_job/railtie'
-require 'active_record/railtie'
-require 'active_storage/engine'
-require 'action_controller/railtie'
-require 'action_mailer/railtie'
-# require 'action_mailbox/engine'
-# require 'action_text/engine'
-require 'action_view/railtie'
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+require "active_storage/engine"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
+require "action_view/railtie"
 # require "action_cable/engine"
-require 'sprockets/railtie'
-require 'rails/test_unit/railtie'
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,12 +21,12 @@ Bundler.require(*Rails.groups)
 module KlarschiffBackoffice
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 7.2
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: %w(assets tasks))
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -55,5 +54,16 @@ module KlarschiffBackoffice
 
     config.active_storage.content_types_allowed_inline << 'image/jpg'
     config.active_storage.variable_content_types << 'image/jpg'
+
+    # Global settings from settings.yml
+    settings_file = Rails.root.join('config/settings.yml')
+    if File.file?(settings_file)
+      settings = settings_file.open do |file|
+        YAML.load file, aliases: true
+      end.with_indifferent_access[Rails.env]
+
+      relative_url_root = settings.dig(:instance, :relative_url_root)
+      config.relative_url_root = relative_url_root if relative_url_root.present?
+    end
   end
 end

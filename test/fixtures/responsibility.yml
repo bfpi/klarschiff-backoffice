@@ -9,3 +9,7 @@ one:
 
 two:
   <<: *DEFAULTS
+
+three:
+  <<: *DEFAULTS
+  group: reference_default_county

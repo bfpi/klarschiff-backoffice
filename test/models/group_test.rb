@@ -28,6 +28,23 @@ class GroupTest < ActiveSupport::TestCase
     assert_not group.reload.active
   end
 
+  test 'do not deactivate group with active responsibilities' do
+    group = group(:one)
+    assert_valid group
+    group.active = false
+    assert_not group.valid?
+    assert_equal [{ error: :associated_categories }], group.errors.details[:base]
+  end
+
+  test 'deactivate group with inactive responsibilities' do
+    group = group(:one)
+    assert_valid group
+    assert responsibility(:one).update(deleted_at: Time.current)
+    assert_predicate group, :active?
+    assert group.update(active: false)
+    assert_not group.reload.active?
+  end
+
   test 'authorized scope' do
     assert_equal Group.ids, Group.authorized(user(:admin)).ids
     assert_empty Group.authorized(user(:editor))

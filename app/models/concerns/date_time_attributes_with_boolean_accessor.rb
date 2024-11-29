@@ -7,7 +7,7 @@ module DateTimeAttributesWithBooleanAccessor
     next if ARGV.include?('db:migrate')
     types = %i[date datetime]
     columns.select { |c| types.include? c.type }.each do |col|
-      define_method "#{col.name}?" do
+      define_method :"#{col.name}?" do
         self[col.name.to_sym].present?
       end
     end

@@ -16,7 +16,8 @@ class Responsibility < ApplicationRecord
   class << self
     def default_scope
       type = Group.arel_table[:type]
-      joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
+      active.joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'),
+        type.eq('AuthorityGroup')
     end
 
     def authorized(user = Current.user)

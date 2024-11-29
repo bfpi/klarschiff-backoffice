@@ -7,7 +7,7 @@
       "check_name": "UnsafeReflection",
       "message": "Unsafe reflection method `constantize` called on model attribute",
       "file": "app/controllers/groups_controller.rb",
-      "line": 22,
+      "line": 18,
       "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
       "code": "Current.user.permitted_group_types.first.constantize",
       "render_path": null,
@@ -30,7 +30,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/issue.rb",
-      "line": 86,
+      "line": 84,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "self.class.connection.select_value(\"SELECT ST_AsText(ST_Transform(ST_GeomFromText('#{position}', 4326), 25833)) AS point\")",
       "render_path": null,
@@ -49,44 +49,24 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "4499f9a10cd4c273ba7b1232082262a63d1b7480ec55b88501c305ae860a9c0e",
+      "fingerprint": "5b88b3b47afdeb368d48100fd0c0843a7232d858e826459e412c0f21538b0243",
       "check_name": "SQL",
       "message": "Possible SQL injection",
-      "file": "app/controllers/dashboards_controller/issues.rb",
-      "line": 47,
+      "file": "app/models/group.rb",
+      "line": 38,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\nINNER JOIN (\\n  SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n    WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n  SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n   WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n   AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n) = 0\\nWHERE \\\"attr\\\" = 'group' AND \\\"new_value_id\\\" IN (#{group_ids.join(\", \")})\\n  AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n    SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids.join(\", \")})))\\n\".squish)",
+      "code": "active.joins(\"LEFT JOIN #{authority_tn} \\\"a\\\" ON \\\"a\\\".\\\"id\\\" = #{group_tn}.\\\"reference_id\\\" AND #{group_tn}.\\\"type\\\" = 'AuthorityGroup'\\nLEFT JOIN #{county_tn} \\\"c\\\" ON \\\"c\\\".\\\"id\\\" = #{group_tn}.\\\"reference_id\\\" AND #{group_tn}.\\\"type\\\" = 'CountyGroup'\\nLEFT JOIN #{instance_tn} \\\"i\\\" ON \\\"i\\\".\\\"id\\\" = #{group_tn}.\\\"reference_id\\\" AND #{group_tn}.\\\"type\\\" = 'InstanceGroup'\\n\".squish)",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "DashboardsController",
-        "method": "changed_responsibilities"
+        "class": "Group",
+        "method": "s(:self).regional"
       },
-      "user_input": "I18n.t(true).downcase",
-      "confidence": "Medium",
+      "user_input": "authority_tn",
+      "confidence": "Weak",
       "cwe_id": [
         89
       ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "b4f64158b1912ed6c06839144740c6860502204c246a5c402772cdb9b8ef6d05",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/controllers/dashboards_controller.rb",
-      "line": 66,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\nINNER JOIN (\\n  SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n    WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n  SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n   WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n   AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n) = 0\\nWHERE \\\"attr\\\" = 'group' AND \\\"new_value_id\\\" IN (#{group_ids.join(\", \")})\\n  AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n    SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids.join(\", \")})))\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "DashboardsController",
-        "method": "changed_responsibilities"
-      },
-      "user_input": "I18n.t(true).downcase",
-      "confidence": "Medium",
       "note": ""
     },
     {
@@ -136,6 +116,29 @@
       "note": "Won't fix. Value of status is translation of enum and comes from config/locale."
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e01ec93c7d754b703bbaf8083feba8e33a7404efde43e0e28c83a8610117c246",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/dashboards_controller/issues.rb",
+      "line": 47,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{Issue.quoted_table_name}.\\\"id\\\" IN (SELECT DISTINCT \\\"le\\\".\\\"issue_id\\\" FROM #{LogEntry.quoted_table_name} \\\"le\\\"\\n  INNER JOIN (\\n    SELECT \\\"issue_id\\\", \\\"created_at\\\" FROM #{LogEntry.quoted_table_name}\\n      WHERE \\\"attr\\\" = 'responsibility_accepted' AND LOWER(\\\"new_value\\\") = '#{I18n.t(true).downcase}'\\n  ) \\\"le2\\\" ON \\\"le\\\".\\\"issue_id\\\" = \\\"le2\\\".\\\"issue_id\\\" AND \\\"le2\\\".\\\"created_at\\\" >= \\\"le\\\".\\\"created_at\\\" AND (\\n    SELECT COUNT(\\\"id\\\") FROM #{LogEntry.quoted_table_name} \\\"le3\\\"\\n     WHERE \\\"le3\\\".\\\"issue_id\\\" = \\\"le\\\".\\\"issue_id\\\" AND \\\"le3\\\".\\\"attr\\\" = 'group'\\n     AND \\\"le3\\\".\\\"created_at\\\" > \\\"le\\\".\\\"created_at\\\" AND \\\"le3\\\".\\\"created_at\\\" <= \\\"le2\\\".\\\"created_at\\\"\\n  ) = 0\\n  WHERE \\\"attr\\\" = 'group' AND \\\"new_value_id\\\" IN (#{group_ids.join(\", \")})\\n    AND \\\"le\\\".\\\"issue_id\\\" IS NOT NULL AND \\\"le\\\".\\\"issue_id\\\" NOT IN (\\n      SELECT \\\"id\\\" FROM #{Issue.quoted_table_name} WHERE \\\"group_id\\\" IN (#{group_ids.join(\", \")})))\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DashboardsController",
+        "method": "changed_responsibilities"
+      },
+      "user_input": "I18n.t(true).downcase",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": "false positive"
+    },
+    {
       "warning_type": "Session Setting",
       "warning_code": 29,
       "fingerprint": "f0ee1cc1980474c82a013645508f002dcc801e00db5592f7dd8cd6bdb93c73fe",
@@ -155,6 +158,6 @@
       "note": ""
     }
   ],
-  "updated": "2022-11-04 09:38:45 +0100",
-  "brakeman_version": "5.3.1"
+  "updated": "2024-11-27 07:19:19 +0100",
+  "brakeman_version": "6.2.2"
 }

@@ -25,6 +25,10 @@ Layout/ArgumentAlignment:
 Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
+Layout/EmptyLines:
+  Exclude:
+    - 'config/initializers/new_framework_defaults_7_1.rb'
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
@@ -126,10 +130,35 @@ Style/FrozenStringLiteralComment:
     - 'config/initializers/filter_parameter_logging.rb'
     - 'config/initializers/inflections.rb'
     - 'config/initializers/mime_types.rb'
+    - 'config/initializers/new_framework_defaults_7_1.rb'
+    - 'config/initializers/permissions_policy.rb'
     - 'config/initializers/wrap_parameters.rb'
     - 'config/puma.rb'
 
+Style/GlobalStdStream:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - 'config/application.rb'
+
+Style/RedundantConstantBase:
+  Exclude:
+    - 'config/environments/production.rb'
+
 Style/StringLiterals:
   Exclude:
-    - 'config/puma.rb'
+    - 'config/application.rb'
+    - 'config/boot.rb'
+    - 'config/environment.rb'
+    - 'config/environments/development.rb'
     - 'config/environments/production.rb'
+    - 'config/environments/test.rb'
+    - 'config/initializers/assets.rb'
+    - 'config/puma.rb'
+
+Style/SymbolArray:
+  Exclude:
+    - 'config/initializers/filter_parameter_logging.rb'
+

@@ -36,7 +36,7 @@ module IssuesHelper
 
   def nav_item(tab, issue, current_tab, issue_or_delegation = :issue)
     css_class = "nav-link switch-tab #{:active if tab == current_tab}"
-    path = send("edit_#{issue_or_delegation}_path", issue, tab:)
+    path = send(:"edit_#{issue_or_delegation}_path", issue, tab:)
     tag.li link_to(t("issues.form.tab.#{tab}"), '#', data: { url: path }, class: css_class), class: 'nav-item'
   end
 
@@ -119,7 +119,7 @@ module IssuesHelper
   end
 
   def status_note_templates
-    Config.for(:status_note_template, env: nil).select { |_k, v| v.present? }.sort
+    Config.for(:status_note_template, env: nil).compact_blank.sort
   end
 
   def possible_group_ids(issue)

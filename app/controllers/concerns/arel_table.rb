@@ -11,7 +11,7 @@ module ArelTable
       match_data[1]
     end
     classes.each do |class_name|
-      define_method "#{class_name.underscore}_arel_table" do
+      define_method :"#{class_name.underscore}_arel_table" do
         class_name.constantize.arel_table
       end
     end

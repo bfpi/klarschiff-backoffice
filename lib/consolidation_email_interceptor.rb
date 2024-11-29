@@ -16,7 +16,7 @@ class ConsolidationEmailInterceptor
 
     def original_recipients(message)
       { To: message.header['To'], CC: message.header['Cc'], BCC: message.header['Bcc'] }
-        .select { |_, v| v.present? }.map { |k, v| "#{k}: #{v}" }.join ', '
+        .compact_blank.map { |k, v| "#{k}: #{v}" }.join ', '
     end
   end
 end

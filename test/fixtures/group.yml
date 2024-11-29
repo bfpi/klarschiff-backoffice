@@ -41,6 +41,13 @@ internal3:
   reference_id: <%= ActiveRecord::FixtureSet.identify :three %>
   users: editor_two
 
+internal4:
+  <<: *DEFAULTS
+  email:
+  main_user:
+  reference_id: <%= ActiveRecord::FixtureSet.identify :two %>
+  users: two
+
 no_users_and_email:
   <<: *DEFAULTS
   email:
