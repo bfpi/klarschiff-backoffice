@@ -19,7 +19,7 @@ class Group < ApplicationRecord
     has_and_belongs_to_many :users
   end
 
-  validate :no_associated_categories, if: -> { !active && active_changed? }
+  validate :no_associated_categories
   validates :name, presence: true
   validates :email, presence: true, if: -> { main_user_id.blank? && !kind_field_service_team? }
 
@@ -99,6 +99,7 @@ class Group < ApplicationRecord
 
   def no_associated_categories
     return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id, deleted_at: nil })
-    errors.add :base, :associated_categories
+    errors.add(:base, :associated_categories) if !active && active_changed?
+    errors.add(:base, :must_be_internal) unless kind_internal?
   end
 end
