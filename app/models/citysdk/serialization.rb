@@ -22,7 +22,7 @@ module Citysdk
 
     def to_xml(options)
       serializable_hash(serialization_options(options)).to_xml options.merge(
-        root: (options[:element_name] || self.class.name.underscore)
+        root: options[:element_name] || self.class.name.underscore
       )
     end
 

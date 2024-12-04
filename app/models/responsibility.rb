@@ -9,13 +9,15 @@ class Responsibility < ApplicationRecord
   belongs_to :group
 
   validate :only_one_group_for_group_type
+  validate :internal_group, if: :group
 
   scope :active, -> { where(deleted_at: nil) }
 
   class << self
     def default_scope
       type = Group.arel_table[:type]
-      joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'), type.eq('AuthorityGroup')
+      active.joins(:group).order type.eq('InstanceGroup'), type.eq('CountyGroup'),
+        type.eq('AuthorityGroup')
     end
 
     def authorized(user = Current.user)
@@ -38,6 +40,10 @@ class Responsibility < ApplicationRecord
   end
 
   private
+
+  def internal_group
+    errors.add(:group, :must_be_internal) unless group.kind_internal?
+  end
 
   def only_one_group_for_group_type
     filter = { category:, group: filter_group }

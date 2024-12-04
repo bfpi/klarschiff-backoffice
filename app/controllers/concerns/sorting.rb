@@ -18,7 +18,7 @@ module Sorting
       custom = send(:custom_order, order_params[:column] || :id, order_dir)
       return custom if custom.present?
     end
-    return [(order_params[:column] || :id) => order_dir] if order_params.present?
+    return [order_params[:column] || :id => order_dir] if order_params.present?
     respond_to?(:default_order, true) ? send(:default_order) : { id: :desc }
   end
 

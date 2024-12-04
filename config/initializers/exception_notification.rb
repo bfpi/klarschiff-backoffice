@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-unless Rails.env.development? || Rails.env.test?
-  require 'config'
+unless Rails.env.local?
+  require Rails.root.join('app/modules/config.rb').to_s
 
   config = Config.for(:mailer)
   Rails.application.config.middleware.use ExceptionNotification::Rack,

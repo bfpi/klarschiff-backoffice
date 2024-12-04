@@ -45,8 +45,9 @@ module Logging
   end
 
   def log_update
-    changes.each do |attr, (old, new)|
+    changes.each_key do |attr|
       next if attr.in?(self.class.omit_field_log || self.class.superclass.omit_field_log)
+      (old, new) = changes[attr]
       if ((k, v) = find_reflection_for_attr(attr))
         log_update_for_reflection(k, v, old, new)
       else

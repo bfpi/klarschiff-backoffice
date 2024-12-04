@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   self.omit_field_log_values += %w[password_digest password_history]
 
-  enum role: { admin: 0, regional_admin: 1, editor: 2 }, _prefix: true
+  enum :role, { admin: 0, regional_admin: 1, editor: 2 }, prefix: true
 
   with_options after_add: :log_habtm_add, after_remove: :log_habtm_remove do
     has_and_belongs_to_many :groups
@@ -51,6 +51,11 @@ class User < ApplicationRecord
 
   def as_json(_options = {})
     { value: id, label: to_s }
+  end
+
+  def uuid
+    update uuid: SecureRandom.uuid if self[:uuid].blank?
+    self[:uuid]
   end
 
   private

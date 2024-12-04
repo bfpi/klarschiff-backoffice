@@ -8,10 +8,14 @@ module ResponsibilitiesHelper
     end
   end
 
+  def active_responsibilities(category)
+    category.responsibilities.authorized.active.includes(:group)
+  end
+
   def groups_options(resp_or_category)
     category_id = resp_or_category.is_a?(Responsibility) ? resp_or_category.category_id : resp_or_category
     return [] if category_id.blank?
-    groups = Group.authorized.map { |gr| [gr.to_s, gr.id] }
+    groups = Group.authorized.kind_internal.map { |gr| [gr.to_s, gr.id] }
     return groups_options_with_selected(resp_or_category, groups) if resp_or_category.is_a?(Responsibility)
     options_for_select groups
   end

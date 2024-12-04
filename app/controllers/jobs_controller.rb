@@ -24,7 +24,7 @@ class JobsController < ApplicationController
 
   def change_order
     job_ids = []
-    params[:jobs].each do |_, job|
+    params[:jobs].each_value do |job|
       job_ids << job.keys[0]
       Job.find(job.keys[0]).update(order: job.values[0])
     end

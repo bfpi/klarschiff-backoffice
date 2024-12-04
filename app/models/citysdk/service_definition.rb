@@ -6,8 +6,11 @@ module Citysdk
 
     self.serialization_attributes = %i[service_code service_name keywords group]
 
-    alias_attribute :service_code, :id
-    alias_attribute :group, :main_category
+    private
+
+    def service_code
+      id.to_s
+    end
 
     def service_name
       sub_category.to_s
@@ -15,6 +18,10 @@ module Citysdk
 
     def keywords
       kind || main_category.kind
+    end
+
+    def group
+      main_category.to_s
     end
 
     def document_url

@@ -1,4 +1,5 @@
 <span id="issues-footer">
+  <%= link_to t('.rss'), issues_rss_path(user_uuid: Current.user.uuid, format: :xml), class: 'btn btn-primary' %>
   <%= link_to t('.map'), issues_path(filter: @filter, extended_filter: @extended_filter, show_map: true),
         class: 'btn btn-primary' %>
   <%= link_to t(:export_xlsx), issues_path(filter: @filter, extended_filter: @extended_filter, format: :xlsx),

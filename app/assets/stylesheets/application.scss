@@ -137,8 +137,17 @@ th.action {
   width: 1em;
 }
 
-.inner-table tr:last-of-type td {
-  border-bottom: 0;
+.inner-table {
+  margin-bottom: 0;
+
+  tr:first-of-type td {
+    padding-top: 0;
+  }
+
+  tr:last-of-type td {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 }
 
 a {

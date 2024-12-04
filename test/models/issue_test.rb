@@ -159,4 +159,34 @@ class IssueTest < ActiveSupport::TestCase
       assert_predicate issue, :valid?
     end
   end
+
+  test 'ensure priority for responsibility' do
+    issue = issue(:received_two)
+    issue.send(:responsibility_recalculate!)
+    assert_equal 'AuthorityGroup', issue.group.type
+  end
+
+  test 'ensure enum description_status' do
+    assert_nothing_raised do
+      assert_not_nil Issue.description_status_internal
+    end
+  end
+
+  test 'ensure enum priority' do
+    assert_nothing_raised do
+      assert_not_nil Issue.priority_low
+    end
+  end
+
+  test 'ensure enum status' do
+    assert_nothing_raised do
+      assert_not_nil Issue.status_pending
+    end
+  end
+
+  test 'ensure enum trust_level' do
+    assert_nothing_raised do
+      assert_not_nil Issue.trust_level_internal
+    end
+  end
 end

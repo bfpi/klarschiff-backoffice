@@ -137,6 +137,7 @@ de:
           attributes:
             base:
               associated_categories: Gruppen mit zugewiesenen Zuständigkeiten können nicht deaktiviert werden.
+              must_be_internal: Gruppen mit zugewiesenen Zuständigkeiten müssen intern sein.
         issue:
           attributes:
             category:
@@ -146,10 +147,16 @@ de:
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
               outside_of_designated_districts: befindet sich außerhalb Ihres Zuständigkeitsbereichs.
+        photo:
+          attributes:
+            file:
+              file_size_not_greater_than: "ist ungültig und kann nicht verarbeitet werden (ist leer / hat keinen Inhalt)"
         responsibility:
           attributes:
             base:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
+            group:
+              must_be_internal: muss intern sein.
             status:
               invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
         supporter:
@@ -247,6 +254,7 @@ de:
     county: Landkreis/kreisfreie Stadt
     created_at: Zeitstempel
     deleted: gelöscht
+    deleted_at: Löschzeit
     file: Datei
     id: '#'
     instance: Instanz
@@ -423,6 +431,7 @@ de:
       assign_jobs: Zuordnung für Außendienst
       map: Kartenansicht
       new_issue: Neue Meldung
+      rss: RSS
     extended_filter:
       all_districts: alle Gemeindeteile
       all_kinds: alle Typen
@@ -473,6 +482,12 @@ de:
       undo: zurück
     tab_rejection:
       reject: zurückweisen
+  issues_rss:
+    index:
+      feed_description: "Diese Daten umfassen alle Ihre Meldungen in %{name}."
+      link: "Meldung in %{name} ansehen"
+      no_supporters: bisher keine
+      status_note_not_available: nicht vorhanden
   jobs:
     title: Außendienstaufträge
     grouped_jobs:
@@ -508,9 +523,8 @@ de:
     description:
       internal: redaktionelle Prüfung ausstehend
       default_group: >
-        Die Meldung wurde in einem Amtsgebiet angelegt, das noch nicht an Klarschiff-MV teilnimmt.
-        Die Daten der Meldung wurden an das zuständige Amt weitergeleitet.
-        Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
+        Die Daten der Meldung wurden an die zuständige Verwaltung weitergeleitet und werden dort (noch) außerhalb von Klarschiff-MV bearbeitet.
+        Deshalb können die Meldungsdetails nicht vollständig im Portal angezeigt werden.
       default_group_countygroup: >
         Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
         Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.

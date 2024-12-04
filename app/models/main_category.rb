@@ -6,7 +6,7 @@ class MainCategory < ApplicationRecord
   has_many :categories, dependent: :destroy
   has_many :sub_categories, through: :categories
 
-  enum kind: { idea: 0, problem: 1, tip: 2 }, _prefix: true
+  enum :kind, { idea: 0, problem: 1, tip: 2 }, prefix: true
 
   validates :kind, :name, presence: true
 

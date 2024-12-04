@@ -19,7 +19,7 @@
               <%= Settings::Instance.name %>
             </div>
           <% else -%>
-            <%= link_to root_url, class: 'navbar-brand mb-0 h1' do %>
+            <%= link_to root_path, class: 'navbar-brand mb-0 h1' do %>
               <%= image_tag 'klarschiff.png' %>
               <%= Settings::Instance.name %>
             <% end %>
@@ -29,24 +29,24 @@
               <% if Current.user.present? -%>
                 <% unless Current.user.auth_code -%>
                   <li class="nav-item">
-                    <%= link_to t('nav.dashboard'), root_url, class: 'nav-link' %>
+                    <%= link_to t('nav.dashboard'), root_path, class: 'nav-link' %>
                   </li>
                 <% end -%>
                 <% if authorized?(:issues) -%>
                   <li class="nav-item">
-                    <%= link_to Issue.model_name.human(count: 2), issues_url, class: 'nav-link' %>
+                    <%= link_to Issue.model_name.human(count: 2), issues_path, class: 'nav-link' %>
                   </li>
                   <% if authorized?(:delegations) -%>
-                    <li class="nav-item"><%= link_to(t(:delegations), delegations_url, class: 'nav-link') %></li>
+                    <li class="nav-item"><%= link_to(t(:delegations), delegations_path, class: 'nav-link') %></li>
                   <% end -%>
                 <% elsif authorized?(:delegations) -%>
                   <li class="nav-item">
-                    <%= link_to(Issue.model_name.human(count: 2), delegations_url, class: 'nav-link') %>
+                    <%= link_to(Issue.model_name.human(count: 2), delegations_path, class: 'nav-link') %>
                   </li>
                 <% end -%>
                 <% if authorized?(:jobs) -%>
                   <li class="nav-item">
-                    <%= link_to Job.model_name.human(count: 2), jobs_url, class: 'nav-link', title: t('jobs.title') %>
+                    <%= link_to Job.model_name.human(count: 2), jobs_path, class: 'nav-link', title: t('jobs.title') %>
                   </li>
                 <% end -%>
                 <% if authorized?(:administration) %>
@@ -55,46 +55,46 @@
                           class: 'nav-link dropdown-toggle', 'data-bs-toggle': 'dropdown' %>
                     <div class="dropdown-menu">
                       <% if authorized?(:manage_users) -%>
-                        <%= link_to User.model_name.human(count: 2), users_url, class: 'dropdown-item' %>
+                        <%= link_to User.model_name.human(count: 2), users_path, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_groups) -%>
-                        <%= link_to Group.model_name.human(count: 2), groups_url, class: 'dropdown-item' %>
+                        <%= link_to Group.model_name.human(count: 2), groups_path, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_field_service) -%>
-                        <%= link_to t('field_services.title'), field_services_url, class: 'dropdown-item' %>
+                        <%= link_to t('field_services.title'), field_services_path, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_feedbacks) -%>
-                        <%= link_to Feedback.model_name.human(count: 2), feedbacks_url, class: 'dropdown-item' %>
+                        <%= link_to Feedback.model_name.human(count: 2), feedbacks_path, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:list_log_entries) -%>
-                        <%= link_to LogEntry.model_name.human(count: 2), log_entries_url, class: 'dropdown-item' %>
+                        <%= link_to LogEntry.model_name.human(count: 2), log_entries_path, class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_editorial_notifications) -%>
-                        <%= link_to EditorialNotification.model_name.human(count: 2), editorial_notifications_url,
+                        <%= link_to EditorialNotification.model_name.human(count: 2), editorial_notifications_path,
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_responsibilities) -%>
-                        <%= link_to Responsibility.model_name.human(count: 2), responsibilities_url,
+                        <%= link_to Responsibility.model_name.human(count: 2), responsibilities_path,
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_mail_blacklist) -%>
-                        <%= link_to MailBlacklist.model_name.human(count: 2), mail_blacklists_url,
+                        <%= link_to MailBlacklist.model_name.human(count: 2), mail_blacklists_path,
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_mail_templates) -%>
-                        <%= link_to 'E-Mail-Templates / Vorschau', 'rails/mailers',
+                        <%= link_to 'E-Mail-Templates / Vorschau', rails_mailers_path,
                               target: :_blank, rel: 'noopener', class: 'dropdown-item' %>
                       <% end -%>
-                      <%= link_to 'Tests', tests_url, class: 'dropdown-item' if authorized?(:test) %>
+                      <%= link_to 'Tests', tests_path, class: 'dropdown-item' if authorized?(:test) %>
                     </div>
                   </li>
                 <% end -%>
               <% end -%>
               <li class="nav-item">
-                <%= link_to t(:contact), contacts_url, class: 'nav-link' %>
+                <%= link_to t(:contact), contacts_path, class: 'nav-link' %>
               </li>
               <li class="nav-item">
-                <%= link_to t(:imprint), imprints_url, class: 'nav-link' %>
+                <%= link_to t(:imprint), imprints_path, class: 'nav-link' %>
               </li>
             </ul>
             <% unless Rails.env.production? -%>
@@ -111,23 +111,23 @@
                       <li><%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <% if Current.user&.authorized?(:change_password) -%>
-                      <li><%= link_to 'Passwort ändern', change_password_users_url, class: 'dropdown-item' %></li>
+                      <li><%= link_to 'Passwort ändern', change_password_users_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                      <%= link_to logins_url, class: 'dropdown-item', method: :delete do %>
+                      <%= link_to logins_path, class: 'dropdown-item', method: :delete do %>
                         <i class="fa fa-sign-out"></i> <%= t('nav.logout') %>
                       <% end -%>
                     </li>
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <%= link_to tag.i('', class: 'fa fa-info-circle'), infos_url,
+                  <%= link_to tag.i('', class: 'fa fa-info-circle'), infos_path,
                         class: 'nav-link', title: t('nav.info') %>
                 </li>
                 <% if Settings::Instance.show_help -%>
                   <li class="nav-item">
-                    <%= link_to tag.i('', class: 'fa fa-question-circle'), help_url,
+                    <%= link_to tag.i('', class: 'fa fa-question-circle'), help_path,
                           class: 'nav-link', title: t('nav.help') %>
                   </li>
                 <% end -%>
@@ -171,7 +171,7 @@
                           data: { controller: 'delegations' } %>
                   <% end -%>
               </div>
-              <div class="col-7 offset-md-1">
+              <div class="col-8">
                 <%= yield :footer %>
               </div>
             </div>

@@ -4,7 +4,7 @@ class Group < ApplicationRecord
   include FullTextFilter
   include Logging
 
-  enum kind: { internal: 0, external: 1, field_service_team: 2 }, _prefix: true
+  enum :kind, { internal: 0, external: 1, field_service_team: 2 }, prefix: true
 
   belongs_to :main_user, class_name: 'User', optional: Settings::Group.main_user_optional
 
@@ -19,7 +19,7 @@ class Group < ApplicationRecord
     has_and_belongs_to_many :users
   end
 
-  validate :no_associated_categories, if: -> { !active && active_changed? }
+  validate :no_associated_categories
   validates :name, presence: true
   validates :email, presence: true, if: -> { main_user_id.blank? && !kind_field_service_team? }
 
@@ -39,14 +39,14 @@ class Group < ApplicationRecord
         LEFT JOIN #{county_tn} "c" ON "c"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'CountyGroup'
         LEFT JOIN #{instance_tn} "i" ON "i"."id" = #{group_tn}."reference_id" AND #{group_tn}."type" = 'InstanceGroup'
       JOIN
-        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "a"."area") OR
-        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "c"."area") OR
-        (ST_SetSRID(ST_MakePoint(:lon, :lat), 4326) && "i"."area")
+        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "a"."area") OR
+        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "c"."area") OR
+        ST_Within(ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), "i"."area")
       SQL
     end
 
     def by_user_region(user = Current.user)
-      return all if user&.role_admin?
+      return includes(:users) if user&.role_admin?
       user.groups.active.distinct.pluck(:type, :reference_id).map { |(t, r)| Group.where type: t, reference_id: r }
         .inject :or
     end
@@ -98,7 +98,8 @@ class Group < ApplicationRecord
   end
 
   def no_associated_categories
-    return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id })
-    errors.add :base, :associated_categories
+    return unless Category.joins(:responsibilities).exists?(responsibility: { group_id: id, deleted_at: nil })
+    errors.add(:base, :associated_categories) if !active && active_changed?
+    errors.add(:base, :must_be_internal) unless kind_internal?
   end
 end
