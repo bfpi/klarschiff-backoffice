@@ -33,8 +33,8 @@ jobs:
         uses: dependabot/fetch-metadata@v2
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Enable auto-merge for Dependabot PRs
-        if: ${{ ! contains(steps.metadata.outputs.dependency-names, 'bootstrap') }}
+      - name: Enable auto-merge for Dependabot PRs, not marked as manually
+        if: ${{ ! contains(steps.metadata.outputs.dependency-names, 'bootstrap') && ! contains(github.event.pull_request.labels.*.name, 'manually') }}
         run: |
           gh pr review --approve "$PR_URL"
           gh pr edit --add-label "automerge" "$PR_URL"
@@ -42,4 +42,3 @@ jobs:
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
