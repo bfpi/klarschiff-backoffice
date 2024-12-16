@@ -189,4 +189,11 @@ class IssueTest < ActiveSupport::TestCase
       assert_not_nil Issue.trust_level_internal
     end
   end
+
+  test 'get district for issue position' do
+    assert_nothing_raised do
+      issue = issue(:received_two)
+      assert_equal district(:one), issue.district
+    end
+  end
 end
