@@ -98,7 +98,7 @@ class Issue < ApplicationRecord
   end
 
   def district
-    District.find_by("ST_Contains(area, ST_GeomFromText(?, 4326))", position)
+    District.find_by('ST_Contains(area, ST_GeomFromText(?, 4326))', position)
   end
 
   def default_group_without_gui_access?
