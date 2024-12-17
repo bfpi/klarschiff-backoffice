@@ -6,7 +6,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    versioning-strategy: "lockfile-only"
+    versioning-strategy: lockfile-only
     ignore:
       - dependency-name: "bootstrap"
         versions: [">= 5.2", "< 6"]
@@ -15,13 +15,17 @@ updates:
 
   - package-ecosystem: "bundler"
     directory: "/"
+    target-branch: master # additional config for bundler, see https://github.com/dependabot/dependabot-core/issues/1778#issuecomment-1988140219
     schedule:
       interval: "monthly"
+    versioning-strategy: increase-if-necessary
     labels:
       - "manually"
     ignore:
       - dependency-name: "bootstrap"
         versions: [">= 5.2", "< 6"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
 
   - package-ecosystem: "npm"
     directory: "/"
