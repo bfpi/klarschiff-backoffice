@@ -1,4 +1,5 @@
-<%= link_to tag.i('', class: 'fa fa-pencil'), edit_responsibility_path(responsibility, permitted_order_and_pagination_params),
+<%= link_to tag.i('', class: 'fa fa-pencil'),
+      edit_responsibility_path(responsibility, permitted_order_and_pagination_params),
       remote: true, class: 'btn btn-sm btn-outline-primary' %>
 <%= link_to tag.i('', class: 'fa fa-trash'), responsibility_path(responsibility, permitted_order_and_pagination_params),
       method: :delete, class: 'btn btn-sm btn-outline-danger',
