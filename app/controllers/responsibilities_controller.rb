@@ -25,19 +25,17 @@ class ResponsibilitiesController < ApplicationController
     @responsibility = Responsibility.new(responsibility_params)
     if @responsibility.save
       return redirect_to permitted_order_and_pagination_params.merge(action: :index) if params[:save_and_close].present?
-      render :edit
-    else
-      render :new
+      return render :edit
     end
+    render :new
   end
 
   def update
     @responsibility = Responsibility.authorized.find(params[:id])
     if @responsibility.update(responsibility_params) && params[:save_and_close].present?
       return redirect_to permitted_order_and_pagination_params.merge(action: :index)
-    else
-      render :edit
     end
+    render :edit
   end
 
   def destroy
@@ -49,7 +47,7 @@ class ResponsibilitiesController < ApplicationController
   private
 
   def permitted_order_and_pagination_params
-    params.permit :page, order_by: [:column, :dir]
+    params.permit :page, order_by: %i[column dir]
   end
 
   def responsibility_params
