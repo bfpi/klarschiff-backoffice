@@ -20,8 +20,8 @@ module ResponsibilitiesHelper
     options_for_select groups
   end
 
-  def paginate
-    super(order_params[:column] == 'group' ? @responsibilities : @categories)
+  def order_by_group?
+    order_params[:column] == 'group'
   end
 
   private
