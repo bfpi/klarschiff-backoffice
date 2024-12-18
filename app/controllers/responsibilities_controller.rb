@@ -3,7 +3,10 @@
 class ResponsibilitiesController < ApplicationController
   include Filter
   include Sorting
+
   before_action { check_auth :manage_responsibilities }
+
+  helper_method :permitted_order_and_pagination_params
 
   def index
     @categories = filter(Category.active).order(order_attr).page(params[:page] || 1).per(params[:per_page] || 20)
@@ -21,7 +24,7 @@ class ResponsibilitiesController < ApplicationController
   def create
     @responsibility = Responsibility.new(responsibility_params)
     if @responsibility.save
-      return redirect_to action: :index if params[:save_and_close].present?
+      return redirect_to permitted_order_and_pagination_params.merge(action: :index) if params[:save_and_close].present?
       render :edit
     else
       render :new
@@ -31,7 +34,7 @@ class ResponsibilitiesController < ApplicationController
   def update
     @responsibility = Responsibility.authorized.find(params[:id])
     if @responsibility.update(responsibility_params) && params[:save_and_close].present?
-      redirect_to action: :index
+      return redirect_to permitted_order_and_pagination_params.merge(action: :index)
     else
       render :edit
     end
@@ -40,10 +43,14 @@ class ResponsibilitiesController < ApplicationController
   def destroy
     @responsibility = Responsibility.authorized.find(params[:id])
     @responsibility.update!(deleted_at: Time.current)
-    redirect_to action: :index
+    redirect_to permitted_order_and_pagination_params.merge(action: :index)
   end
 
   private
+
+  def permitted_order_and_pagination_params
+    params.permit :page, order_by: [:column, :dir]
+  end
 
   def responsibility_params
     return {} if params[:responsibility].blank?
