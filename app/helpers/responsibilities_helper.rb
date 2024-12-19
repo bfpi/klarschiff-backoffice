@@ -20,6 +20,10 @@ module ResponsibilitiesHelper
     options_for_select groups
   end
 
+  def order_by_group?
+    order_params[:column] == 'group'
+  end
+
   private
 
   def groups_options_with_selected(responsibility, groups)

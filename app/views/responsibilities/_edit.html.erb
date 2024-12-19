@@ -1,5 +1,5 @@
 <div class="modal-dialog modal-xl">
-  <% opts = { url: responsibility_path(@responsibility), remote: true,
+  <% opts = { url: responsibility_path(@responsibility, permitted_order_and_pagination_params), remote: true,
               html: { 'data-dependencies': data_dependencies_path } } %>
   <%= form_for @responsibility, opts do |f| %>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
