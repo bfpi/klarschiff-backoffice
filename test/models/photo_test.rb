@@ -30,7 +30,7 @@ class PhotoTest < ActiveSupport::TestCase
     photo = Photo.new(file: empty_file)
     assert_not photo.valid?
     assert_equal [{ error: :file_size_not_greater_than, greater_than: 0, validator_type: :size,
-                    filename: 'empty.jpg', min_size: '0 Bytes', file_size: '0 Bytes', max_size: nil }],
+                    filename: 'empty.jpg', min: '0 Bytes', file_size: '0 Bytes', max: nil }],
       photo.errors.details[:file]
   end
 
