@@ -17,12 +17,12 @@ class IssueFilter
     [
       Category.arel_table[:id], 'delegation_issue.id', Group.arel_table[:id],
       Issue.arel_table[:id], Job.arel_table[:id], MainCategory.arel_table[:id],
-      Photo.arel_table[:id], SubCategory.arel_table[:id], AbuseReport.arel_table[:id]
+      SubCategory.arel_table[:id], AbuseReport.arel_table[:id]
     ]
   end
 
   def includes
-    [:abuse_reports, :group, :delegation, :job, :photos, { category: %i[main_category sub_category] }]
+    [:abuse_reports, :group, :delegation, :job, { category: %i[main_category sub_category] }]
   end
 
   def filter_collection(params, extended_filter)
