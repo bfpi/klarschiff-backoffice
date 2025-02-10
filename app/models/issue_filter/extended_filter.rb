@@ -83,11 +83,11 @@ class IssueFilter
     end
 
     def filter_begin_at(params)
-      @collection = @collection.where(iat[:created_at].gteq(params[:begin_at]))
+      @collection = @collection.where(iat[:created_at].gteq(Date.parse(params[:begin_at]).beginning_of_day))
     end
 
     def filter_end_at(params)
-      @collection = @collection.where(iat[:created_at].lteq(params[:end_at]))
+      @collection = @collection.where(iat[:created_at].lteq(Date.parse(params[:end_at]).end_of_day))
     end
 
     def text_conds(term)
