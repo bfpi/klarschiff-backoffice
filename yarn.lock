@@ -2333,8 +2333,8 @@ __metadata:
   linkType: hard
 
 "ol@npm:^10.3.0":
-  version: 10.3.0
-  resolution: "ol@npm:10.3.0"
+  version: 10.4.0
+  resolution: "ol@npm:10.4.0"
   dependencies:
     "@types/rbush": "npm:4.0.0"
     color-rgba: "npm:^3.0.0"
@@ -2343,7 +2343,7 @@ __metadata:
     geotiff: "npm:^2.1.3"
     pbf: "npm:4.0.1"
     rbush: "npm:^4.0.0"
-  checksum: 10c0/b2581c53cb43fd81ee1b59cedc714f428b7745aae44fc73066673421a7c4c189f50a7d81eef34f82220a29103d68f8e02926fac06aeea1d5425a79b2284d949c
+  checksum: 10c0/507676e4234cc0bec3fd73dfa3bbfe1b1d55b0e28e7cf048e8800cfe64c5fa7abff8dda2bf9af23e5e2a92db0795184d90011278e2a6737bff3cb702c7f5b32e
   languageName: node
   linkType: hard
 
