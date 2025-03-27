@@ -156,6 +156,7 @@ Style/StringLiterals:
     - 'config/environments/production.rb'
     - 'config/environments/test.rb'
     - 'config/initializers/assets.rb'
+    - 'config/initializers/exception_notification.rb'
     - 'config/puma.rb'
 
 Style/SymbolArray:
