@@ -20,5 +20,6 @@
     "ol": "^10.3.0",
     "proj4": "^2.15.0",
     "tablednd": "^1.0.5"
-  }
+  },
+  "packageManager": "yarn@4.8.1"
 }
