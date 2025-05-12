@@ -1316,6 +1316,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"geographiclib-geodesic@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "geographiclib-geodesic@npm:2.1.1"
+  checksum: 10c0/9a79d24a3a95d9bdc53499e35983ae717b48459d58a79279313df309570d342c6fbcca4b274b068d3ff39d8bf3080bce7c48c9c795641f46918241951226e30b
+  languageName: node
+  linkType: hard
+
 "geotiff@npm:^2.1.3":
   version: 2.1.3
   resolution: "geotiff@npm:2.1.3"
@@ -2532,12 +2539,13 @@ __metadata:
   linkType: hard
 
 "proj4@npm:^2.15.0":
-  version: 2.15.0
-  resolution: "proj4@npm:2.15.0"
+  version: 2.16.2
+  resolution: "proj4@npm:2.16.2"
   dependencies:
+    geographiclib-geodesic: "npm:^2.1.1"
     mgrs: "npm:1.0.0"
-    wkt-parser: "npm:^1.4.0"
-  checksum: 10c0/01c0ef831247e08f4e0fce3193033913ca07be0301522bdefddabe1bb783b947bf731425f0aa6b14a01ee546f90cd6301a3eefed859afad3345884d1d01ec8f4
+    wkt-parser: "npm:^1.5.1"
+  checksum: 10c0/270b1ac902303b751e2b370ec7a1bd6534d02a5813726abdcc195a1ee944752fe82db8de377a70e4a543bca5769620e52ee80185069965e45bff2a22e75317bc
   languageName: node
   linkType: hard
 
@@ -3395,10 +3403,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wkt-parser@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "wkt-parser@npm:1.4.0"
-  checksum: 10c0/4046fd355ddc626e6ea71f5a05e670bd3d6dc65dc0f8b10f2e9381ea6bd61cb90379389b0fb52337de9330788405dd0590b57e01b2c85f6f471acc794713243b
+"wkt-parser@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "wkt-parser@npm:1.5.1"
+  checksum: 10c0/be81c585378ab046cfca6d84fd936a9562763f0b6982b82d41489151b9613fc9fdb8840eb36c5f0332e71f7b3d2912625afc928c0c5f2cfba10af8cb1fadf466
   languageName: node
   linkType: hard
 
