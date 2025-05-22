@@ -2539,13 +2539,13 @@ __metadata:
   linkType: hard
 
 "proj4@npm:^2.15.0":
-  version: 2.16.2
-  resolution: "proj4@npm:2.16.2"
+  version: 2.17.0
+  resolution: "proj4@npm:2.17.0"
   dependencies:
     geographiclib-geodesic: "npm:^2.1.1"
     mgrs: "npm:1.0.0"
     wkt-parser: "npm:^1.5.1"
-  checksum: 10c0/270b1ac902303b751e2b370ec7a1bd6534d02a5813726abdcc195a1ee944752fe82db8de377a70e4a543bca5769620e52ee80185069965e45bff2a22e75317bc
+  checksum: 10c0/f740e8c89abca5fafedcc5545c53b59e2f4fb3096ec0d1e394a58f65f755f31ff43cf2474c4dfbce018cecdd9fa9fe34a48d8a30cf00265fb86e37233283c556
   languageName: node
   linkType: hard
 
