@@ -22,7 +22,7 @@ output values come from the config/citysdk.yml
 Sample Response:
 
 ```xml
-<dicovery>
+<discovery>
   <changeset>2015-11-05 08:43</changeset>
   <contact>
     "Hanse- und Universitätsstadt Rostock, Kataster-, Vermessungs- und Liegenschaftsamt,
