@@ -1,0 +1,14 @@
+<%= t :salutation_editor, name: Settings::Instance.name %>
+
+<%= t('responsibility_mailer.remind_group.message') %>
+
+Nummer<%= "\t" %>Typ<%= "\t" %>Status<%= "\t" %>Kategorie<%= "\t" %>zugewiesen seit
+******<%= "\t" %>***<%= "\t" %>******<%= "\t" %>*********<%= "\t" %>***************
+
+<% @issues.each do |issue| -%>
+<%= [issue.id, MainCategory.human_enum_name(:kind, issue.kind),
+     Issue.human_enum_name(:status, issue.status), issue.sub_category,
+     l(issue.responsibility_since, format: :elaborate)].join("\t") %>
+<% end -%>
+
+<%= t :best_regards, name: Settings::Instance.name %>
