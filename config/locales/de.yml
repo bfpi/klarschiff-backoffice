@@ -306,12 +306,9 @@ de:
   confirmation_mailer:
     abuse_report:
       message: "um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
-<<<<<<< HEAD
     # /app/views/confirmation_mailer/completation.text.erb:1
     completion:
       confirm_final_report: 'um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}'
-=======
->>>>>>> a804c6673d2a2a79616e18c38f7764dc9c4482d3
     issue:
       confirm_issue: "um Ihre Meldung %{with_photo} zu bestätigen, rufen Sie bitte folgende URL auf:\n\n%{confirmation_url}"
       message: "Mit Ihrer Bestätigung erklären Sie sich damit einverstanden, dass wir die von Ihnen im Rahmen der Meldung selbständig gemachten Angaben zur Beschreibung sowie insbesondere das Foto redaktionell bearbeiten dürfen.\n\nMeldung ansehen: %{issue_url}\n\nMeldung löschen: %{delete_url}"
@@ -596,11 +593,8 @@ de:
       sort_jobs: Aufträge nach Erstellung aufsteigend sortieren
     index: 
       show: Anzeigen
-<<<<<<< HEAD
       # /app/jobs/import_issue_images_job.rb:31
       message_not_found: "Meldung #%{issue_id} konnte zu '%{file_name}' nicht gefunden werden."
-=======
->>>>>>> a804c6673d2a2a79616e18c38f7764dc9c4482d3
   layouts:
     confirmation_mailer:
      message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
@@ -628,11 +622,7 @@ de:
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
-<<<<<<< HEAD
   rejection_notice: 'Meldung #%{number} wurde bereits geschlossen.'
-=======
-  rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
->>>>>>> a804c6673d2a2a79616e18c38f7764dc9c4482d3
   responsibility_mailer:
     default_group_without_gui_access:
       message: "in %{name} wurde eine Meldung in Ihrem Zuständigkeitsbereich erfasst. Sie können die unten stehenden Links nutzen, um einen neuen Zustand für die Meldenden zu dokumentieren."
@@ -641,11 +631,7 @@ de:
       message: 'es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:'
     remind_group:
       assigned_since: zugewiesen seit
-<<<<<<< HEAD
       message: 'Bitte prüfen Sie die Sachverhalte, akzeptieren Sie die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation – oder schließen Sie die Meldung(en) ab, falls dies bislang einfach vergessen wurde:'
-=======
-      message: "nachfolgende Meldung(en) wurde(n) in Ihre Zuständigkeit übergeben und ist/sind seit mindestens %{days} Tag(en) noch nicht akzeptiert.\n\nBitte prüfen Sie die Sachverhalte, akzeptieren Sie die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation – oder schließen Sie die Meldung(en) ab, falls dies bislang einfach vergessen wurde:"
->>>>>>> a804c6673d2a2a79616e18c38f7764dc9c4482d3
       responsibility: Zuständigkeit
   responsibilities:
     index:
