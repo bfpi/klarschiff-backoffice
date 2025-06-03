@@ -66,14 +66,7 @@
             <td>
               <%= l(@issue.created_at, format: :no_seconds) %>
             </td>
-            <% if @send_author -%>
-              <td class="label">
-                <%= Issue.human_attribute_name(:author) %>
-              </td>
-              <td>
-                <%= @issue.author %>
-              </td>
-            <% end -%>
+            <td colspan="2"></td>
           </tr>
         <% end -%>
 
