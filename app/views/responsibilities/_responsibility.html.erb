@@ -1,0 +1,8 @@
+<tr>
+  <td><%= responsibility.category.kind_name %></td>
+  <td><%= responsibility.category %></td>
+  <td title="<%= responsibility.group.logging_subject_name %>"><%= responsibility.group %></td>
+  <td class="text-nowrap">
+    <%= render partial: 'responsibility_actions', object: responsibility, as: :responsibility %>
+  </td>
+</tr>

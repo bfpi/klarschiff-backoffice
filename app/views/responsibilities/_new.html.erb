@@ -1,6 +1,6 @@
 <div class="modal-dialog modal-xl">
   <% options = { method: :post, remote: true, html: { 'data-dependencies': data_dependencies_path } } -%>
-  <%= form_for @responsibility, options.merge(url: responsibilities_path) do |f| %>
+  <%= form_for @responsibility, options.merge(url: responsibilities_path(permitted_order_and_pagination_params)) do |f| %>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="modal-content">
       <div class="modal-header">

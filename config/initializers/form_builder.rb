@@ -40,7 +40,7 @@ module ActionView
       end
 
       def hidden_input(method, name, entry)
-        tag.input('', type: :hidden, value: entry.id, name: "#{name}[#{method}][]") + entry.to_s
+        tag.input(type: :hidden, value: entry.id, name: "#{name}[#{method}][]") + entry.to_s
       end
 
       def trash_button

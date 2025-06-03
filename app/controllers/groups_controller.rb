@@ -47,7 +47,7 @@ class GroupsController < ApplicationController
   private
 
   def filter(collection)
-    filter_include_inactive super(collection)
+    filter_include_inactive(super)
   end
 
   def group_params

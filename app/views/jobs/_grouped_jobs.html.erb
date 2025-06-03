@@ -3,44 +3,44 @@
     <div id="accordion">
       <% @grouped_jobs.each do |group, jobs| -%>
         <div class="card">
-          <div class="card-header" id="header-group-<%= (group_id = group.id) %>">
-            <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-group-<%= group_id %>"
-              aria-controls="collapse-group-<%= group_id %>">
+          <div class="card-header" id="header-group-<%= group.id %>">
+            <a class="card-collapse-link" data-bs-toggle="collapse" data-bs-target="#collapse-group-<%= group.id %>"
+              aria-controls="collapse-group-<%= group.id %>">
               <%= group.name %>
             </a>
           </div>
-          <div id="collapse-group-<%= group_id %>" class="collapse <%= 'show' if group_id == @active_group_id.to_i %>"
-               aria-labelledby="header-group-<%= group_id %>" data-parent="#accordion"
-               aria-expanded="<%= group_id == @active_group_id.to_i %>">
+          <div id="collapse-group-<%= group.id %>" class="collapse <%= 'show' if group.id == @active_group_id.to_i %>"
+               aria-labelledby="header-group-<%= group.id %>" data-parent="#accordion"
+               aria-expanded="<%= group.id == @active_group_id.to_i %>">
             <div class="card-body">
-              <%= render partial: 'jobs_table', locals: { jobs:, group_id: } %>
+              <%= render partial: 'jobs_table', locals: { jobs:, group_id: group.id } %>
               <div class="row">
                 <div class="col-2">
                   <div class="btn-group" role="group">
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                          data: { table: "#group-#{group_id}-table", status: 'checked' } do %>
+                          data: { table: "#group-#{group.id}-table", status: 'checked' } do %>
                       <span class="fa fa-flag text-success"></span>
                     <% end %>
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                          data: { table: "#group-#{group_id}-table", status: 'unchecked' } do %>
+                          data: { table: "#group-#{group.id}-table", status: 'unchecked' } do %>
                       <span class="fa fa-flag text-danger"></span>
                     <% end %>
                     <%= button_tag type: 'button', class: 'btn btn-sm btn-outline-secondary change-status',
-                          data: { table: "#group-#{group_id}-table", status: 'uncheckable' } do %>
+                          data: { table: "#group-#{group.id}-table", status: 'uncheckable' } do %>
                       <span class="fa fa-flag text"></span>
                     <% end %>
                   </div>
                 </div>
                 <div class="col-2">
-                  <%= text_field_tag :job_date, nil, id: "group-#{group_id}-date-field",
+                  <%= text_field_tag :job_date, nil, id: "group-#{group.id}-date-field",
                         class: 'form-control datepicker' %>
                 </div>
                 <div class="col-8">
                   <div class="d-flex justify-content-between">
                     <%= button_tag t('.change_date'),
                           type: 'button', class: 'btn btn-sm btn-outline-primary change-date',
-                          data: { table: "#group-#{group_id}-table", field: "#group-#{group_id}-date-field" } %>
-                    <%= link_to t('.map'), jobs_path(group_id:, job_date: jobs.first.date, show_map: true),
+                          data: { table: "#group-#{group.id}-table", field: "#group-#{group.id}-date-field" } %>
+                    <%= link_to t('.map'), jobs_path(group_id: group.id, job_date: jobs.first.date, show_map: true),
                           class: 'btn btn-sm btn-outline-primary' %>
                     <%= link_to t('.sort_jobs'), jobs_path(job_ids: jobs.map(&:id)),
                           remote: true, class: 'btn btn-sm btn-outline-primary' %>

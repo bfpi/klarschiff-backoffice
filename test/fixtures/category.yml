@@ -1,5 +1,6 @@
 DEFAULTS: &DEFAULTS
   average_turnaround_time: 3
+  deleted_at:
   main_category: $LABEL
   sub_category: $LABEL
 
@@ -14,6 +15,12 @@ three:
 
 deleted:
   <<: *DEFAULTS
+
+deleted_at:
+  <<: *DEFAULTS
+  deleted_at: 2025-01-23T15:25:00+0100
+  main_category: one
+  sub_category: two
 
 deleted_main_category:
   <<: *DEFAULTS

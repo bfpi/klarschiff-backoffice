@@ -10,9 +10,12 @@ class PhotosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create' do
-    post "/citysdk/requests/photos/#{issue(:one).id}.xml",
-      params: { author: 'test@example.com',
-                media: Base64.encode64(File.read('test/fixtures/files/test.jpg')) }
+    assert_difference 'Photo.unscoped.count' do
+      post "/citysdk/requests/photos/#{issue(:one).id}.xml",
+        params: { author: 'test@example.com',
+                  media: Base64.encode64(File.read('test/fixtures/files/test.jpg')) }
+      assert_response :created
+    end
     doc = Nokogiri::XML(response.parsed_body)
     assert_equal 1, doc.xpath('/photos/photo/id').count
   end

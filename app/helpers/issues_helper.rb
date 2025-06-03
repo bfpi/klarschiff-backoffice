@@ -119,7 +119,7 @@ module IssuesHelper
   end
 
   def status_note_templates
-    Config.for(:status_note_template, env: nil).select { |_k, v| v.present? }.sort
+    Config.for(:status_note_template, env: nil).compact_blank.sort
   end
 
   def possible_group_ids(issue)

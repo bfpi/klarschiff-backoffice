@@ -9,8 +9,8 @@ class Completion < ApplicationRecord
 
   self.omit_field_log += %w[prev_issue_status author]
 
-  enum status: { open: 0, closed: 1, rejected: 2 }, _prefix: true
-  enum prev_issue_status: Issue.statuses, _prefix: true
+  enum :status, { open: 0, closed: 1, rejected: 2 }, prefix: true
+  enum :prev_issue_status, Issue.statuses, prefix: true
 
   belongs_to :issue
 

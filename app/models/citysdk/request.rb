@@ -25,7 +25,7 @@ module Citysdk
     end
 
     def assign_attributes(attributes)
-      super(attributes)
+      super
       set_position_from_attributes
     end
 

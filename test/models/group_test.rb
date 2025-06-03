@@ -6,9 +6,21 @@ class GroupTest < ActiveSupport::TestCase
   test 'validate no_associated_categories' do
     group = group(:one)
     assert_valid group
+    assert_predicate group, :active?
     group.active = false
     assert_not group.valid?
     assert_equal [{ error: :associated_categories }], group.errors.details[:base]
+  end
+
+  test 'validate no_associated_category on kind change' do
+    group = group(:one)
+    assert_valid group
+    assert_predicate group, :kind_internal?
+    %w[external field_service_team].each do |kind|
+      group.kind = kind
+      assert_not group.valid?
+      assert_equal [{ error: :must_be_internal }], group.errors.details[:base]
+    end
   end
 
   test 'deactivate group without associated categories' do
@@ -16,6 +28,23 @@ class GroupTest < ActiveSupport::TestCase
     assert_valid group
     assert group.update(active: false)
     assert_not group.reload.active
+  end
+
+  test 'do not deactivate group with active responsibilities' do
+    group = group(:one)
+    assert_valid group
+    group.active = false
+    assert_not group.valid?
+    assert_equal [{ error: :associated_categories }], group.errors.details[:base]
+  end
+
+  test 'deactivate group with inactive responsibilities' do
+    group = group(:one)
+    assert_valid group
+    assert responsibility(:one).update(deleted_at: Time.current)
+    assert_predicate group, :active?
+    assert group.update(active: false)
+    assert_not group.reload.active?
   end
 
   test 'authorized scope' do

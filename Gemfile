@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.2.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.2'
 # Use Puma as the app server
@@ -30,6 +30,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
+  gem 'brakeman'
   gem 'erb_lint', require: false
   gem 'minitest'
 end
@@ -39,7 +40,6 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
 
-  gem 'brakeman'
   gem 'bullet'
   gem 'pronto-rubocop', require: false
   gem 'rubocop-capybara'
@@ -64,7 +64,7 @@ gem 'coffee-rails'
 gem 'exception_notification'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
-gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0'
+gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'net-ldap'
 gem 'pdfkit'
