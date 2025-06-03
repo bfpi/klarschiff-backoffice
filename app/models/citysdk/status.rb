@@ -34,7 +34,7 @@ module Citysdk
 
     NON_PUBLIC = 'intern'
 
-    DELETED = 'geloescht'
+    DELETED = I18n.t('citydsk.status.deleted')
 
     def initialize(status)
       @citysdk = CITYSDK.find { |_k, v| v.include?(status) }.try(:first)

@@ -27,6 +27,7 @@ class ImportIssueImagesJob < ApplicationJob
   end
 
   def print_error(issue_id, file_name)
-    puts "Meldung ##{issue_id} konnte zu '#{file_name}' nicht gefunden werden." # rubocop: disable Rails/Output
+#    puts "Meldung ##{issue_id} konnte zu '#{file_name}' nicht gefunden werden." # rubocop: disable Rails/Output
+    puts I18n.t('jobs.index.message_not_found', issue_id: issue_id, file_name: file_name)
   end
 end
