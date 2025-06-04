@@ -27,7 +27,8 @@ development: &default
     frontend_issue_url: https://www.klarschiff-hro.de/map?request=%d
     parent_instance_url: https://www.klarschiff-mv.de/
     show_help: false
-    show_contact_imprint_before_login: false
+    show_contact_before_login: false
+    show_imprint_before_login: true
     validate_privacy_policy: false
     auth_code_gui_access_for_external_participants: true
   issue:

@@ -18,10 +18,12 @@
           </div>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto">
-              <% if Settings::Instance.show_contact_imprint_before_login -%>
+              <% if Settings::Instance.show_contact_before_login -%>
                 <li class="nav-item">
                   <%= link_to t(:contact), contacts_url, class: 'nav-link' %>
                 </li>
+              <% end -%>
+              <% if Settings::Instance.show_imprint_before_login -%>
                 <li class="nav-item">
                   <%= link_to t(:imprint), imprints_url, class: 'nav-link' %>
                 </li>
