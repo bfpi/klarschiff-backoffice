@@ -27,9 +27,6 @@ Freigabestatus der Beschreibung: <%= Issue.human_enum_name(:description_status, 
 <% if @issue_email.issue.property_owner.present? -%>
 <%= Issue.human_attribute_name(:property_owner_short) %>: <%= @issue_email.issue.property_owner %>
 <% end -%>
-<% if @send_author && !@issue_email.issue.author.blank? -%>
-<%= Issue.human_attribute_name(:author) %>: <%= @issue_email.issue.author %>
-<% end -%>
 <%= Issue.human_attribute_name(:group) %>: <%= "#{@issue_email.issue.group.name} (#{
   @issue_email.issue.responsibility_accepted ? 'akzeptiert' : 'zugewiesen'})" %>
 <% if @issue_email.issue.delegation.present? -%>
