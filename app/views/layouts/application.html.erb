@@ -108,10 +108,10 @@
                   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><%= Current.user %></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <% if Current.user&.authorized?(:change_user) -%>
-                      <li><%= link_to 'Nutzerwechsel', change_user_logins_path, class: 'dropdown-item' %></li>
+                      <li><%= link_to '<%= I18n.t("logins.list_items.change_user") %>', change_user_logins_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <% if Current.user&.authorized?(:change_password) -%>
-                      <li><%= link_to 'Passwort ändern', change_password_users_path, class: 'dropdown-item' %></li>
+                      <li><%= link_to '<%= I18n.t("logins.list_items.change_passwort") %>', change_password_users_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <li><hr class="dropdown-divider"></li>
                     <li>

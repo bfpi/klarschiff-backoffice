@@ -1,4 +1,14 @@
-# /app/models/comment.rb:18 ???
+# /config/citysdk.sample.yml  ???
+# /config/clients.sample.yml  ???
+# /config/jobs.sample.yml     ???
+# /config/mailer.sample.yml   ???
+# /config/settings.sample.yml ???
+# /config/status_note_template.sample.yml ???
+# /public/400.html übersetzen (sind nur 1-2 englische Sätze) ???
+
+
+
+# /app/models/comment.rb:18  ???
 # /app/models/concerns/logging.rb:111-119
 
 de:
@@ -274,6 +284,8 @@ de:
     message: Nachricht
     name: Name
     privacy_policy_accepted: Datenschutzbestimmung
+    # /test/test_helper.rb:47
+    privacy_policy_must_be_accepted: Datenschutzbestimmung muss akzeptiert werden
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen
@@ -296,7 +308,7 @@ de:
     completion:
       close: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
       # /app/views/completion_mailer/rejection.text.erb:1
-      final_report_rejected: "Ihre Abschlussmeldung zur Meldung %{@completion_issue_id} wurde aus folgendem Grund zurückgewiesen: "
+      final_report_rejected: 'Ihre Abschlussmeldung zur Meldung %{completion_issue_id} wurde aus folgendem Grund zurückgewiesen: '
       keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
       reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
@@ -446,6 +458,9 @@ de:
   groups:
     index:
       new_group: Neue Gruppe
+  # /app/views/helps/show.html.erb:3
+  help_page:
+    title: Hilfeseite
   helpers:
     label:
       login:
@@ -455,6 +470,19 @@ de:
         password: Neues Passwort
         recipient: Empfänger von
   imprint: Impressum
+  # /app/views/imprints/show.html.erb:3-24
+  imprints:
+    concept_and_support:
+      title: Konzept und Betreuung
+      address: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
+      telephone: 'Telefon: +49 381 381-6281'
+      email: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
+    license_terms:
+      title: Lizenzbestimmungen
+      notice: Das Backoffice von Klarschiff.HRO ist unter der Freien-Software-Lizenz <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache License v2.0</a> auf <a href="https://github.com/bfpi/klarschiff-backoffice" target="_blank">GitHub</a> veröffentlicht.
+    technical_implementation:
+      title: Technische Realisierung
+      address: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
@@ -538,6 +566,12 @@ de:
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
       für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
+      # /app/views/issues/_tab_rejection.html.erb:3
+      rejection:
+        report_to: Meldung an
+      # /app/views/issues/_tab_status.html.erb:17
+      status:
+        prompt_select: Vorlage wählen
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: interne Kommentare
@@ -559,6 +593,8 @@ de:
       assign_job: Außendienst-Team zuweisen
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
+      # /app/vies/issues/resend_responsibility.js.coffee.erb:4
+      resend_responsibility_notice: E-Mail an die Standardzuständigkeit wurde erneut versandt.
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_close_as_not_solvable:
         Meldung befindet sich außerhalb des Zuständigkeitsbereichs (als nicht lösbar schließen)
@@ -597,9 +633,11 @@ de:
     confirmation_mailer:
      message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
   logins:
+    list_items:
+      change_password: Passwort ändern
+      change_user: Nutzerwechsel
     change_user:
       accept: Übernehmen
-      change_user: Nutzerwechsel
     new:
       login: Login
       sign_in: Anmelden
@@ -662,6 +700,31 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
+  # /test/controllers/citydsk/jobs_controller_test.rb:9 ff.
+  test:
+    controller:
+      citysdk:
+        error_400_message: Es wurde kein API-Key übergeben.
+        error_401_message: Der übergebene API-Key ist ungültig.
+        error_403_message: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
+        error_404_message: Datensatz nicht gefunden.
+        error_422_message:
+          validation_failed:  Gültigkeitsprüfung ist fehlgeschlagen.
+          no_date_given: Es wurde kein Datum übergeben.
+        error_500_message:
+          not_valid_status: Ist kein gültiger Status.
+          search_class_invalid: Suchklasse ungültig
+    jobs:
+      completed: abgeschlossen
+      new_delegated_messages: Neue delegierte Meldungen
+
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
+
+
+
+  # /app/views/test_mailer/test.text.erb:1
+  test_mailer:
+    title: Test-Mail
   tests:
     index:
       archive_closed_issues_job:

@@ -23,7 +23,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'index with invalid api-key' do
     get "/citysdk/requests.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
+    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citydsk.error_401_message") %>'
   end
 
   test 'index with api-key frontend' do
@@ -56,7 +56,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'index with extensions with invalid api-key' do
     get "/citysdk/requests.xml?extensions=true&api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
+    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citydsk.error_401_message") %>'
   end
 
   test 'index with extensions with api-key frontend' do
@@ -203,19 +203,19 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'create without api-key' do
     post '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', 'Es wurde kein API-Key übergeben.'
+    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citydsk.error_400_message") %>'
   end
 
   test 'create with invalid api-key' do
     post "/citysdk/requests.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
+    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citydsk.error_401_message") %>'
   end
 
   test 'create with frontend api-key but without attributes' do
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'create with frontend api-key' do
@@ -271,7 +271,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     with_privacy_settings(active: true) do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       doc = Nokogiri::XML(response.parsed_body)
-      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+     assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
     end
   end
 
@@ -295,20 +295,19 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update without api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', 'Es wurde kein API-Key übergeben.'
+    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citydsk.error_400_message") %>'
   end
 
   test 'update with invalid api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
+    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citydsk.error_401_message") %>'
   end
 
   test 'update with frontend api-key but without permissions' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403',
-      'Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.'
+    assert_error_messages doc, '403', '<%= I18n.t("test.controller.citydsk.error_403_message") %>'
   end
 
   test 'update with frontend api-key but without attributes' do
@@ -353,7 +352,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
       put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { address_string: new_value }
       doc = Nokogiri::XML(response.parsed_body)
-      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+     assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
     end
   end
 
@@ -379,7 +378,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid detailed_status with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { detailed_status: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '500', 'status invalid'
+    assert_error_messages doc, '500', '<%= I18n.t("test.controller.citydsk.error_500_message.not_valid_status") %>'
   end
 
   test 'update attribute status_notes with ppc api-key' do
@@ -398,7 +397,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid priority with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { priority: '5' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'update attribute delegation with ppc api-key' do
@@ -411,13 +410,13 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute delegation to internal group with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { delegation: group(:one).name }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'update attribute delegation to invalid group with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { delegation: 'abcdefgh' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'update attribute job_status with ppc api-key' do
@@ -430,7 +429,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid job_status with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { job_status: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'update attribute detailed_status as rejected with ppc api-key' do
@@ -458,25 +457,25 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'confirm already confirmed hash' do
     put "/citysdk/requests/#{issue(:already_confirmed).confirmation_hash}/confirm.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'confirm invalid hash' do
     put '/citysdk/requests/abcdefghijklmnopqrstuvwxyz/confirm.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'delete without api-key' do
     put "/citysdk/requests/#{issue(:one).confirmation_hash}/revoke.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'delete with invalid api-key' do
     put "/citysdk/requests/#{issue(:one).confirmation_hash}/revoke.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', 'Der übergebene API-Key ist ungültig.'
+    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citydsk.error_401_message") %>'
   end
 
   test 'delete successfully with ppc api-key' do
@@ -489,19 +488,19 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'deletion cancellation due to existing supporter with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_supporter).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'deletion cancellation due to existing abuse_report with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_abuse_report).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'deletion cancellation due to invalid status with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_status).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'record_not_found'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citydsk.error_404_message") %>'
   end
 
   test 'description text for issues' do
