@@ -1,16 +1,3 @@
-# /config/citysdk.sample.yml  ???
-# /config/clients.sample.yml  ???
-# /config/jobs.sample.yml     ???
-# /config/mailer.sample.yml   ???
-# /config/settings.sample.yml ???
-# /config/status_note_template.sample.yml ???
-# /public/400.html übersetzen (sind nur 1-2 englische Sätze) ???
-
-
-
-# /app/models/comment.rb:18  ???
-# /app/models/concerns/logging.rb:111-119
-
 de:
   false: Nein
   true: Ja
@@ -259,6 +246,8 @@ de:
       test_mail_send: Testnachricht an %{recipient} versandt.
       test_unknown: Test unbekannt
   aerial_view: Luftbild
+  # /app/views/confirmation_mailer/issue.text.erb:1
+  and_your_photo: und Ihr Foto
   api_key:
     invalid: Der übergebene API-Key ist ungültig.
     missing: Es wurde kein API-Key übergeben.
@@ -302,6 +291,8 @@ de:
     status:
       deleted: gelöscht
   comments:
+    # /app/models/comment.rb:18
+    created: erstellt
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   completions:
@@ -630,8 +621,19 @@ de:
       show: Anzeigen
       message_not_found: "Meldung #%{issue_id} konnte zu '%{file_name}' nicht gefunden werden."
   layouts:
+    # /app/views/layouts/application.html.erb:85, 88
+    application:
+      email_templates_preview: E-Mail-Templates / Vorschau
+      tests: Tests
     confirmation_mailer:
-     message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
+      message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
+  # /app/models/concerns/logging.rb:123-127
+  logging:
+    action_text_update: geändert
+    action_text_create: angelegt
+    action_text_added: hinzugefügt
+    action_text_removed: entfernt
+    action_text_unknown: Unbekannter
   logins:
     list_items:
       change_password: Passwort ändern
@@ -665,10 +667,15 @@ de:
       link_status_changes: 'Links zu Statusänderungen:'
     issue:
       message: 'es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:'
+    # /app/views/responsibility_mailer/remind_group.text.erb:1
     remind_group:
       assigned_since: zugewiesen seit
-      message: 'Bitte prüfen Sie die Sachverhalte, akzeptieren Sie die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation – oder schließen Sie die Meldung(en) ab, falls dies bislang einfach vergessen wurde:'
+      category: Kategorie
+      message: "Sehr geehrte(r) Bearbeiter/-in von Meldungen in %{name},\n\nnachfolgende Meldung(en) wurde(n) in Ihre Zuständigkeit übergeben und ist/sind seit mindestens %{days} Tag(en) noch nicht akzeptiert.\n\nBitte prüfen Sie die Sachverhalte, akzeptieren Sie die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation – oder schließen Sie die Meldung(en) ab, falls dies bislang einfach vergessen wurde:"
+      number: Nummer
       responsibility: Zuständigkeit
+      status: Status
+      type: Typ
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit
@@ -717,11 +724,6 @@ de:
     jobs:
       completed: abgeschlossen
       new_delegated_messages: Neue delegierte Meldungen
-
-    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
-
-
-
   # /app/views/test_mailer/test.text.erb:1
   test_mailer:
     title: Test-Mail
