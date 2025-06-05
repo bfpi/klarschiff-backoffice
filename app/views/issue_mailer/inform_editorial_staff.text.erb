@@ -1,14 +1,11 @@
-Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+<%= t :salutation_editor, name: Settings::Instance.name %>
 
-bitte beachten Sie diese wichtigen redaktionellen Hinweise:
+<%= t('.note_important_advices') %>
 <% @issues.each do |key, issues| -%>
 
 <%= render partial: key.to_s, locals: { issues:, days: @days[key] } if issues.present? %>
 <% end -%>
 
-Wir möchten Sie bitten diesen Hinweisen nachzugehen.
-Eine kurzfristige Reaktion auf die Meldungen in <%= Settings::Instance.name %> trägt zum positiven Image der Verwaltung bei!
+<%= t('.message', name: Settings::Instance.name) %>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>
