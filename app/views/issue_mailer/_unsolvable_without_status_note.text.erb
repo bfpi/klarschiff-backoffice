@@ -3,7 +3,8 @@
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" -%>
 <%= t '.status_not_solvable_since', not_solvable: (Issue.human_enum_name :status, :not_solvable) %>
-******<%= "\t" %>*************<%= "\t" %>***<%= "\t" %>**************************
+******<%= "\t" %>*************<%= "\t" %><%= '*' * I18n.t('attributes.kind').length %><%= "\t" -%>
+<%= '*' * I18n.t('.status_not_solvable_since', not_solvable: (Issue.human_enum_name :status, :not_solvable)).length %>
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
      l(issue.status_since, format: :elaborate)].join("\t") %>

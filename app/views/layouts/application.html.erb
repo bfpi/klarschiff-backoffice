@@ -82,10 +82,10 @@
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_mail_templates) -%>
-                        <%= link_to 'E-Mail-Templates / Vorschau', rails_mailers_path,
+                        <%= link_to '<%= I18n.t("layouts.application.email_templates_preview") %>', rails_mailers_path,
                               target: :_blank, rel: 'noopener', class: 'dropdown-item' %>
                       <% end -%>
-                      <%= link_to 'Tests', tests_path, class: 'dropdown-item' if authorized?(:test) %>
+                      <%= link_to '<%= I18n.t("layouts.application.tests") %>', tests_path, class: 'dropdown-item' if authorized?(:test) %>
                     </div>
                   </li>
                 <% end -%>

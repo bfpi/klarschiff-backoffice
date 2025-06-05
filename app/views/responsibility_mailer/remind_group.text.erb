@@ -1,9 +1,7 @@
-<%= t :salutation_editor, name: Settings::Instance.name %>
+<%= I18n.t('responsibility_mailer.remind_group.message', name: Settings::Instance.name, days: @days) %>
 
-<%= t('responsibility_mailer.remind_group.message') %>
-
-Nummer<%= "\t" %>Typ<%= "\t" %>Status<%= "\t" %>Kategorie<%= "\t" %>zugewiesen seit
-******<%= "\t" %>***<%= "\t" %>******<%= "\t" %>*********<%= "\t" %>***************
+<%= I18n.t('responsibility_mailer.remind_group.number') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.type') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.status') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.category') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.assigned_since') %>
+<%= '*' * I18n.t('responsibility_mailer.remind_group.number').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.type').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.status').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.category').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.assigned_since').length %>
 
 <% @issues.each do |issue| -%>
 <%= [issue.id, MainCategory.human_enum_name(:kind, issue.kind),
