@@ -108,23 +108,13 @@ module Logging
     text
   end
 
-#  def self.action_text(key)
-#    case key
-#    when :update then 'geändert'
-#    when :create then 'angelegt'
-#    when :added then 'hinzugefügt'
-#    when :removed then 'entfernt'
-#    else raise "Unknown action_key #{key}"
-#    end
-#  end
-
   def self.action_text(key)
     case key
-    when :update then  '<%= I18n.t("logging.action_text_update")  %>'
-    when :create then  '<%= I18n.t("logging.action_text_create")  %>'
-    when :added then   '<%= I18n.t("logging.action_text_added")   %>'
-    when :removed then '<%= I18n.t("logging.action_text_removed") %>'
-    else raise "<%= I18n.t('logging.action_text_unknown') %> action_key #{key}"
+    when :update then  'geändert'
+    when :create then  'angelegt'
+    when :added then   'hinzugefügt'
+    when :removed then 'entfernt'
+    else raise "Unbekannter action_key #{key}"
     end
   end
 
