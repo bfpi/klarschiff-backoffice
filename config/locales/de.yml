@@ -627,13 +627,6 @@ de:
       tests: Tests
     confirmation_mailer:
       message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
-  # /app/models/concerns/logging.rb:123-127
-  logging:
-    action_text_update: geändert
-    action_text_create: angelegt
-    action_text_added: hinzugefügt
-    action_text_removed: entfernt
-    action_text_unknown: Unbekannter
   logins:
     list_items:
       change_password: Passwort ändern
