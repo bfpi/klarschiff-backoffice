@@ -35,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
     configure_password_settings(length: 4, included_characters: %i[lowercase])
     user = user(:one)
     assert_not user.update(password: 'TEST')
-    char_name = I18n.t('password.lowercase')
+    char_name = t 'password.lowercase'
     assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
     assert user.update(password: 'TESt', password_confirmation: 'TESt')
   end
@@ -44,7 +44,7 @@ class UserTest < ActiveSupport::TestCase
     configure_password_settings(length: 4, included_characters: %i[capital])
     user = user(:one)
     assert_not user.update(password: 'test')
-    char_name = I18n.t('password.capital')
+    char_name = t 'password.capital'
     assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
     assert user.update(password: 'Test', password_confirmation: 'Test')
   end
@@ -53,7 +53,7 @@ class UserTest < ActiveSupport::TestCase
     configure_password_settings(length: 4, included_characters: %i[number])
     user = user(:one)
     assert_not user.update(password: 'test')
-    char_name = I18n.t('password.number')
+    char_name = t 'password.number'
     assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
     assert user.update(password: 'test0', password_confirmation: 'test0')
   end
@@ -62,7 +62,7 @@ class UserTest < ActiveSupport::TestCase
     configure_password_settings(length: 4, included_characters: %i[special_character])
     user = user(:one)
     assert_not user.update(password: 'test')
-    char_name = I18n.t('password.special_character')
+    char_name = t 'password.special_character'
     assert_equal [{ error: :invalid, length: 4, required_characters: char_name }], user.errors.details[:password]
     assert user.update(password: 'test*', password_confirmation: 'test*')
   end

@@ -3,19 +3,19 @@
 require 'csv'
 
 {
-  'admin' => { first_name: 'Admin', last_name: 'Admin', email: 'admin@bfpi.de', password: 'bfpi',
+  'admin' => { first_name: 'Admin', last_name: 'Admin', email: 'admin@bfpi.de', password: 'bfpiSeed1',
                role: User.roles[:admin] },
-  'rvoss' => { first_name: 'Robert', last_name: 'Voß', email: 'voss@bfpi.de', password: 'bfpi',
+  'rvoss' => { first_name: 'Robert', last_name: 'Voß', email: 'voss@bfpi.de', password: 'bfpiSeed1',
                role: User.roles[:admin] },
-  'akruth' => { first_name: 'Alexander', last_name: 'Kruth', email: 'kruth@bfpi.de', password: 'bfpi',
+  'akruth' => { first_name: 'Alexander', last_name: 'Kruth', email: 'kruth@bfpi.de', password: 'bfpiSeed1',
                 role: User.roles[:admin] },
-  'nbennke' => { first_name: 'Niels', last_name: 'Bennke', email: 'bennke@bfpi.de', password: 'bfpi',
+  'nbennke' => { first_name: 'Niels', last_name: 'Bennke', email: 'bennke@bfpi.de', password: 'bfpiSeed1',
                  role: User.roles[:admin] },
-  'roest' => { first_name: 'Ricardo', last_name: 'Oest', email: 'oest@bfpi.de', password: 'bfpi',
+  'roest' => { first_name: 'Ricardo', last_name: 'Oest', email: 'oest@bfpi.de', password: 'bfpiSeed1',
                role: User.roles[:admin] },
-  'jschroeder' => { first_name: 'Jörg', last_name: 'Schröder', email: 'schroeder@bfpi.de', password: 'bfpi',
+  'jschroeder' => { first_name: 'Jörg', last_name: 'Schröder', email: 'schroeder@bfpi.de', password: 'bfpiSeed1',
                     role: User.roles[:admin] },
-  'regional_admin' => { first_name: 'Regional', last_name: 'Admin', email: 'regio_admin@bfpi.de', password: 'bfpi',
+  'regional_admin' => { first_name: 'Regional', last_name: 'Admin', email: 'regio_admin@bfpi.de', password: 'bfpiSeed1',
                         role: User.roles[:regional_admin] }
 }.each do |login, hsh|
   User.find_or_create_by!(login:) do |user|
@@ -24,6 +24,7 @@ require 'csv'
     user.email = hsh[:email]
     user.role = hsh[:role]
     user.password = hsh[:password]
+    user.password_confirmation = hsh[:password]
     user.ldap = hsh[:ldap]
   end
 end

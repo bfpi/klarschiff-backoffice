@@ -13,6 +13,6 @@ class InformOnDelegatedIssuesJobTest < ActiveJob::TestCase
     assert_emails 1
     mail = ActionMailer::Base.deliveries.first
     group(:external).users.pluck(:email).each { |email| assert_includes mail.to, email }
-    assert_equal '<%= I18n.t("test.jobs.new_delegated_messages") %>', mail.subject
+    assert_equal '<%= t "test.jobs.new_delegated_messages" %>', mail.subject
   end
 end

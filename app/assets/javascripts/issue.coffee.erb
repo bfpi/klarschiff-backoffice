@@ -10,10 +10,10 @@ $ ->
       height: 'auto'
       width: 'auto'
       modal: true
-      title: '<%= I18n.t('submit_changes') %>'
+      title: '<%= I18n.t 'submit_changes' %>'
       buttons:
         'confirm':
-          text: '<%= I18n.t(true) %>'
+          text: '<%= I18n.t true %>'
           click: ->
             form = $('.edit_issue')
             tabData = $(@).data('url').split('?')[1].split('=')
@@ -22,13 +22,13 @@ $ ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-primary'
         'reject':
-          text: '<%= I18n.t(false) %>'
+          text: '<%= I18n.t false %>'
           click: ->
             $.ajax(url: $(@).data('url'), type: 'GET')
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
         'abort':
-          text: '<%= I18n.t('action.abort') %>'
+          text: '<%= I18n.t 'action.abort' %>'
           click: ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
