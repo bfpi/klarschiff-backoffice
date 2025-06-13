@@ -13,7 +13,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
   test 'index with invalid api-key' do
     get "/citysdk/services.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citysdk.error_401_message") %>'
+    assert_error_messages doc, '401', '<%= t "test.controller.citysdk.error_401_message" %>'
   end
 
   test 'index with api-key frontend' do
@@ -42,7 +42,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
   test 'show with invalid api-key' do
     get "/citysdk/services/#{category(:one).id}.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citysdk.error_401_message") %>'
+    assert_error_messages doc, '401', '<%= t "test.controller.citysdk.error_401_message" %>'
   end
 
   test 'show with api-key frontend' do

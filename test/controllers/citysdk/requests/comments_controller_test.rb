@@ -6,19 +6,19 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'index without api-key' do
     get "/citysdk/requests/comments/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citysdk.error_400_message") %>'
+    assert_error_messages doc, '400', '<%= t "test.controller.citysdk.error_400_message" %>'
   end
 
   test 'index with invalid api-key' do
     get "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_invalid}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '401', '<%= I18n.t("test.controller.citysdk.error_401_message") %>'
+    assert_error_messages doc, '401', '<%= t "test.controller.citysdk.error_401_message" %>'
   end
 
   test 'index with api-key frontend' do
     get "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', '<%= I18n.t("test.controller.citysdk.error_403_message") %>'
+    assert_error_messages doc, '403', '<%= t "test.controller.citysdk.error_403_message" %>'
   end
 
   test 'index with api-key ppc' do
@@ -30,7 +30,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validation_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validation_failed" %>'
   end
 
   test 'create' do

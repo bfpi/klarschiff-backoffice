@@ -6,13 +6,13 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post '/citysdk/observations.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validation_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validation_failed" %>'
   end
 
   test 'create with area_code but without categories' do
     post '/citysdk/observations.xml', params: { area_code: Authority.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validation_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validation_failed" %>'
   end
 
   test 'create with area_code for all districts (separate) and all categories' do

@@ -6,19 +6,19 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   test 'index without api-key' do
     get '/citysdk/jobs.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citysdk.error_400_message") %>'
+    assert_error_messages doc, '400', '<%= t "test.controller.citysdk.error_400_message" %>'
   end
 
   test 'index with api-key frontend' do
     get "/citysdk/jobs.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', '<%= I18n.t("test.controller.citysdk.error_403_message") %>'
+    assert_error_messages doc, '403', '<%= t "test.controller.citysdk.error_403_message" %>'
   end
 
   test 'index with api-key ppc but without attributes' do
     get "/citysdk/jobs.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.no_date_given") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.no_date_given" %>'
   end
 
   test 'index with api-key ppc' do
@@ -38,19 +38,19 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   test 'create without api-key' do
     post '/citysdk/jobs.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citysdk.error_400_message") %>'
+    assert_error_messages doc, '400', '<%= t "test.controller.citysdk.error_400_message" %>'
   end
 
   test 'create with api-key frontend' do
     post "/citysdk/jobs.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', '<%= I18n.t("test.controller.citysdk.error_403_message") %>'
+    assert_error_messages doc, '403', '<%= t "test.controller.citysdk.error_403_message" %>'
   end
 
   test 'create with api-key ppc but without attributes' do
     post "/citysdk/jobs.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'create without service_request_id' do
@@ -58,14 +58,14 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
                                         agency_responsible: group(:field_service).short_name,
                                         date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
+    assert_error_messages doc, '404', '<%= t"test.controller.citysdk.error_404_message" %>'
   end
 
   test 'create without agency_responsible' do
     post '/citysdk/jobs.xml', params: { api_key: api_key_ppc, service_request_id: issue(:in_process).id,
                                         date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'create with invalid agency_responsible' do
@@ -73,14 +73,14 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
                                         agency_responsible: 'ABCDEFG',
                                         date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'create without date' do
     post '/citysdk/jobs.xml', params: { api_key: api_key_ppc, service_request_id: issue(:in_process).id,
                                         agency_responsible: group(:field_service).short_name }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'create' do
@@ -94,32 +94,32 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   test 'update without api-key' do
     put "/citysdk/jobs/#{issue(:in_process).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '400', '<%= I18n.t("test.controller.citysdk.error_400_message") %>'
+    assert_error_messages doc, '400', '<%= t "test.controller.citysdk.error_400_message" %>'
   end
 
   test 'update with api-key frontend' do
     put "/citysdk/jobs/#{issue(:in_process).id}.xml", params: { api_key: api_key_frontend }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', '<%= I18n.t("test.controller.citysdk.error_403_message") %>'
+    assert_error_messages doc, '403', '<%= t "test.controller.citysdk.error_403_message" %>'
   end
 
   test 'update with api-key ppc but invalid issue' do
     put "/citysdk/jobs/#{issue(:in_process).id}.xml", params: { api_key: api_key_ppc }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
+    assert_error_messages doc, '404', '<%= t "test.controller.citysdk.error_404_message" %>'
   end
 
   test 'update with api-key ppc but without attributes' do
     put "/citysdk/jobs/#{issue(:one).id}.xml", params: { api_key: api_key_ppc }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'update without status' do
     put "/citysdk/jobs/#{issue(:one).id}.xml", params: { api_key: api_key_ppc,
                                                          date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed"  %>'
   end
 
   test 'update with invalid status' do
@@ -127,14 +127,14 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
                                                          status: 'ABCDEFG',
                                                          date: Time.zone.today.to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '500', '<%= I18n.t("test.controller.citysdk.error_500_message.not_valid_status") %>'
+    assert_error_messages doc, '500', '<%= t "test.controller.citysdk.error_500_message.not_valid_status" %>'
   end
 
   test 'update without date' do
     put "/citysdk/jobs/#{issue(:one).id}.xml", params: { api_key: api_key_ppc,
                                                          status: 'CHECKED' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validaten_failed") %>'
+    assert_error_messages doc, '422', '<%= t "test.controller.citysdk.error_422_message.validaten_failed" %>'
   end
 
   test 'update' do

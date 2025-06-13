@@ -33,8 +33,8 @@ module Citysdk
 
     def default_group_message
       key = "request.description.default_group_#{group.type.to_s.downcase}"
-      return I18n.t(key) if I18n.exists?(key)
-      I18n.t('request.description.default_group')
+      return t(key) if I18n.exists?(key)
+      t 'request.description.default_group'
     end
 
     def extended_attributes

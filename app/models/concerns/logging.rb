@@ -110,25 +110,25 @@ module Logging
 
   def self.action_text(key)
     case key
-    when :update then  'geändert'
-    when :create then  'angelegt'
-    when :added then   'hinzugefügt'
+    when :update  then 'geändert'
+    when :create  then 'angelegt'
+    when :added   then 'hinzugefügt'
     when :removed then 'entfernt'
-    else raise "Unbekannter action_key #{key}"
+    else raise "Unknown action_key #{key}"
     end
   end
 
   def self.enum_value(value, attr, subject)
     i18n_string = "enums.#{subject.model_name.singular}.#{attr}"
-    I18n.t("#{i18n_string}.#{value}", default: value ? I18n.t(i18n_string)[value] : nil)
+    t("#{i18n_string}.#{value}", default: value ? t(i18n_string)[value] : nil)
   end
 
   def self.convert_value(value, attr, subject)
     return Logging.enum_value(value, attr, subject) if attr.in?(ENUM_ATTRS)
     return ActiveSupport::NumberHelper.number_to_delimited(value) if value.is_a? Numeric
-    return I18n.l(value) if value.is_a?(Date) || value.is_a?(ActiveSupport::TimeWithZone)
+    return l(value) if value.is_a?(Date) || value.is_a?(ActiveSupport::TimeWithZone)
     case value
-    when false, true then I18n.t(value)
+    when false, true then t(value)
     else value
     end
   end

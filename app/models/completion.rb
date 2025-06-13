@@ -26,7 +26,7 @@ class Completion < ApplicationRecord
 
   def to_s(show_created_at: false)
     str = ["##{id}"]
-    str << I18n.l(created_at, format: :no_seconds) if show_created_at
+    str << l(created_at, format: :no_seconds) if show_created_at
     "#{str.join(' ')} (#{human_enum_name(:status)})"
   end
 
@@ -52,7 +52,7 @@ class Completion < ApplicationRecord
   end
 
   def reject_with_notice
-    update(status: :rejected, notice: I18n.t('rejection_notice', number: issue.id))
+    update(status: :rejected, notice: t('rejection_notice', number: issue.id))
   end
 
   def reject_completion

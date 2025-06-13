@@ -28,7 +28,7 @@
       <%= select_tag :status_note_template,
             options_for_select(status_note_templates),
             class: 'form-select',
-            prompt: '<%= I18n.t('issues.form.status.prompt_select') %>',
+            prompt: '<%= t 'issues.form.status.prompt_select' %>',
             disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
     </div>
   </div>

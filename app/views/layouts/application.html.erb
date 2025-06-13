@@ -4,7 +4,6 @@
     <title><%= Settings::Instance.name %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -37,7 +36,7 @@
                     <%= link_to Issue.model_name.human(count: 2), issues_path, class: 'nav-link' %>
                   </li>
                   <% if authorized?(:delegations) -%>
-                    <li class="nav-item"><%= link_to(t(:delegations), delegations_path, class: 'nav-link') %></li>
+                    <li class="nav-item"><%= link_to t(:delegations), delegations_path, class: 'nav-link' %></li>
                   <% end -%>
                 <% elsif authorized?(:delegations) -%>
                   <li class="nav-item">
@@ -82,10 +81,10 @@
                               class: 'dropdown-item' %>
                       <% end -%>
                       <% if authorized?(:manage_mail_templates) -%>
-                        <%= link_to '<%= I18n.t("layouts.application.email_templates_preview") %>', rails_mailers_path,
+                        <%= link_to t("layouts.application.email_templates_preview"), rails_mailers_path,
                               target: :_blank, rel: 'noopener', class: 'dropdown-item' %>
                       <% end -%>
-                      <%= link_to '<%= I18n.t("layouts.application.tests") %>', tests_path, class: 'dropdown-item' if authorized?(:test) %>
+                      <%= link_to t("layouts.application.tests"), tests_path, class: 'dropdown-item' if authorized?(:test) %>
                     </div>
                   </li>
                 <% end -%>
@@ -108,15 +107,15 @@
                   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><%= Current.user %></a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <% if Current.user&.authorized?(:change_user) -%>
-                      <li><%= link_to '<%= I18n.t("logins.list_items.change_user") %>', change_user_logins_path, class: 'dropdown-item' %></li>
+                      <li><%= link_to t("logins.list_items.change_user"), change_user_logins_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <% if Current.user&.authorized?(:change_password) -%>
-                      <li><%= link_to '<%= I18n.t("logins.list_items.change_passwort") %>', change_password_users_path, class: 'dropdown-item' %></li>
+                      <li><%= link_to t("logins.list_items.change_password"), change_password_users_path, class: 'dropdown-item' %></li>
                     <% end -%>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                       <%= link_to logins_path, class: 'dropdown-item', method: :delete do %>
-                        <i class="fa fa-sign-out"></i> <%= t('nav.logout') %>
+                        <i class="fa fa-sign-out"></i> <%= t 'nav.logout' %>
                       <% end -%>
                     </li>
                   </ul>
@@ -182,7 +181,7 @@
         <img id="cluster" src="<%= image_path 'icons/map/cluster/png/cluster.png' %>">
       </div>
       <div id="dialog-confirm">
-        <%= t(:confirm_changes_html) %>
+        <%= t :confirm_changes_html %>
       </div>
     </div>
   </body>

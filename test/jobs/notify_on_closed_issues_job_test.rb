@@ -14,6 +14,6 @@ class NotifyOnClosedIssuesJobTest < ActiveJob::TestCase
     issue = issue(:closed)
     mail = ActionMailer::Base.deliveries.first
     assert_includes mail.to, issue.author
-    assert_equal "##{issue.id}: <%= I18n.t('test.jobs.completed') %>", mail.subject
+    assert_equal "##{issue.id}: <%= t 'test.jobs.completed' %>", mail.subject
   end
 end
