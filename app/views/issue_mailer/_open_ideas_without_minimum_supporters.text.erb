@@ -3,7 +3,7 @@
 
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.supporter' %><%= "\t" %><%= Issue.human_attribute_name(:reviewed_at) %>
-******<%= "\t" %>*************<%= "\t" %><%= '*' * I18n.t('attributes.supporter').length %><%= "\t" %>*************************
+******<%= "\t" %>*************<%= "\t" %><%= '*' * t('attributes.supporter').length %><%= "\t" %>*************************
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, issue.supporters.count, "\t", l(issue.status_since, format: :elaborate)].join("\t") %>
 <% end -%>

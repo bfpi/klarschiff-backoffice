@@ -1,7 +1,7 @@
-<%= I18n.t('responsibility_mailer.remind_group.message', name: Settings::Instance.name, days: @days) %>
+<%= t 'responsibility_mailer.remind_group.message', name: Settings::Instance.name, days: @days %>
 
-<%= I18n.t('responsibility_mailer.remind_group.number') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.type') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.status') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.category') %><%= "\t" %><%= I18n.t('responsibility_mailer.remind_group.assigned_since') %>
-<%= '*' * I18n.t('responsibility_mailer.remind_group.number').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.type').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.status').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.category').length %><%= "\t" %><%= '*' * I18n.t('responsibility_mailer.remind_group.assigned_since').length %>
+<%= t 'responsibility_mailer.remind_group.number' %><%= "\t" %><%= t 'responsibility_mailer.remind_group.type' %><%= "\t" %><%= t 'responsibility_mailer.remind_group.status' %><%= "\t" %><%= t 'responsibility_mailer.remind_group.category' %><%= "\t" %><%= t 'responsibility_mailer.remind_group.assigned_since' %>
+<%= '*' * t('responsibility_mailer.remind_group.number').length %><%= "\t" %><%= '*' * t('responsibility_mailer.remind_group.type').length %><%= "\t" %><%= '*' * t('responsibility_mailer.remind_group.status').length %><%= "\t" %><%= '*' * t('responsibility_mailer.remind_group.category').length %><%= "\t" %><%= '*' * t('responsibility_mailer.remind_group.assigned_since').length %>
 
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t '.assigned_since' %>

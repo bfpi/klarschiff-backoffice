@@ -14,6 +14,6 @@ class NotifyOnIssuesInProcessJobTest < ActiveJob::TestCase
     issue = issue(:in_process)
     mail = ActionMailer::Base.deliveries.first
     assert_includes mail.to, issue.author
-    assert_equal "##{issue.id}: <%= I18n.t('enums.issue.status.in_process') %>", mail.subject
+    assert_equal "##{issue.id}: in Bearbeitung", mail.subject
   end
 end

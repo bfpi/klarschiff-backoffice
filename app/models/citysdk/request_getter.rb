@@ -5,7 +5,7 @@ module Citysdk
     extend ActiveSupport::Concern
 
     def agency_responsible
-      group.name.dup.tap { |v| v << I18n.t('delegated_to', delegation_name: delegation.name) if delegation }
+      group.name.dup.tap { |v| v << I18n.t('citysdk.request_getter.delegated_to', delegation_name: delegation.name) if delegation }
     end
 
     def service_code

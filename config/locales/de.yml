@@ -273,8 +273,6 @@ de:
     message: Nachricht
     name: Name
     privacy_policy_accepted: Datenschutzbestimmung
-    # /test/test_helper.rb:47
-    privacy_policy_must_be_accepted: Datenschutzbestimmung muss akzeptiert werden
     regional_key: Regionalschlüssel
     status: Status
     supporter: Unterstützungen
@@ -287,9 +285,6 @@ de:
   citysdk:
     request_getter:
       delegated_to: " [delegiert an: %{delegation_name}]"
-    # /app/models/citydsk/status.rb:37
-    status:
-      deleted: gelöscht
   comments:
     # /app/models/comment.rb:18
     created: erstellt
@@ -304,8 +299,7 @@ de:
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
       reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
       reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
-  confirm_changes_html:
-    Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
+  confirm_changes_html: Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
   confirmation_mailer:
     abuse_report:
       message: "um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
@@ -464,16 +458,16 @@ de:
   # /app/views/imprints/show.html.erb:3-24
   imprints:
     concept_and_support:
-      title: Konzept und Betreuung
-      address: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
+      address_html: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
+      email_html: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
       telephone: 'Telefon: +49 381 381-6281'
-      email: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
+      title: Konzept und Betreuung
     license_terms:
+      notice_html: Das Backoffice von Klarschiff.HRO ist unter der Freien-Software-Lizenz <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache License v2.0</a> auf <a href="https://github.com/bfpi/klarschiff-backoffice" target="_blank">GitHub</a> veröffentlicht.
       title: Lizenzbestimmungen
-      notice: Das Backoffice von Klarschiff.HRO ist unter der Freien-Software-Lizenz <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache License v2.0</a> auf <a href="https://github.com/bfpi/klarschiff-backoffice" target="_blank">GitHub</a> veröffentlicht.
     technical_implementation:
+      address_html: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
       title: Technische Realisierung
-      address: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
@@ -681,13 +675,22 @@ de:
         Wenn Sie nicht innerhalb von 24 Stunden bestätigen, wird Ihre Meldung automatisch wieder gelöscht.
     description:
       internal: redaktionelle Prüfung ausstehend
+
+
+# ???
       default_group: >
         Die Daten der Meldung wurden an die zuständige Verwaltung weitergeleitet und werden dort (noch) außerhalb von Klarschiff-MV bearbeitet.
         Deshalb können die Meldungsdetails nicht vollständig im Portal angezeigt werden.
+
+
+# ???
       default_group_countygroup: >
         Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
         Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.
         Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
+
+
+
   salutation_editor: "Sehr geehrte(r) Bearbeiter/-in von Meldungen in %{name},"
   salutation_universal: Sehr geehrte Damen und Herren,
   salutation_user: "Sehr geehrte(r) Nutzer/-in von %{name},"
@@ -700,23 +703,6 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
-  # /test/controllers/citydsk/jobs_controller_test.rb:9 ff.
-  test:
-    controller:
-      citysdk:
-        error_400_message: Es wurde kein API-Key übergeben.
-        error_401_message: Der übergebene API-Key ist ungültig.
-        error_403_message: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
-        error_404_message: Datensatz nicht gefunden.
-        error_422_message:
-          validation_failed:  Gültigkeitsprüfung ist fehlgeschlagen.
-          no_date_given: Es wurde kein Datum übergeben.
-        error_500_message:
-          not_valid_status: Ist kein gültiger Status.
-          search_class_invalid: Suchklasse ungültig
-    jobs:
-      completed: abgeschlossen
-      new_delegated_messages: Neue delegierte Meldungen
   # /app/views/test_mailer/test.text.erb:1
   test_mailer:
     title: Test-Mail

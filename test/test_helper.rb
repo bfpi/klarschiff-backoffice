@@ -42,9 +42,9 @@ module ActiveSupport
     end
 
     def assert_privacy_acceptence_validation(doc)
-      assert_error_messages doc, '422', '<%= I18n.t("test.controller.citysdk.error_422_message.validation_failed") %>'
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
       msg = doc.xpath('//description').children[0].content
-      assert_match '<%= I18n.t("attributes.privacy_policy_must_be_accepted") %>', msg
+      assert_match 'Datenschutzbestimmung muss akzeptiert werden', msg
     end
 
     def assert_error_messages(doc, code, description)

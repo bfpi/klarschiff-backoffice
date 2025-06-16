@@ -2,5 +2,5 @@
 
 <% content_for :deletion_deadline, (JobSettings::Issue.deletion_deadline_days * 24).to_s -%>
 <% content_for :additional_infos do -%>
-<%= t('.message', issue_url: @issue_url, delete_url: @delete_url) %>
+<%= t '.message', issue_url: @issue_url, delete_url: @delete_url %>
 <% end -%>
