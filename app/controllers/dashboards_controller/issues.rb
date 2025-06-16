@@ -44,7 +44,7 @@ class DashboardsController
         #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
           INNER JOIN (
             SELECT "issue_id", "created_at" FROM #{LogEntry.quoted_table_name}
-              WHERE "attr" = 'responsibility_accepted' AND LOWER("new_value") = '#{t(true).downcase}'
+              WHERE "attr" = 'responsibility_accepted' AND LOWER("new_value") = '#{I18n.t(true).downcase}'
           ) "le2" ON "le"."issue_id" = "le2"."issue_id" AND "le2"."created_at" >= "le"."created_at" AND (
             SELECT COUNT("id") FROM #{LogEntry.quoted_table_name} "le3"
              WHERE "le3"."issue_id" = "le"."issue_id" AND "le3"."attr" = 'group'

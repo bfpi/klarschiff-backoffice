@@ -13,7 +13,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.address_object_group
         return format_address(feature)
       end
-      t 'geocodr.no_match'
+      I18n.t 'geocodr.no_match'
     end
 
     def address_dms(issue)
@@ -21,7 +21,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.address_object_group
         return feature
       end
-      t 'geocodr.no_match'
+      I18n.t 'geocodr.no_match'
     end
 
     def parcel(issue)
@@ -29,7 +29,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.parcel_object_group
         return feature['flurstueckskennzeichen']
       end
-      t 'geocodr.no_match'
+      I18n.t 'geocodr.no_match'
     end
 
     def property_owner(issue)
@@ -37,7 +37,7 @@ class Geocodr
         next if feature['objektgruppe'] != config.property_owner_object_group
         return feature['eigentuemer']
       end
-      t 'geocodr.no_match'
+      I18n.t 'geocodr.no_match'
     end
 
     def search_places(pattern)

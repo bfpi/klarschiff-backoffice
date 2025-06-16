@@ -4,8 +4,8 @@
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t 'attributes.status' -%>
 <%= "\t" %><%= t '.not_accepted_since' %>
 ******<%= "\t" %>*************<%= "\t" -%>
-<%= '*' * t('attributes.kind').length %><%= "\t" %><%= '*' * t('attributes.status').length -%>
-<%= "\t" %><%= '*' * t('.not_accepted_since').length %>
+<%= '*' * I18n.t('attributes.kind').length %><%= "\t" %><%= '*' * I18n.t('attributes.status').length -%>
+<%= "\t" %><%= '*' * I18n.t('.not_accepted_since').length %>
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
      Issue.human_enum_name(:status, issue.status),

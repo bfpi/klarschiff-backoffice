@@ -1,17 +1,17 @@
 <div class="info card">
   <div class="card-header">
-    <h5 class="card-title"><%= t 'view.info.title' %></h5>
+    <h5 class="card-title"><%= I18n.t 'view.info.title' %></h5>
   </div>
   <div class="card-body">
     <div class="form-row">
       <div class="col">
-        <label><%= t 'view.info.version' %></label>
+        <label><%= I18n.t 'view.info.version' %></label>
         <input type="text" readonly="readonly"
                value="<%= `git rev-parse --short HEAD`.strip %> / <%= `git branch --show-current`.strip %>"
                class="form-control">
       </div>
       <div class="col">
-        <label><%= t 'view.info.built' %></label>
+        <label><%= I18n.t 'view.info.built' %></label>
         <input type="text" readonly="readonly"
                value="<%= Time.current %> / <%= `uname -n`.strip %>"
                class="form-control">
@@ -19,13 +19,13 @@
     </div>
     <div class="form-row">
       <div class="col">
-        <label><%= t 'view.info.rendered_by_host' %></label>
+        <label><%= I18n.t 'view.info.rendered_by_host' %></label>
         <input type="text" readonly="readonly"
                value="<%= Socket.gethostname %>"
                class="form-control">
       </div>
       <div class="col">
-        <label><%= t 'view.info.environment' %></label>
+        <label><%= I18n.t 'view.info.environment' %></label>
         <input type="text" readonly="readonly"
                value="<%= Rails.env %>"
                class="form-control">
@@ -33,13 +33,13 @@
     </div>
     <div class="form-row">
       <div class="col">
-        <label><%= t 'view.info.ruby_version' %></label>
+        <label><%= I18n.t 'view.info.ruby_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= RUBY_VERSION %>"
                class="form-control">
       </div>
       <div class="col">
-        <label><%= t 'view.info.rails_version' %></label>
+        <label><%= I18n.t 'view.info.rails_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= Rails.version %>"
                class="form-control">
@@ -47,7 +47,7 @@
     </div>
     <div class="form-row">
       <div class="col">
-        <label><%= t 'view.info.db_version' %></label>
+        <label><%= I18n.t 'view.info.db_version' %></label>
         <input type="text" readonly="readonly"
                value="<%= ActiveRecord::Migrator.current_version %>"
                class="form-control">

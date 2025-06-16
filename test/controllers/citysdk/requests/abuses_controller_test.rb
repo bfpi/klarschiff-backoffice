@@ -6,7 +6,7 @@ class AbusesControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post "/citysdk/requests/abuses/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', '<%= t "test.controller.citydsk.error_422_message.validation_failed" %>'
+    assert_error_messages doc, '422', '<%= I18n.t("test.controller.citydsk.error_422_message.validation_failed") %>'
   end
 
   test 'create' do
@@ -31,12 +31,12 @@ class AbusesControllerTest < ActionDispatch::IntegrationTest
   test 'confirm already confirmed hash' do
     put "/citysdk/requests/abuses/#{abuse_report(:already_confirmed).confirmation_hash}/confirm.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', '<%= t "test.controller.citysdk.error_404_message" %>'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
   end
 
   test 'confirm invalid hash' do
     put '/citysdk/requests/abuses/abcdefghijklmnopqrstuvwxyz/confirm.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', '<%= t "test.controller.citysdk.error_404_message" %>'
+    assert_error_messages doc, '404', '<%= I18n.t("test.controller.citysdk.error_404_message") %>'
   end
 end

@@ -18,7 +18,7 @@ class PlacesController < ApplicationController
   private
 
   def address_response(issue)
-    external_coords = t(
+    external_coords = I18n.t(
       'issues.external_map.coordinates', x: issue.lon_external&.round, y: issue.lat_external&.round
     )
     json_response = { address: issue.address, parcel: issue.parcel, property_owner: issue.property_owner,

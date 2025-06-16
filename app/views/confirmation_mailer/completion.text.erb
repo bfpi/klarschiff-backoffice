@@ -1,2 +1,2 @@
-<% t 'confirmation_mailer.completation.confirm_final_report', url: @url %>
+<% I18n.t('confirmation_mailer.completation.confirm_final_report', url: @url) %>
 <% content_for :deletion_deadline, (JobSettings::Completion.deletion_deadline_days * 24).to_s -%>

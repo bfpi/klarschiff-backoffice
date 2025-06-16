@@ -3,7 +3,7 @@
 class PasswordValidator < ActiveModel::EachValidator
   mattr_accessor :min_length, default: Settings::Password.min_length
   mattr_accessor :required_characters,
-    default: Settings.required_password_characters.map { |c| t("password.#{c}") }.join(', ')
+    default: Settings.required_password_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
 
   def validate_each(record, attribute, value)
     return if password_valid?(value)

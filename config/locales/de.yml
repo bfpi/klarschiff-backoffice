@@ -287,6 +287,9 @@ de:
   citysdk:
     request_getter:
       delegated_to: " [delegiert an: %{delegation_name}]"
+    # /app/models/citydsk/status.rb:37
+    status:
+      deleted: gelöscht
   comments:
     # /app/models/comment.rb:18
     created: erstellt
@@ -458,18 +461,19 @@ de:
         password: Neues Passwort
         recipient: Empfänger von
   imprint: Impressum
+  # /app/views/imprints/show.html.erb:3-24
   imprints:
     concept_and_support:
       title: Konzept und Betreuung
-      address_html: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
-      telephone: "Telefon: +49 381 381-6281"
-      email_html: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
+      address: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
+      telephone: 'Telefon: +49 381 381-6281'
+      email: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
     license_terms:
       title: Lizenzbestimmungen
       notice: Das Backoffice von Klarschiff.HRO ist unter der Freien-Software-Lizenz <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache License v2.0</a> auf <a href="https://github.com/bfpi/klarschiff-backoffice" target="_blank">GitHub</a> veröffentlicht.
     technical_implementation:
       title: Technische Realisierung
-      address_html: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
+      address: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:

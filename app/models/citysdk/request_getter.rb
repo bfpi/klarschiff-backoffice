@@ -5,7 +5,7 @@ module Citysdk
     extend ActiveSupport::Concern
 
     def agency_responsible
-      group.name.dup.tap { |v| v << t('delegated_to', delegation_name: delegation.name) if delegation }
+      group.name.dup.tap { |v| v << I18n.t('delegated_to', delegation_name: delegation.name) if delegation }
     end
 
     def service_code
@@ -58,7 +58,7 @@ module Citysdk
 
     def description
       return default_group_message if default_group_without_gui_access?
-      return t 'request.description.internal' if description_status_internal?
+      return I18n.t('request.description.internal') if description_status_internal?
       super
     end
 
@@ -82,7 +82,7 @@ module Citysdk
     end
 
     def create_message
-      message = [t('request.create_message.success')]
+      message = [I18n.t('request.create_message.success')]
       message << default_group_message if default_group_without_gui_access?
       message.join
     end
