@@ -6,13 +6,13 @@ class ObservationsControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post '/citysdk/observations.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'create with area_code but without categories' do
     post '/citysdk/observations.xml', params: { area_code: Authority.ids.join(',') }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'create with area_code for all districts (separate) and all categories' do

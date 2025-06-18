@@ -45,6 +45,6 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
   test 'index with invalid search_class' do
     get '/citysdk/areas.xml', params: { search_class: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '500', 'Suchklasse ungültig'
+    assert_error_messages doc, '500', 'search_class invalid'
   end
 end

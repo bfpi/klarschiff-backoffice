@@ -622,11 +622,11 @@ de:
     confirmation_mailer:
       message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
   logins:
+    change_user:
+      accept: Übernehmen
     list_items:
       change_password: Passwort ändern
       change_user: Nutzerwechsel
-    change_user:
-      accept: Übernehmen
     new:
       login: Login
       sign_in: Anmelden

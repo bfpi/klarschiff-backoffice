@@ -42,7 +42,7 @@ module ActiveSupport
     end
 
     def assert_privacy_acceptence_validation(doc)
-      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
       msg = doc.xpath('//description').children[0].content
       assert_match 'Datenschutzbestimmung muss akzeptiert werden', msg
     end

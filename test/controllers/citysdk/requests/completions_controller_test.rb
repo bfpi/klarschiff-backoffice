@@ -6,7 +6,7 @@ class CompletionsControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post "/citysdk/requests/completions/#{issue(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'successfully created' do
@@ -42,12 +42,12 @@ class CompletionsControllerTest < ActionDispatch::IntegrationTest
   test 'confirm already confirmed hash' do
     put "/citysdk/requests/completions/#{completion(:confirmed).confirmation_hash}/confirm.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'confirm invalid hash' do
     put '/citysdk/requests/completions/abcdefghijklmnopqrstuvwxyz/confirm.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 end

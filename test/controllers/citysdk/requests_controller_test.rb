@@ -215,7 +215,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'create with frontend api-key but without attributes' do
     post "/citysdk/requests.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'create with frontend api-key' do
@@ -271,7 +271,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     with_privacy_settings(active: true) do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       doc = Nokogiri::XML(response.parsed_body)
-     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
     end
   end
 
@@ -307,7 +307,8 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update with frontend api-key but without permissions' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', 'Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.'
+    assert_error_messages doc, '403',
+      'Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.'
   end
 
   test 'update with frontend api-key but without attributes' do
@@ -352,7 +353,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
       put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { address_string: new_value }
       doc = Nokogiri::XML(response.parsed_body)
-     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
     end
   end
 
@@ -378,7 +379,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid detailed_status with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { detailed_status: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '500', 'Ist kein gültiger Status.'
+    assert_error_messages doc, '500', 'status invalid'
   end
 
   test 'update attribute status_notes with ppc api-key' do
@@ -397,7 +398,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid priority with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { priority: '5' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'update attribute delegation with ppc api-key' do
@@ -410,13 +411,13 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute delegation to internal group with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { delegation: group(:one).name }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'update attribute delegation to invalid group with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { delegation: 'abcdefgh' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'update attribute job_status with ppc api-key' do
@@ -429,7 +430,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute invalid job_status with ppc api-key' do
     put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { job_status: 'ABCDE' }
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'update attribute detailed_status as rejected with ppc api-key' do
@@ -457,19 +458,19 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'confirm already confirmed hash' do
     put "/citysdk/requests/#{issue(:already_confirmed).confirmation_hash}/confirm.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'confirm invalid hash' do
     put '/citysdk/requests/abcdefghijklmnopqrstuvwxyz/confirm.xml'
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'delete without api-key' do
     put "/citysdk/requests/#{issue(:one).confirmation_hash}/revoke.xml"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'delete with invalid api-key' do
@@ -488,19 +489,19 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'deletion cancellation due to existing supporter with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_supporter).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'deletion cancellation due to existing abuse_report with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_abuse_report).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'deletion cancellation due to invalid status with ppc api-key' do
     put "/citysdk/requests/#{issue(:undeleteable_status).confirmation_hash}/revoke.xml?api_key=#{api_key_ppc}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '404', 'Datensatz nicht gefunden.'
+    assert_error_messages doc, '404', 'record_not_found'
   end
 
   test 'description text for issues' do
@@ -514,7 +515,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     with_gui_access_for_external_participants(value: false) do
       get "/citysdk/requests/#{issue(:reference_default).id}.xml"
       doc = Nokogiri::XML(response.parsed_body)
-      assert_equal 'Die Daten der Meldung wurden an die zuständige Verwaltung weitergeleitet und werden dort (noch) außerhalb von Klarschiff-MV bearbeitet. Deshalb können die Meldungsdetails nicht vollständig im Portal angezeigt werden.',
+      assert_equal I18n.t('request.description.default_group'),
         doc.xpath('/service_requests/request/description/text()').first.to_s
     end
   end
@@ -523,7 +524,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     with_gui_access_for_external_participants(value: false) do
       get "/citysdk/requests/#{issue(:reference_default_county).id}.xml"
       doc = Nokogiri::XML(response.parsed_body)
-      assert_equal 'Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist. Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde. Die Meldungsdetails werden nicht vollständig im Portal angezeigt.',
+      assert_equal I18n.t('request.description.default_group_countygroup'),
         doc.xpath('/service_requests/request/description/text()').first.to_s
     end
   end

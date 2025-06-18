@@ -18,7 +18,8 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'index with api-key frontend' do
     get "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '403', 'Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.'
+    assert_error_messages doc, '403',
+      'Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.'
   end
 
   test 'index with api-key ppc' do
@@ -30,7 +31,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'create without attributes' do
     post "/citysdk/requests/comments/#{issue(:one).id}.xml?api_key=#{api_key_frontend}"
     doc = Nokogiri::XML(response.parsed_body)
-    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen.'
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end
 
   test 'create' do
