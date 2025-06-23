@@ -1,4 +1,4 @@
-<%= t('.confirm_issue', with_photo: (t('.and_your_photo') if @with_photo), confirmation_url: @confirmation_url) %>
+<%= t('.confirm_issue', with_photo: (t('and_your_photo') if @with_photo), confirmation_url: @confirmation_url) %>
 
 <% content_for :deletion_deadline, (JobSettings::Issue.deletion_deadline_days * 24).to_s -%>
 <% content_for :additional_infos do -%>

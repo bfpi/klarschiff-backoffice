@@ -246,7 +246,6 @@ de:
       test_mail_send: Testnachricht an %{recipient} versandt.
       test_unknown: Test unbekannt
   aerial_view: Luftbild
-  # /app/views/confirmation_mailer/issue.text.erb:1
   and_your_photo: und Ihr Foto
   api_key:
     invalid: Der übergebene API-Key ist ungültig.
@@ -281,20 +280,17 @@ de:
   back: Zurück
   best_regards: "Vielen Dank und mit freundlichen Grüßen\n\nIhr %{name}-Team"
   city_view: Karte
-  # /app/models/citydsk/request_getter.rb:8
   citysdk:
     request_getter:
       delegated_to: " [delegiert an: %{delegation_name}]"
   comments:
-    # /app/models/comment.rb:18
     created: erstellt
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   completions:
     completion:
       close: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
-      # /app/views/completion_mailer/rejection.text.erb:1
-      final_report_rejected: 'Ihre Abschlussmeldung zur Meldung %{completion_issue_id} wurde aus folgendem Grund zurückgewiesen: '
+      final_report_rejected: "Ihre Abschlussmeldung zur Meldung %{completion_issue_id} wurde aus folgendem Grund zurückgewiesen: "
       keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
       reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
@@ -304,7 +300,7 @@ de:
     abuse_report:
       message: "um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
     completion:
-      confirm_final_report: 'um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}'
+      confirm_final_report: "um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
     issue:
       confirm_issue: "um Ihre Meldung %{with_photo} zu bestätigen, rufen Sie bitte folgende URL auf:\n\n%{confirmation_url}"
       message: "Mit Ihrer Bestätigung erklären Sie sich damit einverstanden, dass wir die von Ihnen im Rahmen der Meldung selbständig gemachten Angaben zur Beschreibung sowie insbesondere das Foto redaktionell bearbeiten dürfen.\n\nMeldung ansehen: %{issue_url}\n\nMeldung löschen: %{delete_url}"
@@ -443,7 +439,6 @@ de:
   groups:
     index:
       new_group: Neue Gruppe
-  # /app/views/helps/show.html.erb:3
   help_page:
     title: Hilfeseite
   helpers:
@@ -455,7 +450,6 @@ de:
         password: Neues Passwort
         recipient: Empfänger von
   imprint: Impressum
-  # /app/views/imprints/show.html.erb:3-24
   imprints:
     concept_and_support:
       address_html: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
@@ -494,7 +488,7 @@ de:
       message: "Ihre Meldung #%{issue_id} vom %{issue_created_at}, ist nun in Bearbeitung.\n\nNachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:"
     in_work_without_status_note:
       message: "Folgende Meldungen mit dem Status „%{status}“ sind seit mindestens %{days} Tag(en) unverändert.\nBitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation oder schließen Sie die Meldung ab, falls dies bislang einfach vergessen wurde:"
-      uncanged_since: unverändert seit
+      unchanged_since: unverändert seit
     inform_editorial_staff:
       note_important_advices: 'bitte beachten Sie diese wichtigen redaktionellen Hinweise:'
       message: "Wir möchten Sie bitten diesen Hinweisen nachzugehen.\nEine kurzfristige Reaktion auf die Meldungen in %{name} trägt zum positiven Image der Verwaltung bei!"
@@ -551,10 +545,8 @@ de:
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
       für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
-      # /app/views/issues/_tab_rejection.html.erb:3
       rejection:
         report_to: Meldung an
-      # /app/views/issues/_tab_status.html.erb:17
       status:
         prompt_select: Vorlage wählen
       tab:
@@ -578,7 +570,6 @@ de:
       assign_job: Außendienst-Team zuweisen
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
-      # /app/vies/issues/resend_responsibility.js.coffee.erb:4
       resend_responsibility_notice: E-Mail an die Standardzuständigkeit wurde erneut versandt.
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_close_as_not_solvable:
@@ -588,7 +579,7 @@ de:
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
     set_status:
-      message: 'Der Status der Meldung #%{issue_id} wurde erfolgreich geändert!'
+      message: "Der Status der Meldung #%{issue_id} wurde erfolgreich geändert!"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
@@ -615,7 +606,6 @@ de:
       show: Anzeigen
       message_not_found: "Meldung #%{issue_id} konnte zu '%{file_name}' nicht gefunden werden."
   layouts:
-    # /app/views/layouts/application.html.erb:85, 88
     application:
       email_templates_preview: E-Mail-Templates / Vorschau
       tests: Tests
@@ -654,7 +644,6 @@ de:
       link_status_changes: 'Links zu Statusänderungen:'
     issue:
       message: 'es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:'
-    # /app/views/responsibility_mailer/remind_group.text.erb:1
     remind_group:
       assigned_since: zugewiesen seit
       category: Kategorie
@@ -675,22 +664,13 @@ de:
         Wenn Sie nicht innerhalb von 24 Stunden bestätigen, wird Ihre Meldung automatisch wieder gelöscht.
     description:
       internal: redaktionelle Prüfung ausstehend
-
-
-# ???
       default_group: >
         Die Daten der Meldung wurden an die zuständige Verwaltung weitergeleitet und werden dort (noch) außerhalb von Klarschiff-MV bearbeitet.
         Deshalb können die Meldungsdetails nicht vollständig im Portal angezeigt werden.
-
-
-# ???
       default_group_countygroup: >
         Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
         Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.
         Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
-
-
-
   salutation_editor: "Sehr geehrte(r) Bearbeiter/-in von Meldungen in %{name},"
   salutation_universal: Sehr geehrte Damen und Herren,
   salutation_user: "Sehr geehrte(r) Nutzer/-in von %{name},"
@@ -703,9 +683,9 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
-  # /app/views/test_mailer/test.text.erb:1
   test_mailer:
-    title: Test-Mail
+    test:
+      message: Test-Mail
   tests:
     index:
       archive_closed_issues_job:

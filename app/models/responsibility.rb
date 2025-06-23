@@ -31,7 +31,7 @@ class Responsibility < ApplicationRecord
     end
   end
 
-  def deleted
+  def deleted # rubocop:disable Naming/PredicateMethod
     deleted_at?
   end
 

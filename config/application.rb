@@ -50,9 +50,9 @@ module KlarschiffBackoffice
     end
 
     config.i18n.default_locale = :de
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')] # rubocop:disable Rails/RootPathnameMethods, Rails/FilePath
     if defined?(RailsI18n)
-      config.i18n.load_path += Dir[Gem.loaded_specs['rails-i18n'].full_gem_path + '/rails/locale/*.yml']
+      config.i18n.load_path += Dir["#{Gem.loaded_specs['rails-i18n'].full_gem_path}/rails/locale/*.yml"]
     end
     config.i18n.available_locales = %i[de en]
 

@@ -5,7 +5,9 @@ module Citysdk
     extend ActiveSupport::Concern
 
     def agency_responsible
-      group.name.dup.tap { |v| v << I18n.t('citysdk.request_getter.delegated_to', delegation_name: delegation.name) if delegation }
+      group.name.dup.tap do |v|
+        v << I18n.t('citysdk.request_getter.delegated_to', delegation_name: delegation.name) if delegation
+      end
     end
 
     def service_code
@@ -38,7 +40,7 @@ module Citysdk
       Citysdk::Status.new(status).to_citysdk
     end
 
-    def description_public
+    def description_public # rubocop:disable Naming/PredicateMethod
       description_status_external?
     end
 
