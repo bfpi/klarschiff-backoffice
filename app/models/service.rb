@@ -14,7 +14,7 @@ class Service < Category
 
   def description; end
 
-  def metadata # rubocop:disable Naming/PredicateMethod
+  def metadata
     false
   end
 

@@ -25,7 +25,7 @@ class Issue
         external_position.x
       end
 
-      def archived # rubocop:disable Naming/PredicateMethod
+      def archived
         archived_at?
       end
 

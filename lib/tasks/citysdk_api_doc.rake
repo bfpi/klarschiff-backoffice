@@ -24,7 +24,7 @@ namespace :citysdk do
   end
 end
 
-private # rubocop:disable Lint/UselessAccessModifier
+private
 
 def extract_documentation(file)
   pattern = /^ *# :apidoc: ?/
