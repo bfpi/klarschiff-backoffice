@@ -1316,13 +1316,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geographiclib-geodesic@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "geographiclib-geodesic@npm:2.1.1"
-  checksum: 10c0/9a79d24a3a95d9bdc53499e35983ae717b48459d58a79279313df309570d342c6fbcca4b274b068d3ff39d8bf3080bce7c48c9c795641f46918241951226e30b
-  languageName: node
-  linkType: hard
-
 "geotiff@npm:^2.1.3":
   version: 2.1.3
   resolution: "geotiff@npm:2.1.3"
@@ -2539,13 +2532,14 @@ __metadata:
   linkType: hard
 
 "proj4@npm:^2.15.0":
-  version: 2.17.0
-  resolution: "proj4@npm:2.17.0"
+  version: 2.19.3
+  resolution: "proj4@npm:2.19.3"
   dependencies:
-    geographiclib-geodesic: "npm:^2.1.1"
     mgrs: "npm:1.0.0"
     wkt-parser: "npm:^1.5.1"
-  checksum: 10c0/f740e8c89abca5fafedcc5545c53b59e2f4fb3096ec0d1e394a58f65f755f31ff43cf2474c4dfbce018cecdd9fa9fe34a48d8a30cf00265fb86e37233283c556
+  peerDependencies:
+    geotiff: "*"
+  checksum: 10c0/23ea2d85fd607e98e1cf453b4e4e51c6e6f2af8649b1e7ed38c4ca25ba78560d68cb1007c2d03b0159adf5ee68ef7197bbac64c3156f6804a9a78a9c9a51fab4
   languageName: node
   linkType: hard
 
