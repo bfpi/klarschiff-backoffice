@@ -1,2 +1,2 @@
-um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: <%= @url %>
+<%= t('.message', url: @url) %>
 <% content_for :deletion_deadline, (JobSettings::Abuse.deletion_deadline_days * 24).to_s -%>

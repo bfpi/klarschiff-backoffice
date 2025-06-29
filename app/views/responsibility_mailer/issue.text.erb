@@ -1,9 +1,7 @@
-Sehr geehrte(r) Bearbeiter/-in von Meldungen in <%= Settings::Instance.name %>,
+<%= t :salutation_editor, name: Settings::Instance.name %>
 
-es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:
+<%= t('.message') %>
 
 <%= render partial: 'issue', object: @issue, locals: { issue_link: @issue_url } -%>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

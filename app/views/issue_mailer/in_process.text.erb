@@ -1,11 +1,7 @@
-Sehr geehrte(r) Nutzer/-in von <%= Settings::Instance.name %>,
+<%= t :salutation_user, name: Settings::Instance.name %>
 
-Ihre Meldung #<%= @issue.id %> vom <%= l(@issue.created_at, format: :elaborate) %>, ist nun in Bearbeitung.
-
-Nachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:
+<%= t('.message', issue_id: @issue.id, issue_created_at: l(@issue.created_at, format: :elaborate)) %>
 
 <%= render partial: 'issue', locals: { issue: @issue } %>
 
-Vielen Dank und mit freundlichen Grüßen
-
-Ihr <%= Settings::Instance.name %>-Team
+<%= t :best_regards, name: Settings::Instance.name %>

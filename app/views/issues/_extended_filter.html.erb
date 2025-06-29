@@ -3,7 +3,7 @@
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
   <div class="row">
-    <%= label_tag :filter_text, 'Freitext', class: 'col-2 col-form-label' %>
+    <%= label_tag :filter_text, t('.free_text'), class: 'col-2 col-form-label' %>
     <div class="col-9">
       <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
     </div>
@@ -26,7 +26,7 @@
       <%= select_tag 'filter[delegation]', options_for_select(delegations, @filter[:delegation]),
             include_blank: '', class: 'form-select' %>
     </div>
-    <%= label_tag :filter_main_category, 'Hauptkategorie', class: 'col-2 col-form-label' %>
+    <%= label_tag :filter_main_category, t('.main_category'), class: 'col-2 col-form-label' %>
     <div class="col-4">
       <%= select_tag 'filter[main_category]',
             options_for_select(main_categories(@filter[:kind]), @filter[:main_category]),
@@ -71,7 +71,7 @@
     </div>
     <div class="col-6">
       <div class="row">
-        <%= label_tag :filter_sub_category, 'Unterkategorie', class: 'col-4 col-form-label' %>
+        <%= label_tag :filter_sub_category, t('.sub_category'), class: 'col-4 col-form-label' %>
         <div class="col-8">
           <%= select_tag 'filter[sub_category]',
                 options_for_select(sub_categories(@filter[:main_category]), @filter[:sub_category]),
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="row">
-        <%= label_tag :filter_begin_at, 'Erstellung', class: 'col-4 col-form-label' %>
+        <%= label_tag :filter_begin_at, t('.creation'), class: 'col-4 col-form-label' %>
         <%= label_tag :filter_begin_at, t(:from), class: 'col-1 col-form-label' %>
         <div class="col-3">
           <%= text_field_tag 'filter[begin_at]', @filter[:begin_at], class: 'form-control datepicker' %>

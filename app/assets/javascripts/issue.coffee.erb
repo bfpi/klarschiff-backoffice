@@ -10,7 +10,7 @@ $ ->
       height: 'auto'
       width: 'auto'
       modal: true
-      title: '<%= I18n.t('submit_changes') %>'
+      title: '<%= I18n.t 'submit_changes' %>'
       buttons:
         'confirm':
           text: '<%= I18n.t(true) %>'
@@ -28,7 +28,7 @@ $ ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
         'abort':
-          text: '<%= I18n.t('action.abort') %>'
+          text: '<%= I18n.t 'action.abort' %>'
           click: ->
             $(@).dialog('close')
           class: 'btn btn-sm btn-secondary'
