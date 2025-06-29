@@ -12,6 +12,9 @@ two:
 three:
   <<: *DEFAULTS
 
+four:
+  <<: *DEFAULTS
+
 dms:
   <<: *DEFAULTS
   dms: d3:AAUTO
