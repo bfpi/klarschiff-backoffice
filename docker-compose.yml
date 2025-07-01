@@ -14,7 +14,7 @@ services:
 
   backoffice:
     container_name: klarschiff-backoffice
-    image: klarschiff/backoffice
+    image: ghcr.io/bfpi/klarschiff/backoffice:latest
     build:
       context: .
       dockerfile: Dockerfile
