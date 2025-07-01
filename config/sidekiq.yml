@@ -1,0 +1,8 @@
+---
+:concurrency: 3
+:queues:  # queues are processed in following order, default queue will be processed only when the cron queue is empty
+  - cron
+  - default
+  - mailers
+  - active_storage_analysis
+  - active_storage_purge

@@ -1,0 +1,22 @@
+<% [
+     ['32   * * * *', :DeleteUnconfirmedIssuesJob],
+     ['37   * * * *', :DeleteUnconfirmedSupportersJob],
+     ['42   * * * *', :DeleteUnconfirmedAbuseReportsJob],
+     ['45   * * * *', :DeleteUnconfirmedCompletionsJob],
+     ['47   * * * *', :DeleteUnconfirmedPhotosJob],
+     ['52   * * * *', :DeleteAuthorsAfterDeadlineJob],
+     ['40  00 * * *', :ArchiveClosedIssuesJob],
+     ['40  01 * * *', :InformEditorialStaffOnIssuesJob],
+     ['00  02 * * *', :CalculateAverageTurnaroundTimeJob],
+     ['00  07 * * *', :InformOnDelegatedIssuesJob],
+     ['05  07 * * *', :NotifyOnGroupAssignedResponsibilityJob],
+     ['05  10 * * *', :NotifyOnIssuesInProcessJob],
+     ['10  10 * * *', :NotifyOnClosedIssuesJob]
+   ].each do |cron, name| %>
+<%= name %>:
+  active_job: true
+  class: <%= name %>
+  cron: '<%= cron %>'
+  queue: cron
+  symbolize_args: true
+<% end %>
