@@ -17,6 +17,7 @@
 CitySDK_API.md
 Dockerfile
 coffeelint.json
+bin/deploy
 db/data
 db/dumps
 doc
