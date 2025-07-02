@@ -9,7 +9,7 @@ class Responsibility < ApplicationRecord
   belongs_to :group
 
   validate :only_one_group_for_group_type
-  validate :internal_group, if: :group
+  validate :authorized_group, :internal_group, if: :group
 
   scope :active, -> { where(deleted_at: nil) }
 
@@ -43,6 +43,10 @@ class Responsibility < ApplicationRecord
 
   def internal_group
     errors.add(:group, :must_be_internal) unless group.kind_internal?
+  end
+
+  def authorized_group
+    errors.add(:group, :authorized) unless Current.user.groups.include?(group)
   end
 
   def only_one_group_for_group_type

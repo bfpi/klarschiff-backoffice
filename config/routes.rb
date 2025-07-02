@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     end
   end
   resources :responsibilities
+  resources :fill_responsibilities, only: %i[new create]
 
   namespace :citysdk do
     get 'coverage' => 'coverage#valid'
