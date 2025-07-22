@@ -157,6 +157,7 @@ de:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
             group:
               must_be_internal: muss intern sein.
+              authorized: ist nicht erlaubt
             status:
               invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
         supporter:
@@ -512,6 +513,7 @@ de:
   rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:
+      new_fill_responsibility: Unbelegte Zuständigkeiten (%{count})
       new_responsibility: Neue Zuständigkeit
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   request:

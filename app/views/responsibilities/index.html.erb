@@ -25,6 +25,8 @@
 
 <% content_for :footer do %>
   <div class="float-end">
+    <%= link_to t('.new_fill_responsibility', count: missing_categories.size), new_fill_responsibility_path,
+          remote: true, class: "btn btn-primary #{'disabled ' if missing_categories.empty?}" %>
     <%= link_to t('.new_responsibility'), new_responsibility_path, remote: true, class: 'btn btn-primary' %>
   </div>
 <% end %>

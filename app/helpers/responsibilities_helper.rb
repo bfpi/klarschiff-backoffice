@@ -12,9 +12,16 @@ module ResponsibilitiesHelper
     category.responsibilities.authorized.active.includes(:group)
   end
 
+  def missing_categories
+    return [] if Current.user.role_admin?
+
+    @missing_categories ||=
+      Category.active.order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name]).select do |t|
+        t.responsibilities.authorized.active.blank?
+      end
+  end
+
   def groups_options(resp_or_category)
-    category_id = resp_or_category.is_a?(Responsibility) ? resp_or_category.category_id : resp_or_category
-    return [] if category_id.blank?
     groups = Group.authorized.kind_internal.map { |gr| [gr.to_s, gr.id] }
     return groups_options_with_selected(resp_or_category, groups) if resp_or_category.is_a?(Responsibility)
     options_for_select groups

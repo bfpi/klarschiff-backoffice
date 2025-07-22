@@ -10,9 +10,10 @@ class ResponsibilityTest < ActiveSupport::TestCase
 
   %i[external field_service].each do |group_kind|
     test "validate group kind not #{group_kind}" do
+      Current.user = user(:regional_admin)
       resp = Responsibility.new(category: category(:three), group: group(group_kind))
       assert_not resp.valid?
-      assert_equal [{ error: :must_be_internal }], resp.errors.details[:group]
+      assert_includes resp.errors.details[:group], { error: :must_be_internal }
     end
   end
 
