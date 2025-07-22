@@ -15,7 +15,7 @@ module ResponsibilitiesHelper
   def missing_categories
     return [] if Current.user.role_admin?
 
-    @missing_categories ||= 
+    @missing_categories ||=
       Category.active.order(MainCategory.arel_table[:kind], MainCategory.arel_table[:name]).select do |t|
         t.responsibilities.authorized.active.blank?
       end
