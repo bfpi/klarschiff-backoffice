@@ -3,15 +3,13 @@
 class FillResponsibilitiesController < ApplicationController
   before_action { check_auth :manage_responsibilities }
 
-  include ResponsibilitiesHelper
-
   def new
     @responsibility = Responsibility.new
   end
 
   def create
     Responsibility.transaction do
-      missing_categories.each do |cat|
+      helpers.missing_categories.each do |cat|
         @responsibility = Responsibility.new(responsibility_params.merge(category: cat))
         raise ActiveRecord::Rollback unless @responsibility.save
       end
