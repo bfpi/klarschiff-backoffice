@@ -110,11 +110,11 @@ module Logging
 
   def self.action_text(key)
     case key
-    when :update then 'geändert'
-    when :create then 'angelegt'
-    when :added then 'hinzugefügt'
+    when :update then  'geändert'
+    when :create then  'angelegt'
+    when :added then   'hinzugefügt'
     when :removed then 'entfernt'
-    else raise "Unknown action_key #{key}"
+    else raise "Unbekannter action_key #{key}"
     end
   end
 

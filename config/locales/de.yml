@@ -61,6 +61,7 @@ de:
         description: Beschreibung
         description_status: Freigabestatus der Beschreibung
         expected_closure: voraussichtlicher Abschluss
+        feedback: Lob, Hinweise oder Kritik von Bürger/-innen
         field_service_date: Datum
         field_service_team: Team
         group: Zuständigkeit
@@ -80,6 +81,7 @@ de:
         responsibility_accepted: Zuständigkeit akzeptiert
         responsibility_not_accepted: Zuständigkeit noch nicht akzeptiert
         reviewed_at: (Erst-)Sichtungszeitpunkt
+        status_information: öffentliche Statusinformation
         status_note: öffentlicher Statuskommentar
         supporters: Unterstützungen
         trust_level: Vertrauensstufe
@@ -129,6 +131,9 @@ de:
         confirmation_hash: ''
     errors:
       authorization_error: Sie besitzen nicht die notwendigen Rechte für diese Aktion!
+      login:
+        empty: Benutzername und Passwort müssen angegeben werden
+        incorrect_username_or_password: Benutzername oder Password sind nicht korrekt
       messages:
         blacklist_pattern: Die E-Mail-Adresse ist nicht zulässig.
         email: ist keine gültige E-Mail-Adresse.
@@ -137,7 +142,6 @@ de:
           attributes:
             base:
               associated_categories: Gruppen mit zugewiesenen Zuständigkeiten können nicht deaktiviert werden.
-              must_be_internal: Gruppen mit zugewiesenen Zuständigkeiten müssen intern sein.
         issue:
           attributes:
             category:
@@ -147,16 +151,10 @@ de:
             position:
               outside_instance: befindet sich außerhalb des gültigen Bereichs.
               outside_of_designated_districts: befindet sich außerhalb Ihres Zuständigkeitsbereichs.
-        photo:
-          attributes:
-            file:
-              file_size_not_greater_than: "ist ungültig und kann nicht verarbeitet werden (ist leer / hat keinen Inhalt)"
         responsibility:
           attributes:
             base:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
-            group:
-              must_be_internal: muss intern sein.
             status:
               invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
         supporter:
@@ -238,11 +236,22 @@ de:
         one: Unterstützung
         other: Unterstützungen
       user: Benutzer
+    tests:
+      job_unknown: Job unbekannt
+      job_executed: '%{job} erfolgreich ausgeführt'
+      ldap_login_error: LDAP-User/Login ungültig
+      ldap_success: 'LDAP-Verbindung erfolgreich'
+      no_ldap_connection: LDAP-Verbindung nicht möglich. Eventuell falsche Encryption Einstellung.
+      no_recipient: Kein Empfänger angegeben
+      test_mail_send: Testnachricht an %{recipient} versandt.
+      test_unknown: Test unbekannt
   aerial_view: Luftbild
+  and_your_photo: und Ihr Foto
   api_key:
     invalid: Der übergebene API-Key ist ungültig.
     missing: Es wurde kein API-Key übergeben.
     no_permision: Mit dem übergebenen API-Key stehen die benötigten Zugriffsrechte nicht zur Verfügung.
+  assign: zuweisen
   attributes:
     active: aktiv
     approval_status: Freigabestatus
@@ -254,7 +263,6 @@ de:
     county: Landkreis/kreisfreie Stadt
     created_at: Zeitstempel
     deleted: gelöscht
-    deleted_at: Löschzeit
     file: Datei
     id: '#'
     instance: Instanz
@@ -270,33 +278,62 @@ de:
     updated_at: letzte Änderung
     user: Benutzer
   back: Zurück
+  best_regards: "Vielen Dank und mit freundlichen Grüßen\n\nIhr %{name}-Team"
   city_view: Karte
+  citysdk:
+    request_getter:
+      delegated_to: " [delegiert an: %{delegation_name}]"
   comments:
+    created: erstellt
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
   completions:
     completion:
       close: quittieren (Meldung bleibt unverändert und damit abgeschlossen)
+      final_report_rejected: "Ihre Abschlussmeldung zur Meldung %{completion_issue_id} wurde aus folgendem Grund zurückgewiesen: "
       keep_status: "Aktuellen Status der Meldung beibehalten: %{status}"
       notice: "Hinweis: Die eingegebene Hinweisnachricht wird an die E-Mail-Adresse des Abschlussmelders versendet."
       reject: verwerfen (Meldung wird auf Status vor der Abschlussmeldung zurückgesetzt)
       reset_status: "Status der Meldung auf den Status vor Eingang der Abschlussmeldung zurücksetzen: %{status}"
-  confirm_changes_html:
-    Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
+  confirm_changes_html: Sie haben ungespeicherte Änderungen auf diesem Tab.<br> Wollen Sie die Änderungen vor dem Tab-Wechsel speichern?
+  confirmation_mailer:
+    abuse_report:
+      message: "um Ihre Missbrauchsmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
+    completion:
+      confirm_final_report: "um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
+    issue:
+      confirm_issue: "um Ihre Meldung %{with_photo} zu bestätigen, rufen Sie bitte folgende URL auf:\n\n%{confirmation_url}"
+      message: "Mit Ihrer Bestätigung erklären Sie sich damit einverstanden, dass wir die von Ihnen im Rahmen der Meldung selbständig gemachten Angaben zur Beschreibung sowie insbesondere das Foto redaktionell bearbeiten dürfen.\n\nMeldung ansehen: %{issue_url}\n\nMeldung löschen: %{delete_url}"
+    photo:
+      message: "um Ihr Foto zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
+    supporter:
+      message: "um Ihre Untersützung zu bestätigen, rufen Sie bitte folgende URL auf: %{url}"
   contact: Kontakt
   create: anlegen
+  create_pdf_with_issue_data: PDF mit Daten der Meldung erzeugen
   dashboard: "Willkommen bei %{instance_name}"
   dashboards:
     show:
       abuse_reports:
         one: offene Missbrauchsmeldung
         other: offene Missbrauchsmeldungen
+      activities_own_issues: Aktivitäten an eigenen Meldungen
+      at_least_status_but: zwar schon mindestens %{status}, aber
       completions:
         one: offene Abschlussmeldung
         other: offene Abschlussmeldungen
+      description_not_aproved_for: Beschreibung nicht freigegeben für
+      former_issues: Ehemalige Meldungen
+      latest_issues: Neueste Meldungen
       notices:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
+      open: offen
+      open_ideas: offene Ideen
+      photos_existing_but_not_aproved_for: Foto(s) vorhanden, aber (alle) nicht freigegeben für
+      sighted_and_assigned_since: und (erst-)gesichtet und seit 3 Tagen zugewiesen, aber
+      sighted_without_support: mit (Erst-)Sichtung vor 60 Tagen ohne ausreichende Unterstützung
+      unchanged_without_status_info: und seit 30 Tagen unverändert, aber ohne öffentliche Statusinformation
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
@@ -310,6 +347,7 @@ de:
       Ein d.3-Vorgang ist zwar anscheinend vorhanden, jedoch liefert die d.3-API nicht dessen Vorgangsnummer zurück,
       sodass der d.3-Vorgang nicht geöffnet werden kann.
   edit: bearbeiten
+  edited: bearbeitet
   edit_issue: Meldung bearbeiten
   editorial_notifications:
     index:
@@ -386,17 +424,23 @@ de:
         regional_admin: Regionaladministrator
   export_xlsx: Export als Excel-Tabelle
   extended_search: Erweiterte Suche
+  feedback_mailer:
+    notification:
+      message: "zu Meldung #%{issue_id} wurde ein(e) Lob/Hinweis/Kritik erfasst.\n\nLink: %{link}"
   field_services:
     title: Außendienst-Teams
     edit:
       title: Außendienst-Team bearbeiten
   filter: Filtern
+  finished_issues: abgeschlossene Meldungen
   from: von
   geocodr:
     no_match: nicht zuordenbar
   groups:
     index:
       new_group: Neue Gruppe
+  help_page:
+    title: Hilfeseite
   helpers:
     label:
       login:
@@ -406,15 +450,51 @@ de:
         password: Neues Passwort
         recipient: Empfänger von
   imprint: Impressum
+  imprints:
+    concept_and_support:
+      address_html: "Hanse- und Universitätsstadt Rostock<br>\nKataster-, Vermessungs- und Liegenschaftsamt<br>\nHolbeinplatz 14<br>\n18069 Rostock"
+      email_html: 'E-Mail: <a href="mailto:klarschiff.hro@rostock.de">klarschiff.hro@rostock.de</a>'
+      telephone: 'Telefon: +49 381 381-6281'
+      title: Konzept und Betreuung
+    license_terms:
+      notice_html: Das Backoffice von Klarschiff.HRO ist unter der Freien-Software-Lizenz <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache License v2.0</a> auf <a href="https://github.com/bfpi/klarschiff-backoffice" target="_blank">GitHub</a> veröffentlicht.
+      title: Lizenzbestimmungen
+    technical_implementation:
+      address_html: "BFPI Büro für praktische Informatik GmbH<br>\nFleckebyer Str. 1<br>\n18239 Satow"
+      title: Technische Realisierung
   internal_server_error: "Es ist ein interner Fehler aufgetreten."
   issue_emails:
     create:
       success: Eine E-Mail mit den Daten der aktuellen Meldung wurde erfolgreich versandt.
+      back_to_issue: zurück zur Meldung
     new:
       headline: Sie können hier die Daten der aktuellen Meldung als E-Mail versenden. Geben Sie hierfür bitte eine gültige E-Mail-Adresse und einen Text an, der der E-Mail beigefügt wird.
       send_data:
         headline: Welche Daten sollen mitgesendet werden?
   issue_mailer:
+    closed: 
+      message: "die Bearbeitung Ihrer Meldung #%{issue_id} vom %{issue_created_at}, ist abgeschlossen, und zwar mit folgendem Status:\n%{status}\nNachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:"
+    created_not_in_work:
+      create_time: Erstellungszeitpunkt
+      message: 'Folgende Meldungen sind älter als %{days} Tag(e) und noch im Status „%{status}“:'
+    delegation:
+      message: 'innerhalb der letzten %{delegation_deadline} Stunden wurden Meldungen an Sie delegiert. Bitte bearbeiten Sie diese Meldungen:'
+    forward:
+      annotation: Anmerkungen der/des Absenderin/Absenders
+      data: Daten der weitergeleiteten Meldung
+      message: 'die folgende Meldung wurde durch die/den %{name}-Nutzer/-in %{user} an Sie weitergeleitet:'
+      open_in: Aufruf in
+    in_process:
+      message: "Ihre Meldung #%{issue_id} vom %{issue_created_at}, ist nun in Bearbeitung.\n\nNachfolgend können Sie nochmals die wichtigsten Daten Ihrer Meldung in kompakter Form einsehen:"
+    in_work_without_status_note:
+      message: "Folgende Meldungen mit dem Status „%{status}“ sind seit mindestens %{days} Tag(en) unverändert.\nBitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation oder schließen Sie die Meldung ab, falls dies bislang einfach vergessen wurde:"
+      unchanged_since: unverändert seit
+    inform_editorial_staff:
+      note_important_advices: 'bitte beachten Sie diese wichtigen redaktionellen Hinweise:'
+      message: "Wir möchten Sie bitten diesen Hinweisen nachzugehen.\nEine kurzfristige Reaktion auf die Meldungen in %{name} trägt zum positiven Image der Verwaltung bei!"
+    open_but_not_accepted:
+      assigned_since: zugewiesen seit
+      message: "Folgende Meldungen mit dem Status „%{status}“ sind seit mindestens %{days} Tag(en) zugewiesen.\nBitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten die Meldung weiter. Falls Sie die Zuständigkeit akzeptieren, so führen Sie bitte außerdem die (Erst-)Sichtung durch, falls diese noch nicht erfolgt ist:"
     open_ideas_without_minimum_supporters:
       problem: >-
         Folgende Ideen mit dem Status „%{status}“ haben ihre (Erst-)Sichtung seit mindestens %{days} Tag(en) hinter sich,
@@ -422,22 +502,40 @@ de:
       hint: >-
         Falls Sie die jeweilige Idee abschließen möchten, so setzen Sie diese bitte auf den Status „%{status}“ und
         geben Sie den Bürgerinnen und Bürgern eine kurze Begründung mittels des öffentlichen Statuskommentars:
+    reviewed_but_not_accepted:
+      message: "Folgende Meldungen weisen zwar nicht mehr den Status „%{status}“ auf, wurden bisher aber dennoch nicht akzeptiert.\nBitte prüfen Sie jeweils die Zuständigkeit; anschließend akzeptieren Sie diese bitte oder leiten die Meldungen weiter:"
+      not_accepted_since: nicht akzeptiert seit
+    unsolvable_without_status_note:
+      message: "Folgende Meldungen mit dem Status „%{status}“ weisen bisher keine öffentliche Statusinformation auf.\nBitte geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation:"
+      status_not_solvable_since: Status „%{not_solvable}“ seit
     without_editorial_approval:
+      description_status: Freigabestatus Beschreibung
+      message: Folgende Meldungen haben zwar ihre (Erst-)Sichtung bereits hinter sich, allerdings wurden Beschreibung und/oder Foto bisher noch nicht redaktionell freigegeben.
       hint: >-
         Bitte prüfen Sie jeweils Beschreibung und/oder Foto redaktionell und setzen Sie diese (gegebenenfalls nach
         redaktioneller Korrektur und/oder Anpassung) möglichst auf den Freigabestatus „%{status}“:
+      photo_approval_status: Freigabestatus Foto
   issues:
     issues_buttons:
       assign_jobs: Zuordnung für Außendienst
       map: Kartenansicht
       new_issue: Neue Meldung
       rss: RSS
+    edit:
+      confirm_send_email_again: Soll die E-Mail wirklich erneut versendet werden?
+      send_as_email: Daten der Meldung als E-Mail versenden
+      send_email_again: Erneuter Versand der E-Mail an Standardzuständigkeit
+      send_email_from_own_client: Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden
     extended_filter:
       all_districts: alle Gemeindeteile
       all_kinds: alle Typen
       all_main_categories: alle Hauptkategorien
       all_sub_categories: alle Unterkategorien
+      creation: Erstellung
+      free_text: Freitext
+      main_category: Hauptkategorie
       my_responsibility: meiner/meinen Gruppe(n) zugewiesen
+      sub_category: Unterkategorie
     external_map:
       coordinates: "Koordinaten: %{x} %{y}"
     foreign_create_success: >-
@@ -447,6 +545,10 @@ de:
       Die Meldung #%{issue_id} wurde erfolgreich bearbeitet. Sie wurde jedoch einer Zuständigkeit zugewiesen,
       für die Sie nicht die notwendige Berechtigung besitzen: %{group}.
     form:
+      rejection:
+        report_to: Meldung an
+      status:
+        prompt_select: Vorlage wählen
       tab:
         abuse_report: Missbrauchsmeldungen
         comment: interne Kommentare
@@ -464,8 +566,11 @@ de:
       abuse_reports:
         one: Achtung, es liegt eine offene Missbrauchsmeldung vor!
         other: Achtung, es liegen %{count} offene Missbrauchsmeldungen vor!
+    job_assignment: 
+      assign_job: Außendienst-Team zuweisen
     responsibility_actions:
       current_responsibility: "aktuelle Zuständigkeit:"
+      resend_responsibility_notice: E-Mail an die Standardzuständigkeit wurde erneut versandt.
       responsibility_action_accept: Zuständigkeit für die Meldung akzeptieren
       responsibility_action_close_as_not_solvable:
         Meldung befindet sich außerhalb des Zuständigkeitsbereichs (als nicht lösbar schließen)
@@ -473,6 +578,8 @@ de:
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
+    set_status:
+      message: "Der Status der Meldung #%{issue_id} wurde erfolgreich geändert!"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
@@ -493,7 +600,26 @@ de:
     grouped_jobs:
       change_date: Ausführungsdatum ändern
       map: Kartenansicht
+      no_issues_found: Keine Aufträge am ausgewählten Tag gefunden.
       sort_jobs: Aufträge nach Erstellung aufsteigend sortieren
+    index: 
+      show: Anzeigen
+      message_not_found: "Meldung #%{issue_id} konnte zu '%{file_name}' nicht gefunden werden."
+  layouts:
+    application:
+      email_templates_preview: E-Mail-Templates / Vorschau
+      tests: Tests
+    confirmation_mailer:
+      message: "Diese URL funktioniert für %{deadline} Stunden und kann einmalig aufgerufen werden. Nach Ablauf dieser Frist wird Ihre Eingabe automatisch hinfällig."
+  logins:
+    change_user:
+      accept: Übernehmen
+    list_items:
+      change_password: Passwort ändern
+      change_user: Nutzerwechsel
+    new:
+      login: Login
+      sign_in: Anmelden
   mail_blacklists:
     index:
       new_mail_blacklist: Neuer Eintrag
@@ -504,12 +630,28 @@ de:
     info: Info
     logout: Logout
   no_result: Die Suche ergab kein Resultat.
+  open_ideas_not_enough_support: offene Ideen ohne ausreichende Unterstützung
+  open_issues: offene Meldungen
   password:
     capital: Großbuchstaben
     lowercase: Kleinbuchstaben
     number: Ziffern
     special_character: Sonderzeichen
   rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
+  responsibility_mailer:
+    default_group_without_gui_access:
+      message: "in %{name} wurde eine Meldung in Ihrem Zuständigkeitsbereich erfasst. Sie können die unten stehenden Links nutzen, um einen neuen Zustand für die Meldenden zu dokumentieren."
+      link_status_changes: 'Links zu Statusänderungen:'
+    issue:
+      message: 'es wurde eine Meldung an Sie zugewiesen. Bitte klicken Sie auf den folgenden Link, um die Zuweisung zu bestätigen:'
+    remind_group:
+      assigned_since: zugewiesen seit
+      category: Kategorie
+      message: "Sehr geehrte(r) Bearbeiter/-in von Meldungen in %{name},\n\nnachfolgende Meldung(en) wurde(n) in Ihre Zuständigkeit übergeben und ist/sind seit mindestens %{days} Tag(en) noch nicht akzeptiert.\n\nBitte prüfen Sie die Sachverhalte, akzeptieren Sie die Zuständigkeit und geben Sie den Bürgerinnen und Bürgern jeweils eine kurze Info zum Bearbeitungsstand mittels der öffentlichen Statusinformation – oder schließen Sie die Meldung(en) ab, falls dies bislang einfach vergessen wurde:"
+      number: Nummer
+      responsibility: Zuständigkeit
+      status: Status
+      type: Typ
   responsibilities:
     index:
       new_responsibility: Neue Zuständigkeit
@@ -529,6 +671,9 @@ de:
         Die Meldung betrifft ein Thema, für das die regionale Verwaltung nicht zuständig ist.
         Sie wurde zu einer übergeordneten Verwaltung weitergeleitet, die noch nicht aktiv an Klarschiff teilnimmt, aber über die Meldung informiert wurde.
         Die Meldungsdetails werden nicht vollständig im Portal angezeigt.
+  salutation_editor: "Sehr geehrte(r) Bearbeiter/-in von Meldungen in %{name},"
+  salutation_universal: Sehr geehrte Damen und Herren,
+  salutation_user: "Sehr geehrte(r) Nutzer/-in von %{name},"
   send_email: als E-Mail versenden
   search: Suchen
   show_map: Kartenansicht
@@ -538,12 +683,62 @@ de:
     abuse_report:
       open: " (offen)"
   statistics: Alle aktiven Meldungen auf einen Blick
+  test_mailer:
+    test:
+      message: Test-Mail
   tests:
     index:
+      archive_closed_issues_job:
+        name: ArchiveClosedIssuesJob
+        description: "Alle Meldungen, die abgeschlossen sind und seit einem bestimmten Zeitraum nicht mehr bearbeitet wurden, werden archiviert.\nAusführung täglich um 00:40 Uhr."
+      calculate_average_turnaround_time_job:
+        name: CalculateAverageTurnaroundTimeJob
+        description: "Berechnet und aktualisiert die durchschnittliche Bearbeitungszeit pro Kategorie.\nAusführung täglich um 2:00 Uhr."
+      connect_to_ldap_server: Stellt die Verbindung zu einem LDAP-Server her, um eine Passwortüberprüfung durchzuführen.
+      delete_authors_after_deadline_job:
+        name: DeleteAuthorsAfterDeadlineJob
+        description: "Entfernt nach einem bestimmten Zeitraum von allen Meldungen und mit verbundenen Objekten den Autor / Absender.\nAusführung täglich um *:52 Uhr."
+      delete_unconfirmed_abuse_reports_job:
+        name: DeleteUnconfirmedAbuseReportsJob
+        description: "Alle Missbrauchsmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:42 Uhr."
       delete_unconfirmed_completions_job:
         name: DeleteUnconfirmedCompletionsJob
         description: "Alle Abschlussmeldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:45 Uhr."
+      delete_unconfirmed_issues_job:
+        name: DeleteUnconfirmedIssuesJob
+        description: "Alle Meldungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:32 Uhr."
+      delete_unconfirmed_photos_job:
+        name: DeleteUnconfirmedPhotosJob
+        description: "Alle Photos, die gesendet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:47 Uhr."
+      delete_unconfirmed_supporters_job:
+        name: DeleteUnconfirmedSupportersJob
+        description: "Alle Unterstützungen, die gemeldet, aber nach einem bestimmten Zeitraum noch nicht bestätigt wurden, werden gelöscht.\nAusführung täglich um *:37 Uhr."
+      email_dispatch: E-Mail-Versand
+      encryption: Encryption
       execute: Ausführen
+      host: Host
+      inform_editorial_staff_on_issues_job:
+        name: InformEditorialStaffOnIssuesJob
+        description: "Die Empfänger redaktioneller E-Mails werden informiert.\nAusführung täglich um 01:40 Uhr."
+      inform_on_delegated_issues_job:
+        name: InformOnDelegatedIssuesJob
+        description: "Externe Nutzer werden mittels E-Mail über die Meldungen informiert, die innerhalb der letzten 24 Stunden an sie delegiert wurden.\nDabei werden immer alle Meldungen berücksichtigt, deren Delegierung innerhalb der letzten 24 Stunden stattfand.\nAusführung täglich um 07:00 Uhr."
+      jobs: Jobs
+      ldap_login: LDAP-Login
+      ldap_login_test: LDAP-Login testen
+      notify_on_closed_issues_job:
+        name: NotifyOnClosedIssuesJob
+        description: "Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden abgeschlossen wurden.\nDabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden abgeschlossen wurden.\nAusführung täglich um 10:10 Uhr."
+      notify_on_issues_in_process_job:
+        name: NotifyOnIssuesInProcessJob
+        description: "Die Ersteller von Meldungen werden darüber informiert, dass ihre Meldungen innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.\nDabei werden immer alle Meldungen berücksichtigt, die innerhalb der letzten 24 Stunden in Bearbeitung genommen wurden.\nAusführung täglich um 10:05 Uhr."
+      password: Passwort
+      port: Port
+      recipient: Empfänger
+      send_email_to_recipient: Sendet eine Test-E-Mail an den angegebenen Empfänger.
+      send_test_email: Test-E-Mail senden
+      server_protocols_connections: "Server: Protokolle und Verbindungen"
+      user_dn: User-DN
   time:
     formats:
       default: "%d.%m.%Y %H:%M:%S"
@@ -551,10 +746,13 @@ de:
       no_seconds: "%d.%m.%Y %H:%M"
       short: "%H:%M"
   to: bis
+  update_password_success: Ihr Passwort wurde erfolgreich geändert.
   users:
     index:
       new_user: Neuer Benutzer
     change_password:
+      accept: Übernehmen
+      requirements: "Das Passwort muss eine Mindestlänge von %{min_length} Zeichen haben und\nfolgende Zeichen beinhalten:\n%{required_characters}"
       title: Neues Passwort festlegen
   view:
     info:

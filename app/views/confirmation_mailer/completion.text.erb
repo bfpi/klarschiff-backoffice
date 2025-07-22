@@ -1,2 +1,2 @@
-um Ihre Abschlussmeldung zu bestätigen, rufen Sie bitte folgende URL auf: <%= @url %>
+<% t '.confirm_final_report', url: @url %>
 <% content_for :deletion_deadline, (JobSettings::Completion.deletion_deadline_days * 24).to_s -%>

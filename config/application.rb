@@ -1,6 +1,6 @@
 require_relative "boot"
 
-require "rails"
+require "rails/all"
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -50,6 +50,10 @@ module KlarschiffBackoffice
     end
 
     config.i18n.default_locale = :de
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')] # rubocop:disable Rails/RootPathnameMethods, Rails/FilePath
+    if defined?(RailsI18n)
+      config.i18n.load_path += Dir["#{Gem.loaded_specs['rails-i18n'].full_gem_path}/rails/locale/*.yml"]
+    end
     config.i18n.available_locales = %i[de en]
 
     config.active_storage.content_types_allowed_inline << 'image/jpg'

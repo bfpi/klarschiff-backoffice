@@ -34,8 +34,6 @@ module Citysdk
 
     NON_PUBLIC = 'intern'
 
-    DELETED = 'geloescht'
-
     def initialize(status)
       @citysdk = CITYSDK.find { |_k, v| v.include?(status) }.try(:first)
       @open311 = OPEN311.find { |k, v| k.eql?(status) || v.include?(status) }.first
