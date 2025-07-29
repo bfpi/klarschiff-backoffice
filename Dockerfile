@@ -2,6 +2,9 @@
 
 FROM ruby:3.2-slim AS base
 
+LABEL org.opencontainers.image.source="https://github.com/bfpi/klarschiff-backoffice"
+LABEL org.opencontainers.image.authors="BFPI GmbH"
+
 ARG RAILS_ENV=production
 
 WORKDIR /rails
