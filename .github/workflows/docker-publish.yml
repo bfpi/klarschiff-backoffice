@@ -25,10 +25,18 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
 
       - name: Build image with Docker Compose
-        run: docker compose build
+        run: docker compose build backoffice
 
-      - name: Push image with Docker Compose
-        run: docker compose push
+      - name: Push image with tags
+        run: |
+          IMAGE=$(docker compose config --format json | jq -r '.services.backoffice.image') 
+          docker push "$IMAGE"
+
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            TAG="${IMAGE%:*}:${GITHUB_REF#refs/tags/}"
+            docker tag "$IMAGE" "$TAG"
+            docker push "$TAG"
+          fi
 
       - name: Docker logout
         if: always()
