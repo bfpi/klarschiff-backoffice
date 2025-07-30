@@ -22,7 +22,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to GHCR with GitHub Actions token
-        run: echo "${{ secrets.DOCKER_LOGIN_TOKEN }}" | docker login ghcr.io -u "${{ secrets.DOCKER_LOGIN_USER }}" --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
 
       - name: Build image with Docker Compose
         run: docker compose build
