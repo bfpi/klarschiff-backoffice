@@ -19,9 +19,17 @@ module Citysdk
     alias_attribute :service_request_id, :id
     alias_attribute :status_notes, :status_note
 
-    def self.authorized(tips:)
-      return all if tips
-      includes(category: :main_category).where.not main_category: { kind: :tip }
+    class << self
+      def authorized(tips:)
+        return active if tips
+        active.includes(category: :main_category).where.not main_category: { kind: :tip }
+      end
+
+      private
+
+      def active
+        where category_id: Service.active
+      end
     end
 
     def assign_attributes(attributes)
