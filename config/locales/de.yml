@@ -442,6 +442,8 @@ de:
   help_page:
     title: Hilfeseite
   helpers:
+    issue_helper:
+      transaction: Vorgang
     label:
       login:
         login: Benutzername oder E-Mail-Adresse
