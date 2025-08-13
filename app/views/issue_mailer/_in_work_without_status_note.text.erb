@@ -3,7 +3,8 @@
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t 'issue_mailer.in_work_without_status_note.unchanged_since' %>
 ******<%= "\t" %>*************<%= "\t" -%>
-<%= '*' * t('attributes.kind').length %><%= "\t" %><%= '*' * t('issue_mailer.in_work_without_status_note.unchanged_since').length %>
+<%= '*' * t('attributes.kind').length %><%= "\t" -%>
+<%= '*' * t('issue_mailer.in_work_without_status_note.unchanged_since').length %>
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
      l(issue.status_since, format: :elaborate)].join("\t") %>

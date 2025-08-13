@@ -4,7 +4,8 @@
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t 'attributes.status' %><%= "\t" -%>
 <%= t '.description_status' %><%= "\t" %><%= t '.photo_approval_status' %>
-******<%= "\t" %>*************<%= "\t" %><%= '*' * t('attributes.kind').length %><%= "\t" %><%= '*' * t('attributes.status').length %><%= "\t" -%>
+******<%= "\t" %>*************<%= "\t" %><%= '*' * t('attributes.kind').length %><%= "\t" -%>
+<%= '*' * t('attributes.status').length %><%= "\t" -%>
 <%= '*' * t('.description_status').length %><%= "\t" %><%= '*' * t('.photo_approval_status').length %>
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),

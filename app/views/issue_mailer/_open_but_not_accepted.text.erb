@@ -2,7 +2,8 @@
 
 <%= Issue.human_attribute_name(:id) %><%= "\t" %><%= Issue.human_attribute_name(:group) -%>
 <%= "\t" %><%= t 'attributes.kind' %><%= "\t" %><%= t '.assigned_since' %>
-******<%= "\t" %>*************<%= "\t" %><%= '*' * t('attributes.kind').length %><%= "\t" %><%= '*' * t('.assigned_since').length %>
+******<%= "\t" %>*************<%= "\t" %><%= '*' * t('attributes.kind').length %><%= "\t" -%>
+<%= '*' * t('.assigned_since').length %>
 <% issues.each do |issue| -%>
 <%= [issue.id, issue.group, MainCategory.human_enum_name(:kind, issue.kind),
      (issue.responsibility_since ? l(issue.responsibility_since, format: :elaborate) : '')].join("\t") %>
