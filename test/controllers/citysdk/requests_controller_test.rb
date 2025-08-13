@@ -70,6 +70,13 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_predicate extended_attributes, :blank?
   end
 
+  test 'index with valid api-key never returns requests for deleted services' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}"
+    assert_not_empty(list = response.parsed_body)
+    assert_not_empty(service_codes = list.pluck('service_code'))
+    assert_not_includes service_codes, category(:deleted_at).id
+  end
+
   test 'index with extensions and area_code for authorities with api-key frontend' do
     with_parent_instance_settings do
       get "/citysdk/requests.xml?extensions=true&area_code=#{authority(:one).id}&api_key=#{api_key_frontend}"

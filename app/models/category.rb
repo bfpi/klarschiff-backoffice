@@ -16,7 +16,7 @@ class Category < ApplicationRecord
   delegate :dms_link, :name, to: :sub_category, prefix: true
 
   def self.active
-    where(deleted_at: nil).eager_load(:main_category, :sub_category).where main_category: { deleted: false },
+    eager_load(:main_category, :sub_category).where deleted_at: nil, main_category: { deleted: false },
       sub_category: { deleted: false }
   end
 
