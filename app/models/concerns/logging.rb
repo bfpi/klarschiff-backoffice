@@ -114,7 +114,7 @@ module Logging
     when :create then  'angelegt'
     when :added then   'hinzugefügt'
     when :removed then 'entfernt'
-    else raise "Unbekannter action_key #{key}"
+    else raise "Unknown action_key #{key}"
     end
   end
 
