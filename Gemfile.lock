@@ -264,7 +264,7 @@ GEM
       date
       stringio
     public_suffix (6.0.1)
-    puma (6.6.1)
+    puma (7.0.4)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.16)
@@ -450,7 +450,7 @@ DEPENDENCIES
   pdfkit
   pg (~> 1.2)
   pronto-rubocop
-  puma (~> 6.0)
+  puma (~> 7.0)
   rails (~> 7.2.1)
   rails-i18n
   rubocop-capybara
