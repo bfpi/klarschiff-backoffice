@@ -96,7 +96,7 @@ class User < ApplicationRecord
     }
   end
 
-  def role_permissions
+  def role_permissions # rubocop:disable Naming/PredicateMethod
     return true unless Current.user && !Current.user.auth_code
     if self.class.roles[role] < Current.user.read_attribute_before_type_cast(:role)
       errors.add :role, :invalid_permissions

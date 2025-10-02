@@ -2,6 +2,7 @@
 
 class TestsController < ApplicationController
   include Filter
+
   before_action { check_auth :test }
 
   PERMITTED_JOBS = %w[

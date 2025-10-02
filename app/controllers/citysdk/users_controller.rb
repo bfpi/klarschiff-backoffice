@@ -3,6 +3,7 @@
 module Citysdk
   class UsersController < CitysdkController
     include UserLogin
+
     before_action :check_credentials, only: :create
 
     # :apidoc: ### Get users

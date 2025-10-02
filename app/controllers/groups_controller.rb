@@ -3,6 +3,7 @@
 class GroupsController < ApplicationController
   include Filter
   include Sorting
+
   before_action { check_auth :manage_groups }
 
   def index
