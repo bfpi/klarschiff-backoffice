@@ -18,7 +18,7 @@ module Citysdk
 
     def description; end
 
-    def metadata
+    def metadata # rubocop:disable Naming/PredicateMethod
       false
     end
 
