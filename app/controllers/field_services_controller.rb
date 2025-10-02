@@ -3,6 +3,7 @@
 class FieldServicesController < ApplicationController
   include Filter
   include Sorting
+
   before_action { check_auth :manage_field_service }
 
   def index

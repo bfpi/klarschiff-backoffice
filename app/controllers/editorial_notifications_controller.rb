@@ -2,6 +2,7 @@
 
 class EditorialNotificationsController < ApplicationController
   include Sorting
+
   before_action { check_auth :manage_editorial_notifications }
 
   def index
