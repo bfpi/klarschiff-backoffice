@@ -170,3 +170,7 @@ reference_default: &REFERENCE_DEFAULT
 
 reference_default_county:
   <<: *REFERENCE_DEFAULT
+
+deleted_category:
+  <<: *DEFAULTS
+  category: deleted_at
