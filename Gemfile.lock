@@ -246,7 +246,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pdfkit (0.8.7.3)
-    pg (1.6.1-x86_64-linux)
+    pg (1.6.2-x86_64-linux)
     popper_js (2.11.8)
     prism (1.5.1)
     pronto (0.11.3)
