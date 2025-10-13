@@ -77,6 +77,10 @@
                         <%= link_to Responsibility.model_name.human(count: 2), responsibilities_path,
                               class: 'dropdown-item' %>
                       <% end -%>
+                      <% if authorized?(:manage_categories) -%>
+                        <%= link_to Category.model_name.human(count: 2), categories_path,
+                              class: 'dropdown-item' %>
+                      <% end -%>
                       <% if authorized?(:manage_mail_blacklist) -%>
                         <%= link_to MailBlacklist.model_name.human(count: 2), mail_blacklists_path,
                               class: 'dropdown-item' %>

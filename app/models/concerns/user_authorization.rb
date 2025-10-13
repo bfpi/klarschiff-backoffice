@@ -14,6 +14,7 @@ module UserAuthorization
     when :change_password then ldap.blank?
     when :delegations, :issues, :jobs then index_permitted?(action)
     when :create_issue, :edit_delegation, :edit_issue, :change_issue_status then edit_permitted?(action, object)
+    when :manage_categories then manage_categories?
     when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
@@ -87,6 +88,10 @@ module UserAuthorization
 
   def auth_code_gui_access?
     Settings::Instance.auth_code_gui_access_for_external_participants
+  end
+
+  def manage_categories?
+    Settings::Instance.manage_categories && role_admin?
   end
 
   STATIC_PERMISSIONS = {
