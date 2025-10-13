@@ -3,7 +3,6 @@
 require 'test_helper'
 
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
-
   %i[admin regional_admin editor].each do |role|
     test "not authorized index for #{role} without manage categories" do
       with_manage_categories_settings(manage_categories: false) do
