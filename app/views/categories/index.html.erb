@@ -28,7 +28,8 @@
                   method: :delete, class: 'btn btn-sm btn-outline-danger',
                   data: { confirm: t('categories.index.confirm_delete') } %>
           <% else %>
-            <%= link_to tag.i('', class: 'fa fa-repeat'), reactivate_category_path(category, permitted_order_and_pagination_params),
+            <%= link_to tag.i('', class: 'fa fa-repeat'), reactivate_category_path(category,
+                  permitted_order_and_pagination_params),
                   class: 'btn btn-sm btn-outline-primary' %>
           <% end -%>
         </td>
