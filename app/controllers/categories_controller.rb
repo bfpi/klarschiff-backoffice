@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   include Filter
   include Sorting
 
-  before_action { check_auth :manage_categories }
+  before_action { check_auth :categories }
 
   helper_method :permitted_order_and_pagination_params
 
