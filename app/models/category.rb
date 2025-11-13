@@ -31,6 +31,10 @@ class Category < ApplicationRecord
     ).order(group_order).first
   end
 
+  def active?
+    deleted_at.blank?
+  end
+
   private
 
   def group_type_arel_table

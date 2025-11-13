@@ -12,7 +12,7 @@ module UserAuthorization
     case action
     when :administration then administration_permitted?
     when :change_password then ldap.blank?
-    when :delegations, :issues, :jobs then index_permitted?(action)
+    when :delegations, :issues, :jobs, :categories then index_permitted?(action)
     when :create_issue, :edit_delegation, :edit_issue, :change_issue_status then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)
     else
@@ -30,6 +30,7 @@ module UserAuthorization
     when :delegations then delegations_permitted?
     when :issues then issues_permitted?
     when :jobs then field_service_teams.any?
+    when :categories then categories_permitted?
     end
   end
 
@@ -49,6 +50,10 @@ module UserAuthorization
   def issues_permitted?
     static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) ||
       auth_code_gui_access? && auth_code&.group&.kind_internal?
+  end
+
+  def categories_permitted?
+    Settings::Instance.manage_categories && role_admin?
   end
 
   def change_issue_status_permitted?(issue)
