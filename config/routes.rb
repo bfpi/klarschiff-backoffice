@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   end
   resources :abuse_reports, only: %i[create update]
   resources :categories, only: %i[index destroy] do
+    member do
+      get :reactivate
+    end
     resources :responsibilities, only: :new
   end
   resources :completions, only: :update
@@ -84,7 +87,6 @@ Rails.application.routes.draw do
       post 'votes/:service_request_id' => 'votes#create', as: :votes
     end
   end
-  get 'categories/:id/reactivate' => 'categories#reactivate', as: :reactivate_category
   get 'issues/:auth_code/set_status', to: 'issues#set_status', as: :set_issue_status
   get 'issues_rss/:user_uuid' => 'issues_rss#index', as: :issues_rss
   get 'logout', to: 'logins#destroy', as: :logout
