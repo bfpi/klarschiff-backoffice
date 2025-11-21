@@ -35,7 +35,10 @@ Rails.application.routes.draw do
     resources :tests, only: %i[index create]
   end
   resources :abuse_reports, only: %i[create update]
-  resources :categories, only: [] do
+  resources :categories, only: %i[index destroy] do
+    member do
+      get :reactivate
+    end
     resources :responsibilities, only: :new
   end
   resources :completions, only: :update

@@ -272,6 +272,9 @@ de:
     user: Benutzer
   back: Zurück
   city_view: Karte
+  categories:
+    index:
+      confirm_delete: Möchten Sie diese Kategorie wirklich deaktivieren?
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
