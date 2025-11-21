@@ -32,7 +32,7 @@ class CategoriesController < ApplicationController
   end
 
   def permitted_order_and_pagination_params
-    params.permit :page, order_by: %i[column dir]
+    params.permit :page, filter: %i[include_inactive text], order_by: %i[column dir]
   end
 
   def default_order
