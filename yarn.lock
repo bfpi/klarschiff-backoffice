@@ -3001,14 +3001,12 @@ __metadata:
   linkType: hard
 
 "proj4@npm:^2.15.0":
-  version: 2.19.3
-  resolution: "proj4@npm:2.19.3"
+  version: 2.20.2
+  resolution: "proj4@npm:2.20.2"
   dependencies:
     mgrs: "npm:1.0.0"
     wkt-parser: "npm:^1.5.1"
-  peerDependencies:
-    geotiff: "*"
-  checksum: 10c0/23ea2d85fd607e98e1cf453b4e4e51c6e6f2af8649b1e7ed38c4ca25ba78560d68cb1007c2d03b0159adf5ee68ef7197bbac64c3156f6804a9a78a9c9a51fab4
+  checksum: 10c0/7b65fcb12a896a110779f6a0e28e947c4c208ccb4a2e381052f1b7c8bad5306d4315a1dac7b4d6316687a48cfbce63d6ff6017c9946c5ef12f440cbf67d8f0e5
   languageName: node
   linkType: hard
 
