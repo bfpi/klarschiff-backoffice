@@ -51,3 +51,5 @@ overlay/*
 tags
 *.pgc
 *.swp
+
+overlay
