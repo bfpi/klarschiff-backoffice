@@ -77,8 +77,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_predicate issue, :responsibility_accepted
     group = group(:internal2)
     expression = -> { LogEntry.where(issue_id: issue.id, attr: 'group', new_value_id: group.id).count }
+    expression2 = -> { IssueResponsibility.where(issue_id: issue.id).count }
     assert_difference expression, 1 do
-      patch "/issues/#{issue.id}.js", params: { issue: { group_id: group.id, responsibility_action: :manual } }
+      assert_difference expression2, 1 do
+        patch "/issues/#{issue.id}.js", params: { issue: { group_id: group.id, responsibility_action: :manual } }
+      end
     end
     assert_response :success
     assert_equal group, issue.reload.group
@@ -88,8 +91,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
   test 'no changes on manual responsibility change to same group' do
     login username: :admin
     issue = issue(:received_not_accepted_two)
+    expression = -> { IssueResponsibility.where(issue_id: issue.id).count }
     assert_no_difference 'LogEntry.count' do
-      patch "/issues/#{issue.id}.js", params: { issue: { group_id: issue.group_id, responsibility_action: :manual } }
+      assert_no_difference expression do
+        patch "/issues/#{issue.id}.js", params: { issue: { group_id: issue.group_id, responsibility_action: :manual } }
+      end
     end
     assert_response :success
     assert_equal issue.group_id, issue.reload.group_id
@@ -102,8 +108,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     assert_equal group(:internal2), issue.group
     expected_target_group_id = group(:one).id
     expression = -> { LogEntry.where(issue_id: issue.id, attr: 'group', new_value_id: expected_target_group_id).count }
+    expression2 = -> { IssueResponsibility.where(issue_id: issue.id).count }
     assert_difference expression, 1 do
-      patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :recalculate } }
+      assert_difference expression2, 1 do
+        patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :recalculate } }
+      end
     end
     assert_response :success
     assert_equal expected_target_group_id, issue.reload.group_id
@@ -112,8 +121,11 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
   test 'unknown responsibility_action' do
     login username: :admin
     issue = issue(:received)
+    expression = -> { IssueResponsibility.where(issue_id: issue.id).count }
     assert_no_difference -> { LogEntry.where(issue_id: issue.id).count } do
-      patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :test } }
+      assert_no_difference expression do
+        patch "/issues/#{issue.id}.js", params: { issue: { responsibility_action: :test } }
+      end
     end
     assert_response :success
   end
