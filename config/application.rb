@@ -62,8 +62,10 @@ module KlarschiffBackoffice
         YAML.load file, aliases: true
       end.with_indifferent_access[Rails.env]
 
-      relative_url_root = settings.dig(:instance, :relative_url_root)
-      config.relative_url_root = relative_url_root if relative_url_root.present?
+      if settings
+        relative_url_root = settings.dig(:instance, :relative_url_root)
+        config.relative_url_root = relative_url_root if relative_url_root.present?
+      end
     end
   end
 end
