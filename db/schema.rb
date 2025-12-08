@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_14_074534) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_08_101212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -246,6 +246,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_074534) do
     t.index ["updated_by_user_id"], name: "index_issue_on_updated_by_user_id"
   end
 
+  create_table "issue_responsibility", force: :cascade do |t|
+    t.bigint "issue_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_issue_responsibility_on_group_id"
+    t.index ["issue_id"], name: "index_issue_responsibility_on_issue_id"
+  end
+
   create_table "job", force: :cascade do |t|
     t.bigint "group_id", null: false
     t.integer "status"
@@ -379,6 +388,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_074534) do
   add_foreign_key "issue", "group"
   add_foreign_key "issue", "group", column: "delegation_id"
   add_foreign_key "issue", "user", column: "updated_by_user_id"
+  add_foreign_key "issue_responsibility", "group"
+  add_foreign_key "issue_responsibility", "issue"
   add_foreign_key "job", "group"
   add_foreign_key "log_entry", "auth_code"
   add_foreign_key "log_entry", "user"

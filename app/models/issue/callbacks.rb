@@ -22,6 +22,7 @@ class Issue
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
+      after_commit :create_issue_responsibility, if: -> { group_id.present? && saved_change_to_group_id? }
       after_commit :notify_group,
         if: lambda {
               (saved_change_to_status? && status_received? && group_id.present?) ||
@@ -99,6 +100,10 @@ class Issue
       else
         { to: users.map(&:email) }
       end
+    end
+
+    def create_issue_responsibility
+      issue_responsibilities.create group_id: group_id
     end
 
     def clear_group_responsibility_notified_at
