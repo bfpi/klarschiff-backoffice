@@ -304,6 +304,8 @@ de:
     issue:
       high_priority: hohe Priorität
       trust: vertrauenswürdig
+      comments: interner Kommentar
+      abuse_report: Lob/Hinweis/Kritik
   date:
     formats:
       short: "%d.%m.%y"
