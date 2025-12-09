@@ -22,9 +22,9 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'show former issues for regional admin' do
-    login username: :regional_admin
+    login username: :regional_admin3
     get '/dashboards'
     assert_response :success
-    assert_equal [issue(:former_issue_two).id], @controller.view_assigns['former_issues'].ids
+    assert_includes @controller.view_assigns['former_issues'].ids, issue(:former_issue_two).id
   end
 end

@@ -31,6 +31,15 @@ class IssuesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  %i[admin regional_admin editor].each do |role|
+    test "authorized edit for #{role}" do
+      login username: role
+      issue = issue(:received)
+      get "/issues/#{issue.id}/edit"
+      assert_response :success
+    end
+  end
+
   test 'accept responsibility' do
     login username: :admin
     issue = issue(:received_not_accepted)

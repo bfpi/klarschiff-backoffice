@@ -35,25 +35,12 @@ class DashboardsController
 
     def former_issues(groups)
       return [] if groups.blank?
-      Issue.not_archived.includes(category: :main_category).where(changed_responsibilities(groups.ids)).limit 10
+      Issue.not_archived.joins(:issue_responsibilities).includes(category: :main_category)
+        .where(changed_responsibilities(groups.ids)).limit 10
     end
 
-    def changed_responsibilities(group_ids) # rubocop:disable Metrics/MethodLength
-      ids = group_ids.join(', ')
-      Arel.sql(<<~SQL.squish)
-        #{Issue.quoted_table_name}."id" IN (SELECT DISTINCT "le"."issue_id" FROM #{LogEntry.quoted_table_name} "le"
-          INNER JOIN (
-            SELECT "issue_id", "created_at" FROM #{LogEntry.quoted_table_name}
-              WHERE "attr" = 'responsibility_accepted' AND LOWER("new_value") = '#{I18n.t(true).downcase}'
-          ) "le2" ON "le"."issue_id" = "le2"."issue_id" AND "le2"."created_at" >= "le"."created_at" AND (
-            SELECT COUNT("id") FROM #{LogEntry.quoted_table_name} "le3"
-             WHERE "le3"."issue_id" = "le"."issue_id" AND "le3"."attr" = 'group'
-             AND "le3"."created_at" > "le"."created_at" AND "le3"."created_at" <= "le2"."created_at"
-          ) = 0
-          WHERE "attr" = 'group' AND "new_value_id" IN (#{ids})
-            AND "le"."issue_id" IS NOT NULL AND "le"."issue_id" NOT IN (
-              SELECT "id" FROM #{Issue.quoted_table_name} WHERE "group_id" IN (#{ids})))
-      SQL
+    def changed_responsibilities(group_ids)
+      Issue.arel_table[:group_id].not_in(group_ids).and(IssueResponsibility.authorized(group_ids))
     end
 
     def in_process_not_accepted

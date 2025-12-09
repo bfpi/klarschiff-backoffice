@@ -21,6 +21,12 @@ class Issue
           .authorized_by_user_districts
       end
 
+      def authorized_responsibility(user = Current.user)
+        authorized_group_ids = authorized_group_ids(user)
+        left_outer_joins(:issue_responsibilities)
+          .where(IssueResponsibility.authorized(authorized_group_ids)).or(authorized(user))
+      end
+
       def by_kind(kind)
         includes(category: :main_category).where(main_category: { kind: })
       end
