@@ -53,12 +53,17 @@ editor3:
 regional_admin:
   <<: *DEFAULTS
   role: 1
-  groups: internal2
+  groups: internal
 
 regional_admin2:
   <<: *DEFAULTS
   role: 1
   groups: one
+
+regional_admin3:
+  <<: *DEFAULTS
+  role: 1
+  groups: internal2
 
 abc01:
   <<: *DEFAULTS

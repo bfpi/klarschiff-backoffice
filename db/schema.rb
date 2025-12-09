@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_08_101212) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_08_095609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -249,6 +249,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_08_101212) do
   create_table "issue_responsibility", force: :cascade do |t|
     t.bigint "issue_id", null: false
     t.bigint "group_id", null: false
+    t.boolean "accepted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_issue_responsibility_on_group_id"
