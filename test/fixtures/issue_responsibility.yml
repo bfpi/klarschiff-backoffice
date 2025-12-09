@@ -1,0 +1,32 @@
+
+one:
+  issue: former_issue_one
+  group: two
+
+two:
+  issue: former_issue_one
+  group: internal
+  accepted: true
+
+three:
+  issue: former_issue_one
+  group: internal2
+  accepted: true
+
+four:
+  issue: former_issue_one
+  group: internal2
+
+five:
+  issue: former_issue_two
+  group: internal2
+  accepted: true
+
+received:
+  issue: received
+  group: internal
+
+received_not_accepted:
+  issue: received_not_accepted
+  group: internal
+  accepted: false

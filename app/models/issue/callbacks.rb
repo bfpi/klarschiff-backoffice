@@ -19,6 +19,7 @@ class Issue
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
+      before_save :set_responsibility_accepted, if: -> { responsibility_accepted_changed? }
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
@@ -108,6 +109,10 @@ class Issue
 
     def clear_group_responsibility_notified_at
       self.group_responsibility_notified_at = nil
+    end
+
+    def set_responsibility_accepted
+      self.issue_responsibilities.last.update accepted: self.responsibility_accepted
     end
 
     def notify_default_group_without_gui_access
