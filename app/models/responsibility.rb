@@ -46,6 +46,7 @@ class Responsibility < ApplicationRecord
   end
 
   def authorized_group
+    return if Current.user.role_admin?
     errors.add(:group, :authorized) unless Current.user.groups.include?(group)
   end
 
