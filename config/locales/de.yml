@@ -302,10 +302,10 @@ de:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
     issue:
+      abuse_report: Lob/Hinweis/Kritik
+      comments: interner Kommentar
       high_priority: hohe Priorität
       trust: vertrauenswürdig
-      comments: interner Kommentar
-      abuse_report: Lob/Hinweis/Kritik
   date:
     formats:
       short: "%d.%m.%y"
@@ -479,6 +479,8 @@ de:
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
+    result_list:
+      forwarded_to_group: an die eigene Zuständigkeit weitergeleitet
     tab_photo:
       edit: Foto bearbeiten
       redo: vor

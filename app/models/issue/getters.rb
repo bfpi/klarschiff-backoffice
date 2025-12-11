@@ -37,6 +37,10 @@ class Issue
       def last_editor
         updated_by_user || updated_by_auth_code
       end
+
+      def forwarded_to_group?
+        Current.user.groups.include?(group) && issue_responsibilities.first.group != group
+      end
     end
   end
 end
