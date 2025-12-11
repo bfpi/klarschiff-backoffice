@@ -45,6 +45,10 @@
           <td><%= issue.address %></td>
           <td><%= issue.supporters.count %></td>
           <td>
+            <% if issue.forwarded_to_group? -%>
+              <span class="fa fa-share-square-o" title="<%= t('.forwarded_to_group') %>">
+              </span>
+            <% end -%>
             <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group.name}" %>"><%= issue.group %></span>
             <% if issue.responsibility_accepted -%>
               <i class="fa fa-check-square-o text-success"
