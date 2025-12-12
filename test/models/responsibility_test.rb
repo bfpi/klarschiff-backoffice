@@ -27,7 +27,7 @@ class ResponsibilityTest < ActiveSupport::TestCase
   test 'validate foreign group for admin' do
     Current.user = user(:admin)
     resp = Responsibility.new(category: category(:three), group: group(:internal4))
-    assert resp.valid?
+    assert_predicate resp, :valid?
   end
 
   test 'validate foreign group for regional_admin' do
@@ -40,6 +40,6 @@ class ResponsibilityTest < ActiveSupport::TestCase
   test 'validate valid group for regional_admin' do
     Current.user = user(:regional_admin)
     resp = Responsibility.new(category: category(:three), group: group(:internal2))
-    assert resp.valid?
+    assert_predicate resp, :valid?
   end
 end
