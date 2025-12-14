@@ -21,6 +21,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service')
     assert_predicate services.count, :positive?
+    p services
     document_url = doc.xpath('/services/service/document_url')
     assert_empty document_url
   end
@@ -59,6 +60,16 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     document_url = doc.xpath('/service_definition/service/document_url')
     assert_not_empty document_url
+  end
+
+  # TODO: loop over all api keys and filter different results
+  test 'index with lat and lon filter api-key frontend' do
+    get '/citysdk/services.xml', params: { api_key: api_key_frontend, lat: 53.9784103, long: 11.8705908 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service')
+    assert_predicate services.count, :positive?
+    p services.count
+    p services
   end
 
   [:api_key_ppc, :api_key_frontend, nil].each do |api_key_name|
