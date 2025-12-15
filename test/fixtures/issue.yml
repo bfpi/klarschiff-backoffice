@@ -130,6 +130,13 @@ unconfirmed:
   status: pending
   updated_by_user:
 
+unconfirmed_with_auth_code:
+  <<: *DEFAULTS
+  confirmation_hash: 0ead5dd3-8f64-4f84-b175-963eaa99d92b
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  status: pending
+  updated_by_user:
+
 in_process:
   <<: *DEFAULTS
   status: in_process
