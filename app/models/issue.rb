@@ -37,7 +37,7 @@ class Issue < ApplicationRecord
   belongs_to :updated_by_user, optional: true, class_name: 'User'
 
   with_options dependent: :destroy do
-    has_many :auth_code
+    has_many :auth_codes
     has_many :abuse_reports
     has_many :all_log_entries, -> { includes(:auth_code, :user) }, class_name: 'LogEntry', inverse_of: :issue
     has_many :comments
