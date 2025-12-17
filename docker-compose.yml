@@ -1,0 +1,68 @@
+services:
+  cache:
+    image: valkey/valkey:alpine
+    container_name: klarschiff-cache
+    restart: always
+
+  database:
+    image: postgis/postgis:12-3.5-alpine
+    container_name: klarschiff-database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: --locale=de_DE.UTF-8
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db:/db
+
+  backoffice:
+    container_name: klarschiff-backoffice
+    image: ghcr.io/bfpi/klarschiff/backoffice:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+      RAILS_ENV: ${RAILS_ENV:-production}
+      RAILS_RELATIVE_URL_ROOT: ${RAILS_RELATIVE_URL_ROOT:-/}
+      RAILS_SERVE_STATIC_FILES: true
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
+      TZ: Europe/Berlin
+    ports:
+      - 3001:3000
+    restart: always
+    volumes:
+      - ./log:/rails/log
+      - ./overlay:/rails/overlay
+      - ./storage:/rails/storage
+
+  backoffice_jobs:
+    container_name: klarschiff-backoffice-jobs
+    image: ghcr.io/bfpi/klarschiff/backoffice:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    command: bundle exec sidekiq
+    environment:
+      CACHE_URL: redis://cache:6379
+      DB_HOST: database
+      RAILS_ENV: ${RAILS_ENV:-production}
+      RAILS_RELATIVE_URL_ROOT: ${RAILS_RELATIVE_URL_ROOT:-/}
+      RAILS_SERVE_STATIC_FILES: true
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
+      TZ: Europe/Berlin
+    restart: always
+    volumes:
+      - ./log:/rails/log
+      - ./overlay:/rails/overlay
+      - ./storage:/rails/storage
+
+networks:
+  default:
+    name: klarschiff
