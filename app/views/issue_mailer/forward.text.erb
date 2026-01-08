@@ -34,6 +34,10 @@ Delegation: <%= @issue_email.issue.delegation.name %>
 <% end -%>
 <%= Issue.human_attribute_name(:updated_at) %>: <%= l(@issue_email.issue.updated_at, format: :elaborate) %>
 
+<% if Settings::Instance.show_coordinates && @issue_email.send_coordinates? -%>
+Koordinaten: <%= @issue_email.issue.position&.y %>, <%= @issue_email.issue.position&.x %>
+
+<% end -%>
 <% if @issue_email.send_map? -%>
 Karte
 ***

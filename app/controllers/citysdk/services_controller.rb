@@ -66,7 +66,9 @@ module Citysdk
     private
 
     def sorted
-      Service.active.order(main_category_arel_table[:name], sub_category_arel_table[:name])
+      Service.active.order(main_category_arel_table[:name], sub_category_arel_table[:name]).sort_by do |x|
+        x.to_s.downcase.include?('sonstiges') ? 1 : 0
+      end
     end
   end
 end

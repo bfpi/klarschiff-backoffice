@@ -14,6 +14,7 @@ de:
       issue_email:
         from: Absender
         from_email: Absenderadresse
+        send_coordinates: Koordinaten
         send_map: Karte
         send_photos: Foto
         send_comments: interne Kommentare
@@ -482,6 +483,8 @@ de:
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
     result_list:
       forwarded_to_group: an die eigene Zuständigkeit weitergeleitet
+    tab_map:
+      coordinates: "Koordinaten:"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
