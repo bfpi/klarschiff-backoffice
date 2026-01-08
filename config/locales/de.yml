@@ -13,6 +13,7 @@ de:
       issue_email:
         from: Absender
         from_email: Absenderadresse
+        send_coordinates: Koordinaten
         send_map: Karte
         send_photos: Foto
         send_comments: interne Kommentare
@@ -477,6 +478,8 @@ de:
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
+    tab_map:
+      coordinates: "Koordinaten:"
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
