@@ -15,6 +15,7 @@ module Citysdk
       # :apidoc: | Name | Required | Type | Notes |
       # :apidoc: |:--|:-:|:--|:--|
       # :apidoc: | api_key | - | String | API key |
+      # :apidoc: | map | - | Boolean | Only loads minimal data for the map |
       # :apidoc: | service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
       # :apidoc: | service_code | - | Integer | ID of category |
       # :apidoc: | status | - | String | Filter issues by Open311 status, default = `open` |
@@ -68,6 +69,7 @@ module Citysdk
         return index_just_counts if params[:just_count].present?
 
         citysdk_response filtered_requests, root: :service_requests, element_name: :request,
+          map: params[:map].try(:to_boolean),
           extensions: params[:extensions].try(:to_boolean),
           property_details: authorized?(:request_property_details),
           job_details: authorized?(:request_job_details)

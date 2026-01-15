@@ -536,6 +536,23 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'index map data without api-key' do
+    request = issue(:one)
+    get '/citysdk/requests.xml?map=true'
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_equal request.id, doc.xpath('/service_requests/request/service_request_id/text()').first.to_s.to_i
+    assert_empty doc.xpath('/service_requests/request/description/text()')
+  end
+
+  test 'index all data without api-key' do
+    request = issue(:one)
+    get '/citysdk/requests.xml'
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_equal request.id, doc.xpath('/service_requests/request/service_request_id/text()').first.to_s.to_i
+    assert_not_empty doc.xpath('/service_requests/request/description/text()')
+    assert_equal request.description, doc.xpath('/service_requests/request/description/text()').first.to_s
+  end
+
   private
 
   def valid_create_params

@@ -46,6 +46,7 @@ module Citysdk
     end
 
     def extended_attributes
+      return extended_map_attributes if @map_attributes
       ea = { detailed_status:, detailed_status_datetime:, description_public:, expected_closure:, votes:,
              priority: priority_before_type_cast, media_urls:, photo_required:, trust: trust_level_before_type_cast }
       ea[:property_owner] = property_owner if @property_attributes
@@ -53,17 +54,30 @@ module Citysdk
       ea
     end
 
+    def extended_map_attributes
+      { detailed_status:, photo_required:, trust: trust_level_before_type_cast }
+    end
+
+    def map_attributes
+      ret = %i[service_code lat long]
+      ret << :extended_attributes
+      ret
+    end
+
+    def request_details
+      %i[status_notes status service_code service_name description agency_responsible service_notice
+         requested_datetime updated_datetime expected_datetime address adress_id lat long media_url zipcode]
+    end
+
     def serializable_methods(options)
+      return map_attributes if (@map_attributes = options[:map])
       @property_attributes = options[:property_details]
       @job_detail_attributes = options[:job_details]
 
       ret = []
       ret << :extended_attributes if options[:extensions]
       ret << :create_message if options[:status] == 201
-      unless options[:show_only_id]
-        ret |= %i[status_notes status service_code service_name description agency_responsible service_notice
-                  requested_datetime updated_datetime expected_datetime address adress_id lat long media_url zipcode]
-      end
+      ret |= request_details unless options[:show_only_id]
       ret
     end
   end
