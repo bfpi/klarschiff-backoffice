@@ -13,8 +13,7 @@ module UserAuthorization
     when :administration then administration_permitted?
     when :change_password then ldap.blank?
     when :delegations, :issues, :jobs, :categories then index_permitted?(action)
-    when :create_issue, :edit_delegation, :edit_issue, :change_issue_status, :show_issue then edit_permitted?(action,
-      object)
+    when *edit_permitted_actions then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
@@ -33,6 +32,10 @@ module UserAuthorization
     when :jobs then field_service_teams.any?
     when :categories then categories_permitted?
     end
+  end
+
+  def edit_permitted_actions
+    %i[create_issue edit_delegation edit_issue change_issue_status show_issue]
   end
 
   def edit_permitted?(action, object)

@@ -27,7 +27,7 @@ class CreateIssueResponsibility < ActiveRecord::Migration[7.2]
       i.log_entries.where(LogEntry.arel_table[:attr].eq('responsibility_accepted')).order(:created_at).to_a.each do |l|
         if l.new_value.downcase == I18n.t(true).downcase
           res = i.issue_responsibilities.where(IssueResponsibility.arel_table[:created_at].lteq(l.created_at)).last
-          res.update(accepted: true) if res
+          res&.update(accepted: true)
         end
       end
     end
