@@ -1,32 +1,119 @@
+DEFAULTS: &DEFAULTS
+  issue: $LABEL
+  group: internal
+
+received:
+  <<: *DEFAULTS
+
+received_two:
+  <<: *DEFAULTS
+
+received_not_accepted:
+  <<: *DEFAULTS
+  accepted: false
+
+received_not_accepted_two:
+  <<: *DEFAULTS
+  group: internal2
+
+received_not_released:
+  <<: *DEFAULTS
+
+reviewed:
+  <<: *DEFAULTS
+
+in_process:
+  <<: *DEFAULTS
+
+closed:
+  <<: *DEFAULTS
+
+not_solvable_no_status_note:
+  <<: *DEFAULTS
+
+not_supported:
+  <<: *DEFAULTS
+
+not_confirmed:
+  <<: *DEFAULTS
+
+delegated:
+  <<: *DEFAULTS
 
 one:
-  issue: former_issue_one
-  group: two
+  <<: *DEFAULTS
 
 two:
+  <<: *DEFAULTS
+  group: two
+  accepted: true
+
+three:
+  <<: *DEFAULTS
+
+already_confirmed:
+  <<: *DEFAULTS
+
+unconfirmed:
+  <<: *DEFAULTS
+
+unconfirmed_with_auth_code:
+  <<: *DEFAULTS
+
+in_process:
+  <<: *DEFAULTS
+
+archived:
+  <<: *DEFAULTS
+
+deleteable:
+  <<: *DEFAULTS
+
+undeleteable_supporter:
+  <<: *DEFAULTS
+
+undeleteable_abuse_report:
+  <<: *DEFAULTS
+
+undeleteable_status:
+  <<: *DEFAULTS
+
+former_issue_one:
+  <<: *DEFAULTS
+  group: two
+
+former_issue_one_two:
   issue: former_issue_one
   group: internal
   accepted: true
 
-three:
+former_issue_one_three:
   issue: former_issue_one
   group: internal2
   accepted: true
 
-four:
+former_issue_one_four:
   issue: former_issue_one
   group: internal2
 
-five:
+former_issue_two:
+  <<: *DEFAULTS
+  group: one
+
+former_issue_two_two:
   issue: former_issue_two
   group: internal2
   accepted: true
 
-received:
-  issue: received
-  group: internal
+tip:
+  <<: *DEFAULTS
 
-received_not_accepted:
-  issue: received_not_accepted
-  group: internal
-  accepted: false
+reference_default: &REFERENCE_DEFAULT
+  <<: *DEFAULTS
+  group: $LABEL
+
+reference_default_county:
+  <<: *REFERENCE_DEFAULT
+
+deleted_category:
+  <<: *DEFAULTS
