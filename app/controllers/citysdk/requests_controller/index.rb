@@ -15,7 +15,7 @@ module Citysdk
       # :apidoc: | Name | Required | Type | Notes |
       # :apidoc: |:--|:-:|:--|:--|
       # :apidoc: | api_key | - | String | API key |
-      # :apidoc: | map | - | Boolean | Only loads minimal data for the map |
+      # :apidoc: | map | - | Boolean | Return only minimal data to speed up the map view |
       # :apidoc: | service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
       # :apidoc: | service_code | - | Integer | ID of category |
       # :apidoc: | status | - | String | Filter issues by Open311 status, default = `open` |
