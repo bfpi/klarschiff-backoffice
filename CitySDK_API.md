@@ -125,7 +125,7 @@ Parameters:
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | - | String | API key |
-| map | - | Boolean | Only loads minimal data for the map |
+| map | - | Boolean | Return only minimal data to speed up the map view |
 | service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
 | service_code | - | Integer | ID of category |
 | status | - | String | Filter issues by Open311 status, default = `open` |
