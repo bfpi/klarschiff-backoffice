@@ -32,5 +32,13 @@
       <span class="float-end trust-icon fa fa-star" title="<%= t('.trust') %>">
       </span>
     <% end -%>
+    <% if issue.comments.any? -%>
+      <span class="float-end fa fa-commenting-o" title="<%= t('.comments') %>">
+      </span>
+    <% end -%>
+    <% if issue.abuse_reports.any? -%>
+      <span class="float-end fa fa-thumbs-o-up" title="<%= t('.abuse_report') %>">
+      </span>
+    <% end -%>
   </div>
 </div>

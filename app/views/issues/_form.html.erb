@@ -19,7 +19,7 @@
     <% unless issue.reviewed_at? -%>
       <%= render partial: 'review', locals: { form: } %>
     <% else -%>
-      <%= render partial: "tab_#{@tab}", locals: { form:, restricted: false } %>
+      <%= render partial: "tab_#{@tab}", locals: { form:, restricted: !authorized?(:edit_issue, issue) } %>
     <% end -%>
   </div>
 <% end -%>

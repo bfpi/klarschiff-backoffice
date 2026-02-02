@@ -226,7 +226,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key' do
-    post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+    expression = -> { IssueResponsibility.count }
+    assert_difference expression, 1 do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+    end
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_not_empty doc.xpath('/service_requests/request/create_message')
@@ -242,7 +245,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr returns forbidden' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(403, 'FORBIDDEN') } do
-      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      expression = -> { IssueResponsibility.count }
+      assert_difference expression, 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      end
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
       assert_not_empty doc.xpath('/service_requests/request/create_message')
@@ -259,7 +265,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr is not available' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
-      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      expression = -> { IssueResponsibility.count }
+      assert_difference expression, 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      end
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
       assert_not_empty doc.xpath('/service_requests/request/create_message')
