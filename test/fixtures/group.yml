@@ -19,6 +19,14 @@ external:
   main_user: two
   users: two
 
+external2:
+  <<: *DEFAULTS
+  kind: external
+  email:
+  main_user:
+  reference_id: <%= ActiveRecord::FixtureSet.identify :two %>
+  users: two
+
 field_service:
   <<: *DEFAULTS
   kind: field_service_team

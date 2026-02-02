@@ -24,8 +24,14 @@ class FillResponsibilitiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'does not create with invalid required param' do
-    login username: :regional_admin2
+    login username: :regional_admin
     post '/fill_responsibilities', params: { responsibility: { group_id: group(:two).id } }, xhr: true
+    assert_response :unprocessable_entity
+  end
+
+  test 'does not create with invalid external required param' do
+    login username: :regional_admin
+    post '/fill_responsibilities', params: { responsibility: { group_id: group(:external2).id } }, xhr: true
     assert_response :unprocessable_entity
   end
 
