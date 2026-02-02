@@ -15,7 +15,7 @@ class FillResponsibilitiesController < ApplicationController
       end
       return redirect_to responsibilities_path
     end
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
   end
 
   private
