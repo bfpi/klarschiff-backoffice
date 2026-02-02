@@ -164,5 +164,5 @@ end
 
 CSV.table('db/seeds/default_responsibilities.csv').each do |row|
   group = Group.find_by(name: "Standardzuständigkeit - #{row[1]}")
-  group.update! email: row[2] if group.present?
+  group.presence&.update!(email: row[2])
 end
