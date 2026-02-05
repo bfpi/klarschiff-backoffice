@@ -13,6 +13,9 @@ two:
 three:
   <<: *DEFAULTS
 
+four:
+  <<: *DEFAULTS
+
 deleted:
   <<: *DEFAULTS
 
