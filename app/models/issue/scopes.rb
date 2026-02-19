@@ -81,7 +81,7 @@ class Issue
       end
 
       def authorized_by_references(reference_ids)
-        where <<~SQL.squish, reference_ids, reference_ids
+        where <<~SQL.squish, reference_ids, reference_ids, reference_ids
           ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{County.quoted_table_name}
@@ -89,6 +89,9 @@ class Issue
           )) OR ST_Within("position", (
             SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
             FROM #{Authority.quoted_table_name} WHERE "id" IN (?)
+          )) OR ST_Within("position", (
+            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+            FROM #{Instance.quoted_table_name} WHERE "id" IN (?)
           ))
         SQL
       end
