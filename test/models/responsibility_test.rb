@@ -30,9 +30,9 @@ class ResponsibilityTest < ActiveSupport::TestCase
     assert_predicate resp, :valid?
   end
 
-  test 'validate foreign group for regional_admin' do
+  test 'validate foreign to external group for regional_admin' do
     Current.user = user(:regional_admin)
-    resp = Responsibility.new(category: category(:three), group: group(:internal4))
+    resp = Responsibility.new(category: category(:three), group: group(:external2))
     assert_not resp.valid?
     assert_includes resp.errors.details[:group], { error: :authorized }
   end
@@ -40,6 +40,12 @@ class ResponsibilityTest < ActiveSupport::TestCase
   test 'validate valid group for regional_admin' do
     Current.user = user(:regional_admin)
     resp = Responsibility.new(category: category(:three), group: group(:internal2))
+    assert_predicate resp, :valid?
+  end
+
+  test 'validate foreign group without direct membership for regional_admin' do
+    Current.user = user(:regional_admin)
+    resp = Responsibility.new(category: category(:three), group: group(:internal4))
     assert_predicate resp, :valid?
   end
 end
