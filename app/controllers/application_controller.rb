@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
                 raise "Unknown object given for response: #{error_or_record.inspect}"
               end
     Rails.logger.info "Returned error messages: #{@record.errors.full_messages}\nfor object: #{@record.inspect}"
-    render :error, status: :unprocessable_entity
+    render :error, status: :unprocessable_content
   end
 
   def respond_with_not_found

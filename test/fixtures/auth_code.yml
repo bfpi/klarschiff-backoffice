@@ -17,5 +17,10 @@ three:
 
 reference_default:
   uuid: '0c29a0eb-22bd-4c80-80c0-8083f9bcdb30'
-  issue: reference_default
+  issue: $LABEL
+  group: reference_default
+
+unconfirmed_with_auth_code:
+  uuid: 'b991c58f-83d3-450e-bbda-039d0424e03f'
+  issue: $LABEL
   group: reference_default

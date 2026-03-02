@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    return head(:unprocessable_entity) if permitted_params[:message].blank?
+    return head(:unprocessable_content) if permitted_params[:message].blank?
     @comment = Comment.create!(
       permitted_params.merge(user: Current.user, auth_code: Current.user&.auth_code)
     )
