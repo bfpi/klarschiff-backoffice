@@ -371,10 +371,10 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    rubyXL (3.4.34)
+    rubyXL (3.4.35)
       nokogiri (>= 1.10.8)
-      rubyzip (~> 2.4)
-    rubyzip (2.4.1)
+      rubyzip (>= 3.2.2)
+    rubyzip (3.2.2)
     rugged (1.9.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
