@@ -108,7 +108,7 @@ GEM
       sassc-rails (>= 2.0.0)
     bootstrap-datepicker-rails (1.10.0.1)
       railties (>= 3.0)
-    brakeman (8.0.1)
+    brakeman (8.0.4)
       racc
     builder (3.3.0)
     bullet (8.1.0)
@@ -261,7 +261,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pdfkit (0.8.7.3)
-    pg (1.6.2-x86_64-linux)
+    pg (1.6.3-x86_64-linux)
     popper_js (2.11.8)
     pp (0.6.3)
       prettyprint
@@ -382,10 +382,10 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    rubyXL (3.4.34)
+    rubyXL (3.4.35)
       nokogiri (>= 1.10.8)
-      rubyzip (~> 2.4)
-    rubyzip (2.4.1)
+      rubyzip (>= 3.2.2)
+    rubyzip (3.2.2)
     rugged (1.9.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
