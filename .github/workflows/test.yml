@@ -46,5 +46,5 @@ jobs:
       - name: Prepare Assets
         run: bundle exec rails assets:precompile
       - name: Run Rails Tests
-        run: bundle exec rails test -b -d
+        run: bundle exec rails test --bisect
 
