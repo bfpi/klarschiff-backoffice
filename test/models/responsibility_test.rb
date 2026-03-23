@@ -10,7 +10,7 @@ class ResponsibilityTest < ActiveSupport::TestCase
 
   %i[external field_service].each do |group_kind|
     test "validate group kind not #{group_kind}" do
-      Current.user = user(:regional_admin)
+      Current.user = user(:regional_admin3)
       resp = Responsibility.new(category: category(:three), group: group(group_kind))
       assert_not resp.valid?
       assert_includes resp.errors.details[:group], { error: :must_be_internal }
@@ -31,20 +31,20 @@ class ResponsibilityTest < ActiveSupport::TestCase
   end
 
   test 'validate foreign to external group for regional_admin' do
-    Current.user = user(:regional_admin)
+    Current.user = user(:regional_admin3)
     resp = Responsibility.new(category: category(:three), group: group(:external2))
     assert_not resp.valid?
     assert_includes resp.errors.details[:group], { error: :authorized }
   end
 
   test 'validate valid group for regional_admin' do
-    Current.user = user(:regional_admin)
+    Current.user = user(:regional_admin3)
     resp = Responsibility.new(category: category(:three), group: group(:internal2))
     assert_predicate resp, :valid?
   end
 
   test 'validate foreign group without direct membership for regional_admin' do
-    Current.user = user(:regional_admin)
+    Current.user = user(:regional_admin3)
     resp = Responsibility.new(category: category(:three), group: group(:internal4))
     assert_predicate resp, :valid?
   end
