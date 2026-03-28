@@ -74,6 +74,10 @@ Parameters:
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | - | String | API key |
+| group | - | String |  |
+| keywords | - | String |  |
+| lat | - | String |  |
+| long | - | String |  |
 
 Sample Response:
 
