@@ -36,7 +36,7 @@ class DashboardsController
     def former_issues(groups)
       return [] if groups.blank?
       Issue.not_archived.joins(:issue_responsibilities).includes(category: :main_category)
-        .where(changed_responsibilities(groups.ids)).limit 10
+        .where(changed_responsibilities(groups.ids)).distinct.limit 10
     end
 
     def changed_responsibilities(group_ids)
