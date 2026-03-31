@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardsController < ApplicationController
-  include Issues
+  include DashboardsController::Issues
 
   before_action { check_auth :view_dashboard }
   before_action :collect_issues, :collect_notices, :calculate_issues_counts
