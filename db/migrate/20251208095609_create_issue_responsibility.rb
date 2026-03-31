@@ -14,14 +14,14 @@ class CreateIssueResponsibility < ActiveRecord::Migration[7.2]
       logs = i.log_entries.where(LogEntry.arel_table[:attr].eq('group')).order(:created_at).to_a
       if logs.none?
         generate_issue_responsibility(i.id, i.group_id, i)
-        next
-      end
-      first = logs.shift
-      generate_issue_responsibility(i.id, first.old_value_id, i)
-      generate_issue_responsibility(i.id, first.new_value_id, first)
+      else
+        first = logs.shift
+        generate_issue_responsibility(i.id, first.old_value_id, i)
+        generate_issue_responsibility(i.id, first.new_value_id, first)
 
-      logs.each do |l|
-        generate_issue_responsibility(i.id, l.new_value_id, l)
+        logs.each do |l|
+          generate_issue_responsibility(i.id, l.new_value_id, l)
+        end
       end
 
       i.log_entries.where(LogEntry.arel_table[:attr].eq('responsibility_accepted')).order(:created_at).to_a.each do |l|
