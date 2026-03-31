@@ -99,6 +99,14 @@ not_confirmed:
   reviewed_at: <%= Time.current - 1.day - 1.hour %>
   status: received
 
+pending:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 1.day - 2.hours %>
+  reviewed_at:
+  status: pending
+  status_note:
+  updated_by_user:
+
 delegated:
   <<: *DEFAULTS
   created_at: <%= Time.current - 1.day - 2.hours %>
