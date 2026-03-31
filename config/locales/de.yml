@@ -4,6 +4,7 @@ de:
   actions: Aktion
   action:
     abort: Abbrechen
+    close: Schließen
     save_and_close: Speichern & Schließen
     save: Speichern
     send: Absenden
