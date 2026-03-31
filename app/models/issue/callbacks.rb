@@ -19,10 +19,10 @@ class Issue
 
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
-      before_save :set_responsibility_accepted, if: -> { responsibility_accepted_changed? }
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
+      after_save :set_responsibility_accepted, if: -> { responsibility_accepted_changed? }
       after_commit :create_issue_responsibility, if: -> { group_id.present? && saved_change_to_group_id? }
       after_commit :notify_group, if: :notify_group_after_commit?
 
