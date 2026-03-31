@@ -24,7 +24,7 @@ class Issue
       before_save :set_updated_by, if: -> { Current.user }
 
       after_commit :create_issue_responsibility, if: -> { group_id.present? && saved_change_to_group_id? }
-      after_commit :notify_group, if: :after_commit_notify_group?
+      after_commit :notify_group, if: :notify_group_after_commit?
 
       validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
@@ -40,7 +40,7 @@ class Issue
 
     private
 
-    def after_commit_notify_group?
+    def notify_group_after_commit?
       (saved_change_to_status? && status_received? && group_id.present?) ||
         (saved_change_to_group_id? && !status_pending?)
     end
