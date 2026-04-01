@@ -315,7 +315,7 @@ class IssueTest < ActiveSupport::TestCase
 
     # Change group_id and responsibility_accepted simultaneously
     # The callback should not update because group_id changed
-    assert_no_changes 'responsibility.reload.accepted' do
+    assert_no_changes -> { responsibility.reload.accepted } do
       issue.responsibility_accepted = true
       issue.group = new_group
       issue.save!
