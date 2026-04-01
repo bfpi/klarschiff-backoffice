@@ -280,11 +280,11 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test 'update issue responsibility_accepted when responsibility_accepted changes to true' do
-    issue = issue(:one)
+    issue = issue(:received_not_accepted)
     # Create a responsibility for the current group
     assert issue.issue_responsibilities.create(group: issue.group)
     last_responsibility = issue.issue_responsibilities.last
-    assert(!last_responsibility.accepted)
+    refute(last_responsibility.accepted)
 
     # Change responsibility_accepted without changing group - should update last responsibility
     assert_changes 'last_responsibility.reload.accepted', from: false, to: true do
