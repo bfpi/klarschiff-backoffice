@@ -31,7 +31,6 @@ class ResponsibilityTest < ActiveSupport::TestCase
       assert_predicate resp, :valid?
     end
   end
-  end
 
   test 'validate foreign to external group for regional_admin' do
     Current.set(user: user(:regional_admin3)) do
