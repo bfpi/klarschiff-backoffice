@@ -197,7 +197,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test 'notify_group after_commit callback is triggered when status changes to received' do
+  test 'notify group when status changes to received' do
     issue = issue(:pending)
     issue.group = group(:internal2)
     assert_predicate issue, :group_id_changed?
@@ -212,7 +212,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test 'notify_group after_commit callback is triggered when group_id changes and status is not pending' do
+  test 'notify group when group_id changes and status is not pending' do
     issue = issue(:received)
     new_group = group(:internal2)
     assert_not_equal issue.group, new_group
@@ -223,7 +223,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test 'notify_group after_commit callback is not triggered when status is pending and group_id changes' do
+  test "don't notify group when group_id changes and status is pending" do
     issue = issue(:pending)
     new_group = group(:internal2)
     assert_not_equal issue.group, new_group
@@ -234,7 +234,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test 'group_responsibility_notified_at is set when group changes for non-pending issue' do
+  test 'update group_responsibility_notified_at when group changes for non-pending issue' do
     issue = issue(:received)
     assert_not_nil issue.group_responsibility_notified_at
 
