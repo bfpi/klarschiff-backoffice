@@ -284,7 +284,7 @@ class IssueTest < ActiveSupport::TestCase
     # Create a responsibility for the current group
     assert issue.issue_responsibilities.create(group: issue.group)
     last_responsibility = issue.issue_responsibilities.last
-    refute(last_responsibility.accepted)
+    assert_not(last_responsibility.accepted)
 
     # Change responsibility_accepted without changing group - should update last responsibility
     assert_changes 'last_responsibility.reload.accepted', from: false, to: true do
