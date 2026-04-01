@@ -279,7 +279,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  test 'update issue responsibility_accepted when responsibility_accepted changes' do
+  test 'update issue responsibility_accepted when responsibility_accepted changes to true' do
     issue = issue(:one)
     # Create a responsibility for the current group
     assert issue.issue_responsibilities.create(group: issue.group)
@@ -297,7 +297,7 @@ class IssueTest < ActiveSupport::TestCase
     assert(updated_responsibility.accepted)
   end
 
-  test 'update issue responsibility_accepted when responsibility_accepted changes' do
+  test 'update issue responsibility_accepted when responsibility_accepted changes to false' do
     issue = issue(:one)
     responsibility = issue.issue_responsibilities.create(group: issue.group, accepted: true)
     assert(responsibility.accepted)
