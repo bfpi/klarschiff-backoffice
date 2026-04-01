@@ -16,10 +16,7 @@
     </ul>
   </div>
   <div class="card-body">
-    <% unless issue.reviewed_at? -%>
-      <%= render partial: 'review', locals: { form:, restricted: !authorized?(:edit_issue, issue) } %>
-    <% else -%>
-      <%= render partial: "tab_#{@tab}", locals: { form:, restricted: !authorized?(:edit_issue, issue) } %>
-    <% end -%>
+    <%= render partial: issue.reviewed_at? ? "tab_#{@tab}" : 'review',
+          locals: { form:, restricted: !authorized?(:edit_issue, issue) } %>
   </div>
 <% end -%>
