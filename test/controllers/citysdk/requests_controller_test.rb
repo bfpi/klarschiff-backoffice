@@ -226,8 +226,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key' do
-    expression = -> { IssueResponsibility.count }
-    assert_difference expression, 1 do
+    assert_difference 'IssueResponsibility.count', 1 do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
     end
     doc = Nokogiri::XML(response.parsed_body)
@@ -245,8 +244,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr returns forbidden' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(403, 'FORBIDDEN') } do
-      expression = -> { IssueResponsibility.count }
-      assert_difference expression, 1 do
+      assert_difference 'IssueResponsibility.count', 1 do
         post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       end
       doc = Nokogiri::XML(response.parsed_body)
@@ -265,8 +263,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr is not available' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
-      expression = -> { IssueResponsibility.count }
-      assert_difference expression, 1 do
+      assert_difference 'IssueResponsibility.count', 1 do
         post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
       end
       doc = Nokogiri::XML(response.parsed_body)
