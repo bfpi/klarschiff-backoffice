@@ -11,7 +11,8 @@
     <div class="col offset-2">
       <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_reject, '', class: 'form-check-label' do %>
-          <%= form.radio_button :responsibility_action, :reject, disabled: form.object.closed? %>
+          <%= form.radio_button :responsibility_action, :reject,
+                disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
           <%= t '.responsibility_action_reject' %>
         <% end %>
       </div>
@@ -21,7 +22,8 @@
     <div class="col offset-2">
       <div class="form-check form-check-inline">
         <%= form.label :responsibility_action_accept, '', class: 'form-check-label' do %>
-          <%= form.radio_button :responsibility_action, :accept, disabled: form.object.closed? %>
+          <%= form.radio_button :responsibility_action, :accept,
+                disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
           <%= t '.responsibility_action_accept' %>
         <% end %>
       </div>
@@ -35,15 +37,18 @@
   <div class="col-4 <%= 'offset-2' if form.object.reviewed_at.present? %>">
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_manual, '', class: 'form-check-label' do %>
-        <%= form.radio_button :responsibility_action, :manual, disabled: form.object.closed? %>
+        <%= form.radio_button :responsibility_action, :manual,
+              disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
         <%= t '.responsibility_action_manual' %>
       <% end %>
     </div>
   </div>
   <div class="col-4" id="manual-responsibility"
        style="display: <%= form.object.responsibility_action&.to_sym == :manual ? 'inline' : 'none' %>;">
-    <%= form.select :group_id, options_for_select(responsibilities(form.object), form.object.group_id),
-          {}, class: 'form-select' %>
+    <%= form.select :group_id,
+          options_for_select(responsibilities(form.object), form.object.group_id),
+          {}, class: 'form-select',
+          disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
   </div>
 </div>
 <div class="row">
@@ -51,7 +56,8 @@
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_recalculate, '', class: 'form-check-label' do %>
         <%= form.radio_button :responsibility_action, :recalculate,
-              checked: form.object.reviewed_at.blank?, disabled: form.object.closed? %>
+              checked: form.object.reviewed_at.blank?,
+              disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
         <%= t ".responsibility_action_recalculation#{'_review' if form.object.reviewed_at.blank?}" %>
         <%= form.object.group.name if form.object.reviewed_at.blank? %>
       <% end %>
@@ -62,7 +68,8 @@
   <div class="col offset-2">
     <div class="form-check form-check-inline">
       <%= form.label :responsibility_action_close_as_not_solvable, '', class: 'form-check-label' do %>
-        <%= form.radio_button :responsibility_action, :close_as_not_solvable, disabled: form.object.closed? %>
+        <%= form.radio_button :responsibility_action, :close_as_not_solvable,
+              disabled: restricted || (!form.object.status_changed? && form.object.closed?) %>
         <%= t '.responsibility_action_close_as_not_solvable' %>
       <% end %>
     </div>

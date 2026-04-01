@@ -37,14 +37,15 @@ class Issue < ApplicationRecord
   belongs_to :updated_by_user, optional: true, class_name: 'User'
 
   with_options dependent: :destroy do
-    has_many :auth_codes
     has_many :abuse_reports
     has_many :all_log_entries, -> { includes(:auth_code, :user) }, class_name: 'LogEntry', inverse_of: :issue
+    has_many :auth_codes
     has_many :comments
     has_many :completions, inverse_of: :issue
-    has_many :feedbacks
-    has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :external_photos, -> { status_external.order(:created_at) }, class_name: 'Photo', inverse_of: :issue
+    has_many :feedbacks
+    has_many :issue_responsibilities, -> { order(:created_at) }, inverse_of: :issue
+    has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :supporters
   end
 
