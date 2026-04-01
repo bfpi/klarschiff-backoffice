@@ -101,7 +101,8 @@ not_confirmed:
 
 pending:
   <<: *DEFAULTS
-  created_at: <%= Time.current - 1.day - 2.hours %>
+  created_at: <%= Time.current %>
+  group_responsibility_notified_at:
   reviewed_at:
   status: pending
   status_note:
