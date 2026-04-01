@@ -254,16 +254,16 @@ class IssueTest < ActiveSupport::TestCase
   test 'create issue responsibility when group_id changes' do
     issue = issue(:one)
     new_group = group(:internal2)
-    
+
     # Ensure preconditions
     assert_not_equal issue.group, new_group
     assert_empty issue.issue_responsibilities.where(group: new_group)
-    
+
     # Change the group - create_issue_responsibility should create a new responsibility
     assert_difference 'IssueResponsibility.count', 1 do
       issue.update! group: new_group
     end
-    
+
     # Verify the responsibility was created with the correct group
     new_responsibility = issue.issue_responsibilities.where(group: new_group).first
     assert_not_nil new_responsibility
@@ -272,7 +272,7 @@ class IssueTest < ActiveSupport::TestCase
 
   test 'create no issue responsibility when only status changes' do
     issue = issue(:pending)
-    
+
     # Change status without changing group_id - should not create responsibility
     assert_no_difference 'IssueResponsibility.count' do
       issue.update! status: :received
@@ -285,7 +285,7 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.issue_responsibilities.create(group: issue.group)
     last_responsibility = issue.issue_responsibilities.last
     assert_nil last_responsibility.accepted
-    
+
     # Change responsibility_accepted without changing group - should update last responsibility
     assert_changes 'last_responsibility.reload.accepted', from: nil, to: true do
       issue.responsibility_accepted = true
@@ -294,14 +294,14 @@ class IssueTest < ActiveSupport::TestCase
 
     # Verify the responsibility was updated
     updated_responsibility = last_responsibility.reload
-    assert_equal true, updated_responsibility.accepted
+    assert(updated_responsibility.accepted)
   end
 
   test 'update issue responsibility_accepted when responsibility_accepted changes' do
     issue = issue(:one)
     responsibility = issue.issue_responsibilities.create(group: issue.group, accepted: true)
-    assert_equal true, responsibility.accepted
-    
+    assert(responsibility.accepted)
+
     assert_changes 'responsibility.reload.accepted', from: true, to: false do
       issue.responsibility_accepted = false
       issue.save!
@@ -311,9 +311,8 @@ class IssueTest < ActiveSupport::TestCase
   test 'trigger no update for issue responsibility_accepted when group_id changes' do
     issue = issue(:one)
     responsibility = issue.issue_responsibilities.create(group: issue.group)
-    initial_accepted = responsibility.accepted
     new_group = group(:internal2)
-    
+
     # Change group_id and responsibility_accepted simultaneously
     # The callback should not update because group_id changed
     assert_no_changes 'responsibility.reload.accepted' do
