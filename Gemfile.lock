@@ -468,7 +468,7 @@ DEPENDENCIES
   jquery-ui-rails
   kaminari
   listen (~> 3.2)
-  minitest
+  minitest (~> 5.27.0)
   net-ldap
   pdfkit
   pg (~> 1.2)
