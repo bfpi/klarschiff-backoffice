@@ -196,4 +196,129 @@ class IssueTest < ActiveSupport::TestCase
       assert_equal district(:one), issue.district
     end
   end
+
+  test 'notify group when status changes to received' do
+    issue = issue(:pending)
+    issue.group = group(:internal2)
+    assert_predicate issue, :group_id_changed?
+    assert issue.save
+    # Verify preconditions
+    assert_predicate issue, :status_pending?
+    assert_not_nil issue.group_id
+
+    # Change status to received - notify_group should be called
+    assert_changes 'issue.reload.group_responsibility_notified_at', from: nil do
+      issue.status_received!
+    end
+  end
+
+  test 'notify group when group_id changes and status is not pending' do
+    issue = issue(:received)
+    new_group = group(:internal2)
+    assert_not_equal issue.group, new_group
+
+    # Change the group - notify_group should be called and update timestamp
+    assert_changes 'issue.reload.group_responsibility_notified_at' do
+      issue.update! group: new_group
+    end
+  end
+
+  test "don't notify group when group_id changes and status is pending" do
+    issue = issue(:pending)
+    new_group = group(:internal2)
+    assert_not_equal issue.group, new_group
+
+    # Change the group while status is still pending - notify_group should not be called
+    assert_no_changes 'issue.reload.group_responsibility_notified_at' do
+      issue.update! group: new_group
+    end
+  end
+
+  test 'update group_responsibility_notified_at when group changes for non-pending issue' do
+    issue = issue(:received)
+    assert_not_nil issue.group_responsibility_notified_at
+
+    travel_to(2.weeks.from_now) do
+      old_timestamp = issue.reload.group_responsibility_notified_at
+
+      # Change group to trigger notify_group
+      issue.update! group: group(:internal2)
+
+      # The timestamp should be updated to now
+      new_timestamp = issue.reload.group_responsibility_notified_at
+      assert_not_equal old_timestamp, new_timestamp
+      assert_in_delta new_timestamp, Time.current, 2
+    end
+  end
+
+  test 'create issue responsibility when group_id changes' do
+    issue = issue(:one)
+    new_group = group(:internal2)
+
+    # Ensure preconditions
+    assert_not_equal issue.group, new_group
+    assert_empty issue.issue_responsibilities.where(group: new_group)
+
+    # Change the group - create_issue_responsibility should create a new responsibility
+    assert_difference 'IssueResponsibility.count', 1 do
+      issue.update! group: new_group
+    end
+
+    # Verify the responsibility was created with the correct group
+    new_responsibility = issue.issue_responsibilities.where(group: new_group).first
+    assert_not_nil new_responsibility
+    assert_equal new_group.id, new_responsibility.group_id
+  end
+
+  test 'create no issue responsibility when only status changes' do
+    issue = issue(:pending)
+
+    # Change status without changing group_id - should not create responsibility
+    assert_no_difference 'IssueResponsibility.count' do
+      issue.update! status: :received
+    end
+  end
+
+  test 'update issue responsibility_accepted when responsibility_accepted changes to true' do
+    issue = issue(:received_not_accepted)
+    # Create a responsibility for the current group
+    assert issue.issue_responsibilities.create(group: issue.group)
+    last_responsibility = issue.issue_responsibilities.last
+    assert_not(last_responsibility.accepted)
+
+    # Change responsibility_accepted without changing group - should update last responsibility
+    assert_changes 'last_responsibility.reload.accepted', from: false, to: true do
+      issue.responsibility_accepted = true
+      issue.save!
+    end
+
+    # Verify the responsibility was updated
+    updated_responsibility = last_responsibility.reload
+    assert(updated_responsibility.accepted)
+  end
+
+  test 'update issue responsibility_accepted when responsibility_accepted changes to false' do
+    issue = issue(:one)
+    responsibility = issue.issue_responsibilities.create(group: issue.group, accepted: true)
+    assert(responsibility.accepted)
+
+    assert_changes 'responsibility.reload.accepted', from: true, to: false do
+      issue.responsibility_accepted = false
+      issue.save!
+    end
+  end
+
+  test 'trigger no update for issue responsibility_accepted when group_id changes' do
+    issue = issue(:one)
+    responsibility = issue.issue_responsibilities.create(group: issue.group)
+    new_group = group(:internal2)
+
+    # Change group_id and responsibility_accepted simultaneously
+    # The callback should not update because group_id changed
+    assert_no_changes -> { responsibility.reload.accepted } do
+      issue.responsibility_accepted = true
+      issue.group = new_group
+      issue.save!
+    end
+  end
 end

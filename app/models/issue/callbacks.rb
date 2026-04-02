@@ -22,11 +22,9 @@ class Issue
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
-      after_commit :notify_group,
-        if: lambda {
-              (saved_change_to_status? && status_received? && group_id.present?) ||
-                (saved_change_to_group_id? && !status_pending?)
-            }
+      after_commit :create_issue_responsibility, if: :create_issue_responsibility?
+      after_commit :update_issue_responsibility_accepted, if: :update_issue_responsibility_accepted?
+      after_commit :notify_group, if: :notify_group_after_commit?
 
       validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
@@ -41,6 +39,11 @@ class Issue
     end
 
     private
+
+    def notify_group_after_commit?
+      (saved_change_to_status? && status_received? && group_id.present?) ||
+        (saved_change_to_group_id? && !status_pending?)
+    end
 
     def destroy_dangling_associations
       photos.unscope(where: :confirmed_at).destroy_all
@@ -101,8 +104,24 @@ class Issue
       end
     end
 
+    def create_issue_responsibility?
+      group_id.present? && saved_change_to_group_id?
+    end
+
+    def create_issue_responsibility
+      issue_responsibilities.create group_id: group_id
+    end
+
     def clear_group_responsibility_notified_at
       self.group_responsibility_notified_at = nil
+    end
+
+    def update_issue_responsibility_accepted?
+      saved_change_to_responsibility_accepted? && !saved_change_to_group_id?
+    end
+
+    def update_issue_responsibility_accepted
+      issue_responsibilities.last.update accepted: responsibility_accepted
     end
 
     def notify_default_group_without_gui_access
