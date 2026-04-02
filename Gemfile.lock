@@ -412,8 +412,7 @@ GEM
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 4.0)
-      websocket (~> 1.0)
+      rubyzip (>= 1.2.2)
     sidekiq (8.0.5)
       connection_pool (>= 2.5.0)
       json (>= 2.9.0)
@@ -516,4 +515,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.5.23
+   2.6.6
