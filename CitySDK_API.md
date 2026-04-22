@@ -363,6 +363,7 @@ Parameters:
 | search_class | - | String | specifies which data to search for |
 | regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
 | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+| skip_coordinates | - | Boolean | set to true to skip border-data to speed up the list |
 
 The parameter `regional_key` is ignored if parameter `area_code` is given with the request, so you have
 to omit the `area_code` parameter to get the response for `regional_key` filter.
