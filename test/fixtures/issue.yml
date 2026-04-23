@@ -78,6 +78,13 @@ closed:
   reviewed_at: <%= Time.current - 4.days - 1.hour %>
   status: closed
 
+not_solvable:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 4.days - 2.hours %>
+  reviewed_at: <%= Time.current - 4.days - 1.hour %>
+  status: not_solvable
+  status_note: status note $LABEL
+
 not_solvable_no_status_note:
   <<: *DEFAULTS
   created_at: <%= Time.current - 4.days - 2.hours %>

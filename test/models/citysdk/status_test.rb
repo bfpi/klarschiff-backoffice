@@ -4,7 +4,7 @@ require 'test_helper'
 
 module Citysdk
   class StatusTest < ActiveSupport::TestCase
-    Issue.statuses.keys.each do |status|
+    Issue.statuses.each_key do |status|
       test "initialize with backend status '#{status}' creates valid instance" do
         assert_nothing_raised do
           citysdk_status = Citysdk::Status.new(status)

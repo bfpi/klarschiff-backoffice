@@ -207,9 +207,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_predicate extended_attributes.count, :positive?
   end
 
-  Issue.statuses.keys.map(&:to_sym).each do |status|
+  Issue.statuses.each_key do |status|
     test "show issue with status '#{status}' with api-key" do
-      issue = issue(status)
+      issue = issue(status.to_sym)
       get "/citysdk/requests/#{issue.id}.xml?api_key=#{api_key_frontend}"
       doc = Nokogiri::XML(response.parsed_body)
       requests = doc.xpath('/service_requests/request')
