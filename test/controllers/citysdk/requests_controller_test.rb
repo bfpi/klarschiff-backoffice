@@ -207,6 +207,18 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_predicate extended_attributes.count, :positive?
   end
 
+  Issue.statuses.keys.map(&:to_sym).each do |status|
+    test "show issue with status '#{status}' with api-key" do
+      issue = issue(status)
+      get "/citysdk/requests/#{issue.id}.xml?api_key=#{api_key_frontend}"
+      doc = Nokogiri::XML(response.parsed_body)
+      requests = doc.xpath('/service_requests/request')
+      assert_predicate requests.count, :positive?, "No requests found for status #{status}"
+      request_id = doc.xpath('/service_requests/request/service_request_id').text
+      assert_equal issue.id.to_s, request_id, "Request ID mismatch for status #{status}"
+    end
+  end
+
   test 'create without api-key' do
     post '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)

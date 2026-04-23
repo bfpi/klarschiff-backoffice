@@ -85,6 +85,12 @@ not_solvable_no_status_note:
   status: not_solvable
   status_note:
 
+duplicate:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 5.days - 2.hours %>
+  reviewed_at: <%= Time.current - 5.days - 1.hour %>
+  status: duplicate
+
 not_supported:
   <<: *DEFAULTS
   category: two
@@ -149,6 +155,12 @@ unconfirmed_with_auth_code:
 in_process:
   <<: *DEFAULTS
   status: in_process
+
+deleted:
+  <<: *DEFAULTS
+  created_at: <%= Time.current - 8.days - 2.hours %>
+  reviewed_at: <%= Time.current - 8.days - 1.hour %>
+  status: deleted
 
 archived:
   <<: *DEFAULTS
