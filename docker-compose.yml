@@ -6,6 +6,7 @@ services:
 
   database:
     image: postgis/postgis:12-3.5-alpine
+    pull_policy: weekly
     container_name: klarschiff-database
     restart: always
     environment:
