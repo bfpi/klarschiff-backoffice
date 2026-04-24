@@ -30,6 +30,7 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
       doc = Nokogiri::XML(response.parsed_body)
       areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'Authority' }
       assert_predicate areas.count, :positive?
+      assert_equal areas.count, doc.xpath('/areas/area/grenze/text()').count
     end
   end
 
@@ -39,6 +40,27 @@ class AreasControllerTest < ActionDispatch::IntegrationTest
       doc = Nokogiri::XML(response.parsed_body)
       areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'District' }
       assert_predicate areas.count, :positive?
+      assert_equal areas.count, doc.xpath('/areas/area/grenze/text()').count
+    end
+  end
+
+  test 'index with default area-level and skip coordinates' do
+    with_parent_instance_settings do
+      get '/citysdk/areas.xml', params: { with_districts: true, skip_coordinates: true }
+      doc = Nokogiri::XML(response.parsed_body)
+      areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'Authority' }
+      assert_predicate areas.count, :positive?
+      assert_empty doc.xpath('/areas/area/grenze/text()')
+    end
+  end
+
+  test 'index with parent_instance area-level and skip coordinates' do
+    with_parent_instance_settings(url: 'http://www.example.com') do
+      get '/citysdk/areas.xml', params: { with_districts: true, skip_coordinates: true }
+      doc = Nokogiri::XML(response.parsed_body)
+      areas = doc.xpath('/areas/area/name/text()').map(&:to_s).select { |t| t.starts_with? 'District' }
+      assert_predicate areas.count, :positive?
+      assert_empty doc.xpath('/areas/area/grenze/text()')
     end
   end
 
