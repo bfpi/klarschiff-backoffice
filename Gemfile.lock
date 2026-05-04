@@ -138,7 +138,7 @@ GEM
     connection_pool (3.0.2)
     crass (1.0.6)
     csv (3.3.5)
-    date (3.5.0)
+    date (3.5.1)
     drb (2.2.3)
     erb (6.0.1.1)
     erb_lint (0.9.0)
@@ -231,7 +231,7 @@ GEM
       bigdecimal (>= 3.1, < 5)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.5.12)
+    net-imap (0.5.14)
       date
       net-protocol
     net-ldap (0.20.0)
