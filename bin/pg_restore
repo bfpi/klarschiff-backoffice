@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+$(dirname $0)/docker-db-wrapper pg_restore "$@"
