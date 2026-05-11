@@ -65,7 +65,7 @@ class Issue
     # overwrite ConfirmationWithHash#confirm
     def confirm
       return send_confirmation if Current.user.blank?
-      status_received!
+      self.status = :received
     end
 
     # overwrite ConfirmationWithHash#send_confirmation
