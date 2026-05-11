@@ -55,5 +55,8 @@ COPY config/storage.sample.yml config/storage.yml
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
 # Start the server by default, this can be overwritten at runtime
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["./bin/rails", "server"]
