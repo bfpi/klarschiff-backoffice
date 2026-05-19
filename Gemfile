@@ -32,7 +32,7 @@ group :development, :test do
 
   gem 'brakeman'
   gem 'erb_lint', require: false
-  gem 'minitest', '~> 5.27.0' # minitest 6 is incompatible with Rails < 8.1 (https://github.com/minitest/minitest/issues/1045)
+  gem 'minitest', '~> 6.0.6' # minitest 6 is incompatible with Rails < 8.1 (https://github.com/minitest/minitest/issues/1045)
 end
 
 group :development do
