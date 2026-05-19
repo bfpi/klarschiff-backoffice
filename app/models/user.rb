@@ -91,7 +91,7 @@ class User < ApplicationRecord
 
   def add_to_password_history(password_id, change_time)
     self.passwords ||= []
-    self.passwords[password_id] = {
+    passwords[password_id] = {
       password_digest: password_digest_changed_from, valid_from: password_updated_at, valid_until: change_time
     }
   end
