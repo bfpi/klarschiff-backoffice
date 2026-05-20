@@ -3,8 +3,8 @@ default: &default
   encoding: unicode
   host: <%= ENV.fetch('DB_HOST', 'localhost') %>
   password: <%= ENV.fetch('DB_PASSWORD', '<password>') %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  port: 5432
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
+  port: <%= ENV.fetch('DB_PORT', 5432) %>
   username: <%= ENV.fetch('DB_USERNAME', 'klarschiff_backoffice') %>
 
 development:
