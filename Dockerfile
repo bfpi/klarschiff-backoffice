@@ -55,6 +55,15 @@ COPY config/storage.sample.yml config/storage.yml
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
+# Run and own only the runtime files as a non-root user for security
+RUN groupadd --system --gid 1100 rails && \
+    useradd rails --uid 1100 --gid 1100 --create-home --shell /bin/bash
+USER 1100:1100
+
+# Copy built artifacts: gems, application
+COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --chown=rails:rails --from=build /rails /rails
+
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
