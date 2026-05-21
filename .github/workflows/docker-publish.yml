@@ -29,6 +29,8 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
 
       - name: Build image with Docker Compose
+        env:
+          GITHUB_COMMIT_HASH: ${{ github.sha }}
         run: docker compose build backoffice
 
       - name: Push image with tags

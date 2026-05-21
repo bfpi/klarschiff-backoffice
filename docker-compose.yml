@@ -26,6 +26,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
     depends_on:
       - database
     environment:
@@ -49,6 +51,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
     depends_on:
       - database
     command: bundle exec sidekiq
