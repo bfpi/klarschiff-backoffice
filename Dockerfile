@@ -5,12 +5,13 @@ FROM ruby:3.2-slim-bookworm AS base
 LABEL org.opencontainers.image.source="https://github.com/bfpi/klarschiff-backoffice"
 LABEL org.opencontainers.image.authors="BFPI GmbH"
 
+ARG GITHUB_BRANCH
 ARG GITHUB_COMMIT_HASH
 ARG RAILS_ENV=production
 
 WORKDIR /rails
 
-RUN echo "${GITHUB_COMMIT_HASH:-unknown}" > /rails/github_commit_hash.txt
+RUN echo "${GITHUB_BRANCH:-unknown} / ${GITHUB_COMMIT_HASH:-unknown}" > /rails/github_version.txt
 
 ENV RAILS_ENV=${RAILS_ENV} \
     BUNDLE_DEPLOYMENT="1" \

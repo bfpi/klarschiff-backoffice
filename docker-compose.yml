@@ -27,6 +27,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        - GITHUB_BRANCH=${GITHUB_BRANCH:-unknown}
         - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
     depends_on:
       - database
@@ -52,6 +53,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        - GITHUB_BRANCH=${GITHUB_BRANCH:-unknown}
         - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
     depends_on:
       - database

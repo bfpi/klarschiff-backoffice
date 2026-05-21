@@ -30,6 +30,7 @@ jobs:
 
       - name: Build image with Docker Compose
         env:
+          GITHUB_BRANCH: ${{ github.ref_name }}
           GITHUB_COMMIT_HASH: ${{ github.sha }}
         run: docker compose build backoffice
 
