@@ -3,6 +3,7 @@
 class Issue < ApplicationRecord
   include DateTimeAttributesWithBooleanAccessor
   include Issue::Callbacks
+  include Issue::ResponsibilityCallbacks
   include Issue::Getters
   include Issue::Icons
   include Issue::Scopes

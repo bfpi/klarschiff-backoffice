@@ -12,21 +12,17 @@ class Issue
       before_destroy :destroy_dangling_associations
 
       before_validation :add_photo
-      before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility, if: :set_responsibility?, unless: :responsibility_already_set
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
+      before_validation :update_address_parcel_property_owner, if: :position_changed?
 
-      before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
       after_commit :create_issue_delegation, if: :create_issue_delegation?
       after_commit :update_issue_delegation_rejected, if: :update_issue_delegation_rejected?
-      after_commit :create_issue_responsibility, if: :create_issue_responsibility?
-      after_commit :update_issue_responsibility_accepted, if: :update_issue_responsibility_accepted?
-      after_commit :notify_group, if: :notify_group_after_commit?
 
       validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
@@ -88,13 +84,6 @@ class Issue
       1
     end
 
-    def notify_group
-      update group_responsibility_notified_at: Time.current
-      return notify_default_group_without_gui_access if default_group_without_gui_access?
-      return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
-      ResponsibilityMailer.issue(self, **notify_group_options(users:)).deliver_later
-    end
-
     def notify_group_options(users: [])
       if group.reference_default?
         {
@@ -120,30 +109,6 @@ class Issue
 
     def update_issue_delegation_rejected
       issue_delegations.last.update rejected: true
-    end
-
-    def create_issue_responsibility?
-      group_id.present? && saved_change_to_group_id?
-    end
-
-    def create_issue_responsibility
-      issue_responsibilities.create group_id: group_id
-    end
-
-    def clear_group_responsibility_notified_at
-      self.group_responsibility_notified_at = nil
-    end
-
-    def update_issue_responsibility_accepted?
-      saved_change_to_responsibility_accepted? && !saved_change_to_group_id?
-    end
-
-    def update_issue_responsibility_accepted
-      issue_responsibilities.last.update accepted: responsibility_accepted
-    end
-
-    def notify_default_group_without_gui_access
-      ResponsibilityMailer.default_group_without_gui_access(self, **notify_group_options).deliver_later
     end
 
     def issue_in_authorized_areas
