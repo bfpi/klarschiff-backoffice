@@ -46,7 +46,7 @@
           <td><%= issue.supporters.count %></td>
           <td>
             <% if issue.forwarded_to_group? -%>
-              <span class="fa fa-share-square-o" title="<%= t('.forwarded_to_group') %>"></span>
+              <i class="fa fa-share-square-o" title="<%= t('.forwarded_to_group') %>" aria-hidden="true"></i>
             <% end -%>
             <span title="<%= "#{Issue.human_attribute_name(:group)}: #{issue.group.name}" %>"><%= issue.group %></span>
             <% if issue.responsibility_accepted -%>
@@ -62,6 +62,9 @@
               (<span title="<%= delegation_tooltip(issue) %>">
                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>
                </span>)
+            <% end -%>
+            <% if issue.issue_delegations.rejected.count > 0 -%>
+              <i class="fa fa-repeat" title="<%= t('dashboards.issue.issue_delegations_rejected') %>" aria-hidden="true"></i>
             <% end -%>
           </td>
           <td><%= l(issue.updated_at, format: :no_seconds) %></td>

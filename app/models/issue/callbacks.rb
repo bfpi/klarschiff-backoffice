@@ -22,6 +22,8 @@ class Issue
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
+      after_commit :create_issue_delegation, if: :create_issue_delegation?
+      after_commit :update_issue_delegation_rejected, if: :update_issue_delegation_rejected?
       after_commit :create_issue_responsibility, if: :create_issue_responsibility?
       after_commit :update_issue_responsibility_accepted, if: :update_issue_responsibility_accepted?
       after_commit :notify_group, if: :notify_group_after_commit?
@@ -102,6 +104,22 @@ class Issue
       else
         { to: users.map(&:email) }
       end
+    end
+
+    def create_issue_delegation?
+      delegation_id.present? && saved_change_to_delegation_id?
+    end
+
+    def create_issue_delegation
+      issue_delegations.create group_id: delegation_id
+    end
+
+    def update_issue_delegation_rejected?
+      delegation_id.blank? && saved_change_to_delegation_id?
+    end
+
+    def update_issue_delegation_rejected
+      issue_delegations.last.update rejected: true
     end
 
     def create_issue_responsibility?
