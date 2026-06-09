@@ -28,11 +28,14 @@ class CategoriesController < ApplicationController
   private
 
   def safe_redirect_params
-    page = (p = params[:page].to_i).positive? ? p : 1
-    params.permit(
+    safe_params = params.permit(
       filter: %i[include_inactive text],
       order_by: %i[column dir]
-    ).to_h.merge(page: page)
+    ).to_h
+    if (page = params[:page].to_i).positive?
+      safe_params[:page] = page
+    end
+    safe_params
   end
 
   def filter(collection)
