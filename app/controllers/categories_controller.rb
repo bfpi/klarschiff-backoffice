@@ -27,17 +27,12 @@ class CategoriesController < ApplicationController
 
   private
 
-  # Only allow redirection with sanitized parameters.
   def safe_redirect_params
-    page = Integer(params[:page] || 1) rescue 1
-    filter = (params[:filter] || {}).permit(:include_inactive, :text)
-    order_by = (params[:order_by] || {}).permit(:column, :dir)
-    {
-      action: :index,
-      page: page,
-      filter: filter.to_h.slice('include_inactive', 'text'),
-      order_by: order_by.to_h.slice('column', 'dir')
-    }
+    page = (p = params[:page].to_i).positive? ? p : 1
+    params.permit(
+      filter: [:include_inactive, :text],
+      order_by: [:column, :dir]
+    ).to_h.merge(action: :index, page: page)
   end
 
   def filter(collection)
