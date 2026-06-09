@@ -16,13 +16,13 @@ class CategoriesController < ApplicationController
   def reactivate
     @category = Category.find(params[:id])
     @category.update!(deleted_at: nil)
-    redirect_to safe_redirect_params
+    redirect_to categories_path(safe_redirect_params)
   end
 
   def destroy
     @category = Category.active.find(params[:id])
     @category.update!(deleted_at: Time.current)
-    redirect_to safe_redirect_params
+    redirect_to categories_path(safe_redirect_params)
   end
 
   private
@@ -32,7 +32,7 @@ class CategoriesController < ApplicationController
     params.permit(
       filter: [:include_inactive, :text],
       order_by: [:column, :dir]
-    ).to_h.merge(action: :index, page: page)
+    ).to_h.merge(page: page)
   end
 
   def filter(collection)
