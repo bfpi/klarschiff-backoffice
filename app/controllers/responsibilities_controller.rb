@@ -18,7 +18,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def edit
-    @responsibility = Responsibility.authorized.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params.expect(:id))
   end
 
   def create
@@ -31,7 +31,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def update
-    @responsibility = Responsibility.authorized.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params.expect(:id))
     if @responsibility.update(responsibility_params) && params[:save_and_close].present?
       return redirect_to permitted_order_and_pagination_params.merge(action: :index)
     end
@@ -39,7 +39,7 @@ class ResponsibilitiesController < ApplicationController
   end
 
   def destroy
-    @responsibility = Responsibility.authorized.find(params[:id])
+    @responsibility = Responsibility.authorized.find(params.expect(:id))
     @responsibility.update!(deleted_at: Time.current)
     redirect_to permitted_order_and_pagination_params.merge(action: :index)
   end
@@ -52,7 +52,7 @@ class ResponsibilitiesController < ApplicationController
 
   def responsibility_params
     return {} if params[:responsibility].blank?
-    params.require(:responsibility).permit(:group_id, :category_id)
+    params.expect(responsibility: %i[group_id category_id])
   end
 
   def custom_order(col, dir)

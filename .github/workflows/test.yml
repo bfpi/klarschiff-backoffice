@@ -1,17 +1,12 @@
 name: Rails Tests
 
 on:
-  push:
-    branches-ignore:
-      - master
-  workflow_call:
-
-env:
-  RAILS_ENV: test
+  - push
+  - workflow_call
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgis/postgis:12-3.1
@@ -28,6 +23,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
       - run: yarn install
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

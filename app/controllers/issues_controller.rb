@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
   before_action(only: :create) { check_auth :create_issue }
 
   def show
-    check_auth(:edit_issue, Issue.find(params[:id]))
+    check_auth(:edit_issue, Issue.find(params.expect(:id)))
     @edit_issue_url = edit_issue_url(params[:id])
     @issues = paginate(results)
     render :index
@@ -19,7 +19,7 @@ class IssuesController < ApplicationController
   end
 
   def edit
-    @issue = Issue.authorized_responsibility.find(params[:id])
+    @issue = Issue.authorized_responsibility.find(params.expect(:id))
     check_auth(:show_issue, @issue)
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     respond_to do |format|
@@ -45,7 +45,7 @@ class IssuesController < ApplicationController
   end
 
   def update
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params.expect(:id))
     check_auth(:edit_issue, @issue)
     if @issue.update(issue_params) && close_modal?
       unless authorized?(:edit_issue, @issue)
@@ -65,7 +65,7 @@ class IssuesController < ApplicationController
   end
 
   def resend_responsibility
-    issue = Issue.find(params[:issue_id])
+    issue = Issue.find(params.expect(:issue_id))
     check_auth :resend_responsibility, issue
     issue.send :notify_group
   end
@@ -100,7 +100,7 @@ class IssuesController < ApplicationController
 
   def issue_params
     return {} if params[:issue].blank?
-    params.require(:issue).permit(*permitted_attributes)
+    params.expect(issue: [*permitted_attributes])
   end
 
   def permitted_attributes

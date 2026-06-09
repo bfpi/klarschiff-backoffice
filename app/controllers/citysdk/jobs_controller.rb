@@ -67,13 +67,11 @@ module Citysdk
     # :apidoc: </jobs>
     # :apidoc: ```
     def create
-      job = Citysdk::Job.new
-      job.status = :unchecked
-      job.assign_attributes(params.permit(:service_request_id, :agency_responsible, :date))
+      raise ActiveRecord::RecordNotFound if params[:service_request_id].blank?
 
-      jo = job.becomes(::Job)
+      jo = create_job
       jo.save!
-      issue = Issue.find(params[:service_request_id])
+      issue = Issue.find(params.expect(:service_request_id))
       issue.job = jo
       issue.save!
 
@@ -111,7 +109,7 @@ module Citysdk
     # :apidoc: </jobs>
     # :apidoc: ```
     def update
-      issue = Issue.find(params[:id])
+      issue = Issue.find(params.expect(:id))
       raise ActiveRecord::RecordNotFound unless issue.job
       job = issue.job.becomes(Citysdk::Job)
 
@@ -135,6 +133,14 @@ module Citysdk
       par[:status] = par[:status].blank? ? nil : par[:status].downcase.to_sym
       par[:date] = nil if par[:date].blank?
       par
+    end
+
+    def create_job
+      job = Citysdk::Job.new
+      job.status = :unchecked
+      job.assign_attributes(params.permit(:service_request_id, :agency_responsible, :date))
+
+      job.becomes(::Job)
     end
   end
 end

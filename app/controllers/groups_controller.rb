@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.authorized.find(params[:id])
+    @group = Group.authorized.find(params.expect(:id))
   end
 
   def create
@@ -37,7 +37,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    @group = Group.authorized.find(params[:id])
+    @group = Group.authorized.find(params.expect(:id))
     if @group.update(group_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -52,8 +52,8 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_default,
-      :reference_id, user_ids: [])
+    params.expect(group: [:active, :name, :short_name, :type, :kind, :email, :main_user_id, :reference_default,
+                          :reference_id, { user_ids: [] }])
   end
 
   def filter_name_columns

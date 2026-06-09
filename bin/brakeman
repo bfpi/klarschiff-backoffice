@@ -1,5 +1,7 @@
-#! /usr/bin/env bash
-# vim: set ft=sh:
-echo "Checking Brakeman rules ..."
-bundle exec brakeman --quiet --no-summary --format text $@
-echo "Rerun with option -I to handle ignores"
+#!/usr/bin/env ruby
+require "rubygems"
+require "bundler/setup"
+
+ARGV.unshift("--ensure-latest")
+
+load Gem.bin_path("brakeman", "brakeman")
