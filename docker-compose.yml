@@ -20,7 +20,7 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./db:/db
 
-  backoffice:
+  web:
     container_name: klarschiff-backoffice
     image: ghcr.io/bfpi/klarschiff/backoffice:latest
     build:
@@ -46,7 +46,7 @@ services:
       - ./overlay:/rails/overlay
       - ./storage:/rails/storage
 
-  backoffice_jobs:
+  jobs:
     container_name: klarschiff-backoffice-jobs
     image: ghcr.io/bfpi/klarschiff/backoffice:latest
     build:
