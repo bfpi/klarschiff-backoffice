@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - docker
-      - test
+      - laiv
       - master
+      - test
+      - updates
     tags:
       - 'v*'
 
