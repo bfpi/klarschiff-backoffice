@@ -89,6 +89,12 @@
                         <%= link_to 'E-Mail-Templates / Vorschau', rails_mailers_path,
                               target: :_blank, rel: 'noopener', class: 'dropdown-item' %>
                       <% end -%>
+
+                      <% if authorized?(:manage_jobs) -%>
+                        <%= link_to('Jobs', mission_control_jobs_path,
+                              target: :_blank, rel: :noopener, class: 'dropdown-item') %>
+                      <% end -%>
+
                       <%= link_to 'Tests', tests_path, class: 'dropdown-item' if authorized?(:test) %>
                     </div>
                   </li>

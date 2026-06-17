@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount MissionControl::Jobs::Engine, at: '/jobs'
+
   resource :logins, only: %i[new create update destroy] do
     get :change_user
   end

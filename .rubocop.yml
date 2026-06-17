@@ -51,7 +51,9 @@ Metrics/BlockLength:
     - '**/*.xml.builder'
 
 Metrics/ClassLength:
-  Exclude: ['test/**/*']
+  Exclude: 
+    - 'db/migrate/20260617062939_create_solid_queue.rb'
+    - 'test/**/*'
 
 Metrics/MethodLength:
   Exclude: ['db/migrate/*']
