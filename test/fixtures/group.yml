@@ -13,6 +13,9 @@ one:
 two:
   <<: *DEFAULTS
 
+four:
+  <<: *DEFAULTS
+
 external:
   <<: *DEFAULTS
   kind: external
