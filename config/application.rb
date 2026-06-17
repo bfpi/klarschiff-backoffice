@@ -55,6 +55,7 @@ module KlarschiffBackoffice
     config.active_storage.content_types_allowed_inline << 'image/jpg'
     config.active_storage.variable_content_types << 'image/jpg'
 
+    config.active_job.queue_adapter = :solid_queue
     config.mission_control.jobs.http_basic_auth_enabled = false
 
     # Global settings from settings.yml
