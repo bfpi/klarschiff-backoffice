@@ -321,4 +321,24 @@ class IssueTest < ActiveSupport::TestCase
       issue.save!
     end
   end
+
+  test 'test email-confirmation is not skipped' do
+    issue = Issue.create(
+      author: 'test@rostock.de', description: 'Test', category: category(:one), status: 0,
+      position: 'POINT(12.104630572065371 54.07595060029302)', group: group(:internal)
+    )
+    assert_valid issue
+    assert_predicate issue, :status_pending?
+  end
+
+  test 'test email-confirmation is skipped' do
+    with_skip_email_confirmation(value: true) do
+      issue = Issue.create(
+        author: 'test@rostock.de', description: 'Test', category: category(:one), status: 0,
+        position: 'POINT(12.104630572065371 54.07595060029302)', group: group(:internal)
+      )
+      assert_valid issue
+      assert_predicate issue, :status_received?
+    end
+  end
 end

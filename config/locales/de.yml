@@ -533,6 +533,8 @@ de:
         Die Meldung wurde erfolgreich erstellt.
         Sie haben eine E-Mail erhalten, in der Sie Ihre Meldung noch einmal bestätigen müssen.
         Wenn Sie nicht innerhalb von 24 Stunden bestätigen, wird Ihre Meldung automatisch wieder gelöscht.
+      success_without_email: >
+        Die Meldung wurde erfolgreich erstellt.
     description:
       internal: redaktionelle Prüfung ausstehend
       default_group: >

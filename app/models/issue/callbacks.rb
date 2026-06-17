@@ -17,6 +17,7 @@ class Issue
       before_validation :set_responsibility, if: :set_responsibility?, unless: :responsibility_already_set
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
 
+      before_save :skip_status_pending, if: -> { Settings::Instance.skip_email_confirmation }
       before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
@@ -110,6 +111,10 @@ class Issue
 
     def create_issue_responsibility
       issue_responsibilities.create group_id: group_id
+    end
+
+    def skip_status_pending
+      self.status = :received
     end
 
     def clear_group_responsibility_notified_at
