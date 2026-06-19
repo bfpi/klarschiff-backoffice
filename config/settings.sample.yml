@@ -24,7 +24,7 @@ development: &default
     name: Klarschiff.HRO
     city_long: Hanse- und Universitätsstadt Rostock
     city_short: Rostock
-    frontend_issue_url: https://www.klarschiff-hro.de/map?request=%d
+    frontend_url: https://www.klarschiff-hro.de/
     parent_instance_url: https://www.klarschiff-mv.de/
     show_help: false
     show_contact_before_login: false
