@@ -32,7 +32,7 @@
       <span class="float-end trust-icon fa fa-star" title="<%= t('.trust') %>">
       </span>
     <% end -%>
-    <% if issue.issue_delegations.rejected.count > 0 -%>
+    <% if issue.issue_delegations.rejected.any? -%>
       <span class="float-end fa fa-repeat" title="<%= t('.issue_delegations_rejected') %>">
       </span>
     <% end -%>

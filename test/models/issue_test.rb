@@ -261,7 +261,7 @@ class IssueTest < ActiveSupport::TestCase
 
     # Change the group - create_issue_responsibility should create a new responsibility
     assert_difference 'IssueResponsibility.count', 1 do
-      assert_no_changes -> { IssueDelegation.count } do
+      assert_no_difference 'IssueDelegation.count' do
         issue.update! group: new_group
       end
     end
@@ -334,7 +334,7 @@ class IssueTest < ActiveSupport::TestCase
 
     # Change the group - create_issue_responsibility should create a new responsibility
     assert_difference 'IssueDelegation.count', 1 do
-      assert_no_changes -> { IssueResponsibility.count } do
+      assert_no_difference 'IssueResponsibility.count' do
         issue.update! delegation: new_group
       end
     end

@@ -63,7 +63,7 @@
                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <%= issue.delegation %>
                </span>)
             <% end -%>
-            <% if issue.issue_delegations.rejected.count > 0 -%>
+            <% if issue.issue_delegations.rejected.any? -%>
               <i class="fa fa-repeat" title="<%= t('dashboards.issue.issue_delegations_rejected') %>" aria-hidden="true"></i>
             <% end -%>
           </td>
