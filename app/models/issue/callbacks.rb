@@ -6,6 +6,7 @@ class Issue
 
     include AuthorBlacklist
     include ConfirmationWithHash
+    include Issue::Callbacks::Responsibility
     include Setters
 
     included do
