@@ -13,6 +13,8 @@
 # The ideal number of threads per worker depends both on how much time the
 # application spends waiting for IO operations and on how much you wish to
 # prioritize throughput over latency.
+
+# Specifies the `environment` that Puma will run in.
 #
 # As a rule of thumb, increasing the number of threads will increase how much
 # traffic a given process can handle (throughput), but due to CRuby's
@@ -29,7 +31,7 @@ threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3001)
+bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3001)}"
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
