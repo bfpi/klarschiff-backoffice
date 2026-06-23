@@ -514,7 +514,6 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   coffee-rails
-  connection_pool (< 3.0)
   erb_lint
   exception_notification
   font-awesome-rails
