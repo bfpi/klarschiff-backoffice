@@ -39,7 +39,7 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
       TZ: Europe/Berlin
     ports:
-      - 3001:3000
+      - 3001:3001
     restart: always
     volumes:
       - ./log:/rails/log
