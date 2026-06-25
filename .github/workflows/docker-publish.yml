@@ -5,7 +5,10 @@ on:
     branches:
       - master
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   publish:
@@ -53,6 +56,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
+            type=ref,event=pr
             type=ref,event=tag
 
       # --------------------------------------------------
