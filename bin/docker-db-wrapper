@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+
+user=$(docker compose config --format json | jq '.services.database.environment["POSTGRES_USER"]' | tr -d '"')
+
+docker compose exec -e PGUSER=${user:-postgres} -u $(id -u):$(id -g) database "$@"
