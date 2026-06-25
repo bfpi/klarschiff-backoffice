@@ -246,6 +246,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_062939) do
     t.index ["updated_by_user_id"], name: "index_issue_on_updated_by_user_id"
   end
 
+  create_table "issue_delegation", force: :cascade do |t|
+    t.bigint "issue_id", null: false
+    t.bigint "group_id", null: false
+    t.boolean "rejected", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_issue_delegation_on_group_id"
+    t.index ["issue_id"], name: "index_issue_delegation_on_issue_id"
+  end
+
   create_table "issue_responsibility", force: :cascade do |t|
     t.boolean "accepted", default: false, null: false
     t.datetime "created_at", null: false
@@ -510,6 +520,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_062939) do
   add_foreign_key "issue", "group"
   add_foreign_key "issue", "group", column: "delegation_id"
   add_foreign_key "issue", "user", column: "updated_by_user_id"
+  add_foreign_key "issue_delegation", "group"
+  add_foreign_key "issue_delegation", "issue"
   add_foreign_key "issue_responsibility", "group"
   add_foreign_key "issue_responsibility", "issue"
   add_foreign_key "job", "group"

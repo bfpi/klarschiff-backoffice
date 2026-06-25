@@ -304,9 +304,11 @@ de:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
     issue:
-      abuse_report: Lob/Hinweis/Kritik
       comments: interner Kommentar
+      feedbacks: Lob/Hinweis/Kritik
       high_priority: hohe Priorität
+      issue_delegations_rejected: zurückgewiesene delegierte Meldung
+      issue_responsibilities: weitergeleitete Meldung
       trust: vertrauenswürdig
   date:
     formats:

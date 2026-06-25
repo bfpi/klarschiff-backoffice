@@ -261,7 +261,9 @@ class IssueTest < ActiveSupport::TestCase
 
     # Change the group - create_issue_responsibility should create a new responsibility
     assert_difference 'IssueResponsibility.count', 1 do
-      issue.update! group: new_group
+      assert_no_difference 'IssueDelegation.count' do
+        issue.update! group: new_group
+      end
     end
 
     # Verify the responsibility was created with the correct group
@@ -339,6 +341,47 @@ class IssueTest < ActiveSupport::TestCase
       )
       assert_valid issue
       assert_predicate issue, :status_received?
+    end
+  end
+
+  test 'create issue delegation when delegation_id changes' do
+    issue = issue(:one)
+    new_group = group(:external2)
+
+    # Ensure preconditions
+    assert_not_equal issue.group, new_group
+    assert_empty issue.issue_delegations.where(group: new_group)
+
+    # Change the group - create_issue_responsibility should create a new responsibility
+    assert_difference 'IssueDelegation.count', 1 do
+      assert_no_difference 'IssueResponsibility.count' do
+        issue.update! delegation: new_group
+      end
+    end
+
+    # Verify the responsibility was created with the correct group
+    new_delegation = issue.issue_delegations.where(group: new_group).first
+    assert_not_nil new_delegation
+    assert_equal new_group.id, new_delegation.group_id
+  end
+
+  test 'create no issue delegation when only status changes' do
+    issue = issue(:pending)
+
+    # Change status without changing group_id - should not create responsibility
+    assert_no_difference 'IssueDelegation.count' do
+      issue.update! status: :received
+    end
+  end
+
+  test 'update issue delegation when delegation rejected' do
+    issue = issue(:one)
+    delegation = issue.issue_delegations.create(group: group(:external2))
+    assert_not(delegation.rejected)
+
+    assert_changes 'delegation.reload.rejected', from: false, to: true do
+      issue.delegation = nil
+      issue.save!
     end
   end
 end

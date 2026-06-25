@@ -39,7 +39,7 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
       TZ: Europe/Berlin
     ports:
-      - 3001:3000
+      - 3001:3001
     restart: always
     volumes:
       - ./log:/rails/log
@@ -56,6 +56,7 @@ services:
         - GITHUB_BRANCH=${GITHUB_BRANCH:-unknown}
         - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
     depends_on:
+      - cache
       - database
     command: bundle exec sidekiq
     environment:
