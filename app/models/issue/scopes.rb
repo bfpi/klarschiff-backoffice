@@ -87,16 +87,23 @@ class Issue
       end
 
       def authorized_by_references(reference_ids)
-        where <<~SQL.squish, reference_ids, reference_ids
+        where <<~SQL.squish
           ST_Within("position", (
-            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{County.quoted_table_name}
-            WHERE "id" IN (?)
+            #{authorized_by_references_subselect(County.quoted_table_name, reference_ids)}
           )) OR ST_Within("position", (
-            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{Authority.quoted_table_name} WHERE "id" IN (?)
+            #{authorized_by_references_subselect(Authority.quoted_table_name, reference_ids)}
+          )) OR ST_Within("position", (
+            #{authorized_by_references_subselect(Instance.quoted_table_name, reference_ids)}
           ))
         SQL
+      end
+
+      def authorized_by_references_subselect(quoted_table_name, reference_ids)
+        sql = <<~SQL.squish
+          SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+          FROM #{quoted_table_name} WHERE "id" IN (?)
+        SQL
+        sanitize_sql_array([sql, reference_ids])
       end
 
       def authorized_group_ids(user = Current.user)

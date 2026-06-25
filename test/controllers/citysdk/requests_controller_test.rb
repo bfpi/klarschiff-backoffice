@@ -255,13 +255,34 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_not_empty doc.xpath('/service_requests/request/create_message')
     assert_equal 1, service_request_id.count
+    assert_includes doc.xpath('/service_requests/request/create_message').text,
+      'Die Meldung wurde erfolgreich erstellt. Sie haben eine E-Mail erhalten'
     assert issue = Issue.find(service_request_id.first.text)
+    assert_predicate issue, :status_pending?
     assert_enqueued_emails 1
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
       args: [{ to: 'test@example.com', confirmation_hash: issue.confirmation_hash, issue_id: issue.id,
                with_photo: false }]
     )
+  end
+
+  test 'create with frontend api-key and skipped email-confirmation' do
+    with_skip_email_confirmation(value: true) do
+      assert_difference 'IssueResponsibility.count', 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      end
+      doc = Nokogiri::XML(response.parsed_body)
+      service_request_id = doc.xpath('/service_requests/request/service_request_id')
+      assert_not_empty doc.xpath('/service_requests/request/create_message')
+      assert_includes doc.xpath('/service_requests/request/create_message').text,
+        'Die Meldung wurde erfolgreich erstellt.'
+      assert_not_includes doc.xpath('/service_requests/request/create_message').text, 'Sie haben eine E-Mail erhalten'
+      assert_equal 1, service_request_id.count
+      assert issue = Issue.find(service_request_id.first.text)
+      assert_enqueued_emails 1
+      assert_predicate issue, :status_received?
+    end
   end
 
   test 'create with frontend api-key but geocodr returns forbidden' do

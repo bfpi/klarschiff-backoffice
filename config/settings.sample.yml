@@ -27,11 +27,13 @@ development: &default
     frontend_url: https://www.klarschiff-hro.de/
     parent_instance_url: https://www.klarschiff-mv.de/
     show_help: false
+    show_coordinates: false
     show_contact_before_login: false
     show_imprint_before_login: true
     validate_privacy_policy: false
     auth_code_gui_access_for_external_participants: true
     manage_categories: false
+    skip_email_confirmation: false
   issue:
     status_note_max_length: 500
   job:
