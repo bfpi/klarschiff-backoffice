@@ -47,6 +47,7 @@ class IssuesController < ApplicationController
   def update
     @issue = Issue.find(params.expect(:id))
     check_auth(:edit_issue, @issue)
+
     if @issue.update(issue_params) && close_modal?
       unless authorized?(:edit_issue, @issue)
         session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id, group: @issue.group)
@@ -107,7 +108,7 @@ class IssuesController < ApplicationController
     attributes = [:address, :archived, :author, :category_id, :delegation_id, :description,
                   :description_status, :expected_closure, :group_id, :new_photo, :parcel, :photo_requested,
                   :position, :priority, :property_owner, :responsibility_action, :status, :status_note,
-                  { photos_attributes: permitted_photo_attributes }]
+                  { photos_attributes: [permitted_photo_attributes] }]
     attributes += %i[job_date job_group_id] if Current.user.authorized?(:jobs)
     attributes
   end
