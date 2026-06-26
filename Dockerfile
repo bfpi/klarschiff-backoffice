@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-FROM ruby:3.2-slim-bookworm AS base
+FROM ruby:4.0-slim-bookworm AS base
 
 LABEL org.opencontainers.image.source="https://github.com/bfpi/klarschiff-backoffice"
 LABEL org.opencontainers.image.authors="BFPI GmbH"
@@ -16,7 +16,7 @@ RUN echo "${GITHUB_BRANCH:-unknown} / ${GITHUB_COMMIT_HASH:-unknown}" > /rails/g
 ENV RAILS_ENV=${RAILS_ENV} \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development test"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -54,6 +54,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 COPY config/database.sample.yml config/database.yml
+COPY config/recurring.sample.yml config/recurring.yml
 COPY config/storage.sample.yml config/storage.yml
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY

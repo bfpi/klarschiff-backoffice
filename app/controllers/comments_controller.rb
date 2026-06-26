@@ -2,11 +2,11 @@
 
 class CommentsController < ApplicationController
   def show
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params.expect(:id))
   end
 
   def edit
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params.expect(:id))
   end
 
   def create
@@ -18,19 +18,19 @@ class CommentsController < ApplicationController
   end
 
   def update
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params.expect(:id))
     @comment.update!(permitted_params)
     render template: 'comments/show'
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params.expect(:id))
     @comment.update!(deleted: true)
   end
 
   private
 
   def permitted_params
-    params.require(:comment).permit(:issue_id, :message)
+    params.expect(comment: %i[issue_id message])
   end
 end

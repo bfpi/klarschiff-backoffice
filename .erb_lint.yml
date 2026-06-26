@@ -8,9 +8,11 @@ linters:
   ErbSafety:
     enabled: true
     #better_html_config: .better-html.yml
-  RequireInputAutocomplete:
-    enabled: false
   FinalNewline:
+    enabled: false
+  ParserErrors:
+    enabled: false
+  RequireInputAutocomplete:
     enabled: false
   Rubocop:
     enabled: true

@@ -20,7 +20,7 @@ class MailBlacklistsController < ApplicationController
   end
 
   def edit
-    @mail_blacklist = MailBlacklist.find(params[:id])
+    @mail_blacklist = MailBlacklist.find(params.expect(:id))
   end
 
   def create
@@ -37,7 +37,7 @@ class MailBlacklistsController < ApplicationController
   end
 
   def update
-    @mail_blacklist = MailBlacklist.find(params[:id])
+    @mail_blacklist = MailBlacklist.find(params.expect(:id))
     if @mail_blacklist.update(mail_blacklist_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -48,7 +48,7 @@ class MailBlacklistsController < ApplicationController
   private
 
   def mail_blacklist_params
-    params.require(:mail_blacklist).permit(:active, :pattern, :source, :reason)
+    params.expect(mail_blacklist: %i[active pattern source reason])
   end
 
   def filter_name_columns
