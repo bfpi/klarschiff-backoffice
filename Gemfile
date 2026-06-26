@@ -44,6 +44,14 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
 
+  gem 'pronto-rubocop', require: false
+  gem 'rubocop-capybara'
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+
+  gem 'erb_lint', require: false
+
   gem 'minitest'
   gem 'minitest-mock'
 
@@ -57,13 +65,6 @@ group :development do
   # gem 'web-console', '>= 3.3.0'
 
   gem 'bullet'
-  gem 'pronto-rubocop', require: false
-  gem 'rubocop-capybara'
-  gem 'rubocop-minitest', require: false
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
-
-  gem 'erb_lint', require: false
 end
 
 group :test do
