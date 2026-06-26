@@ -54,6 +54,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 COPY config/database.sample.yml config/database.yml
+COPY config/recurring.sample.yml config/recurring.yml
 COPY config/storage.sample.yml config/storage.yml
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
