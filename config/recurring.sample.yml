@@ -1,0 +1,83 @@
+# examples:
+#   periodic_cleanup:
+#     class: CleanSoftDeletedRecordsJob
+#     queue: background
+#     args: [ 1000, { batch_size: 500 } ]
+#     schedule: every hour
+#   periodic_cleanup_with_command:
+#     command: "SoftDeletedRecord.due.delete_all"
+#     priority: 2
+#     schedule: at 5am every day
+
+default: &default
+  clear_solid_queue_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    schedule: every hour at minute 12
+
+  refresh_static_requests:
+    class: RefreshStaticRequestsJob
+    schedule: "0 * * * *"
+
+  delete_unconfirmed_issues:
+    class: DeleteUnconfirmedIssuesJob
+    schedule: "32 * * * *"
+
+  deleteunconfirmed_supporters:
+    class: DeleteUnconfirmedSupportersJob
+    schedule: "37   * * * *"
+
+  delete_unconfirmed_abuse_reports:
+    class: DeleteUnconfirmedAbuseReportsJob
+    schedule: "42   * * * *"
+
+  delete_unconfirmed_completions:
+    class: DeleteUnconfirmedCompletionsJob
+    schedule: "45   * * * *"
+
+  delete_unconfirmed_photos:
+    class: DeleteUnconfirmedPhotosJob
+    schedule: "47   * * * *"
+
+  delete_authors_after_deadline:
+    class: DeleteAuthorsAfterDeadlineJob
+    schedule: "52   * * * *"
+
+  archive_closed_issues:
+    class: ArchiveClosedIssuesJob
+    schedule: "40  00 * * *"
+
+  inform_editorial_staff_on_issues:
+    class: InformEditorialStaffOnIssuesJob
+    schedule: "40  01 * * *"
+
+  calculate_average_turnaround_time:
+    class: CalculateAverageTurnaroundTimeJob
+    schedule: "00  02 * * *"
+
+  inform_on_delegated_issues:
+    class: InformOnDelegatedIssuesJob
+    schedule: "00  07 * * *"
+
+  notify_on_group_assigned_responsibility:
+    class: NotifyOnGroupAssignedResponsibilityJob
+    schedule: "05  07 * * *"
+
+  notify_on_issues_in_process:
+    class: NotifyOnIssuesInProcessJob
+    schedule: "05  10 * * *"
+
+  notify_on_closed_issues:
+    class: NotifyOnClosedIssuesJob
+    schedule: "10  10 * * *"
+
+development:
+  <<: *default
+
+alpha:
+  <<: *default
+
+consolidation:
+  <<: *default
+
+production:
+  <<: *default

@@ -7,6 +7,9 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  RAILS_ENV: test
+
 jobs:
   jslint:
     uses: ./.github/workflows/lint-js.yml

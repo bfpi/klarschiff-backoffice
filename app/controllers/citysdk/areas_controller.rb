@@ -78,7 +78,7 @@ module Citysdk
       response.order(
         ActiveRecord::Base.sanitize_sql_for_order(
           [Arel.sql('ST_Distance(ST_SetSRID(ST_MakePoint(?, ?), 4326), area)'),
-           params.expect(:center).first.to_f, params.expect(:center).last.to_f]
+           params.expect(center: []).first.to_f, params.expect(center: []).last.to_f]
         )
       )
     end

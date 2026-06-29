@@ -39,10 +39,18 @@ gem 'image_processing', '~> 1.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'debug', platforms: :mri, require: 'debug/prelude'
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
+
+  gem 'pronto-rubocop', require: false
+  gem 'rubocop-capybara'
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+
+  gem 'erb_lint', require: false
 
   gem 'minitest'
   gem 'minitest-mock'
@@ -57,13 +65,6 @@ group :development do
   # gem 'web-console', '>= 3.3.0'
 
   gem 'bullet'
-  gem 'pronto-rubocop', require: false
-  gem 'rubocop-capybara'
-  gem 'rubocop-minitest', require: false
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
-
-  gem 'erb_lint', require: false
 end
 
 group :test do
