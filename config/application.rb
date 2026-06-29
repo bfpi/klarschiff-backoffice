@@ -57,6 +57,7 @@ module KlarschiffBackoffice
 
     config.active_job.queue_adapter = :solid_queue
     config.mission_control.jobs.http_basic_auth_enabled = false
+    config.mission_control.jobs.base_controller_class = "MissionControlBaseController"
 
     # Global settings from settings.yml
     settings_file = Rails.root.join('config/settings.yml')
