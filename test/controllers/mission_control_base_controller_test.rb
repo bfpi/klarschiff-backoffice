@@ -15,14 +15,14 @@ class MissionControlBaseControllerTest < ActionDispatch::IntegrationTest
   %i[regional_admin editor].each do |role|
     test "not authorized jobs for #{role}" do
       login username: role
-      get '/jobs'
+      get '/server_jobs'
       assert_response :forbidden
     end
   end
 
   test 'authorized jobs for admin' do
     login username: :admin
-    get '/jobs'
+    get '/server_jobs'
     assert_response :success
   end
 end
