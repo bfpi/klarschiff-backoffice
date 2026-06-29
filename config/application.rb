@@ -56,8 +56,8 @@ module KlarschiffBackoffice
     config.active_storage.variable_content_types << 'image/jpg'
 
     config.active_job.queue_adapter = :solid_queue
-    config.mission_control.jobs.http_basic_auth_enabled = false
     config.mission_control.jobs.base_controller_class = "MissionControlBaseController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
 
     # Global settings from settings.yml
     settings_file = Rails.root.join('config/settings.yml')
