@@ -50,7 +50,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with api-key ppc but without attributes' do
-    post "/citysdk/jobs.xml?api_key=#{api_key_ppc}"
+    post '/citysdk/jobs.xml', params: { api_key: api_key_ppc, service_request_id: issue(:in_process).id }
     doc = Nokogiri::XML(response.parsed_body)
     assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
   end

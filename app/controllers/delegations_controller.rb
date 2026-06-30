@@ -16,14 +16,14 @@ class DelegationsController < ApplicationController
   end
 
   def show
-    check_auth :edit_delegation, Issue.find(params[:id])
+    check_auth :edit_delegation, Issue.find(params.expect(:id))
     @edit_delegation_url = edit_delegation_url(params[:id])
     @issues = paginate(issues)
     render :index
   end
 
   def edit
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params.expect(:id))
     check_auth :edit_delegation, @issue
     respond_to do |format|
       format.js
@@ -35,7 +35,7 @@ class DelegationsController < ApplicationController
   end
 
   def update
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params.expect(:id))
     check_auth :edit_delegation, @issue
     return reject if params[:reject].present?
     if @issue.update(issue_params) && params[:save_and_close].present?
@@ -79,7 +79,7 @@ class DelegationsController < ApplicationController
 
   def issue_params
     return {} if params[:issue].blank?
-    params.require(:issue).permit(:status, :status_note)
+    params.expect(issue: %i[status status_note])
   end
 
   def paginate(issues)

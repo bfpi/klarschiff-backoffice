@@ -14,13 +14,13 @@ class CategoriesController < ApplicationController
   end
 
   def reactivate
-    @category = Category.find(params[:id])
+    @category = Category.find(params.expect(:id))
     @category.update!(deleted_at: nil)
     redirect_to categories_path(safe_redirect_params)
   end
 
   def destroy
-    @category = Category.active.find(params[:id])
+    @category = Category.active.find(params.expect(:id))
     @category.update!(deleted_at: Time.current)
     redirect_to categories_path(safe_redirect_params)
   end

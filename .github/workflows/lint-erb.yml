@@ -4,6 +4,9 @@ on:
   - push
   - workflow_call
 
+env:
+  RAILS_ENV: test
+
 jobs:
   erblint:
     name: ERB files

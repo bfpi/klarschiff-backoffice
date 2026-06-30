@@ -30,8 +30,6 @@ nav.navbar {
 }
 
 .footer {
-  @extend .fixed-bottom;
-  @extend .py-2;
   background-color: $gray-200;
   border-top: 1px solid $secondary;
 }
@@ -168,11 +166,11 @@ a {
   margin-top: 1rem;
 }
 
-label[for=filter_text] {
+label[for="filter-text"] {
   --bs-gutter-x: 0;
 }
 
-input#filter_text {
+input#filter-text {
   margin-left: 9px;
 }
 

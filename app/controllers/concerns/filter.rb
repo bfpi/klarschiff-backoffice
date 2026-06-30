@@ -13,7 +13,7 @@ module Filter
 
   def filter_excludes(collection)
     return collection unless params[:exclude_ids]
-    collection.where.not(id: params[:exclude_ids].split(',').map(&:to_i))
+    collection.where.not(id: params.expect(:exclude_ids).split(',').map(&:to_i))
   end
 
   def filter_include_inactive(collection)

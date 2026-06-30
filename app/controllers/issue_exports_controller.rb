@@ -4,7 +4,7 @@ class IssueExportsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    @issue = Issue.find(params[:issue_id])
+    @issue = Issue.find(params.expect(:issue_id))
     @map_image = Base64.decode64(params[:map_image])
     headers['X-FileName'] = (file_name = "meldung-#{@issue.id}.pdf")
     send_data pdf, filename: file_name, disposition: :attachment

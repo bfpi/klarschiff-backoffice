@@ -4,7 +4,7 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    rescue_from UserAuthorization::NotAuthorized, with: -> { respond_with_forbidden }
+    rescue_from UserAuthorization::NotAuthorized, with: -> { respond_with_forbidden(layout: 'logins') }
 
     before_action :authenticate
 

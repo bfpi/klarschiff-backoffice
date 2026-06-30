@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.authorized.find(params[:id])
+    @user = User.authorized.find(params.expect(:id))
   end
 
   def change_password
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.authorized.find(params[:id])
+    @user = User.authorized.find(params.expect(:id))
     if @user.update(user_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -63,8 +63,8 @@ class UsersController < ApplicationController
   end
 
   def user_params(password_only: false)
-    return params.require(:user).permit(:password, :password_confirmation) if password_only
-    params.require(:user).permit(*permitted_attributes)
+    return params.expect(user: %i[password password_confirmation]) if password_only
+    params.expect(user: [*permitted_attributes])
   end
 
   def permitted_attributes
