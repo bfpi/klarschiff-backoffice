@@ -83,4 +83,12 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  test 'service sonstiges should be the last' do
+    get "/citysdk/services.xml?api_key=#{api_key_frontend}"
+    doc = Nokogiri::XML(response.parsed_body)
+    service_names = doc.xpath('/services/service/service_name').map(&:text)
+    assert_predicate service_names.count, :positive?
+    assert_equal sub_category(:sonstiges).name, service_names.last
+  end
 end
