@@ -35,7 +35,8 @@ gem 'bootsnap', require: false
 gem 'thruster', require: false
 
 # Use Active Storage variant
-gem 'image_processing', '~> 1.2'
+gem 'image_processing'
+gem 'mini_magick'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

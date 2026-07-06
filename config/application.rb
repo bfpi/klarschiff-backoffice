@@ -54,6 +54,7 @@ module KlarschiffBackoffice
 
     config.active_storage.content_types_allowed_inline << 'image/jpg'
     config.active_storage.variable_content_types << 'image/jpg'
+    config.active_storage.variant_processor = :mini_magick
 
     config.active_job.queue_adapter = :solid_queue
     config.mission_control.jobs.base_controller_class = "MissionControlBaseController"
