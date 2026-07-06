@@ -17,7 +17,11 @@ class DashboardsController
     def latest_issues
       base_issues.includes({ category: :main_category }).not_archived
         .where(status: %w[received reviewed in_process not_solvable closed])
-        .order(issue_arel_table[:priority].desc, issue_arel_table[:updated_at].desc, issue_arel_table[:id].desc)
+        .order(
+          issue_arel_table[:priority].desc,
+          issue_arel_table[:group_responsibility_notified_at].desc.nulls_last,
+          issue_arel_table[:id].desc
+        )
         .limit(10)
     end
 
@@ -35,8 +39,13 @@ class DashboardsController
 
     def former_issues(groups)
       return [] if groups.blank?
-      Issue.not_archived.joins(:issue_responsibilities).includes(category: :main_category)
-        .where(changed_responsibilities(groups.ids)).distinct.limit 10
+      Issue.not_archived
+        .joins(:issue_responsibilities)
+        .includes(category: :main_category)
+        .where(changed_responsibilities(groups.ids))
+        .distinct
+        .order(updated_at: :desc, id: :asc)
+        .limit(10)
     end
 
     def changed_responsibilities(group_ids)
