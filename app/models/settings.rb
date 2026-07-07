@@ -27,4 +27,11 @@ class Settings
         .select { |c| Password.send(:"include_#{c}") }
     end
   end
+
+  Instance.singleton_class.prepend(Module.new do
+    def frontend_issue_url(id = nil)
+      url = super()
+      id ? format(url, id) : url
+    end
+  end)
 end
