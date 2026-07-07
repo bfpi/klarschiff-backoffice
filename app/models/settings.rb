@@ -30,7 +30,11 @@ class Settings
 
   Instance.singleton_class.prepend(Module.new do
     def frontend_issue_url(id = nil)
-      url = super()
+      url = begin
+        super()
+      rescue NoMethodError
+        URI.join frontend_url, 'map?request=%d'
+      end
       id ? format(url, id) : url
     end
   end)
