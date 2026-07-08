@@ -22,6 +22,6 @@ class FillResponsibilitiesController < ApplicationController
 
   def responsibility_params
     return {} if params[:responsibility].blank?
-    params.require(:responsibility).permit(:group_id)
+    params.expect(responsibility: [:group_id])
   end
 end

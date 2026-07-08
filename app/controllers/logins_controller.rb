@@ -15,7 +15,8 @@ class LoginsController < ApplicationController
   def update
     check_auth :change_user
     if params[:login] && params[:login][:user_id]
-      session[:login] = User.find(params[:login][:user_id]).login
+      login_params = params.expect(login: [:user_id])
+      session[:login] = User.find(login_params[:user_id]).login
       return redirect_to root_path
     end
     render head: :unprocessable_entity

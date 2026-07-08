@@ -16,11 +16,11 @@ class FieldServicesController < ApplicationController
   end
 
   def edit
-    @field_service = groups.find(params[:id])
+    @field_service = groups.find(params.expect(:id))
   end
 
   def update
-    @field_service = groups.find(params[:id])
+    @field_service = groups.find(params.expect(:id))
     if @field_service.update(field_service_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -35,7 +35,7 @@ class FieldServicesController < ApplicationController
   end
 
   def field_service_params
-    params.require(:group).permit(field_service_operator_ids: [])
+    params.expect(group: [{ field_service_operator_ids: [] }])
   end
 
   def filter_name_columns

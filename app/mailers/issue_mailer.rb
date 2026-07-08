@@ -13,12 +13,12 @@ class IssueMailer < ApplicationMailer
 
   def in_process(to:, issue:)
     @issue = issue
-    mail(to:, interpolation: { subject: { number: @issue.id } })
+    mail(to:, subject: default_i18n_subject(number: @issue.id))
   end
 
   def closed(to:, issue:)
     @issue = issue
-    mail(to:, interpolation: { subject: { number: @issue.id } })
+    mail(to:, subject: default_i18n_subject(number: @issue.id))
   end
 
   def delegation(to:, issues:, auth_codes: [])
@@ -30,6 +30,6 @@ class IssueMailer < ApplicationMailer
   def inform_editorial_staff(to:, issues:, days:)
     @days = days
     @issues = issues
-    mail(to:, interpolation: { subject: { title: Settings::Instance.name } })
+    mail(to:, subject: default_i18n_subject(title: Settings::Instance.name))
   end
 end

@@ -2,7 +2,7 @@
 
 class CompletionsController < ApplicationController
   def update
-    @completion = Completion.find(params[:id])
+    @completion = Completion.find(params.expect(:id))
     @completion.reject_with_status_reset = params[:completion][:reject_with_status_reset]&.to_boolean
     @completion.update! permitted_params
     @issue = @completion.issue.reload
@@ -11,6 +11,6 @@ class CompletionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:completion).permit(:issue_id, :notice, :status)
+    params.expect(completion: %i[issue_id notice status])
   end
 end

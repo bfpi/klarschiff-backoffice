@@ -41,7 +41,7 @@ module UserLogin
 
   def check_credentials
     @credentials = params.permit(:login, :password)
-    @credentials = params.require(:login).permit(:login, :password) if @credentials[:password].blank?
+    @credentials = params.expect(login: %i[login password]) if @credentials[:password].blank?
     return if @credentials.values.all?(&:present?)
     login_error 'Benutzername und Passwort müssen angegeben werden'
   end
