@@ -12,8 +12,8 @@ module UserAuthorization
     case action
     when :administration then administration_permitted?
     when :change_password then ldap.blank?
-    when :delegations, :issues, :jobs then index_permitted?(action)
-    when :create_issue, :edit_delegation, :edit_issue, :change_issue_status then edit_permitted?(action, object)
+    when :delegations, :issues, :jobs, :categories then index_permitted?(action)
+    when *edit_permitted_actions then edit_permitted?(action, object)
     when :resend_responsibility then resend_responsibility(object)
     else
       static_permitted_to? action
@@ -30,7 +30,12 @@ module UserAuthorization
     when :delegations then delegations_permitted?
     when :issues then issues_permitted?
     when :jobs then field_service_teams.any?
+    when :categories then categories_permitted?
     end
+  end
+
+  def edit_permitted_actions
+    %i[create_issue edit_delegation edit_issue change_issue_status show_issue]
   end
 
   def edit_permitted?(action, object)
@@ -39,6 +44,7 @@ module UserAuthorization
     when :create_issue then create_issue_permitted?
     when :edit_delegation then edit_delegation_permitted?(object)
     when :edit_issue then edit_issue_permitted?(object)
+    when :show_issue then edit_issue_permitted?(object) || show_issue_permitted?(object)
     end
   end
 
@@ -49,6 +55,10 @@ module UserAuthorization
   def issues_permitted?
     static_permitted_to?(:issues) || groups.active.any?(&:kind_internal?) ||
       auth_code_gui_access? && auth_code&.group&.kind_internal?
+  end
+
+  def categories_permitted?
+    Settings::Instance.manage_categories && role_admin?
   end
 
   def change_issue_status_permitted?(issue)
@@ -62,6 +72,12 @@ module UserAuthorization
   def edit_issue_permitted?(issue)
     static_permitted_to?(:issues) || groups.active.ids.include?(issue.group_id) ||
       auth_code_gui_access? && auth_code&.issue_id == issue.id && auth_code.group_id == issue.group_id
+  end
+
+  def show_issue_permitted?(issue)
+    static_permitted_to?(:issues) ||
+      groups.active.ids.exclude?(issue.group_id) &&
+        groups.map(&:id).intersect?(issue.issue_responsibilities.map(&:group_id))
   end
 
   def delegations_permitted?
@@ -98,6 +114,7 @@ module UserAuthorization
     manage_feedbacks: %i[admin regional_admin],
     manage_field_service: %i[admin regional_admin],
     manage_groups: %i[admin regional_admin],
+    manage_jobs: %i[admin],
     manage_mail_blacklist: %i[admin],
     manage_mail_templates: %i[admin],
     manage_responsibilities: %i[admin regional_admin],

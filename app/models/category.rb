@@ -13,11 +13,10 @@ class Category < ApplicationRecord
 
   delegate :kind, :kind_name, :sub_categories, to: :main_category
   delegate :name, :name_with_kind, to: :main_category, prefix: true
-  delegate :name, to: :sub_category, prefix: true
   delegate :dms_link, :name, to: :sub_category, prefix: true
 
   def self.active
-    where(deleted_at: nil).eager_load(:main_category, :sub_category).where main_category: { deleted: false },
+    eager_load(:main_category, :sub_category).where deleted_at: nil, main_category: { deleted: false },
       sub_category: { deleted: false }
   end
 
@@ -30,6 +29,10 @@ class Category < ApplicationRecord
     Group.regional(lat:, lon:).where(
       group_arel_table[:id].in(group_ids).or(group_arel_table[:reference_default].eq(true))
     ).order(group_order).first
+  end
+
+  def active?
+    deleted_at.blank?
   end
 
   private

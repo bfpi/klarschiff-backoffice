@@ -129,6 +129,7 @@ Parameters:
 | Name | Required | Type | Notes |
 |:--|:-:|:--|:--|
 | api_key | - | String | API key |
+| map | - | Boolean | Return only minimal data to speed up the map view |
 | service_request_id | - | Integer / String | List of multiple Request-IDs, comma delimited |
 | service_code | - | Integer | ID of category |
 | status | - | String | Filter issues by Open311 status, default = `open` |
@@ -366,6 +367,7 @@ Parameters:
 | search_class | - | String | specifies which data to search for |
 | regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
 | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+| skip_coordinates | - | Boolean | set to true to skip border-data to speed up the list |
 
 The parameter `regional_key` is ignored if parameter `area_code` is given with the request, so you have
 to omit the `area_code` parameter to get the response for `regional_key` filter.

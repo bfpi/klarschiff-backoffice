@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
 
   def show
     issue = Issue.new
-    issue.assign_attributes(params.require(:issue).permit(:position))
+    issue.assign_attributes(params.expect(issue: [:position]))
     issue.send(:update_address_parcel_property_owner)
     respond_to do |format|
       format.json { address_response(issue) }

@@ -43,6 +43,7 @@
 !.yarn/versions
 
 # DB Dumps and Overlay
+db/data
 db/dumps
 !db/dumps.keep
 overlay/*
@@ -50,3 +51,5 @@ overlay/*
 tags
 *.pgc
 *.swp
+
+overlay

@@ -38,7 +38,7 @@ module Citysdk
       Citysdk::Status.new(status).to_citysdk
     end
 
-    def description_public
+    def description_public # rubocop:disable Naming/PredicateMethod
       description_status_external?
     end
 

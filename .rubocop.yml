@@ -6,13 +6,8 @@ plugins:
 
 AllCops:
   Exclude:
-    - 'bin/bundle'
-    - 'bin/onetime-jobs'
-    - 'bin/rails'
-    - 'bin/rake'
-    - 'bin/setup'
-    - 'bin/update'
-    - 'bin/yarn'
+    - 'bin/*'
+    - 'config/ci.rb'
     - 'config.ru'
     - 'db/schema.rb'
     - 'Rakefile'
@@ -39,7 +34,7 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Layout/SpaceInsideArrayLiteralBrackets:
-  Exclude: ['config/environments/production.rb']
+  Exclude: ['config/environments/*']
 
 Lint/AmbiguousOperatorPrecedence:
   Enabled: false
@@ -50,13 +45,15 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'db/seeds.rb'
-    - 'config/environments/development.rb'
+    - 'config/environments/*'
     - 'config/routes.rb'
     - 'test/**/*'
     - '**/*.xml.builder'
 
 Metrics/ClassLength:
-  Exclude: ['test/**/*']
+  Exclude: 
+    - 'db/migrate/20260617062939_create_solid_queue.rb'
+    - 'test/**/*'
 
 Metrics/MethodLength:
   Exclude: ['db/migrate/*']
@@ -119,25 +116,18 @@ Style/FrozenStringLiteralComment:
     - 'config/application.rb'
     - 'config/boot.rb'
     - 'config/environment.rb'
-    - 'config/environments/development.rb'
-    - 'config/environments/production.rb'
-    - 'config/environments/test.rb'
-    - 'config/initializers/application_controller_renderer.rb'
+    - 'config/environments/*'
     - 'config/initializers/assets.rb'
-    - 'config/initializers/backtrace_silencers.rb'
     - 'config/initializers/content_security_policy.rb'
-    - 'config/initializers/cookies_serializer.rb'
     - 'config/initializers/filter_parameter_logging.rb'
     - 'config/initializers/inflections.rb'
-    - 'config/initializers/mime_types.rb'
-    - 'config/initializers/new_framework_defaults_7_1.rb'
     - 'config/initializers/permissions_policy.rb'
-    - 'config/initializers/wrap_parameters.rb'
     - 'config/puma.rb'
+    - 'Gemfile'
 
 Style/GlobalStdStream:
   Exclude:
-    - 'config/environments/production.rb'
+    - 'config/environments/*'
 
 Style/PercentLiteralDelimiters:
   Exclude:
@@ -145,16 +135,14 @@ Style/PercentLiteralDelimiters:
 
 Style/RedundantConstantBase:
   Exclude:
-    - 'config/environments/production.rb'
+    - 'config/environments/*'
 
 Style/StringLiterals:
   Exclude:
     - 'config/application.rb'
     - 'config/boot.rb'
     - 'config/environment.rb'
-    - 'config/environments/development.rb'
-    - 'config/environments/production.rb'
-    - 'config/environments/test.rb'
+    - 'config/environments/*'
     - 'config/initializers/assets.rb'
     - 'config/initializers/exception_notification.rb'
     - 'config/puma.rb'

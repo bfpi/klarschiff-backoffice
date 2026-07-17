@@ -8,6 +8,7 @@ class Group < ApplicationRecord
 
   belongs_to :main_user, class_name: 'User', optional: Settings::Group.main_user_optional
 
+  has_many :issues, dependent: :nullify
   has_many :jobs, dependent: :destroy
   has_many :responsibilities, dependent: :destroy
 

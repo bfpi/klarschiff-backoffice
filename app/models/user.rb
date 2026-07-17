@@ -91,12 +91,12 @@ class User < ApplicationRecord
 
   def add_to_password_history(password_id, change_time)
     self.passwords ||= []
-    self.passwords[password_id] = {
+    passwords[password_id] = {
       password_digest: password_digest_changed_from, valid_from: password_updated_at, valid_until: change_time
     }
   end
 
-  def role_permissions
+  def role_permissions # rubocop:disable Naming/PredicateMethod
     return true unless Current.user && !Current.user.auth_code
     if self.class.roles[role] < Current.user.read_attribute_before_type_cast(:role)
       errors.add :role, :invalid_permissions

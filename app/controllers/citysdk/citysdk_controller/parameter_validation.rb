@@ -16,7 +16,7 @@ module Citysdk
       def validate_dates
         %w[start_date end_date updated_after updated_before].each do |date|
           next if params[date].blank?
-          y, m, d = params[date].split '-'
+          y, m, d = params.expect(date).split '-'
           next if Date.valid_date? y.to_i, m.to_i, d.to_i
           raise "date #{date} invalid"
         end

@@ -30,7 +30,7 @@ end
 
 unless MailBlacklist.exists?
   50.times do
-    pattern = ((0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }).join.insert(rand(-5..-3), '.')
+    pattern = (0...rand(10..20)).map { ('a'..'z').to_a[rand(26)] }.join.insert(rand(-5..-3), '.')
     MailBlacklist.find_or_create_by! pattern:, source: 'Erstinstallation'
   end
 end
@@ -164,5 +164,5 @@ end
 
 CSV.table('db/seeds/default_responsibilities.csv').each do |row|
   group = Group.find_by(name: "Standardzuständigkeit - #{row[1]}")
-  group.update! email: row[2] if group.present?
+  group.presence&.update!(email: row[2])
 end

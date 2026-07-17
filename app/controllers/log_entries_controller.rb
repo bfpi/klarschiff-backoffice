@@ -2,6 +2,7 @@
 
 class LogEntriesController < ApplicationController
   include Sorting
+
   before_action { check_auth :list_log_entries }
 
   def index

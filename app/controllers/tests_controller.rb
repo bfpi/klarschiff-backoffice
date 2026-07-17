@@ -2,6 +2,7 @@
 
 class TestsController < ApplicationController
   include Filter
+
   before_action { check_auth :test }
 
   PERMITTED_JOBS = %w[
@@ -23,7 +24,7 @@ class TestsController < ApplicationController
   def index; end
 
   def create
-    test = PERMITTED_TESTS.find { |t| t == params[:test].to_sym }
+    test = PERMITTED_TESTS.find { |t| t == params.expect(:test).to_sym }
     return render plain: 'Test unbekannt', status: :bad_request unless test
     send test
   end

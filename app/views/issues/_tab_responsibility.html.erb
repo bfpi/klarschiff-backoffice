@@ -1,11 +1,14 @@
-<%= render partial: 'responsibility_actions', locals: { form: } %>
+<%= render partial: 'responsibility_actions', locals: { form:, restricted: } %>
 
 <% if (Issue::DELEGABLE_STATUSES.include? form.object.status.to_sym) && (form.object.responsibility_accepted) -%>
   <div class="row">
     <%= form.label :delegation, for: :issue_delegation_id, class: 'col-2 col-form-label' %>
     <div class="col-4">
-      <%= form.select :delegation_id, options_for_select(delegations(form.object), form.object.delegation_id),
-            { include_blank: '' }, disabled: form.object.closed?, class: 'form-select' %>
+      <%= form.select :delegation_id,
+            options_for_select(delegations(form.object), form.object.delegation_id),
+            { include_blank: '' },
+            disabled: restricted || (!form.object.status_changed? && form.object.closed?),
+            class: 'form-select' %>
     </div>
   </div>
 <% end -%>

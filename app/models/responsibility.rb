@@ -9,7 +9,7 @@ class Responsibility < ApplicationRecord
   belongs_to :group
 
   validate :only_one_group_for_group_type
-  validate :internal_group, if: :group
+  validate :authorized_group, :internal_group, if: :group
 
   scope :active, -> { where(deleted_at: nil) }
 
@@ -31,7 +31,7 @@ class Responsibility < ApplicationRecord
     end
   end
 
-  def deleted
+  def deleted # rubocop:disable Naming/PredicateMethod
     deleted_at?
   end
 
@@ -43,6 +43,11 @@ class Responsibility < ApplicationRecord
 
   def internal_group
     errors.add(:group, :must_be_internal) unless group.kind_internal?
+  end
+
+  def authorized_group
+    return if Current.user.role_admin?
+    errors.add(:group, :authorized) unless Group.authorized.kind_internal.include?(group)
   end
 
   def only_one_group_for_group_type

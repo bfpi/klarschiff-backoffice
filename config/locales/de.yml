@@ -4,6 +4,7 @@ de:
   actions: Aktion
   action:
     abort: Abbrechen
+    close: Schließen
     save_and_close: Speichern & Schließen
     save: Speichern
     send: Absenden
@@ -157,6 +158,7 @@ de:
               group_type_taken: Dieser Kategorie wurde bereits eine %{type} zugeordet. Doppelzuweisungen sind nicht erlaubt.
             group:
               must_be_internal: muss intern sein.
+              authorized: ist nicht erlaubt
             status:
               invalid: Der übergebene Status ist für diese Meldung nicht erlaubt.
         supporter:
@@ -271,6 +273,9 @@ de:
     user: Benutzer
   back: Zurück
   city_view: Karte
+  categories:
+    index:
+      confirm_delete: Möchten Sie diese Kategorie wirklich deaktivieren?
   comments:
     show:
       confirm_delete: Soll der Kommentar wirklich gelöscht werden?
@@ -298,7 +303,11 @@ de:
         one: redaktioneller Hinweis
         other: redaktionelle Hinweise
     issue:
+      comments: interner Kommentar
+      feedbacks: Lob/Hinweis/Kritik
       high_priority: hohe Priorität
+      issue_delegations_rejected: zurückgewiesene delegierte Meldung
+      issue_responsibilities: weitergeleitete Meldung
       trust: vertrauenswürdig
   date:
     formats:
@@ -473,6 +482,8 @@ de:
       responsibility_action_recalculation: Zuständigkeit automatisch neu zuweisen
       responsibility_action_recalculation_review: "automatisch zugewiesene Zuständigkeit akzeptieren:"
       responsibility_action_reject: Zuständigkeit für die Meldung zurückweisen
+    result_list:
+      forwarded_to_group: an die eigene Zuständigkeit weitergeleitet
     tab_photo:
       edit: Foto bearbeiten
       redo: vor
@@ -512,6 +523,7 @@ de:
   rejection_notice: "Meldung #%{number} wurde bereits geschlossen."
   responsibilities:
     index:
+      new_fill_responsibility: Unbelegte Zuständigkeiten (%{count})
       new_responsibility: Neue Zuständigkeit
       confirm_delete: Möchten Sie diese Zuständigkeit wirklich deaktivieren?
   request:
@@ -566,3 +578,45 @@ de:
       version: Version
       ruby_version: Ruby-Version
       rails_version: Ruby-on-Rails-Version
+  completion_mailer:
+    rejection:
+      subject: "#%{number}: Abschlussmeldung zurückgewiesen"
+  confirmation_mailer:
+    abuse_report:
+      subject: "#%{number}: Bestätigung einer Missbrauchsmeldung"
+    completion:
+      subject: "#%{number}: Bestätigung einer Abschlussmeldung"
+    issue:
+      subject: "#%{number}: Meldungsbestätigung"
+    photo:
+      subject: "#%{number}: Bestätigung eines Fotos"
+    supporter:
+      subject: "#%{number}: Bestätigung einer Unterstützung"
+  feedback_mailer:
+    notification:
+      to: support-klarschiff@bfpi.de
+      subject: "Lob/Hinweis/Kritik zur Meldung #%{number}"
+  issue_mailer:
+    closed:
+      subject: "#%{number}: abgeschlossen"
+    delegation:
+      subject: "Neue delegierte Meldungen"
+    forward:
+      subject: Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV
+    forward_by_user_mail_client:
+      subject: Weitergeleitete Meldung
+    in_process:
+      subject: "#%{number}: in Bearbeitung"
+    inform_editorial_staff:
+      subject: "%{title}: wichtige redaktionelle Hinweise"
+  responsibility_mailer:
+    issue:
+      subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
+    remind_group:
+      subject: "Erinnerung an Meldungen mit noch nicht akzeptierter Zuständigkeit für: %{group}"
+    default_group_without_gui_access:
+      subject: "Neue Meldung #%{number} in Ihrer Zuständigkeit"
+  test_mailer:
+    test:
+      subject: Test-Mail
+

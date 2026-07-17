@@ -3,9 +3,9 @@
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%= hidden_field_tag :extended_filter, true %>
   <div class="row">
-    <%= label_tag :filter_text, 'Freitext', class: 'col-2 col-form-label' %>
+    <%= label_tag 'filter-text', 'Freitext', class: 'col-2 col-form-label' %>
     <div class="col-9">
-      <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control' %>
+      <%= text_field_tag 'filter[text]', @filter[:text], class: 'form-control', id: 'filter-text' %>
     </div>
   </div>
   <div class="row">

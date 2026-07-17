@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
   before_action(only: :create) { check_auth :create_issue }
 
   def show
-    check_auth(:edit_issue, Issue.find(params[:id]))
+    check_auth(:edit_issue, Issue.find(params.expect(:id)))
     @edit_issue_url = edit_issue_url(params[:id])
     @issues = paginate(results)
     render :index
@@ -19,8 +19,8 @@ class IssuesController < ApplicationController
   end
 
   def edit
-    @issue = Issue.authorized.find(params[:id])
-    check_auth(:edit_issue, @issue)
+    @issue = Issue.authorized_responsibility.find(params.expect(:id))
+    check_auth(:show_issue, @issue)
     @issue.responsibility_action = @issue.reviewed_at.blank? ? :recalculation : :accept
     respond_to do |format|
       format.js { prepare_tabs }
@@ -45,8 +45,9 @@ class IssuesController < ApplicationController
   end
 
   def update
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params.expect(:id))
     check_auth(:edit_issue, @issue)
+
     if @issue.update(issue_params) && close_modal?
       unless authorized?(:edit_issue, @issue)
         session[:success] = I18n.t('issues.foreign_update_success', issue_id: @issue.id, group: @issue.group)
@@ -65,7 +66,7 @@ class IssuesController < ApplicationController
   end
 
   def resend_responsibility
-    issue = Issue.find(params[:issue_id])
+    issue = Issue.find(params.expect(:issue_id))
     check_auth :resend_responsibility, issue
     issue.send :notify_group
   end
@@ -100,14 +101,14 @@ class IssuesController < ApplicationController
 
   def issue_params
     return {} if params[:issue].blank?
-    params.require(:issue).permit(*permitted_attributes)
+    params.expect(issue: [*permitted_attributes])
   end
 
   def permitted_attributes
     attributes = [:address, :archived, :author, :category_id, :delegation_id, :description,
                   :description_status, :expected_closure, :group_id, :new_photo, :parcel, :photo_requested,
                   :position, :priority, :property_owner, :responsibility_action, :status, :status_note,
-                  { photos_attributes: permitted_photo_attributes }]
+                  { photos_attributes: [permitted_photo_attributes] }]
     attributes += %i[job_date job_group_id] if Current.user.authorized?(:jobs)
     attributes
   end

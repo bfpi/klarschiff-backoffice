@@ -24,4 +24,10 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       raise 'TestError'
     end
   end
+
+  test 'show former issues for editor' do
+    login username: :admin
+    get '/rails/mailers'
+    assert_response :success
+  end
 end

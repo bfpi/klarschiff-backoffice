@@ -27,4 +27,15 @@ class Settings
         .select { |c| Password.send(:"include_#{c}") }
     end
   end
+
+  Instance.singleton_class.prepend(Module.new do
+    def frontend_issue_url(id = nil)
+      url = begin
+        super()
+      rescue NoMethodError
+        URI.join frontend_url, 'map?request=%d'
+      end
+      id ? format(url, id) : url
+    end
+  end)
 end

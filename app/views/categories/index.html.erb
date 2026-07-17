@@ -1,0 +1,41 @@
+<h1><%= Category.model_name.human(count: 2) %></h1>
+
+<%= render partial: 'simple_text_filter', locals: { include_inactive: true, class_name: Category } %>
+
+<%= paginate @categories %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <% %w[id kind main_category sub_category].each do |col| %>
+        <th scope="col">
+          <%= order_link Category.human_attribute_name(col), :categories, col %>
+        </th>
+      <% end -%>
+      <th scope="col"><%= t 'actions' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |category| -%>
+      <tr class="<%= 'text-muted' unless category.active? %>">
+        <th scope="row"><%= category.id %></th>
+        <td><%= category.kind_name %></td>
+        <td><%= category.main_category %></td>
+        <td><%= category.sub_category %></td>
+        <td>
+          <% if category.active? %>
+            <%= link_to tag.i('', class: 'fa fa-trash'), category_path(category, permitted_order_and_pagination_params),
+                  method: :delete, class: 'btn btn-sm btn-outline-danger',
+                  data: { confirm: t('categories.index.confirm_delete') } %>
+          <% else %>
+            <%= link_to tag.i('', class: 'fa fa-repeat'), reactivate_category_path(category,
+                  permitted_order_and_pagination_params),
+                  class: 'btn btn-sm btn-outline-primary' %>
+          <% end -%>
+        </td>
+      </tr>
+    <% end -%>
+  </tbody>
+</table>
+
+<%= paginate @categories %>

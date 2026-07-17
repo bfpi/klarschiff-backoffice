@@ -1,0 +1,21 @@
+<%= render partial: 'errors', locals: { object: responsibility } %>
+
+<div class="row">
+  <%= form.label :category, class: 'col-4 col-form-label' %>
+  <div class="col-8">
+    <ul class="list-unstyled">
+      <% missing_categories.each do |category| %>
+        <li>
+          <%= category.kind_name %> <%= category.to_s %>
+        </li>
+      <% end -%>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <%= form.label :group, class: 'col-4 col-form-label' %>
+  <div class="col-8">
+    <%= form.select :group_id, groups_options(form.object), { include_blank: '' }, class: 'form-select' %>
+  </div>
+</div>

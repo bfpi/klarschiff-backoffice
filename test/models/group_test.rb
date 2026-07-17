@@ -39,6 +39,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test 'deactivate group with inactive responsibilities' do
+    Current.user = user(:regional_admin2)
     group = group(:one)
     assert_valid group
     assert responsibility(:one).update(deleted_at: Time.current)

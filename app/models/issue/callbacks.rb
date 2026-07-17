@@ -6,27 +6,24 @@ class Issue
 
     include AuthorBlacklist
     include ConfirmationWithHash
+    include Issue::Callbacks::Responsibility
     include Setters
 
     included do
       before_destroy :destroy_dangling_associations
 
       before_validation :add_photo
-      before_validation :update_address_parcel_property_owner, if: :position_changed?
       before_validation :reset_archived, if: -> { status_changed? && CLOSED_STATUSES.exclude?(status) }
       before_validation :set_responsibility, if: :set_responsibility?, unless: :responsibility_already_set
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
+      before_validation :update_address_parcel_property_owner, if: :position_changed?
 
-      before_save :clear_group_responsibility_notified_at, if: -> { group_id_changed? && !responsibility_accepted }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
 
-      after_commit :notify_group,
-        if: lambda {
-              (saved_change_to_status? && status_received? && group_id.present?) ||
-                (saved_change_to_group_id? && !status_pending?)
-            }
+      after_commit :create_issue_delegation, if: :create_issue_delegation?
+      after_commit :update_issue_delegation_rejected, if: :update_issue_delegation_rejected?
 
       validate :issue_in_authorized_areas, on: :update
       validates :description, :position, :status, presence: true
@@ -41,6 +38,11 @@ class Issue
     end
 
     private
+
+    def notify_group_after_commit?
+      (saved_change_to_status? && status_received? && group_id.present?) ||
+        (saved_change_to_group_id? && !status_pending?)
+    end
 
     def destroy_dangling_associations
       photos.unscope(where: :confirmed_at).destroy_all
@@ -62,7 +64,7 @@ class Issue
     # overwrite ConfirmationWithHash#confirm
     def confirm
       return send_confirmation if Current.user.blank?
-      status_received!
+      self.status = :received
     end
 
     # overwrite ConfirmationWithHash#send_confirmation
@@ -83,13 +85,6 @@ class Issue
       1
     end
 
-    def notify_group
-      update group_responsibility_notified_at: Time.current
-      return notify_default_group_without_gui_access if default_group_without_gui_access?
-      return if !group.reference_default? && (users = group.users.where(group_responsibility_recipient: true)).blank?
-      ResponsibilityMailer.issue(self, **notify_group_options(users:)).deliver_later
-    end
-
     def notify_group_options(users: [])
       if group.reference_default?
         {
@@ -101,12 +96,20 @@ class Issue
       end
     end
 
-    def clear_group_responsibility_notified_at
-      self.group_responsibility_notified_at = nil
+    def create_issue_delegation?
+      delegation_id.present? && saved_change_to_delegation_id?
     end
 
-    def notify_default_group_without_gui_access
-      ResponsibilityMailer.default_group_without_gui_access(self, **notify_group_options).deliver_later
+    def create_issue_delegation
+      issue_delegations.create group_id: delegation_id
+    end
+
+    def update_issue_delegation_rejected?
+      delegation_id.blank? && saved_change_to_delegation_id?
+    end
+
+    def update_issue_delegation_rejected
+      issue_delegations.last.update rejected: true
     end
 
     def issue_in_authorized_areas

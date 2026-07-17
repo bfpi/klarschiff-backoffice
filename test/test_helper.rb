@@ -4,6 +4,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 require 'minitest/autorun'
+require 'minitest/mock'
 
 module ActiveSupport
   class TestCase
@@ -86,6 +87,13 @@ module ActiveSupport
         Settings::Password.redefine_singleton_method(:"include_#{c}") { c.in?(included_characters) }
       end
       PasswordValidator.required_characters = included_characters.map { |c| I18n.t("password.#{c}") }.join(', ')
+    end
+
+    def with_manage_categories_settings(manage_categories: nil, &block)
+      old = Settings::Instance.manage_categories
+      Settings::Instance.redefine_singleton_method(:manage_categories) { manage_categories }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:manage_categories) { old }
     end
   end
 end

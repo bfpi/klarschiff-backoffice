@@ -24,8 +24,6 @@ namespace :citysdk do
   end
 end
 
-private
-
 def extract_documentation(file)
   pattern = /^ *# :apidoc: ?/
   lines = File.readlines(file).grep(pattern)

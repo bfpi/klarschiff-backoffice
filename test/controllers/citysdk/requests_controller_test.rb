@@ -70,6 +70,13 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_predicate extended_attributes, :blank?
   end
 
+  test 'index with valid api-key never returns requests for deleted services' do
+    get "/citysdk/requests.json?extensions=true&api_key=#{api_key_frontend}"
+    assert_not_empty(list = response.parsed_body)
+    assert_not_empty(service_codes = list.pluck('service_code'))
+    assert_not_includes service_codes, category(:deleted_at).id
+  end
+
   test 'index with extensions and area_code for authorities with api-key frontend' do
     with_parent_instance_settings do
       get "/citysdk/requests.xml?extensions=true&area_code=#{authority(:one).id}&api_key=#{api_key_frontend}"
@@ -200,6 +207,28 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_predicate extended_attributes.count, :positive?
   end
 
+  Issue.statuses.each_key do |status|
+    test "show issue with status #{status} with api-key" do
+      issue = issue(status.to_sym)
+      get "/citysdk/requests/#{issue.id}.xml?api_key=#{api_key_frontend}"
+      doc = Nokogiri::XML(response.parsed_body)
+      requests = doc.xpath('/service_requests/request')
+      assert_predicate requests.count, :positive?, "No requests found for status #{status}"
+      request_id = doc.xpath('/service_requests/request/service_request_id').text
+      assert_equal issue.id.to_s, request_id, "Request ID mismatch for status #{status}"
+    end
+
+    test "show issue with status #{status} with api-key and extensions" do
+      issue = issue(status.to_sym)
+      get "/citysdk/requests/#{issue.id}.xml?api_key=#{api_key_frontend}&extensions=true"
+      doc = Nokogiri::XML(response.parsed_body)
+      requests = doc.xpath('/service_requests/request')
+      assert_predicate requests.count, :positive?, "No requests found for status #{status}"
+      request_id = doc.xpath('/service_requests/request/service_request_id').text
+      assert_equal issue.id.to_s, request_id, "Request ID mismatch for status #{status}"
+    end
+  end
+
   test 'create without api-key' do
     post '/citysdk/requests.xml'
     doc = Nokogiri::XML(response.parsed_body)
@@ -219,7 +248,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key' do
-    post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+    assert_difference 'IssueResponsibility.count', 1 do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+    end
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_not_empty doc.xpath('/service_requests/request/create_message')
@@ -235,7 +266,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr returns forbidden' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(403, 'FORBIDDEN') } do
-      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      assert_difference 'IssueResponsibility.count', 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      end
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
       assert_not_empty doc.xpath('/service_requests/request/create_message')
@@ -252,7 +285,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'create with frontend api-key but geocodr is not available' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
-      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      assert_difference 'IssueResponsibility.count', 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+      end
       doc = Nokogiri::XML(response.parsed_body)
       service_request_id = doc.xpath('/service_requests/request/service_request_id')
       assert_not_empty doc.xpath('/service_requests/request/create_message')
@@ -276,13 +311,16 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key and photo' do
-    post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
-      media: Base64.encode64(Rails.root.join('test/fixtures/files/test.jpg').read)
-    )
+    assert_difference 'IssueResponsibility.count', 1 do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+        media: Base64.encode64(Rails.root.join('test/fixtures/files/test.jpg').read)
+      )
+    end
     doc = Nokogiri::XML(response.parsed_body)
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_equal 1, service_request_id.count
     assert issue = Issue.find(service_request_id.first.text)
+    assert_equal 'pending', issue.status
     assert_enqueued_emails 1
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
@@ -290,6 +328,20 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
                with_photo: true }]
     )
     assert_enqueued_jobs 1, only: ActiveStorage::AnalyzeJob
+  end
+
+  test 'create with ppc api-key and valid user' do
+    assert_difference 'IssueResponsibility.count', 1 do
+      post "/citysdk/requests.xml?api_key=#{api_key_ppc}", params: valid_create_params.merge(
+        email: 'one@example.com'
+      )
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    service_request_id = doc.xpath('/service_requests/request/service_request_id')
+    assert_not_empty doc.xpath('/service_requests/request/create_message')
+    assert_equal 1, service_request_id.count
+    assert issue = Issue.find(service_request_id.first.text)
+    assert_equal 'received', issue.status
   end
 
   test 'update without api-key' do
@@ -527,6 +579,20 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
       assert_equal I18n.t('request.description.default_group_countygroup'),
         doc.xpath('/service_requests/request/description/text()').first.to_s
     end
+  end
+
+  test 'index map data without api-key' do
+    get '/citysdk/requests.xml?map=true'
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_not_empty doc.xpath('/service_requests/request/service_request_id/text()')
+    assert_empty doc.xpath('/service_requests/request/description/text()')
+  end
+
+  test 'index all data without api-key' do
+    get '/citysdk/requests.xml'
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_not_empty doc.xpath('/service_requests/request/service_request_id/text()')
+    assert_not_empty doc.xpath('/service_requests/request/description/text()')
   end
 
   private

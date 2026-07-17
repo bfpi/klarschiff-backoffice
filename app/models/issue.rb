@@ -39,11 +39,14 @@ class Issue < ApplicationRecord
   with_options dependent: :destroy do
     has_many :abuse_reports
     has_many :all_log_entries, -> { includes(:auth_code, :user) }, class_name: 'LogEntry', inverse_of: :issue
+    has_many :auth_codes
     has_many :comments
     has_many :completions, inverse_of: :issue
-    has_many :feedbacks
-    has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :external_photos, -> { status_external.order(:created_at) }, class_name: 'Photo', inverse_of: :issue
+    has_many :feedbacks
+    has_many :issue_delegations, -> { order(:created_at) }, inverse_of: :issue
+    has_many :issue_responsibilities, -> { order(:created_at) }, inverse_of: :issue
+    has_many :photos, -> { order(:created_at) }, inverse_of: :issue
     has_many :supporters
   end
 
@@ -61,7 +64,7 @@ class Issue < ApplicationRecord
   end
 
   def archived=(value)
-    self.archived_at = value.to_i.positive? ? Time.current : 0
+    self.archived_at = value.to_i.positive? ? Time.current : nil
   end
 
   def job_date=(date)

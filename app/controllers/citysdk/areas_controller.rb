@@ -16,6 +16,7 @@ module Citysdk
     # :apidoc: | search_class | - | String | specifies which data to search for |
     # :apidoc: | regional_key | - | Integer / String | RegionalKey to filter region (based on search_class) |
     # :apidoc: | with_districts | - | Boolean | return all existing districts, not available if using area_code |
+    # :apidoc: | skip_coordinates | - | Boolean | set to true to skip border-data to speed up the list |
     # :apidoc:
     # :apidoc: The parameter `regional_key` is ignored if parameter `area_code` is given with the request, so you have
     # :apidoc: to omit the `area_code` parameter to get the response for `regional_key` filter.
@@ -35,7 +36,8 @@ module Citysdk
     # :apidoc: </areas>
     # :apidoc: ```
     def index
-      citysdk_response limit_response(order_response(search_areas)), { root: :areas, element_name: :area }
+      citysdk_response limit_response(order_response(search_areas)),
+        root: :areas, element_name: :area, skip_coordinates: params[:skip_coordinates].try(:to_boolean)
     end
 
     private
@@ -61,7 +63,7 @@ module Citysdk
 
     def search_class
       if params[:search_class]
-        return case params[:search_class].to_sym
+        return case params.expect(:search_class).to_sym
                when :authority
                  return Citysdk::Authority
                else
@@ -76,7 +78,7 @@ module Citysdk
       response.order(
         ActiveRecord::Base.sanitize_sql_for_order(
           [Arel.sql('ST_Distance(ST_SetSRID(ST_MakePoint(?, ?), 4326), area)'),
-           params[:center].first.to_f, params[:center].last.to_f]
+           params.expect(center: []).first.to_f, params.expect(center: []).last.to_f]
         )
       )
     end

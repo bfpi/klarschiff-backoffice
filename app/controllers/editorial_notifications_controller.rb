@@ -2,6 +2,7 @@
 
 class EditorialNotificationsController < ApplicationController
   include Sorting
+
   before_action { check_auth :manage_editorial_notifications }
 
   def index
@@ -16,7 +17,7 @@ class EditorialNotificationsController < ApplicationController
   end
 
   def edit
-    @editorial_notification = EditorialNotification.find(params[:id])
+    @editorial_notification = EditorialNotification.find(params.expect(:id))
   end
 
   def create
@@ -33,7 +34,7 @@ class EditorialNotificationsController < ApplicationController
   end
 
   def update
-    @editorial_notification = EditorialNotification.find(params[:id])
+    @editorial_notification = EditorialNotification.find(params.expect(:id))
     if @editorial_notification.update(editorial_notification_params) && params[:save_and_close].present?
       redirect_to action: :index
     else
@@ -42,7 +43,7 @@ class EditorialNotificationsController < ApplicationController
   end
 
   def destroy
-    editorial_notification = EditorialNotification.find(params[:id])
+    editorial_notification = EditorialNotification.find(params.expect(:id))
     editorial_notification.destroy
     redirect_to action: :index
   end
@@ -50,7 +51,7 @@ class EditorialNotificationsController < ApplicationController
   private
 
   def editorial_notification_params
-    params.require(:editorial_notification).permit(:user_id, :level, :repetition)
+    params.expect(editorial_notification: %i[user_id level repetition])
   end
 
   def custom_order(col, dir)

@@ -158,7 +158,7 @@ module Citysdk
     # :apidoc: </service_requests>
     # :apidoc: ```
     def update
-      request = Request.find(params[:id])
+      request = Request.find(params.expect(:id))
       request.assign_attributes params.permit(:service_code, :description, :lat, :long,
         :address_string, :photo_required, :media, :detailed_status, :status_notes, :priority,
         :delegation, :job_status, :job_priority)

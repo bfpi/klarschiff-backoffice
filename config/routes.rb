@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount MissionControl::Jobs::Engine, at: '/server_jobs'
+
   resource :logins, only: %i[new create update destroy] do
     get :change_user
   end
@@ -35,7 +37,10 @@ Rails.application.routes.draw do
     resources :tests, only: %i[index create]
   end
   resources :abuse_reports, only: %i[create update]
-  resources :categories, only: [] do
+  resources :categories, only: %i[index destroy] do
+    member do
+      get :reactivate
+    end
     resources :responsibilities, only: :new
   end
   resources :completions, only: :update
@@ -50,6 +55,7 @@ Rails.application.routes.draw do
     end
   end
   resources :responsibilities
+  resources :fill_responsibilities, only: %i[new create]
 
   namespace :citysdk do
     get 'coverage' => 'coverage#valid'

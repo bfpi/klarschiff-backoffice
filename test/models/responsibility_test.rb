@@ -10,9 +10,11 @@ class ResponsibilityTest < ActiveSupport::TestCase
 
   %i[external field_service].each do |group_kind|
     test "validate group kind not #{group_kind}" do
-      resp = Responsibility.new(category: category(:three), group: group(group_kind))
-      assert_not resp.valid?
-      assert_equal [{ error: :must_be_internal }], resp.errors.details[:group]
+      Current.set(user: user(:regional_admin3)) do
+        resp = Responsibility.new(category: category(:three), group: group(group_kind))
+        assert_not resp.valid?
+        assert_includes resp.errors.details[:group], { error: :must_be_internal }
+      end
     end
   end
 
@@ -21,5 +23,34 @@ class ResponsibilityTest < ActiveSupport::TestCase
     assert_nil resp.group
     resp.valid?
     assert_not_includes resp.errors.details[:group], { error: :must_be_internal }
+  end
+
+  test 'validate foreign group for admin' do
+    Current.set(user: user(:admin)) do
+      resp = Responsibility.new(category: category(:three), group: group(:internal4))
+      assert_predicate resp, :valid?
+    end
+  end
+
+  test 'validate foreign to external group for regional_admin' do
+    Current.set(user: user(:regional_admin3)) do
+      resp = Responsibility.new(category: category(:three), group: group(:external2))
+      assert_not resp.valid?
+      assert_includes resp.errors.details[:group], { error: :authorized }
+    end
+  end
+
+  test 'validate valid group for regional_admin' do
+    Current.set(user: user(:regional_admin3)) do
+      resp = Responsibility.new(category: category(:three), group: group(:internal2))
+      assert_predicate resp, :valid?
+    end
+  end
+
+  test 'validate foreign group without direct membership for regional_admin' do
+    Current.set(user: user(:regional_admin3)) do
+      resp = Responsibility.new(category: category(:three), group: group(:internal4))
+      assert_predicate resp, :valid?
+    end
   end
 end

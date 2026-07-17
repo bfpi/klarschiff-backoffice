@@ -9,7 +9,7 @@ class JobsController < ApplicationController
     jobs = Job.where(id: params[:job_ids])
     date = jobs.first.date
     group = jobs.first.group
-    jobs.update params.require(:job).permit(:status)
+    jobs.update params.expect(job: [:status])
     @jobs = Job.includes({ issue: :category }, %i[group]).where(group:, date:).by_order
     render :reload
   end
@@ -18,7 +18,7 @@ class JobsController < ApplicationController
     jobs = Job.where(id: params[:job_ids])
     date = jobs.first.date
     group = jobs.first.group
-    jobs.update params.require(:job).permit(:date)
+    jobs.update params.expect(job: [:date])
     reload_all(date, group)
   end
 
@@ -33,7 +33,7 @@ class JobsController < ApplicationController
   end
 
   def destroy
-    job = Job.find(params[:id])
+    job = Job.find(params.expect(:id))
     group = job.group
     date = job.date
     job.destroy!
