@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_17_062939) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_125123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "postgis"
@@ -81,6 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_062939) do
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
     t.bigint "main_category_id"
+    t.boolean "photo_requested", default: false, null: false
     t.bigint "sub_category_id"
     t.datetime "updated_at", null: false
     t.index ["main_category_id", "sub_category_id"], name: "index_category_on_main_category_id_and_sub_category_id", unique: true

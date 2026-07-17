@@ -3,7 +3,7 @@
 class Service < Category
   include Citysdk::Serialization
 
-  self.serialization_attributes = %i[service_code service_name description metadata type keywords group]
+  self.serialization_attributes = %i[service_code service_name description metadata type keywords group photo_requested]
   alias_attribute :service_name, :sub_category
 
   private
