@@ -21,7 +21,6 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service')
     assert_predicate services.count, :positive?
-    p services
     document_url = doc.xpath('/services/service/document_url')
     assert_empty document_url
   end
@@ -62,14 +61,49 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_not_empty document_url
   end
 
-  # TODO: loop over all api keys and filter different results
-  test 'index with lat and lon filter api-key frontend' do
-    get '/citysdk/services.xml', params: { api_key: api_key_frontend, lat: 53.9784103, long: 11.8705908 }
+  test "index with group filter" do
+    get '/citysdk/services.xml', params: { group: main_category(:one).to_s }
     doc = Nokogiri::XML(response.parsed_body)
-    services = doc.xpath('/services/service')
+    services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :positive?
-    p services.count
-    p services
+    assert_not_includes services, category(:four).id.to_s
+  end
+
+  test "index with invalid group filter" do
+    get '/citysdk/services.xml', params: { group: 'ABC' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :zero?
+  end
+
+  test "index with keyword filter" do
+    get '/citysdk/services.xml', params: { keyword: 'idea' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+  end
+
+  test "index with invalid keyword filter" do
+    get '/citysdk/services.xml', params: { keyword: 'ABC' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :zero?
+  end
+
+  test "index with lat and lon filter for api_key_frontend" do
+    get '/citysdk/services.xml', params: { lat: 53.9784103, long: 11.8705908 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_includes services, category(:four).id.to_s
+  end
+
+  test "index with lat and lon filter outside for api_key_frontend" do
+    get '/citysdk/services.xml', params: { lat: 54.1079752, long: 11.7406435 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_not_includes services, category(:four).id.to_s
   end
 
   [:api_key_ppc, :api_key_frontend, nil].each do |api_key_name|

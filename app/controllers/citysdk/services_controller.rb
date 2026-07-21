@@ -77,7 +77,7 @@ module Citysdk
     def regional_services
       if (ag = authority_groups).present?
         Responsibility.active.where(group: ag.map(&:id),
-          category: filtered_main_categories.map(&:categories)).map(&:category_id)
+                                    category: filtered_main_categories.map(&:categories).flatten).map(&:category_id)
       else
         filtered_main_categories.map(&:category_ids)
       end
@@ -86,7 +86,7 @@ module Citysdk
     def authority_groups
       if (lat = params[:lat].to_f).positive? && (lon = params[:long].to_f).positive?
         ag = AuthorityGroup.active.regional(lat:, lon:)
-        return ag if ag.none?(&:reference_default)
+        return ag.select { |a| a unless a.reference_default }
       end
       nil
     end

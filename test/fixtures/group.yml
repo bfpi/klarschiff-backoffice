@@ -15,6 +15,7 @@ two:
 
 four:
   <<: *DEFAULTS
+  reference_id: <%= ActiveRecord::FixtureSet.identify :four %>
 
 external:
   <<: *DEFAULTS
