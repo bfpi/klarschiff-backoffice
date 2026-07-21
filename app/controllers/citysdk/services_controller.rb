@@ -77,7 +77,7 @@ module Citysdk
     def regional_services
       if (ag = authority_groups).present?
         Responsibility.active.where(group: ag.map(&:id),
-                                    category: filtered_main_categories.map(&:categories).flatten).map(&:category_id)
+          category: filtered_main_categories.map(&:categories).flatten).map(&:category_id)
       else
         filtered_main_categories.map(&:category_ids)
       end
