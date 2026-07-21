@@ -94,4 +94,19 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  test 'service without photo_requested' do
+    get "/citysdk/services/#{category(:one).id}.xml"
+    doc = Nokogiri::XML(response.parsed_body)
+    photo_requested = doc.xpath('/service_definition/service/photo_requested').map(&:text).first
+    assert_equal 'false', photo_requested
+  end
+
+  test 'service with photo_requested' do
+    get "/citysdk/services/#{category(:photo_requested).id}.xml"
+    doc = Nokogiri::XML(response.parsed_body)
+    photo_requested = doc.xpath('/service_definition/service/photo_requested').map(&:text).first
+    assert_equal 'true', photo_requested
+  end
+
 end
