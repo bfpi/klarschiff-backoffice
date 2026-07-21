@@ -61,7 +61,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_not_empty document_url
   end
 
-  test "index with group filter" do
+  test 'index with group filter' do
     get '/citysdk/services.xml', params: { group: main_category(:one).to_s }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
@@ -69,28 +69,28 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes services, category(:four).id.to_s
   end
 
-  test "index with invalid group filter" do
+  test 'index with invalid group filter' do
     get '/citysdk/services.xml', params: { group: 'ABC' }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :zero?
   end
 
-  test "index with keyword filter" do
+  test 'index with keyword filter' do
     get '/citysdk/services.xml', params: { keyword: 'idea' }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :positive?
   end
 
-  test "index with invalid keyword filter" do
+  test 'index with invalid keyword filter' do
     get '/citysdk/services.xml', params: { keyword: 'ABC' }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :zero?
   end
 
-  test "index with lat and lon filter for api_key_frontend" do
+  test 'index with lat and lon filter for api_key_frontend' do
     get '/citysdk/services.xml', params: { lat: 53.9784103, long: 11.8705908 }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
@@ -98,7 +98,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_includes services, category(:four).id.to_s
   end
 
-  test "index with lat and lon filter outside for api_key_frontend" do
+  test 'index with lat and lon filter outside for api_key_frontend' do
     get '/citysdk/services.xml', params: { lat: 54.1079752, long: 11.7406435 }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
@@ -142,5 +142,4 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     photo_requested = doc.xpath('/service_definition/service/photo_requested').map(&:text).first
     assert_equal 'true', photo_requested
   end
-
 end
