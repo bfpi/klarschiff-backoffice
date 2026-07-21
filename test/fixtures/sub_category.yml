@@ -12,6 +12,9 @@ two:
 three:
   <<: *DEFAULTS
 
+four:
+  <<: *DEFAULTS
+
 dms:
   <<: *DEFAULTS
   dms: d3:AAUTO
@@ -19,3 +22,7 @@ dms:
 deleted:
   <<: *DEFAULTS
   deleted: true
+
+photo_requested:
+  <<: *DEFAULTS
+
