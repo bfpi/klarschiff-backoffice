@@ -20,3 +20,6 @@ four:
 deleted:
   <<: *DEFAULTS
   deleted: true
+
+photo_requested:
+  <<: *DEFAULTS
