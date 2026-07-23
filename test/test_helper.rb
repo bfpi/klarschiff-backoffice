@@ -95,5 +95,12 @@ module ActiveSupport
       yield if block
       Settings::Instance.redefine_singleton_method(:manage_categories) { old }
     end
+
+    def with_skip_email_confirmation(value: false, &block)
+      old = Settings::Instance.skip_email_confirmation
+      Settings::Instance.redefine_singleton_method(:skip_email_confirmation) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:skip_email_confirmation) { old }
+    end
   end
 end
