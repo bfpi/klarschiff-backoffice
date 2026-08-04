@@ -3,6 +3,7 @@ DEFAULTS: &DEFAULTS
   deleted_at:
   main_category: $LABEL
   sub_category: $LABEL
+  photo_requested: false
 
 one:
   <<: *DEFAULTS
@@ -11,6 +12,9 @@ two:
   <<: *DEFAULTS
 
 three:
+  <<: *DEFAULTS
+
+four:
   <<: *DEFAULTS
 
 deleted:
@@ -31,3 +35,7 @@ deleted_sub_category:
   <<: *DEFAULTS
   main_category: one
   sub_category: deleted
+
+photo_requested:
+  <<: *DEFAULTS
+  photo_requested: true

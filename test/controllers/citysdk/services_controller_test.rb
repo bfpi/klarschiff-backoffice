@@ -61,6 +61,51 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_not_empty document_url
   end
 
+  test 'index with group filter' do
+    get '/citysdk/services.xml', params: { group: main_category(:one).to_s }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_not_includes services, category(:four).id.to_s
+  end
+
+  test 'index with invalid group filter' do
+    get '/citysdk/services.xml', params: { group: 'ABC' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :zero?
+  end
+
+  test 'index with keyword filter' do
+    get '/citysdk/services.xml', params: { keyword: 'idea' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+  end
+
+  test 'index with invalid keyword filter' do
+    get '/citysdk/services.xml', params: { keyword: 'ABC' }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :zero?
+  end
+
+  test 'index with lat and lon filter for api_key_frontend' do
+    get '/citysdk/services.xml', params: { lat: 53.9784103, long: 11.8705908 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_includes services, category(:four).id.to_s
+  end
+
+  test 'index with lat and lon filter outside for api_key_frontend' do
+    get '/citysdk/services.xml', params: { lat: 54.1079752, long: 11.7406435 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_not_includes services, category(:four).id.to_s
+  end
+
   [:api_key_ppc, :api_key_frontend, nil].each do |api_key_name|
     test "index returns no inactive service for api-key #{api_key_name}" do
       get '/citysdk/services.xml', params: api_key_name ? { api_key: send(api_key_name) } : {}
@@ -82,5 +127,19 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
         ).where(id: service_codes.map(&:text))
       end
     end
+  end
+
+  test 'service without photo_requested' do
+    get "/citysdk/services/#{category(:one).id}.xml"
+    doc = Nokogiri::XML(response.parsed_body)
+    photo_requested = doc.xpath('/service_definition/service/photo_requested').map(&:text).first
+    assert_equal 'false', photo_requested
+  end
+
+  test 'service with photo_requested' do
+    get "/citysdk/services/#{category(:photo_requested).id}.xml"
+    doc = Nokogiri::XML(response.parsed_body)
+    photo_requested = doc.xpath('/service_definition/service/photo_requested').map(&:text).first
+    assert_equal 'true', photo_requested
   end
 end

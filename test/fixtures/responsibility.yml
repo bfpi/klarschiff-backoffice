@@ -13,3 +13,6 @@ two:
 three:
   <<: *DEFAULTS
   group: reference_default_county
+
+four:
+  <<: *DEFAULTS
