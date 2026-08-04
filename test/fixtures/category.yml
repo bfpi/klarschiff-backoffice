@@ -16,6 +16,10 @@ three:
 deleted:
   <<: *DEFAULTS
 
+sonstiges:
+  <<: *DEFAULTS
+  main_category: one
+
 deleted_at:
   <<: *DEFAULTS
   deleted_at: 2025-01-23T15:25:00+0100

@@ -19,3 +19,6 @@ dms:
 deleted:
   <<: *DEFAULTS
   deleted: true
+
+sonstiges:
+  <<: *DEFAULTS
