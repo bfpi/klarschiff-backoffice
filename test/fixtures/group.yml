@@ -13,6 +13,10 @@ one:
 two:
   <<: *DEFAULTS
 
+four:
+  <<: *DEFAULTS
+  reference_id: <%= ActiveRecord::FixtureSet.identify :four %>
+
 external:
   <<: *DEFAULTS
   kind: external

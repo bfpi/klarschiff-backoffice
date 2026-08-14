@@ -4,7 +4,8 @@ module Citysdk
   class Service < Category
     include Citysdk::Serialization
 
-    self.serialization_attributes = %i[service_code service_name description metadata type keywords group group_id]
+    self.serialization_attributes = %i[description group group_id keywords metadata photo_requested service_code
+                                       service_name type]
 
     private
 

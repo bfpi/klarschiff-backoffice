@@ -14,6 +14,12 @@ three:
   <<: *DEFAULTS
   kind: tip
 
+four:
+  <<: *DEFAULTS
+
 deleted:
   <<: *DEFAULTS
   deleted: true
+
+photo_requested:
+  <<: *DEFAULTS
