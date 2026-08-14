@@ -136,7 +136,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_predicate service_names.count, :positive?
     assert_equal sub_category(:sonstiges).name, service_names.last
   end
-  
+
   test 'service without photo_requested' do
     get "/citysdk/services/#{category(:one).id}.xml"
     doc = Nokogiri::XML(response.parsed_body)
