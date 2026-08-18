@@ -16,3 +16,7 @@ three:
 
 four:
   <<: *DEFAULTS
+
+usedom_one:
+  category: one
+  group: usedom2
