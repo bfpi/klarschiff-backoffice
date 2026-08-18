@@ -73,3 +73,23 @@ reference_default_county:
   <<: *DEFAULTS
   type: CountyGroup
   reference_default: true
+
+reference_default_ruegen:
+  <<: *DEFAULTS
+  reference_id: <%= ActiveRecord::FixtureSet.identify :ruegen %>
+  reference_default: true
+
+regional_admin_ruegen:
+  <<: *DEFAULTS
+  reference_id: <%= ActiveRecord::FixtureSet.identify :ruegen %>
+
+regional_admin_usedom:
+  <<: *DEFAULTS
+  reference_id: <%= ActiveRecord::FixtureSet.identify :usedom %>
+
+usedom2:
+  <<: *DEFAULTS
+  email:
+  main_user:
+  reference_id: <%= ActiveRecord::FixtureSet.identify :usedom %>
+  users: three

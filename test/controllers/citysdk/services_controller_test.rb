@@ -90,12 +90,20 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_predicate services.count, :zero?
   end
 
-  test 'index with lat and lon filter for api_key_frontend' do
-    get '/citysdk/services.xml', params: { lat: 53.9784103, long: 11.8705908 }
+  test 'index with lat and lon filter reference_default for api_key_frontend' do
+    get '/citysdk/services.xml', params: { lat: 54.5098348, long: 13.3372465 }
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :positive?
-    assert_includes services, category(:four).id.to_s
+    assert_equal Category.active.ids.sort, services.map(&:to_i).sort
+  end
+
+  test 'index with lat and lon filter responsibility for api_key_frontend' do
+    get '/citysdk/services.xml', params: { lat: 53.9310567, long: 13.9796434 }
+    doc = Nokogiri::XML(response.parsed_body)
+    services = doc.xpath('/services/service/service_code').map(&:text)
+    assert_predicate services.count, :positive?
+    assert_equal [category(:one).id], services.map(&:to_i)
   end
 
   test 'index with lat and lon filter outside for api_key_frontend' do
@@ -103,7 +111,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :positive?
-    assert_includes services, category(:four).id.to_s
+    assert_equal Category.active.ids.sort, services.map(&:to_i).sort
   end
 
   [:api_key_ppc, :api_key_frontend, nil].each do |api_key_name|
