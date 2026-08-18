@@ -86,7 +86,7 @@ module Citysdk
     def authority_groups
       if (lat = params[:lat].to_f).positive? && (lon = params[:long].to_f).positive?
         ag = AuthorityGroup.active.regional(lat:, lon:)
-        return ag.select { |a| a unless a.reference_default }
+        return ag if ag.none?(&:reference_default)
       end
       nil
     end

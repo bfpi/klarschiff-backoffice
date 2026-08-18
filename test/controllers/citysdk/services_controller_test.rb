@@ -103,7 +103,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     doc = Nokogiri::XML(response.parsed_body)
     services = doc.xpath('/services/service/service_code').map(&:text)
     assert_predicate services.count, :positive?
-    assert_not_includes services, category(:four).id.to_s
+    assert_includes services, category(:four).id.to_s
   end
 
   [:api_key_ppc, :api_key_frontend, nil].each do |api_key_name|
