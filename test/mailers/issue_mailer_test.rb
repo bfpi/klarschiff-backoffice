@@ -5,6 +5,8 @@ require 'test_helper'
 class IssueMailerTest < ActionMailer::TestCase
   test 'forward' do
     with_log_issue_mailer_forward_settings(log_issue_mailer_forward: false) do
+      Current.user = user(:editor)
+
       issue = issue(:in_process)
       issue_email = IssueEmail.new(valid_params)
       issue_email.issue_id = issue.id
@@ -16,14 +18,17 @@ class IssueMailerTest < ActionMailer::TestCase
         assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
         assert_equal ['test@example.com'], mail.to
         assert_equal ['from@example.com'], mail.from
-        assert_match 'die folgende Meldung wurde durch die/den Klarschiff-MV-Nutzer/-in  an Sie weitergeleitet',
-          mail.body.encoded
+        msg = "die folgende Meldung wurde durch die/den #{
+          Settings::Instance.name}-Nutzer/-in #{Current.user} an Sie weitergeleite"
+        assert_match msg, mail.body.encoded
       end
     end
   end
 
   test 'forward with logging enabled' do
     with_log_issue_mailer_forward_settings(log_issue_mailer_forward: true) do
+      Current.user = user(:editor)
+
       issue = issue(:in_process)
       issue_email = IssueEmail.new(valid_params)
       issue_email.issue_id = issue.id
@@ -35,8 +40,9 @@ class IssueMailerTest < ActionMailer::TestCase
         assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
         assert_equal ['test@example.com'], mail.to
         assert_equal ['from@example.com'], mail.from
-        assert_match 'die folgende Meldung wurde durch die/den Klarschiff-MV-Nutzer/-in  an Sie weitergeleitet',
-          mail.body.encoded
+        msg = "die folgende Meldung wurde durch die/den #{
+          Settings::Instance.name}-Nutzer/-in #{Current.user} an Sie weitergeleitet"
+        assert_match msg, mail.body.encoded
       end
     end
   end
