@@ -32,6 +32,7 @@ development: &default
     validate_privacy_policy: false
     auth_code_gui_access_for_external_participants: true
     manage_categories: false
+    log_issue_mailer_forward: false
   issue:
     status_note_max_length: 500
   job:
