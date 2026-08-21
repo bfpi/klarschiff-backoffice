@@ -234,7 +234,8 @@ module Citysdk
     private
 
     def create_multiple(request, issue)
-      issue.category&.responsibility_groups(lat: issue.position.y, lon: issue.position.x)&.map do |group|
+      issue.category&.responsibility_groups(lat: issue.position.y, lon: issue.position.x,
+        include_reference_default: false)&.map do |group|
         new_request = request.dup
         new_issue = new_request.becomes(Issue)
         new_issue.confirmation_hash = nil
