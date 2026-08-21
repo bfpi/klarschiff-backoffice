@@ -102,5 +102,12 @@ module ActiveSupport
       yield if block
       Settings::Instance.redefine_singleton_method(:skip_email_confirmation) { old }
     end
+
+    def with_multiple_responsibilities(value: false, &block)
+      old = Settings::Instance.multiple_responsibilities
+      Settings::Instance.redefine_singleton_method(:multiple_responsibilities) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:multiple_responsibilities) { old }
+    end
   end
 end

@@ -34,6 +34,7 @@ development: &default
     auth_code_gui_access_for_external_participants: true
     manage_categories: false
     skip_email_confirmation: false
+    multiple_responsibilities: false
   issue:
     status_note_max_length: 500
   job:

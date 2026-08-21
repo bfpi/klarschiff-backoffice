@@ -17,6 +17,14 @@ three:
 four:
   <<: *DEFAULTS
 
+multiple1:
+  category: multiple
+  group: one
+
+multiple2:
+  category: multiple
+  group: two
+
 usedom_one:
   category: one
   group: usedom2

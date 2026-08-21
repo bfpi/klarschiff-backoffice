@@ -97,8 +97,12 @@ module Citysdk
       request.assign_attributes params.permit(:email, :service_code, :description, :lat, :long,
         :address_string, :photo_required, :media, :privacy_policy_accepted).merge(status: :pending)
       issue = request.becomes_if_valid!(Issue)
-      issue.new_photo = request.new_photo if request.new_photo.present?
-      issue.save!
+
+      request = if Settings::Instance.multiple_responsibilities
+                  create_multiple(request, issue)
+                else
+                  create_one(request, issue)
+                end
 
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true, status: :created
     end
@@ -228,6 +232,23 @@ module Citysdk
     end
 
     private
+
+    def create_multiple(request, issue)
+      issue.category&.responsibility_groups(lat: issue.position.y, lon: issue.position.x)&.map do |group|
+        new_request = request.dup
+        new_issue = new_request.becomes(Issue)
+        new_issue.confirmation_hash = nil
+        new_issue.group = group
+        create_one(new_request, new_issue)
+      end
+    end
+
+    def create_one(request, issue)
+      issue.new_photo = request.new_photo if request.new_photo.present?
+      issue.save!
+
+      request
+    end
 
     def confirm_request(request)
       raise ActiveRecord::RecordNotFound if request.blank?
