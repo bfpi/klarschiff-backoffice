@@ -19,11 +19,11 @@ four:
 
 multiple1:
   category: multiple
-  group: one
+  group: two
 
 multiple2:
   category: multiple
-  group: two
+  group: three
 
 usedom_one:
   category: one
