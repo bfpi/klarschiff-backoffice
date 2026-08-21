@@ -31,6 +31,13 @@ class Category < ApplicationRecord
     ).order(group_order).first
   end
 
+  def responsibility_groups(lat:, lon:)
+    group_ids = responsibilities.active.regional(lat:, lon:).pluck(:group_id)
+    Group.regional(lat:, lon:).where(
+      group_arel_table[:id].in(group_ids)
+    ).order(group_order)
+  end
+
   def active?
     deleted_at.blank?
   end

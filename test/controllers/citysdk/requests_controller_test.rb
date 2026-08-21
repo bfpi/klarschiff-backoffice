@@ -268,20 +268,45 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key and skipped email-confirmation' do
-    with_skip_email_confirmation(value: true) do
-      assert_difference 'IssueResponsibility.count', 1 do
-        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+    with_multiple_responsibilities(value: false) do
+      with_skip_email_confirmation(value: true) do
+        assert_difference 'IssueResponsibility.count', 1 do
+          post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
+        end
+        doc = Nokogiri::XML(response.parsed_body)
+        service_request_id = doc.xpath('/service_requests/request/service_request_id')
+        assert_not_empty doc.xpath('/service_requests/request/create_message')
+        assert_includes doc.xpath('/service_requests/request/create_message').text,
+          'Die Meldung wurde erfolgreich erstellt.'
+        assert_not_includes doc.xpath('/service_requests/request/create_message').text, 'Sie haben eine E-Mail erhalten'
+        assert_equal 1, service_request_id.count
+        assert issue = Issue.find(service_request_id.first.text)
+        assert_enqueued_emails 1
+        assert_predicate issue, :status_received?
       end
-      doc = Nokogiri::XML(response.parsed_body)
-      service_request_id = doc.xpath('/service_requests/request/service_request_id')
-      assert_not_empty doc.xpath('/service_requests/request/create_message')
-      assert_includes doc.xpath('/service_requests/request/create_message').text,
-        'Die Meldung wurde erfolgreich erstellt.'
-      assert_not_includes doc.xpath('/service_requests/request/create_message').text, 'Sie haben eine E-Mail erhalten'
-      assert_equal 1, service_request_id.count
-      assert issue = Issue.find(service_request_id.first.text)
-      assert_enqueued_emails 1
-      assert_predicate issue, :status_received?
+    end
+  end
+
+  test 'create multiple with frontend api-key' do
+    with_multiple_responsibilities(value: true) do
+      with_skip_email_confirmation(value: true) do
+        assert_difference 'IssueResponsibility.count', 2 do
+          create_params = valid_create_params.merge(service_code: category(:multiple).id)
+          post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: create_params
+        end
+        doc = Nokogiri::XML(response.parsed_body)
+        service_request_id = doc.xpath('/service_requests/request/service_request_id')
+        assert_not_empty doc.xpath('/service_requests/request/create_message')
+        assert_includes doc.xpath('/service_requests/request/create_message').text,
+          'Die Meldung wurde erfolgreich erstellt.'
+        assert_not_includes doc.xpath('/service_requests/request/create_message').text, 'Sie haben eine E-Mail erhalten'
+        assert_equal 2, service_request_id.count
+        assert first_issue = Issue.find(service_request_id.first.text)
+        assert_predicate first_issue, :status_received?
+        assert second_issue = Issue.find(service_request_id.last.text)
+        assert_predicate second_issue, :status_received?
+        assert_enqueued_emails 2
+      end
     end
   end
 

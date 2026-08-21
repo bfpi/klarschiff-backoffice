@@ -20,6 +20,10 @@ four:
 deleted:
   <<: *DEFAULTS
 
+multiple:
+  <<: *DEFAULTS
+  main_category: one
+
 sonstiges:
   <<: *DEFAULTS
   main_category: one
