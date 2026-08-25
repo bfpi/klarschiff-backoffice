@@ -139,7 +139,7 @@ Dir.glob('db/seeds/responsibilities_*.csv').each do |file_name|
   end
 end
 
-# rubocop:disable Rails/Output
+# rubocop:disable-next Rails/Output
 Dir.glob('db/seeds/users_*.csv').each do |file_name|
   class_name, name = File.basename(file_name, '.csv').split('_')[1..2]
   model = class_name.classify.constantize
@@ -160,7 +160,6 @@ Dir.glob('db/seeds/users_*.csv').each do |file_name|
   end
   puts '=' * 50
 end
-# rubocop:enable Rails/Output
 
 CSV.table('db/seeds/default_responsibilities.csv').each do |row|
   group = Group.find_by(name: "Standardzuständigkeit - #{row[1]}")
