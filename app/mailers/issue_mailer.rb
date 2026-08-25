@@ -3,14 +3,14 @@
 class IssueMailer < ApplicationMailer
   include ImageAttachments
 
+  after_deliver :log_forward_email
+
   helper :application, :issues
 
   def forward(issue_email:)
     @issue_email = issue_email
     image_attachments issue: issue_email.issue if issue_email.send_photos?
     mail to: issue_email.to_email, bcc: issue_email.from_email, reply_to: issue_email.from_email
-
-    log_forward_email(issue_email:)
   end
 
   def in_process(to:, issue:)
@@ -37,10 +37,10 @@ class IssueMailer < ApplicationMailer
 
   private
 
-  def log_forward_email(issue_email:)
+  def log_forward_email
     return unless Settings::Instance.log_issue_mailer_forward
-    action = "#{t('issues.edit.new_issue_issue_email_title')} (#{issue_email.to_email})"
-    issue = issue_email.issue
+    action = "#{t('issues.edit.new_issue_issue_email_title')} (#{@issue_email.to_email})"
+    issue = @issue_email.issue
     issue.log_entries.create!(action:, issue_id: issue.id, subject_name: issue.to_s, user: Current.user)
   end
 end

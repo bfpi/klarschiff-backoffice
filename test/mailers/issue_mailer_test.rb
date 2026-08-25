@@ -5,44 +5,52 @@ require 'test_helper'
 class IssueMailerTest < ActionMailer::TestCase
   test 'forward' do
     with_log_issue_mailer_forward_settings(log_issue_mailer_forward: false) do
-      Current.user = user(:editor)
+      user = user(:editor)
+      Current.set(user:) do
+        issue = issue(:in_process)
+        issue_email = IssueEmail.new(valid_params)
+        issue_email.issue_id = issue.id
+        issue_email.validate
 
-      issue = issue(:in_process)
-      issue_email = IssueEmail.new(valid_params)
-      issue_email.issue_id = issue.id
-      issue_email.validate
+        assert_emails 1 do
+          assert_no_difference 'LogEntry.count' do
+            mail = IssueMailer.forward(issue_email:)
 
-      assert_no_difference 'LogEntry.count' do
-        mail = IssueMailer.forward(issue_email:)
-
-        assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
-        assert_equal ['test@example.com'], mail.to
-        assert_equal ['from@example.com'], mail.from
-        msg = "die folgende Meldung wurde durch die/den #{
-          Settings::Instance.name}-Nutzer/-in #{Current.user} an Sie weitergeleite"
-        assert_match msg, mail.body.encoded
+            assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
+            assert_equal ['test@example.com'], mail.to
+            assert_equal ['from@example.com'], mail.from
+            msg = "die folgende Meldung wurde durch die/den #{
+              Settings::Instance.name}-Nutzer/-in #{user} an Sie weitergeleitet"
+            assert_match msg, mail.body.encoded
+            mail.deliver_now
+          end
+        end
       end
     end
   end
 
   test 'forward with logging enabled' do
     with_log_issue_mailer_forward_settings(log_issue_mailer_forward: true) do
-      Current.user = user(:editor)
+      user = user(:editor)
+      Current.set(user:) do
+        issue = issue(:in_process)
+        issue_email = IssueEmail.new(valid_params)
+        issue_email.issue_id = issue.id
+        issue_email.validate
 
-      issue = issue(:in_process)
-      issue_email = IssueEmail.new(valid_params)
-      issue_email.issue_id = issue.id
-      issue_email.validate
+        assert_emails 1 do
+          assert_difference 'LogEntry.count', 1 do
+            mail = IssueMailer.forward(issue_email:)
 
-      assert_difference 'LogEntry.count', 1 do
-        mail = IssueMailer.forward(issue_email:)
-
-        assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
-        assert_equal ['test@example.com'], mail.to
-        assert_equal ['from@example.com'], mail.from
-        msg = "die folgende Meldung wurde durch die/den #{
-          Settings::Instance.name}-Nutzer/-in #{Current.user} an Sie weitergeleitet"
-        assert_match msg, mail.body.encoded
+            assert_equal 'Weitergeleitete Meldung aus dem Beteiligungsportal Klarschiff MV', mail.subject
+            assert_equal ['test@example.com'], mail.to
+            assert_equal ['from@example.com'], mail.from
+            msg = "die folgende Meldung wurde durch die/den #{
+              Settings::Instance.name}-Nutzer/-in #{user} an Sie weitergeleitet"
+            assert_match msg, mail.body.encoded
+            mail.deliver_now
+          end
+        end
       end
     end
   end
