@@ -16,7 +16,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Current.user.permitted_group_types.first.constantize.new
+    @group = Current.user.permitted_group_types.first&.constantize&.new
   end
 
   def edit
