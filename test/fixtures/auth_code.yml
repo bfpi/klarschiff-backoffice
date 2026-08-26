@@ -24,3 +24,8 @@ unconfirmed_with_auth_code:
   uuid: 'b991c58f-83d3-450e-bbda-039d0424e03f'
   issue: $LABEL
   group: reference_default
+
+in_process:
+  uuid: '13656106-f762-4e9c-baf3-e5ff5aa52eb1'
+  issue: $LABEL
+  group: internal
