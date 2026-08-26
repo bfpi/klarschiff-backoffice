@@ -7,7 +7,6 @@ class IssueMailer < ApplicationMailer
 
   helper :application, :issues
 
-  def forward(issue_email:)
   def forward(issue_email:, user: Current.user)
     @issue_email = issue_email
     @user = user
