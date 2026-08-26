@@ -43,6 +43,6 @@ class IssueMailer < ApplicationMailer
     return unless Settings::Instance.log_issue_mailer_forward
     action = "#{t('issues.edit.new_issue_issue_email_title')} (#{@issue_email.to_email})"
     issue = @issue_email.issue
-    issue.log_entries.create!(action:, issue_id: issue.id, subject_name: issue.to_s, user: Current.user)
+    issue.log_entries.create!(action:, issue_id: issue.id, subject_name: issue.to_s, user: @user)
   end
 end
