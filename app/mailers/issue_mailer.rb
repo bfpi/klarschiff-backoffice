@@ -8,7 +8,9 @@ class IssueMailer < ApplicationMailer
   helper :application, :issues
 
   def forward(issue_email:)
+  def forward(issue_email:, user: Current.user)
     @issue_email = issue_email
+    @user = user
     image_attachments issue: issue_email.issue if issue_email.send_photos?
     mail to: issue_email.to_email, bcc: issue_email.from_email, reply_to: issue_email.from_email
   end
