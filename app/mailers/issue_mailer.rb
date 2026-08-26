@@ -3,7 +3,7 @@
 class IssueMailer < ApplicationMailer
   include ImageAttachments
 
-  after_deliver :log_forward_email
+  after_deliver :log_forward_email, if: -> { action_name == 'forward' }
 
   helper :application, :issues
 
