@@ -35,6 +35,7 @@ development: &default
     manage_categories: false
     skip_email_confirmation: false
     multiple_responsibilities: false
+    log_issue_mailer_forward: false
   issue:
     status_note_max_length: 500
   job:
