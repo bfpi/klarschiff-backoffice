@@ -7,6 +7,7 @@ ruby '~> 4.0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 8.1.3'
+gem 'json', '< 3' # Sprockets 4.2 passes the removed create_additions keyword to JSON.parse.
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.6.3'
 # Use Puma as the app server
