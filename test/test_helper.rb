@@ -95,5 +95,12 @@ module ActiveSupport
       yield if block
       Settings::Instance.redefine_singleton_method(:manage_categories) { old }
     end
+
+    def with_log_issue_mailer_forward_settings(log_issue_mailer_forward: nil, &block)
+      old = Settings::Instance.log_issue_mailer_forward
+      Settings::Instance.redefine_singleton_method(:log_issue_mailer_forward) { log_issue_mailer_forward }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:log_issue_mailer_forward) { old }
+    end
   end
 end

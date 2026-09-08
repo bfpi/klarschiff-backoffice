@@ -441,6 +441,12 @@ de:
       map: Kartenansicht
       new_issue: Neue Meldung
       rss: RSS
+    edit:
+      new_issue_issue_email_title: Daten der Meldung als E-Mail versenden
+      issue_issue_email_title: Daten der Meldung als E-Mail aus eigenem E-Mail-Client versenden
+      issue_export_title: PDF mit Daten der Meldung erzeugen
+      issue_resend_responsibility_title: Erneuter Versand der E-Mail an Standardzuständigkeit
+      issue_resend_responsibility_confirm: Soll die E-Mail wirklich erneut versendet werden?
     extended_filter:
       all_districts: alle Gemeindeteile
       all_kinds: alle Typen
