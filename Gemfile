@@ -41,21 +41,21 @@ gem 'mini_magick'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: :mri, require: 'debug/prelude'
-  
+
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
-  
+
   gem 'pronto-rubocop', require: false
   gem 'rubocop-capybara'
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
-  
+
   gem 'erb_lint', require: false
-  
+
   gem 'minitest'
   gem 'minitest-mock'
-  
+
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem 'bundler-audit', require: false
 end
@@ -64,7 +64,7 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   # gem 'listen', '~> 3.2'
   # gem 'web-console', '>= 3.3.0'
-  
+
   gem 'bullet'
 end
 
