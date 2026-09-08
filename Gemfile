@@ -86,6 +86,7 @@ gem 'exception_notification'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'json', '< 3' # Sprockets 4.2 passes the removed create_additions keyword to JSON.parse.
 gem 'kaminari'
 gem 'mission_control-jobs'
 gem 'net-ldap'
