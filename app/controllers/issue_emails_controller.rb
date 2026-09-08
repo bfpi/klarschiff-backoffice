@@ -30,7 +30,7 @@ class IssueEmailsController < ApplicationController
   private
 
   def permitted_params
-    params[:issue_email]&.permit(:from, :from_email, :to_email, :text, :send_map, :send_photos, :send_comments,
-      :send_feedbacks, :send_abuse_reports)
+    params[:issue_email]&.permit(:from, :from_email, :to_email, :text, :send_coordinates, :send_map, :send_photos,
+      :send_comments, :send_feedbacks, :send_abuse_reports)
   end
 end
