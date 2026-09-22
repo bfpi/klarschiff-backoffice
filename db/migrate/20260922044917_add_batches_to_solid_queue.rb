@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBatchesToSolidQueue < ActiveRecord::Migration[7.1]
   def change
     # Fresh installs create all of this with the base schema, so skip
