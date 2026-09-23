@@ -75,6 +75,7 @@ KS.initializeMaps = (with_wms = true) ->
         id: '<%= layer[:id] %>'
         source: new (ol.source.XYZ)
           url: '<%= layer[:url] %>'
+          crossOrigin: 'anonymous'
           attributions: <%= layer[:attribution].present? ? layer[:attribution].to_json : 'null' %>
         visible: <%= layer[:visible].present? %>
       <% end %>
