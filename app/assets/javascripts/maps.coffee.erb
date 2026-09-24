@@ -91,6 +91,7 @@ KS.initializeMaps = (with_wms = true) ->
             "FORMAT": '<%= layer[:format] %>'
         visible: <%= layer[:visible].present? %>
       <% end %>
+      true
     layers.push featureVector
     layers.push featureVectorUnclustered if featureVectorUnclustered
     KS.Map = new (ol.Map)(
