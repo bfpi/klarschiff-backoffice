@@ -16,6 +16,6 @@
 <div class="row">
   <%= form.label :group, class: 'col-4 col-form-label' %>
   <div class="col-8">
-    <%= form.select :group_id, groups_options(form.object), { include_blank: '' }, class: 'form-select' %>
+    <%= form.select :group_id, groups_options(form.object), { include_blank: '' }, class: 'form-select', required: true %>
   </div>
 </div>
