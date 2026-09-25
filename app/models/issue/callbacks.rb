@@ -18,6 +18,7 @@ class Issue
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
       before_validation :update_address_parcel_property_owner, if: :position_changed?
 
+      before_save :skip_status_pending, if: -> { Settings::Instance.skip_email_confirmation }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
@@ -94,6 +95,10 @@ class Issue
       else
         { to: users.map(&:email) }
       end
+    end
+
+    def skip_status_pending
+      self.status = :received
     end
 
     def create_issue_delegation?

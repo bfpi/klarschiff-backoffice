@@ -96,6 +96,20 @@ module ActiveSupport
       Settings::Instance.redefine_singleton_method(:manage_categories) { old }
     end
 
+    def with_skip_email_confirmation(value: false, &block)
+      old = Settings::Instance.skip_email_confirmation
+      Settings::Instance.redefine_singleton_method(:skip_email_confirmation) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:skip_email_confirmation) { old }
+    end
+
+    def with_multiple_responsibilities(value: false, &block)
+      old = Settings::Instance.multiple_responsibilities
+      Settings::Instance.redefine_singleton_method(:multiple_responsibilities) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:multiple_responsibilities) { old }
+    end
+
     def with_log_issue_mailer_forward_settings(log_issue_mailer_forward: nil, &block)
       old = Settings::Instance.log_issue_mailer_forward
       Settings::Instance.redefine_singleton_method(:log_issue_mailer_forward) { log_issue_mailer_forward }

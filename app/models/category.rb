@@ -25,10 +25,14 @@ class Category < ApplicationRecord
   end
 
   def group(lat:, lon:)
+    responsibility_groups(lat:, lon:).first
+  end
+
+  def responsibility_groups(lat:, lon:, include_reference_default: true)
     group_ids = responsibilities.active.regional(lat:, lon:).pluck(:group_id)
-    Group.regional(lat:, lon:).where(
-      group_arel_table[:id].in(group_ids).or(group_arel_table[:reference_default].eq(true))
-    ).order(group_order).first
+    cond = group_arel_table[:id].in(group_ids)
+    cond = cond.or(group_arel_table[:reference_default].eq(true)) if include_reference_default
+    Group.regional(lat:, lon:).where(cond).order(group_order)
   end
 
   def active?
