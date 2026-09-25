@@ -1283,7 +1283,6 @@ __metadata:
     eslint-plugin-html-erb: "npm:^1.0.1"
     globals: "npm:^17.6.0"
     ol: "npm:^10.9.0"
-    proj4: "npm:^2.20.9"
     stylelint: "npm:^17.13.0"
     stylelint-config-standard-scss: "npm:^17.0.0"
     tablednd: "npm:^1.0.5"
@@ -1362,13 +1361,6 @@ __metadata:
   version: 1.4.1
   resolution: "merge2@npm:1.4.1"
   checksum: 10c0/254a8a4605b58f450308fc474c82ac9a094848081bf4c06778200207820e5193726dc563a0d2c16468810516a5c97d9d3ea0ca6585d23c58ccfff2403e8dbbeb
-  languageName: node
-  linkType: hard
-
-"mgrs@npm:1.0.0":
-  version: 1.0.0
-  resolution: "mgrs@npm:1.0.0"
-  checksum: 10c0/a360853be5a3b4f4734dbf0a193851c08039ccb6077362ab0f890cccd170ef88b59585129757da9fea4d7a313d7dc3ee88f37f594fc1ae3e4e8efc5353144d77
   languageName: node
   linkType: hard
 
@@ -1649,21 +1641,6 @@ __metadata:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: 10c0/b00d617431e7886c520a6f498a2e14c75ec58f6d93ba48c3b639cf241b54232d90daa05d83a9e9b9fef6baa63cb7e1e4602c2372fea5bc169668401eb127d0cd
-  languageName: node
-  linkType: hard
-
-"proj4@npm:^2.20.9":
-  version: 2.22.0
-  resolution: "proj4@npm:2.22.0"
-  dependencies:
-    mgrs: "npm:1.0.0"
-    wkt-parser: "npm:^1.5.5"
-  peerDependencies:
-    geotiff: "*"
-  peerDependenciesMeta:
-    geotiff:
-      optional: true
-  checksum: 10c0/11452d48cda44ff6011e7af9879b4881d7010c7be763785c319819362bb13ffed986174f72cf540c8e3854691f573fcb7fe95d8a5cec3dddd2091f6f92e307a9
   languageName: node
   linkType: hard
 
@@ -2139,13 +2116,6 @@ __metadata:
   bin:
     node-which: ./bin/node-which
   checksum: 10c0/66522872a768b60c2a65a57e8ad184e5372f5b6a9ca6d5f033d4b0dc98aff63995655a7503b9c0a2598936f532120e81dd8cc155e2e92ed662a2b9377cc4374f
-  languageName: node
-  linkType: hard
-
-"wkt-parser@npm:^1.5.5":
-  version: 1.5.5
-  resolution: "wkt-parser@npm:1.5.5"
-  checksum: 10c0/4ed71c407a7f13b2ea49441f3e9607eb421fac513c384b71a52a33abbeafeeb67ab32ffce327894a2b276fadaa352f204c21d0a02e34183644fe41d3282fd735
   languageName: node
   linkType: hard
 
