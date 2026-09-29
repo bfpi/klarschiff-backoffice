@@ -87,16 +87,13 @@ class Issue
       end
 
       def authorized_by_references(reference_ids)
-        where <<~SQL.squish, reference_ids, reference_ids
-          ST_Within("position", (
-            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{County.quoted_table_name}
-            WHERE "id" IN (?)
-          )) OR ST_Within("position", (
-            SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
-            FROM #{Authority.quoted_table_name} WHERE "id" IN (?)
-          ))
-        SQL
+        query = [County, Authority, Instance].map do |t|
+          sanitize_sql_array [<<~SQL.squish, reference_ids]
+            ST_Within("position", (SELECT ST_Multi(ST_CollectionExtract(ST_Polygonize(ST_Boundary("area")), 3))
+              FROM #{t.quoted_table_name} WHERE "id" IN (?)))
+          SQL
+        end
+        where Arel.sql(query.join(' OR '))
       end
 
       def authorized_group_ids(user = Current.user)

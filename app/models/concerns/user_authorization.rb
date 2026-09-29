@@ -97,7 +97,10 @@ module UserAuthorization
 
   def permitted_group_types
     return [] if role_editor?
-    return %w[CountyGroup AuthorityGroup] & Group.authorized(self).distinct.pluck(:type) if role_regional_admin?
+    if role_regional_admin?
+      return %w[InstanceGroup CountyGroup
+                AuthorityGroup] & Group.authorized(self).distinct.pluck(:type)
+    end
     %w[InstanceGroup CountyGroup AuthorityGroup]
   end
 
