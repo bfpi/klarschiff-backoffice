@@ -9,44 +9,42 @@ class Geocodr
     end
 
     def address(issue)
-      order_features(issue, config.address_search_class).select do |feature|
-        next if feature['objektgruppe'] != config.address_object_group
-        return format_address(feature)
-      end
+      feature = get_features(issue, config.address_result_classes).first
+      return format_address(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def address_dms(issue)
-      order_features(issue, config.address_search_class).select do |feature|
-        next if feature['objektgruppe'] != config.address_object_group
-        return feature
-      end
+      feature = get_features(issue, config.address_result_classes).first
+      return feature if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def parcel(issue)
-      order_features(issue, config.parcel_search_class).map do |feature|
-        next if feature['objektgruppe'] != config.parcel_object_group
-        return feature['flurstueckskennzeichen']
-      end
+      feature = get_features(issue, config.parcel_result_classes).first
+      return format_parcel(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def property_owner(issue)
-      order_features(issue, config.property_owner_search_class).map do |feature|
-        next if feature['objektgruppe'] != config.property_owner_object_group
-        return feature['eigentuemer']
-      end
+      feature = get_features(issue, config.parcel_result_classes).first
+      return feature['x_katasterobjekt_id'][0] if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def search_places(pattern)
-      query = "#{Settings::Geocodr.try :localisator} #{pattern}".strip
-      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new(p).as_json }
+      query = pattern.to_s.strip
+      return [] if query.empty?
+
+      request_features(query, "geocoding", config.places_result_classes, "EPSG:4326").map { |p| Place.new(p).as_json }
     end
 
     def find(address)
-      request_features(address, config.places_search_class, type: :search, out_epsg: 4326)
+      request_features(address, "geocoding", config.places_result_classes, "EPSG:4326")
     end
 
     def valid?(address)
@@ -60,31 +58,58 @@ class Geocodr
     private
 
     def format_address(feature)
-      addr = feature['strasse_name']
-      addr << " #{feature['hausnummer']}" if feature['hausnummer'].present?
-      addr << feature['hausnummer_zusatz'] if feature['hausnummer_zusatz'].present?
-      addr << " (#{feature['gemeindeteil_name']})" if feature['gemeindeteil_name'].present?
-      addr
+      address_label = feature['x_strassenname'][0]
+      address_label << " #{feature['x_hausnummer'][0]}" if feature['x_hausnummer'][0].present?
+      address_label << " (#{feature['x_bereich'][0]})" if feature['x_bereich'][0].present?
+      address_label
     end
 
-    def order_features(issue, search_class)
-      return [] if (features = request_features(issue, search_class)).blank?
+    def format_parcel(feature)
+      parcel_label = feature['x_katasterobjekt_id'][0]
+      parcel_label = parcel_label.delete('_')
+
+      "#{parcel_label[0, 6]}-#{parcel_label[6, 3]}-#{parcel_label[9, 5]}" +
+        ("/#{parcel_label[14, 4]}" if parcel_label.length > 15).to_s
+    end
+
+    def get_features(issue, result_classes)
+      return [] if (features = request_features(issue, "reverse", result_classes, "EPSG:4326")).blank?
       features.pluck('properties').sort_by { |a| a['entfernung'] }
     end
 
-    def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
+    def request_features(issue, mode, type, crs)
       uri = URI.parse(config.url)
       query = issue
       query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position) && issue.position.present?
-      uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape, out_epsg))
+      uri.query = URI.encode_www_form(request_feature_params(mode, type, query, crs))
       request_and_parse_features uri
     end
 
-    def request_feature_params(query, type, search_class, shape, out_epsg)
-      uri_params = { key: config.api_key, query:, type:, class: search_class, in_epsg: 4326, limit: 5 }
-      uri_params[:shape] = shape if shape.present?
-      uri_params[:out_epsg] = out_epsg if out_epsg.present?
-      uri_params
+    def request_feature_params(mode, type, query, crs)
+      if mode == "reverse"
+        query_params = {
+          type: type,
+          coord: query,
+          crs: crs,
+          rm: '100',
+          sort: 'dist',
+          n: '1'
+        }
+      else
+        query_params = {
+          type: type,
+          q: query,
+          crs: crs,
+          n: '5'
+        }
+        filter = config.localisator
+        if filter && !filter.empty?
+          filter = filter.delete_prefix('[')
+          key, value = filter.split(']=', 2)
+          query_params["x_filter[#{key}]"] = value
+        end
+      end
+      query_params
     end
 
     def request_and_parse_features(uri)
