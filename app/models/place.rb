@@ -8,11 +8,7 @@ class Place
   def label
     primary_type = properties['primaryType']
     place_description = properties['placeDescription']
-
-    return properties['_title_'] if place_description.nil?
-
     localisator = Settings::Geocodr.localisator
-
     if localisator && !localisator.empty?
       title = place_description.sub(/ \(.*$/, '')
       if ['Adresse', 'Straße'].include?(primary_type)
@@ -26,16 +22,10 @@ class Place
     end
   end
 
-  def transform_bbox?
-    geometry['transform_bbox']
-  end
-
   def as_json(_options = {})
     {
       label: label,
-      bbox: bbox,
-      transform_bbox: transform_bbox?,
-      feature_id: properties['feature_id']
+      bbox: bbox
     }
   end
 end
