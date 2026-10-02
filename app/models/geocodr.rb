@@ -55,15 +55,9 @@ class Geocodr
       place_description = feature['placeDescription']
       localisator = config.localisator
 
-      return place_description unless localisator.present?
+      return place_description if localisator.blank?
 
-      title = place_description.sub(/ \(.*$/, '')
-      if ['Adresse', 'Straße'].include?(primary_type)
-        title += " (#{place_description.sub(/^.* OT /, '')}"
-      else
-        title = place_description.sub(/^.* Bereich /, '')
-      end
-      title
+      Geocodr::LabelFormatter.format(primary_type, place_description)
     end
 
     def format_address_dms(feature)
@@ -130,7 +124,7 @@ class Geocodr
       if (res = uri.open(request_uri_options)) && res.status.include?('OK')
         JSON.parse(res.read).try(:[], 'features')
       end
-    rescue OpenURI::HTTPError
+    rescue OpenURI::HTTPError, Net::OpenTimeout, Net::ReadTimeout
       Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
       Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
       nil

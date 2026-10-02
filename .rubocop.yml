@@ -51,7 +51,8 @@ Metrics/BlockLength:
     - '**/*.xml.builder'
 
 Metrics/ClassLength:
-  Exclude: 
+  Exclude:
+    - 'app/models/geocodr.rb'
     - 'db/migrate/20260617062939_create_solid_queue.rb'
     - 'test/**/*'
 

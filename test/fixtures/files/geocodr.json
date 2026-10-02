@@ -5,21 +5,21 @@
       "type": "Feature",
       "id": "45cdd779ca149483a8faf8b709f74709",
       "bbox": [
-        702605,
-        5998290,
-        702606,
-        5998291
+        1346770,
+        7187759,
+        1346771,
+        7187761
       ],
       "geometry": {
         "type": "Point",
         "coordinates": [
-          702606.3141286575,
-          5998291.1186152315
+          1346771.765492196,
+          7187760.69881878
         ],
         "crs": {
           "type": "name",
           "properties": {
-            "name": "epsg:25832"
+            "name": "epsg:3857"
           }
         }
       },
@@ -54,27 +54,27 @@
         "x_hausnummer": [
           "14"
         ],
-        "proj": "epsg:25832",
-        "projbounds_lower": "702605,5998290",
-        "projbounds_upper": "702606,5998291",
+        "proj": "epsg:3857",
+        "projbounds_lower": "1346770,7187759",
+        "projbounds_upper": "1346771,7187761",
         "geobounds_lower": "54.09285,12.098256",
         "geobounds_upper": "54.092851,12.098257",
         "primaryType": "Adresse",
         "olc": "9F6J33VX+48",
-        "score": 2362.8281
+        "score": 2343.0386
       }
     }
   ],
   "bbox": [
-    702605,
-    5998290,
-    702606,
-    5998291
+    1346770,
+    7187759,
+    1346771,
+    7187761
   ],
   "crs": {
     "type": "name",
     "properties": {
-      "name": "epsg:25832"
+      "name": "epsg:3857"
     }
   },
   "start": 0,

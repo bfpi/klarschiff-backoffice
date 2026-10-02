@@ -9,21 +9,9 @@ class Place
     primary_type = properties['primaryType']
     place_description = properties['placeDescription']
 
-    return place_description unless Settings::Geocodr.localisator.present?
+    return place_description if Settings::Geocodr.localisator.blank?
 
-    format_label(primary_type, place_description)
-  end
-
-  def format_label(primary_type, place_description)
-    title = place_description.sub(/ \(.*$/, '')
-
-    if %w[Adresse Straße].include?(primary_type)
-      title += " (#{place_description.sub(/^.* OT /, '')}"
-    else
-      title = place_description.sub(/^.* Bereich /, '')
-    end
-
-    title
+    Geocodr::LabelFormatter.format(primary_type, place_description)
   end
 
   def as_json(_options = {})
