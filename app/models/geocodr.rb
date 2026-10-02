@@ -11,43 +11,41 @@ class Geocodr
     def address(issue)
       feature = get_features(issue, config.address_result_class).first
       return format_address(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def address_dms(issue)
       feature = get_features(issue, config.address_result_class).first
       return format_address_dms(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def parcel(issue)
       feature = get_features(issue, config.parcel_result_class).first
       return format_parcel(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def property_owner(issue)
       feature = get_features(issue, config.parcel_result_class).first
       return feature['x_katasterobjekt_id'][0] if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def search_places(pattern)
       query = pattern.to_s.strip
       return [] if query.empty?
-      request_features(query, "geocoding", config.places_result_class, "EPSG:3857").map { |p| Place.new(p).as_json }
+
+      request_features(query, 'geocoding', config.places_result_class, 'EPSG:3857')
+        .map { |p| Place.new(p).as_json }
     end
 
     def find(address)
-      request_features(address, "geocoding", config.places_result_class, "EPSG:3857")
-    end
-
-    def valid?(address)
-      return false unless address =~ /(\d{5})/
-      attr = { zip: Regexp.last_match(1) }
-      address.delete! Regexp.last_match(1), ','
-      return false unless address =~ /([a-zA-Zß .]*)\s(\d*)([a-zA-Z ]*)/
-      attr.merge street: Regexp.last_match(1), no: Regexp.last_match(2), no_addition: Regexp.last_match(3)
+      request_features(address, 'geocoding', config.places_result_class, 'EPSG:3857')
     end
 
     private
@@ -56,17 +54,16 @@ class Geocodr
       primary_type = feature['primaryType']
       place_description = feature['placeDescription']
       localisator = config.localisator
-      if localisator && !localisator.empty?
-        title = place_description.sub(/ \(.*$/, '')
-        if ['Adresse', 'Straße'].include?(primary_type)
-          title += " (#{place_description.sub(/^.* OT /, '')}"
-        else
-          title = place_description.sub(/^.* Bereich /, '')
-        end
-        title
+
+      return place_description unless localisator.present?
+
+      title = place_description.sub(/ \(.*$/, '')
+      if ['Adresse', 'Straße'].include?(primary_type)
+        title += " (#{place_description.sub(/^.* OT /, '')}"
       else
-        place_description
+        title = place_description.sub(/^.* Bereich /, '')
       end
+      title
     end
 
     def format_address_dms(feature)
@@ -77,14 +74,14 @@ class Geocodr
     end
 
     def format_parcel(feature)
-      parcel_label = feature['x_katasterobjekt_id'][0]
-      parcel_label = parcel_label.delete('_')
+      parcel_label = feature['x_katasterobjekt_id'][0].delete('_')
       "#{parcel_label[0, 6]}-#{parcel_label[6, 3]}-#{parcel_label[9, 5]}" +
         ("/#{parcel_label[14, 4]}" if parcel_label.length > 15).to_s
     end
 
     def get_features(issue, result_class)
-      return [] if (features = request_features(issue, "reverse", result_class, "EPSG:4326")).blank?
+      return [] if (features = request_features(issue, 'reverse', result_class, 'EPSG:4326')).blank?
+
       features.pluck('properties').sort_by { |a| a['entfernung'] }
     end
 
@@ -97,30 +94,36 @@ class Geocodr
     end
 
     def request_feature_params(mode, type, query, crs)
-      if mode == "reverse"
-        query_params = {
-          type: type,
-          coord: query,
-          crs: crs,
-          rm: '100',
-          sort: 'dist',
-          n: '1'
-        }
-      else
-        query_params = {
-          type: type,
-          q: query,
-          crs: crs,
-          n: '5'
-        }
-      end
+      query_params = mode == 'reverse' ? reverse_params(type, query, crs) : forward_params(type, query, crs)
+
       filter = config.localisator
-      if filter && !filter.empty?
+      if filter.present?
         filter = filter.delete_prefix('[')
         key, value = filter.split(']=', 2)
         query_params["x_filter[#{key}]"] = value
       end
+
       query_params
+    end
+
+    def reverse_params(type, query, crs)
+      {
+        type: type,
+        coord: query,
+        crs: crs,
+        rm: '100',
+        sort: 'dist',
+        n: '1'
+      }
+    end
+
+    def forward_params(type, query, crs)
+      {
+        type: type,
+        q: query,
+        crs: crs,
+        n: '5'
+      }
     end
 
     def request_and_parse_features(uri)
