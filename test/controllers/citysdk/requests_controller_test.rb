@@ -402,8 +402,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   test 'update attribute address_string but geocodr is not available' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
 
-    OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
-      put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { address_string: new_value }
+    ::Geocodr.stub :request_and_parse_features, nil do
+      put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
+        params: { address_string: new_value }
+
       doc = Nokogiri::XML(response.parsed_body)
       assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
     end
