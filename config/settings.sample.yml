@@ -1,17 +1,11 @@
 development: &default
   geocodr:
-    address_object_group: Adresse HRO
-    address_search_class: address_hro
-    api_key: 1234567890abcdefghijklmnopqrstuv
-    localisator: rostock # darf leer sein
-    parcel_object_group: Flurstück
-    parcel_search_class: parcel
-    places_object_group: Adresse
-    places_search_class: address
-    property_owner_object_group: Flurstückseigentümer
-    property_owner_search_class: property_owner
-    proxy:
-    url: https://geo.sv.rostock.de/geocodr/query?
+    url: https://www.geodaten-mv.de/geocoding-api/place/search?
+    places_result_class: Adresse
+    address_result_class: Adresse
+    parcel_result_class: Flurstück
+    localisator: "[landkreis_id]=13003" # darf leer sein, also ""
+    proxy: "http://172.20.100.50:8080"
   geoportal:
     enabled: true
     name: Geoport.HRO
