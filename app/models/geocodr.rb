@@ -9,89 +9,109 @@ class Geocodr
     end
 
     def address(issue)
-      order_features(issue, config.address_search_class).select do |feature|
-        next if feature['objektgruppe'] != config.address_object_group
-        return format_address(feature)
-      end
+      feature = get_features(issue, config.address_result_class).first
+      return format_address(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def address_dms(issue)
-      order_features(issue, config.address_search_class).select do |feature|
-        next if feature['objektgruppe'] != config.address_object_group
-        return feature
-      end
+      feature = get_features(issue, config.address_result_class).first
+      return Geocodr::LabelFormatter.format_address_dms(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def parcel(issue)
-      order_features(issue, config.parcel_search_class).map do |feature|
-        next if feature['objektgruppe'] != config.parcel_object_group
-        return feature['flurstueckskennzeichen']
-      end
+      feature = get_features(issue, config.parcel_result_class).first
+      return Geocodr::LabelFormatter.format_parcel(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def property_owner(issue)
-      order_features(issue, config.property_owner_search_class).map do |feature|
-        next if feature['objektgruppe'] != config.property_owner_object_group
-        return feature['eigentuemer']
-      end
+      feature = get_features(issue, config.parcel_result_class).first
+      return Geocodr::LabelFormatter.format_parcel(feature) if feature
+
       I18n.t 'geocodr.no_match'
     end
 
     def search_places(pattern)
-      query = "#{Settings::Geocodr.try :localisator} #{pattern}".strip
-      request_features(query, config.places_search_class, type: :search, shape: :bbox).map { |p| Place.new(p).as_json }
+      query = pattern.to_s.strip
+      return [] if query.empty?
+
+      request_features(query, 'geocoding', config.places_result_class, 'EPSG:3857')
+        .map { |p| Place.new(p).as_json }
     end
 
     def find(address)
-      request_features(address, config.places_search_class, type: :search, out_epsg: 4326)
-    end
-
-    def valid?(address)
-      return false unless address =~ /(\d{5})/
-      attr = { zip: Regexp.last_match(1) }
-      address.delete! Regexp.last_match(1), ','
-      return false unless address =~ /([a-zA-Zß .]*)\s(\d*)([a-zA-Z ]*)/
-      attr.merge street: Regexp.last_match(1), no: Regexp.last_match(2), no_addition: Regexp.last_match(3)
+      request_features(address, 'geocoding', config.places_result_class, 'EPSG:3857')
     end
 
     private
 
     def format_address(feature)
-      addr = feature['strasse_name']
-      addr << " #{feature['hausnummer']}" if feature['hausnummer'].present?
-      addr << feature['hausnummer_zusatz'] if feature['hausnummer_zusatz'].present?
-      addr << " (#{feature['gemeindeteil_name']})" if feature['gemeindeteil_name'].present?
-      addr
+      primary_type = feature['primaryType']
+      place_description = feature['placeDescription']
+      localisator = config.localisator
+
+      return place_description if localisator.blank?
+
+      Geocodr::LabelFormatter.format_address(primary_type, place_description)
     end
 
-    def order_features(issue, search_class)
-      return [] if (features = request_features(issue, search_class)).blank?
+    def get_features(issue, result_class)
+      return [] if (features = request_features(issue, 'reverse', result_class, 'EPSG:4326')).blank?
+
       features.pluck('properties').sort_by { |a| a['entfernung'] }
     end
 
-    def request_features(issue, search_class, type: :reverse, shape: nil, out_epsg: nil)
+    def request_features(issue, mode, type, crs)
       uri = URI.parse(config.url)
       query = issue
       query = [issue.position.x, issue.position.y].join(',') if issue.respond_to?(:position) && issue.position.present?
-      uri.query = URI.encode_www_form(request_feature_params(query, type, search_class, shape, out_epsg))
+      uri.query = URI.encode_www_form(request_feature_params(mode, type, query, crs))
       request_and_parse_features uri
     end
 
-    def request_feature_params(query, type, search_class, shape, out_epsg)
-      uri_params = { key: config.api_key, query:, type:, class: search_class, in_epsg: 4326, limit: 5 }
-      uri_params[:shape] = shape if shape.present?
-      uri_params[:out_epsg] = out_epsg if out_epsg.present?
-      uri_params
+    def request_feature_params(mode, type, query, crs)
+      query_params = mode == 'reverse' ? reverse_params(type, query, crs) : forward_params(type, query, crs)
+
+      filter = config.localisator
+      if filter.present?
+        filter = filter.delete_prefix('[')
+        key, value = filter.split(']=', 2)
+        query_params["x_filter[#{key}]"] = value
+      end
+
+      query_params
+    end
+
+    def reverse_params(type, query, crs)
+      {
+        type: type,
+        coord: query,
+        crs: crs,
+        rm: '100',
+        sort: 'dist',
+        n: '1'
+      }
+    end
+
+    def forward_params(type, query, crs)
+      {
+        type: type,
+        q: query,
+        crs: crs,
+        n: '5'
+      }
     end
 
     def request_and_parse_features(uri)
       if (res = uri.open(request_uri_options)) && res.status.include?('OK')
         JSON.parse(res.read).try(:[], 'features')
       end
-    rescue OpenURI::HTTPError
+    rescue OpenURI::HTTPError, Net::OpenTimeout, Net::ReadTimeout
       Rails.logger.error "Geocodr Error: #{$ERROR_INFO.inspect}, #{$ERROR_INFO.message}\n"
       Rails.logger.error $ERROR_INFO.backtrace.join("\n  ")
       nil
