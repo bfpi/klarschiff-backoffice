@@ -28,17 +28,36 @@ class Dms
 
   def link
     return if @dms.blank?
+
     address = Geocodr.address_dms(@issue)
-    I18n.interpolate @dms[:create_link][@ddc],
-      ks_id: @issue.id,
-      ks_user: Current.user.login,
-      ks_str: "#{address['strasse_name']} (#{address['strasse_schluessel']} - #{address['gemeindeteil_name']})",
-      ks_hnr: address['hausnummer'],
-      ks_hnr_z: address['hausnummer_zusatz'],
-      ks_eigentuemer: @issue.property_owner.truncate(254, omission: '…')
+    return unless address
+
+    street = format_street(address)
+    housenumber, housenumber_addition = format_housenumber(address)
+
+    interpolate_link(street, housenumber, housenumber_addition)
   end
 
   private
+
+  def format_street(address)
+    "#{address.street_name} (#{address.street_key} - #{address.place_name})"
+  end
+
+  def format_housenumber(address)
+    match = address.housenumber.match(/\A(\d+)([A-Za-z]*)\z/)
+    match ? match.captures : ['', '']
+  end
+
+  def interpolate_link(street, housenumber, housenumber_addition)
+    I18n.interpolate @dms[:create_link][@ddc],
+      ks_id: @issue.id,
+      ks_user: Current.user.login,
+      ks_str: street,
+      ks_hnr: housenumber,
+      ks_hnr_z: housenumber_addition,
+      ks_eigentuemer: @issue.property_owner.truncate(254, omission: '…')
+  end
 
   def request(key)
     uri = URI.parse([@dms[:api], I18n.interpolate(@dms[key], ddc: @ddc, issue_id: @issue.id)].join)
