@@ -82,7 +82,7 @@ module Citysdk
     end
 
     def create_message
-      message = [I18n.t('request.create_message.success')]
+      message = [I18n.t("request.create_message.success#{'_without_email' if Settings::Instance.skip_email_confirmation}")]
       message << default_group_message if default_group_without_gui_access?
       message.join
     end
