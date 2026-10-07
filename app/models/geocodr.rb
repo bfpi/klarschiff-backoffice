@@ -19,7 +19,7 @@ class Geocodr
       feature = get_features(issue, config.address_result_class).first
       return Geocodr::LabelFormatter.format_address_dms(feature) if feature
 
-      I18n.t 'geocodr.no_match'
+      nil
     end
 
     def parcel(issue)
@@ -30,8 +30,10 @@ class Geocodr
     end
 
     def property_owner(issue)
-      feature = get_features(issue, config.parcel_result_class).first
-      return Geocodr::LabelFormatter.format_parcel(feature) if feature
+      if Settings::PropertyOwnership.url.present?
+        feature = PropertyOwnership.get_features(issue).first
+        return PropertyOwnership.format_property_owner(feature) if feature
+      end
 
       I18n.t 'geocodr.no_match'
     end
@@ -45,7 +47,7 @@ class Geocodr
     end
 
     def find(address)
-      request_features(address, 'geocoding', config.places_result_class, 'EPSG:3857')
+      request_features(address, 'geocoding', config.places_result_class, 'EPSG:4326')
     end
 
     private
@@ -63,7 +65,7 @@ class Geocodr
     def get_features(issue, result_class)
       return [] if (features = request_features(issue, 'reverse', result_class, 'EPSG:4326')).blank?
 
-      features.pluck('properties').sort_by { |a| a['entfernung'] }
+      features.pluck('properties')
     end
 
     def request_features(issue, mode, type, crs)

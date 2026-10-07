@@ -2,6 +2,8 @@
 
 class Geocodr
   module LabelFormatter
+    Address = Struct.new(:place_name, :street_name, :street_key, :housenumber, keyword_init: true)
+
     def self.format_address(primary_type, place_description)
       title = place_description.sub(/ \(.*$/, '')
 
@@ -15,14 +17,12 @@ class Geocodr
     end
 
     def self.format_address_dms(feature)
-      address_label = feature['x_strassenname']&.first.to_s
-      house_number = feature['x_hausnummer']&.first.to_s
-      area = feature['x_bereich']&.first.to_s
-
-      address_label << " #{house_number}" if house_number.present?
-      address_label << " (#{area})" if area.present?
-
-      address_label
+      Address.new(
+        place_name: feature['x_bereich']&.first.to_s,
+        street_name: feature['x_strassenname']&.first.to_s,
+        street_key: feature['x_strassenschluessel']&.first.to_s[-5..],
+        housenumber: feature['x_hausnummer']&.first.to_s
+      )
     end
 
     def self.format_parcel(feature)
