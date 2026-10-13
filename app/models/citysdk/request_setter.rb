@@ -57,12 +57,19 @@ module Citysdk
       tempfile = Tempfile.new('fileupload')
       tempfile.binmode
       tempfile.write(Base64.decode64(value))
+      filename = "filename.#{extension(tempfile)}"
       tempfile.close
 
-      filename = 'filename.jpg'
       mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
       self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
       self.photo_requested = false
+    end
+
+    def extension(tempfile)
+      mime = Marcel::MimeType.for(tempfile)
+      ext = MiniMime.lookup_by_content_type(mime)&.extension
+      ext = 'jpg' if ext == 'jpeg'
+      ext
     end
   end
 end

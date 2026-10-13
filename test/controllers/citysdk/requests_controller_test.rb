@@ -357,7 +357,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create with frontend api-key and photo' do
-    assert_difference 'IssueResponsibility.count', 1 do
+    assert_difference ['Issue.unscoped.count', 'IssueResponsibility.count', 'Photo.unscoped.count'], 1 do
       post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
         media: Base64.encode64(Rails.root.join('test/fixtures/files/test.jpg').read)
       )
@@ -366,7 +366,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     service_request_id = doc.xpath('/service_requests/request/service_request_id')
     assert_equal 1, service_request_id.count
     assert issue = Issue.find(service_request_id.first.text)
-    assert_equal 'pending', issue.status
+    assert_predicate issue, :status_pending?
     assert_enqueued_emails 1
     assert_enqueued_email_with(
       ConfirmationMailer, :issue,
@@ -374,6 +374,51 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
                with_photo: true }]
     )
     assert_enqueued_jobs 1, only: ActiveStorage::AnalyzeJob
+  end
+
+  test 'create with frontend api-key and photo with multiple responsibilities' do
+    with_multiple_responsibilities(value: true) do
+      with_skip_email_confirmation(value: true) do
+        assert_difference ['Issue.count', 'IssueResponsibility.count', 'Photo.count'], 2 do
+          post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+            service_code: category(:multiple).id,
+            media: Base64.encode64(Rails.root.join('test/fixtures/files/test.jpg').read)
+          )
+        end
+        doc = Nokogiri::XML(response.parsed_body)
+        service_request_id = doc.xpath('/service_requests/request/service_request_id')
+        assert_equal 2, service_request_id.count
+        assert issue = Issue.find(service_request_id.first.text)
+        assert_predicate issue, :status_received?
+        assert_enqueued_emails 2
+      end
+    end
+  end
+
+  test 'create with frontend api-key and invalid pdf file' do
+    assert_difference ['Issue.unscoped.count', 'IssueResponsibility.count', 'Photo.unscoped.count'], 0 do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+        media: Base64.encode64(Rails.root.join('test/fixtures/files/test.pdf').read)
+      )
+      doc = Nokogiri::XML(response.parsed_body)
+      assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen: Datei hat einen ungültigen Inhaltstyp'
+    end
+  end
+
+  test 'create with frontend api-key and valid pdf file' do
+    with_supported_file_types(value: nil) do
+      assert_difference ['Issue.unscoped.count', 'IssueResponsibility.count', 'Photo.unscoped.count'], 1 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+          media: Base64.encode64(Rails.root.join('test/fixtures/files/test.pdf').read)
+        )
+      end
+      doc = Nokogiri::XML(response.parsed_body)
+      service_request_id = doc.xpath('/service_requests/request/service_request_id')
+      assert_equal 1, service_request_id.count
+      assert issue = Issue.find(service_request_id.first.text)
+      assert_predicate issue, :status_pending?
+      assert_enqueued_emails 1
+    end
   end
 
   test 'create with ppc api-key and valid user' do

@@ -36,6 +36,7 @@ development: &default
     skip_email_confirmation: false
     multiple_responsibilities: false
     log_issue_mailer_forward: false
+    supported_file_types: image/jpeg
   issue:
     status_note_max_length: 500
   job:

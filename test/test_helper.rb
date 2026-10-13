@@ -116,5 +116,12 @@ module ActiveSupport
       yield if block
       Settings::Instance.redefine_singleton_method(:log_issue_mailer_forward) { old }
     end
+
+    def with_supported_file_types(value: nil, &block)
+      old = Settings::Instance.supported_file_types
+      Settings::Instance.redefine_singleton_method(:supported_file_types) { value }
+      yield if block
+      Settings::Instance.redefine_singleton_method(:supported_file_types) { old }
+    end
   end
 end

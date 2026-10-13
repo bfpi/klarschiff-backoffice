@@ -14,7 +14,7 @@
         <% if photo_form.object.persisted? -%>
           <tr id="photo_<%= photo_form.object.id %>">
             <td>
-              <% unless restricted || form.object.closed? -%>
+              <% unless restricted || form.object.closed? || !photo_form.object.file.image? -%>
                 <div class="actions">
                   <%= link_to tag.i('', class: 'fa fa-refresh'), '',
                         class: 'btn btn-sm btn-outline-primary rotate', title: t('.rotate') %>
@@ -33,9 +33,13 @@
               <% end -%>
               <div>
                 <div class="record"></div>
-                <%= link_to image_tag(photo_form.object.file.variant(resize_to_limit: [360, 360]), class: 'image'),
-                      photo_form.object.file,
-                      target: '_blank', rel: :noopener %>
+                  <% if photo_form.object.file.image? %>
+                    <%= link_to image_tag(photo_form.object.file.variant(resize_to_limit: [360, 360]), class: 'image'),
+                          photo_form.object.file,
+                          target: '_blank', rel: :noopener %>
+                  <% else %>
+                    <%= link_to photo_form.object.file.filename, photo_form.object.file, target: '_blank', rel: :noopener %>
+                  <% end %>
               </div>
             </td>
             <% unless restricted -%>
@@ -55,7 +59,7 @@
                     class: 'form-check-label' do %>
                 <%= photo_form.radio_button :status, :external, disabled: restricted || form.object.closed? %>
                 <%= tag.span class: 'fa fa-globe fa-2x' %>
-              <% end %>
+              <% end if photo_form.object.file.image? %>
             </td>
             <td><%= l(photo_form.object.created_at, format: :no_seconds) %></td>
             <% unless restricted || form.object.closed? -%>
