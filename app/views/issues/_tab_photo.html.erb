@@ -38,7 +38,8 @@
                           photo_form.object.file,
                           target: '_blank', rel: :noopener %>
                   <% else %>
-                    <%= link_to photo_form.object.file.filename, photo_form.object.file, target: '_blank', rel: :noopener %>
+                    <%= link_to photo_form.object.file.filename, photo_form.object.file,
+                          target: '_blank', rel: :noopener %>
                   <% end %>
               </div>
             </td>

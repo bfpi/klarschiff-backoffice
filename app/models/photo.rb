@@ -20,10 +20,12 @@ class Photo < ApplicationRecord
   has_one_attached :file
 
   validates :file, attached: true, size: { greater_than: 0 }, on: :create
-  validates :file, content_type: Settings::Instance.supported_file_types&.split(','), if: -> { Settings::Instance.supported_file_types }
+  validates :file, content_type: Settings::Instance.supported_file_types&.split(','), if: lambda {
+    Settings::Instance.supported_file_types
+  }, on: :create
 
-  before_save :skip_email_confirmation, if: -> { Settings::Instance.skip_email_confirmation }
   before_validation :set_author, on: :create
+  before_save :skip_email_confirmation, if: -> { Settings::Instance.skip_email_confirmation }
 
   def _modification
     nil
