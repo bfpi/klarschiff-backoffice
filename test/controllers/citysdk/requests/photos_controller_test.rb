@@ -77,7 +77,7 @@ class PhotosControllerTest < ActionDispatch::IntegrationTest
         headers: { 'CONTENT_TYPE' => 'application/json' }
     end
     assert_response :created
-    assert_equal 2, response.parsed_body.distinct.pluck('id').size
+    assert_equal 2, response.parsed_body.pluck('id').size
   end
 
   test 'create with a single photo as json returns a single object' do
