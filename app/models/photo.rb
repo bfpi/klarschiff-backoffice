@@ -5,6 +5,7 @@ require 'mini_magick'
 class Photo < ApplicationRecord
   include AuthorBlacklist
   include ConfirmationWithHash
+  include FileExtension
   include Logging
 
   default_scope -> { where.not(confirmed_at: nil) }
@@ -47,14 +48,14 @@ class Photo < ApplicationRecord
 
   def attach_media(value)
     return if value.blank?
-    img = if value.respond_to? :path
-            MiniMagick::Image.open(value.path)
-          else
-            MiniMagick::Image.read(Base64.decode64(value))
-          end
-    img.format('JPEG') unless img.type == 'JPEG'
-    tf = img.tempfile
-    file.attach(io: File.open(tf.path), filename: 'Bild.jpg', content_type: 'image/jpeg')
+    tempfile = Tempfile.new('attach_media')
+    tempfile.binmode
+
+    tempfile.write(value.respond_to?(:path) ? File.read(value.path) : Base64.decode64(value))
+    filename = "filename.#{extension(tempfile)}"
+    tempfile.close
+
+    file.attach(io: File.open(tempfile.path), filename: filename)
   end
 
   private

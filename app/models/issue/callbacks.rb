@@ -53,13 +53,17 @@ class Issue
     def add_photo
       return if new_photo.blank?
       set_confirmation_hash unless confirmation_hash
-      photo = { file: new_photo, author: Current.email, status: :internal }
+      Array.wrap(new_photo).each_with_index { |file, i| photos.new new_photo_attributes(file, first: i.zero?) }
+      self.new_photo = nil
+    end
+
+    def new_photo_attributes(file, first:)
+      photo = { file:, author: Current.email, status: :internal }
       if new_record?
-        photo[:confirmation_hash] = confirmation_hash
+        photo[:confirmation_hash] = confirmation_hash if first
         photo[:skip_email_notification] = true
       end
-      photos.new photo
-      self.new_photo = nil
+      photo
     end
 
     # overwrite ConfirmationWithHash#confirm
