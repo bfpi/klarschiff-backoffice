@@ -708,8 +708,8 @@ __metadata:
   linkType: hard
 
 "eslint@npm:^10.4.1":
-  version: 10.11.0
-  resolution: "eslint@npm:10.11.0"
+  version: 10.12.0
+  resolution: "eslint@npm:10.12.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.8.0"
     "@eslint-community/regexpp": "npm:^4.12.2"
@@ -748,7 +748,7 @@ __metadata:
       optional: true
   bin:
     eslint: bin/eslint.js
-  checksum: 10c0/c767f45f21d1921b41d70e30b1c8fa7ec4e65c0f43a8d80cc4990ca3d923127fa7b9b3416b8f5be6e877d9286f97d3c51a04ed341bc6aa73c0dba0f463e1f861
+  checksum: 10c0/1302ce8a7df2f67fe8f4014b2f9449bd38eb86903ba7b841d9a8ca5a5daf8ee15442861ab870e96c0074d5f333b405d7b2f16388981f807db410cc3a02178af9
   languageName: node
   linkType: hard
 
@@ -1001,9 +1001,9 @@ __metadata:
   linkType: hard
 
 "globals@npm:^17.6.0":
-  version: 17.12.0
-  resolution: "globals@npm:17.12.0"
-  checksum: 10c0/8325cf8818c848871d17c32974c2c74e9c5f09c1b0e04421886f64f21e77c3e95f3ba25586743895a73acd860ada151132481d87d44a1f12993ae7758a694d03
+  version: 17.13.0
+  resolution: "globals@npm:17.13.0"
+  checksum: 10c0/8371d9e4e5581640141b5cce70a098edd765d2e3ab063b14998e590698071e0afb4a4a6739ccfbdcbdeb2565c5553697ba07d95703c51039912cf341a7dba7a7
   languageName: node
   linkType: hard
 
@@ -1432,8 +1432,8 @@ __metadata:
   linkType: hard
 
 "ol@npm:^10.9.0":
-  version: 10.10.0
-  resolution: "ol@npm:10.10.0"
+  version: 10.11.0
+  resolution: "ol@npm:10.11.0"
   dependencies:
     "@types/rbush": "npm:4.0.0"
     earcut: "npm:^3.0.0"
@@ -1441,7 +1441,7 @@ __metadata:
     pbf: "npm:5.1.2"
     rbush: "npm:^4.0.0"
     zarrita: "npm:^0.7.1"
-  checksum: 10c0/831e7764e5b887b03fdbb090f8f2ec054cae6b836b442422846ace5a2a06c1351b38652519a3cb3aabf04c1d6ce661bf270b6e646136adb81b3a3b6b4ce18d2a
+  checksum: 10c0/5ef8669260e16aafa66fa3e4455bdca711087360964ab4c431e02f45c9dac15a16b9c3ff976a76fd4bbc6e62f2bfdfe2fb2884ea3624964913411aa3a6a61d17
   languageName: node
   linkType: hard
 
@@ -1599,17 +1599,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^7.1.1":
-  version: 7.1.5
-  resolution: "postcss-selector-parser@npm:7.1.5"
-  dependencies:
-    cssesc: "npm:^3.0.0"
-    util-deprecate: "npm:^1.0.2"
-  checksum: 10c0/e277a136ef87ae2abbc77d38e0773bf6245975889ada3d7d785f515df4d2ab543322f9189e851d6a6bcd2d8e512a1164d1dfd5af2f5bbb2d177c687faf945038
-  languageName: node
-  linkType: hard
-
-"postcss-selector-parser@npm:^7.1.5":
+"postcss-selector-parser@npm:^7.1.1, postcss-selector-parser@npm:^7.1.5":
   version: 7.1.6
   resolution: "postcss-selector-parser@npm:7.1.6"
   dependencies:
@@ -1820,9 +1810,9 @@ __metadata:
   linkType: hard
 
 "source-map-js@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "source-map-js@npm:1.2.1"
-  checksum: 10c0/7bda1fc4c197e3c6ff17de1b8b2c20e60af81b63a52cb32ec5a5d67a20a7d42651e2cb34ebe93833c5a2a084377e17455854fee3e21e7925c64a51b6a52b0faf
+  version: 1.2.2
+  resolution: "source-map-js@npm:1.2.2"
+  checksum: 10c0/d5d6dec62266834f83dd4f8a2606a196fb1a006ca5d53b0ef80ee513b7eba2f4e2ae241f4bc129ae7e9b80dea24f6e3d92b446b7e6e96be7653cab8888168a94
   languageName: node
   linkType: hard
 
@@ -1947,8 +1937,8 @@ __metadata:
   linkType: hard
 
 "stylelint@npm:^17.13.0":
-  version: 17.15.0
-  resolution: "stylelint@npm:17.15.0"
+  version: 17.16.0
+  resolution: "stylelint@npm:17.16.0"
   dependencies:
     "@csstools/css-calc": "npm:^3.3.0"
     "@csstools/css-parser-algorithms": "npm:^4.0.0"
@@ -1987,7 +1977,7 @@ __metadata:
     write-file-atomic: "npm:^7.0.1"
   bin:
     stylelint: bin/stylelint.mjs
-  checksum: 10c0/1077bfd2206dbb1a6498b1a569314dd7d5f54f629412e58bcaca581898defa7776c3377c967b709603d36dea0ef34c2f6a05901c8cd47560ffdb9dc78746b113
+  checksum: 10c0/68d13ddac44ab77344c9c6204b5981629f9a44829e3a87a63634ece51af0101814eda05ec05273b43967f82e2c9f407a1b455e503a86a63080f88738ac736824
   languageName: node
   linkType: hard
 
