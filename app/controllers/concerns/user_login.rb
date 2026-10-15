@@ -23,6 +23,7 @@ module UserLogin
 
   def login_success(user)
     session[:user_login] = user.login
+    session[:dms_session_id] = Dms.login(user.login, @credentials[:password])
     redirect_to root_url
   end
 
