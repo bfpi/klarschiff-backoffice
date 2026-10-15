@@ -30,11 +30,19 @@ module ActiveSupport
       Client.keys.last
     end
 
-    def login(username: :one, password: 'Bfpi')
+    def login(username: :one, password: 'Bfpi', dms_session_ids: {})
       assert user(username)
-      post logins_url, params: { login: { login: username, password: } }
+      Dms.stub :login, dms_session_ids do
+        post logins_url, params: { login: { login: username, password: } }
+      end
       assert_response :redirect
       assert_equal username.to_s, session[:user_login]
+    end
+
+    def capture_log(&)
+      io = StringIO.new
+      Rails.stub(:logger, ActiveSupport::Logger.new(io), &)
+      io.string
     end
 
     def login_as_ldap_user(username: :one, password: 'Bfpi')
