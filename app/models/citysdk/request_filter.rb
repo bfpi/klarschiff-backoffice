@@ -52,7 +52,7 @@ module Citysdk
       return if (lat = params[:lat]).blank? || (long = params[:long]).blank? || (radius = params[:radius]).blank?
       @collection = @collection.where(<<~SQL.squish, lat:, long:, radius: radius.to_f / 100_000)
         ST_Within(#{Issue.quoted_table_name}."position",
-          ST_Buffer(ST_SetSRID(ST_MakePoint(:lat, :long), 4326), :radius))
+          ST_Buffer(ST_SetSRID(ST_MakePoint(:long, :lat), 4326), :radius))
       SQL
     end
 
