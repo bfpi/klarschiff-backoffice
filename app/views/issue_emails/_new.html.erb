@@ -39,7 +39,8 @@
           </div>
           <div class="col-6">
             <h6><%= t('.send_data.headline') %></h6>
-            <% %i[map photos comments feedbacks abuse_reports].each do |data| %>
+            <% %i[coordinates map photos comments feedbacks abuse_reports].each do |data| %>
+              <% if data != :coordinates || Settings::Instance.show_coordinates -%>
               <div class="row">
                 <div class="col-12">
                   <%= form.label("send_#{data}", '', class: 'form-check-label') do %>
@@ -48,6 +49,7 @@
                   <% end %>
                 </div>
               </div>
+              <% end %>
             <% end %>
           </div>
         </div>

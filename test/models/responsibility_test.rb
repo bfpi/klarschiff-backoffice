@@ -53,4 +53,25 @@ class ResponsibilityTest < ActiveSupport::TestCase
       assert_predicate resp, :valid?
     end
   end
+
+  test 'validate only one group for group type at category' do
+    with_multiple_responsibilities(value: false) do
+      Current.set(user: user(:regional_admin)) do
+        new_group = group(:internal)
+        resp = Responsibility.new(category: category(:one), group: new_group)
+        assert_not resp.valid?
+        assert_includes resp.errors.details[:base],
+          { error: :group_type_taken, type: new_group.type.constantize.model_name.human }
+      end
+    end
+  end
+
+  test 'validate multiple group for category' do
+    with_multiple_responsibilities(value: true) do
+      Current.set(user: user(:regional_admin)) do
+        resp = Responsibility.new(category: category(:one), group: group(:internal))
+        assert_predicate resp, :valid?
+      end
+    end
+  end
 end
