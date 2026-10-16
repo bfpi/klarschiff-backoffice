@@ -29,11 +29,12 @@ class Dms
   def link
     return if @dms.blank?
 
-    address = Geocodr.address_dms(@issue)
-    return unless address
-
-    street = format_street(address)
-    housenumber, housenumber_addition = format_housenumber(address)
+    street = I18n.t('geocodr.no_match')
+    housenumber = housenumber_addition = ''
+    if (address = Geocodr.address_dms(@issue))
+      street = format_street(address)
+      housenumber, housenumber_addition = format_housenumber(address)
+    end
 
     interpolate_link(street, housenumber, housenumber_addition)
   end
