@@ -391,19 +391,23 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'update attribute address_string with ppc api-key' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
-    ::Geocodr.stub :request_and_parse_features,
-      JSON.parse(File.read('test/fixtures/files/geocodr.json')).try(:[], 'features') do
-      reloaded_request = update_request_and_reload(issue(:one).id, :address_string, new_value)
-      assert_equal 'Holbeinplatz 14 (Reutershagen)',
-        reloaded_request.xpath('/service_requests/request/address/text()').first.to_s
+    features = JSON.parse(File.read('test/fixtures/files/geocodr.json')).try(:[], 'features')
+    Settings::Geocodr.stub :localisator, '[landkreis_id]=13003' do
+      ::Geocodr.stub :features, features do
+        reloaded_request = update_request_and_reload(issue(:one).id, :address_string, new_value)
+        assert_equal 'Holbeinplatz 14 (Reutershagen)',
+          reloaded_request.xpath('/service_requests/request/address/text()').first.to_s
+      end
     end
   end
 
   test 'update attribute address_string but geocodr is not available' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
 
-    OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
-      put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}", params: { address_string: new_value }
+    ::Geocodr.stub :features, [] do
+      put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
+        params: { address_string: new_value }
+
       doc = Nokogiri::XML(response.parsed_body)
       assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen'
     end
