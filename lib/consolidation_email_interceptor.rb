@@ -2,6 +2,11 @@
 
 class ConsolidationEmailInterceptor
   class << self
+    def enabled?
+      return true unless Rails.env.in?(%w[production test])
+      ActiveModel::Type::Boolean.new.cast(ENV.fetch('INTERCEPT_ALL_MAILS', nil)) == true
+    end
+
     def delivering_email(message)
       delivery_method = message.delivery_method
       return unless delivery_method.is_a?(Mail::SMTP) || delivery_method.is_a?(Mail::Sendmail)
