@@ -53,7 +53,7 @@ class ConsolidationEmailInterceptorTest < ActiveSupport::TestCase
   def with_env(rails_env, intercept_all_mails: nil, &block)
     original = ENV.fetch('INTERCEPT_ALL_MAILS', nil)
     ENV['INTERCEPT_ALL_MAILS'] = intercept_all_mails
-    Rails.stub(:env, ActiveSupport::EnvironmentInquirer.new(rails_env)) { yield }
+    Rails.stub(:env, ActiveSupport::EnvironmentInquirer.new(rails_env)) { yield if block }
   ensure
     ENV['INTERCEPT_ALL_MAILS'] = original
   end
