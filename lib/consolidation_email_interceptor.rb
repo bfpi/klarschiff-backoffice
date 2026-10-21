@@ -4,7 +4,7 @@ class ConsolidationEmailInterceptor
   class << self
     def enabled?
       return true unless Rails.env.in?(%w[production test])
-      ActiveModel::Type::Boolean.new.cast(ENV.fetch('INTERCEPT_ALL_MAILS', nil)) == true
+      ActiveModel::Type::Boolean.new.cast(ENV.fetch('INTERCEPT_ALL_MAILS', nil))
     end
 
     def delivering_email(message)
