@@ -244,10 +244,12 @@ Parameters:
 | long | * | Float | Longitude value of position |
 | address_string | * | String | Address for position |
 | photo_required | - | Boolean | Photo required |
-| media | - | String | Photo as Base64 encoded string |
+| media | - | String / Array | Photo as Base64 encoded string, multiple photos as array of strings |
 | privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
 
-*: Either `lat` and `long` or `address_string` are required
+*: Either `lat` and `long` or `address_string` are required\
+Multiple photos can be sent as array, e.g. `media[]=...&media[]=...` or as JSON array.
+Blank entries are ignored. The request is rejected if any of the photos is invalid.
 
 Sample Response:
 
@@ -276,7 +278,7 @@ Parameters:
 | long | * | Float | Longitude value of position |
 | address_string | * | String | Address for position |
 | photo_required | - | Boolean | Photo required |
-| media | - | String | Photo as Base64 encoded string |
+| media | - | String / Array | Photo as Base64 encoded string, multiple photos as array of strings |
 | detailed_status | - | String | CitySDK status |
 | status_notes | - | String | Status note |
 | priority | - | Integer | Priority |
@@ -285,7 +287,9 @@ Parameters:
 | job_priority | - | Integer | Job priority |
 
 *: Either `lat` and `long` or `address_string` are required\
-Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`\
+Multiple photos can be sent as array, e.g. `media[]=...&media[]=...` or as JSON array.
+Blank entries are ignored. The request is rejected if any of the photos is invalid.
 
 Sample Response:
 
@@ -733,7 +737,13 @@ Parameters:
 |:--|:-:|:--|:--|
 | service_request_id | X | Integer | Issue ID |
 | author | X | String | Author email |
-| media | X | String | Photo as Base64 encoded string |
+| media | X | String / Array | Photo as Base64 encoded string, multiple photos as array of strings |
+
+Multiple photos can be sent as array, e.g. `media[]=...&media[]=...` or as JSON array.
+Blank entries are ignored. The request is rejected if any of the photos is invalid.
+Every photo has to be confirmed separately, the author receives one email per photo.
+
+If media is sent as array, the response contains one `photo` element per photo (JSON: array).
 
 Sample Response:
 

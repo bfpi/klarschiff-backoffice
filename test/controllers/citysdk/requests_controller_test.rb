@@ -421,6 +421,118 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'create with frontend api-key and multiple photos' do
+    assert_difference ['Issue.unscoped.count', 'IssueResponsibility.count'], 1 do
+      assert_difference 'Photo.unscoped.count', 2 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+          media: Array.new(2) { encoded_test_file }
+        )
+      end
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    service_request_id = doc.xpath('/service_requests/request/service_request_id')
+    assert_equal 1, service_request_id.count
+    assert issue = Issue.find(service_request_id.first.text)
+    assert_predicate issue, :status_pending?
+    assert_not issue.photo_requested
+    assert_equal 2, Photo.unscoped.where(issue:).distinct.count(:confirmation_hash)
+    assert_enqueued_emails 1
+    assert_enqueued_email_with(
+      ConfirmationMailer, :issue,
+      args: [{ to: 'test@example.com', confirmation_hash: issue.confirmation_hash, issue_id: issue.id,
+               with_photo: true }]
+    )
+    assert_enqueued_jobs 2, only: ActiveStorage::AnalyzeJob
+  end
+
+  test 'create with frontend api-key and photo array with blank entries' do
+    assert_difference ['Issue.unscoped.count', 'Photo.unscoped.count'], 1 do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+        media: ['', encoded_test_file, '']
+      )
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    assert issue = Issue.find(doc.xpath('/service_requests/request/service_request_id').first.text)
+    assert_not issue.photo_requested
+  end
+
+  test 'create with frontend api-key and blank media entries only' do
+    assert_difference 'Issue.unscoped.count', 1 do
+      assert_no_difference 'Photo.unscoped.count' do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(media: ['', ''])
+      end
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    assert issue = Issue.find(doc.xpath('/service_requests/request/service_request_id').first.text)
+    assert issue.photo_requested
+  end
+
+  test 'create with frontend api-key and multiple photos as json array' do
+    create_params = valid_create_params.merge(media: Array.new(2) { encoded_test_file })
+    assert_difference ['Issue.unscoped.count', 'IssueResponsibility.count'], 1 do
+      assert_difference 'Photo.unscoped.count', 2 do
+        post "/citysdk/requests.json?api_key=#{api_key_frontend}", params: create_params.to_json,
+          headers: { 'CONTENT_TYPE' => 'application/json' }
+      end
+    end
+    assert_response :created
+  end
+
+  test 'create with frontend api-key and multiple photos with multiple responsibilities' do
+    with_multiple_responsibilities(value: true) do
+      with_skip_email_confirmation(value: true) do
+        assert_difference ['Issue.count', 'IssueResponsibility.count'], 2 do
+          assert_difference 'Photo.count', 4 do
+            post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+              service_code: category(:multiple).id, media: Array.new(2) { encoded_test_file }
+            )
+          end
+        end
+        doc = Nokogiri::XML(response.parsed_body)
+        service_request_id = doc.xpath('/service_requests/request/service_request_id')
+        assert_equal 2, service_request_id.count
+        service_request_id.each { |id| assert_equal 2, Issue.find(id.text).photos.count }
+        assert_enqueued_emails 2
+      end
+    end
+  end
+
+  test 'create with frontend api-key and multiple files of different types' do
+    with_supported_file_types(value: nil) do
+      assert_difference 'Photo.unscoped.count', 2 do
+        post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+          media: [encoded_test_file, encoded_test_file('test.pdf')]
+        )
+      end
+      doc = Nokogiri::XML(response.parsed_body)
+      assert issue = Issue.find(doc.xpath('/service_requests/request/service_request_id').first.text)
+      assert_equal %w[application/pdf image/jpeg],
+        Photo.unscoped.where(issue:).map { |photo| photo.file.content_type }.sort
+    end
+  end
+
+  test 'reject create with an invalid file among multiple photos' do
+    assert_no_difference ['Issue.unscoped.count', 'IssueResponsibility.count', 'Photo.unscoped.count'] do
+      post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+        media: [encoded_test_file, encoded_test_file('test.pdf')]
+      )
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen: Datei hat einen ungültigen Inhaltstyp'
+  end
+
+  test 'create with ppc api-key and multiple photos' do
+    assert_difference 'Photo.unscoped.count', 2 do
+      post "/citysdk/requests.xml?api_key=#{api_key_ppc}", params: valid_create_params.merge(
+        email: 'one@example.com', media: Array.new(2) { encoded_test_file }
+      )
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    assert issue = Issue.find(doc.xpath('/service_requests/request/service_request_id').first.text)
+    assert_equal 'received', issue.status
+    assert_equal 2, issue.photos.count
+  end
+
   test 'create with ppc api-key and valid user' do
     assert_difference 'IssueResponsibility.count', 1 do
       post "/citysdk/requests.xml?api_key=#{api_key_ppc}", params: valid_create_params.merge(
@@ -514,6 +626,46 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     reloaded_request = update_request_and_reload(issue(:one).id, :media,
       Base64.encode64(File.read('test/fixtures/files/test.jpg')), email: user(:one).email)
     assert_not_empty reloaded_request.xpath('/service_requests/request/media_url/text()').first.to_s
+  end
+
+  test 'update attribute media with multiple photos with ppc api-key' do
+    assert_difference ['Photo.count', 'Photo.unscoped.count'], 2 do
+      update_request_and_reload(issue(:one).id, :media, Array.new(2) { encoded_test_file }, email: user(:one).email)
+    end
+  end
+
+  test 'update attribute media with photo array with blank entries with ppc api-key' do
+    assert_difference ['Photo.count', 'Photo.unscoped.count'], 1 do
+      update_request_and_reload(issue(:one).id, :media, ['', encoded_test_file, ''], email: user(:one).email)
+    end
+  end
+
+  test 'update attribute media with blank entries only with ppc api-key' do
+    assert_no_difference 'Photo.unscoped.count' do
+      update_request_and_reload(issue(:one).id, :media, ['', ''], email: user(:one).email)
+    end
+  end
+
+  test 'update attribute media with multiple photos as json array with ppc api-key' do
+    update_params = { email: user(:one).email, media: Array.new(2) { encoded_test_file } }
+    assert_difference 'Photo.unscoped.count', 2 do
+      put "/citysdk/requests/#{issue(:one).id}.json?api_key=#{api_key_ppc}", params: update_params.to_json,
+        headers: { 'CONTENT_TYPE' => 'application/json' }
+    end
+    assert_response :success
+  end
+
+  test 'reject update with an invalid file among multiple photos with ppc api-key' do
+    issue = issue(:one)
+    assert_no_difference 'Photo.unscoped.count' do
+      put "/citysdk/requests/#{issue.id}.xml?api_key=#{api_key_ppc}", params: {
+        email: user(:one).email, description: 'Changed description',
+        media: [encoded_test_file, encoded_test_file('test.pdf')]
+      }
+    end
+    doc = Nokogiri::XML(response.parsed_body)
+    assert_error_messages doc, '422', 'Gültigkeitsprüfung ist fehlgeschlagen: Datei hat einen ungültigen Inhaltstyp'
+    assert_not_equal 'Changed description', issue.reload.description
   end
 
   test 'update attribute detailed_status with ppc api-key' do
@@ -614,6 +766,20 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_error_messages doc, '404', 'record_not_found'
   end
 
+  test 'confirm confirms all photos of a request with multiple photos' do
+    post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params.merge(
+      media: Array.new(2) { encoded_test_file }
+    )
+    doc = Nokogiri::XML(response.parsed_body)
+    assert issue = Issue.find(doc.xpath('/service_requests/request/service_request_id').first.text)
+    assert_equal 2, Photo.unscoped.where(issue:).count
+    assert_empty issue.photos.reload
+
+    put "/citysdk/requests/#{issue.confirmation_hash}/confirm.xml"
+    assert_response :success
+    assert_equal 2, issue.photos.reload.count
+  end
+
   test 'delete without api-key' do
     put "/citysdk/requests/#{issue(:one).confirmation_hash}/revoke.xml"
     doc = Nokogiri::XML(response.parsed_body)
@@ -703,6 +869,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     valid_create_params.merge(detailed_status: 'IN_PROCESS', status_notes: 'consetetur sadipscing elitr, sed diam',
       priority: 2, delegation: group(:external).short_name, job_status: 'CHECKED',
       job_priority: 1)
+  end
+
+  def encoded_test_file(name = 'test.jpg')
+    Base64.encode64(Rails.root.join('test/fixtures/files', name).binread)
   end
 
   def update_request_and_reload(request_id, attr, value, additional_params = {})
