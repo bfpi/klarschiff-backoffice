@@ -1,9 +1,4 @@
 services:
-  cache:
-    image: valkey/valkey:alpine
-    container_name: klarschiff-cache
-    restart: always
-
   database:
     image: postgis/postgis:12-3.5-alpine
     pull_policy: weekly
@@ -33,43 +28,24 @@ services:
       - database
     environment:
       DB_HOST: database
+      INTERCEPT_ALL_MAILS: false
       RAILS_ENV: ${RAILS_ENV:-production}
       RAILS_RELATIVE_URL_ROOT: ${RAILS_RELATIVE_URL_ROOT:-/}
       RAILS_SERVE_STATIC_FILES: true
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
+      SOLID_QUEUE_IN_PUMA: true
       TZ: Europe/Berlin
     ports:
+      - ${BACKOFFICE_PORT:-3001}:3001
       - 3001:3001
     restart: always
+    healthcheck:
+      retries: 5
+      start_interval: 1s
+      start_period: 5s
+      test: ['CMD', 'curl', '-f', 'http://localhost:3001/backoffice']
+      timeout: 5s
     volumes:
-      - ./log:/rails/log
-      - ./overlay:/rails/overlay
-      - ./storage:/rails/storage
-
-  jobs:
-    container_name: klarschiff-backoffice-jobs
-    image: ghcr.io/bfpi/klarschiff/backoffice:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - GITHUB_BRANCH=${GITHUB_BRANCH:-unknown}
-        - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
-    depends_on:
-      - cache
-      - database
-    command: bundle exec sidekiq
-    environment:
-      CACHE_URL: redis://cache:6379
-      DB_HOST: database
-      RAILS_ENV: ${RAILS_ENV:-production}
-      RAILS_RELATIVE_URL_ROOT: ${RAILS_RELATIVE_URL_ROOT:-/}
-      RAILS_SERVE_STATIC_FILES: true
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(pwgen 64 1)}
-      TZ: Europe/Berlin
-    restart: always
-    volumes:
-      - ./log:/rails/log
       - ./overlay:/rails/overlay
       - ./storage:/rails/storage
 
