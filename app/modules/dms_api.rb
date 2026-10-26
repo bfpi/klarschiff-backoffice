@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'net/http'
+
 class DmsApi
   class Error < StandardError; end
 
@@ -13,7 +15,7 @@ class DmsApi
 
   def login(username, password)
     response = get('/identityprovider/login/') { |request| request.basic_auth(username, password) }
-    session_id = session_id_from(response) if response.is_a?(Net::HTTPOK)
+    session_id = session_id_from(response) if response.is_a?(Net::HTTPSuccess)
     return session_id if session_id.present?
     Rails.logger.error "d.3-Login für #{username}: kein Session-Token erhalten (HTTP #{response.code})"
     nil

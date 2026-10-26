@@ -24,13 +24,21 @@ class DmsApiTest < ActiveSupport::TestCase
     @api = DmsApi.new(@config)
   end
 
-  test 'login sends basic auth and returns session id on status 200' do
-    with_http(http_response(200, cookies: ['AuthSessionId=abc123; Path=/; Secure; HttpOnly'])) do |http|
+  test 'login sends basic auth and returns session id on status 204' do
+    with_http(http_response(204, cookies: ['AuthSessionId=abc123; Path=/; Secure; HttpOnly'])) do |http|
       assert_equal 'abc123', @api.login('max', 'geheim')
       request = http.requests.sole
       assert_equal "#{@config[:api]}/identityprovider/login/", request.uri.to_s
       assert_equal "Basic #{['max:geheim'].pack('m0')}", request['Authorization']
       assert_equal 'application/json', request['Accept']
+    end
+  end
+
+  test 'login accepts any success status' do
+    [200, 204].each do |code|
+      with_http(http_response(code, cookies: ['AuthSessionId=abc123'])) do
+        assert_equal 'abc123', @api.login('max', 'geheim'), "HTTP #{code}"
+      end
     end
   end
 
@@ -43,16 +51,18 @@ class DmsApiTest < ActiveSupport::TestCase
     end
   end
 
-  test 'login fails silently and logs on status other than 200' do
-    log = capture_log do
-      with_http(http_response(401, cookies: ['AuthSessionId=abc123'])) { assert_nil @api.login('max', 'geheim') }
+  test 'login fails silently and logs on status other than 2xx' do
+    [302, 401].each do |code|
+      log = capture_log do
+        with_http(http_response(code, cookies: ['AuthSessionId=abc123'])) { assert_nil @api.login('max', 'geheim') }
+      end
+      assert_match "HTTP #{code}", log
+      assert_no_match 'geheim', log
     end
-    assert_match 'HTTP 401', log
-    assert_no_match 'geheim', log
   end
 
   test 'login fails silently without session cookie' do
-    with_http(http_response(200, cookies: ['OtherCookie=xyz'])) { assert_nil @api.login('max', 'geheim') }
+    with_http(http_response(204, cookies: ['OtherCookie=xyz'])) { assert_nil @api.login('max', 'geheim') }
   end
 
   test 'login fails silently and logs on timeout' do
