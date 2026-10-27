@@ -17,7 +17,7 @@ class DmsControllerTest < ActionDispatch::IntegrationTest
 
   test 'shows button to create d.3 document if none exists' do
     login username: :admin, dms_session_ids: { 'd3' => 'token' }
-    Geocodr.stub(:address_dms, {}) { request_dms nil }
+    Geocodr.stub(:address_dms, nil) { request_dms nil }
     assert_response :success
     assert_select 'a.btn[href^=?]', d3_config.dig(:create_link, :AAUTO).split('?').first,
       text: 'neue Akte in d.3 anlegen'

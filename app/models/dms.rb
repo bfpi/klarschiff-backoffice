@@ -60,18 +60,21 @@ class Dms
   end
 
   def create_link_params
+    address = Geocodr.address_dms(@issue)
+    housenumber, housenumber_addition = /\A(\d+)([A-Za-z]*)\z/.match(address&.housenumber)&.captures
     {
       ks_id: @issue.id,
       ks_user: Current.user&.login,
-      ks_str: "#{address['strasse_name']} (#{address['strasse_schluessel']} - #{address['gemeindeteil_name']})",
-      ks_hnr: address['hausnummer'],
-      ks_hnr_z: address['hausnummer_zusatz'],
+      ks_str: street(address),
+      ks_hnr: housenumber,
+      ks_hnr_z: housenumber_addition,
       ks_eigentuemer: @issue.property_owner.to_s.truncate(254, omission: '…')
     }
   end
 
-  def address
-    @address ||= Geocodr.address_dms(@issue).then { |result| result.is_a?(Hash) ? result : {} }
+  def street(address)
+    return I18n.t('geocodr.no_match') unless address
+    "#{address.street_name} (#{address.street_key} - #{address.place_name})"
   end
 
   def unavailable(error = nil)

@@ -3,10 +3,9 @@
 require 'test_helper'
 
 class DmsTest < ActiveSupport::TestCase
-  ADDRESS = {
-    'strasse_name' => 'Lange Straße', 'strasse_schluessel' => '01234', 'gemeindeteil_name' => 'Stadtmitte',
-    'hausnummer' => '1', 'hausnummer_zusatz' => 'a'
-  }.freeze
+  ADDRESS = Geocodr::LabelFormatter::Address.new(
+    street_name: 'Lange Straße', street_key: '01234', place_name: 'Stadtmitte', housenumber: '1a'
+  ).freeze
 
   setup do
     @issue = issue(:received)
