@@ -65,7 +65,9 @@ module Authorization
   end
 
   def reset_session_user
+    Dms.logout(session[:dms_session_id])
     session[:user_login] = nil
+    session[:dms_session_id] = nil
     Current.login = nil
   end
 

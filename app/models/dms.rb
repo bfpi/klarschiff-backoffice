@@ -1,71 +1,84 @@
 # frozen_string_literal: true
 
 class Dms
+  Result = Data.define(:status, :url)
+
   mattr_reader :config, default: Config.for(:dms)
 
-  def initialize(issue)
+  def self.login(username, password)
+    config.keys.index_with { |target| api_for(target)&.login(username, password) }.compact
+  end
+
+  def self.logout(session_ids)
+    session_ids.to_h.each { |target, session_id| api_for(target)&.logout(session_id) if session_id.present? }
+  end
+
+  def self.api_for(target)
+    target_config = config[target]
+    DmsApi.new(target_config) if target_config.is_a?(Hash) && target_config[:api].present?
+  end
+  private_class_method :api_for
+
+  def initialize(issue, session_ids: nil)
     @issue = issue
-    target, @ddc = @issue.dms.try(:split, ':')
-    return if target.blank?
-    @dms = config[target]
+    @target, @category = issue.dms.to_s.split(':', 2)
+    @target_config = config[@target] if @target.present?
+    @session_id = session_ids.to_h[@target] if @target.present?
   end
 
-  def exists?
-    return false if @dms.blank?
-    res = request(:start_search)
-    request :close_search
-    res.code.to_i == 200 && Nokogiri::XML(res.body).root.text.to_i == 1
+  def enabled?
+    @target_config.is_a?(Hash) && @target_config[:api].present? && @category.present?
   end
 
-  def document_id
-    return if @dms.blank?
-    request :start_search
-    res = request(:get_doc)
-    return unless res.code.to_i == 200
-    request :close_search
-    Nokogiri::XML(res.body).root.text
-  end
-
-  def link
-    return if @dms.blank?
-
-    street = I18n.t('geocodr.no_match')
-    housenumber = housenumber_addition = ''
-    if (address = Geocodr.address_dms(@issue))
-      street = format_street(address)
-      housenumber, housenumber_addition = format_housenumber(address)
-    end
-
-    interpolate_link(street, housenumber, housenumber_addition)
+  def lookup
+    return unavailable unless enabled? && @session_id.present?
+    document_id = search_document_id
+    document_id ? Result.new(:found, api.document_url(document_id)) : Result.new(:not_found, create_link)
+  rescue StandardError => e
+    unavailable(e)
   end
 
   private
 
-  def format_street(address)
+  def api
+    @api ||= DmsApi.new(@target_config)
+  end
+
+  def search_document_id
+    api.search(category: @category, property: search_property, value: @issue.id, session_id: @session_id)
+  end
+
+  def search_property
+    @target_config.fetch(:search_property).fetch(@category)
+  end
+
+  def create_link
+    template = @target_config.dig(:create_link, @category)
+    return if template.blank?
+    params = create_link_params.transform_values { |value| ERB::Util.url_encode(value.to_s) }
+    I18n.interpolate(template, params)
+  end
+
+  def create_link_params
+    address = Geocodr.address_dms(@issue)
+    housenumber, housenumber_addition = /\A(\d+)([A-Za-z]*)\z/.match(address&.housenumber)&.captures
+    {
+      ks_id: @issue.id,
+      ks_user: Current.user&.login,
+      ks_str: street(address),
+      ks_hnr: housenumber,
+      ks_hnr_z: housenumber_addition,
+      ks_eigentuemer: @issue.property_owner.to_s.truncate(254, omission: '…')
+    }
+  end
+
+  def street(address)
+    return I18n.t('geocodr.no_match') unless address
     "#{address.street_name} (#{address.street_key} - #{address.place_name})"
   end
 
-  def format_housenumber(address)
-    match = address.housenumber.match(/\A(\d+)([A-Za-z]*)\z/)
-    match ? match.captures : ['', '']
-  end
-
-  def interpolate_link(street, housenumber, housenumber_addition)
-    I18n.interpolate @dms[:create_link][@ddc],
-      ks_id: @issue.id,
-      ks_user: Current.user.login,
-      ks_str: street,
-      ks_hnr: housenumber,
-      ks_hnr_z: housenumber_addition,
-      ks_eigentuemer: @issue.property_owner.truncate(254, omission: '…')
-  end
-
-  def request(key)
-    uri = URI.parse([@dms[:api], I18n.interpolate(@dms[key], ddc: @ddc, issue_id: @issue.id)].join)
-    if (host = @dms[:proxy_host]).present? && (port = @dms[:proxy_port]).present?
-      Net::HTTP::Proxy host, port
-    else
-      Net::HTTP
-    end.get_response uri
+  def unavailable(error = nil)
+    Rails.logger.error "d.3-Abfrage zu Meldung #{@issue.id} fehlgeschlagen: #{error.inspect}" if error
+    Result.new(:unavailable, nil)
   end
 end

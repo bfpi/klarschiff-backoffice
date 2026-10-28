@@ -315,9 +315,11 @@ de:
   date_missing: Es wurde kein Datum übergeben.
   delegations: Delegationen
   dms:
-    no_doc_id: >-
-      Ein d.3-Vorgang ist zwar anscheinend vorhanden, jedoch liefert die d.3-API nicht dessen Vorgangsnummer zurück,
-      sodass der d.3-Vorgang nicht geöffnet werden kann.
+    index:
+      found: Akte in d.3 aufrufen
+      not_found: neue Akte in d.3 anlegen
+      unavailable: Kommunikation mit d.3 momentan nicht möglich
+    loading: Suche nach d.3-Akte …
   edit: bearbeiten
   edit_issue: Meldung bearbeiten
   editorial_notifications:
