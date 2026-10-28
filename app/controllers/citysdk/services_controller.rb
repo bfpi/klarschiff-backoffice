@@ -71,7 +71,9 @@ module Citysdk
 
     def sorted
       Service.active.eager_load(:main_category, :sub_category).where(id: regional_services.flatten.uniq)
-        .order(main_category_arel_table[:name], sub_category_arel_table[:name])
+        .order(main_category_arel_table[:name], sub_category_arel_table[:name]).sort_by do |x|
+          x.to_s.downcase.include?('sonstiges') ? 1 : 0
+        end
     end
 
     def regional_services

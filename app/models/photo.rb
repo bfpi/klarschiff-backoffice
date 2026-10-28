@@ -19,9 +19,13 @@ class Photo < ApplicationRecord
 
   has_one_attached :file
 
-  validates :file, attached: true, content_type: 'image/jpeg', size: { greater_than: 0 }, on: :create
+  validates :file, attached: true, size: { greater_than: 0 }, on: :create
+  validates :file, content_type: Settings::Instance.supported_file_types&.split(','), if: lambda {
+    Settings::Instance.supported_file_types
+  }, on: :create
 
   before_validation :set_author, on: :create
+  before_save :skip_email_confirmation, if: -> { Settings::Instance.skip_email_confirmation }
 
   def _modification
     nil
@@ -54,6 +58,10 @@ class Photo < ApplicationRecord
   end
 
   private
+
+  def skip_email_confirmation
+    self.confirmed_at = Time.current
+  end
 
   def set_author
     self.author = Current.user.auth_code.group.email if Current.user&.auth_code
