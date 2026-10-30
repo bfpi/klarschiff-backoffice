@@ -310,7 +310,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'create with frontend api-key but geocodr returns forbidden' do
+  test 'create with frontend api-key but geocoder returns forbidden' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(403, 'FORBIDDEN') } do
       assert_difference 'IssueResponsibility.count', 1 do
         post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
@@ -329,7 +329,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'create with frontend api-key but geocodr is not available' do
+  test 'create with frontend api-key but geocoder is not available' do
     OpenURI.stub :open_uri, ->(_a, _b) { raise OpenURI::HTTPError.new(500, 'INTERNAL SERVER ERROR') } do
       assert_difference 'IssueResponsibility.count', 1 do
         post "/citysdk/requests.xml?api_key=#{api_key_frontend}", params: valid_create_params
@@ -482,9 +482,9 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
 
   test 'update attribute address_string with ppc api-key' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
-    features = JSON.parse(File.read('test/fixtures/files/geocodr.json')).try(:[], 'features')
-    Settings::Geocodr.stub :localisator, '[landkreis_id]=13003' do
-      ::Geocodr.stub :features, features do
+    features = JSON.parse(File.read('test/fixtures/files/geocoder.json')).try(:[], 'features')
+    Settings::AddressSearch.stub :localisator, '[landkreis_id]=13003' do
+      ::Geocoder.stub :features, features do
         reloaded_request = update_request_and_reload(issue(:one).id, :address_string, new_value)
         assert_equal 'Holbeinplatz 14 (Reutershagen)',
           reloaded_request.xpath('/service_requests/request/address/text()').first.to_s
@@ -492,10 +492,10 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'update attribute address_string but geocodr is not available' do
+  test 'update attribute address_string but geocoder is not available' do
     new_value = 'Holbeinplatz 14, 18069 Rostock'
 
-    ::Geocodr.stub :features, [] do
+    ::Geocoder.stub :features, [] do
       put "/citysdk/requests/#{issue(:one).id}.xml?api_key=#{api_key_ppc}",
         params: { address_string: new_value }
 
