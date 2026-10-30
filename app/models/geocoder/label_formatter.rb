@@ -1,23 +1,8 @@
 # frozen_string_literal: true
 
-class Geocodr
+class Geocoder
   module LabelFormatter
     Address = Struct.new(:place_name, :street_name, :street_key, :housenumber, keyword_init: true)
-
-    def self.format_address(feature)
-      place_description = feature['placeDescription']
-      return place_description if Geocodr.config.localisator.blank?
-
-      title = place_description.sub(/ \(.*$/, '')
-
-      if %w[Adresse Straße].include?(feature['primaryType'])
-        title += " (#{place_description.sub(/^.* OT /, '')}"
-      else
-        title = place_description.sub(/^.* Bereich /, '')
-      end
-
-      title
-    end
 
     def self.format_address_dms(feature)
       Address.new(

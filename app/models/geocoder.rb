@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class Geocodr
+class Geocoder
   include FeatureRequest
 
   class << self
     def config
-      @config ||= Settings::Geocodr
+      @config ||= Settings::AddressSearch
     end
 
     def address(issue)
       feature = reverse(issue, config.address_result_class)
-      return LabelFormatter.format_address(feature['properties']) if feature
+      return Place.new(properties: feature['properties']).label if feature
 
-      I18n.t 'geocodr.no_match'
+      I18n.t 'geocoder.no_match'
     end
 
     def address_dms(issue)
@@ -24,11 +24,11 @@ class Geocodr
       feature = reverse(issue, config.parcel_result_class)
       return LabelFormatter.format_parcel(feature['properties']) if feature
 
-      I18n.t 'geocodr.no_match'
+      I18n.t 'geocoder.no_match'
     end
 
     def property_owner(issue)
-      PropertyOwnership.owner(issue).presence || I18n.t('geocodr.no_match')
+      PropertyOwnership.owner(issue).presence || I18n.t('geocoder.no_match')
     end
 
     def search_places(pattern)

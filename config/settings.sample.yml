@@ -1,5 +1,5 @@
 development: &default
-  geocodr:
+  address_search:
     url: https://www.geodaten-mv.de/geocoding-api/place/search?
     places_result_class: Adresse
     address_result_class: Adresse
