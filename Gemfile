@@ -6,13 +6,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 4.0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 8.1.3'
+gem 'rails', '~> 8.1.4'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.6.3'
+gem 'pg', '~> 1.7.0'
 # Use Puma as the app server
 gem 'puma', '~> 8.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
+gem 'sprockets', '>= 4.2.3'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -31,7 +32,7 @@ gem 'bootsnap', require: false
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 # gem "kamal", require: false
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basehub/thruster/]
 gem 'thruster', require: false
 
 # Use Active Storage variant
