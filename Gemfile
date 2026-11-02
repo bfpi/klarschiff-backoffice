@@ -13,7 +13,6 @@ gem 'pg', '~> 1.7.0'
 gem 'puma', '~> 8.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
-gem 'sprockets', '>= 4.2.3'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -32,7 +31,7 @@ gem 'bootsnap', require: false
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 # gem "kamal", require: false
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basehub/thruster/]
+# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem 'thruster', require: false
 
 # Use Active Storage variant
