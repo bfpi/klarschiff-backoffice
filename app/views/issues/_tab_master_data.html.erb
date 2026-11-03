@@ -112,11 +112,10 @@
     </div>
   </div>
 <% end -%>
-<% if form.object.dms.present? -%>
+<% if form.object.persisted? && Dms.new(form.object).enabled? -%>
   <div class="row">
-    <div class="col-10 offset-md-2">
-      <%= form.button 'DMS', class: 'btn btn-secondary col-2', id: :dms_link, data: { id: form.object.id } %>
-    </div>
+    <%= tag.div t('dms.loading'), id: :dms, class: 'col-10 offset-md-2 col-form-label',
+          data: { url: dms_index_path(issue_id: form.object.id) } %>
   </div>
 <% end -%>
 <% if form.object.closed? -%>
