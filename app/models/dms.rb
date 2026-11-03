@@ -29,9 +29,9 @@ class Dms
   def link
     return if @dms.blank?
 
-    street = I18n.t('geocodr.no_match')
+    street = I18n.t('geocoder.no_match')
     housenumber = housenumber_addition = ''
-    if (address = Geocodr.address_dms(@issue))
+    if (address = Geocoder.address_dms(@issue))
       street = format_street(address)
       housenumber, housenumber_addition = format_housenumber(address)
     end

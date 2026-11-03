@@ -402,7 +402,7 @@ de:
       title: Außendienst-Team bearbeiten
   filter: Filtern
   from: von
-  geocodr:
+  geocoder:
     no_match: nicht zuordenbar
   groups:
     index:

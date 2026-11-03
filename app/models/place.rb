@@ -6,7 +6,18 @@ class Place
   attr_accessor :type, :id, :bbox, :properties, :geometry
 
   def label
-    Geocodr::LabelFormatter.format_address(properties)
+    place_description = properties['placeDescription']
+    return place_description if Settings::AddressSearch.localisator.blank?
+
+    title = place_description.sub(/ \(.*$/, '')
+
+    if %w[Adresse Straße].include?(properties['primaryType'])
+      title += " (#{place_description.sub(/^.* OT /, '')}"
+    else
+      title = place_description.sub(/^.* Bereich /, '')
+    end
+
+    title
   end
 
   def as_json(_options = {})

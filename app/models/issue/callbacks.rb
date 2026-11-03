@@ -75,9 +75,9 @@ class Issue
     end
 
     def update_address_parcel_property_owner
-      self.address = Geocodr.address(self)
-      self.parcel = Geocodr.parcel(self)
-      self.property_owner = Geocodr.property_owner(self)
+      self.address = Geocoder.address(self)
+      self.parcel = Geocoder.parcel(self)
+      self.property_owner = Geocoder.property_owner(self)
     end
 
     def calculate_trust_level
