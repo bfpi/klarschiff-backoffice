@@ -69,7 +69,7 @@ jobs:
           sed -i -E "s/^(FROM ruby:)[0-9.]+(-.* AS base)$/\1${TARGET}\2/" Dockerfile
       - name: Set up Ruby
         if: ${{ steps.versions.outputs.target }}
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94 # v1.336.0
         with:
           ruby-version: ${{ steps.versions.outputs.target }}
       - name: Update Gemfile.lock
@@ -77,45 +77,28 @@ jobs:
         run: bundle lock
       - id: commit
         if: ${{ steps.versions.outputs.target }}
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
         with:
           commit_message: Sync Ruby version ${{ steps.versions.outputs.target }} to .ruby-version, Dockerfile and Gemfile.lock
           file_pattern: .ruby-version Dockerfile Gemfile.lock
+      - name: Check versions
+        run: bin/check-ruby-version
 
   ruby-version:
     name: Check .ruby-version matches Dockerfile and Gemfile.lock
     needs: sync
-    if: ${{ !cancelled() && needs.sync.result != 'failure' }}
+    # Pull requests from this repository are checked by the sync job
+    if: ${{ !cancelled() && needs.sync.result == 'skipped' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Compare versions
-        run: |
-          ruby_version=$(sed 's/^ruby-//' .ruby-version | tr -d '[:space:]')
-          docker_version=$(sed -nE 's/^FROM ruby:([0-9.]+)-.* AS base$/\1/p' Dockerfile)
-          lock_version=$(sed -nE '/^RUBY VERSION$/{n;s/^ +ruby ([0-9.]+).*/\1/p}' Gemfile.lock)
-          echo ".ruby-version: ${ruby_version}"
-          echo "Dockerfile:    ${docker_version}"
-          echo "Gemfile.lock:  ${lock_version}"
-          if [ -z "${docker_version}" ]; then
-            echo "::error file=Dockerfile::Could not determine Ruby version from 'FROM ruby:<version>-... AS base'"
-            exit 1
-          fi
-          if [ "${ruby_version}" != "${docker_version}" ]; then
-            echo "::error file=.ruby-version::Ruby version mismatch: .ruby-version has ${ruby_version}, Dockerfile has ${docker_version}"
-            exit 1
-          fi
-          if [ "${ruby_version}" != "${lock_version}" ]; then
-            echo "::error file=Gemfile.lock::Ruby version mismatch: .ruby-version has ${ruby_version}, Gemfile.lock has ${lock_version}"
-            exit 1
-          fi
+      - name: Check versions
+        run: bin/check-ruby-version
 
   # Commits pushed with the GITHUB_TOKEN do not trigger other workflows, so the synced state is tested here
   test:
-    needs: [sync, ruby-version]
-    if: ${{ !cancelled() && needs.sync.outputs.changed == 'true' && needs.ruby-version.result == 'success' }}
+    needs: sync
+    if: ${{ needs.sync.outputs.changed == 'true' }}
     permissions:
       contents: read
     uses: ./.github/workflows/test.yml
