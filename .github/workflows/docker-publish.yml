@@ -45,10 +45,6 @@ jobs:
           IMAGE_BASE="${IMAGE%:latest}"
           echo "image=$IMAGE_BASE" >> $GITHUB_OUTPUT
 
-      - name: Get Ruby version from .ruby-version
-        id: ruby
-        run: echo "version=$(sed -E 's/^ruby-//' .ruby-version)" >> $GITHUB_OUTPUT
-
       # --------------------------------------------------
       # 2) Tags generieren (branch/tag only)
       # --------------------------------------------------
@@ -71,8 +67,6 @@ jobs:
         with:
           context: .
           push: true
-          build-args: |
-            RUBY_VERSION=${{ steps.ruby.outputs.version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 

@@ -24,7 +24,6 @@ services:
       args:
         - GITHUB_BRANCH=${GITHUB_BRANCH:-unknown}
         - GITHUB_COMMIT_HASH=${GITHUB_COMMIT_HASH:-unknown}
-        - RUBY_VERSION
     depends_on:
       - database
     environment:

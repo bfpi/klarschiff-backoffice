@@ -1,8 +1,6 @@
 # syntax = docker/dockerfile:1
 
-# Ruby version from .ruby-version, passed as build argument (see docker-compose.yml)
-ARG RUBY_VERSION
-FROM ruby:${RUBY_VERSION}-slim-bookworm AS base
+FROM ruby:4.0.5-slim-bookworm AS base
 
 LABEL org.opencontainers.image.source="https://github.com/bfpi/klarschiff-backoffice"
 LABEL org.opencontainers.image.authors="BFPI GmbH"
