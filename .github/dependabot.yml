@@ -6,6 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 5
     versioning-strategy: lockfile-only
     ignore:
       - dependency-name: "bootstrap"
@@ -18,6 +20,8 @@ updates:
     target-branch: master # additional config for bundler, see https://github.com/dependabot/dependabot-core/issues/1778#issuecomment-1988140219
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 5
     versioning-strategy: increase-if-necessary
     labels:
       - "manually"
@@ -31,6 +35,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 5
     versioning-strategy: "lockfile-only"
     ignore:
       # For all packages, ignore all patch updates
@@ -41,6 +47,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "wednesday" # after the github-actions updates, so setup-ruby knows new Ruby versions
+    cooldown:
+      default-days: 5
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
@@ -50,6 +59,8 @@ updates:
     target-branch: master # additional config for minor updates, see bundler above
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 5
     labels:
       - "manually"
     ignore:
@@ -60,6 +71,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 5
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
@@ -69,6 +82,8 @@ updates:
     target-branch: master # additional config for minor updates, see bundler above
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 5
     labels:
       - "manually"
     ignore:
@@ -79,6 +94,8 @@ updates:
     directory: ".github/workflows"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 5
     groups:
       github-actions:
         patterns:
