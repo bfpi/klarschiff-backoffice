@@ -33,11 +33,12 @@ jobs:
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v3
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
+      # Ruby image updates are merged by ruby-version.yml after syncing .ruby-version and Gemfile.lock
       - name: Enable auto-merge for Dependabot PRs, not marked as manually
-        if: ${{ ! contains(steps.metadata.outputs.dependency-names, 'bootstrap') && ! contains(github.event.pull_request.labels.*.name, 'manually') }}
+        if: ${{ ! contains(steps.metadata.outputs.dependency-names, 'bootstrap') && ! (steps.metadata.outputs.package-ecosystem == 'docker' && contains(steps.metadata.outputs.dependency-names, 'ruby')) && ! contains(github.event.pull_request.labels.*.name, 'manually') }}
         run: |
           gh pr review --approve "$PR_URL"
           gh pr edit --add-label "automerge" "$PR_URL"

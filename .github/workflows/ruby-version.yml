@@ -1,0 +1,123 @@
+name: Ruby Version Consistency
+
+on:
+  pull_request:
+    paths:
+      - .ruby-version
+      - Dockerfile
+  push:
+    paths:
+      - .ruby-version
+      - Dockerfile
+
+permissions:
+  contents: read
+
+jobs:
+  # The version changed in the PR (Dockerfile or .ruby-version) is synced to the other files,
+  # e.g. Dependabot only updates the Ruby image in the Dockerfile
+  sync:
+    name: Sync Ruby version between Dockerfile, .ruby-version and Gemfile.lock
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changes_detected }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Determine target version
+        id: versions
+        env:
+          BASE_REF: origin/${{ github.base_ref }}
+        run: |
+          ruby_version() { sed 's/^ruby-//' | tr -d '[:space:]'; }
+          docker_version() { sed -nE 's/^FROM ruby:([0-9.]+)-.* AS base$/\1/p'; }
+          ruby=$(ruby_version < .ruby-version)
+          docker=$(docker_version < Dockerfile)
+          lock=$(sed -nE '/^RUBY VERSION$/{n;s/^ +ruby ([0-9.]+).*/\1/p}' Gemfile.lock)
+          base_ruby=$(git show "${BASE_REF}:.ruby-version" | ruby_version)
+          base_docker=$(git show "${BASE_REF}:Dockerfile" | docker_version)
+          echo "ruby=${ruby} (base ${base_ruby}), docker=${docker} (base ${base_docker}), lock=${lock}"
+
+          if [ -z "${docker}" ]; then
+            echo "Ruby version not found in Dockerfile, nothing to sync"
+          elif [ "${ruby}" = "${docker}" ]; then
+            target=${ruby}
+          elif [ "${docker}" != "${base_docker}" ] && [ "${ruby}" = "${base_ruby}" ]; then
+            target=${docker}
+          elif [ "${ruby}" != "${base_ruby}" ] && [ "${docker}" = "${base_docker}" ]; then
+            target=${ruby}
+          else
+            echo "Dockerfile and .ruby-version both changed to different versions, nothing to sync"
+          fi
+
+          if [ -n "${target}" ] && { [ "${ruby}" != "${target}" ] || [ "${docker}" != "${target}" ] || [ "${lock}" != "${target}" ]; }; then
+            echo "Syncing to Ruby ${target}"
+            echo "target=${target}" >> $GITHUB_OUTPUT
+          fi
+      - name: Update .ruby-version and Dockerfile
+        if: ${{ steps.versions.outputs.target }}
+        env:
+          TARGET: ${{ steps.versions.outputs.target }}
+        run: |
+          echo "ruby-${TARGET}" > .ruby-version
+          sed -i -E "s/^(FROM ruby:)[0-9.]+(-.* AS base)$/\1${TARGET}\2/" Dockerfile
+      - name: Set up Ruby
+        if: ${{ steps.versions.outputs.target }}
+        uses: ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94 # v1.336.0
+        with:
+          ruby-version: ${{ steps.versions.outputs.target }}
+      - name: Update Gemfile.lock
+        if: ${{ steps.versions.outputs.target }}
+        run: bundle lock
+      - id: commit
+        if: ${{ steps.versions.outputs.target }}
+        uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
+        with:
+          commit_message: Sync Ruby version ${{ steps.versions.outputs.target }} to .ruby-version, Dockerfile and Gemfile.lock
+          file_pattern: .ruby-version Dockerfile Gemfile.lock
+      - name: Check versions
+        run: bin/check-ruby-version
+
+  ruby-version:
+    name: Check .ruby-version matches Dockerfile and Gemfile.lock
+    needs: sync
+    # Pull requests from this repository are checked by the sync job
+    if: ${{ !cancelled() && needs.sync.result == 'skipped' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check versions
+        run: bin/check-ruby-version
+
+  # Commits pushed with the GITHUB_TOKEN do not trigger other workflows, so the synced state is tested here
+  test:
+    needs: sync
+    if: ${{ needs.sync.outputs.changed == 'true' }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/test.yml
+    with:
+      ref: ${{ github.head_ref }}
+
+  # Replaces the auto-merge from dependabot-auto-merge.yml, which would not wait for the synced state
+  dependabot-automerge:
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ github.actor == 'dependabot[bot]' && ! contains(github.event.pull_request.labels.*.name, 'manually') }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Enable auto-merge for Dependabot PRs, not marked as manually
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr edit --add-label "automerge" "$PR_URL"
+          gh pr merge --auto --squash --delete-branch "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
