@@ -1,7 +1,6 @@
 name: Ruby Version Consistency
 
 on:
-  workflow_dispatch:
   pull_request:
     paths:
       - .ruby-version
