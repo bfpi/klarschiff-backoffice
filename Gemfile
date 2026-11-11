@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 4.0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 8.1.3'
+gem 'rails', '~> 8.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.7.0'
 # Use Puma as the app server
@@ -86,7 +86,6 @@ gem 'exception_notification'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'json', '< 3' # Sprockets 4.2 passes the removed create_additions keyword to JSON.parse.
 gem 'kaminari'
 gem 'mission_control-jobs'
 gem 'net-ldap'
