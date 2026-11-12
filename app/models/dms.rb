@@ -60,7 +60,7 @@ class Dms
   end
 
   def create_link_params
-    address = Geocodr.address_dms(@issue)
+    address = Geocoder.address_dms(@issue)
     housenumber, housenumber_addition = /\A(\d+)([A-Za-z]*)\z/.match(address&.housenumber)&.captures
     {
       ks_id: @issue.id,

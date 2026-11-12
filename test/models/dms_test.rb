@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class DmsTest < ActiveSupport::TestCase
-  ADDRESS = Geocodr::LabelFormatter::Address.new(
+  ADDRESS = Geocoder::LabelFormatter::Address.new(
     street_name: 'Lange Straße', street_key: '01234', place_name: 'Stadtmitte', housenumber: '1a'
   ).freeze
 
@@ -29,7 +29,7 @@ class DmsTest < ActiveSupport::TestCase
     @issue.property_owner = 'Müller & Söhne'
     api = Minitest::Mock.new
     api.expect(:search, nil, category: 'AAUTO', property: search_property, value: @issue.id, session_id: 'token')
-    result = Geocodr.stub(:address_dms, ADDRESS) { lookup_with(api) }
+    result = Geocoder.stub(:address_dms, ADDRESS) { lookup_with(api) }
     assert_equal :not_found, result.status
     assert_equal create_link_params, URI.decode_www_form(URI.parse(result.url).query).to_h
     api.verify
