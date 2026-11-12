@@ -73,5 +73,12 @@ module Citysdk
       mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
       ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
     end
+
+    def extension(tempfile)
+      mime = Marcel::MimeType.for(tempfile)
+      ext = MiniMime.lookup_by_content_type(mime)&.extension
+      ext = 'jpg' if ext == 'jpeg'
+      ext
+    end
   end
 end
