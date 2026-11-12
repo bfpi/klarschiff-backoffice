@@ -81,7 +81,7 @@ class Dms
   end
 
   def unavailable(error = nil)
-    Rails.logger.error "d.3-Abfrage zu Meldung #{@issue.id} fehlgeschlagen: #{error.inspect}" if error
+    Rails.logger.error "d.3 request for issue #{@issue.id} failed with: #{error.inspect}" if error
     Result.new(:unavailable, nil)
   end
 end
