@@ -1,0 +1,11 @@
+[hooks]
+postinstall = [
+  'npx corepack enable',
+  "npx corepack prepare $(node -p \"require('./package.json').packageManager\")"
+]
+
+[env]
+DB_PORT = 5435
+RAILS_ENV = "development"
+SOLID_QUEUE_IN_PUMA = true
+#_.path = "{{config_root}}/bin"
