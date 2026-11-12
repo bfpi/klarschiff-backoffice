@@ -54,15 +54,24 @@ module Citysdk
     end
 
     def media=(value)
+      files = Array.wrap(value).compact_blank.map { |media| uploaded_file_from(media) }
+      return if files.empty?
+
+      self.new_photo = files
+      self.photo_requested = false
+    end
+
+    private
+
+    def uploaded_file_from(media)
       tempfile = Tempfile.new('fileupload')
       tempfile.binmode
-      tempfile.write(Base64.decode64(value))
+      tempfile.write(Base64.decode64(media.to_s))
       filename = "filename.#{extension(tempfile)}"
       tempfile.close
 
       mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
-      self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
-      self.photo_requested = false
+      ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
     end
 
     def extension(tempfile)
