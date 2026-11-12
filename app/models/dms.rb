@@ -5,19 +5,22 @@ class Dms
 
   mattr_reader :config, default: Config.for(:dms)
 
-  def self.login(username, password)
-    config.keys.index_with { |target| api_for(target)&.login(username, password) }.compact
-  end
+  class << self
+    def login(username, password)
+      config.keys.index_with { |target| api_for(target)&.login(username, password) }.compact
+    end
 
-  def self.logout(session_ids)
-    session_ids.to_h.each { |target, session_id| api_for(target)&.logout(session_id) if session_id.present? }
-  end
+    def logout(session_ids)
+      session_ids.to_h.each { |target, session_id| api_for(target)&.logout(session_id) if session_id.present? }
+    end
 
-  def self.api_for(target)
-    target_config = config[target]
-    DmsApi.new(target_config) if target_config.is_a?(Hash) && target_config[:api].present?
+    private
+
+    def api_for(target)
+      target_config = config[target]
+      DmsApi.new(target_config) if target_config.is_a?(Hash) && target_config[:api].present?
+    end
   end
-  private_class_method :api_for
 
   def initialize(issue, session_ids: nil)
     @issue = issue
