@@ -6,7 +6,7 @@ module Citysdk
 
     def set_position_from_attributes
       return if @address_string.blank? && @lat.blank? && @long.blank?
-      if @address_string.present? && (response = ::Geocodr.find(@address_string)).present?
+      if @address_string.present? && (response = ::Geocoder.find(@address_string)).present?
         @long, @lat = response.first['geometry']['coordinates']
       end
       self.position = "POINT(#{@long} #{@lat})"
@@ -54,15 +54,31 @@ module Citysdk
     end
 
     def media=(value)
+      files = Array.wrap(value).compact_blank.map { |media| uploaded_file_from(media) }
+      return if files.empty?
+
+      self.new_photo = files
+      self.photo_requested = false
+    end
+
+    private
+
+    def uploaded_file_from(media)
       tempfile = Tempfile.new('fileupload')
       tempfile.binmode
-      tempfile.write(Base64.decode64(value))
+      tempfile.write(Base64.decode64(media.to_s))
+      filename = "filename.#{extension(tempfile)}"
       tempfile.close
 
-      filename = 'filename.jpg'
       mime_type = Mime::Type.lookup_by_extension(File.extname(filename)[1..]).to_s
-      self.new_photo = ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
-      self.photo_requested = false
+      ActionDispatch::Http::UploadedFile.new(tempfile:, filename:, type: mime_type)
+    end
+
+    def extension(tempfile)
+      mime = Marcel::MimeType.for(tempfile)
+      ext = MiniMime.lookup_by_content_type(mime)&.extension
+      ext = 'jpg' if ext == 'jpeg'
+      ext
     end
   end
 end

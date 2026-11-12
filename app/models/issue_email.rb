@@ -3,8 +3,8 @@
 class IssueEmail
   include ActiveModel::Model
 
-  attr_accessor :issue_id, :from, :from_email, :to_email, :text, :send_map, :send_photos, :send_comments,
-    :send_feedbacks, :send_abuse_reports
+  attr_accessor :issue_id, :from, :from_email, :to_email, :text, :send_coordinates, :send_map, :send_photos,
+    :send_comments, :send_feedbacks, :send_abuse_reports
 
   validates :to_email, :text, presence: true
   validates :to_email, email: { if: -> { to_email.present? } }
@@ -15,6 +15,7 @@ class IssueEmail
   end
 
   def enable_all
+    self.send_coordinates = 1
     self.send_map = 1
     self.send_photos = 1
     self.send_comments = 1
@@ -22,7 +23,7 @@ class IssueEmail
     self.send_abuse_reports = 1
   end
 
-  %i[map photos comments feedbacks abuse_reports].each do |data|
+  %i[coordinates map photos comments feedbacks abuse_reports].each do |data|
     define_method :"send_#{data}?" do
       send(:"send_#{data}").to_i == 1
     end
