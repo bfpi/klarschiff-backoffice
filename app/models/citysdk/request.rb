@@ -9,6 +9,7 @@ module Citysdk
     include Citysdk::RequestGetter
     include Citysdk::RequestSetter
     include Citysdk::Serialization
+    include FileExtension
 
     attr_writer :lat, :long, :address_string
 
