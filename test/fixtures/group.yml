@@ -13,6 +13,9 @@ one:
 two:
   <<: *DEFAULTS
 
+three:
+  <<: *DEFAULTS
+
 four:
   <<: *DEFAULTS
   reference_id: <%= ActiveRecord::FixtureSet.identify :four %>

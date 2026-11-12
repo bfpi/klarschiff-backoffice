@@ -18,6 +18,7 @@ class Issue
       before_validation :set_reviewed_at, on: :update, if: :status_changed?
       before_validation :update_address_parcel_property_owner, if: :position_changed?
 
+      before_save :skip_status_pending, if: -> { Settings::Instance.skip_email_confirmation && status_pending? }
       before_save :set_expected_closure, if: :status_changed?
       before_save :set_trust_level, if: :author_changed?
       before_save :set_updated_by, if: -> { Current.user }
@@ -52,13 +53,17 @@ class Issue
     def add_photo
       return if new_photo.blank?
       set_confirmation_hash unless confirmation_hash
-      photo = { file: new_photo, author: Current.email, status: :internal }
+      Array.wrap(new_photo).each_with_index { |file, i| photos.new new_photo_attributes(file, first: i.zero?) }
+      self.new_photo = nil
+    end
+
+    def new_photo_attributes(file, first:)
+      photo = { file:, author: Current.email, status: :internal }
       if new_record?
-        photo[:confirmation_hash] = confirmation_hash
+        photo[:confirmation_hash] = confirmation_hash if first
         photo[:skip_email_notification] = true
       end
-      photos.new photo
-      self.new_photo = nil
+      photo
     end
 
     # overwrite ConfirmationWithHash#confirm
@@ -74,9 +79,9 @@ class Issue
     end
 
     def update_address_parcel_property_owner
-      self.address = Geocodr.address(self)
-      self.parcel = Geocodr.parcel(self)
-      self.property_owner = Geocodr.property_owner(self)
+      self.address = Geocoder.address(self)
+      self.parcel = Geocoder.parcel(self)
+      self.property_owner = Geocoder.property_owner(self)
     end
 
     def calculate_trust_level
@@ -94,6 +99,10 @@ class Issue
       else
         { to: users.map(&:email) }
       end
+    end
+
+    def skip_status_pending
+      self.status = :received
     end
 
     def create_issue_delegation?

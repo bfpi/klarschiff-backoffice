@@ -8,7 +8,7 @@ class Responsibility < ApplicationRecord
   belongs_to :category
   belongs_to :group
 
-  validate :only_one_group_for_group_type
+  validate :only_one_group_for_group_type, unless: -> { Settings::Instance.multiple_responsibilities }
   validate :authorized_group, :internal_group, if: :group
 
   scope :active, -> { where(deleted_at: nil) }

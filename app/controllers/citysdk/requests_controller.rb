@@ -78,10 +78,12 @@ module Citysdk
     # :apidoc: | long | * | Float | Longitude value of position |
     # :apidoc: | address_string | * | String | Address for position |
     # :apidoc: | photo_required | - | Boolean | Photo required |
-    # :apidoc: | media | - | String | Photo as Base64 encoded string |
+    # :apidoc: | media | - | String / Array | Photo as Base64 encoded string, multiple photos as array of strings |
     # :apidoc: | privacy_policy_accepted | - | Boolean | Confirmation of accepted privacy policy |
     # :apidoc:
-    # :apidoc: *: Either `lat` and `long` or `address_string` are required
+    # :apidoc: *: Either `lat` and `long` or `address_string` are required\
+    # :apidoc: Multiple photos can be sent as array, e.g. `media[]=...&media[]=...` or as JSON array.
+    # :apidoc: Blank entries are ignored. The request is rejected if any of the photos is invalid.
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
@@ -95,10 +97,14 @@ module Citysdk
     def create
       request = Request.new
       request.assign_attributes params.permit(:email, :service_code, :description, :lat, :long,
-        :address_string, :photo_required, :media, :privacy_policy_accepted).merge(status: :pending)
+        :address_string, :photo_required, :media, :privacy_policy_accepted, media: []).merge(status: :pending)
       issue = request.becomes_if_valid!(Issue)
-      issue.new_photo = request.new_photo if request.new_photo.present?
-      issue.save!
+
+      request = if Settings::Instance.multiple_responsibilities
+                  create_multiple(request, issue)
+                else
+                  create_one(request, issue)
+                end
 
       citysdk_response request, root: :service_requests, element_name: :request, show_only_id: true, status: :created
     end
@@ -121,7 +127,7 @@ module Citysdk
     # :apidoc: | long | * | Float | Longitude value of position |
     # :apidoc: | address_string | * | String | Address for position |
     # :apidoc: | photo_required | - | Boolean | Photo required |
-    # :apidoc: | media | - | String | Photo as Base64 encoded string |
+    # :apidoc: | media | - | String / Array | Photo as Base64 encoded string, multiple photos as array of strings |
     # :apidoc: | detailed_status | - | String | CitySDK status |
     # :apidoc: | status_notes | - | String | Status note |
     # :apidoc: | priority | - | Integer | Priority |
@@ -130,7 +136,9 @@ module Citysdk
     # :apidoc: | job_priority | - | Integer | Job priority |
     # :apidoc:
     # :apidoc: *: Either `lat` and `long` or `address_string` are required\
-    # :apidoc: Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`
+    # :apidoc: Available CitySDK states for this action: `RECEIVED`, `IN_PROCESS`, `PROCESSED`, `REJECTED`\
+    # :apidoc: Multiple photos can be sent as array, e.g. `media[]=...&media[]=...` or as JSON array.
+    # :apidoc: Blank entries are ignored. The request is rejected if any of the photos is invalid.
     # :apidoc:
     # :apidoc: Sample Response:
     # :apidoc:
@@ -161,7 +169,7 @@ module Citysdk
       request = Request.find(params.expect(:id))
       request.assign_attributes params.permit(:service_code, :description, :lat, :long,
         :address_string, :photo_required, :media, :detailed_status, :status_notes, :priority,
-        :delegation, :job_status, :job_priority)
+        :delegation, :job_status, :job_priority, media: [])
 
       issue = request.becomes(Issue)
       issue.new_photo = request.new_photo if request.new_photo.present?
@@ -229,19 +237,37 @@ module Citysdk
 
     private
 
+    def create_multiple(request, issue)
+      issue.category&.responsibility_groups(lat: issue.position.y, lon: issue.position.x,
+        include_reference_default: false)&.map do |group|
+        new_request = request.dup
+        new_issue = new_request.becomes(Issue)
+        new_issue.confirmation_hash = nil
+        new_issue.group = group
+        create_one(new_request, new_issue)
+      end
+    end
+
+    def create_one(request, issue)
+      issue.new_photo = request.new_photo if request.new_photo.present?
+      issue.save!
+
+      request
+    end
+
     def confirm_request(request)
       raise ActiveRecord::RecordNotFound if request.blank?
       Issue.transaction do
         issue = request.becomes(Issue)
         issue.status_received!
-        confirm_photo(issue.confirmation_hash)
+        confirm_photos(issue)
       end
     end
 
-    def confirm_photo(confirmation_hash)
-      return unless (photo = Citysdk::Photo.unscoped.find_by(confirmation_hash:))
-      pho = photo.becomes(::Photo)
-      pho.update!(confirmed_at: Time.current)
+    def confirm_photos(issue)
+      pending = ::Photo.unscoped.where(issue:, confirmed_at: nil)
+      pending.where(confirmation_hash: issue.confirmation_hash).or(pending.where(author: issue.author))
+        .find_each { |photo| photo.update!(confirmed_at: Time.current) }
     end
 
     def encode_params

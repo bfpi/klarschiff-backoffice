@@ -57,14 +57,18 @@
       <% photo = form.object.photos.first %>
       <div class="row">
         <div class="col-12">
-          <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
-                photo.file, target: '_blank', rel: :noopener %>
+          <% if photo.file.image? %>
+            <%= link_to image_tag(photo.file.variant(resize_to_limit: [300, 300])),
+                  photo.file, target: '_blank', rel: :noopener %>
+          <% else %>
+            <%= link_to photo.file.filename, photo.file, target: '_blank', rel: :noopener %>
+          <% end %>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <%= form.fields_for :photos do |photo_form| %>
-            <% next if photo_form.index >= 1 -%>
+            <% next if photo_form.index >= 1 || !photo_form.object.file.image? -%>
             <%= photo_form.label 'status_internal', '',
                   title: photo_status_internal_title,
                   class: 'form-check-label' do %>
