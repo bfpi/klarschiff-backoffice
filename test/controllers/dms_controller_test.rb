@@ -25,7 +25,7 @@ class DmsControllerTest < ActionDispatch::IntegrationTest
 
   test 'shows hint without d.3 session' do
     login username: :admin
-    request_dms(->(**) { flunk 'd.3 darf ohne Session nicht aufgerufen werden' })
+    request_dms(->(**) { flunk 'd.3 must not be called without session' })
     assert_response :success
     assert_select 'a', count: 0
     assert_select 'span', text: 'Kommunikation mit d.3 momentan nicht möglich'

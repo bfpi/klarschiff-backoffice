@@ -62,7 +62,7 @@ class LoginsControllerTest < ActionDispatch::IntegrationTest
     login username: :admin, dms_session_ids: { 'd3' => 'token' }
     patch logins_url, params: { login: { user_id: user(:one).id } }
     assert_redirected_to root_path
-    Dms.stub(:logout, ->(*) { flunk 'd.3-Session darf nicht beendet werden' }) { delete logins_url }
+    Dms.stub(:logout, ->(*) { flunk 'd.3 session must not be ended' }) { delete logins_url }
     assert_redirected_to root_path
     assert_equal({ 'd3' => 'token' }, session[:dms_session_id])
   end

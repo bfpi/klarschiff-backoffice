@@ -36,7 +36,7 @@ class DmsTest < ActiveSupport::TestCase
   end
 
   test 'lookup is unavailable without d.3 session' do
-    no_api = ->(*) { flunk 'd.3 darf ohne Session nicht aufgerufen werden' }
+    no_api = ->(*) { flunk 'd.3 must not be called without session' }
     result = DmsApi.stub(:new, no_api) { dms(session_ids: nil).lookup }
     assert_equal Dms::Result.new(:unavailable, nil), result
   end

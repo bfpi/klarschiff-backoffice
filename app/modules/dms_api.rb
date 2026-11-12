@@ -17,19 +17,19 @@ class DmsApi
     response = get('/identityprovider/login/') { |request| request.basic_auth(username, password) }
     session_id = session_id_from(response) if response.is_a?(Net::HTTPSuccess)
     return session_id if session_id.present?
-    Rails.logger.error "d.3-Login für #{username}: kein Session-Token erhalten (HTTP #{response.code})"
+    Rails.logger.error "d.3 login for #{username} returned no session token (HTTP #{response.code})"
     nil
   rescue StandardError => e
-    Rails.logger.error "d.3-Login für #{username} fehlgeschlagen: #{e.inspect}"
+    Rails.logger.error "d.3 login for #{username} failed with: #{e.inspect}"
     nil
   end
 
   def logout(session_id)
     response = get('/identityprovider/logout', session_id:)
     return if response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
-    Rails.logger.error "d.3-Logout fehlgeschlagen (HTTP #{response.code})"
+    Rails.logger.error "d.3 logout failed with HTTP #{response.code}"
   rescue StandardError => e
-    Rails.logger.error "d.3-Logout fehlgeschlagen: #{e.inspect}"
+    Rails.logger.error "d.3 logout failed with: #{e.inspect}"
   end
 
   def search(category:, property:, value:, session_id:)
