@@ -18,7 +18,8 @@ class Dms
 
     def api_for(target)
       target_config = config[target]
-      DmsApi.new(target_config) if target_config.is_a?(Hash) && target_config[:api].present?
+      return unless target_config.is_a?(Hash) && target_config[:enabled] == true && target_config[:api].present?
+      DmsApi.new(target_config)
     end
   end
 
@@ -30,7 +31,8 @@ class Dms
   end
 
   def enabled?
-    @target_config.is_a?(Hash) && @target_config[:api].present? && @category.present?
+    @target_config.is_a?(Hash) && @target_config[:enabled] == true && @target_config[:api].present? &&
+      @category.present?
   end
 
   def lookup

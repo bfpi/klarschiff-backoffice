@@ -14,7 +14,21 @@ class DmsTest < ActiveSupport::TestCase
 
   test 'enabled only for configured target with category' do
     cases = { 'd3:AAUTO' => true, 'd3' => false, 'dms' => false, 'foo:AAUTO' => false, nil => false }
-    cases.each { |value, enabled| assert_equal enabled, dms(value:).enabled?, value.inspect }
+    with_dms_settings do
+      cases.each { |value, enabled| assert_equal enabled, dms(value:).enabled?, value.inspect }
+    end
+  end
+
+  test 'disabled target sends no requests to d.3' do
+    no_api = ->(*) { flunk 'd.3 must not be called if disabled' }
+    with_dms_settings(enabled: false) do
+      DmsApi.stub(:new, no_api) do
+        assert_not dms.enabled?
+        assert_equal Dms::Result.new(:unavailable, nil), dms.lookup
+        assert_empty Dms.login('max', 'geheim')
+        Dms.logout({ 'd3' => 'token' })
+      end
+    end
   end
 
   test 'lookup returns link to existing document' do
@@ -37,7 +51,7 @@ class DmsTest < ActiveSupport::TestCase
 
   test 'lookup is unavailable without d.3 session' do
     no_api = ->(*) { flunk 'd.3 must not be called without session' }
-    result = DmsApi.stub(:new, no_api) { dms(session_ids: nil).lookup }
+    result = with_dms_settings { DmsApi.stub(:new, no_api) { dms(session_ids: nil).lookup } }
     assert_equal Dms::Result.new(:unavailable, nil), result
   end
 
@@ -51,19 +65,21 @@ class DmsTest < ActiveSupport::TestCase
   end
 
   test 'lookup is unavailable if search property is not configured' do
-    log = capture_log { assert_equal :unavailable, dms(value: 'd3:UNBEKANNT').lookup.status }
+    log = capture_log { with_dms_settings { assert_equal :unavailable, dms(value: 'd3:UNBEKANNT').lookup.status } }
     assert_match 'KeyError', log
   end
 
   test 'login collects session ids of reachable targets' do
     api = DmsApi.new({})
-    session_ids = api.stub(:login, 'token') { DmsApi.stub(:new, api) { Dms.login('max', 'geheim') } }
+    session_ids = with_dms_settings do
+      api.stub(:login, 'token') { DmsApi.stub(:new, api) { Dms.login('max', 'geheim') } }
+    end
     assert_equal({ 'd3' => 'token' }, session_ids)
   end
 
   test 'login omits targets with failed authentication' do
     api = DmsApi.new({})
-    session_ids = api.stub(:login, nil) { DmsApi.stub(:new, api) { Dms.login('max', 'geheim') } }
+    session_ids = with_dms_settings { api.stub(:login, nil) { DmsApi.stub(:new, api) { Dms.login('max', 'geheim') } } }
     assert_empty session_ids
   end
 
@@ -75,14 +91,16 @@ class DmsTest < ActiveSupport::TestCase
       configs << config
       api
     end
-    DmsApi.stub(:new, new_api) { Dms.logout({ 'd3' => 'token', 'foo' => 'other' }) }
+    with_dms_settings { DmsApi.stub(:new, new_api) { Dms.logout({ 'd3' => 'token', 'foo' => 'other' }) } }
     assert_equal [Dms.config[:d3]], configs
     api.verify
   end
 
   test 'logout without session id does not call d.3' do
     calls = 0
-    DmsApi.stub(:new, ->(*) { calls += 1 }) { [nil, {}, { 'd3' => '' }].each { |ids| Dms.logout(ids) } }
+    with_dms_settings do
+      DmsApi.stub(:new, ->(*) { calls += 1 }) { [nil, {}, { 'd3' => '' }].each { |ids| Dms.logout(ids) } }
+    end
     assert_equal 0, calls
   end
 
@@ -93,7 +111,7 @@ class DmsTest < ActiveSupport::TestCase
   end
 
   def lookup_with(api, value: 'd3:AAUTO')
-    DmsApi.stub(:new, api) { dms(value:).lookup }
+    with_dms_settings { DmsApi.stub(:new, api) { dms(value:).lookup } }
   end
 
   def search_property

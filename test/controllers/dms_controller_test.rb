@@ -49,7 +49,7 @@ class DmsControllerTest < ActionDispatch::IntegrationTest
     @issue.stub(:dms, 'd3:AAUTO') do
       Issue.stub(:find, @issue) do
         api.stub(:search, search_result) do
-          DmsApi.stub(:new, api) { get dms_index_path(issue_id: @issue.id) }
+          with_dms_settings { DmsApi.stub(:new, api) { get dms_index_path(issue_id: @issue.id) } }
         end
       end
     end

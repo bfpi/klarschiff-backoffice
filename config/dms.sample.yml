@@ -1,5 +1,6 @@
 development: &default
   d3:
+    enabled: false
     api: https://musterstadt-d3-host.org
     repository: eed16440-f271-4f4a-be39-b9727ebedaa2
     search_property:

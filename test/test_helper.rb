@@ -131,5 +131,14 @@ module ActiveSupport
       yield if block
       Settings::Instance.redefine_singleton_method(:supported_file_types) { old }
     end
+
+    def with_dms_settings(enabled: true)
+      d3 = Dms.config[:d3]
+      old = d3[:enabled]
+      d3[:enabled] = enabled
+      yield
+    ensure
+      d3[:enabled] = old
+    end
   end
 end
