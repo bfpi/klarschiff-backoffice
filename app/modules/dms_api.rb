@@ -14,7 +14,7 @@ class DmsApi
   end
 
   def login(username, password)
-    response = get('/identityprovider/login/') { |request| request.basic_auth(username, password) }
+    response = get('/identityprovider/login?basic=true') { |request| request.basic_auth(username, password) }
     session_id = session_id_from(response) if response.is_a?(Net::HTTPSuccess)
     return session_id if session_id.present?
     Rails.logger.error "d.3 login for #{username} returned no session token (HTTP #{response.code})"

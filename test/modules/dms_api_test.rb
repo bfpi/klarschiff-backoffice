@@ -28,7 +28,7 @@ class DmsApiTest < ActiveSupport::TestCase
     with_http(http_response(204, cookies: ['AuthSessionId=abc123; Path=/; Secure; HttpOnly'])) do |http|
       assert_equal 'abc123', @api.login('max', 'geheim')
       request = http.requests.sole
-      assert_equal "#{@config[:api]}/identityprovider/login/", request.uri.to_s
+      assert_equal "#{@config[:api]}/identityprovider/login?basic=true", request.uri.to_s
       assert_equal "Basic #{['max:geheim'].pack('m0')}", request['Authorization']
       assert_equal 'application/json', request['Accept']
     end
