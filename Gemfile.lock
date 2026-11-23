@@ -429,10 +429,10 @@ GEM
       rubocop (>= 1.89.0, < 2.0)
       rubocop-ast (>= 1.44.0, < 2.0)
     ruby-progressbar (1.13.0)
-    rubyXL (3.4.38)
+    rubyXL (3.4.40)
       nokogiri (>= 1.10.8)
       rubyzip (>= 3.2.2)
-    rubyzip (3.4.1)
+    rubyzip (3.7.0)
     rugged (1.9.4)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -726,8 +726,8 @@ CHECKSUMS
   rubocop-performance (1.27.0) sha256=eeeb1374d062a368ee1c787b70eb0b0cc4b184cb1f8565f424760946146d61ce
   rubocop-rails (2.38.0) sha256=6e2b7c532efa95e3050371bec20b8f5b025662acead8bc70ee31f0e3e6fa2f06
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
-  rubyXL (3.4.38) sha256=6b3f46a5ff8ec9903a562604a379a6b79b67cdec73515162b1785bd6092e6ce6
-  rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
+  rubyXL (3.4.40) sha256=38d576537fe95e41f7d369aeae3585784629084107e6de296077c8b780481651
+  rubyzip (3.7.0) sha256=65c19294da75297a939006f3516deacc33185fbd721ff1954f7a231db6d3e121
   rugged (1.9.4) sha256=5876152be06568b413eb7eaccf3932a5b011a139fcf9330a680abdf16859dcd3
   sass-rails (6.0.0) sha256=e0b6448ea1c7929fd5929fc7a8eb2d78045e44cc82fc0765a249d3fa1c5810d3
   sassc (2.4.0) sha256=4c60a2b0a3b36685c83b80d5789401c2f678c1652e3288315a1551d811d9f83e
