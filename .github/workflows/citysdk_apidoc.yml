@@ -2,6 +2,9 @@ name: Update CitySDK API documentation
 
 on: [pull_request]
 
+permissions:
+  contents: write # commit the updated CitySDK_API.md to the PR branch
+
 jobs:
   update-api:
     runs-on: ubuntu-latest
