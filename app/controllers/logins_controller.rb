@@ -29,7 +29,7 @@ class LoginsController < ApplicationController
     end
     session[:auth_code] = nil
     session[:login] = nil
-    session[:user_login] = nil
+    reset_session_user
     redirect_to new_logins_url
   end
 end
