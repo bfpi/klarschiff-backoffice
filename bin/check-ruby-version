@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+# Checks that .ruby-version, the Ruby image in the Dockerfile and Gemfile.lock use the same Ruby version
+
+ruby_version=$(sed 's/^ruby-//' .ruby-version | tr -d '[:space:]')
+docker_version=$(sed -nE 's/^FROM ruby:([0-9.]+)-.* AS base$/\1/p' Dockerfile)
+lock_version=$(sed -nE '/^RUBY VERSION$/{n;s/^ +ruby ([0-9.]+).*/\1/p}' Gemfile.lock)
+echo ".ruby-version: ${ruby_version}"
+echo "Dockerfile:    ${docker_version}"
+echo "Gemfile.lock:  ${lock_version}"
+if [ -z "${docker_version}" ]; then
+  echo "::error file=Dockerfile::Could not determine Ruby version from 'FROM ruby:<version>-... AS base'"
+  exit 1
+fi
+if [ "${ruby_version}" != "${docker_version}" ]; then
+  echo "::error file=.ruby-version::Ruby version mismatch: .ruby-version has ${ruby_version}, Dockerfile has ${docker_version}"
+  exit 1
+fi
+if [ "${ruby_version}" != "${lock_version}" ]; then
+  echo "::error file=Gemfile.lock::Ruby version mismatch: .ruby-version has ${ruby_version}, Gemfile.lock has ${lock_version}"
+  exit 1
+fi
